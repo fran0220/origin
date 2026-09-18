@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("../../logger.js", () => ({
+	getAppLogger: () => ({ info: vi.fn(), warn: vi.fn(), error: vi.fn(), log: vi.fn() }),
+}));
+
 vi.mock("electron", () => ({
 	app: { isPackaged: true },
 }));
@@ -36,16 +40,19 @@ describe("OAuth callback scheme compatibility", () => {
 
 	it("origin:// 与 vetta:// 回调都能通过 state 校验被消费", async () => {
 		const { openExternalUrl } = await import("../../open-external.js");
+
+		function stateFromOpenedUrl(opened: string): string {
+			const query = opened.includes("?") ? opened.slice(opened.indexOf("?") + 1) : "";
+			const clientRedirect = new URLSearchParams(query).get("client_redirect");
+			expect(clientRedirect).toBeTruthy();
+			const state = new URL(clientRedirect ?? "").searchParams.get("state");
+			expect(state).toBeTruthy();
+			return state ?? "";
+		}
+
 		vi.mocked(openExternalUrl).mockClear();
 		await startOAuthLogin();
-		const opened = String(vi.mocked(openExternalUrl).mock.calls[0]?.[0]);
-		const authorizeUrl = new URL(opened);
-		const clientRedirect = authorizeUrl.searchParams.get("client_redirect");
-		expect(clientRedirect).toBeTruthy();
-		const redirect = new URL(clientRedirect ?? "");
-		const state = redirect.searchParams.get("state");
-		expect(state).toBeTruthy();
-
+		const state = stateFromOpenedUrl(String(vi.mocked(openExternalUrl).mock.calls[0]?.[0]));
 		const originTokens = consumeOAuthCallback(
 			new URL(`origin://oauth/callback?access_token=origin-token&refresh_token=r1&state=${state}`),
 		);
@@ -53,10 +60,7 @@ describe("OAuth callback scheme compatibility", () => {
 
 		vi.mocked(openExternalUrl).mockClear();
 		await startOAuthLogin();
-		const openedAgain = String(vi.mocked(openExternalUrl).mock.calls[0]?.[0]);
-		const nextState = new URL(new URL(openedAgain).searchParams.get("client_redirect") ?? "").searchParams.get(
-			"state",
-		);
+		const nextState = stateFromOpenedUrl(String(vi.mocked(openExternalUrl).mock.calls[0]?.[0]));
 		const legacyTokens = consumeOAuthCallback(
 			new URL(`vetta://oauth/callback?access_token=legacy-token&state=${nextState}`),
 		);
