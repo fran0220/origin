@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly BUN_VERSION="1.3.14"
+readonly GO_VERSION="1.25.3"
+readonly LOCAL_BIN="$HOME/.local/bin"
+readonly BUN_BIN="$HOME/.bun/bin/bun"
+readonly GO_ROOT="$HOME/.local/go"
+readonly GO_BIN="$GO_ROOT/bin/go"
+
+step() {
+	echo
+	echo "==> $1"
+}
+
+ensure_profile_path() {
+	local marker="# OpenVetta orb toolchains"
+	if grep -Fqx "$marker" "$HOME/.bash_profile" 2>/dev/null; then
+		return
+	fi
+
+	cat >>"$HOME/.bash_profile" <<'EOF'
+
+# OpenVetta orb toolchains
+export PATH="$HOME/.local/bin:$HOME/.bun/bin:$HOME/.local/go/bin:$PATH"
+EOF
+}
+
+ensure_bun() {
+	if [ -x "$BUN_BIN" ] && [ "$($BUN_BIN --version)" = "$BUN_VERSION" ]; then
+		return
+	fi
+
+	step "Installing Bun $BUN_VERSION"
+	curl -fsSL https://bun.sh/install | bash -s "bun-v$BUN_VERSION"
+	[ "$($BUN_BIN --version)" = "$BUN_VERSION" ]
+}
+
+ensure_go() {
+	if [ -x "$GO_BIN" ] && [ "$($GO_BIN version | awk '{print $3}')" = "go$GO_VERSION" ]; then
+		return
+	fi
+
+	step "Installing Go $GO_VERSION"
+	local archive="go$GO_VERSION.linux-amd64.tar.gz"
+	local download_dir
+	local expected_sha256
+	download_dir="$(mktemp -d)"
+	trap 'rm -rf "$download_dir"' RETURN
+	curl -fsSLo "$download_dir/$archive" "https://go.dev/dl/$archive"
+	expected_sha256="$(
+		curl -fsSL 'https://go.dev/dl/?mode=json&include=all' |
+			jq -r --arg archive "$archive" --arg version "go$GO_VERSION" \
+				'.[] | select(.version == $version) | .files[] | select(.filename == $archive) | .sha256'
+	)"
+	[ -n "$expected_sha256" ] && [ "$expected_sha256" != "null" ]
+	(
+		cd "$download_dir"
+		echo "$expected_sha256  $archive" | sha256sum -c -
+	)
+	rm -rf "$GO_ROOT"
+	tar -C "$(dirname "$GO_ROOT")" -xzf "$download_dir/$archive"
+	[ "$($GO_BIN version | awk '{print $3}')" = "go$GO_VERSION" ]
+}
+
+step "Preparing local toolchain paths"
+mkdir -p "$LOCAL_BIN"
+ensure_profile_path
+export PATH="$LOCAL_BIN:$HOME/.bun/bin:$GO_ROOT/bin:$PATH"
+
+ensure_bun
+ln -sfn "$BUN_BIN" "$LOCAL_BIN/bun"
+
+ensure_go
+ln -sfn "$GO_BIN" "$LOCAL_BIN/go"
+
+step "Installing frozen Bun workspace dependencies"
+"$BUN_BIN" install --frozen-lockfile
+
+step "Downloading IM gateway Go modules"
+(
+	cd apps/im-gateway
+	"$GO_BIN" mod download
+)
+
+step "Orb setup complete"

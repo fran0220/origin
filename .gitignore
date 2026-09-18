@@ -95,10 +95,14 @@ skills-lock.json
 !.agents/
 !.agents/skills/
 !.agents/skills/**
+!.agents/setup
 !.claude/skills/
 !.claude/skills
 !.claude/skills/**
 !skills-lock.json
+
+# Orb portals are generated for each sandbox and must not be committed.
+.amp/portals/
 
 terminals
 mcps
