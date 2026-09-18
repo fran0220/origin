@@ -208,7 +208,7 @@ function githubZipballUrl(repository: string, ref: string): string {
 }
 
 function githubHeaders(accept: string): Record<string, string> {
-	return { Accept: accept, "User-Agent": "Vetta-Desktop" };
+	return { Accept: accept, "User-Agent": "Origin-Desktop" };
 }
 
 function githubApiHeaders(accept: string, token: string): Record<string, string> {

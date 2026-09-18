@@ -113,7 +113,7 @@ describe("MarketplaceSourceStore", () => {
 				expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 					{
 						id: "vetta-official",
-						name: "Vetta Official",
+						name: "Origin Official",
 						repository: OFFICIAL_MARKETPLACE_REPOSITORY,
 						builtin: true,
 						enabled: true,
