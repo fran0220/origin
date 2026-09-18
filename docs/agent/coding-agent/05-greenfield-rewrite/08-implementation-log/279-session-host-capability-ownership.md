@@ -125,7 +125,7 @@ GOFLAGS="-p=1 -parallel=1" bun run verify:agent-hosts
 ok (coding-agent, CLI, Desktop, IM)
 ```
 
-其中独立 Vetta CLI 可执行文件编译成功，IM Gateway Go 测试通过，Desktop 验收为 119 个测试文件通过、501 个
+其中独立 Origin CLI 可执行文件编译成功，IM Gateway Go 测试通过，Desktop 验收为 119 个测试文件通过、501 个
 测试通过、1 个跳过。本轮是内部所有权迁移，没有发送外部真实模型请求。
 
 ## 尚未完成的替换

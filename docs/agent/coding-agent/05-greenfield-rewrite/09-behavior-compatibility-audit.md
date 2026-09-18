@@ -1354,7 +1354,7 @@ Session lock。真实结果的 `blockingDifferences` 为空，两个 Runtime 的
 statuses、processing false，其余归一化字段完全相同。
 
 验证驱动复用了 verify:ui 已有浏览器级 Playwright 会话，并通过独立页面级 CDP 重新发现当前主 Renderer。
-这样审批和 preload 通知 API 作用于真实 Vetta Desktop 页面，又不会在 Electron 重启时争用浏览器级
+这样审批和 preload 通知 API 作用于真实 Origin Desktop 页面，又不会在 Electron 重启时争用浏览器级
 WebSocket。跨进程/CDP/报告边界使用 Zod；产品实现和进程内 Knowledge Port 没有新增 Schema。
 
 本轮没有修改默认 selector，也没有改变两项既有失败语义：Provider/批次直接抛错仍不进入最终对账；
@@ -1363,7 +1363,7 @@ Legacy 当前行为相同，不代表这些既有产品语义已经被重新设�
 
 ### 2.41 Session replacement / continuation 四象限合同
 
-第 163 轮把会话连续性拆成两个不能混同的语义轴，并在真实 Vetta RPC CLI 中分别运行 Legacy 与
+第 163 轮把会话连续性拆成两个不能混同的语义轴，并在真实 Origin RPC CLI 中分别运行 Legacy 与
 Greenfield：
 
 ```text

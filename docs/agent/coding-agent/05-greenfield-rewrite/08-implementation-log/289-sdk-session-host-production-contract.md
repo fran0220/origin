@@ -89,7 +89,7 @@ filenames=0/0
 - SDK 定向测试：3 个文件、20 项测试通过；
 - 迁移残留门禁：19 项测试通过；
 - Coding Agent 全量：137 个文件通过、1 个文件跳过，935 项通过、17 项跳过；
-- `bun run verify:agent-hosts` 通过：独立 Vetta CLI、IM Gateway、Coding Agent、CLI 和 Desktop 全部通过；
+- `bun run verify:agent-hosts` 通过：独立 Origin CLI、IM Gateway、Coding Agent、CLI 和 Desktop 全部通过；
 - Desktop 功能套件：119 个文件、501 项通过，另 1 项跳过；
 - 根级 `bun run check` 通过：Root、CLI、Desktop、Admin 类型检查、Biome 和全部质量守卫均通过。
 

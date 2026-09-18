@@ -98,6 +98,6 @@ Runtime Core 或 Storage 认识产品消息。产品语义由 Coding Agent Adapt
 
 ## 下一步
 
-下一阶段应把“格式迁移成功”推进到“迁移后真实继续执行等价”：使用独立 Vetta CLI 打开包含 Bash、Custom、
+下一阶段应把“格式迁移成功”推进到“迁移后真实继续执行等价”：使用独立 Origin CLI 打开包含 Bash、Custom、
 Branch Summary 和 Compaction 的旧会话，继续一个真实 Provider Turn，对比 Legacy/Greenfield 的 Provider 输入、
 Extension `context` 身份、分支选择和再次持久化结果。只有真实继续对话通过后，才能认为旧会话执行切换完整闭环。

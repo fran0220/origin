@@ -6,7 +6,7 @@
 
 先固定生命周期、权限和事件，再做 UI 与高级协作。每个阶段都必须可独立验证；不要先堆工具 schema，再补安全边界。
 
-首版代码目标不是复制完整 Codex MultiAgentV2，而是让 Vetta 获得可靠的“一层并行工人”能力。
+首版代码目标不是复制完整 Codex MultiAgentV2，而是让 Origin 获得可靠的“一层并行工人”能力。
 
 ## 3.2 阶段 1：Coordinator 内核
 

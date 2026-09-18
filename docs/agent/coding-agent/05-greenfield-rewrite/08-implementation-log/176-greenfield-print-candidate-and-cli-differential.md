@@ -47,7 +47,7 @@ Legacy `main` 改为消费该结果，原有消息顺序和图片传递不变；
 
 ### 显式候选入口
 
-标准 Vetta CLI 现在支持：
+标准 Origin CLI 现在支持：
 
 ```text
 vetta --agent-runtime greenfield --print "prompt"

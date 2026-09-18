@@ -91,7 +91,7 @@ bun apps/cli-host/src/cli.ts debug run conversation.continue '{
   "ok": false,
   "error": {
     "code": "DEBUG_CONVERSATION_FAILED",
-    "message": "CDT requires Agent Teams. Add CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 (fixture; Teams not supported in Vetta yet)."
+    "message": "CDT requires Agent Teams. Add CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 (fixture; Teams not supported in Origin yet)."
   }
 }
 ```
@@ -135,7 +135,7 @@ bun apps/cli-host/src/cli.ts debug run conversation.continue '{
 
 ## 4. Playwright
 
-已确认 CDP attach 可连到 Electron。主窗口 tab 列表中有 `Vetta Desktop`。
+已确认 CDP attach 可连到 Electron。主窗口 tab 列表中有 `Origin Desktop`。
 
 本轮业务正确性以 **debug RPC + 主进程日志 + 副作用（文件未写出）** 为准；Playwright 仅作辅助，不作为 Hook 协议通过与否的唯一条件。
 

@@ -18,7 +18,7 @@ Desktop 从 GitHub 下载完整仓库归档，并在本地读取 `.vetta/marketp
 
 添加私有仓库时，在表单中填写 GitHub fine-grained personal access token（PAT），权限只需要目标仓库的
 `Contents: Read-only`。令牌按来源单独保存到 Desktop 的系统安全存储，不会写入来源配置、市场快照、日志或发送给
-Vetta 服务；界面只显示“已配置”，不会回显令牌。更新或清除来源时可以分别替换或删除令牌。
+Origin 服务；界面只显示“已配置”，不会回显令牌。更新或清除来源时可以分别替换或删除令牌。
 
 配置令牌后，客户端对 GitHub REST Contents/zipball API 使用 `Authorization: Bearer` 请求头。GitHub 返回的临时归档
 重定向只携带普通下载请求头，不会把令牌转发到签名地址；未配置令牌的公开仓库仍沿用原有匿名 raw/archive 下载路径。
@@ -73,7 +73,7 @@ Vetta 服务；界面只显示“已配置”，不会回显令牌。更新或�
 旧客户端会忽略此可选字段，无需修改 `schemaVersion` 或能力安装版本；内容变更仍须递增 `marketplaceVersion`。
 
 多个来源使用相同 `category` 时仍归为一组，缺少的语言逐项补齐，同一语言保留列表中先出现的非空译名。
-不同分类即使译名相同也不合并。内置的「连接」「Vetta 内置」「未分类」继续使用应用自带的 i18n 文案。
+不同分类即使译名相同也不合并。内置的「连接」「Origin 内置」「未分类」继续使用应用自带的 i18n 文案。
 
 ## Plugin、MCP 与 Bundle
 

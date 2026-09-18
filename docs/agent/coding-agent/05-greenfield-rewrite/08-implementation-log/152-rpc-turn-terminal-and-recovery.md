@@ -2,7 +2,7 @@
 
 ## 目标
 
-在第 151 阶段让失败 `TurnResult` 可观察之后，本阶段收紧 RPC Turn 的终态合同，并用真实 Vetta CLI 验证
+在第 151 阶段让失败 `TurnResult` 可观察之后，本阶段收紧 RPC Turn 的终态合同，并用真实 Origin CLI 验证
 Provider HTTP 错误、流中断和用户 abort 后的恢复能力。范围只包含终态仲裁和恢复门禁，不增加 RPC 命令、工具、
 Extension 能力或会话格式。
 

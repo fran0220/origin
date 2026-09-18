@@ -93,7 +93,7 @@
 
 - Desktop Agent Runtime 定向测试：10 个文件、35 项通过；
 - 生产合同清理后的核心复跑：3 个文件、20 项通过；
-- Vetta CLI → Desktop Local RPC → Agent Runtime canary：1 项通过，覆盖创建、继续、列举和持久化会话；
+- Origin CLI → Desktop Local RPC → Agent Runtime canary：1 项通过，覆盖创建、继续、列举和持久化会话；
 - 迁移残留门禁测试：21 项通过；
 - `bun run check:quick` 通过，Desktop Runtime 迁移文件与身份均为 `0/0`；
 - 根级 `bun run check` 通过：Biome、Root/CLI/Desktop/Admin 类型检查和全部质量守卫通过；

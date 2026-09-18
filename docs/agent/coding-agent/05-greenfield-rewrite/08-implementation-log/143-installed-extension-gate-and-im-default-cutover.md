@@ -5,7 +5,7 @@
 把第 142 阶段的源码级 Extension Profile 门禁推进到标准安装产物，并在同一阶段完成 Desktop IM
 Composition Root 的默认切换：
 
-- 标准安装后的独立 Vetta CLI 必须证明已支持 Extension 进入 Greenfield；
+- 标准安装后的独立 Origin CLI 必须证明已支持 Extension 进入 Greenfield；
 - 未知 Extension Event 必须继续回退 Legacy，并在 stderr 给出结构化诊断；
 - Desktop IM 默认选择 Greenfield，同时保留显式 Legacy 回滚；
 - Provider 请求中的工具定义和顺序必须与 Legacy 完全一致，不能以“测试忽略顺序”掩盖行为变化；

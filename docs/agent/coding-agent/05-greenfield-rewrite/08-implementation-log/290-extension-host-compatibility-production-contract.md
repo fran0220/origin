@@ -85,7 +85,7 @@
 - 迁移残留门禁：20 项通过；
 - Coding Agent 全量测试通过；
 - CLI 全量与 Coding Agent 全量并行执行时，2 个进程型 CLI 用例超过 5 秒超时；单独复跑该文件 9 项全部通过，确认是并行资源争用；
-- `bun run verify:agent-hosts` 通过：独立 Vetta CLI、IM Gateway、Coding Agent、CLI 和 Desktop 全部通过；
+- `bun run verify:agent-hosts` 通过：独立 Origin CLI、IM Gateway、Coding Agent、CLI 和 Desktop 全部通过；
 - Desktop 功能套件：119 个文件、501 项通过、1 项跳过；
 - 根级 `bun run check` 通过：Biome、Root/CLI/Desktop/Admin 类型检查和全部质量守卫通过；
 - 本轮没有发送外部真实模型请求。

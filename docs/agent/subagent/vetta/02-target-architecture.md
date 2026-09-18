@@ -178,7 +178,7 @@ stateDiagram-v2
 
 把信息加入 child 的 next-turn 上下文，不主动启动 turn，也不中断当前工具。它用于补充约束，不承诺当前采样请求立即看见消息。
 
-Vetta 当前 agent loop 只会在工具完成点检查 steering，并没有 Codex 的 sampling-boundary mailbox。工具描述必须忠实表达这一点，不能声称“即时送达”。
+Origin 当前 agent loop 只会在工具完成点检查 steering，并没有 Codex 的 sampling-boundary mailbox。工具描述必须忠实表达这一点，不能声称“即时送达”。
 
 ### `followup_task`
 

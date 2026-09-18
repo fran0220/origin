@@ -1,10 +1,10 @@
-# Vetta Subagent
+# Origin Subagent
 
 本目录最初记录了 2026-07-17 时的首版落地方案。当前实现已经越过“只注册 Explorer”的 MVP：调度内核、持久化、恢复、Workflow、Desktop 面板都已存在；V2 在这些基础上把子代理收敛为可配置、默认谨慎启用的通用能力。
 
 ## 当前结论
 
-Vetta 的子代理采用以下边界：
+Origin 的子代理采用以下边界：
 
 1. `@vetta/runtime-subagents` 只拥有产品无关的状态机、并发池、FIFO、恢复、wait 和 generation 精确一次交付。
 2. `@vetta/coding-agent` 通过 `coding-agent.subagents` Session Extension 拥有定义、能力/上下文/技能/工作区策略、结构化委派合同、父子报告、Todo 投影、持久化和控制工具。

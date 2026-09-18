@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/assets/banner.webp" alt="Open Vetta">
+  <img src="docs/assets/banner.webp" alt="Origin">
 </p>
 
-<h1 align="center">Open Vetta</h1>
+<h1 align="center">Origin</h1>
 
 <p align="center">
   An open-source desktop AI agent for real work — local-first, extensible, and under your control.
@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://www.openvetta.com"><img src="https://img.shields.io/badge/website-openvetta.com-0b7285" alt="Website"></a>
   <a href="https://docs.openvetta.com"><img src="https://img.shields.io/badge/docs-docs.openvetta.com-f06449" alt="Documentation"></a>
-  <a href="https://discord.gg/qGqkk22Vg9"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Join the Open Vetta Discord"></a>
+  <a href="https://discord.gg/qGqkk22Vg9"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2?logo=discord&logoColor=white" alt="Join the Origin Discord"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="Apache-2.0 license"></a>
   <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey" alt="macOS, Windows, and Linux">
   <a href="https://coderabbit.ai"><img src="https://img.shields.io/coderabbit/prs/github/openvetta/open-vetta?utm_source=oss&utm_medium=github&utm_campaign=openvetta%2Fopen-vetta&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews" alt="CodeRabbit Pull Request Reviews"></a>
@@ -29,15 +29,15 @@
 
 ---
 
-Open Vetta brings models, project files, local tools, and reusable capabilities into one desktop workspace. Use it for coding, documents, data, research, creative work, and repeatable workflows without giving up control of the environment where the work happens.
+Origin brings models, project files, local tools, and reusable capabilities into one desktop workspace. Use it for coding, documents, data, research, creative work, and repeatable workflows without giving up control of the environment where the work happens.
 
-It is more than a chat interface: Vetta can inspect a workspace, use tools with visible permission boundaries, produce real files, and keep the execution trail available for review.
+It is more than a chat interface: Origin can inspect a workspace, use tools with visible permission boundaries, produce real files, and keep the execution trail available for review.
 
 <p align="center">
-  <img src="docs/assets/screenshot.png" alt="Open Vetta desktop workspace">
+  <img src="docs/assets/screenshot.png" alt="Origin desktop workspace">
 </p>
 
-## Why Open Vetta
+## Why Origin
 
 | | What it means |
 |---|---|
@@ -86,7 +86,7 @@ The public documentation has the current task guides and screenshots: [browse al
 
 ## Extension model
 
-Vetta exposes several extension levels so a simple workflow does not need to become a full plugin:
+Origin exposes several extension levels so a simple workflow does not need to become a full plugin:
 
 | Extension | Use it for | Guide |
 |---|---|---|
@@ -98,7 +98,7 @@ Vetta exposes several extension levels so a simple workflow does not need to bec
 
 ### Build a plugin from any directory
 
-You do not need this repository, or a Vetta source checkout, to build a plugin. Nor does an agent:
+You do not need this repository, or an Origin source checkout, to build a plugin. Nor does an agent:
 
 ```bash
 npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
@@ -108,7 +108,7 @@ npm run install:vetta            # build, package, install into the running desk
 npx vetta-plugin-cli watch       # hot reload: the host loads the plugin from this directory
 ```
 
-`init` also writes an `AGENTS.md`, so **any** coding agent — Claude Code, Cursor, or Vetta's own —
+`init` also writes an `AGENTS.md`, so **any** coding agent — Claude Code, Cursor, or Origin's own —
 picks the project up without host-side setup. The plugin manual ships inside
 `@vetta-org/plugin-sdk`, so the contract an agent reads is the contract the project compiles
 against; `docs` locates it rather than anyone hard-coding a `node_modules` path.
@@ -129,9 +129,9 @@ Plugins declare capabilities in `plugin.json`; privileged operations are authori
 
 ## Data and build modes
 
-A source checkout produces the **lite** build by default. It has no dependency on a Vetta-operated backend: no account, subscription, remote administration, or hosted marketplace is required. Model requests go to the endpoint you configure, and credentials remain in local credential storage.
+A source checkout produces the **lite** build by default. It has no dependency on a Origin-operated backend: no account, subscription, remote administration, or hosted marketplace is required. Model requests go to the endpoint you configure, and credentials remain in local credential storage.
 
-Official installers may enable the optional Vetta Serv integration for accounts, subscriptions, and a hosted marketplace. That integration is selected at build time; it is not silently enabled in a lite build.
+Official installers may enable the optional vetta-serv integration for accounts, subscriptions, and a hosted marketplace. That integration is selected at build time; it is not silently enabled in a lite build.
 
 Local-first does not mean zero network traffic. Model providers, MCP servers, plugins, webhooks, IM integrations, update sources, and optional telemetry can each create their own data boundary. Review:
 
@@ -187,10 +187,10 @@ The documentation site also publishes [`llms.txt`](https://docs.openvetta.com/ll
 
 ## Community
 
-Join the Open Vetta Discord to ask questions, share workflows, skills, plugins and themes, follow release news, and talk to the maintainers.
+Join the Origin Discord to ask questions, share workflows, skills, plugins and themes, follow release news, and talk to the maintainers.
 
 <p align="center">
-  <a href="https://discord.gg/qGqkk22Vg9"><img src="https://img.shields.io/badge/Open%20Vetta-Discord-5865F2?logo=discord&logoColor=white&style=for-the-badge" alt="Open Vetta Discord"></a>
+  <a href="https://discord.gg/qGqkk22Vg9"><img src="https://img.shields.io/badge/Origin-Discord-5865F2?logo=discord&logoColor=white&style=for-the-badge" alt="Origin Discord"></a>
 </p>
 
 **https://discord.gg/qGqkk22Vg9**
@@ -199,7 +199,7 @@ Longer, searchable threads still belong in [GitHub Discussions](https://github.c
 
 ## Credits and license
 
-Open Vetta builds on work from the wider open-source ecosystem, including pi, Codex CLI, MCP, Electron, React, Bun, models.dev, and the projects listed in [`NOTICE`](NOTICE). The complete third-party inventory and original notices live there.
+Origin builds on work from the wider open-source ecosystem, including pi, Codex CLI, MCP, Electron, React, Bun, models.dev, and the projects listed in [`NOTICE`](NOTICE). The complete third-party inventory and original notices live there.
 
 Licensed under [Apache-2.0](LICENSE).
 

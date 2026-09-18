@@ -123,7 +123,7 @@ Phase 2 应按 wire fixture 证明 schema 的收益，而不是机械地给全�
 
 Vercel AI 的强项是将公开模型协议、Provider 实现和测试工具分开，并通过 Provider 级功能测试验证转换。可借鉴的是稳定公共类型和受控 Provider 输入，不是文件数量或所有抽象名称。
 
-本阶段没有照搬其完整 LanguageModel 版本协议，原因是当前 Vetta 上游大量依赖 `AssistantMessageEvent`。先建立 exact alias 与 canonical 差分，再通过 Adapter 迁移，能让每个 Provider 批次独立验证和回滚。直接复制 Vercel AI 的新接口会把一次协议升级变成全仓大爆炸式修改。
+本阶段没有照搬其完整 LanguageModel 版本协议，原因是当前 Origin 上游大量依赖 `AssistantMessageEvent`。先建立 exact alias 与 canonical 差分，再通过 Adapter 迁移，能让每个 Provider 批次独立验证和回滚。直接复制 Vercel AI 的新接口会把一次协议升级变成全仓大爆炸式修改。
 
 ## 9. 测试证据
 

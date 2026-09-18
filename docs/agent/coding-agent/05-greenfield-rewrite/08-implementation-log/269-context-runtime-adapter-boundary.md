@@ -90,7 +90,7 @@
 - Coding Agent 重写治理测试：22 个测试通过。
 - `bun run check:quick` 通过，Context Runtime 超限模块、旧实现边、Runtime 反向依赖和旧文件均为 `0`。
 - `bun run check` 通过，覆盖 Biome、根/CLI/Desktop/Admin 类型检查和全部质量守卫。
-- `bun run verify:agent-hosts` 通过，覆盖独立 Vetta CLI 产物、IM Gateway 真实子进程、Coding Agent、CLI 和 Desktop；Desktop 为 121 个文件、511 个测试通过，1 个平台不适用测试跳过。
+- `bun run verify:agent-hosts` 通过，覆盖独立 Origin CLI 产物、IM Gateway 真实子进程、Coding Agent、CLI 和 Desktop；Desktop 为 121 个文件、511 个测试通过，1 个平台不适用测试跳过。
 - 本阶段没有改动 Provider、凭据或模型请求协议，因此没有发送额外的计费 DeepSeek 请求。
 
 ## 本阶段结果

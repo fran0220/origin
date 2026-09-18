@@ -2,15 +2,15 @@
 
 *[中文](./build-modes.md)*
 
-Vetta Desktop ships in two editions, selected by the build-time flag `VETTA_CLOUD_ENABLED`. An unconfigured development session remains serv-less, but **packaging requires an explicit `true` or `false`** so release builds never guess their edition.
+Origin Desktop ships in two editions, selected by the build-time flag `VETTA_CLOUD_ENABLED`. An unconfigured development session remains serv-less, but **packaging requires an explicit `true` or `false`** so release builds never guess their edition.
 
-| | **open-source (serv-less)** | **commercial (Vetta Serv)** |
+| | **open-source (serv-less)** | **commercial (vetta-serv)** |
 | --- | --- | --- |
 | Flag | `VETTA_CLOUD_ENABLED=false` | `VETTA_CLOUD_ENABLED=true` |
 | Account login / OAuth | ❌ not in the bundle | ✅ |
-| Vetta Go model channel | ❌ | ✅ |
+| Origin Go model channel | ❌ | ✅ |
 | Subscription / credits / quota | ❌ | ✅ |
-| Ability marketplace source | Multiple GitHub sources (environment-configured or user-added) | Cloud marketplace (Vetta Serv); optional GitHub sources |
+| Ability marketplace source | Multiple GitHub sources (environment-configured or user-added) | Cloud marketplace (vetta-serv); optional GitHub sources |
 | Remote model catalog | ❌ | ✅ |
 | Built-in skills | those without `requiresCloud` | all |
 
@@ -29,7 +29,7 @@ source identities; physical installation conflicts still require explicit resolu
 Removing it does not delete persisted sources or uninstall abilities; existing sources can be disabled in the UI.
 Adding sources through the UI does not require rebuilding. Normally omit `VETTA_OPEN_MARKETPLACE_ARCHIVE_URL`
 so it follows the repository and ref. Restart development processes after editing environment files;
-subsequent repository content changes only require Refresh. A GitHub commit does not publish to the Vetta Serv
+subsequent repository content changes only require Refresh. A GitHub commit does not publish to the vetta-serv
 marketplace. See [GitHub marketplace format](../open-marketplace.md) for source and upgrade semantics.
 
 > `VETTA_CLOUD_ENABLED` is a **build-time** flag, inlined as a constant and folded away: in an open-source build the cloud module and its chunks are never bundled. **It cannot be re-enabled at runtime after shipping** — switching editions requires a rebuild.
@@ -63,7 +63,7 @@ Open-source builds reject `VETTA_SERVER_URL` and `VETTA_SITE_URL`: login, the of
 
 ## Building the commercial edition
 
-You need a running Vetta server:
+You need a running Origin server:
 
 ```bash
 # apps/desktop/.env.production (local file, not committed)

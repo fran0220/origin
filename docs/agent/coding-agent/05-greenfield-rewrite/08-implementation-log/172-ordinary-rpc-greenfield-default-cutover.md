@@ -10,7 +10,7 @@
 2. 保留显式 Legacy 选择，以及不兼容 Extension、旧会话等既有回退条件。
 3. 通过 Greenfield/Product Port 补齐普通 RPC 原有完整能力，不借用 Legacy `AgentSession` 执行业务。
 4. 保持 RPC wire、Tool、Prompt、Skill、MCP、会话数据与用户可见功能不变。
-5. 用真实 Vetta RPC CLI 进程证明“未指定 Runtime”路径确实进入 Greenfield，并覆盖关键命令和持久化结果。
+5. 用真实 Origin RPC CLI 进程证明“未指定 Runtime”路径确实进入 Greenfield，并覆盖关键命令和持久化结果。
 
 ## 分析结论
 
@@ -104,7 +104,7 @@ HTML 导出同样直接消费 V2 `ConversationDocument`，不为了兼容旧导�
 ## 测试合同
 
 - Runtime Selector：覆盖普通 RPC 默认 Greenfield、带 host bridge 默认 Greenfield IM、非 RPC 默认 Legacy，以及显式 Runtime 选择。
-- 真实 RPC 进程：不传 Runtime 参数启动 Vetta CLI，验证结构化 Runtime 决策实际为 Greenfield。
+- 真实 RPC 进程：不传 Runtime 参数启动 Origin CLI，验证结构化 Runtime 决策实际为 Greenfield。
 - 完整能力：验证模型、Thinking、队列、Retry、压缩、命名、Bash、统计和 HTML 导出命令。
 - 持久化身份：Bash 执行后从 V2 会话恢复消息，验证消息仍是精确 `bashExecution`。
 - Retry：验证可重试的 503 会重试，配额耗尽错误不会重试。

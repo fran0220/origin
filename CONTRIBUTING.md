@@ -1,4 +1,4 @@
-# Contributing to Open Vetta
+# Contributing to Origin
 
 <p align="center"><b>English</b> · <a href="CONTRIBUTING.zh-CN.md">简体中文</a></p>
 

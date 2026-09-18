@@ -2,15 +2,15 @@
 
 *[English](./build-modes.en.md)*
 
-Vetta Desktop 有两种发行形态，由构建期开关 `VETTA_CLOUD_ENABLED` 决定。开发启动时未配置仍按 serv-less 运行；**正式打包必须显式选择 `true` 或 `false`**，前置检查不会再猜测版本类型。
+Origin Desktop 有两种发行形态，由构建期开关 `VETTA_CLOUD_ENABLED` 决定。开发启动时未配置仍按 serv-less 运行；**正式打包必须显式选择 `true` 或 `false`**，前置检查不会再猜测版本类型。
 
-| | **开源版（serv-less）** | **商业版（Vetta Serv）** |
+| | **开源版（serv-less）** | **商业版（vetta-serv）** |
 | --- | --- | --- |
 | 开关 | `VETTA_CLOUD_ENABLED=false` | `VETTA_CLOUD_ENABLED=true` |
 | 账号登录 / OAuth | ❌ 代码不进产物 | ✅ |
-| Vetta Go 模型渠道 | ❌ | ✅ |
+| Origin Go 模型渠道 | ❌ | ✅ |
 | 订阅 / 积分 / 配额 | ❌ | ✅ |
-| 能力广场来源 | GitHub 多源（环境配置或用户添加） | 云市场（Vetta Serv）；可选 GitHub 多源 |
+| 能力广场来源 | GitHub 多源（环境配置或用户添加） | 云市场（vetta-serv）；可选 GitHub 多源 |
 | 远程模型目录下发 | ❌ | ✅ |
 | 内置技能 | 不含 `requiresCloud` 标记的 | 全部 |
 
@@ -26,7 +26,7 @@ Vetta Desktop 有两种发行形态，由构建期开关 `VETTA_CLOUD_ENABLED` �
 移除环境配置不会删除已经保存的来源，也不会卸载能力；已有来源可在界面停用。
 默认省略 `VETTA_OPEN_MARKETPLACE_ARCHIVE_URL`，让它从仓库与分支推导。
 修改环境文件后须重启开发进程（仅刷新页面无效）；之后仓库内容更新只需点击刷新。
-GitHub 提交不会自动发布到 Vetta Serv 市场。来源与升级语义见 [GitHub 能力市场](../open-marketplace.md)。
+GitHub 提交不会自动发布到 vetta-serv 市场。来源与升级语义见 [GitHub 能力市场](../open-marketplace.md)。
 
 > `VETTA_CLOUD_ENABLED` 是**构建期**开关，经常量折叠写死进产物：开源版里 cloud 模块连同它的 chunk 都不会被打包。**发包之后无法由运行环境重新开启**，切换必须重新构建。
 
@@ -59,7 +59,7 @@ VETTA_OPEN_MARKETPLACE_REPOSITORY=your-org/your-marketplace
 
 ## 商业版构建
 
-需要一个可用的 Vetta 服务端：
+需要一个可用的 Origin 服务端：
 
 ```bash
 # apps/desktop/.env.production（本地文件，不提交）

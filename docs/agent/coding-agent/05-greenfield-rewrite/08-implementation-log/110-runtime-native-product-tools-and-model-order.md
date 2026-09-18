@@ -65,7 +65,7 @@ Session cwd 不再从全局 Composition Root 泄漏到其他会话；mode、capa
 工具没有反向导入 `coding-agent`。不可移植能力通过窄端口注入：
 
 - `DocToPdfOperations`：Office/WPS 检测与转换；
-- `DesktopCommandPort`：Vetta Desktop 定位与命令执行；
+- `DesktopCommandPort`：Origin Desktop 定位与命令执行；
 - `CommandProcessPort`：`pdfinfo` 等通用子进程；
 - `RenderPdfPageProcessPort`：`pdftoppm` 单页渲染；
 - `AsyncExecutionGate`：宿主级 OCR 全局并发限制。
@@ -96,7 +96,7 @@ Host Port、组装 Runtime Registration 和提供 Session-local Feature，不再
 本轮在不受信任的反序列化边界使用 TypeBox：
 
 - `desktop-config.json`；
-- Vetta Desktop HTML/PDF 命令响应；
+- Origin Desktop HTML/PDF 命令响应；
 - OCR CLI 最后一条 JSON 响应；
 - OCR 结构化结果文件。
 

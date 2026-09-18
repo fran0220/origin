@@ -1,10 +1,10 @@
-# 1. Vetta 现状与设计决策
+# 1. Origin 现状与设计决策
 
 > 历史基线：本文描述首版实现前的状态。当前实现与 V2 决策见 [README.md](README.md) 和 [05-v2-implementation.md](05-v2-implementation.md)。
 
 ## 1.1 当前分层
 
-Vetta 已有的相关边界是：
+Origin 已有的相关边界是：
 
 ```mermaid
 flowchart TB
@@ -37,7 +37,7 @@ subagent 是“多个产品会话如何协作”的问题，因此控制平面�
 - 继承/指定模型、thinking level、cwd、env、scenario；
 - 订阅完整 `AgentSessionEvent`。
 
-这意味着 Vetta 不需要再造一套简化的 child loop。subagent 应复用同构会话。
+这意味着 Origin 不需要再造一套简化的 child loop。subagent 应复用同构会话。
 
 ### 运行中消息与自动续跑
 
@@ -78,7 +78,7 @@ subagent 是“多个产品会话如何协作”的问题，因此控制平面�
 
 ## 1.3 当前缺口
 
-Vetta 目前没有：
+Origin 目前没有：
 
 1. child registry/coordinator；
 2. subagent 状态机、并发 reservation 和等待原语；
@@ -102,7 +102,7 @@ Vetta 目前没有：
 
 ## 1.5 参考实现的取舍
 
-| 维度 | Codex | Grok Build | Vetta 首版 |
+| 维度 | Codex | Grok Build | Origin 首版 |
 |---|---|---|---|
 | 拓扑 | 可递归任务树 | 单层星型 | 单层星型 |
 | 执行单元 | 独立 thread/session | 独立 child session | 独立 `AgentSession` |
@@ -120,7 +120,7 @@ Vetta 目前没有：
 
 首版 child 不注册 subagent 工具，并在 coordinator 再做 `depth === 0` 校验，形成双保险。
 
-原因：主 Agent 本来就负责用户目标、拆分和验收；Vetta 当前没有必须跨兄弟通信或递归分解的产品需求。单层能覆盖并行探索、互斥写集实现和独立 review，同时显著降低恢复与关闭复杂度。
+原因：主 Agent 本来就负责用户目标、拆分和验收；Origin 当前没有必须跨兄弟通信或递归分解的产品需求。单层能覆盖并行探索、互斥写集实现和独立 review，同时显著降低恢复与关闭复杂度。
 
 ### 决策 B：宿主注入 `SubagentSessionFactory`
 
@@ -145,7 +145,7 @@ desktop 的 sandbox/full-access 工具由 `RuntimeHost.resolveExecutionModeTools
 
 ### 决策 D：共享 cwd，不自动 worktree
 
-Vetta 要同时支持 Windows、普通目录和非 Git 工作区。worktree 应作为独立后续能力，不阻塞核心生命周期。
+Origin 要同时支持 Windows、普通目录和非 Git 工作区。worktree 应作为独立后续能力，不阻塞核心生命周期。
 
 首版运行时不声称能解决写冲突。`worker` 的工具描述必须要求：只有互斥写集才并行派发；主 Agent 必须检查最终 diff；不得回滚其他并行工作。
 

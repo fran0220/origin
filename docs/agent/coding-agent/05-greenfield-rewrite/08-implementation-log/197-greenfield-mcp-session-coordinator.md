@@ -132,7 +132,7 @@ CLI Composition 与 MCP 回归：
 19 tests passed
 ```
 
-真实 Vetta RPC CLI 初始化失败回归：
+真实 Origin RPC CLI 初始化失败回归：
 
 ```text
 1 file passed

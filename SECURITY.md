@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-This repository is the Open Vetta client. Security fixes land on the `dev` branch and ship with the next desktop release. We do not maintain long-lived patched release lines.
+This repository is the Origin client. Security fixes land on the `dev` branch and ship with the next desktop release. We do not maintain long-lived patched release lines.
 
 ## Reporting a vulnerability
 
@@ -31,7 +31,7 @@ In scope for this repository:
 
 Out of scope here (do not send to this advisory):
 
-- Vetta Serv (accounts, billing, hosted marketplace) — that is a separate private repository
+- vetta-serv (accounts, billing, hosted marketplace) — that is a separate private repository
 - Vulnerabilities that exist only in a third-party model provider, MCP server, or user-installed plugin, unless this client fails to enforce a declared permission or ships the vulnerable code
 
 Product privacy and outbound network behavior are summarized in the README [Network Behavior](README.md#network-behavior) section and in [docs.openvetta.com](https://docs.openvetta.com/reference/security-and-data/).

@@ -46,9 +46,9 @@
 
 ### 不应照搬的部分
 
-- Vercel 同时兼容 Zod 3、Zod 4、Standard Schema、自定义 JSON Schema 和 lazy schema，是公共 SDK 生态兼容需求，不是 Vetta 当前需求。
-- Provider v2/v3/v4 长期并存形成了明显的协议维护成本。Vetta 应采用内部迁移窗口，而不是永久保留多个协议世代。
-- `ToolLoopAgent` 单文件存在大量 generate/stream 对称测试和参数透传测试，覆盖很广，但重复度高。Vetta 应共享场景矩阵，只对真正不同的路径分开测试。
+- Vercel 同时兼容 Zod 3、Zod 4、Standard Schema、自定义 JSON Schema 和 lazy schema，是公共 SDK 生态兼容需求，不是 Origin 当前需求。
+- Provider v2/v3/v4 长期并存形成了明显的协议维护成本。Origin 应采用内部迁移窗口，而不是永久保留多个协议世代。
+- `ToolLoopAgent` 单文件存在大量 generate/stream 对称测试和参数透传测试，覆盖很广，但重复度高。Origin 应共享场景矩阵，只对真正不同的路径分开测试。
 - 大型 inline snapshot 适合保护 Provider 请求形状，不适合保护频繁调整的内部对象。应优先断言语义字段，协议快照只用于稳定 wire contract。
 - 全量 Node/Edge 双跑对本仓库没有直接收益。只对声明为 Web 标准兼容的 `protocol` 和 `provider-kit` 双跑。
 

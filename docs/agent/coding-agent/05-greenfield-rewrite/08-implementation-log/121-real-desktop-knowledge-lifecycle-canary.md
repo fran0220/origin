@@ -2,7 +2,7 @@
 
 ## 目标
 
-在不改变 Knowledge 功能语义和默认 Runtime 的前提下，用真实 Desktop 主进程、安装后的 Vetta CLI、
+在不改变 Knowledge 功能语义和默认 Runtime 的前提下，用真实 Desktop 主进程、安装后的 Origin CLI、
 Action RPC 与审批 UI 验证 Greenfield Knowledge Processing 的生产生命周期：
 
 - 手动整理能够经过真实 Action 注册、审批和执行链路；

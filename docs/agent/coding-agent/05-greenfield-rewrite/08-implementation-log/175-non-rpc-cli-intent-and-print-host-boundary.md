@@ -108,7 +108,7 @@ CLI 组合仍创建原有 `AgentSession`，随后包装为适配器交给 Print 
 
 - Print Host 纯合同：1 项通过。
 - CLI intent 分类：15 项通过。
-- 标准 Vetta 非 RPC CLI：4 项通过。
+- 标准 Origin 非 RPC CLI：4 项通过。
 - 既有 Runtime 选择回归：10 项通过。
 - 定向测试合计：4 个文件、30 项通过。
 - `bun run check:quick` 通过，包含 package boundary 和 standalone CLI build guard。

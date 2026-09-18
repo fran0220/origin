@@ -4,7 +4,7 @@
 
 ## 1. 目标与边界
 
-- 用 open-vetta 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/vetta-game-studio`），与 `vetta-ui-design`（Sophon Design Studio 的 Vetta 形态，ADR-0053/0054/0058）同构。
+- 用 open-vetta 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/vetta-game-studio`），与 `vetta-ui-design`（Sophon Design Studio 的 Origin 形态，ADR-0053/0054/0058）同构。
 - Game Studio 依赖的三项能力不是插件私有逻辑，而是**平台底层能力**，任何 Studio、CLI、IM 宿主都能复用：
   1. **Checkpoint**：每个 Turn 结束后的文件快照 + 验证 + 保留/回退，崩溃可恢复，历史不改写。
   2. **Evaluation + Evolution**：五记录评估模型（证据只来自产品记录与真实 verifier）；两级 continual-harness 账本（Global + subject），Agent 用工具沉淀规则，下一 Turn 准入时渲染进 system prompt。

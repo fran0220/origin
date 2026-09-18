@@ -10,7 +10,7 @@
 
 - `runtime-mcp` 拥有传输无关的 MCP 协议与配置合同；
 - 不可信 `mcp.json` 通过 TypeBox 校验；
-- 通用文件配置 Source 不知道 Vetta 的产品目录约定；
+- 通用文件配置 Source 不知道 Origin 的产品目录约定；
 - coding-agent 保留旧入口和默认路径行为；
 - `McpManager` 只增加配置 Source 与 Client Factory 两个测试接缝；
 - 用行为基线证明迁移前后功能没有变化。
@@ -27,7 +27,7 @@ runtime-mcp
   -> model-call MCP feature
 
 coding-agent/core/mcp
-  -> Vetta global/project path compatibility wrapper
+  -> Origin global/project path compatibility wrapper
   -> stdio and HTTP clients
   -> OAuth flows and token storage
   -> legacy McpManager
@@ -162,7 +162,7 @@ providerStopped: true
 desktopExitCode: 0
 ```
 
-真实 Canary 继续使用 Desktop 安装到仓库外的 Vetta CLI 完成会话创建和继续，并覆盖 Desktop
+真实 Canary 继续使用 Desktop 安装到仓库外的 Origin CLI 完成会话创建和继续，并覆盖 Desktop
 进程重启、会话恢复、Scheduler、Batch、动态 MCP Tool Loop 与最终清理。
 
 ## 7. 结论与下一步

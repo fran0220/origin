@@ -79,7 +79,7 @@
 - Coding Agent 重写治理测试：23 项通过。
 - `bun run check:quick` 通过，新旧架构统计与包边界守卫无回退。
 - `bun run check` 通过，覆盖 Biome、根/CLI/Desktop/Admin TypeScript 检查和全部质量守卫。
-- `bun run verify:agent-hosts` 通过：独立 Vetta CLI 产物、IM Gateway 真实 Greenfield Agent、Coding Agent 功能套件、CLI 34 个文件/186 项测试、Desktop 121 个文件/511 项测试全部通过；Desktop 另有 1 项平台不适用测试跳过。
+- `bun run verify:agent-hosts` 通过：独立 Origin CLI 产物、IM Gateway 真实 Greenfield Agent、Coding Agent 功能套件、CLI 34 个文件/186 项测试、Desktop 121 个文件/511 项测试全部通过；Desktop 另有 1 项平台不适用测试跳过。
 - 本阶段没有改动 Provider 或模型调用实现，验收使用确定性测试模型，没有发送新的计费 DeepSeek 请求。
 
 ## 本阶段结果

@@ -207,7 +207,7 @@ $invite = $null
 ```powershell
 & $adb -s $serial logcat -c
 & $adb -s $serial logcat -v time |
-  Select-String "VettaRemote|org.webrtc.Logging|AndroidRuntime|FATAL EXCEPTION"
+  Select-String "OriginRemote|org.webrtc.Logging|AndroidRuntime|FATAL EXCEPTION"
 ```
 
 预期的关键顺序是：

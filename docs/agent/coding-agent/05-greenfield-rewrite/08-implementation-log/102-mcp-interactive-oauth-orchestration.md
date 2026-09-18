@@ -8,7 +8,7 @@
 - 官方 SDK Client/Transport 构造；
 - 系统浏览器调用；
 - Node localhost HTTP Server 和 HTML；
-- GitHub fallback、提示文案和 Vetta 产品身份；
+- GitHub fallback、提示文案和 Origin 产品身份；
 - token 持久化。
 
 本轮把协议与用例编排迁入 `@vetta/runtime-mcp`，把操作系统、页面和产品策略留在
@@ -96,7 +96,7 @@ runtime-mcp 现在负责 discovery、device code 请求、轮询、`authorizatio
 
 GitHub fallback issuer 仍由 coding-agent 显式传入。HTTP 422 使用结构化
 `McpDeviceCodeRequestError` 返回 status/body，coding-agent 兼容层再映射为原 GitHub 提示，因此
-runtime-mcp 不包含 GitHub 或 Vetta 文案。
+runtime-mcp 不包含 GitHub 或 Origin 文案。
 
 ## 6. TypeBox 网络边界
 
@@ -124,7 +124,7 @@ coding-agent 继续拥有：
 - `node:http` Browser Callback Server；
 - Browser 成功/失败 HTML；
 - Device Code localhost 页面及 HTML escaping；
-- Vetta client name/version；
+- Origin client name/version；
 - GitHub fallback、422 指引和页面文案；
 - `getAgentDir()` 与 `<agentDir>/mcp-auth` 组合。
 
@@ -148,7 +148,7 @@ coding-agent 继续拥有：
 迁移后 coding-agent MCP compatibility: 6 files, 31 tests passed
 bun run check:quick: passed
 bun run check: passed
-installed standalone Vetta CLI artifact: 1 test passed
+installed standalone Origin CLI artifact: 1 test passed
 ```
 
 runtime 独立测试覆盖 Browser 已授权/交互/错误清理、SDK Unauthorized/finish/verify、JSON/form diagnostic
@@ -158,7 +158,7 @@ error、Device discovery/fallback、pending/slow_down、TypeBox invalid response
 以及 Vitest Error 泛型断言要求 `message`。修正测试表达后重新执行完整 `bun run check`，根 `tsgo`、CLI、
 Desktop、Admin、Biome 和全部 guards 均通过。没有通过降级生产类型绕过门禁。
 
-安装态测试使用实际构建的 Vetta CLI，在两个独立进程间创建并恢复同一会话，验证新 auth 模块进入
+安装态测试使用实际构建的 Origin CLI，在两个独立进程间创建并恢复同一会话，验证新 auth 模块进入
 产物，而不只是通过 Vitest 源码 alias 工作。
 
 ## 10. 结果与下一步

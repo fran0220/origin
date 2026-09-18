@@ -1,7 +1,7 @@
-# Vetta Debug 真实 Provider 实战
+# Origin Debug 真实 Provider 实战
 
-本文记录如何使用 Vetta Debug 驱动真实模型完成多轮工具调用，并验证上下文缓存、工具状态和模型行为。它是
-[Vetta Debug](./vetta-debug.md) 的实战补充；能力契约、输入 Schema、错误码和安全边界仍以该文档为准。
+本文记录如何使用 Origin Debug 驱动真实模型完成多轮工具调用，并验证上下文缓存、工具状态和模型行为。它是
+[Origin Debug](./vetta-debug.md) 的实战补充；能力契约、输入 Schema、错误码和安全边界仍以该文档为准。
 
 ## 适用场景
 
@@ -45,7 +45,7 @@ bun run verify:ui:debug:debug -- describe conversation.answer
 
 Debug Profile 在正式实验前还应执行精确模型的认证预检，并按
 [Provider 请求观测](./vetta-debug.md#provider-请求观测) 启用独立 `runId`。`timeoutMs` 只是等待操作完成的上限，
-不是模型输出 Token 限制；不传 `maxTokens` 才表示没有由 Vetta Debug 额外限制输出。
+不是模型输出 Token 限制；不传 `maxTokens` 才表示没有由 Origin Debug 额外限制输出。
 
 ## 推荐实验设计
 
@@ -98,7 +98,7 @@ Todo Store 是状态事实源。模型自然语言只是解释层；UI 进度、
 
 ## 缓存指标口径
 
-Vetta 的归一化 Usage 中，`input`、`cacheRead`、`cacheWrite` 是互斥的 Prompt Token 桶。单次调用的读取命中率为：
+Origin 的归一化 Usage 中，`input`、`cacheRead`、`cacheWrite` 是互斥的 Prompt Token 桶。单次调用的读取命中率为：
 
 ```text
 cacheRead / (input + cacheRead + cacheWrite)

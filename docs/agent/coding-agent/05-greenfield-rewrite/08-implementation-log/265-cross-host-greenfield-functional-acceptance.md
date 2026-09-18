@@ -35,7 +35,7 @@
 ## 实施内容
 
 - 新增根命令 `bun run verify:agent-hosts`，作为 Coding Agent、CLI、Desktop 与 IM 的统一确定性门禁。
-- 门禁通过规范 `compile-standalone.mjs` 生成当前平台的临时单文件 Vetta CLI，测试结束后删除产物。
+- 门禁通过规范 `compile-standalone.mjs` 生成当前平台的临时单文件 Origin CLI，测试结束后删除产物。
 - 新增 Go 真实 Agent 验收场景，由 IM Gateway `hostclient/local` 启动该独立 CLI，而不是调用 TypeScript 内部对象或测试替身。
 - 本地确定性 OpenAI Responses Provider 在第一次请求要求模型调用真实 `read` Tool，第二次验证 Tool Result 已进入模型请求，再返回最终文本。
 - 验收新会话的持久化路径、`greenfield-im` requested/effective 决策、无 Legacy fallback、ownership lock 持有与释放。

@@ -142,7 +142,7 @@ CLI runtime selection、Greenfield host session backend、IM legacy migration
 Desktop runtime selector、composition boundary、legacy migration、knowledge factory
   4 files passed, 12 tests passed
 
-Vetta CLI print mode
+Origin CLI print mode
   1 file passed, 18 tests passed
 
 Quality guards

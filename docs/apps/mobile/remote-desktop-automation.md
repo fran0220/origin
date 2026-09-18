@@ -72,7 +72,7 @@ bun run check
 $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 & $adb logcat -c
 & $adb logcat -v time |
-  Select-String "VettaRemote|org.webrtc.Logging|AndroidRuntime|FATAL EXCEPTION"
+  Select-String "OriginRemote|org.webrtc.Logging|AndroidRuntime|FATAL EXCEPTION"
 ```
 
 状态日志的含义：

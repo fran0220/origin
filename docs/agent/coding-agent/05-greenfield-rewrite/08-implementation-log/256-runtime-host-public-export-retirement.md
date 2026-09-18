@@ -61,7 +61,7 @@
 
 ### 4. 修正真实 CLI 验证边界
 
-- Desktop 的 Vetta CLI canary 将工作目录修正为仓库根目录，使独立 CLI 进程通过真实 workspace 配置解析稳定 Coding Agent 子路径。
+- Desktop 的 Origin CLI canary 将工作目录修正为仓库根目录，使独立 CLI 进程通过真实 workspace 配置解析稳定 Coding Agent 子路径。
 - canary 继续验证创建会话、继续会话和持久化会话列表，不以直接调用内部工厂替代产品入口。
 
 ### 5. 防回退质量门禁
@@ -89,7 +89,7 @@
 - Coding Agent 组合与公共 API 定向测试：4 个文件，11 项通过。
 - Coding Agent 资源加载测试：1 个文件，18 项通过，覆盖动态 Skill 创建、修改、删除、禁用覆盖和项目优先级。
 - CLI 相关定向测试：11 个文件，35 项通过，覆盖 Subagent、动态 MCP、Plugin MCP、Extension、Hook、Todo 与 Session Host。
-- Desktop 相关定向测试：6 个文件，25 项通过，覆盖模型调用帧差异、后端池、能力、历史行为差异和真实 Vetta CLI 会话 canary。
+- Desktop 相关定向测试：6 个文件，25 项通过，覆盖模型调用帧差异、后端池、能力、历史行为差异和真实 Origin CLI 会话 canary。
 - 质量门禁定向测试：3 个文件，84 项通过。
 - `bun run check:quick` 通过，确认 Runtime Host exports、外部 Runtime Host 导入、旧实现边和 Runtime 反向依赖均为 0。
 - 根 `bun run check` 通过，覆盖全仓 Biome、根/CLI/Desktop/Admin 类型检查与全部质量守卫。

@@ -70,7 +70,7 @@ PIP_TRUSTED_HOST    = pypi.tuna.tsinghua.edu.cn
 > `read` 等不起子进程的工具与 env 无关,只有 bash 这类 spawn 子进程的才相关。
 
 ### 作用域边界(重要)
-只动 Vetta 自己进程的内存 env,**不写任何文件**(不碰 `~/.npmrc` / `pip.conf` / shell 配置),**不影响用户其他进程**(他自己开终端跑 node/npm/pip 照旧)。唯一受影响的是 **agent 替他跑的命令**:用托管版 + 国内镜像,且因 `npm_config_*`/`PIP_INDEX_URL` 环境变量**优先级高于项目 `.npmrc`/`pip.conf`**,会覆盖项目里钉的私有 registry——对普通用户是优点,对「项目有私有源的程序员」是已知取舍。未来要按项目放行,用 per-session `createSession(config.env)` 通道(A2,v1 未接)。
+只动 Origin 自己进程的内存 env,**不写任何文件**(不碰 `~/.npmrc` / `pip.conf` / shell 配置),**不影响用户其他进程**(他自己开终端跑 node/npm/pip 照旧)。唯一受影响的是 **agent 替他跑的命令**:用托管版 + 国内镜像,且因 `npm_config_*`/`PIP_INDEX_URL` 环境变量**优先级高于项目 `.npmrc`/`pip.conf`**,会覆盖项目里钉的私有 registry——对普通用户是优点,对「项目有私有源的程序员」是已知取舍。未来要按项目放行,用 per-session `createSession(config.env)` 通道(A2,v1 未接)。
 
 ## 6. 构建管线(打包时远程拉,不预存源)
 
@@ -99,7 +99,7 @@ node/python 是**原生平台+架构专属二进制**,不能跨平台共用。ve
 - 查内置:`ls "<App>/Contents/Resources/vendor"`(或 Windows `resources\vendor`)。
 - 查 seed:`ls ~/.vetta/runtimes` + `cat ~/.vetta/runtimes/.cache/registry.json`。
 - 验内置二进制能跑:`~/.vetta/runtimes/node/<ver>/bin/node --version`。
-- **验 agent 真用托管版**(决定性):在 Vetta 对话框让 agent 跑
+- **验 agent 真用托管版**(决定性):在 Origin 对话框让 agent 跑
   `which node && node --version && which python3 && echo "npm=$npm_config_registry"`,
   `which node` 指向 `~/.vetta/runtimes/...` 即端到端生效。对照:自己终端跑应仍是系统版(证明作用域隔离)。
 - 出无内置包做对照:`VETTA_SKIP_VENDOR=1`。
