@@ -19,7 +19,7 @@ The gateway looks for the executable on `PATH` first, then in the usual package-
 **Standalone:** link once from the terminal, then start the gateway:
 
 ```sh
-signal-cli link -n "Vetta"   # prints a sgnl://linkdevice URI; render it as a QR and scan
+signal-cli link -n "Origin"   # prints a sgnl://linkdevice URI; render it as a QR and scan
 im-gateway start --transport signal
 ```
 

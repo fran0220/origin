@@ -253,7 +253,7 @@ func TestBuildRegisterQRURL_CarriesPresetAndAddons(t *testing.T) {
 		CreateOnly: true,
 		// createOnly wins on the landing page, but both may travel.
 		AppID:     "cli_existing",
-		AppPreset: &RegisterAppPreset{Name: "Vetta", Desc: "desc", Avatar: []string{"https://example.test/a.png"}},
+		AppPreset: &RegisterAppPreset{Name: "Origin", Desc: "desc", Avatar: []string{"https://example.test/a.png"}},
 		Addons: &RegisterAddons{
 			Preset: &minimal,
 			Scopes: &RegisterScopes{Tenant: []string{"im:message:send_as_bot"}},
@@ -273,7 +273,7 @@ func TestBuildRegisterQRURL_CarriesPresetAndAddons(t *testing.T) {
 		"from":       "sdk",
 		"tp":         "sdk",
 		"source":     "vetta-im-gateway",
-		"name":       "Vetta",
+		"name":       "Origin",
 		"desc":       "desc",
 		"avatar":     "https://example.test/a.png",
 		"createOnly": "true",

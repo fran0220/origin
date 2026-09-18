@@ -4,7 +4,7 @@ package org.vetta.android.ui.i18n
  * 用户可见文案。对齐设计图「AI 应用 APP 与 Desktop 无缝对接」。
  */
 object Str {
-    const val appName = "Vetta"
+    const val appName = "Origin"
 
     // Welcome / marketing
     const val welcomeTitle = "AI 应用 APP\n与 Desktop 无缝对接"
@@ -24,7 +24,7 @@ object Str {
     const val notAvailable = "暂无"
     const val connectingDesktop = "正在连接 Desktop…"
 
-    const val loginTitle = "登录 Vetta"
+    const val loginTitle = "登录 Origin"
     const val loginSubtitle = "使用邮箱与密码登录"
     const val email = "邮箱"
     const val password = "密码"
@@ -222,12 +222,12 @@ object Str {
     const val themeLight = "浅色"
     const val themeDark = "深色"
     const val about = "关于"
-    const val aboutVetta = "关于 Vetta"
-    const val aboutDescription = "Vetta 让你在手机上继续使用 Desktop 与云端 AI。"
+    const val aboutVetta = "关于 Origin"
+    const val aboutDescription = "Origin 让你在手机上继续使用 Desktop 与云端 AI。"
     const val versionNumber = "版本 0.1.0"
     const val openSourceLicenses = "开源许可"
     const val privacyPolicy = "隐私说明"
-    const val openSourceLicensesBody = "Vetta 客户端基于 Apache License 2.0 发布，并使用多个开源依赖。各依赖继续遵循其原有许可条款。"
+    const val openSourceLicensesBody = "Origin 客户端基于 Apache License 2.0 发布，并使用多个开源依赖。各依赖继续遵循其原有许可条款。"
     const val privacyPolicyBody = "应用只在登录、同步会话和连接 Desktop 时使用必要数据。登录令牌、配对凭据、会话和图片可能保存在本机；云端对话会发送到当前账户所选服务。你可以在设置中清除本机会话和图片。"
     const val appearanceHint = "选择你偏好的显示方式"
     const val behavior = "使用体验"
