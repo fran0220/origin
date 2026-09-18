@@ -9,5 +9,21 @@
  * 一致性由 `app-identity.test.ts` 机械校验。
  *
  * 修改此常量会让所有存量用户已保存的凭据无法解密，必须同时提供迁移方案。
+ * 面向用户的产品名是 `APP_PRODUCT_NAME`；本常量是内部运行时标识，第一阶段不改。
  */
 export const APP_RUNTIME_NAME = "vetta";
+
+/** 面向用户的产品名（窗口标题、托盘、安装包、关于对话框）。 */
+export const APP_PRODUCT_NAME = "Origin";
+
+/** 托管模型在选择器里的显示名；provider id `vetta-go` 仍是内部标识。 */
+export const APP_HOSTED_MODEL_DISPLAY_NAME = "Origin Go";
+
+/** 当前深链 scheme；旧 `vetta` 仍注册为兼容监听。 */
+export const APP_PROTOCOL_SCHEME = "origin";
+export const APP_LEGACY_PROTOCOL_SCHEME = "vetta";
+export const APP_PROTOCOL_SCHEMES = [APP_PROTOCOL_SCHEME, APP_LEGACY_PROTOCOL_SCHEME] as const;
+
+export function isAppProtocolUrl(rawUrl: string): boolean {
+	return APP_PROTOCOL_SCHEMES.some((scheme) => rawUrl.startsWith(`${scheme}://`));
+}

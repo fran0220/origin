@@ -36,7 +36,7 @@ test("writes a stable versioned file manifest for pre-publish verification", asy
 	const versionDir = join(sourceDir, "version");
 	await mkdir(join(versionDir, "resources"), { recursive: true });
 	await Promise.all([
-		writeFile(join(versionDir, "Vetta.exe"), "exe"),
+		writeFile(join(versionDir, "Origin.exe"), "exe"),
 		writeFile(join(versionDir, "resources", "app.asar"), "asar"),
 	]);
 
@@ -46,7 +46,7 @@ test("writes a stable versioned file manifest for pre-publish verification", asy
 			version: "1.2.3",
 			files: [
 				{ path: "resources/app.asar", size: 4 },
-				{ path: "Vetta.exe", size: 3 },
+				{ path: "Origin.exe", size: 3 },
 			],
 		});
 	} finally {

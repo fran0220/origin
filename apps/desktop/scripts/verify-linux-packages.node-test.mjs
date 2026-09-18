@@ -12,8 +12,8 @@ import {
 } from "./verify-linux-packages.mjs";
 
 const paths = [
-	"/opt/Vetta/Vetta",
-	"/opt/Vetta/resources/package-type",
+	"/opt/Origin/Origin",
+	"/opt/Origin/resources/package-type",
 	"/usr/share/applications/vetta.desktop",
 	"/usr/share/icons/hicolor/512x512/apps/vetta.png",
 ];
@@ -45,13 +45,13 @@ test("Linux package inspection rejects wrong identities and incomplete payloads"
 				deb: { name: "vetta", version: "1.2.3", arch: "amd64", paths },
 				rpm: { name: "vetta", version: "1.2.3", arch: "x86_64", paths: paths.slice(1) },
 			}),
-		/RPM package is missing \/opt\/Vetta\/Vetta/,
+		/RPM package is missing \/opt\/Origin\/Origin/,
 	);
 });
 
 test("package command output parsers normalize Debian and RPM metadata", () => {
 	assert.deepEqual(
-		parseDebFields("Package: vetta\nVersion: 1.2.3\nArchitecture: amd64\nDescription: Vetta\n"),
+		parseDebFields("Package: vetta\nVersion: 1.2.3\nArchitecture: amd64\nDescription: Origin\n"),
 		{ name: "vetta", version: "1.2.3", arch: "amd64" },
 	);
 	assert.deepEqual(parseRpmFields("vetta\n1.2.3\nx86_64\n"), {
@@ -61,10 +61,10 @@ test("package command output parsers normalize Debian and RPM metadata", () => {
 	});
 	assert.deepEqual(
 		parseDebContents(
-			"-rwxr-xr-x root/root 123 2026-01-01 00:00 ./opt/Vetta/Vetta\n" +
-				"lrwxrwxrwx root/root 0 2026-01-01 00:00 ./usr/bin/vetta -> /opt/Vetta/Vetta\n",
+			"-rwxr-xr-x root/root 123 2026-01-01 00:00 ./opt/Origin/Origin\n" +
+				"lrwxrwxrwx root/root 0 2026-01-01 00:00 ./usr/bin/vetta -> /opt/Origin/Origin\n",
 		),
-		["/opt/Vetta/Vetta", "/usr/bin/vetta"],
+		["/opt/Origin/Origin", "/usr/bin/vetta"],
 	);
 });
 

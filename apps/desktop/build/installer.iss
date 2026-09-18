@@ -13,16 +13,16 @@
 
 [Setup]
 AppId={{A2B92798-AB76-4F6B-A9B9-C252DBCB617C}
-AppName=Vetta
-AppVerName=Vetta {#AppVersion}
+AppName=Origin
+AppVerName=Origin {#AppVersion}
 AppVersion={#AppVersion}
-AppPublisher=Vetta
-DefaultDirName={localappdata}\Programs\Vetta
-DefaultGroupName=Vetta
+AppPublisher=Origin
+DefaultDirName={localappdata}\Programs\Origin
+DefaultGroupName=Origin
 OutputDir={#OutputDir}
-OutputBaseFilename=Vetta-{#AppVersion}-win-{#Arch}
+OutputBaseFilename=Origin-{#AppVersion}-win-{#Arch}
 SetupIconFile={#SourceDir}\versions\{#AppVersion}\resources\build\icon.ico
-UninstallDisplayIcon={app}\Vetta.exe
+UninstallDisplayIcon={app}\Origin.exe
 Compression=lzma2/max
 SolidCompression=no
 PrivilegesRequired=lowest
@@ -54,7 +54,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
 Name: "{app}\versions"; Check: IsNotBackgroundUpdate
 
 [Files]
-Source: "{#SourceDir}\Vetta.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: IsNotBackgroundUpdate
+Source: "{#SourceDir}\Origin.exe"; DestDir: "{app}"; Flags: ignoreversion; Check: IsNotBackgroundUpdate
 Source: "{#SourceDir}\current.json"; DestDir: "{app}"; Flags: ignoreversion; Check: IsNotBackgroundUpdate
 ; app.asar is already an archive. Keeping it uncompressed lets the outer blockmap
 ; reuse unchanged chunks instead of invalidating one large LZMA2 stream.
@@ -64,23 +64,27 @@ Source: "{#SourceDir}\versions\{#AppVersion}\*"; DestDir: "{code:GetUpdateVersio
 Source: "{#SourceDir}\versions\{#AppVersion}\resources\app.asar"; DestDir: "{code:GetUpdateVersionDirectory}\resources"; Flags: ignoreversion nocompression; Check: IsBackgroundUpdate
 
 [Icons]
-Name: "{group}\Vetta"; Filename: "{app}\Vetta.exe"; Check: IsNotBackgroundUpdate
-Name: "{autodesktop}\Vetta"; Filename: "{app}\Vetta.exe"; Tasks: desktopicon; Check: IsNotBackgroundUpdate
+Name: "{group}\Origin"; Filename: "{app}\Origin.exe"; Check: IsNotBackgroundUpdate
+Name: "{autodesktop}\Origin"; Filename: "{app}\Origin.exe"; Tasks: desktopicon; Check: IsNotBackgroundUpdate
 
 [Registry]
-Root: HKCU; Subkey: "Software\Classes\vetta"; ValueType: string; ValueName: ""; ValueData: "URL:Vetta Protocol"; Flags: uninsdeletekey; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\origin"; ValueType: string; ValueName: ""; ValueData: "URL:Origin Protocol"; Flags: uninsdeletekey; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\origin"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\origin\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\Origin.exe,0"; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\origin\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Origin.exe"" ""%1"""; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\vetta"; ValueType: string; ValueName: ""; ValueData: "URL:Origin Protocol"; Flags: uninsdeletekey; Check: IsNotBackgroundUpdate
 Root: HKCU; Subkey: "Software\Classes\vetta"; ValueType: string; ValueName: "URL Protocol"; ValueData: ""; Check: IsNotBackgroundUpdate
-Root: HKCU; Subkey: "Software\Classes\vetta\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\Vetta.exe,0"; Check: IsNotBackgroundUpdate
-Root: HKCU; Subkey: "Software\Classes\vetta\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Vetta.exe"" ""%1"""; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\vetta\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\Origin.exe,0"; Check: IsNotBackgroundUpdate
+Root: HKCU; Subkey: "Software\Classes\vetta\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\Origin.exe"" ""%1"""; Check: IsNotBackgroundUpdate
 
 [Run]
-Filename: "{app}\Vetta.exe"; Description: "{cm:LaunchProgram,Vetta}"; Flags: nowait postinstall skipifsilent; Check: IsNotBackgroundUpdate
+Filename: "{app}\Origin.exe"; Description: "{cm:LaunchProgram,Origin}"; Flags: nowait postinstall skipifsilent; Check: IsNotBackgroundUpdate
 
 [UninstallDelete]
-Type: filesandordirs; Name: "{localappdata}\Vetta\versions"
-Type: filesandordirs; Name: "{localappdata}\Vetta\installer"
-Type: filesandordirs; Name: "{localappdata}\Vetta\staging"
-Type: files; Name: "{localappdata}\Vetta\current.json"
+Type: filesandordirs; Name: "{localappdata}\Origin\versions"
+Type: filesandordirs; Name: "{localappdata}\Origin\installer"
+Type: filesandordirs; Name: "{localappdata}\Origin\staging"
+Type: files; Name: "{localappdata}\Origin\current.json"
 
 [Code]
 function CreateHardLinkW(
@@ -208,7 +212,7 @@ begin
     else
     begin
       SeedUpdaterDifferentialCache();
-      DeleteFile(ExpandConstant('{localappdata}\Vetta\current.json'));
+      DeleteFile(ExpandConstant('{localappdata}\Origin\current.json'));
     end;
   end;
 end;

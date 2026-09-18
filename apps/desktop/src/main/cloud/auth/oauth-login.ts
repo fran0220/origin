@@ -2,9 +2,9 @@
  * 授权登录（deep link）的发起与回调校验。
  *
  * 客户端唯一的登录方式：把用户送到站点授权页，站点授权后 302 到
- * `vetta://oauth/callback?access_token=…&refresh_token=…`，由自定义协议拉回本进程。
+ * `origin://oauth/callback?access_token=…&refresh_token=…`（兼容 `vetta://`），由自定义协议拉回本进程。
  *
- * 这条链路上的 token 是明文走 URL query 的，同机任何注册了 `vetta://` 的程序
+ * 这条链路上的 token 是明文走 URL query 的，同机任何注册了 `origin://` / `vetta://` 的程序
  * 都可能投递一个回调进来。故发起时生成一次性 state 塞进 client_redirect，
  * 回调必须带回同一个 state 才被接受——挡掉「客户端并未发起授权时被塞回调」。
  * 注意这挡不住 scheme 劫持本身（PKCE 才能解决），单独排期。
@@ -15,6 +15,7 @@
 
 import { randomUUID } from "node:crypto";
 import { app } from "electron";
+import { APP_LEGACY_PROTOCOL_SCHEME, APP_PROTOCOL_SCHEME } from "../../../shared/app-identity.js";
 import { DEFAULT_SITE_URL } from "../../constants.js";
 import { getAppLogger } from "../../logger.js";
 import { openExternalUrl } from "../../open-external.js";
@@ -22,7 +23,8 @@ import { ensureLoopbackCallbackUrl } from "./oauth-loopback.js";
 
 const log = getAppLogger("auth");
 
-const CALLBACK_URL = "vetta://oauth/callback";
+const CALLBACK_URL = `${APP_PROTOCOL_SCHEME}://oauth/callback`;
+const LEGACY_CALLBACK_URL = `${APP_LEGACY_PROTOCOL_SCHEME}://oauth/callback`;
 
 /** 本次授权的一次性 state；null 表示当前没有进行中的授权。 */
 let pendingState: string | null = null;
@@ -71,7 +73,13 @@ export async function reopenOAuthLogin(): Promise<void> {
  * 校验并消费一次回调。
  * 返回 null 表示这次回调不可信（state 缺失或不匹配），调用方必须丢弃其中的 token。
  */
+export function isOAuthCallbackUrl(url: URL): boolean {
+	const href = url.href;
+	return href.startsWith(CALLBACK_URL) || href.startsWith(LEGACY_CALLBACK_URL);
+}
+
 export function consumeOAuthCallback(url: URL): OAuthCallbackTokens | null {
+	if (!isOAuthCallbackUrl(url)) return null;
 	// 兼容旧参数名 token（API 直接回调）和新参数名 access_token（Next.js oauth-redirect）
 	const token = url.searchParams.get("access_token") ?? url.searchParams.get("token");
 	if (!token) return null;

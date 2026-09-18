@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { URL } from "node:url";
 import { getVettaHomePath, VETTA_HOME_ENV } from "@vetta/action-rpc";
 import { app, type BrowserWindow, dialog, ipcMain, nativeImage, nativeTheme, protocol, session, shell } from "electron";
-import { APP_RUNTIME_NAME } from "../shared/app-identity.js";
+import { APP_PROTOCOL_SCHEMES, APP_RUNTIME_NAME, isAppProtocolUrl } from "../shared/app-identity.js";
 import { isCloudBuildEnabled } from "../shared/feature-flags.js";
 import { stopAllOpenMarketplaceMcpRuntimes } from "./abilities/open-marketplace/open-marketplace-mcp-runtime-host.js";
 import { ActionApprovalBroker } from "./app-actions/approval-broker.js";
@@ -104,7 +104,7 @@ import {
 // RuntimeManager.applyEnv() 与 coding-agent 的 bash 执行。详见 fix-path.ts。
 fixPath();
 
-const PROTOCOL = "vetta";
+const PROTOCOL_SCHEMES = APP_PROTOCOL_SCHEMES;
 // registerSchemesAsPrivileged 整个进程只能调用一次且须在 ready 前：
 // 所有自定义 scheme（插件、主题、应用资源、媒体流）的特权声明在此合并注册。
 protocol.registerSchemesAsPrivileged([
@@ -297,10 +297,12 @@ function attachMainWindowLifecycle(mainWindow: BrowserWindow): void {
 // Windows dev mode: must pass electron.exe path and app entry as args,
 // otherwise the URL gets interpreted as a module path.
 if (!isCliMode) {
-	if (!app.isPackaged && process.platform === "win32") {
-		app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, [devMainEntryPath]);
-	} else {
-		app.setAsDefaultProtocolClient(PROTOCOL);
+	for (const scheme of PROTOCOL_SCHEMES) {
+		if (!app.isPackaged && process.platform === "win32") {
+			app.setAsDefaultProtocolClient(scheme, process.execPath, [devMainEntryPath]);
+		} else {
+			app.setAsDefaultProtocolClient(scheme);
+		}
 	}
 }
 
@@ -310,7 +312,7 @@ let cloudMain: CloudMainHandle | null = null;
 function handleProtocolUrl(rawUrl: string): void {
 	try {
 		const parsed = new URL(rawUrl);
-		// OAuth 回调（vetta://oauth/callback）由 cloud 模块处理；
+		// OAuth 回调（origin://oauth/callback，兼容 vetta://）由 cloud 模块处理；
 		// lite 构建没有 cloud 模块，深链直接忽略。
 		cloudMain?.handleProtocolUrl(parsed);
 	} catch {
@@ -341,7 +343,7 @@ if (!gotSingleLock) {
 	app.exit(0);
 } else {
 	app.on("second-instance", (_event, argv) => {
-		const protocolUrl = argv.find((arg) => arg.startsWith(`${PROTOCOL}://`));
+		const protocolUrl = argv.find((arg) => isAppProtocolUrl(arg));
 		if (protocolUrl) {
 			handleProtocolUrl(protocolUrl);
 		}
@@ -380,7 +382,7 @@ if (!gotSingleLock) {
 			// Privacy 在 socket 层拦截 Node 默认 fetch 对 192.168.x / 10.x
 			// 等私网地址的访问，OpenAI/Anthropic SDK 在这种情况下只能抛
 			// "Connection error."。必须复用主进程对话页同款的两步规避：
-			// 先触发 TCC 探针让 com.vetta.desktop 拿到 LAN 授权，再把
+			// 先触发 TCC 探针让 com.origin.desktop 拿到 LAN 授权，再把
 			// globalThis.fetch 换成 electron.net.fetch（Chromium 网络栈，
 			// 不被 LNP 拦截）。PDF / OCR CLI 不需要这条，因为它们不发
 			// 跨进程网络请求。
@@ -413,7 +415,7 @@ if (!gotSingleLock) {
 		const appLifecycle = registerAppLifecycleIpc();
 
 		// 必须放在 whenReady 之后：早于 ready 调用时主进程 bundle identity
-		// 尚未在 launchd/TCC 子系统注册，syscall 关联不到 com.vetta.desktop，
+		// 尚未在 launchd/TCC 子系统注册，syscall 关联不到 com.origin.desktop，
 		// 探针白发。
 		registerLocalNetworkAccess();
 
@@ -498,7 +500,7 @@ if (!gotSingleLock) {
 		if (!app.isPackaged) {
 			const appVersion = getAppVersion();
 			app.setAboutPanelOptions({
-				applicationName: "Vetta",
+				applicationName: "Origin",
 				applicationVersion: appVersion,
 				version: "",
 			});

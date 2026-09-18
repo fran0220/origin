@@ -88,9 +88,9 @@ async function resolveCandidate(baseUrl, expectedVersion) {
 }
 
 function baselineArtifactName(buildVersion) {
-	if (platform === "win32") return `Vetta-${buildVersion}-win-x64.exe`;
-	if (platform === "linux") return `Vetta-${buildVersion}.AppImage`;
-	return architecture === "arm64" ? `Vetta-${buildVersion}-arm64-mac.zip` : `Vetta-${buildVersion}-mac.zip`;
+	if (platform === "win32") return `Origin-${buildVersion}-win-x64.exe`;
+	if (platform === "linux") return `Origin-${buildVersion}.AppImage`;
+	return architecture === "arm64" ? `Origin-${buildVersion}-arm64-mac.zip` : `Origin-${buildVersion}-mac.zip`;
 }
 
 async function installBaseline(installerPath, installRoot) {
@@ -107,7 +107,7 @@ async function installBaseline(installerPath, installRoot) {
 			child.once("error", reject);
 			child.once("exit", (code) => (code === 0 ? resolve() : reject(new Error(`Inno exited with ${code}`))));
 		});
-		return join(installRoot, "Vetta.exe");
+		return join(installRoot, "Origin.exe");
 	}
 	if (platform === "linux") {
 		await chmod(installerPath, 0o755);
@@ -120,8 +120,8 @@ async function installBaseline(installerPath, installRoot) {
 		child.once("error", reject);
 		child.once("exit", (code) => (code === 0 ? resolve() : reject(new Error(`ditto exited with ${code}`))));
 	});
-	const appPath = join(extractedRoot, "Vetta.app");
-	const installedApp = join(installRoot, "Vetta.app");
+	const appPath = join(extractedRoot, "Origin.app");
+	const installedApp = join(installRoot, "Origin.app");
 	await rm(installedApp, { recursive: true, force: true });
 	await rename(appPath, installedApp);
 	return join(installedApp, "Contents", "MacOS", "Vetta");

@@ -1,7 +1,9 @@
+import { PRODUCT_NAME } from "./product-identity.mjs";
+
 export const WINDOWS_RELEASE_TARGETS = Object.freeze(["inno", "msi", "zip"]);
 
 export const WINDOWS_SUPPLEMENTAL_EXTENSIONS = Object.freeze([".msi", ".zip"]);
 
 export function windowsSupplementalArtifactNames(version) {
-	return WINDOWS_SUPPLEMENTAL_EXTENSIONS.map((extension) => `Vetta-${version}-win-x64${extension}`);
+	return WINDOWS_SUPPLEMENTAL_EXTENSIONS.map((extension) => `${PRODUCT_NAME}-${version}-win-x64${extension}`);
 }

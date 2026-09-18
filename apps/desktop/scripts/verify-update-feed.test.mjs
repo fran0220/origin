@@ -4,9 +4,9 @@ import { resolveUpdateFeedBase, verifyUpdateFeed } from "./verify-update-feed.mj
 
 const version = "0.5.46";
 const metadata = {
-	"latest.yml": `version: ${version}\npath: Vetta-Setup-${version}.exe\nfiles:\n  - url: Vetta-Setup-${version}.exe\n`,
-	"latest-mac.yml": `version: ${version}\nfiles:\n  - url: Vetta-${version}.zip\n    sha512: test\n`,
-	"latest-linux.yml": `version: ${version}\npath: Vetta-${version}.AppImage\nfiles:\n  - url: Vetta-${version}.AppImage\n`,
+	"latest.yml": `version: ${version}\npath: Origin-Setup-${version}.exe\nfiles:\n  - url: Origin-Setup-${version}.exe\n`,
+	"latest-mac.yml": `version: ${version}\nfiles:\n  - url: Origin-${version}.zip\n    sha512: test\n`,
+	"latest-linux.yml": `version: ${version}\npath: Origin-${version}.AppImage\nfiles:\n  - url: Origin-${version}.AppImage\n`,
 };
 
 function createFetch() {

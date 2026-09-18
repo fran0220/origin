@@ -81,8 +81,8 @@ describe("ElectronUpdaterEngine", () => {
 		const order: string[] = [];
 		const updateInfo: UpdateInfo = {
 			version: "1.2.3",
-			files: [{ url: "Vetta-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
-			path: "Vetta-1.2.3-win-x64.exe",
+			files: [{ url: "Origin-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
+			path: "Origin-1.2.3-win-x64.exe",
 			sha512: "installer",
 			releaseDate: new Date().toISOString(),
 		};
@@ -94,7 +94,7 @@ describe("ElectronUpdaterEngine", () => {
 			downloadedUpdateHelper: null,
 		} as unknown as AppUpdater;
 		const innoUpdate = {
-			select: vi.fn().mockReturnValue({ assetFileName: "Vetta-1.2.3-win-x64.exe", totalBytes: 42 }),
+			select: vi.fn().mockReturnValue({ assetFileName: "Origin-1.2.3-win-x64.exe", totalBytes: 42 }),
 			prepareDownloadedInstaller: vi.fn(),
 			activate: vi.fn(() => {
 				order.push("activate");
@@ -186,22 +186,22 @@ describe("ElectronUpdaterEngine", () => {
 	it("passes provider-resolved asset URLs to the Inno updater", async () => {
 		const updateInfo: UpdateInfo = {
 			version: "1.2.3",
-			files: [{ url: "Vetta-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
-			path: "Vetta-1.2.3-win-x64.exe",
+			files: [{ url: "Origin-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
+			path: "Origin-1.2.3-win-x64.exe",
 			sha512: "installer",
 			releaseDate: new Date().toISOString(),
 		};
 		const resolvedFiles: Array<ResolvedUpdateFileInfo> = [
 			{
-				url: new URL("https://releases.example.com/Vetta-1.2.3-win-x64.exe"),
+				url: new URL("https://releases.example.com/Origin-1.2.3-win-x64.exe"),
 				info: updateInfo.files[0],
 			},
 		];
 		const select = vi.fn().mockReturnValue({
-			assetFileName: "Vetta-1.2.3-win-x64.exe",
+			assetFileName: "Origin-1.2.3-win-x64.exe",
 			totalBytes: 42,
 		});
-		const prepareDownloadedInstaller = vi.fn().mockResolvedValue(["C:\\staged\\Vetta.exe"]);
+		const prepareDownloadedInstaller = vi.fn().mockResolvedValue(["C:\\staged\\Origin.exe"]);
 		const activate = vi.fn();
 		const updater = {
 			on: vi.fn(),
@@ -210,7 +210,7 @@ describe("ElectronUpdaterEngine", () => {
 				isUpdateAvailable: true,
 				updateInfo,
 			}),
-			downloadUpdate: vi.fn().mockResolvedValue(["C:\\pending\\Vetta-1.2.3-win-x64.exe"]),
+			downloadUpdate: vi.fn().mockResolvedValue(["C:\\pending\\Origin-1.2.3-win-x64.exe"]),
 			updateInfoAndProvider: {
 				provider: {
 					resolveFiles: vi.fn().mockReturnValue(resolvedFiles),
@@ -230,15 +230,15 @@ describe("ElectronUpdaterEngine", () => {
 			info: {
 				version: "1.2.3",
 				releaseNote: undefined,
-				assetFileName: "Vetta-1.2.3-win-x64.exe",
+				assetFileName: "Origin-1.2.3-win-x64.exe",
 				totalBytes: 42,
 			},
 		});
 		expect(select).toHaveBeenCalledWith(updateInfo, resolvedFiles);
 
-		await expect(engine.downloadUpdate(vi.fn()).promise).resolves.toEqual(["C:\\staged\\Vetta.exe"]);
+		await expect(engine.downloadUpdate(vi.fn()).promise).resolves.toEqual(["C:\\staged\\Origin.exe"]);
 		expect(prepareDownloadedInstaller).toHaveBeenCalledWith(
-			"C:\\pending\\Vetta-1.2.3-win-x64.exe",
+			"C:\\pending\\Origin-1.2.3-win-x64.exe",
 			expect.any(Function),
 			expect.any(AbortSignal),
 		);
@@ -249,8 +249,8 @@ describe("ElectronUpdaterEngine", () => {
 	it("reports Inno preparation failures instead of launching the installer UI", async () => {
 		const updateInfo: UpdateInfo = {
 			version: "1.2.3",
-			files: [{ url: "Vetta-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
-			path: "Vetta-1.2.3-win-x64.exe",
+			files: [{ url: "Origin-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
+			path: "Origin-1.2.3-win-x64.exe",
 			sha512: "installer",
 			releaseDate: new Date().toISOString(),
 		};
@@ -263,12 +263,12 @@ describe("ElectronUpdaterEngine", () => {
 				isUpdateAvailable: true,
 				updateInfo,
 			}),
-			downloadUpdate: vi.fn().mockResolvedValue(["C:\\pending\\Vetta-1.2.3-win-x64.exe"]),
+			downloadUpdate: vi.fn().mockResolvedValue(["C:\\pending\\Origin-1.2.3-win-x64.exe"]),
 			updateInfoAndProvider: {
 				provider: {
 					resolveFiles: vi.fn().mockReturnValue([
 						{
-							url: new URL("https://releases.example.com/Vetta-1.2.3-win-x64.exe"),
+							url: new URL("https://releases.example.com/Origin-1.2.3-win-x64.exe"),
 							info: updateInfo.files[0],
 						},
 					]),
@@ -278,7 +278,7 @@ describe("ElectronUpdaterEngine", () => {
 		} as unknown as AppUpdater;
 		const innoUpdate = {
 			select: vi.fn().mockReturnValue({
-				assetFileName: "Vetta-1.2.3-win-x64.exe",
+				assetFileName: "Origin-1.2.3-win-x64.exe",
 				totalBytes: 42,
 			}),
 			prepareDownloadedInstaller: vi.fn().mockRejectedValue(new Error("incomplete Inno version")),
@@ -295,14 +295,14 @@ describe("ElectronUpdaterEngine", () => {
 		const root = await mkdtemp(join(tmpdir(), "vetta-updater-engine-"));
 		temporaryRoots.push(root);
 		const cacheDir = join(root, "cache");
-		const installerPath = join(cacheDir, "pending", "Vetta-1.2.3-win-x64.exe");
+		const installerPath = join(cacheDir, "pending", "Origin-1.2.3-win-x64.exe");
 		await mkdir(join(cacheDir, "pending"), { recursive: true });
 		await writeFile(installerPath, "new installer");
 		await writeFile(join(cacheDir, CURRENT_APP_INSTALLER_FILE_NAME), "old installer");
 		const updateInfo: UpdateInfo = {
 			version: "1.2.3",
-			files: [{ url: "Vetta-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
-			path: "Vetta-1.2.3-win-x64.exe",
+			files: [{ url: "Origin-1.2.3-win-x64.exe", sha512: "hash", size: 42 }],
+			path: "Origin-1.2.3-win-x64.exe",
 			sha512: "installer",
 			releaseDate: new Date().toISOString(),
 		};
@@ -322,7 +322,7 @@ describe("ElectronUpdaterEngine", () => {
 				provider: {
 					resolveFiles: vi.fn().mockReturnValue([
 						{
-							url: new URL("https://releases.example.com/Vetta-1.2.3-win-x64.exe"),
+							url: new URL("https://releases.example.com/Origin-1.2.3-win-x64.exe"),
 							info: updateInfo.files[0],
 						},
 					]),
@@ -332,7 +332,7 @@ describe("ElectronUpdaterEngine", () => {
 		} as unknown as AppUpdater;
 		const innoUpdate = {
 			select: vi.fn().mockReturnValue({
-				assetFileName: "Vetta-1.2.3-win-x64.exe",
+				assetFileName: "Origin-1.2.3-win-x64.exe",
 				totalBytes: 42,
 			}),
 			prepareDownloadedInstaller,
