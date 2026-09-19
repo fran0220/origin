@@ -1,4 +1,4 @@
-# ADR-0119：认证与 BYOK 收敛为 Connection 凭据托管
+# ADR-0120：认证与 BYOK 收敛为 Connection 凭据托管
 
 ## 状态
 
