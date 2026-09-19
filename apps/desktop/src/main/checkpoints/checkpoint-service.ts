@@ -1,4 +1,3 @@
-import { getAgentDir } from "@vetta/coding-agent/config";
 import {
 	type CheckpointEngine,
 	type CheckpointPolicy,
@@ -13,6 +12,7 @@ import {
 	registerExecutionReceiptSink,
 } from "@vetta/runtime-node/checkpoints";
 import { DEFAULT_CONVERSATION_CWD, readDesktopConfig } from "../config/desktop-config-store.js";
+import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { getAppLogger } from "../logger.js";
 import { checkpointProjectKeyForCwd, decodeProjectKey, HOME_CHECKPOINT_PROJECT_KEY } from "./project-key.js";
 
@@ -31,7 +31,7 @@ export interface DesktopCheckpointService {
 }
 
 function checkpointRoot(): string {
-	return `${getAgentDir().replaceAll("\\", "/")}/logged-out/checkpoints`;
+	return resolveAccountScopedDirForHost("checkpoints");
 }
 
 export function createDesktopCheckpointService(): DesktopCheckpointService {
