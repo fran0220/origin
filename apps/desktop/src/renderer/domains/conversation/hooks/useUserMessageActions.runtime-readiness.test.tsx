@@ -58,7 +58,7 @@ describe("user-message actions Runtime readiness", () => {
 		const store = getDefaultStore();
 		const forkSession = vi.fn(async () => ({ path: "C:/sessions/fork.jsonl" }));
 		const openSession = vi.fn(async () => undefined);
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { session: { forkSession } },
 		});

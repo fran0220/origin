@@ -1,10 +1,10 @@
 /** First-run setup wizard completion — show once, skip/finish both write this. */
-export const SETUP_WIZARD_STORAGE_KEY = "vetta-setup-wizard-completed";
+export const SETUP_WIZARD_STORAGE_KEY = "origin-setup-wizard-completed";
 
-export const SETUP_WIZARD_COMPLETED_EVENT = "vetta-setup-wizard-completed";
+export const SETUP_WIZARD_COMPLETED_EVENT = "origin-setup-wizard-completed";
 
 /** Re-open the setup wizard from Settings (does not clear the completed flag). */
-export const SETUP_WIZARD_OPEN_EVENT = "vetta-setup-wizard-open";
+export const SETUP_WIZARD_OPEN_EVENT = "origin-setup-wizard-open";
 
 /**
  * Signals that the user already used the app before this wizard shipped.
@@ -14,7 +14,7 @@ export const SETUP_WIZARD_OPEN_EVENT = "vetta-setup-wizard-open";
 const PRIOR_USAGE_STORAGE_KEYS = [
 	"vetta.tour.sidebar.completed",
 	"vetta.tour.capabilities.completed",
-	"vetta-last-active-session",
+	"origin-last-active-session",
 ] as const;
 
 function hasPriorAppUsage(): boolean {

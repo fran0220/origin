@@ -90,7 +90,7 @@ export function useGeneralSettingsModel(): GeneralSettingsModel {
 		const selected = await window.originApp.dialog.selectFolder();
 		if (!selected) return;
 		setWorkspacePath(selected);
-		localStorage.setItem("vetta-workspace-path", selected);
+		localStorage.setItem("origin-workspace-path", selected);
 		await window.originApp.config.set({ workspacePath: selected });
 		recordSettingsUsage({ tab: "general", action: "selected", target: "workspace" });
 	}, [setWorkspacePath]);
@@ -98,7 +98,7 @@ export function useGeneralSettingsModel(): GeneralSettingsModel {
 	const resetWorkspace = useCallback(async () => {
 		const defaultPath = "~/.origin/workspace";
 		setWorkspacePath(defaultPath);
-		localStorage.setItem("vetta-workspace-path", defaultPath);
+		localStorage.setItem("origin-workspace-path", defaultPath);
 		await window.originApp.config.set({ workspacePath: defaultPath });
 		recordSettingsUsage({ tab: "general", action: "reset", target: "workspace" });
 	}, [setWorkspacePath]);

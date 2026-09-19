@@ -6,7 +6,7 @@ import { tryRefreshAccessToken } from "./auth-session.js";
 
 export type { OriginGatewayRequest, OriginGatewayResponse };
 
-const log = getAppLogger("vetta-gateway");
+const log = getAppLogger("origin-gateway");
 
 const DEFAULT_TIMEOUT_MS = 300_000;
 const MAX_TIMEOUT_MS = 300_000;

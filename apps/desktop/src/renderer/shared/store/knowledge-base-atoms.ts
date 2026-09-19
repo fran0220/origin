@@ -10,8 +10,8 @@ export type {
 	KnowledgeProcessStatus,
 } from "@shared/types/knowledge-base";
 
-const ACTIVE_KNOWLEDGE_BASE_STORAGE_KEY = "vetta-active-knowledge-base";
-const KNOWLEDGE_VIEW_MODE_STORAGE_KEY = "vetta-knowledge-view-mode";
+const ACTIVE_KNOWLEDGE_BASE_STORAGE_KEY = "origin-active-knowledge-base";
+const KNOWLEDGE_VIEW_MODE_STORAGE_KEY = "origin-knowledge-view-mode";
 
 /** 文件区视图：宫格 / 列表。 */
 export type KnowledgeViewMode = "grid" | "list";

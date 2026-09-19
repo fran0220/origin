@@ -30,7 +30,7 @@ describe("usePreviewBodyModel", () => {
 	beforeEach(() => {
 		readFile = vi.fn();
 		readTextPreviewFile = vi.fn();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				fs: {

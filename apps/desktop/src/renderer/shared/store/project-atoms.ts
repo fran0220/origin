@@ -96,7 +96,7 @@ export const expandedProjectsAtom = atom<Set<string>>(new Set<string>());
 export const sessionsMapAtom = atom<Map<string, SessionInfo[]>>(new Map<string, SessionInfo[]>());
 export const sessionLoadingCwdsAtom = atom<Set<string>>(new Set<string>());
 
-const SIDEBAR_SESSION_PINS_STORAGE_KEY = "vetta-sidebar-session-pins";
+const SIDEBAR_SESSION_PINS_STORAGE_KEY = "origin-sidebar-session-pins";
 const SIDEBAR_SESSION_PINS_SCHEMA_VERSION = 1;
 
 interface StoredSidebarSessionPins {
@@ -176,7 +176,7 @@ export const removePinnedSessionsAtom = atom(null, (get, set, paths: Iterable<st
 	set(pinnedSessionPathsAtom, next);
 });
 
-export const SIDEBAR_WIDTH_STORAGE_KEY = "vetta-sidebar-width";
+export const SIDEBAR_WIDTH_STORAGE_KEY = "origin-sidebar-width";
 export const SIDEBAR_WIDTH_DEFAULT = 220;
 /** 与 useSidebarModel.MIN_WIDTH 保持一致 */
 export const SIDEBAR_WIDTH_MIN = 180;
@@ -215,7 +215,7 @@ export function conversationFilterSource(filter: DefaultConversationFilter): Def
 	return filter === "claw" ? "claw" : "conversation";
 }
 
-const DEFAULT_CONVERSATION_FILTER_STORAGE_KEY = "vetta-default-conversation-filter";
+const DEFAULT_CONVERSATION_FILTER_STORAGE_KEY = "origin-default-conversation-filter";
 const DEFAULT_CONVERSATION_FILTER_SCHEMA_VERSION = 1;
 
 interface StoredDefaultConversationFilter {
@@ -268,7 +268,7 @@ export const defaultConversationFilterAtom = atom(
 export const sidebarCollapsedAtom = atom<boolean>(false);
 
 const DEFAULT_WORKSPACE = "~/.origin/workspace";
-export const workspacePathAtom = atom<string>(localStorage.getItem("vetta-workspace-path") || DEFAULT_WORKSPACE);
+export const workspacePathAtom = atom<string>(localStorage.getItem("origin-workspace-path") || DEFAULT_WORKSPACE);
 
 export const sessionContextMenuAtom = atom<{
 	x: number;

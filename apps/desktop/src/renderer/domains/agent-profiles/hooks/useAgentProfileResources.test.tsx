@@ -33,7 +33,7 @@ describe("useAgentProfileResources", () => {
 			}),
 		);
 		mocks.load.mockResolvedValue(resources(1));
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { agentProfiles: { list: vi.fn(), onChanged: () => () => undefined } },
 		});
@@ -51,7 +51,7 @@ describe("useAgentProfileResources", () => {
 		let revision = 1;
 		mocks.load.mockImplementation(async () => resources(revision));
 		const listeners = new Set<() => void>();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				agentProfiles: {

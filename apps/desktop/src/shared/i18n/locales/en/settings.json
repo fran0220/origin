@@ -329,7 +329,7 @@
           "description": "Configure image normalization, safety limits, compression, and model request budgets."
         }
       },
-      "vetta": {
+      "origin": {
         "ocr": {
           "title": "Text recognition (OCR)",
           "description": "Configure the text-recognition service shared by Agent, Shimo, and other capabilities. PP-OCRv5 runs locally by default."

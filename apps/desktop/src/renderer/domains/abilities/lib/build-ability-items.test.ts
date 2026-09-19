@@ -224,7 +224,7 @@ describe("buildSkillAbilities", () => {
 		expect(items.map((item) => [item.slug, item.skillProvenance])).toEqual([
 			["explicit-sdk", { kind: "provided", providerType: "sdk", providerId: "dynamic" }],
 			["plugin-legacy", { kind: "provided", providerType: "plugin", providerId: "design" }],
-			["builtin", { kind: "builtin", providerId: "vetta" }],
+			["builtin", { kind: "builtin", providerId: "origin" }],
 			["user", { kind: "native", scope: "user" }],
 		]);
 	});

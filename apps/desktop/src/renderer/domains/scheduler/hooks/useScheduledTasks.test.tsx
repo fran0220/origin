@@ -33,7 +33,7 @@ describe("useScheduledTasks", () => {
 				return unsubscribe;
 			}),
 		};
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { scheduler } as unknown as DesktopApi,
 		});

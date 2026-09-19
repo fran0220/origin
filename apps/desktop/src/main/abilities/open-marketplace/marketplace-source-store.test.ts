@@ -73,7 +73,7 @@ describe("MarketplaceSourceStore", () => {
 
 		expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 			{
-				id: "vetta-official",
+				id: "origin-official",
 				repository: "https://github.com/example/environment-market",
 				archiveUrl: "https://github.com/example/environment-market/archive/refs/heads/main.zip",
 			},
@@ -97,10 +97,10 @@ describe("MarketplaceSourceStore", () => {
 
 		const enabled = new MarketplaceSourceStore({ filePath });
 		expect(enabled.list()).toHaveLength(1);
-		enabled.update("vetta-official", { autoUpdate: false });
+		enabled.update("origin-official", { autoUpdate: false });
 		process.env.ORIGIN_CLOUD_ENABLED = "false";
 		expect(new MarketplaceSourceStore({ filePath }).list()).toMatchObject([
-			{ id: "vetta-official", enabled: true, autoUpdate: false },
+			{ id: "origin-official", enabled: true, autoUpdate: false },
 		]);
 	});
 
@@ -112,7 +112,7 @@ describe("MarketplaceSourceStore", () => {
 				vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", repository);
 				expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 					{
-						id: "vetta-official",
+						id: "origin-official",
 						name: "Origin Official",
 						repository: OFFICIAL_MARKETPLACE_REPOSITORY,
 						builtin: true,
@@ -133,7 +133,7 @@ describe("MarketplaceSourceStore", () => {
 		const sources = new MarketplaceSourceStore({ filePath }).list();
 		expect(sources).toHaveLength(3);
 		expect(sources[0]).toMatchObject({ id: "official", enabled: true, autoUpdate: false });
-		expect(sources.find((source) => source.id === "vetta-official")).toMatchObject({
+		expect(sources.find((source) => source.id === "origin-official")).toMatchObject({
 			repository: OFFICIAL_MARKETPLACE_REPOSITORY,
 			builtin: true,
 			enabled: true,
@@ -150,7 +150,7 @@ describe("MarketplaceSourceStore", () => {
 
 		expect(store.list()).toMatchObject([
 			{
-				id: "vetta-official",
+				id: "origin-official",
 				repository: "https://github.com/example/environment-market",
 				ref: "testing/v2",
 				archiveUrl: "https://github.com/example/environment-market/archive/refs/heads/testing/v2.zip",

@@ -1,6 +1,6 @@
 import type { ContextCompositionReport } from "@origin/runtime-core";
 
-const STORAGE_KEY = "vetta-context-composition-cache-v1";
+const STORAGE_KEY = "origin-context-composition-cache-v1";
 const MAX_ENTRIES = 10;
 
 const SECTION_KINDS = new Set(["instruction", "tool_schema", "history", "runtime_context", "user_input"]);

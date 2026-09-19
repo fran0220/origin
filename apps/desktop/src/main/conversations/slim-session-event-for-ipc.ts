@@ -7,7 +7,7 @@ import type { AssistantSessionEvent, SessionEvent } from "@origin/runtime-core";
  * Tool-call events keep `partial` because the renderer merges args from it.
  */
 export const SLIM_ASSISTANT_PARTIAL: AssistantMessage = Object.freeze(
-	createAssistantMessage({ api: "openai-completions", provider: "vetta-ipc", model: "slim" }, { timestamp: 0 }),
+	createAssistantMessage({ api: "openai-completions", provider: "origin-ipc", model: "slim" }, { timestamp: 0 }),
 );
 
 type SlimmableAssistantDelta = Extract<AssistantSessionEvent, { type: "text_delta" | "thinking_delta" }>;

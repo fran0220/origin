@@ -13,7 +13,7 @@ describe("copyUserMessageToClipboard", () => {
 
 	it("forwards persisted image paths without reading or encoding them in the renderer", async () => {
 		const writeUserMessage = vi.fn(async () => undefined);
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { clipboard: { writeUserMessage } },
 		});

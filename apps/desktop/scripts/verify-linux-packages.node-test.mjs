@@ -14,16 +14,16 @@ import {
 const paths = [
 	"/opt/Origin/Origin",
 	"/opt/Origin/resources/package-type",
-	"/usr/share/applications/vetta.desktop",
-	"/usr/share/icons/hicolor/512x512/apps/vetta.png",
+	"/usr/share/applications/origin.desktop",
+	"/usr/share/icons/hicolor/512x512/apps/origin.png",
 ];
 
 test("Linux package inspection accepts matching Debian and RPM packages", () => {
 	assert.doesNotThrow(() =>
 		verifyLinuxPackageInspection({
 			expectedVersion: "1.2.3",
-			deb: { name: "vetta", version: "1.2.3", arch: "amd64", paths },
-			rpm: { name: "vetta", version: "1.2.3", arch: "x86_64", paths },
+			deb: { name: "origin", version: "1.2.3", arch: "amd64", paths },
+			rpm: { name: "origin", version: "1.2.3", arch: "x86_64", paths },
 		}),
 	);
 });
@@ -33,8 +33,8 @@ test("Linux package inspection rejects wrong identities and incomplete payloads"
 		() =>
 			verifyLinuxPackageInspection({
 				expectedVersion: "1.2.3",
-				deb: { name: "vetta", version: "1.2.2", arch: "amd64", paths },
-				rpm: { name: "vetta", version: "1.2.3", arch: "x86_64", paths },
+				deb: { name: "origin", version: "1.2.2", arch: "amd64", paths },
+				rpm: { name: "origin", version: "1.2.3", arch: "x86_64", paths },
 			}),
 		/Debian version 1\.2\.2 does not match 1\.2\.3/,
 	);
@@ -42,8 +42,8 @@ test("Linux package inspection rejects wrong identities and incomplete payloads"
 		() =>
 			verifyLinuxPackageInspection({
 				expectedVersion: "1.2.3",
-				deb: { name: "vetta", version: "1.2.3", arch: "amd64", paths },
-				rpm: { name: "vetta", version: "1.2.3", arch: "x86_64", paths: paths.slice(1) },
+				deb: { name: "origin", version: "1.2.3", arch: "amd64", paths },
+				rpm: { name: "origin", version: "1.2.3", arch: "x86_64", paths: paths.slice(1) },
 			}),
 		/RPM package is missing \/opt\/Origin\/Origin/,
 	);
@@ -51,11 +51,11 @@ test("Linux package inspection rejects wrong identities and incomplete payloads"
 
 test("package command output parsers normalize Debian and RPM metadata", () => {
 	assert.deepEqual(
-		parseDebFields("Package: vetta\nVersion: 1.2.3\nArchitecture: amd64\nDescription: Origin\n"),
-		{ name: "vetta", version: "1.2.3", arch: "amd64" },
+		parseDebFields("Package: origin\nVersion: 1.2.3\nArchitecture: amd64\nDescription: Origin\n"),
+		{ name: "origin", version: "1.2.3", arch: "amd64" },
 	);
-	assert.deepEqual(parseRpmFields("vetta\n1.2.3\nx86_64\n"), {
-		name: "vetta",
+	assert.deepEqual(parseRpmFields("origin\n1.2.3\nx86_64\n"), {
+		name: "origin",
 		version: "1.2.3",
 		arch: "x86_64",
 	});

@@ -20,7 +20,7 @@ const plugin = {
 describe("plugin network API", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { plugins: { networkRequest } },
 		});

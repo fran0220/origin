@@ -14,7 +14,7 @@ import type { ComponentType } from "react";
 
 export type NewSessionTextureId = "aurora" | "grid" | "none" | "ripple";
 
-export const NEW_SESSION_TEXTURE_STORAGE_KEY = "vetta-new-session-texture";
+export const NEW_SESSION_TEXTURE_STORAGE_KEY = "origin-new-session-texture";
 
 /** 默认铺「网格」：这是纹理可选之前一直在用的那层，老用户升级后观感不变。 */
 export const DEFAULT_NEW_SESSION_TEXTURE_ID: NewSessionTextureId = "grid";

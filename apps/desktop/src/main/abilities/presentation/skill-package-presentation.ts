@@ -12,7 +12,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /**
- * 通用 Skill 规范没有图标字段。Vetta 的产品呈现扩展因此放在 namespaced metadata 下，
+ * 通用 Skill 规范没有图标字段。Origin 的产品呈现扩展因此放在 namespaced metadata 下，
  * 不改变 Skill 的运行时身份或调用语义。
  */
 export function readDeclaredSkillIconReference(content: string): string | undefined {
@@ -20,9 +20,9 @@ export function readDeclaredSkillIconReference(content: string): string | undefi
 	if (!frontmatter) return undefined;
 	const parsed: unknown = parse(frontmatter);
 	if (!isRecord(parsed) || !isRecord(parsed.metadata)) return undefined;
-	const vetta = parsed.metadata.origin;
-	if (!isRecord(vetta) || !isRecord(vetta.presentation)) return undefined;
-	const icon = vetta.presentation.icon;
+	const originMeta = parsed.metadata.origin;
+	if (!isRecord(originMeta) || !isRecord(originMeta.presentation)) return undefined;
+	const icon = originMeta.presentation.icon;
 	return typeof icon === "string" && icon.trim() ? icon.trim() : undefined;
 }
 

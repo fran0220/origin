@@ -21,7 +21,7 @@ const { useChatViewModel } = await import("./useChatViewModel.js");
 const atoms = await import("@shared/store/atoms");
 
 function stubVettaWindow(): void {
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			window: {

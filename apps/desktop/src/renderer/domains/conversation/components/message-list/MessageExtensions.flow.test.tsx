@@ -51,7 +51,7 @@ beforeEach(() => {
 			disconnect() {}
 		},
 	);
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			skills: { list: async () => [] },

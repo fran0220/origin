@@ -144,7 +144,7 @@ describe("buildInstalledAbilityEntries", () => {
 			{ name: "commit", alias: "Commit helper", description: "Write commits", source: "market", type: "skill" },
 			{ name: "story", description: "", source: "builtin", type: "scene" },
 		];
-		const plugins = [{ id: "vetta.git", name: "Git" }] as unknown as InstalledPlugin[];
+		const plugins = [{ id: "origin.git", name: "Git" }] as unknown as InstalledPlugin[];
 		const entries = buildInstalledAbilityEntries({ skills, plugins }, labels);
 
 		expect(entries.map((entry) => entry.title)).toEqual(["Commit helper", "story", "Git"]);

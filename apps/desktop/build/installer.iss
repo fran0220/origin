@@ -127,7 +127,7 @@ var
   SourceInstallerPath: String;
   TemporaryInstallerPath: String;
 begin
-  CacheDirectory := ExpandConstant('{localappdata}\vetta-updater');
+  CacheDirectory := ExpandConstant('{localappdata}\origin-updater');
   CachedBlockmapPath := AddBackslash(CacheDirectory) + 'current.blockmap';
   CachedInstallerPath := AddBackslash(CacheDirectory) + 'installer.exe';
   SourceInstallerPath := ExpandConstant('{srcexe}');

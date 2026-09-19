@@ -123,7 +123,7 @@ describe("Desktop GitHub marketplace refresh", () => {
 
 		offline = true;
 		const fallback = await manager.refresh();
-		expect(fallback.failedSourceIds).toEqual(["vetta-official"]);
+		expect(fallback.failedSourceIds).toEqual(["origin-official"]);
 		expect(fallback.abilities.map((ability) => ability.slug)).toEqual(["existing-mcp", "x-api-mcp"]);
 	});
 });

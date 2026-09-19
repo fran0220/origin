@@ -15,7 +15,7 @@ function document(revision: number): AgentProfileDocument {
 
 function installApi(list: () => Promise<AgentProfileDocument>): { notifyChanged: () => void } {
 	const listeners = new Set<() => void>();
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			agentProfiles: {

@@ -55,7 +55,7 @@ describe("PasteImagePlugin", () => {
 		mocks.persistImageFiles.mockClear();
 		mocks.pasteUserMessage.mockReset();
 		mocks.recordInputImagesAdded.mockClear();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { clipboard: { pasteUserMessage: mocks.pasteUserMessage } },
 		});

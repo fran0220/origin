@@ -69,8 +69,8 @@ describe("BrowserProfileRegistry legacy migration", () => {
 		const root = await mkdtemp(join(tmpdir(), "origin-browser-profile-test-"));
 		directories.push(root);
 		const registry = new BrowserProfileRegistry({ baseDirectory: root });
-		const matchingId = "vetta-11111111-1111-4111-8111-111111111111";
-		const otherId = "vetta-22222222-2222-4222-8222-222222222222";
+		const matchingId = "origin-11111111-1111-4111-8111-111111111111";
+		const otherId = "origin-22222222-2222-4222-8222-222222222222";
 		await registry.prepareSession({
 			namespace: "browser",
 			sessionId: matchingId,

@@ -29,7 +29,7 @@ export const RECORDING_PROBE_SCRIPT = `
   window.addEventListener("message", (event) => {
     const data = event.data;
     if (!data || typeof data !== "object") return;
-    if (data.source === "vetta-recording-page") {
+    if (data.source === "origin-recording-page") {
       const waiter = pending.get(data.id);
       if (!waiter) return;
       pending.delete(data.id);
@@ -134,12 +134,12 @@ export const RECORDING_PROBE_SCRIPT = `
         }
         const legacyId = nextId++;
         const legacy = await postAndWait({
-          source: "vetta-recording-host",
+          source: "origin-recording-host",
           id: legacyId,
           kind,
           payload,
         });
-        if (legacy && legacy.source === "vetta-recording-page") {
+        if (legacy && legacy.source === "origin-recording-page") {
           if (legacy.ok === false) return { ok: false, error: String(legacy.error || "probe refused") };
           return { ok: true, result: "result" in legacy ? legacy.result : legacy };
         }

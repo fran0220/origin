@@ -12,7 +12,7 @@ import {
 function themeDevelopmentReload(): Plugin {
 	const themeSourceDir = resolve(__dirname, "../../packages/themes/builtin/xianxia/src");
 	return {
-		name: "vetta-theme-development-reload",
+		name: "origin-theme-development-reload",
 		configureServer(server) {
 			const reloadRenderer = (file: string): void => {
 				const relativePath = path.relative(themeSourceDir, file);
@@ -36,7 +36,7 @@ function hostApiAccessTransform(): Plugin {
 	const rendererRoot = path.resolve(__dirname, "src/renderer").replaceAll("\\", "/");
 	const hostApiModule = `${rendererRoot}/shared/host-api.ts`;
 	return {
-		name: "vetta-host-api-access",
+		name: "origin-host-api-access",
 		enforce: "pre",
 		transform(code, id) {
 			const cleanId = id.split("?", 1)[0]?.replaceAll("\\", "/");

@@ -13,8 +13,8 @@ export interface AuthUser {
 }
 
 // 迁移旧版本遗留的明文凭据；登录 token 此后只保存在 renderer 内存与主进程凭据存储中。
-localStorage.removeItem("vetta-auth-token");
-localStorage.removeItem("vetta-refresh-token");
+localStorage.removeItem("origin-auth-token");
+localStorage.removeItem("origin-refresh-token");
 
 /** Signed-in flag only. Never holds an access token. */
 export const authTokenAtom = atom<string | null>(null);
@@ -46,7 +46,7 @@ export { remoteProvidersAtom } from "./model-catalog-atoms";
 
 // ─── Subscription status (Vetta Go 套餐，ADR-0016 离线回退) ───
 
-const SUBSCRIPTION_CACHE_KEY = "vetta-subscription-flags";
+const SUBSCRIPTION_CACHE_KEY = "origin-subscription-flags";
 
 interface CachedSubscriptionFlags {
 	go_enabled: boolean;

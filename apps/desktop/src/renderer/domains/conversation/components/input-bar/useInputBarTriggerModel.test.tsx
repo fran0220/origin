@@ -11,7 +11,7 @@ vi.mock("./editor/inputEditorHandle", async () => ({
 	focusInputEditor,
 }));
 
-Object.defineProperty(window, "vetta", {
+Object.defineProperty(window, "originApp", {
 	configurable: true,
 	value: {
 		config: {

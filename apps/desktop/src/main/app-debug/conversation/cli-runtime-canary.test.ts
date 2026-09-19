@@ -167,7 +167,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 	}, INTEGRATION_TEST_TIMEOUT_MS);
 
 	it("creates, continues, manually and automatically compacts, and lists persistent conversations", async () => {
-		const root = await temporaryDirectory("vetta-desktop-cli-canary-");
+		const root = await temporaryDirectory("origin-desktop-cli-canary-");
 		const workspace = join(root, "workspace");
 		const agentDir = join(root, "agent");
 		const endpointFilePath = join(root, "action-server.json");

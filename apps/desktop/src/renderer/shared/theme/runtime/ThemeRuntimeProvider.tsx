@@ -16,7 +16,7 @@ import { ThemeRuntimeContext } from "./ThemeRuntimeContext";
 import { loadThemePackage } from "./themeLoader";
 import type { ThemeRuntimeValue } from "./types";
 
-const UI_THEME_STORAGE_KEY = "vetta-ui-theme";
+const UI_THEME_STORAGE_KEY = "origin-ui-theme";
 const DEFAULT_UI_THEME_ID = "default";
 
 function getStoredUiThemeId(): string {

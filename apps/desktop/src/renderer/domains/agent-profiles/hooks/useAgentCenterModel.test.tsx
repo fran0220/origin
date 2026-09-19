@@ -33,7 +33,7 @@ describe("useAgentCenterModel", () => {
 			plugins: [],
 			capabilities: [],
 		});
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { agentProfiles: { list: vi.fn(), onChanged: () => () => {} } },
 		});

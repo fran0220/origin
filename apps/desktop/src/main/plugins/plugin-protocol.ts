@@ -142,7 +142,7 @@ export const PROVIDER_ICONS = themeUi.PROVIDER_ICONS;
 export const getProviderIcon = themeUi.getProviderIcon;
 `);
 	}
-	if (moduleName === "ui" || moduleName === "vetta-ui") {
+	if (moduleName === "ui" || moduleName === "origin-ui") {
 		// Federation chunks can reach @origin-org/ui through the host shim as well as the
 		// share scope; keep this export list in sync with packages/ui/src/index.ts.
 		return moduleResponse(`
@@ -229,7 +229,7 @@ export const PLUGIN_PROTOCOL_PRIVILEGES: CustomScheme[] = [
 		},
 	},
 	{
-		scheme: "vetta-host",
+		scheme: "origin-host",
 		privileges: {
 			standard: true,
 			secure: true,
@@ -258,7 +258,7 @@ export function registerPluginProtocols(): void {
 		});
 	});
 
-	protocol.handle("vetta-host", async (request) => {
+	protocol.handle("origin-host", async (request) => {
 		const url = new URL(request.url);
 		const moduleName = `${url.hostname}${url.pathname}`.replace(/\/$/, "");
 		return hostModuleResponse(moduleName);

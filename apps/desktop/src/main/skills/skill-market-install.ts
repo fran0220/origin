@@ -57,7 +57,7 @@ function currentToken(): string | undefined {
 }
 
 async function fetchWithOptionalAuth(path: string, accept: string): Promise<Response> {
-	// vetta 官方市场是云服务渠道：lite 构建不可用（github 来源不走这里）。
+	// Origin 官方市场是云服务渠道：lite 构建不可用（github 来源不走这里）。
 	const cloud = getCloudBridge();
 	if (!cloud) {
 		throw new Error("Origin market is not available in this build");

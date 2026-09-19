@@ -22,7 +22,7 @@ const { useProjectDetailPageModel } = await import("./useProjectDetailPageModel.
 describe("useProjectDetailPageModel keep-alive identity", () => {
 	beforeEach(() => {
 		params.cwd = encodeURIComponent("/workspace/from-route");
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				fs: {

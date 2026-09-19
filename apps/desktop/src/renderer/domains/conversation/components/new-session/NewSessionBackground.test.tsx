@@ -20,7 +20,7 @@ vi.mock("@shared/components/ripple/RippleTexture", () => ({
 	RippleTexture: () => <div data-testid="ripple" />,
 }));
 
-const STORAGE_KEY = "vetta-new-session-texture";
+const STORAGE_KEY = "origin-new-session-texture";
 
 /** atom 的初值在模块加载时就从 localStorage 读走了，所以每次都要先写值再重新 import。 */
 async function renderBackground(stored: string | null) {

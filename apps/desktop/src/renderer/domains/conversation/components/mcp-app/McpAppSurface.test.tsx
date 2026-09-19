@@ -17,7 +17,7 @@ const SURFACE: DesktopMcpAppSurface = {
 
 describe("McpAppSurface", () => {
 	it("uses an opaque-origin outer proxy and accepts ready messages only from that exact window", async () => {
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				session: {

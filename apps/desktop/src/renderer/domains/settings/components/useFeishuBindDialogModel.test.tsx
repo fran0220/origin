@@ -36,7 +36,7 @@ function installFeishuStub(): FeishuStub {
 			for (const handler of handlers) handler(event);
 		},
 	};
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			im: {

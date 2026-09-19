@@ -73,10 +73,10 @@ export type SettingsTab =
 // ─── Theme ───
 
 export type ThemeMode = "light" | "dark" | "auto";
-export const themeModeAtom = atom<ThemeMode>((localStorage.getItem("vetta-theme") as ThemeMode) || "dark");
+export const themeModeAtom = atom<ThemeMode>((localStorage.getItem("origin-theme") as ThemeMode) || "dark");
 export const resolvedThemeAtom = atom<"light" | "dark">("dark");
 export const themeNameAtom = atom<string>(
-	resolveThemeId(localStorage.getItem("vetta-color-theme") || DEFAULT_THEME_ID),
+	resolveThemeId(localStorage.getItem("origin-color-theme") || DEFAULT_THEME_ID),
 );
 export type { CursorStyle };
 export const cursorStyleAtom = atom<CursorStyle>(getStoredCursorStyle());

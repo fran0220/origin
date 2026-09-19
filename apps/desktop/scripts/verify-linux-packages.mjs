@@ -74,8 +74,8 @@ function verifyIdentity(format, actual, expected) {
 }
 
 export function verifyLinuxPackageInspection({ expectedVersion, deb, rpm }) {
-	verifyIdentity("Debian", deb, { name: "vetta", version: expectedVersion, arch: "amd64" });
-	verifyIdentity("RPM", rpm, { name: "vetta", version: expectedVersion, arch: "x86_64" });
+	verifyIdentity("Debian", deb, { name: "origin", version: expectedVersion, arch: "amd64" });
+	verifyIdentity("RPM", rpm, { name: "origin", version: expectedVersion, arch: "x86_64" });
 	verifyPayload("Debian", deb.paths);
 	verifyPayload("RPM", rpm.paths);
 }

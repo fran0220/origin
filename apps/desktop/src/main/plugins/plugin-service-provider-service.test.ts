@@ -20,7 +20,7 @@ afterEach(async () => {
 });
 
 async function fixture() {
-	const root = await mkdtemp(join(tmpdir(), "vetta-service-lifecycle-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-service-lifecycle-"));
 	directories.push(root);
 	const dataDirectory = join(root, "data");
 	const cacheDirectory = join(root, "cache");

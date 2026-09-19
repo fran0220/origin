@@ -181,7 +181,7 @@ export const pendingSessionOpenAtom = atom<PendingSessionOpen | null>(null);
 /** 已接受发送、但新会话/runtime 尚未准备好的 UI 过渡态。 */
 export const pendingSessionSendAtom = atom<{ messageId: string; interactionId: string } | null>(null);
 
-const LAST_ACTIVE_SESSION_STORAGE_KEY = "vetta-last-active-session";
+const LAST_ACTIVE_SESSION_STORAGE_KEY = "origin-last-active-session";
 
 function readLastActiveSession(): LastActiveSession | null {
 	try {
@@ -321,7 +321,7 @@ export const promptSuggestionsAtom = atom<Record<string, string[]>>({});
 export const promptPredictingAtom = atom<Record<string, boolean>>({});
 
 /** 新会话全局模型偏好（localStorage）；已有会话仍以 session settings 为准 pull 覆盖。 */
-export const SELECTED_MODEL_STORAGE_KEY = "vetta-selected-model";
+export const SELECTED_MODEL_STORAGE_KEY = "origin-selected-model";
 
 /**
  * 当前选中模型，格式 "provider/modelId"。
@@ -336,7 +336,7 @@ export const selectedModelAtom = atom<string | null>(
  * Per-model reasoning level memory: maps modelKey ("provider/modelId") → chosen level value.
  * Persisted to localStorage so each model remembers its last-chosen level across sessions/restart.
  */
-const REASONING_BY_MODEL_KEY = "vetta-reasoning-by-model";
+const REASONING_BY_MODEL_KEY = "origin-reasoning-by-model";
 function loadReasoningByModel(): Record<string, string> {
 	try {
 		const raw = localStorage.getItem(REASONING_BY_MODEL_KEY);

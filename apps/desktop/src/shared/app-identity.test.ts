@@ -35,7 +35,7 @@ describe("app runtime name", () => {
 });
 
 describe("product identity", () => {
-	it("keeps the user-facing product name Origin while preserving the vetta runtime name", () => {
+	it("keeps the user-facing product name Origin and the origin runtime name", () => {
 		expect(APP_PRODUCT_NAME).toBe("Origin");
 		expect(APP_RUNTIME_NAME).toBe("origin");
 	});

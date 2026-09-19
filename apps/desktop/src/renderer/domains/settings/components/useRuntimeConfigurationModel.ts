@@ -45,7 +45,7 @@ export interface RuntimeConfigurationModel {
 }
 
 /**
- * 内置运行时配置（包括 `coding.images` 与 `vetta.ocr`）的读写模型。
+ * 内置运行时配置（包括 `coding.images` 与 `origin.ocr`）的读写模型。
  *
  * 插件配置不在此列：插件自己渲染配置界面并持久化（ADR-0105）。
  */
@@ -100,7 +100,7 @@ export function useRuntimeConfigurationModel(): RuntimeConfigurationModel {
 				});
 				const fields = schemaFields(entry.descriptor.schema, entry.value).map((field) => ({
 					...field,
-					...(entry.configurationId === "vetta.ocr" && field.schema.type === "enum" && field.schema.enum
+					...(entry.configurationId === "origin.ocr" && field.schema.type === "enum" && field.schema.enum
 						? {
 								options: field.schema.enum.map((option) => ({
 									value: option,

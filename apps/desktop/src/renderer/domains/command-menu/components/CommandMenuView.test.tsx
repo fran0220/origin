@@ -143,7 +143,7 @@ describe("CommandMenuView", () => {
 		const { container } = render(<CommandMenuView {...props({ groups })} />);
 
 		const hits = Array.from(container.querySelectorAll(".text-primary")).map((node) => node.textContent);
-		expect(hits).toContain("vetta");
+		expect(hits).toContain("origin");
 		// 拆成多个 span 后可访问名会被插入空格，故按原始文本断言拼接无损。
 		expect(screen.getByRole("option").textContent).toBe("openvetta");
 	});

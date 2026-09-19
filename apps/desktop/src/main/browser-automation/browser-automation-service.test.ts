@@ -163,7 +163,7 @@ describe("BrowserAutomationService", () => {
 
 	it("reclaims a persisted session before reopening its profile after a host restart", async () => {
 		const profiles = new BrowserProfileRegistry({ baseDirectory: temporaryDirectory });
-		const staleSessionId = "vetta-11111111-1111-4111-8111-111111111111";
+		const staleSessionId = "origin-11111111-1111-4111-8111-111111111111";
 		await profiles.prepareSession({
 			namespace: "publisher",
 			sessionId: staleSessionId,

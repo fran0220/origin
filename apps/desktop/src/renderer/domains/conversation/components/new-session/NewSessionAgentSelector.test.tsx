@@ -23,7 +23,7 @@ describe("NewSessionAgentSelector", () => {
 	if (!agent) throw new Error("missing Agent Profile fixture");
 
 	function mockCatalog(next = document): void {
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { agentProfiles: { list: vi.fn(async () => next) } },
 		});

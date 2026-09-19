@@ -49,7 +49,7 @@ export async function writeAppUpdateConfig(sourceDir, version, publishConfig) {
 	if (publishConfig) {
 		await writeFile(
 			appUpdateConfigPath,
-			stringify({ ...publishConfig, updaterCacheDirName: "vetta-updater" }),
+			stringify({ ...publishConfig, updaterCacheDirName: "origin-updater" }),
 			"utf8",
 		);
 		return;

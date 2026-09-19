@@ -56,7 +56,7 @@ it("keeps an installed plugin package icon visible while the marketplace is offl
 		trustLevel: "official",
 		rootPath: "C:/plugins/feishu/versions/1.0.0",
 	};
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			abilities: {
@@ -105,7 +105,7 @@ it("keeps bundle-only members out of discovery and its banner while preserving d
 	};
 	const catalog: OpenMarketplaceCatalog = { sources: [source], snapshots: [snapshot], abilities: snapshot.abilities, failedSourceIds: [] };
 	let installed: Record<string, InstalledSkill> = {};
-	Object.defineProperty(window, "vetta", { configurable: true, value: {
+	Object.defineProperty(window, "originApp", { configurable: true, value: {
 		abilities: {
 			getLedger: async () => ({}), listLocalPresentations: async () => ({}), getOpenMcpSetupStatus: async () => ({}),
 			listOpenMarketplaces: async () => structuredClone(catalog), refreshOpenMarketplaces: async () => structuredClone(catalog),
@@ -185,7 +185,7 @@ it("follows the application language broadcast for cached GitHub names, descript
 	};
 	const refreshOpenMarketplaces = vi.fn(async () => { throw new Error("offline"); });
 	let languageChanged!: (state: LanguageState) => void;
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: {
 			i18n: {
@@ -261,7 +261,7 @@ it("seeds the search keyword from an external deep link and lets the page take o
 		],
 	};
 	const catalog: OpenMarketplaceCatalog = { sources: [source], snapshots: [snapshot], abilities: snapshot.abilities, failedSourceIds: [] };
-	Object.defineProperty(window, "vetta", { configurable: true, value: {
+	Object.defineProperty(window, "originApp", { configurable: true, value: {
 		abilities: {
 			getLedger: async () => ({}), listLocalPresentations: async () => ({}), getOpenMcpSetupStatus: async () => ({}),
 			listOpenMarketplaces: async () => structuredClone(catalog), refreshOpenMarketplaces: async () => structuredClone(catalog),

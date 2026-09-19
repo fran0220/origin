@@ -169,7 +169,7 @@ async function main() {
 
 	const requestedWorkdir = process.env.ORIGIN_DESKTOP_UPGRADE_WORKDIR?.trim();
 	const root = await import("node:fs/promises").then(({ mkdtemp }) =>
-		mkdtemp(join(requestedWorkdir || tmpdir(), "vetta-upgrade-e2e-")),
+		mkdtemp(join(requestedWorkdir || tmpdir(), "origin-upgrade-e2e-")),
 	);
 	const home = join(root, "home");
 	const installRoot = join(root, "installed");

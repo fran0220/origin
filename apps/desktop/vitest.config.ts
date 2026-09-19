@@ -9,7 +9,7 @@ export default defineConfig({
 	root: __dirname,
 	resolve: {
 		alias: [
-			{ find: /^@vetta\/agent-profile$/, replacement: resolve(__dirname, "../../packages/agent-profile/src/index.ts") },
+			{ find: /^@origin\/agent-profile$/, replacement: resolve(__dirname, "../../packages/agent-profile/src/index.ts") },
 			{ find: "@origin/runtime-telemetry/langfuse", replacement: resolve(__dirname, "../../packages/runtime-telemetry/src/langfuse.ts") },
 			{ find: "@origin/runtime-telemetry", replacement: resolve(__dirname, "../../packages/runtime-telemetry/src/index.ts") },
 			{
@@ -113,7 +113,7 @@ export default defineConfig({
 				find: "@origin/coding-agent/settings",
 				replacement: resolve(__dirname, "../../packages/coding-agent/src/public-api/settings.ts"),
 			},
-			{ find: /^@vetta\/coding-agent\/(.+)\.js$/, replacement: `${codingAgentSrc}/$1.ts` },
+			{ find: /^@origin\/coding-agent\/(.+)\.js$/, replacement: `${codingAgentSrc}/$1.ts` },
 			{ find: "@origin/coding-agent", replacement: resolve(__dirname, "../../packages/coding-agent/src/index.ts") },
 			{
 				find: "@origin/runtime-core/kernel",

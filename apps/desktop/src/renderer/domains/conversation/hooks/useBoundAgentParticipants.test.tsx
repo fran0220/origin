@@ -14,7 +14,7 @@ const agent = document.agents.find((candidate) => candidate.name === "Researcher
 if (!agent) throw new Error("missing Agent fixture");
 
 beforeEach(() => {
-	Object.defineProperty(window, "vetta", {
+	Object.defineProperty(window, "originApp", {
 		configurable: true,
 		value: { agentProfiles: { list: vi.fn(async () => document) } },
 	});

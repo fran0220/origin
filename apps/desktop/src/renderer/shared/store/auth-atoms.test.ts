@@ -18,7 +18,7 @@ import { authTokenAtom, authUserAtom, cloudLogoutAtom, remoteProvidersAtom } fro
 describe("cloudLogoutAtom", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				auth: {
@@ -37,7 +37,7 @@ describe("cloudLogoutAtom", () => {
 			nickname: "n",
 			avatar: "",
 		});
-		store.set(remoteProvidersAtom, { vetta: {} });
+		store.set(remoteProvidersAtom, { origin: {} });
 
 		store.set(cloudLogoutAtom);
 

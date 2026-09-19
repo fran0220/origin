@@ -479,7 +479,7 @@ describe("OpenMarketplaceService", () => {
 		expect(prepareMcpAbility).toHaveBeenCalledOnce();
 		expect(prepareMcpAbility.mock.calls[0]?.[0]).toContain(join("snapshots", "2026.07.3"));
 		expect(prepareMcpAbility.mock.calls[0]?.[1]).toMatchObject({ type: "mcp", slug: "context7" });
-		expect(prepareMcpAbility.mock.calls[0]?.[2]).toBe("vetta-official");
+		expect(prepareMcpAbility.mock.calls[0]?.[2]).toBe("origin-official");
 	});
 
 	it("validates and activates a GitHub repository snapshot", async () => {
@@ -494,7 +494,7 @@ describe("OpenMarketplaceService", () => {
 		const snapshot = await service.refresh();
 
 		expect(snapshot.error).toBeUndefined();
-		expect(snapshot.sourceId).toBe("vetta-official");
+		expect(snapshot.sourceId).toBe("origin-official");
 		expect(snapshot.marketplaceVersion).toBe("2026.07.1");
 		expect(snapshot.abilities[0]).toMatchObject({
 			slug: "demo-skill",
@@ -509,7 +509,7 @@ describe("OpenMarketplaceService", () => {
 		const state: unknown = JSON.parse(await readFile(join(rootDir, "state.json"), "utf-8"));
 		expect(state).toMatchObject({
 			schemaVersion: 1,
-			sourceId: "vetta-official",
+			sourceId: "origin-official",
 			ref: "main",
 			marketplaceVersion: "2026.07.1",
 		});
@@ -673,7 +673,7 @@ describe("OpenMarketplaceService", () => {
 			slug: "context7",
 			configVersion: 3,
 			config: { mcp: { type: "http", url: "https://mcp.context7.com/mcp" } },
-			origin: { kind: "github-marketplace", sourceId: "vetta-official" },
+			origin: { kind: "github-marketplace", sourceId: "origin-official" },
 		});
 		expect(bundle?.config.members).toEqual([
 			{
@@ -714,7 +714,7 @@ describe("OpenMarketplaceService", () => {
 		expect(marketplaceLog.error).toHaveBeenCalledWith(
 			"marketplace sync failed",
 			expect.objectContaining({
-				sourceId: "vetta-official",
+				sourceId: "origin-official",
 				repository: "https://github.com/example/origin-abilities",
 				ref: "main",
 				operation: "refresh",
@@ -927,7 +927,7 @@ describe("OpenMarketplaceService", () => {
 
 		const empty = await service.listCached();
 
-		expect(empty).toMatchObject({ sourceId: "vetta-official", abilities: [], stale: true });
+		expect(empty).toMatchObject({ sourceId: "origin-official", abilities: [], stale: true });
 		expect(fetchArchive).not.toHaveBeenCalled();
 	});
 

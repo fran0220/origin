@@ -16,7 +16,7 @@ const { useSessionViewerPageModel } = await import("./useSessionViewerPageModel.
 describe("useSessionViewerPageModel keep-alive identity", () => {
 	beforeEach(() => {
 		params.path = encodeURIComponent("/route/session.jsonl");
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				session: {

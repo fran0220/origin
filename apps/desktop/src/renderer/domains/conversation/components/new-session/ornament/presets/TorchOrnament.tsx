@@ -9,7 +9,7 @@ const TORCH_UNIT = 18;
 /** 火把只有 25px 宽，比星轨还窄一圈，收起门槛再往下放一档。 */
 const TORCH_MIN_SLOT_WIDTH = 300;
 /** 点没点着记在本地：换台机器重新点一次无所谓，不值得占一条设置项。 */
-const TORCH_LIT_STORAGE_KEY = "vetta-new-session-torch-lit";
+const TORCH_LIT_STORAGE_KEY = "origin-new-session-torch-lit";
 
 interface TorchOrnamentProps {
 	autoplay: boolean;

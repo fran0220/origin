@@ -38,7 +38,7 @@ export function resolvePackagedE2eAppImagePath(packageRoot, version) {
 
 export function stagePackagedE2eAppImage(packageRoot, version, temporaryRoot = tmpdir()) {
 	const sourcePath = resolvePackagedE2eAppImagePath(packageRoot, version);
-	const stagingRoot = mkdtempSync(join(temporaryRoot, "vetta-packaged-e2e-appimage-"));
+	const stagingRoot = mkdtempSync(join(temporaryRoot, "origin-packaged-e2e-appimage-"));
 	const appImagePath = join(stagingRoot, basename(sourcePath));
 	try {
 		copyFileSync(sourcePath, appImagePath);

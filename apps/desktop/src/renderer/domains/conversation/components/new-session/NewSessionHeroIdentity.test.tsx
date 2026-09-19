@@ -74,7 +74,7 @@ describe("new session hero identity", () => {
 
 	beforeEach(() => {
 		resetAgentProfileDirectoryForTest();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { agentProfiles: { list: vi.fn(async () => document), onChanged: () => () => {} } },
 		});

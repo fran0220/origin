@@ -17,7 +17,7 @@ describe("sidebar session pins", () => {
 		store.set(setSessionPinnedAtom, { path: "two", pinned: true, pinnedAt: 20 });
 		store.set(removePinnedSessionsAtom, ["one"]);
 		expect([...store.get(pinnedSessionPathsAtom)]).toEqual([["two", 20]]);
-		expect([...parseSidebarSessionPins(JSON.parse(localStorage.getItem("vetta-sidebar-session-pins")!))]).toEqual([
+		expect([...parseSidebarSessionPins(JSON.parse(localStorage.getItem("origin-sidebar-session-pins")!))]).toEqual([
 			["two", 20],
 		]);
 	});

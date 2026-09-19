@@ -210,7 +210,7 @@ export class SkillService {
 						: (entry?.source === "market" ? entry.marketDescription : entry?.description) || skill.description,
 					source: isBuiltin ? "builtin" : pluginSource ? "plugin" : skill.source,
 					provenance: isBuiltin
-						? { kind: "builtin", providerId: "vetta" }
+						? { kind: "builtin", providerId: "origin" }
 						: pluginSource
 							? { kind: "provided", providerType: "plugin", providerId: pluginSource.pluginId }
 							: (skill.provenance ?? { kind: "native", scope: skill.source }),

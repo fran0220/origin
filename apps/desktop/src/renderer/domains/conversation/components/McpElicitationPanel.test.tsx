@@ -19,7 +19,7 @@ describe("McpElicitationPanel", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		getDefaultStore().set(pendingMcpElicitationsAtom, {});
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				session: { respondToMcpElicitation },

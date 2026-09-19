@@ -19,7 +19,7 @@ export type { ShortcutActionDef } from "@/shared/shortcuts";
 /** @deprecated 使用 ShortcutBindings；保留别名避免旧 import 断裂。 */
 export type ShortcutMap = ShortcutBindings;
 
-const LEGACY_STORAGE_KEY = "vetta-shortcuts";
+const LEGACY_STORAGE_KEY = "origin-shortcuts";
 
 function bindingsAsRecord(bindings: ShortcutBindings): Record<string, string> {
 	const out: Record<string, string> = {};

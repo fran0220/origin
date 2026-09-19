@@ -257,7 +257,7 @@ export function buildSkillAbilities(market: MarketAbility[], state: LocalAbility
 				(skill.source === "plugin" && skill.sourcePluginId
 					? { kind: "provided", providerType: "plugin", providerId: skill.sourcePluginId }
 					: skill.source === "builtin"
-						? { kind: "builtin", providerId: "vetta" }
+						? { kind: "builtin", providerId: "origin" }
 						: { kind: "native", scope: skill.source }),
 			searchTerms: terms(skill.name, getSkillDisplayName(skill), getSkillDisplayDescription(skill)),
 		});

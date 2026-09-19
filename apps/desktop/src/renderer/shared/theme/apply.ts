@@ -5,8 +5,8 @@ import { TOKEN_CSS_VAR, type TokenSet } from "./tokens";
 export type ThemeMode = "light" | "dark" | "auto";
 export type ResolvedMode = "light" | "dark";
 
-export const MODE_STORAGE_KEY = "vetta-theme";
-export const THEME_STORAGE_KEY = "vetta-color-theme";
+export const MODE_STORAGE_KEY = "origin-theme";
+export const THEME_STORAGE_KEY = "origin-color-theme";
 
 let activeThemeColorOverrides: ThemeColorOverrides | undefined;
 

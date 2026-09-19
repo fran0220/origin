@@ -55,7 +55,7 @@ describe("context composition cache", () => {
 	it("rejects malformed persisted reports instead of trusting local storage", () => {
 		const storage = new MemoryStorage();
 		storage.setItem(
-			"vetta-context-composition-cache-v1",
+			"origin-context-composition-cache-v1",
 			JSON.stringify({ version: 1, entries: [{ sessionPath: "session-a", report: { version: 1 } }] }),
 		);
 

@@ -46,10 +46,10 @@ const cliAppDir = join(projectRoot, "..", "cli-host");
 const runtimeCoreWindowsSandboxDir = join(projectRoot, "..", "..", "packages", "runtime-core", "sandbox", "bin");
 const runtimeCoreSandboxDir = join(projectRoot, "..", "..", "packages", "runtime-core", "sandbox", "linux");
 const cliAppCompileTargets = {
-	"darwin-arm64": { platformTag: "darwin-arm64", bunTarget: "bun-darwin-arm64", binaryName: "vetta" },
-	"darwin-x64": { platformTag: "darwin-x64", bunTarget: "bun-darwin-x64", binaryName: "vetta" },
-	"linux-arm64": { platformTag: "linux-arm64", bunTarget: "bun-linux-arm64", binaryName: "vetta" },
-	"linux-x64": { platformTag: "linux-x64", bunTarget: "bun-linux-x64", binaryName: "vetta" },
+	"darwin-arm64": { platformTag: "darwin-arm64", bunTarget: "bun-darwin-arm64", binaryName: "origin" },
+	"darwin-x64": { platformTag: "darwin-x64", bunTarget: "bun-darwin-x64", binaryName: "origin" },
+	"linux-arm64": { platformTag: "linux-arm64", bunTarget: "bun-linux-arm64", binaryName: "origin" },
+	"linux-x64": { platformTag: "linux-x64", bunTarget: "bun-linux-x64", binaryName: "origin" },
 	"win32-x64": { platformTag: "win32-x64", bunTarget: "bun-windows-x64", binaryName: "origin.exe" },
 };
 const imGatewayTargetByPlatformTag = {
@@ -241,7 +241,7 @@ for (const dep of optionalExternalDeps) {
 }
 
 function assertPackagedMainHasNoWorkspaceImports(mainOutputDir) {
-	const workspaceImportPattern = /^\s*import(?:\s+.+\s+from)?\s+["']@vetta\//;
+	const workspaceImportPattern = /^\s*import(?:\s+.+\s+from)?\s+["']@origin\//;
 	const invalidImports = [];
 	for (const fileName of readdirSync(mainOutputDir)) {
 		if (!fileName.endsWith(".js")) continue;
@@ -252,7 +252,7 @@ function assertPackagedMainHasNoWorkspaceImports(mainOutputDir) {
 	}
 	if (invalidImports.length > 0) {
 		throw new Error(
-			"[prepare-pack] desktop main output contains external @vetta workspace imports. " +
+			"[prepare-pack] desktop main output contains external @origin workspace imports. " +
 				"Rebuild main with ORIGIN_BUILD_ENV=production before packaging:\n" +
 				invalidImports.join("\n"),
 		);
@@ -453,12 +453,12 @@ if (!existsSync(bundledAgentRpcCli)) {
 }
 
 // =============================================================================
-// vetta CLI app (extraResources)
+// origin CLI app (extraResources)
 // =============================================================================
 //
-// The agent-facing `vetta` command is @origin/cli-host, not the desktop
+// The agent-facing `origin` command is @origin/cli-host, not the desktop
 // executable. Stage it into Resources/cli-app/ so Desktop can write
-// ~/.origin/agent/bin/vetta as a stable shim to this entry.
+// ~/.origin/agent/bin/origin as a stable shim to this entry.
 const stagedCliAppDir = join(buildStageDir, "cli-app");
 rmSync(stagedCliAppDir, { recursive: true, force: true });
 mkdirSync(stagedCliAppDir, { recursive: true });
@@ -472,7 +472,7 @@ for (const target of resolveCliAppCompileTargets()) {
 	const stagedCliAppBinDir = join(stagedCliAppDir, "bin", target.platformTag);
 	const stagedCliAppBinary = join(stagedCliAppBinDir, target.binaryName);
 	mkdirSync(stagedCliAppBinDir, { recursive: true });
-	console.log(`[prepare-pack] compiling vetta CLI (${target.platformTag}) -> ${stagedCliAppBinary}`);
+	console.log(`[prepare-pack] compiling origin CLI (${target.platformTag}) -> ${stagedCliAppBinary}`);
 	execFileSync(process.platform === "win32" ? "bun.exe" : "bun", [
 		join(cliAppDir, "scripts", "compile-standalone.mjs"),
 		"--target",

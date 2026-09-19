@@ -39,7 +39,7 @@ export function useAppInit(): void {
 		void window.originApp.config.get().then((config) => {
 			if (config.workspacePath) {
 				setWorkspacePath(config.workspacePath);
-				localStorage.setItem("vetta-workspace-path", config.workspacePath);
+				localStorage.setItem("origin-workspace-path", config.workspacePath);
 			}
 			if (config.defaultConversationCwd) {
 				setDefaultConversationCwd(config.defaultConversationCwd);

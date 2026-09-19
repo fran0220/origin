@@ -46,7 +46,7 @@ export default defineConfig(({ mode }) => {
 	const speechInputBuildConfig = resolveSpeechInputBuildConfig({ env });
 	const developmentWorkspacePackages =
 		effectiveMode === "development"
-			? [/^@vetta\/(?:action-rpc|ai|coding-agent|remote-control|runtime-core)(?:\/|$)/]
+			? [/^@origin\/(?:action-rpc|ai|coding-agent|remote-control|runtime-core)(?:\/|$)/]
 			: [];
 	const sourcemapEnabled = (process.env.ORIGIN_MAIN_SOURCEMAP ?? env.ORIGIN_MAIN_SOURCEMAP) === "true";
 	const sentry = createSentryBuildSetup(env, "dist/main");
@@ -89,7 +89,7 @@ export default defineConfig(({ mode }) => {
 		resolve: {
 			alias: [
 				{
-					find: /^@vetta\/remote-desktop$/,
+					find: /^@origin\/remote-desktop$/,
 					replacement: resolve(process.cwd(), "../../packages/remote-desktop/src/index.ts"),
 				},
 				{ find: "x11", replacement: resolve(process.cwd(), "src/main/shims/x11.ts") },

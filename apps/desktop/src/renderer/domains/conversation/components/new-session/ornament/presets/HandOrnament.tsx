@@ -9,7 +9,7 @@ const HAND_UNIT = 62;
 /** 画出来 128 宽，与马里奥同档，收起门槛也取同一档。 */
 const HAND_MIN_SLOT_WIDTH = 420;
 /** 敲还是不敲记在本地：换台机器重新点一下无所谓，不值得占一条设置项。 */
-const HAND_TAPPING_STORAGE_KEY = "vetta-new-session-hand-tapping";
+const HAND_TAPPING_STORAGE_KEY = "origin-new-session-hand-tapping";
 
 interface HandOrnamentProps {
 	autoplay: boolean;

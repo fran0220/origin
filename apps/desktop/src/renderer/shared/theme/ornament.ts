@@ -9,7 +9,7 @@
 
 export type OrnamentId = "blaze" | "hand" | "mario" | "none" | "orbit" | "torch" | "vivi" | "well";
 
-export const ORNAMENT_STORAGE_KEY = "vetta-hero-ornament";
+export const ORNAMENT_STORAGE_KEY = "origin-hero-ornament";
 
 /** 默认挂上「燃烧」：首次打开时它最能说明这块位置是活的，空着会让 hero 显得没做完。 */
 export const DEFAULT_ORNAMENT_ID: OrnamentId = "blaze";

@@ -105,7 +105,7 @@ export function useAgentSettingsModel(): AgentSettingsModel {
 	const toggleVettaCli = useCallback((checked: boolean) => {
 		setVettaCliEnabled(checked);
 		void window.originApp.config.set({ experimental: { originCli: checked } });
-		recordSettingsUsage({ tab: "agent", action: checked ? "enabled" : "disabled", target: "vetta-cli" });
+		recordSettingsUsage({ tab: "agent", action: checked ? "enabled" : "disabled", target: "origin-cli" });
 	}, []);
 
 	const togglePromptPrediction = useCallback((checked: boolean) => {

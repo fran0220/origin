@@ -100,7 +100,7 @@ export function resolveProfileLayout(
     return {
       profile: options.profile,
       workspaceId: options.workspaceId,
-      sessionName: `vetta-dev-${options.workspaceId}`,
+      sessionName: `origin-dev-${options.workspaceId}`,
       configDir: ".origin-dev",
       originHome,
       userDataDir: join(originHome, "electron-user-data"),
@@ -123,7 +123,7 @@ export function resolveProfileLayout(
   return {
     profile: options.profile,
     workspaceId: options.workspaceId,
-    sessionName: `vetta-${options.profile}-${options.workspaceId}`,
+    sessionName: `origin-${options.profile}-${options.workspaceId}`,
     configDir,
     originHome,
     userDataDir: join(originHome, "electron-user-data"),

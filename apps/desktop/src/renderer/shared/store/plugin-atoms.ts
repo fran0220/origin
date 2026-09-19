@@ -237,7 +237,7 @@ export interface SessionInputActionState {
 	knowledgeRetrieval: boolean;
 }
 
-export const SESSION_INPUT_ACTIONS_STORAGE_KEY = "vetta-session-input-actions";
+export const SESSION_INPUT_ACTIONS_STORAGE_KEY = "origin-session-input-actions";
 
 function normalizeSessionInputActionState(raw: unknown): SessionInputActionState | null {
 	if (raw == null || typeof raw !== "object") return null;

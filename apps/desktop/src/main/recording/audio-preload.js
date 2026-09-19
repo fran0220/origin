@@ -71,7 +71,7 @@ function installAudioCapture() {
 		window.__originRecordingAudio.send({ type: "start", recordingId: window.__originRecordingId });
 	}
 
-	window.addEventListener("vetta-recording-stop-audio", () => {
+	window.addEventListener("origin-recording-stop-audio", () => {
 		if (recorder && recorder.state !== "inactive") recorder.stop();
 	});
 }

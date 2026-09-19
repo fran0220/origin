@@ -10,7 +10,7 @@ const assign = vi.fn(async () => ({ tags: [], assignments: {} }));
 
 beforeEach(() => {
 	assign.mockClear();
-	Object.assign(window, { vetta: { conversationTags: { assign } } });
+	Object.assign(window, { originApp: { conversationTags: { assign } } });
 });
 
 afterEach(() => {

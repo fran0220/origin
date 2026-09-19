@@ -9,7 +9,7 @@ const execFileAsync = promisify(execFile);
 
 const DEV_CLI_DIR = ".desktop-dev";
 const LAUNCHER_SOURCE_NAME = "vetta-dev-cli-launcher.js";
-const LAUNCHER_BINARY_BASE_NAME = "vetta-dev-cli-launcher";
+const LAUNCHER_BINARY_BASE_NAME = "origin-dev-cli-launcher";
 const ORIGIN_CLI_BINARY_BASE_NAME = "origin-cli-app";
 const ORIGIN_COMMAND_NAMES = process.platform === "win32" ? ["origin.exe"] : ["vetta"];
 const WINDOWS_LEGACY_ORIGIN_COMMAND_NAMES = ["vetta.cmd", "vetta"];

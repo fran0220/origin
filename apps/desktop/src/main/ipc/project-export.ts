@@ -22,7 +22,7 @@ export const PROJECT_EXPORT_CHANNELS = {
 // Today we accept exactly v1; future versions should be additive when possible.
 
 const MANIFEST_NAME = "_vetta-export.json";
-const MANIFEST_FORMAT = "vetta-project-export";
+const MANIFEST_FORMAT = "origin-project-export";
 const MANIFEST_VERSION = 1;
 
 type SupportedProjectType = "normal" | "batch";

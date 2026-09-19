@@ -22,7 +22,7 @@ const plugin = {
 describe("plugin service API activation lifecycle", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { plugins: { getServiceStatus } },
 		});

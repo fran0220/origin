@@ -202,9 +202,9 @@ process.env[ORIGIN_HOME_ENV] = getOriginHomePath();
 if (isCliMode) {
 	const cliUserDataDir =
 		ocrCliCommand !== null
-			? "vetta-ocr-cli"
+			? "origin-ocr-cli"
 			: pdfCliCommand !== null
-				? "vetta-pdf-cli"
+				? "origin-pdf-cli"
 				: actionCliCommand !== null
 					? `vetta-action-cli-${process.pid}`
 					: helpCliCommand !== null

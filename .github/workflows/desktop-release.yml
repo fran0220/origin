@@ -343,7 +343,7 @@ jobs:
             exit 1
           fi
 
-          CERTIFICATE_PATH="${RUNNER_TEMP}/vetta-developer-id.p12"
+          CERTIFICATE_PATH="${RUNNER_TEMP}/origin-developer-id.p12"
           API_KEY_PATH="${RUNNER_TEMP}/AuthKey_${SECRET_APPLE_API_KEY_ID}.p8"
           PAYLOAD="${SECRET_MACOS_CERTIFICATE_P12_BASE64}" OUTPUT_PATH="${CERTIFICATE_PATH}" \
             node -e 'require("node:fs").writeFileSync(process.env.OUTPUT_PATH, Buffer.from(process.env.PAYLOAD, "base64"))'
@@ -417,15 +417,15 @@ jobs:
           docker run --rm --volume "${PWD}/release:/release:ro" ubuntu:24.04 bash -euo pipefail -c '
             apt-get update
             apt-get install --yes /release/*.deb
-            test -x /opt/Origin/Vetta
+            test -x /opt/Origin/Origin
             test "$(cat /opt/Origin/resources/package-type)" = "deb"
-            find /usr/share/applications -maxdepth 1 -type f -iname "*vetta*.desktop" -print -quit | grep -q .
+            find /usr/share/applications -maxdepth 1 -type f -iname "*origin*.desktop" -print -quit | grep -q .
           '
           docker run --rm --volume "${PWD}/release:/release:ro" fedora:latest bash -euo pipefail -c '
             dnf install --assumeyes --nogpgcheck /release/*.rpm
-            test -x /opt/Origin/Vetta
+            test -x /opt/Origin/Origin
             test "$(cat /opt/Origin/resources/package-type)" = "rpm"
-            find /usr/share/applications -maxdepth 1 -type f -iname "*vetta*.desktop" -print -quit | grep -q .
+            find /usr/share/applications -maxdepth 1 -type f -iname "*origin*.desktop" -print -quit | grep -q .
           '
 
       - name: Run packaged app and updater E2E

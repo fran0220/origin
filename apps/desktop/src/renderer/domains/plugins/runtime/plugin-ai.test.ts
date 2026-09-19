@@ -41,7 +41,7 @@ describe("createPluginAiApi streaming", () => {
 		requirePermission.mockClear();
 		bridge.stream.mockClear();
 		bridge.cancelStream.mockClear();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { plugins: { internalCapabilities: { ai: bridge } } },
 		});

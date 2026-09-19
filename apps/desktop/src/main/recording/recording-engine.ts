@@ -245,7 +245,7 @@ export class DesktopRecordingEngine implements RecordingEngine {
 		await getStore().put(finalizing);
 		try {
 			await capture.window.webContents.executeJavaScript(
-				`window.dispatchEvent(new Event("vetta-recording-stop-audio")); true`,
+				`window.dispatchEvent(new Event("origin-recording-stop-audio")); true`,
 				true,
 			);
 			await new Promise((resolve) => setTimeout(resolve, 200));

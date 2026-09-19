@@ -96,7 +96,7 @@ describe("useAbilityActions managed MCP wiring", () => {
 	beforeEach(() => {
 		showToast.mockClear();
 		notifyPluginsChanged.mockClear();
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: {
 				abilities: {

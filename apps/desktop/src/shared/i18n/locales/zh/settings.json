@@ -329,7 +329,7 @@
           "description": "配置图片规范化、安全限制、压缩和模型请求预算。"
         }
       },
-      "vetta": {
+      "origin": {
         "ocr": {
           "title": "文字识别（OCR）",
           "description": "配置 Agent、拾墨和其它能力共用的文字识别服务。默认在本地使用 PP-OCRv5。"

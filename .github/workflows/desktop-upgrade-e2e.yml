@@ -79,8 +79,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
           path: |
-            ${{ runner.temp }}/vetta-upgrade-e2e-*/desktop.log
-            ${{ runner.temp }}/vetta-upgrade-e2e-*/desktop-upgrade-e2e.json
+            ${{ runner.temp }}/origin-upgrade-e2e-*/desktop.log
+            ${{ runner.temp }}/origin-upgrade-e2e-*/desktop-upgrade-e2e.json
 
       - name: Write test-channel upgrade summary
         if: always()

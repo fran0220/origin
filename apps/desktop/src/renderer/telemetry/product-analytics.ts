@@ -2,7 +2,7 @@ import posthog from "posthog-js";
 import type { TelemetryContext } from "../../shared/telemetry";
 import { setRendererTelemetryContext } from "./error-monitoring";
 
-const ANONYMOUS_ID_STORAGE_KEY = "vetta-telemetry-anonymous-id";
+const ANONYMOUS_ID_STORAGE_KEY = "origin-telemetry-anonymous-id";
 const DEFAULT_POSTHOG_HOST = "https://us.i.posthog.com";
 let anonymousId: string | undefined;
 let appSessionId: string | undefined;

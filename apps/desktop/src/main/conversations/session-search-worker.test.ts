@@ -34,7 +34,7 @@ describe("session search worker boundary", () => {
 					},
 					outDir: join(temporary, "bundle"),
 					minify: false,
-					rollupOptions: { external: [/^node:/, /^@vetta\//] },
+					rollupOptions: { external: [/^node:/, /^@origin\//] },
 				},
 			});
 			const sessionDir = join(temporary, "sessions");

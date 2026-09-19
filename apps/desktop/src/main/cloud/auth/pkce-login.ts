@@ -158,7 +158,7 @@ async function handleCallback(
 		response
 			.writeHead(200, { "content-type": "text/html; charset=utf-8" })
 			.end(
-				`<!doctype html><meta charset="utf-8"><title>Vetta</title><body style="font:16px system-ui;padding:48px">Authorized. You can close this window.</body>`,
+				`<!doctype html><meta charset="utf-8"><title>Origin</title><body style="font:16px system-ui;padding:48px">Authorized. You can close this window.</body>`,
 			);
 		finish(undefined, tokens);
 	} catch (error) {
@@ -166,7 +166,7 @@ async function handleCallback(
 		response
 			.writeHead(400, { "content-type": "text/html; charset=utf-8" })
 			.end(
-				`<!doctype html><meta charset="utf-8"><title>Vetta</title><body style="font:16px system-ui;padding:48px">Authorization failed. You can close this window and retry in the app.</body>`,
+				`<!doctype html><meta charset="utf-8"><title>Origin</title><body style="font:16px system-ui;padding:48px">Authorization failed. You can close this window and retry in the app.</body>`,
 			);
 		finish(error instanceof Error ? error : new Error(String(error)));
 	}

@@ -37,8 +37,8 @@ function model(overrides: Partial<ConnectionsSettingsModel> = {}): ConnectionsSe
 		connections: [
 			{
 				descriptor: {
-					id: "vetta",
-					displayName: "Vetta",
+					id: "origin",
+					displayName: "Origin",
 					protocol: "openai",
 					endpoint: parseConnectionEndpoint("https://api.example.com"),
 					credentialOrigin: "signed-in",
@@ -70,7 +70,7 @@ function model(overrides: Partial<ConnectionsSettingsModel> = {}): ConnectionsSe
 		form: { displayName: "", endpoint: "", protocol: "openai", secret: "" },
 		saving: false,
 		quotas: {
-			originApp: { status: "unknown", readAt: "2026-01-01T00:00:00.000Z" },
+			origin: { status: "unknown", readAt: "2026-01-01T00:00:00.000Z" },
 			openai: { status: "ok", readAt: "2026-01-01T00:00:00.000Z" },
 		},
 		setForm: vi.fn(),
@@ -89,7 +89,7 @@ describe("ConnectionsSettingsView", () => {
 	it("列出连接来源、配额时间，并区分 Sign out 与 Remove", async () => {
 		const current = model();
 		render(<ConnectionsSettingsView model={current} />);
-		expect(screen.getByText("Vetta")).toBeTruthy();
+		expect(screen.getByText("Origin")).toBeTruthy();
 		expect(screen.getByText(/origin:signed-in/)).toBeTruthy();
 		expect(screen.getByText("connections.signOut")).toBeTruthy();
 		expect(screen.getByText("connections.remove")).toBeTruthy();

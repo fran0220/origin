@@ -40,7 +40,7 @@ function getLatestPluginDevModule(pluginId: string): unknown {
 /** Propagates the manifest reload token to the federation remote entry URL. */
 function createReloadBustPlugin(): ModuleFederationRuntimePlugin {
 	return {
-		name: "vetta-reload-bust",
+		name: "origin-reload-bust",
 		afterResolve(args) {
 			const token = remoteReloadTokens.get(args.remoteInfo.name);
 			if (token && args.remoteInfo.entry && !args.remoteInfo.entry.includes("reloadBust=")) {

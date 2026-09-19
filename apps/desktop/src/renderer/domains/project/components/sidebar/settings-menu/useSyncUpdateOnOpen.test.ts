@@ -4,12 +4,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { useSyncUpdateOnOpen } from "./useSettingsMenuModel";
 
 function stubUpdaterSync(sync: () => Promise<void>): void {
-	Reflect.set(window, "vetta", { updater: { sync } });
+	Reflect.set(window, "originApp", { updater: { sync } });
 }
 
 describe("useSyncUpdateOnOpen", () => {
 	afterEach(() => {
-		Reflect.deleteProperty(window, "vetta");
+		Reflect.deleteProperty(window, "originApp");
 	});
 
 	it("syncs when the settings menu opens", () => {

@@ -27,7 +27,7 @@ beforeEach(() => {
 	models.get.mockClear();
 	models.fetchRemote.mockClear();
 	models.fetchRemote.mockResolvedValue({ providers: remoteCatalog("gpt-old") });
-	Object.defineProperty(window, "vetta", { configurable: true, writable: true, value: { models } });
+	Object.defineProperty(window, "originApp", { configurable: true, writable: true, value: { models } });
 	const store = getDefaultStore();
 	store.set(authTokenAtom, "token-1");
 	store.set(remoteProvidersAtom, {});

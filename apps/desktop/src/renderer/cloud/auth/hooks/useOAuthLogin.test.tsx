@@ -42,7 +42,7 @@ describe("useOAuthLogin", () => {
 			onUnauthorized: vi.fn(() => () => undefined),
 			onTokenRefreshed: vi.fn(() => () => undefined),
 		};
-		Object.defineProperty(window, "vetta", {
+		Object.defineProperty(window, "originApp", {
 			configurable: true,
 			value: { auth } as unknown as DesktopApi,
 		});
