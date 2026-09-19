@@ -1,0 +1,76 @@
+{
+	"schemaVersion": 1,
+	"type": "plugin",
+	"slug": "origin-game-studio",
+	"version": "0.1.0",
+	"detail": {
+		"blocks": [
+			{
+				"type": "showcase",
+				"showcase": {
+					"template": "chat-over-canvas",
+					"canvas": "design",
+					"user_prompt": "做一款从上往下看的迷宫探索小游戏，先能走起来。",
+					"assistant_reply": "Origin Game Studio 会先澄清手感，再落地 canvas2d 脚手架、启动舞台并按里程碑验证。"
+				}
+			},
+			{
+				"type": "feature-grid",
+				"title": "从一句话做到可玩",
+				"items": [
+					{
+						"title": "设计图与舞台",
+						"description": "设计图是整份计划；舞台是正在运行的游戏，可用探针单步、点选和读回状态。",
+						"icon": "solar:gamepad-linear"
+					},
+					{
+						"title": "脚手架与探针",
+						"description": "canvas2d / three 第一方脚手架自带确定性循环和 postMessage 探针。",
+						"icon": "solar:code-linear"
+					},
+					{
+						"title": "里程碑评估",
+						"description": "每个里程碑是一份 Evaluation Definition，criteria 指向构建命令或遥测断言。",
+						"icon": "solar:flag-linear"
+					}
+				]
+			}
+		],
+		"i18n": {
+			"en": {
+				"blocks": [
+					{
+						"type": "showcase",
+						"showcase": {
+							"template": "chat-over-canvas",
+							"canvas": "design",
+							"user_prompt": "Make a top-down maze explorer that I can walk around first.",
+							"assistant_reply": "Origin Game Studio will clarify feel, land the canvas2d scaffold, open the stage, and verify against milestones."
+						}
+					},
+					{
+						"type": "feature-grid",
+						"title": "From one line to playable",
+						"items": [
+							{
+								"title": "Design graph and stage",
+								"description": "The design graph is the plan; the stage is the running game you can step, pick and read back.",
+								"icon": "solar:gamepad-linear"
+							},
+							{
+								"title": "Scaffold and probe",
+								"description": "First-party canvas2d / three scaffolds ship a deterministic loop and a postMessage probe.",
+								"icon": "solar:code-linear"
+							},
+							{
+								"title": "Milestone evaluation",
+								"description": "Each milestone is an Evaluation Definition whose criteria point at a build command or a telemetry assertion.",
+								"icon": "solar:flag-linear"
+							}
+						]
+					}
+				]
+			}
+		}
+	}
+}

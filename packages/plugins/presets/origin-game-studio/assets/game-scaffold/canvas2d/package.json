@@ -1,0 +1,25 @@
+{
+  "name": "game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "scripts": {
+    "deps": "bun install --frozen-lockfile",
+    "dev": "bun run deps && bunx --bun vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:unbundled": "bun run deps && bunx --bun vite --mode unbundled --host 127.0.0.1 --port 5173 --strictPort",
+    "prebuild": "bun run deps",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "pretypecheck": "bun run deps",
+    "typecheck": "bunx tsc --noEmit",
+    "check:arch": "bun scripts/check-arch.mjs",
+    "check:smoke": "bun scripts/check-smoke.mjs",
+    "check:audit": "bun audit",
+    "check:deps": "bun scripts/check-deps.mjs"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "vite": "~8.3.0"
+  }
+}

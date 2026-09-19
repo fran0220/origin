@@ -1,0 +1,98 @@
+{
+	"id": "origin-game-studio",
+	"name": "%plugin.name%",
+	"version": "0.1.0",
+	"icon": "icon.png",
+	"defaultLocale": "zh",
+	"pluginApiVersion": "^2.0.0",
+	"entry": "dist/mf-manifest.json",
+	"moduleFederation": {
+		"remoteName": "origin_game_studio",
+		"expose": "./plugin"
+	},
+	"styles": ["dist/style.css"],
+	"permissions": [
+		"ui.slot.workspace-view",
+		"ui.slot.activity-tab",
+		"ui.slot.message",
+		"ui.slot.new-session-context",
+		"conversation.draft.read",
+		"agent.session.read",
+		"agent.session.write",
+		"agent.tools.register",
+		"agent.toolHandler.execute",
+		"agent.hooks.register",
+		"agent.hookHandler.execute",
+		"agent.skills.control",
+		"agent.mcp.control",
+		"agent.command.run",
+		"agent.command.spawn",
+		"capture.offscreen",
+		"fs.read",
+		"fs.write",
+		"storage.read",
+		"storage.write"
+	],
+	"commands": ["bun", "node"],
+	"agent": {
+		"skillPaths": [
+			"agent/skills/architecture-discipline",
+			"agent/skills/canvas2d-substrate",
+			"agent/skills/component-forge",
+			"agent/skills/coordinating-game-production",
+			"agent/skills/gameplay-research",
+			"agent/skills/og-platform",
+			"agent/skills/performance-budget",
+			"agent/skills/playtest-instruments",
+			"agent/skills/producing-game-assets",
+			"agent/skills/recipe-craft",
+			"agent/skills/threejs-substrate",
+			"agent/skills/vgpu-effects",
+			"agent/skills/visual-acceptance"
+		],
+		"skillPresentation": {
+			"defaultVisibility": "hidden",
+			"skills": {
+				"producing-game-assets": { "defaultVisibility": "visible" },
+				"coordinating-game-production": { "defaultVisibility": "visible" },
+				"playtest-instruments": { "defaultVisibility": "visible" },
+				"architecture-discipline": { "defaultVisibility": "visible" },
+				"recipe-craft": { "defaultVisibility": "visible" },
+				"gameplay-research": { "defaultVisibility": "visible" }
+			}
+		},
+		"agents": [
+			{
+				"id": "game-director",
+				"name": "%agent.gameDirector.name%",
+				"description": "%agent.gameDirector.description%",
+				"mentionHandle": "game-director",
+				"systemPromptPath": "agent/agents/game-director.md",
+				"roles": ["developer"],
+				"abilities": "all"
+			}
+		],
+		"mcpServers": {
+			"origin-assets": {
+				"type": "http",
+				"url": "https://api.origingame.dev/v1/assets/mcp",
+				"displayName": "%mcp.originAssets.name%",
+				"description": "%mcp.originAssets.description%"
+			},
+			"origin-examples": {
+				"type": "http",
+				"url": "https://registry.origingame.dev/mcp",
+				"displayName": "%mcp.originExamples.name%",
+				"description": "%mcp.originExamples.description%"
+			},
+			"origin-game-knowledge": {
+				"type": "http",
+				"url": "https://knowledge.origingame.dev/mcp",
+				"displayName": "%mcp.originGameKnowledge.name%",
+				"description": "%mcp.originGameKnowledge.description%"
+			}
+		}
+	},
+	"description": "%plugin.description%",
+	"author": "Origin"
+}

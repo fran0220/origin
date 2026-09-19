@@ -1,0 +1,5 @@
+[install]
+# Reuse Bun's global package cache across Game Projects. Each project keeps
+# an isolated dependency graph while cached packages are linked instead of
+# copied again.
+linker = "isolated"

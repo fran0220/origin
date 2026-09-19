@@ -1,0 +1,34 @@
+{
+  "name": "game",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "scripts": {
+    "deps": "bun install --frozen-lockfile",
+    "dev": "bun run deps && bunx --bun vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:unbundled": "bun run deps && bunx --bun vite --mode unbundled --host 127.0.0.1 --port 5173 --strictPort",
+    "prebuild": "bun run deps",
+    "build": "bunx --bun vite build && bun scripts/resolve-shaders.mjs",
+    "preview": "bunx --bun vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "pretypecheck": "bun run deps",
+    "typecheck": "bunx tsc --noEmit",
+    "check:arch": "bun scripts/check-arch.mjs",
+    "check:smoke": "bun scripts/check-smoke.mjs",
+    "check:audit": "bun audit",
+    "check:deps": "bun scripts/check-deps.mjs",
+    "check:wgsl": "bun scripts/check-wgsl.mjs",
+    "still": "bun scripts/render-still.mjs"
+  },
+  "dependencies": {
+    "three": "^0.185.0",
+    "vgpu": "0.4.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.0",
+    "@vgpu/wgsl": "0.4.1",
+    "@webgpu/types": "^0.1.72",
+    "typescript": "7.0.2",
+    "vite": "~8.3.0"
+  }
+}

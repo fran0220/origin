@@ -17,7 +17,8 @@
         "comfyui-media-provider",
         "content-creation",
         "browser",
-        "build-apple-apps"
+        "build-apple-apps",
+        "origin-game-studio"
       ]
     },
     "production": {
@@ -33,7 +34,8 @@
         "git",
         "plugin-workbench",
         "browser",
-        "build-apple-apps"
+        "build-apple-apps",
+        "origin-game-studio"
       ]
     }
   }
