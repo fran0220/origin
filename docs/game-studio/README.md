@@ -4,7 +4,7 @@
 
 ## 1. 目标与边界
 
-- 用 open-vetta 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/vetta-game-studio`），与 `vetta-ui-design`（Sophon Design Studio 的 Origin 形态，ADR-0053/0054/0058）同构。
+- 用 Origin 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/origin-game-studio`，ADR-0119），与 `vetta-ui-design`（Sophon Design Studio 的 Origin 形态，ADR-0053/0054/0058）同构。用户指南见 [user-guide.md](./user-guide.md)。
 - Game Studio 依赖的三项能力不是插件私有逻辑，而是**平台底层能力**，任何 Studio、CLI、IM 宿主都能复用：
   1. **Checkpoint**：每个 Turn 结束后的文件快照 + 验证 + 保留/回退，崩溃可恢复，历史不改写。
   2. **Evaluation + Evolution**：五记录评估模型（证据只来自产品记录与真实 verifier）；两级 continual-harness 账本（Global + subject），Agent 用工具沉淀规则，下一 Turn 准入时渲染进 system prompt。
@@ -40,7 +40,7 @@
                 │ 公开 exports（禁止 deep import）
 ┌───────────────▼──────────────┐  ┌──────────────────────────────────┐
 │ packages/plugins/presets/    │  │ packages/coding-agent            │
-│   vetta-game-studio          │  │  harness tools / prompt provider │
+│   origin-game-studio         │  │  harness tools / prompt provider │
 │   (Studio 产品组合)          │  │  checkpoint turn hook            │
 └───────────────┬──────────────┘  └───────────┬──────────────────────┘
                 │ plugin-sdk: ctx.recording / ctx.checkpoints / ctx.evaluation
@@ -191,7 +191,7 @@ RecordingRecord { id; projectKey; sessionId; startedAt; endedAt; durationMs; vid
 - plugin-sdk `ctx.recording`（权限 `recording:capture`）；Agent 工具 `recording_start/stop/sample/read/review`。
 - Desktop Recording 面板（在 Game Studio 的 activity dock 内），全局设置里配置默认保留期与 ffmpeg 来源。
 
-## 8. Game Studio 预置插件（`packages/plugins/presets/vetta-game-studio`）
+## 8. Game Studio 预置插件（`packages/plugins/presets/origin-game-studio`）
 
 - `agent.agents`：game-director 人格；`agent.skillPaths`：迁移 Sophon `assets/agent/game/skills` 的 10 个 skill；`agent.mcpServers`：远程 `origin-assets` / `origin-examples` / `origin-game-knowledge`。
 - 工具（约 30 个，来自 Sophon `crates/sophon-studio-game/src/tools.rs`）按 stage / design / build / deliver 分组，全部 TypeBox 输入。

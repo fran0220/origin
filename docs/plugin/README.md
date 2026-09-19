@@ -31,6 +31,7 @@
 | [conversation-and-agent.md](./conversation-and-agent.md) | 对话、registerTool、**registerHook**、command.run、fs、network、storage、settings、i18n、工作模式 getAgentMode |
 | [app-actions.md](./app-actions.md) | 动态 App Action：JSON Schema、审批、生命周期、取消与独立发布 |
 | [system-plugins.md](./system-plugins.md) | 系统插件（presets）、租户打包 |
+| [../game-studio/user-guide.md](../game-studio/user-guide.md) | Origin 游戏工坊：创建项目、工具清单、里程碑 |
 | [styling-and-pitfalls.md](./styling-and-pitfalls.md) | 样式、MF 顶层 JSX 陷阱、缓存与 version bump |
 
 工程里的 `AGENTS.md` 只负责把你引到这里，**规则一条都不写在那儿**——它是工程创建那天的快照，不会自更新。红线与合同都以本手册为准。
