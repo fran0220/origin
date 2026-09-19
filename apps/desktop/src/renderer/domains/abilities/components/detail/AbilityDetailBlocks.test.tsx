@@ -185,7 +185,7 @@ describe("AbilityDetailBlocks", () => {
 						title: "代码就是设计稿",
 						items: [
 							{ title: "无限画布", description: "在同一设计文档中并排组织多个真实界面画框。" },
-							{ title: "选中后修改", description: "把画框或具体元素交给 Vetta。" },
+							{ title: "选中后修改", description: "把画框或具体元素交给 Origin。" },
 							{ title: "保存即更新", description: "保存后画布自动加载最新结果。" },
 							{ title: "导出与分享", description: "可导出设计分享包。" },
 							{ title: "设计画廊", description: "侧边栏汇总所有带设计稿的项目。" },
