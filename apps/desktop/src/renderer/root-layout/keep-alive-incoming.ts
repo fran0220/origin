@@ -7,14 +7,11 @@ export function incomingKeepAliveAlreadyMounted(input: {
 	visited: ReadonlySet<string>;
 	workspace: { key: string } | null;
 	visitedWorkspaces: readonly { key: string }[];
-	teamChat: { teamId: string } | null;
-	visitedTeamChats: readonly { teamId: string }[];
 	detail?: { key: string } | null;
 	visitedDetails?: readonly { key: string }[];
 }): boolean {
 	if (input.surface) return input.visited.has(input.surface);
 	if (input.workspace) return input.visitedWorkspaces.some((item) => item.key === input.workspace?.key);
-	if (input.teamChat) return input.visitedTeamChats.some((item) => item.teamId === input.teamChat?.teamId);
 	if (input.detail) return (input.visitedDetails ?? []).some((item) => item.key === input.detail?.key);
 	return false;
 }

@@ -69,10 +69,4 @@ export const loadWorkspacePage = memoizeLoader(() =>
 	})),
 );
 
-export const loadTeamChatPage = memoizeLoader(() =>
-	import("../domains/conversation/connectors/team/TeamChatPage").then((module) => ({
-		default: module.TeamChatPage,
-	})),
-);
-
 export { loadChatPage, loadNewSessionPage };

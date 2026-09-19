@@ -35,8 +35,8 @@ export const MODE_PROMPTS: readonly ModePromptInfo[] = FILE_MODES;
 
 export const ALL_AGENT_MODES: readonly AgentMode[] = FILE_MODES.map((mode) => mode.id);
 
-/** 出厂默认模式，也是所有校验失败与历史会话缺记录时的回落值。 */
-export const DEFAULT_AGENT_MODE: AgentMode = "work";
+/** 出厂默认模式，也是校验失败与缺会话记录时的回落值。 */
+export const DEFAULT_AGENT_MODE: AgentMode = "coding";
 
 export function isAgentMode(value: unknown): value is AgentMode {
 	return typeof value === "string" && (ALL_AGENT_MODES as readonly string[]).includes(value);

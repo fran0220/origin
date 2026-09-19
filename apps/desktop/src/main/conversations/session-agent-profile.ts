@@ -1,4 +1,4 @@
-import type { AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@vetta/agent-team";
 import type { AgentConfigurationSelection } from "@vetta/coding-agent/profile";
 import { toAgentConfigurationOverrides } from "../agent-teams/agent-ability-overrides.js";
 import { pinnedAbilityContext, resolveAgentBlueprint } from "../agent-teams/agent-blueprint-registry.js";
@@ -13,7 +13,7 @@ export interface ResolvedSessionAgentProfile {
 /**
  * 按 Agent Profile 身份解析出本次会话的人格与能力白名单。
  *
- * 与 Team 成员同源：system prompt 走 addon 而非替换（基座 Coding Agent 提示词保留），
+ * system prompt 走 addon 而非替换（基座 Coding Agent 提示词保留），
  * 能力覆盖复用 {@link toAgentConfigurationOverrides}。每次打开会话都重新解析，
  * 因此改了 Agent 的技能 / MCP 勾选，重开会话即生效。
  *
@@ -21,7 +21,7 @@ export interface ResolvedSessionAgentProfile {
  */
 export async function resolveSessionAgentProfile(input: {
 	readonly agentProfileId: string;
-	readonly readDocument: () => Promise<AgentTeamDocument>;
+	readonly readDocument: () => Promise<AgentProfileDocument>;
 }): Promise<ResolvedSessionAgentProfile | undefined> {
 	const document = await input.readDocument();
 	const profile = document.agents.find((candidate) => candidate.id === input.agentProfileId);

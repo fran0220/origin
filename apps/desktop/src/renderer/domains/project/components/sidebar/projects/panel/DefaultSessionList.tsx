@@ -58,7 +58,6 @@ const DefaultSessionRow = memo(function DefaultSessionRow({
 
 interface DefaultSessionListProps {
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	className?: string;
 	cwd: string;
 	filter: DefaultConversationFilter;

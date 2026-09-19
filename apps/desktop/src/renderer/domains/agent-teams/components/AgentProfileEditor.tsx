@@ -1,4 +1,4 @@
-import type { AgentAbilitySelection, AgentBlueprint, AgentProfile, AgentProfileUpdateImpact } from "@vetta/agent-team";
+import type { AgentAbilitySelection, AgentBlueprint, AgentProfile } from "@vetta/agent-team";
 import { Button, cn, Input, Switch } from "@vetta-org/ui";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -40,11 +40,8 @@ interface AgentProfileEditorProps {
 	readonly readOnly?: boolean;
 	readonly onSavingChange?: (saving: boolean) => void;
 	readonly onSaveComplete?: () => void;
-	readonly onPreview: (agentId: string) => Promise<AgentProfileUpdateImpact>;
-	readonly onSave: (
-		agent: AgentProfile,
-		input: AgentProfileEditInput,
-	) => Promise<{ updated: AgentProfile; impact: AgentProfileUpdateImpact }>;
+
+	readonly onSave: (agent: AgentProfile, input: AgentProfileEditInput) => Promise<{ updated: AgentProfile }>;
 }
 
 export function AgentProfileEditor({
@@ -62,7 +59,7 @@ export function AgentProfileEditor({
 	onDraftChange,
 	onSavingChange,
 	onSaveComplete,
-	onPreview,
+
 	onSave,
 }: AgentProfileEditorProps): JSX.Element {
 	const { t } = useTranslation("agent-teams");
@@ -82,7 +79,7 @@ export function AgentProfileEditor({
 	const setActiveTab = onActiveTabChange ?? setUncontrolledTab;
 	const [saving, setSaving] = useState(false);
 	const [saved, setSaved] = useState(false);
-	const [pendingImpact, setPendingImpact] = useState<AgentProfileUpdateImpact>();
+
 	const [error, setError] = useState<string>();
 	const lastSaveRequest = useRef(saveRequest);
 
@@ -92,7 +89,6 @@ export function AgentProfileEditor({
 		setSystemPrompt(agent.systemPrompt ?? "");
 		setAvatarOverride(agent.avatar);
 		setAbilities(normalizeAgentAbilitySelection(agent.abilities, capabilities));
-		setPendingImpact(undefined);
 		setSaved(false);
 		setError(undefined);
 	}, [agent, capabilities, displayDescription, displayName]);
@@ -123,13 +119,6 @@ export function AgentProfileEditor({
 		setSaved(false);
 		setError(undefined);
 		try {
-			if (!pendingImpact) {
-				const preview = await onPreview(agent.id);
-				if (preview.teamIds.length > 1) {
-					setPendingImpact(preview);
-					return;
-				}
-			}
 			await onSave(agent, {
 				name,
 				description,
@@ -139,7 +128,6 @@ export function AgentProfileEditor({
 				abilities,
 			});
 			onSaveComplete?.();
-			setPendingImpact(undefined);
 			setSaved(true);
 		} catch (cause) {
 			setError(cause instanceof Error ? cause.message : String(cause));
@@ -231,15 +219,6 @@ export function AgentProfileEditor({
 					/>
 				)}
 
-				{pendingImpact && pendingImpact.teamIds.length > 1 && (
-					<div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-[11px] text-amber-400">
-						{t("profile.sharedImpact", {
-							count: pendingImpact.teamIds.length,
-							teams: pendingImpact.teamNames.join("、"),
-						})}
-					</div>
-				)}
-
 				{error && (
 					<span aria-live="polite" className="rounded-lg bg-destructive/10 px-3 py-2 text-[11px] text-destructive">
 						{error}
@@ -324,25 +303,6 @@ export function AgentProfileEditor({
 						</button>
 					</nav>
 
-					{/* Shared Impact Banner if applicable */}
-					{pendingImpact && pendingImpact.teamIds.length > 1 && (
-						<div className="mt-auto rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-200">
-							<div className="flex items-start gap-2">
-								<span className="icon-[solar--danger-triangle-linear] mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden="true" />
-								<div className="min-w-0 flex-1">
-									{t("profile.sharedImpact", {
-										count: pendingImpact.teamIds.length,
-										teams: pendingImpact.teamNames.join("、"),
-									})}
-									<div className="mt-2">
-										<Button variant="outline" size="sm" className="h-7 text-xs border-amber-500/40 text-amber-300 hover:bg-amber-500/20" onClick={() => void save()}>
-											{t("profile.confirmSharedSave")}
-										</Button>
-									</div>
-								</div>
-							</div>
-						</div>
-					)}
 				</aside>
 
 				{/* Right Content Workspace */}
@@ -492,24 +452,7 @@ export function AgentProfileEditor({
 					onChange={setAbilities}
 				/>
 
-				{pendingImpact && pendingImpact.teamIds.length > 1 && (
-					<div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs text-amber-200">
-						<div className="flex items-start gap-2.5">
-							<span className="icon-[solar--danger-triangle-linear] mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden="true" />
-							<div className="min-w-0 flex-1">
-								{t("profile.sharedImpact", {
-									count: pendingImpact.teamIds.length,
-									teams: pendingImpact.teamNames.join("、"),
-								})}
-								<div className="mt-3">
-									<Button variant="outline" size="sm" className="border-amber-500/40 text-amber-300 hover:bg-amber-500/20" onClick={() => void save()}>
-										{t("profile.confirmSharedSave")}
-									</Button>
-								</div>
-							</div>
-						</div>
-					</div>
-				)}
+
 
 				{!hideSaveAction && (
 					<div className="flex items-center gap-3 pt-2">

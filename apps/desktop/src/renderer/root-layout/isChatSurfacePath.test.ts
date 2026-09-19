@@ -15,7 +15,6 @@ describe("isChatSurfacePath", () => {
 		expect(isChatSurfacePath("/new-session")).toBe(false);
 		expect(isChatSurfacePath("/agents")).toBe(false);
 		expect(isChatSurfacePath("/evaluation")).toBe(false);
-		expect(isChatSurfacePath("/agent-teams/t1/sessions/s1")).toBe(false);
 		expect(isChatSurfacePath("/workspace/plugin/view")).toBe(false);
 		expect(isChatSurfacePath("/theme/xianxia/sanctum")).toBe(false);
 	});

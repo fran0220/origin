@@ -1,7 +1,7 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { AgentProfile, AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import { afterEach, describe, expect, it } from "vitest";
 import {
 	readSessionAgentBinding,
@@ -39,8 +39,8 @@ function createProfile(overrides: Partial<AgentProfile> = {}): AgentProfile {
 	};
 }
 
-function createDocument(agents: readonly AgentProfile[]): AgentTeamDocument {
-	return { schemaVersion: 1, revision: 1, agents, teams: [] } as AgentTeamDocument;
+function createDocument(agents: readonly AgentProfile[]): AgentProfileDocument {
+	return { schemaVersion: 1, revision: 1, agents } as AgentProfileDocument;
 }
 
 describe("session agent binding store", () => {

@@ -1,6 +1,5 @@
-import { createAgentTeamFixture } from "@vetta/agent-team";
 import { describe, expect, it } from "vitest";
-import { AGENT_AVATAR_OPTIONS, agentAvatarUrl, teamMemberAvatarUrls } from "./agent-avatar";
+import { AGENT_AVATAR_OPTIONS, agentAvatarUrl } from "./agent-avatar";
 
 describe("Agent avatar options", () => {
 	it("exposes all bundled WebP choices and falls back deterministically per profile", () => {
@@ -27,22 +26,5 @@ describe("Agent avatar options", () => {
 		expect(
 			agentAvatarUrl({ id: "a", avatar: "./agent-team-avatars/router.webp" }, { avatarUrl: "data:image/webp;," }),
 		).toBe("./agent-team-avatars/router.webp");
-	});
-
-	it("projects Team members to avatar URLs in roster order", () => {
-		const document = createAgentTeamFixture();
-		const team = document.teams[0];
-		if (!team) throw new Error("missing Team fixture");
-		const agentsById = new Map(document.agents.map((agent) => [agent.id, agent]));
-		const blueprints = new Map(
-			document.agents.map((agent) => [agent.blueprintId, { avatarUrl: `provided:${agent.blueprintId}` }]),
-		);
-
-		expect(teamMemberAvatarUrls(team, agentsById, blueprints)).toEqual([
-			"provided:master",
-			"provided:executor",
-			"provided:researcher",
-			"provided:auditor",
-		]);
 	});
 });

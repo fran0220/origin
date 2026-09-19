@@ -1,8 +1,7 @@
 // @vitest-environment jsdom
 /**
  * narration 能力位的查表合同（ADR-0071）：渲染层按注册表判定叙事方式，不硬编码 mode id。
- * 回退语义是合同的一部分：未指定模式 / 未知模式 / 注册表未加载 → "staged"，
- * 与历史会话缺模式记录时按 work 恢复的口径一致。
+ * 回退语义是合同的一部分：未指定模式 / 未知模式 / 注册表未加载 → "staged"。
  */
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -56,7 +55,7 @@ it("按注册表返回各模式的 narration", async () => {
 	expect(rendered).toBe("staged");
 });
 
-it("未指定 / 未知模式回退 staged（与历史会话按 work 恢复口径一致）", async () => {
+it("未指定 / 未知模式回退 staged", async () => {
 	await mount(null);
 	expect(rendered).toBe("staged");
 	await mount("not-a-mode");

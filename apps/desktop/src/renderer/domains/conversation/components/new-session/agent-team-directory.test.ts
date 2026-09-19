@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@vetta/agent-team";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	cachedAgentTeamDocument,
@@ -9,11 +9,11 @@ import {
 	subscribeAgentTeamDocument,
 } from "./agent-team-directory";
 
-function document(revision: number): AgentTeamDocument {
-	return { schemaVersion: 1, revision, agents: [], teams: [] } as unknown as AgentTeamDocument;
+function document(revision: number): AgentProfileDocument {
+	return { schemaVersion: 1, revision, agents: [] } as unknown as AgentProfileDocument;
 }
 
-function installApi(list: () => Promise<AgentTeamDocument>): { notifyChanged: () => void } {
+function installApi(list: () => Promise<AgentProfileDocument>): { notifyChanged: () => void } {
 	const listeners = new Set<() => void>();
 	Object.defineProperty(window, "vetta", {
 		configurable: true,

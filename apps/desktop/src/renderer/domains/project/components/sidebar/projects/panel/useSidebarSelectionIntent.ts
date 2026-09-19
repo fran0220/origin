@@ -2,7 +2,7 @@ import { waitForCommittedPaint } from "@shared/lib/committed-paint";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
-export type SidebarSelectionTarget = { kind: "conversation"; path: string } | { kind: "agent-team"; sessionId: string };
+export type SidebarSelectionTarget = { kind: "conversation"; path: string };
 
 type SidebarSelectionIntent = SidebarSelectionTarget & { requestId: number };
 

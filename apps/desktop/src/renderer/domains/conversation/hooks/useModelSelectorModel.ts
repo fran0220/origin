@@ -2,6 +2,7 @@ import { resolveReasoning } from "@shared/components/ModelSelect/resolveReasonin
 import { type ModelOption, useModelOptions } from "@shared/components/ModelSelect/useModelOptions";
 import {
 	activeSessionAtom,
+	chatMessagesAtom,
 	modelSupportsImagesAtom,
 	reasoningByModelAtom,
 	SELECTED_MODEL_STORAGE_KEY,
@@ -65,6 +66,8 @@ export function useModelSelectorModel({
 	const [reasoningByModel, setReasoningByModel] = useAtom(reasoningByModelAtom);
 	const selectedModel = scope ? scope.modelKey : globalSelectedModel;
 	const activeSession = useAtomValue(activeSessionAtom);
+	const chatMessages = useAtomValue(chatMessagesAtom);
+	const dialFrozen = Boolean(activeSession) && chatMessages.some((item) => item.kind === "user");
 	const setModelSupportsImages = useSetAtom(modelSupportsImagesAtom);
 	const { options, grouped, defaultKey, iconFor, labelFor } = useModelOptions();
 
@@ -135,6 +138,7 @@ export function useModelSelectorModel({
 
 	const handleModelSelect = useCallback(
 		(key: string) => {
+			if (dialFrozen) return;
 			if (scope) {
 				const defaultReasoning = resolveReasoning(options.find((option) => option.key === key))?.default;
 				scope.onModelSelect(key, defaultReasoning);
@@ -148,7 +152,7 @@ export function useModelSelectorModel({
 				void window.vetta.session.updateSettings(activeSession.runtimeId, { modelKey: key });
 			}
 		},
-		[setSelectedModel, activeSession, updateActiveSession, scope, options],
+		[setSelectedModel, activeSession, updateActiveSession, scope, options, dialFrozen],
 	);
 
 	/**
@@ -173,11 +177,11 @@ export function useModelSelectorModel({
 
 	const handleReasoningSelect = useCallback(
 		(value: string) => {
-			if (!selectedModel) return;
+			if (dialFrozen || !selectedModel) return;
 			if (scope) scope.onReasoningSelect(value);
 			else setReasoningByModel({ ...reasoningByModel, [selectedModel]: value });
 		},
-		[selectedModel, reasoningByModel, setReasoningByModel, scope],
+		[selectedModel, reasoningByModel, setReasoningByModel, scope, dialFrozen],
 	);
 
 	return {
@@ -210,6 +214,7 @@ export function useModelSelectorModel({
 			onModelSelect: handleModelSelect,
 			onOpenChange: handleOpenChange,
 			onReasoningSelect: handleReasoningSelect,
+			disabled: dialFrozen,
 			selectedModel: selectedModel ?? undefined,
 			selectedOption,
 		},

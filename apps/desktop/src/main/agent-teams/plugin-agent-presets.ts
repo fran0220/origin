@@ -50,44 +50,6 @@ const AVATAR_MEDIA_TYPES: Readonly<Record<string, string>> = Object.freeze({
 /** 单张头像的上限。Blueprint 会整体过一次 IPC，插件塞张壁纸进来不该拖垮列表。 */
 const MAX_AVATAR_BYTES = 512 * 1024;
 
-export interface PluginTeamPresetMember {
-	/**
-	 * 槽位 key：成员 id 由它推导。
-	 *
-	 * 角色槽位取角色名，实体引用取引用串。**刻意不取解析结果**——槽位是稳定的，占槽的人是
-	 * 可替换的，developer 从一个插件换到另一个插件时用户的绑定不该跟着重置。
-	 */
-	readonly slotKey: string;
-	/** 解析到的智能体的全局 blueprint id。 */
-	readonly blueprintId: string;
-	/** 供货的插件。跨插件引用时与团队所属插件不同。 */
-	readonly providerPluginId: string;
-	/** 经角色槽位解析到的话，这里是角色 slug。 */
-	readonly role?: string;
-	readonly responsibility: string;
-	/**
-	 * 这名成员在本团队里的任务书。
-	 *
-	 * 挂在团队上，不碰对方的人设——跨插件拉来的成员因此可以被交待本团队的做事方式，而它在
-	 * 别处照旧。队长的任务书走团队级的 {@link PluginTeamPreset.workflow}。
-	 */
-	readonly instructions?: string;
-}
-
-export interface PluginTeamPreset {
-	readonly pluginId: string;
-	/** 插件内的团队 id，用于推导稳定的全局 id。 */
-	readonly teamId: string;
-	readonly name: string;
-	readonly description: string;
-	readonly textKeys: PluginPresetTextKeys;
-	readonly members: readonly PluginTeamPresetMember[];
-	/** 队长的团队任务书。 */
-	readonly workflow: string;
-	/** 本团队接管的历史团队 id，用于认领用户已有的同一支团队。 */
-	readonly legacyTeamIds: readonly string[];
-}
-
 export interface PluginAgentPreset {
 	readonly pluginId: string;
 	/** 插件内的智能体 id，用于推导稳定的全局 id。 */
@@ -100,13 +62,12 @@ export interface PluginAgentPreset {
 	readonly mentionHandle: string;
 	/** 本智能体接管的历史 blueprint id，用于折算老档案与认领同角色档案。 */
 	readonly legacyBlueprintIds: readonly string[];
-	/** 本智能体对外供货的角色 slug；别的插件按它引用到这里。 */
+	/** 本智能体对外供货的角色 slug。 */
 	readonly roles: readonly string[];
 }
 
 export interface PluginAgentPresetBundle {
 	readonly agents: readonly PluginAgentPreset[];
-	readonly teams: readonly PluginTeamPreset[];
 }
 
 export interface PluginAgentPresetLogger {
@@ -121,22 +82,11 @@ export interface BuildPluginAgentPresetsInput {
 	readonly readBinaryResource?: (plugin: InstalledPlugin, relativePath: string) => Buffer | undefined;
 }
 
-/** 已解析的智能体索引，供团队装配阶段查引用。 */
-interface AgentPresetIndex {
-	/** `${pluginId}/${agentId}` → 智能体。实体引用走这张表。 */
-	readonly byKey: ReadonlyMap<string, PluginAgentPreset>;
-	/** 角色 slug → 候选智能体，已按 pluginId 字典序排好。 */
-	readonly byRole: ReadonlyMap<string, readonly PluginAgentPreset[]>;
-}
-
 /**
- * 从已启用插件的 manifest 里抽出它们贡献的智能体与团队。
+ * 从已启用插件的 manifest 里抽出它们贡献的智能体。
  *
  * 只认已启用的插件：禁用即等同于 blueprint 消失，引用它的用户档案会降级展示。这正是
  * 我们要的语义——用户重新启用插件，一切原样回来，中间不动它的档案。
- *
- * 分两趟：先把所有插件的智能体收齐，再装配团队。团队成员可以引用别的插件的智能体，单趟
- * 循环时后面的插件还没解析出来，引用就会随插件顺序时灵时不灵。
  */
 export function buildPluginAgentPresets(input: BuildPluginAgentPresetsInput): PluginAgentPresetBundle {
 	const agents: PluginAgentPreset[] = [];
@@ -156,47 +106,7 @@ export function buildPluginAgentPresets(input: BuildPluginAgentPresetsInput): Pl
 		}
 	}
 
-	const index = buildAgentPresetIndex(agents);
-	const teams: PluginTeamPreset[] = [];
-
-	for (const plugin of enabled) {
-		for (const declared of plugin.agent?.teams ?? []) {
-			try {
-				teams.push(buildTeamPreset(plugin, declared, index, input));
-			} catch (error) {
-				input.logger.warn("skipping a plugin team contribution", {
-					pluginId: plugin.id,
-					teamId: declared.id,
-					error: errorMessage(error),
-				});
-			}
-		}
-	}
-
-	return { agents, teams };
-}
-
-function buildAgentPresetIndex(agents: readonly PluginAgentPreset[]): AgentPresetIndex {
-	const byKey = new Map<string, PluginAgentPreset>();
-	const byRole = new Map<string, PluginAgentPreset[]>();
-	for (const preset of agents) {
-		byKey.set(agentRefKey(preset.pluginId, preset.agentId), preset);
-		for (const role of preset.roles) {
-			const bucket = byRole.get(role);
-			if (bucket) bucket.push(preset);
-			else byRole.set(role, [preset]);
-		}
-	}
-	// 候选排序只能看 pluginId，绝不能看数组顺序：那是插件目录的枚举顺序，同一份配置在两台
-	// 机器上会铺出不同的团队。
-	for (const bucket of byRole.values()) {
-		bucket.sort((left, right) => (left.pluginId < right.pluginId ? -1 : left.pluginId > right.pluginId ? 1 : 0));
-	}
-	return { byKey, byRole };
-}
-
-function agentRefKey(pluginId: string, agentId: string): string {
-	return `${pluginId}/${agentId}`;
+	return { agents };
 }
 
 function buildAgentPreset(
@@ -245,108 +155,6 @@ function buildAgentPreset(
 		mentionHandle: declared.mentionHandle ?? declared.id,
 		legacyBlueprintIds: declared.legacyIds ?? [],
 		roles: declared.roles ?? [],
-	};
-}
-
-interface DeclaredTeamMember {
-	readonly agent?: string;
-	readonly role?: string;
-	readonly responsibility: string;
-	readonly optional?: boolean;
-	readonly instructions?: string;
-	readonly instructionsPath?: string;
-}
-
-/**
- * 解析一名声明的成员。解析不到返回 undefined —— 是否致命由 {@link isMemberRequired} 决定。
- */
-function resolveTeamMember(
-	consumerPluginId: string,
-	member: DeclaredTeamMember,
-	index: AgentPresetIndex,
-): PluginAgentPreset | undefined {
-	if (member.agent) {
-		const slash = member.agent.indexOf("/");
-		const key =
-			slash < 0
-				? agentRefKey(consumerPluginId, member.agent)
-				: agentRefKey(member.agent.slice(0, slash), member.agent.slice(slash + 1));
-		return index.byKey.get(key);
-	}
-	const candidates = index.byRole.get(member.role ?? "") ?? [];
-	// 本插件的人优先顶自己的槽；否则取字典序第一个候选。
-	return candidates.find((candidate) => candidate.pluginId === consumerPluginId) ?? candidates[0];
-}
-
-/**
- * 解析不到时该不该让整支团队作废。
- *
- * 本插件的实体引用缺了就是配置错误，作废才能让作者立刻发现；跨插件引用与角色槽位缺了只是
- * 提供方不在场，少一名队员即可——这正是「引用别人不该拖垮自己」的那条线。
- */
-function isMemberRequired(member: DeclaredTeamMember): boolean {
-	if (member.optional !== undefined) return !member.optional;
-	return member.agent !== undefined && !member.agent.includes("/");
-}
-
-function teamMemberSlotKey(member: DeclaredTeamMember): string {
-	return member.role ?? member.agent ?? "";
-}
-
-function buildTeamPreset(
-	plugin: InstalledPlugin,
-	declared: NonNullable<NonNullable<InstalledPlugin["agent"]>["teams"]>[number],
-	index: AgentPresetIndex,
-	input: BuildPluginAgentPresetsInput,
-): PluginTeamPreset {
-	const workflow = declared.workflowPath ? readTextResource(plugin, declared.workflowPath, input) : declared.workflow;
-	const defaultLocale = plugin.defaultLocale ?? "zh";
-	const members: PluginTeamPresetMember[] = [];
-	const slotKeys = new Set<string>();
-
-	for (const [position, member] of (declared.members as readonly DeclaredTeamMember[]).entries()) {
-		const slotKey = teamMemberSlotKey(member);
-		if (slotKeys.has(slotKey)) throw new Error(`duplicate team member slot: ${slotKey}`);
-		slotKeys.add(slotKey);
-
-		const resolved = resolveTeamMember(plugin.id, member, index);
-		if (position === 0 && resolved?.pluginId !== plugin.id) {
-			// 队长解析不到就没有对话入口了，这支团队会变成打不开的壳。清单校验已经拦过一道，
-			// 这里再兜一次：manifest 可能来自旧版本的包。
-			throw new Error("the team leader must resolve to one of this plugin's own agents");
-		}
-		if (!resolved) {
-			if (isMemberRequired(member)) throw new Error(`team member cannot be resolved: ${slotKey}`);
-			continue;
-		}
-		// 任务书从消费方的包里读：写它的人是声明这支团队的插件，不是被引用的那一方。
-		const instructions = member.instructionsPath
-			? readTextResource(plugin, member.instructionsPath, input)
-			: member.instructions;
-		if (member.instructionsPath && !instructions) {
-			throw new Error(`team member brief is missing: ${member.instructionsPath}`);
-		}
-		members.push({
-			slotKey,
-			blueprintId: pluginBlueprintId(resolved.pluginId, resolved.agentId),
-			providerPluginId: resolved.pluginId,
-			...(member.role ? { role: member.role } : {}),
-			responsibility: member.responsibility,
-			...(instructions?.trim() ? { instructions: instructions.trimEnd() } : {}),
-		});
-	}
-
-	return {
-		pluginId: plugin.id,
-		teamId: declared.id,
-		name: resolvePluginText(declared.name, plugin.locales ?? {}, defaultLocale),
-		description: declared.description
-			? resolvePluginText(declared.description, plugin.locales ?? {}, defaultLocale)
-			: "",
-		textKeys: presetTextKeys(declared.name, declared.description),
-		members,
-		workflow: workflow?.trimEnd() ?? "",
-		legacyTeamIds: declared.legacyIds ?? [],
 	};
 }
 

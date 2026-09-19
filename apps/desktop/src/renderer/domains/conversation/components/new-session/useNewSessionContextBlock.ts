@@ -8,7 +8,7 @@ import { useCallback, useMemo } from "react";
 import { focusInputEditor, insertPlainText, prependPlainText } from "../input-bar/editor/inputEditorHandle";
 import { useAgentTeamDirectoryDocument } from "./agent-team-directory";
 import { type ActiveNewSessionContext, resolveNewSessionContexts } from "./new-session-context-activation";
-import { parseAgentTargetKey, parseTeamTargetKey } from "./target";
+import { parseAgentTargetKey } from "./target";
 
 export interface NewSessionContextBlockModel {
 	readonly contexts: readonly ActiveNewSessionContext[];
@@ -38,23 +38,18 @@ export function useNewSessionContextBlock(input: UseNewSessionContextBlockInput)
 		if (!document) return {};
 		const agentId = parseAgentTargetKey(input.targetKey);
 		if (agentId) return { targetAgent: document.agents.find((agent) => agent.id === agentId) };
-		const teamId = parseTeamTargetKey(input.targetKey);
-		if (teamId) return { targetTeam: document.teams.find((team) => team.id === teamId) };
 		return {};
 	}, [document, input.targetKey]);
-
-	const agentsById = useMemo(() => new Map((document?.agents ?? []).map((agent) => [agent.id, agent])), [document]);
 
 	const contexts = useMemo(
 		() =>
 			resolveNewSessionContexts({
 				contributions,
 				...target,
-				agentsById,
 				mentionedSkills: skills,
 				mentionedMcpServers: mcpServers,
 			}),
-		[contributions, target, agentsById, skills, mcpServers],
+		[contributions, target, skills, mcpServers],
 	);
 
 	const renderContext = useCallback(
@@ -66,13 +61,7 @@ export function useNewSessionContextBlock(input: UseNewSessionContextBlockInput)
 							id: target.targetAgent.id,
 							...(active.targetContributedId ? { contributedId: active.targetContributedId } : {}),
 						}
-					: target.targetTeam
-						? {
-								kind: "team",
-								id: target.targetTeam.id,
-								...(active.targetContributedId ? { contributedId: active.targetContributedId } : {}),
-							}
-						: null,
+					: null,
 				mentionedAbilities: { skills: active.mentionedSkills, mcpServers: active.mentionedMcpServers },
 				// 未授予 conversation.draft.read 就拿不到草稿，而不是拿到一份删节版。
 				draft: active.contribution.canReadDraft ? draft : "",

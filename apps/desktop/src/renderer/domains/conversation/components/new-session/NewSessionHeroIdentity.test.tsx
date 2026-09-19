@@ -2,7 +2,7 @@
 
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createAgentTeamFixture } from "@vetta/agent-team";
+import { createAgentProfileFixture } from "@vetta/agent-team";
 import { createElement, type ReactNode, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resetAgentTeamDirectoryForTest } from "./agent-team-directory";
@@ -68,10 +68,9 @@ function Harness(): JSX.Element {
 }
 
 describe("new session hero identity", () => {
-	const document = createAgentTeamFixture();
-	const team = document.teams[0];
+	const document = createAgentProfileFixture();
 	const agent = document.agents.find((candidate) => candidate.name === "Researcher");
-	if (!team || !agent) throw new Error("missing Agent Team fixture");
+	if (!agent) throw new Error("missing Agent Profile fixture");
 
 	beforeEach(() => {
 		resetAgentTeamDirectoryForTest();
@@ -102,47 +101,6 @@ describe("new session hero identity", () => {
 		expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(agent.name);
 		expect(screen.getByText(agent.description)).toBeDefined();
 		expect(window.document.querySelectorAll(".ns-hero-avatar-slot img")).toHaveLength(1);
-	});
-
-	it("shows the team's avatar group and swaps identities when the pick changes", async () => {
-		render(<Harness />);
-
-		await pick(agent.name);
-		await pick(team.name);
-
-		expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(team.name);
-		expect(window.document.querySelectorAll(".ns-hero-avatar-slot img").length).toBe(
-			Math.min(3, team.members.length),
-		);
-	});
-
-	it("folds a team larger than the avatar row into a trailing +n", async () => {
-		expect(team.members.length).toBeGreaterThan(3);
-		render(<Harness />);
-
-		await pick(team.name);
-
-		const slot = window.document.querySelector(".ns-hero-avatar-slot");
-		expect(slot?.querySelectorAll("img")).toHaveLength(3);
-		// 选择器 chip 里也有一枚 “+n”，这里只认 hero 槽内的那一枚。
-		expect(slot?.querySelector("[data-avatar-overflow]")?.textContent).toBe(`+${team.members.length - 3}`);
-	});
-
-	it("leaves the avatar row alone when the team fits", async () => {
-		const smallTeam = { ...team, members: team.members.slice(0, 2) };
-		Object.defineProperty(window, "vetta", {
-			configurable: true,
-			value: {
-				agentTeams: { list: vi.fn(async () => ({ ...document, teams: [smallTeam] })), onChanged: () => () => {} },
-			},
-		});
-		render(<Harness />);
-
-		await pick(team.name);
-
-		const slot = window.document.querySelector(".ns-hero-avatar-slot");
-		expect(slot?.querySelectorAll("img")).toHaveLength(2);
-		expect(slot?.querySelector("[data-avatar-overflow]")).toBeNull();
 	});
 
 	it("keeps the avatars mounted while the slot collapses back to the greeting", async () => {

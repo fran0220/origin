@@ -98,7 +98,7 @@ const DEFAULT_CONFIG: DesktopConfig = {
 	archivedProjects: [],
 	workspacePath: join(getVettaHomePath(), "workspace"),
 	defaultExecutionMode: "full-access",
-	defaultAgentMode: "work",
+	defaultAgentMode: "coding",
 	debugMode: false,
 	notificationsEnabled: true,
 	experimental: { vettaCli: true, agentSkills: true },
@@ -122,8 +122,8 @@ export function normalizeExecutionMode(value: unknown): "sandbox" | "full-access
 }
 
 export function normalizeAgentMode(value: unknown): string {
-	// 合法模式由 main/agent-modes 的 modes/*.md 注册表定义（ADR-0071）；无效值回落 work。
-	return isAgentMode(value) ? value : "work";
+	// 合法模式由 main/agent-modes 的 modes/*.md 注册表定义（ADR-0071）；无效值回落出厂默认 Coding。
+	return isAgentMode(value) ? value : "coding";
 }
 
 const KB_POLL_INTERVALS = [3, 5, 10, 30];
@@ -245,8 +245,7 @@ function parseDesktopConfig(parsed: Record<string, unknown>): DesktopConfig {
 				? expandTildePath(parsed.workspacePath)
 				: DEFAULT_CONFIG.workspacePath,
 		defaultExecutionMode: normalizeExecutionMode(parsed.defaultExecutionMode),
-		// 兼容 0.x 的旧字段名 agentMode（当时语义是全局工作模式），老用户配置不丢。
-		defaultAgentMode: normalizeAgentMode(parsed.defaultAgentMode ?? parsed.agentMode),
+		defaultAgentMode: normalizeAgentMode(parsed.defaultAgentMode),
 		debugMode: typeof parsed.debugMode === "boolean" ? parsed.debugMode : false,
 		vettaAppPath: typeof parsed.vettaAppPath === "string" ? parsed.vettaAppPath : undefined,
 		vettaCliAppPath: typeof parsed.vettaCliAppPath === "string" ? parsed.vettaCliAppPath : undefined,

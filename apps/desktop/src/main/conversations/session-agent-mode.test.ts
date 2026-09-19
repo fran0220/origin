@@ -31,13 +31,9 @@ vi.mock("../plugins/plugin-catalog.js", () => ({
 	},
 }));
 
+import { DEFAULT_AGENT_MODE } from "../agent-modes/index.js";
 import { resolveDesktopSessionConfig } from "./resolve-session-config.js";
-import {
-	LEGACY_SESSION_AGENT_MODE,
-	readSessionAgentMode,
-	recordSessionAgentMode,
-	resolveAgentModeStorePath,
-} from "./session-agent-mode-store.js";
+import { readSessionAgentMode, recordSessionAgentMode, resolveAgentModeStorePath } from "./session-agent-mode-store.js";
 
 const temporaryRoots: string[] = [];
 
@@ -101,14 +97,14 @@ describe("会话级工作模式固化", () => {
 		expect(resumed.agentMode).toBe("coding");
 	});
 
-	it("没有记录的历史会话按常量回落，不跟随当前默认值", async () => {
+	it("没有记录的会话按出厂默认 Coding 回落，不跟随当前默认值", async () => {
 		const root = await createTemporaryRoot();
-		const sessionPath = await createSessionFile(root, "legacy.jsonl");
-		desktopConfig.defaultAgentMode = "coding";
+		const sessionPath = await createSessionFile(root, "unrecorded.jsonl");
+		desktopConfig.defaultAgentMode = "work";
 
 		const resumed = await resolveDesktopSessionConfig({ cwd: root, sessionPath }, "conversation", "interactive");
-		expect(resumed.agentMode).toBe(LEGACY_SESSION_AGENT_MODE);
-		expect(resumed.agentMode).toBe("work");
+		expect(resumed.agentMode).toBe(DEFAULT_AGENT_MODE);
+		expect(resumed.agentMode).toBe("coding");
 	});
 });
 

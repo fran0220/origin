@@ -130,18 +130,18 @@ it("follows the main-process broadcast so every window shows the same default", 
 	expect(setGlobalAgentMode).not.toHaveBeenCalled();
 });
 
-it("出厂默认模式（work）始终排在最前，与注册表顺序无关", async () => {
-	// 注册表按文件名序给出 coding 在前；toggle 的显示顺序要把出厂默认 work 提到最前。
-	mountWithConfig({ defaultAgentMode: "work" }, [
-		{ id: "coding", label: "Coding", description: "", icon: "icon-[solar--code-linear]" },
+it("出厂默认模式（coding）始终排在最前，与注册表顺序无关", async () => {
+	// 注册表按文件名序给出 work 在前；toggle 的显示顺序要把出厂默认 coding 提到最前。
+	mountWithConfig({ defaultAgentMode: "coding" }, [
 		{ id: "work", label: "Work", description: "", icon: "icon-[solar--case-minimalistic-linear]" },
+		{ id: "coding", label: "Coding", description: "", icon: "icon-[solar--code-linear]" },
 	]);
 	await act(async () => {
 		await Promise.resolve();
 	});
 
 	const labels = [...container.querySelectorAll("button")].map((button) => button.getAttribute("aria-label"));
-	expect(labels[0]).toBe("agentMode.work");
+	expect(labels[0]).toBe("agentMode.coding");
 });
 
 it("registry drives the rendered modes: a third mode appears without UI changes (ADR-0071)", async () => {

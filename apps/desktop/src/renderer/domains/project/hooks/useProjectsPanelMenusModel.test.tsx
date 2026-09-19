@@ -15,17 +15,13 @@ vi.mock("react-i18next", () => ({
 const forgetConversations = vi.fn();
 vi.stubGlobal("window", Object.assign(globalThis.window, { vetta: { conversationTags: { forgetConversations } } }));
 
-const teamSession = {
-	kind: "agent-team" as const,
-	id: "team-session",
-	path: "C:/sessions/team.jsonl",
-	cwd: "C:/team-workspaces/team-session",
-	firstMessage: "Team task",
+const conversation = {
+	kind: "conversation" as const,
+	id: "session",
+	path: "C:/sessions/thread.jsonl",
+	cwd: "C:/project",
+	firstMessage: "Thread task",
 	modifiedAt: 1,
-	teamId: "team",
-	teamSessionId: "team-session",
-	sessionTitle: "Team task",
-	memberAvatarUrls: [],
 };
 
 function model(deleteSession: ReturnType<typeof vi.fn>): ProjectsPanelModel {
@@ -38,13 +34,13 @@ function model(deleteSession: ReturnType<typeof vi.fn>): ProjectsPanelModel {
 }
 
 describe("useProjectsPanelMenusModel", () => {
-	it("asks for confirmation before deleting a Team session and deletes only after confirmation", () => {
+	it("asks for confirmation before deleting a conversation and deletes only after confirmation", () => {
 		const store = createStore();
 		const deleteSession = vi.fn();
 		const wrapper = ({ children }: PropsWithChildren): JSX.Element => <Provider store={store}>{children}</Provider>;
 		const { result } = renderHook(() => useProjectsPanelMenusModel(model(deleteSession)), { wrapper });
 
-		act(() => result.current.actions.deleteSession(teamSession));
+		act(() => result.current.actions.deleteSession(conversation));
 
 		const confirmation = store.get(confirmDialogAtom);
 		expect(deleteSession).not.toHaveBeenCalled();
@@ -56,6 +52,6 @@ describe("useProjectsPanelMenusModel", () => {
 		});
 
 		act(() => confirmation?.onConfirm(false));
-		expect(deleteSession).toHaveBeenCalledWith(teamSession);
+		expect(deleteSession).toHaveBeenCalledWith(conversation);
 	});
 });

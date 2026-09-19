@@ -11,7 +11,6 @@ export function useMessageListModel({
 	initialTargetKey,
 	onInitialTargetHandled,
 	participants = [],
-	onTeamMemberOpen,
 }: MessageListProps): MessageListModel {
 	const scroll = useMessageListScrollModel({
 		isStreaming,
@@ -50,6 +49,5 @@ export function useMessageListModel({
 		tailMessageId: messages.at(-1)?.id ?? null,
 		participantsById,
 		participants,
-		onTeamMemberOpen,
 	};
 }

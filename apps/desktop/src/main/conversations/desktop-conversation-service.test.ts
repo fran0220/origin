@@ -1,11 +1,10 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { AgentProfile, AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import { type RuntimeHost, runtimeError } from "@vetta/runtime-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { onConversationListChanged } from "./conversation-list-events.js";
-import type { ConversationOwnershipCatalogPort } from "./conversation-ownership-catalog.js";
 import { type DesktopConversationError, DesktopConversationService } from "./desktop-conversation-service.js";
 import { readSessionAgentBinding, recordSessionAgentBinding } from "./session-agent-binding-store.js";
 
@@ -55,8 +54,8 @@ vi.mock("../sandbox/capability.js", () => ({
 
 const temporaryRoots: string[] = [];
 
-function createAgentTeamDocument(agents: readonly AgentProfile[]): AgentTeamDocument {
-	return { schemaVersion: 1, revision: 1, agents, teams: [] } as AgentTeamDocument;
+function createAgentProfileDocument(agents: readonly AgentProfile[]): AgentProfileDocument {
+	return { schemaVersion: 1, revision: 1, agents } as AgentProfileDocument;
 }
 
 function deferred<T>(): { promise: Promise<T>; resolve: (value: T) => void } {
@@ -178,13 +177,13 @@ describe("DesktopConversationService session access", () => {
 		expect(resolveSessionAccess).toHaveBeenCalledWith(sessionPath);
 	});
 
-	it("removes product-owned Conversations before resolving ordinary-session capabilities", async () => {
+	it("lists every conversation in the runtime catalog", async () => {
 		const cwd = await createTemporaryRoot();
-		const teamPath = join(cwd, "team.conversation.jsonl");
-		const ordinaryPath = join(cwd, "ordinary.conversation.jsonl");
+		const firstPath = join(cwd, "first.conversation.jsonl");
+		const secondPath = join(cwd, "second.conversation.jsonl");
 		const listSessions = vi.fn(async () => [
-			{ id: "team", path: teamPath, cwd, firstMessage: "team", modifiedAt: 2 },
-			{ id: "ordinary", path: ordinaryPath, cwd, firstMessage: "hello", modifiedAt: 1 },
+			{ id: "first", path: firstPath, cwd, firstMessage: "one", modifiedAt: 2 },
+			{ id: "second", path: secondPath, cwd, firstMessage: "two", modifiedAt: 1 },
 		]);
 		const resolveSessionAccess = vi.fn(async () => ({
 			readHistory: true,
@@ -192,78 +191,16 @@ describe("DesktopConversationService session access", () => {
 			rename: true,
 			delete: true,
 		}));
-		const ownership: Pick<ConversationOwnershipCatalogPort, "filterUserSessions"> = {
-			async filterUserSessions<T extends { readonly path: string }>(sessions: readonly T[]): Promise<T[]> {
-				return sessions.filter((session) => session.path === ordinaryPath);
-			},
-		};
 		const runtime = { listSessions, resolveSessionAccess } as unknown as RuntimeHost;
-		const ensureOwnershipReady = vi.fn(async () => undefined);
-		const service = new DesktopConversationService(runtime, ownership, ensureOwnershipReady);
+		const service = new DesktopConversationService(runtime);
 
-		await expect(service.listSessions(cwd)).resolves.toEqual([expect.objectContaining({ id: "ordinary" })]);
-		expect(ensureOwnershipReady).toHaveBeenCalledOnce();
-		expect(resolveSessionAccess).toHaveBeenCalledOnce();
-		expect(resolveSessionAccess).toHaveBeenCalledWith(ordinaryPath);
-	});
-
-	it("rejects direct ordinary-chat opens for Team-owned Conversations", async () => {
-		const root = await createTemporaryRoot();
-		const sessionPath = join(root, "team.conversation.jsonl");
-		await writeFile(sessionPath, "{}\n", "utf8");
-		const runtime = {
-			resolveSessionAccess: vi.fn(),
-			createSession: vi.fn(),
-		} as unknown as RuntimeHost;
-		const ownership = {
-			filterUserSessions: async <T extends { readonly path: string }>(sessions: readonly T[]) => [...sessions],
-			getOwner: vi.fn(async () => ({
-				kind: "agent-team" as const,
-				teamId: "team-1",
-				teamSessionId: "team-session-1",
-				role: "coordination" as const,
-			})),
-		};
-		const ensureOwnershipReady = vi.fn(async () => undefined);
-		const service = new DesktopConversationService(runtime, ownership, ensureOwnershipReady);
-
-		const error = await service.openSession(sessionPath, "sandbox", "interactive").catch((reason: unknown) => reason);
-
-		expect(error).toMatchObject<Partial<DesktopConversationError>>({
-			code: "INVALID_SESSION_PATH",
-			details: { teamId: "team-1", teamSessionId: "team-session-1" },
-		});
-		expect(ensureOwnershipReady).toHaveBeenCalledOnce();
-		expect(runtime.resolveSessionAccess).not.toHaveBeenCalled();
-		expect(runtime.createSession).not.toHaveBeenCalled();
-	});
-
-	it("rejects direct ordinary-session creation from a Team-owned path", async () => {
-		const root = await createTemporaryRoot();
-		const sessionPath = join(root, "team.conversation.jsonl");
-		const runtime = { createSession: vi.fn() } as unknown as RuntimeHost;
-		const ownership = {
-			filterUserSessions: async <T extends { readonly path: string }>(sessions: readonly T[]) => [...sessions],
-			getOwner: vi.fn(async () => ({
-				kind: "agent-team" as const,
-				teamId: "team-1",
-				teamSessionId: "team-session-1",
-				role: "member" as const,
-			})),
-		};
-		const ensureOwnershipReady = vi.fn(async () => undefined);
-		const service = new DesktopConversationService(runtime, ownership, ensureOwnershipReady);
-
-		const error = await service
-			.createSession({ cwd: root, sessionPath }, "other", "interactive")
-			.catch((reason: unknown) => reason);
-
-		expect(error).toMatchObject<Partial<DesktopConversationError>>({
-			code: "INVALID_SESSION_PATH",
-			details: { teamId: "team-1", teamSessionId: "team-session-1" },
-		});
-		expect(ensureOwnershipReady).toHaveBeenCalledOnce();
-		expect(runtime.createSession).not.toHaveBeenCalled();
+		await expect(service.listSessions(cwd)).resolves.toEqual([
+			expect.objectContaining({ id: "first" }),
+			expect.objectContaining({ id: "second" }),
+		]);
+		expect(resolveSessionAccess).toHaveBeenCalledTimes(2);
+		expect(resolveSessionAccess).toHaveBeenCalledWith(firstPath);
+		expect(resolveSessionAccess).toHaveBeenCalledWith(secondPath);
 	});
 
 	it("rejects history-only sessions before handing them to the interactive backend", async () => {
@@ -467,12 +404,42 @@ describe("DesktopConversationService agent binding", () => {
 		} as unknown as RuntimeHost;
 	}
 
+	it("creates a child thread session with collaboration identity and classifies the parent cwd", async () => {
+		const cwd = await createTemporaryRoot();
+		const sessionPath = join(cwd, "session-1.conversation.jsonl");
+		const runtime = createRuntime(sessionPath);
+		const service = new DesktopConversationService(runtime);
+
+		expect(service.classifyWorkingDirectory(cwd)).toBe("other");
+		const session = await service.createSession(
+			{
+				cwd,
+				parentThreadId: "root-thread",
+				threadOrigin: "thread",
+				threadIntent: "delegation",
+				dialMode: "low",
+			},
+			service.classifyWorkingDirectory(cwd),
+			"interactive",
+		);
+
+		expect(session.sessionId).toBe("session-1");
+		expect(runtime.createSession).toHaveBeenCalledWith(
+			expect.objectContaining({
+				parentThreadId: "root-thread",
+				threadOrigin: "thread",
+				threadIntent: "delegation",
+				dialMode: "low",
+			}),
+		);
+	});
+
 	it("binds a new session to the selected Agent and reports it back", async () => {
 		const cwd = await createTemporaryRoot();
 		const sessionPath = join(cwd, "session-1.conversation.jsonl");
 		const runtime = createRuntime(sessionPath);
-		const service = new DesktopConversationService(runtime, undefined, undefined, async () =>
-			createAgentTeamDocument([createProfile()]),
+		const service = new DesktopConversationService(runtime, async () =>
+			createAgentProfileDocument([createProfile()]),
 		);
 
 		const session = await service.createSession({ cwd, agentProfileId: "agent-1" }, "other", "interactive");
@@ -484,9 +451,7 @@ describe("DesktopConversationService agent binding", () => {
 	it("rejects a new session whose Agent was deleted while the picker was stale", async () => {
 		const cwd = await createTemporaryRoot();
 		const runtime = createRuntime(join(cwd, "session-1.conversation.jsonl"));
-		const service = new DesktopConversationService(runtime, undefined, undefined, async () =>
-			createAgentTeamDocument([]),
-		);
+		const service = new DesktopConversationService(runtime, async () => createAgentProfileDocument([]));
 
 		const error = await service
 			.createSession({ cwd, agentProfileId: "agent-1" }, "other", "interactive")
@@ -502,9 +467,7 @@ describe("DesktopConversationService agent binding", () => {
 		await writeFile(sessionPath, "{}\n", "utf8");
 		await recordSessionAgentBinding(sessionPath, "agent-1");
 		const runtime = createRuntime(sessionPath);
-		const service = new DesktopConversationService(runtime, undefined, undefined, async () =>
-			createAgentTeamDocument([]),
-		);
+		const service = new DesktopConversationService(runtime, async () => createAgentProfileDocument([]));
 
 		// 绑定过已删 Agent 的历史会话若在这里报错，用户连聊天记录都读不回来。
 		const session = await service.createSession({ cwd, sessionPath }, "other", "interactive");

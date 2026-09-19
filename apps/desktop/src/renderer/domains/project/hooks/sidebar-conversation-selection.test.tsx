@@ -2,7 +2,7 @@
 import { runningSessionPathsAtom, sessionContextMenuAtom } from "@shared/store/atoms";
 import { createStore, Provider } from "jotai";
 import type { PropsWithChildren } from "react";
-import { act, renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import type { SidebarConversationInfo } from "../services/sidebar-conversation-projection";
 import { useDefaultSessionListModel } from "./useDefaultSessionListModel";
@@ -21,20 +21,16 @@ const ordinarySession: SidebarConversationInfo = {
 	modifiedAt: 2,
 };
 
-const teamSession: SidebarConversationInfo = {
-	kind: "agent-team",
-	id: "team-session",
-	path: "C:/sessions/team.jsonl",
-	cwd: "C:/team-workspaces/team-session",
-	firstMessage: "Team task",
+const otherSession: SidebarConversationInfo = {
+	kind: "conversation",
+	id: "other-session",
+	path: "C:/sessions/other.jsonl",
+	cwd: "C:/project",
+	firstMessage: "Other task",
 	modifiedAt: 3,
-	teamId: "team",
-	teamSessionId: "team-session",
-	memberAvatarUrls: [],
-	sessionTitle: "Team task",
 };
 
-const sessions = [ordinarySession, teamSession];
+const sessions = [ordinarySession, otherSession];
 const noop = (): void => {};
 const wrapper = ({ children }: PropsWithChildren): JSX.Element => <Provider>{children}</Provider>;
 
@@ -45,12 +41,11 @@ function runningWrapper(path: string): ({ children }: PropsWithChildren) => JSX.
 }
 
 describe("sidebar conversation selection", () => {
-	it("selects only the Team conversation in the default conversation list when an ordinary path is stale", () => {
+	it("selects only the matching conversation in the default list", () => {
 		const { result } = renderHook(
 			() =>
 				useDefaultSessionListModel({
 					activeSessionPath: ordinarySession.path,
-					activeTeamSessionId: teamSession.teamSessionId,
 					cwd: ordinarySession.cwd,
 					filter: "conversation",
 					onRenameSession: noop,
@@ -61,16 +56,15 @@ describe("sidebar conversation selection", () => {
 		);
 
 		expect(result.current.sessions.filter((session) => session.active).map((session) => session.key)).toEqual([
-			"agent-team:team-session",
+			`conversation:${ordinarySession.path}`,
 		]);
 	});
 
-	it("selects only the Team conversation inside a project when an ordinary path is stale", () => {
+	it("selects only the matching conversation inside a project", () => {
 		const { result } = renderHook(
 			() =>
 				useProjectGroupModel({
 					activeSessionPath: ordinarySession.path,
-					activeTeamSessionId: teamSession.teamSessionId,
 					isExpanded: true,
 					onCollapse: noop,
 					onExpand: noop,
@@ -85,29 +79,27 @@ describe("sidebar conversation selection", () => {
 		);
 
 		expect(result.current.sessionViews.filter((session) => session.active).map((session) => session.key)).toEqual([
-			"agent-team:team-session",
+			`conversation:${ordinarySession.path}`,
 		]);
 	});
 
-	it("marks Team conversations as running in both sidebar placements", () => {
+	it("marks conversations as running in both sidebar placements", () => {
 		const defaultList = renderHook(
 			() =>
 				useDefaultSessionListModel({
 					activeSessionPath: "",
-					activeTeamSessionId: "",
 					cwd: ordinarySession.cwd,
 					filter: "conversation",
 					onRenameSession: noop,
 					onSelectSession: noop,
-					sessions: [teamSession],
+					sessions: [ordinarySession],
 				}),
-			{ wrapper: runningWrapper(teamSession.path) },
+			{ wrapper: runningWrapper(ordinarySession.path) },
 		);
 		const projectList = renderHook(
 			() =>
 				useProjectGroupModel({
 					activeSessionPath: "",
-					activeTeamSessionId: "",
 					isExpanded: true,
 					onCollapse: noop,
 					onExpand: noop,
@@ -116,54 +108,51 @@ describe("sidebar conversation selection", () => {
 					onRenameSession: noop,
 					onSelectSession: noop,
 					project: { cwd: ordinarySession.cwd, name: "OpenVetta", sessionCount: 1, type: "normal" },
-					sessions: [teamSession],
+					sessions: [ordinarySession],
 				}),
-			{ wrapper: runningWrapper(teamSession.path) },
+			{ wrapper: runningWrapper(ordinarySession.path) },
 		);
 
 		expect(defaultList.result.current.sessions[0]?.running).toBe(true);
 		expect(projectList.result.current.sessionViews[0]?.running).toBe(true);
 	});
 
-	it("opens a mutable Team context menu from the default conversation list", () => {
+	it("opens a mutable context menu from the default conversation list", () => {
 		const store = createStore();
 		const { result } = renderHook(
 			() =>
 				useDefaultSessionListModel({
 					activeSessionPath: "",
-					activeTeamSessionId: "",
 					cwd: ordinarySession.cwd,
 					filter: "conversation",
 					onRenameSession: noop,
 					onSelectSession: noop,
-					sessions: [teamSession],
+					sessions: [ordinarySession],
 				}),
 			{ wrapper: ({ children }) => <Provider store={store}>{children}</Provider> },
 		);
 		act(() =>
 			result.current.actions.openContextMenu(
 				{ clientX: 24, clientY: 36 } as React.MouseEvent,
-				teamSession,
+				ordinarySession,
 			),
 		);
 
 		expect(store.get(sessionContextMenuAtom)).toEqual({
 			x: 24,
 			y: 36,
-			session: teamSession,
+			session: ordinarySession,
 			allowMutations: true,
-			// 下方对话列表里的 Team 会话与普通会话一样可打标签。
 			canTag: true,
 		});
 	});
 
-	it("opens the same mutable Team context menu inside a project", () => {
+	it("opens a project context menu that cannot tag", () => {
 		const store = createStore();
 		const { result } = renderHook(
 			() =>
 				useProjectGroupModel({
 					activeSessionPath: "",
-					activeTeamSessionId: "",
 					isExpanded: true,
 					onCollapse: noop,
 					onExpand: noop,
@@ -172,7 +161,7 @@ describe("sidebar conversation selection", () => {
 					onRenameSession: noop,
 					onSelectSession: noop,
 					project: { cwd: ordinarySession.cwd, name: "OpenVetta", sessionCount: 1, type: "normal" },
-					sessions: [teamSession],
+					sessions: [ordinarySession],
 				}),
 			{ wrapper: ({ children }) => <Provider store={store}>{children}</Provider> },
 		);
@@ -181,7 +170,7 @@ describe("sidebar conversation selection", () => {
 		act(() =>
 			result.current.actions.openSessionContextMenu(
 				{ clientX: 48, clientY: 72, preventDefault } as unknown as React.MouseEvent,
-				teamSession,
+				ordinarySession,
 			),
 		);
 
@@ -189,37 +178,28 @@ describe("sidebar conversation selection", () => {
 		expect(store.get(sessionContextMenuAtom)).toEqual({
 			x: 48,
 			y: 72,
-			session: teamSession,
+			session: ordinarySession,
 			allowMutations: true,
-			// 项目内的会话行没有承载标签筛选的入口，不给打标。
 			canTag: false,
 		});
 	});
 
-	it("renames a Team session through the Team service from either sidebar placement", async () => {
-		const renameSession = vi.fn(async () => ({}) as never);
-		Object.defineProperty(window, "vetta", {
-			configurable: true,
-			value: { agentTeams: { renameSession } },
-		});
+	it("renames a conversation through the ordinary rename callback", () => {
+		const onRenameSession = vi.fn();
 		const { result } = renderHook(
 			() =>
 				useDefaultSessionListModel({
 					activeSessionPath: "",
-					activeTeamSessionId: "",
 					cwd: ordinarySession.cwd,
 					filter: "conversation",
-					onRenameSession: noop,
+					onRenameSession,
 					onSelectSession: noop,
-					sessions: [teamSession],
+					sessions: [ordinarySession],
 				}),
 			{ wrapper },
 		);
 
-		act(() => result.current.actions.rename(teamSession, "Renamed team"));
-		await waitFor(() => expect(renameSession).toHaveBeenCalledWith(
-			{ id: teamSession.teamSessionId, coordinationSessionPath: teamSession.path },
-			"Renamed team",
-		));
+		act(() => result.current.actions.rename(ordinarySession, "Renamed thread"));
+		expect(onRenameSession).toHaveBeenCalledWith(ordinarySession.cwd, ordinarySession.path, "Renamed thread");
 	});
 });

@@ -1,6 +1,6 @@
 import { stat } from "node:fs/promises";
 import { extname, isAbsolute, resolve } from "node:path";
-import type { AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@vetta/agent-team";
 import { CODING_AGENT_SESSION_TITLE_GENERATE } from "@vetta/coding-agent/session-extensions";
 import {
 	isSessionError,
@@ -16,17 +16,13 @@ import {
 import { sanitizeRuntimeErrorMessage } from "@vetta/runtime-desktop";
 import { type DesktopSessionHistoryInfo, UNAVAILABLE_RUNTIME_SESSION_ACCESS } from "../../shared/session-access.js";
 import { agentTeamStore } from "../agent-teams/agent-team-store.js";
-import { ensureLegacyAgentTeamOwnershipCatalog } from "../agent-teams/team-ownership-backfill.js";
+
 import { monitorRuntimeSession } from "../app-monitor/app-monitor-service.js";
 import { allowProjectRoot, readDesktopConfig } from "../ipc/fs.js";
 import { getAppLogger } from "../logger.js";
 import { getSharedRuntime } from "../runtime.js";
 import { assertSandboxAvailableForMode } from "../sandbox/capability.js";
 import { emitConversationListChanged } from "./conversation-list-events.js";
-import {
-	type ConversationOwnershipCatalogPort,
-	conversationOwnershipCatalog,
-} from "./conversation-ownership-catalog.js";
 import {
 	type DesktopCodingAgentSessionConfig,
 	type DesktopConversationSource,
@@ -138,11 +134,8 @@ export class DesktopConversationService {
 
 	constructor(
 		private readonly runtime: RuntimeHost,
-		private readonly ownershipCatalog?: Pick<ConversationOwnershipCatalogPort, "filterUserSessions"> &
-			Partial<Pick<ConversationOwnershipCatalogPort, "getOwner">>,
-		private readonly ensureOwnershipReady?: () => Promise<void>,
 		/** Agent 目录读取口，仅为单测可注入而外露；缺省走主进程共享的 agentTeamStore。 */
-		private readonly readAgentTeamDocument: () => Promise<AgentTeamDocument> = () => agentTeamStore.read(),
+		private readonly readAgentTeamDocument: () => Promise<AgentProfileDocument> = () => agentTeamStore.read(),
 	) {}
 
 	/**
@@ -180,6 +173,11 @@ export class DesktopConversationService {
 		return this.runtime.subscribe(sessionId, handler);
 	}
 
+	/** 子 Thread 创建时按父会话 cwd 选择 conversation / project 装配。 */
+	classifyWorkingDirectory(cwd: string): DesktopSessionKind {
+		return isConversationCwd(cwd) ? "conversation" : "other";
+	}
+
 	async createSession(
 		config: DesktopCodingAgentSessionConfig | undefined,
 		kind: DesktopSessionKind,
@@ -188,18 +186,6 @@ export class DesktopConversationService {
 	): Promise<DesktopConversationSession> {
 		const trace = new DesktopSessionCreationTrace(log, traceContext?.interactionId);
 		try {
-			if (config?.sessionPath && isAbsolute(config.sessionPath)) {
-				const absolutePath = resolve(config.sessionPath);
-				await this.ensureOwnershipReady?.();
-				const owner = await this.ownershipCatalog?.getOwner?.(absolutePath);
-				if (owner) {
-					throw new DesktopConversationError("INVALID_SESSION_PATH", "Session is managed by Agent Team.", {
-						sessionPath: absolutePath,
-						teamId: owner.teamId,
-						teamSessionId: owner.teamSessionId,
-					});
-				}
-			}
 			await trace.measure("sandbox-check", () =>
 				assertSandboxAvailableForMode(config?.executionMode, async () => {
 					const desktopConfig = await readDesktopConfig();
@@ -227,7 +213,7 @@ export class DesktopConversationService {
 			if (!sessionPath) {
 				throw new DesktopConversationError("TURN_FAILED", "Runtime did not expose the created session path.");
 			}
-			// 工作模式在这里固化：新会话写入当前默认值，历史会话补写回落值。
+			// 工作模式在这里固化：新会话写入当前默认值；缺记录时补写出厂默认 Coding。
 			// 已有记录不覆盖，所以之后改默认值不会改写任何已存在会话。
 			await trace.measure("record-agent-mode", () => recordSessionAgentMode(sessionPath, resolvedConfig.agentMode));
 			// Agent 归属同样只固化一次：会话属于哪个 Agent 是会话身份，中途不可改。
@@ -278,15 +264,6 @@ export class DesktopConversationService {
 			throw new DesktopConversationError("INVALID_SESSION_PATH", "sessionPath must be an absolute .jsonl path.");
 		}
 		const absolutePath = resolve(sessionPath);
-		await this.ensureOwnershipReady?.();
-		const owner = await this.ownershipCatalog?.getOwner?.(absolutePath);
-		if (owner) {
-			throw new DesktopConversationError("INVALID_SESSION_PATH", "Session is managed by Agent Team.", {
-				sessionPath: absolutePath,
-				teamId: owner.teamId,
-				teamSessionId: owner.teamSessionId,
-			});
-		}
 		try {
 			const file = await stat(absolutePath);
 			if (!file.isFile()) {
@@ -387,11 +364,7 @@ export class DesktopConversationService {
 		}
 		const absoluteCwd = resolve(cwd);
 		allowProjectRoot(absoluteCwd);
-		await this.ensureOwnershipReady?.();
-		const catalogSessions = await this.runtime.listSessions(absoluteCwd, resolveSessionDirForCwd(absoluteCwd));
-		const sessions = this.ownershipCatalog
-			? await this.ownershipCatalog.filterUserSessions(catalogSessions)
-			: catalogSessions;
+		const sessions = await this.runtime.listSessions(absoluteCwd, resolveSessionDirForCwd(absoluteCwd));
 		return Promise.all(
 			sessions.map(async (session) => ({
 				...session,
@@ -599,9 +572,7 @@ let sharedService: DesktopConversationService | undefined;
 
 export function getDesktopConversationService(): DesktopConversationService {
 	if (!sharedService) {
-		sharedService = new DesktopConversationService(getSharedRuntime(), conversationOwnershipCatalog, () =>
-			ensureLegacyAgentTeamOwnershipCatalog(),
-		);
+		sharedService = new DesktopConversationService(getSharedRuntime());
 	}
 	return sharedService;
 }

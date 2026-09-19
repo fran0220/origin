@@ -34,7 +34,6 @@ vi.mock("@vetta-org/theme-ui/chat", async (importOriginal) => ({
 }));
 vi.mock("../../../plugins/components/PluginTurnCardHost", () => ({ PluginTurnCardHost: () => null }));
 vi.mock("./AssistantMessage", () => ({ StreamingIndicator: () => null }));
-vi.mock("./WorkflowFooterItems", () => ({ WorkflowFooterItems: () => null }));
 
 import { retryProgressAtom } from "@shared/store/atoms";
 import { MessageListFooter } from "./MessageListFooter";

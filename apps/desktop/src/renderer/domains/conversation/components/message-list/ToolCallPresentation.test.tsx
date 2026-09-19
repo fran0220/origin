@@ -8,20 +8,15 @@ vi.mock("../blocks/ToolCallBlock", () => ({
 		<div data-testid="tool-call">{block.toolName}</div>
 	),
 }));
-vi.mock("./TeamMemberReplyCard", () => ({
-	TeamMemberReplyCard: ({ event }: { event: { memberName: string } }) => (
-		<div data-testid="member-result">{event.memberName}</div>
-	),
-}));
 
 import { ToolCallPresentation } from "./ToolCallPresentation";
 
 describe("ToolCallPresentation", () => {
-	it("renders member activity as a sibling of tool details", () => {
+	it("renders tool details without retired team member activity", () => {
 		const block: ToolCallBlock = {
 			type: "tool_call",
 			toolCallId: "tool-1",
-			toolName: "team_send_message",
+			toolName: "create_thread",
 			args: {},
 			status: "success",
 		};
@@ -30,23 +25,12 @@ describe("ToolCallPresentation", () => {
 				block={block}
 				presentation={{
 					toolCallId: "tool-1",
-					activities: [
-						{
-							kind: "team-member-summary",
-							requestId: "request-1",
-							memberId: "reviewer",
-							memberName: "Review",
-							state: "completed",
-							recent: [],
-							timestamp: 1,
-						},
-					],
+					activities: [],
 				}}
 			/>,
 		);
 
-		expect(screen.getByTestId("tool-call")).toBeTruthy();
-		expect(screen.getByTestId("member-result").textContent).toBe("Review");
-		expect(screen.getByTestId("tool-call").parentElement?.children).toHaveLength(2);
+		expect(screen.getByTestId("tool-call").textContent).toBe("create_thread");
+		expect(screen.queryByTestId("member-result")).toBeNull();
 	});
 });

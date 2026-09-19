@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { atomicWriteJSONAsync } from "@vetta/toolkit/atomic-write";
-import { isAgentMode } from "../agent-modes/index.js";
+import { DEFAULT_AGENT_MODE, isAgentMode } from "../agent-modes/index.js";
 
 /** 合法值来自 main/agent-modes 的模式注册表（ADR-0071），落盘校验见 normalizeDesktopAgentMode。 */
 export type DesktopAgentMode = string;
@@ -12,14 +12,8 @@ export type DesktopAgentMode = string;
  */
 const STORE_FILE_NAME = "agent-modes.json";
 
-/**
- * 没有记录的历史会话统一按 "work" 恢复。这里必须是常量而不是「当前默认模式」：
- * 否则用户在新会话页改默认值，会连带改写所有老会话的模式，正是本次要消除的行为。
- */
-export const LEGACY_SESSION_AGENT_MODE: DesktopAgentMode = "work";
-
 export function normalizeDesktopAgentMode(value: unknown): DesktopAgentMode {
-	return isAgentMode(value) ? value : "work";
+	return isAgentMode(value) ? value : DEFAULT_AGENT_MODE;
 }
 
 export function resolveAgentModeStorePath(sessionPath: string): string {

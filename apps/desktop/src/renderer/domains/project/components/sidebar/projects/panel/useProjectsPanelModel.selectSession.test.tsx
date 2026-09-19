@@ -144,46 +144,6 @@ describe("useProjectsPanelModel.selectSession", () => {
 		expect(onOpenSession).toHaveBeenCalledWith(cwd, "s1");
 	});
 
-	it("Team 会话直接进入 Team 路由，不走普通会话恢复", async () => {
-		const cwd = "/repo/a";
-		const paint = deferred<"painted">();
-		waitForCommittedPaintSpy.mockReturnValueOnce(paint.promise);
-		useProjectsMock.mockReturnValue(projectsState(new Map()));
-		const onOpenSession = vi.fn().mockResolvedValue(undefined);
-		const { result } = renderHook(() => useProjectsPanelModel({ filter: "all", onOpenSession }));
-
-		act(() => {
-			result.current.actions.selectSession(cwd, {
-				kind: "agent-team",
-				id: "team-session-1",
-				path: "/team/session.jsonl",
-				cwd: "/team/workspace",
-				firstMessage: "Ship it",
-				modifiedAt: 1,
-				teamId: "team-1",
-				teamSessionId: "team-session-1",
-				memberAvatarUrls: ["/master.webp", "/executor.webp"],
-				sessionTitle: "Ship it",
-			});
-		});
-
-		expect(result.current.activeTeamSessionId).toBe("team-session-1");
-		expect(result.current.activeSessionPath).toBe("");
-		expect(onOpenSession).not.toHaveBeenCalled();
-		expect(navigateSpy).not.toHaveBeenCalled();
-
-		await act(async () => {
-			paint.resolve("painted");
-			await paint.promise;
-			await Promise.resolve();
-		});
-
-		expect(navigateSpy).toHaveBeenCalledWith({
-			to: "/agent-teams/$teamId/sessions/$sessionId",
-			params: { teamId: "team-1", sessionId: "team-session-1" },
-		});
-	});
-
 	it("点击普通会话时先切换高亮，首帧绘制后才开始恢复内容", async () => {
 		const cwd = "/repo/a";
 		const target = makeSession("s1", cwd);
@@ -192,8 +152,8 @@ describe("useProjectsPanelModel.selectSession", () => {
 		waitForCommittedPaintSpy.mockReturnValueOnce(paint.promise);
 		routeMatches = [
 			{
-				pathname: "/agent-teams/team-old/sessions/team-session-old",
-				params: { sessionId: "team-session-old" },
+				pathname: "/settings/models",
+				params: {},
 			},
 		];
 		useProjectsMock.mockReturnValue(projectsState(new Map([[cwd, [target]]])));
@@ -205,7 +165,6 @@ describe("useProjectsPanelModel.selectSession", () => {
 		});
 
 		expect(result.current.activeSessionPath).toBe("s1");
-		expect(result.current.activeTeamSessionId).toBe("");
 		expect(waitForCommittedPaintSpy).toHaveBeenCalledWith({ timeoutMs: null });
 		expect(onOpenSession).not.toHaveBeenCalled();
 
@@ -219,7 +178,6 @@ describe("useProjectsPanelModel.selectSession", () => {
 		// `openSession` may spend time before its canonical pending/active state reaches
 		// this tree. The click-owned selection must not be released in that gap.
 		expect(result.current.activeSessionPath).toBe("s1");
-		expect(result.current.activeTeamSessionId).toBe("");
 
 		await act(async () => {
 			getDefaultStore().set(activeSessionAtom, { cwd, sessionPath: "s1", runtimeId: "runtime-s1" });

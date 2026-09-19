@@ -32,26 +32,18 @@ import type { NewSessionHeroIdentity } from "@vetta-org/theme-ui";
 import { useAtomValue, useSetAtom } from "jotai";
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { TeamChatActions, TeamChatViewModel } from "../../connectors/team/teamChatModel";
 import { useSkillList } from "../../hooks/useSkillList";
 import type { SendInteractionContext } from "../input-bar/types";
 import { PANEL_SHIFT_MIN_ITEMS } from "./constants";
 import { prepareProjectCwd } from "./project-selector/prepare-project-cwd";
 import type { ProjectOption, ProjectSelection } from "./project-selector/project-selection";
 import { useNewSessionProjectSelection } from "./project-selector/useNewSessionProjectSelection";
-import {
-	isTeamTarget,
-	type NewSessionTargetKey,
-	parseAgentTargetKey,
-	parseNewSessionTarget,
-	parseTeamTargetKey,
-} from "./target";
+import { type NewSessionTargetKey, parseAgentTargetKey, parseNewSessionTarget } from "./target";
 import { createNewSessionTargetStrategyRegistry } from "./target-strategy";
 import { useNewSessionActivityPanel } from "./useNewSessionActivityPanel";
 import { type NewSessionContextBlockModel, useNewSessionContextBlock } from "./useNewSessionContextBlock";
 import { useNewSessionSend } from "./useNewSessionSend";
 import { useNewSessionTargetIdentity } from "./useNewSessionTargetIdentity";
-import { useNewSessionTeamDraft } from "./useNewSessionTeamDraft";
 import { useShortViewport } from "./useShortViewport";
 
 interface NewSessionPageModel {
@@ -69,7 +61,7 @@ interface NewSessionPageModel {
 	/** 活动面板根目录；「对话」与待创建项目下为 null，文件面板走空态而不是暴露 conversation 根。 */
 	activityPanelCwd: string | null;
 	greetingTitle: string;
-	/** 选中的智能体/团队身份；null 时 hero 展示问候语。 */
+	/** 选中的智能体身份；null 时 hero 展示问候语。 */
 	heroIdentity: NewSessionHeroIdentity | null;
 	isShort: boolean;
 	mounted: boolean;
@@ -86,11 +78,10 @@ interface NewSessionPageModel {
 	projectOptions: readonly ProjectOption[];
 	projectSelection: ProjectSelection;
 	projectTakenNames: readonly string[];
-	/** 选中的会话对象：团队（`team:`）、单个智能体（`agent:`）或未选（普通对话）。 */
+	/** 选中的会话对象：单个智能体（`agent:`）或未选（普通对话）。 */
 	targetKey: NewSessionTargetKey | null;
 	/** 插件上下文区：由选中的目标或输入框里提到的能力唤起。 */
 	contextBlock: NewSessionContextBlockModel;
-	teamComposer: { readonly model: TeamChatViewModel | null; readonly actions: TeamChatActions | null };
 	panelTitle: string;
 	pinTitle: string;
 	pinned: boolean;
@@ -116,8 +107,6 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		appliedTargetRef.current = identity;
 		setTargetKey(initialTargetKey === "conversation" ? null : initialTargetKey);
 	}, [initialTargetKey, search.target]);
-	// 单个智能体走的是普通会话链路，只在创建时多带一个身份；只有团队才需要 Team 编排。
-	const selectedTeamKey = isTeamTarget(targetKey) ? targetKey : null;
 	const selectedAgentProfileId = parseAgentTargetKey(targetKey);
 	// 项目选择器只覆盖页面本地上下文，不切路由：草稿按 `new:${routeCwd}` 隔离，
 	// 换项目若走路由就会把用户已经打好的正文换走。
@@ -127,7 +116,7 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		projectSelection.selection?.name ?? contextCwd.split(/[\\/]/).filter(Boolean).pop() ?? contextCwd;
 	const contextLabel =
 		projectSelection.selection === null
-			? t(selectedTeamKey ? "chat:newSession.teamNewWorkspaceContext" : "chat:newSession.defaultContext")
+			? t("chat:newSession.defaultContext")
 			: t("chat:newSession.projectContext", { name: contextName });
 
 	// Hero 首帧即挂载（仅用 opacity 入场），避免 idle 延迟插入导致输入栏被顶动。
@@ -195,37 +184,19 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		sendMessage,
 		...(selectedAgentProfileId ? { agentProfileId: selectedAgentProfileId } : {}),
 	});
-	const teamDraft = useNewSessionTeamDraft({
-		targetKey: selectedTeamKey,
-		projectSelection: currentSelection,
-		prepareCwd,
-		onSent: (sessionId) => {
-			const teamId = parseTeamTargetKey(selectedTeamKey);
-			if (!teamId) return;
-			void navigate({
-				to: "/agent-teams/$teamId/sessions/$sessionId",
-				params: { teamId, sessionId },
-				replace: true,
-			});
-		},
-	});
 	const targetStrategies = useMemo(
 		() =>
 			createNewSessionTargetStrategyRegistry({
 				conversationDispatch: newSessionSend.send,
-				teamDispatch: teamDraft.send,
-				teamKey: selectedTeamKey,
-				// 单 Agent 与普通对话共用同一条 dispatch：两者都是普通会话，
-				// 差别仅在于 useNewSessionSend 是否带上 agentProfileId。
 				agentDispatch: newSessionSend.send,
 				agentKey: selectedAgentProfileId ? targetKey : null,
 			}),
-		[newSessionSend.send, selectedAgentProfileId, selectedTeamKey, targetKey, teamDraft.send],
+		[newSessionSend.send, selectedAgentProfileId, targetKey],
 	);
 	const handleSelectTarget = useCallback(
 		(next: NewSessionTargetKey | null) => {
 			setTargetKey(next);
-			// Keep the selected target in the URL so a reload and the Team sidebar entry preserve intent.
+			// Keep the selected target in the URL so a reload preserves intent.
 			void navigate({
 				to: "/new-session",
 				search: { ...(search.cwd ? { cwd: search.cwd } : {}), ...(next ? { target: next } : {}) },
@@ -250,7 +221,7 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 	// 进入页面：草稿按 `new:${cwd}` 隔离恢复；其它上下文仍重置，避免串会话。
 	useEffect(() => {
 		// 会话对象只是发送路由，不改变当前新会话的草稿身份。这样切换普通
-		// 对话、单 Agent 与 Team 时，用户正在编辑的正文和附件保持可见。
+		// 对话与单 Agent 时，用户正在编辑的正文和附件保持可见。
 		switchSessionInputDraftScope(newSessionInputDraftKey(decodedCwd));
 		// 旧 attachedImages 链路兜底清空（正文 token 已由草稿文本恢复）。
 		setAttachedImages([]);
@@ -264,7 +235,7 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		//    否则残留 "batch" 会让 fail-closed 过滤把默认 action 全部隐藏。
 		// 2) 激活工具集置 null（未知 → 按 scope 默认显示），否则残留批量会话的工具集
 		//    不含 generate_image，会让 requiresActiveTool 闸门继续隐藏「图像生成」。
-		if (!isTeamTarget(targetKey)) setCurrentScenario("conversation");
+		setCurrentScenario("conversation");
 		setActiveToolNames(null);
 		// 清掉上一个会话残留的上下文用量，避免 ContextRing 显示旧会话的百分比。
 		setContextUsage(null);
@@ -276,7 +247,6 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		setLastActiveSession(null);
 	}, [
 		decodedCwd,
-		targetKey,
 		setAttachedImages,
 		setPromptAttachment,
 		setCurrentScenario,
@@ -358,7 +328,6 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 		projectSelection: projectSelection.selection,
 		projectTakenNames: projectSelection.takenNames,
 		targetKey,
-		teamComposer: { model: teamDraft.model, actions: teamDraft.actions },
 		panelTitle: activityOpen ? t("chat:chatView.panelButton.open") : t("chat:chatView.panelButton.closed"),
 		pinTitle: pinned ? t("chat:chatView.pinButton.pinned") : t("chat:chatView.pinButton.unpinned"),
 		pinned,

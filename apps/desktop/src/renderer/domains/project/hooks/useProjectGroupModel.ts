@@ -1,4 +1,3 @@
-import { notifyTeamSessionsChanged } from "@shared/agent-teams/team-session-events";
 import { pathBasename } from "@shared/lib/utils";
 import type { Project, ProjectType } from "@shared/store/atoms";
 import {
@@ -40,7 +39,6 @@ export interface ProjectGroupSessionView {
 
 interface UseProjectGroupModelArgs {
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	isActive?: boolean;
 	isExpanded: boolean;
 	onCollapse: (cwd: string) => void;
@@ -55,7 +53,6 @@ interface UseProjectGroupModelArgs {
 
 export function useProjectGroupModel({
 	activeSessionPath,
-	activeTeamSessionId,
 	isActive = false,
 	isExpanded,
 	onCollapse,
@@ -96,11 +93,7 @@ export function useProjectGroupModel({
 		if (!isExpanded) setShowAllSessions(false);
 	}, [isExpanded]);
 
-	const activeConversationKey = activeTeamSessionId
-		? `agent-team:${activeTeamSessionId}`
-		: activeSessionPath
-			? `conversation:${activeSessionPath}`
-			: "";
+	const activeConversationKey = activeSessionPath ? `conversation:${activeSessionPath}` : "";
 	useEffect(() => {
 		if (!activeConversationKey) {
 			revealedActiveSessionRef.current = null;
@@ -120,15 +113,14 @@ export function useProjectGroupModel({
 	const projectType = project.type;
 	const projectBadge = getProjectBadge(project, projectType, t);
 
-	// t 在 changeLanguage 后可能保持同一引用；读 i18n.language 强制语言切换时重算未命名团队会话文案。
+	// t 在 changeLanguage 后可能保持同一引用；读 i18n.language 强制语言切换时重算未命名会话文案。
 	const sessionViews: ProjectGroupSessionView[] = useMemo(() => {
 		void i18n.language;
 		const next = ordering.visible.map((session) => {
 			const identity = sidebarConversationIdentity(session, {
-				conversationLabel: session.kind === "conversation" ? sessionDisplayLabel(session) : undefined,
-				untitledTeamLabel: t("sidebar.session.untitledTeam"),
+				conversationLabel: sessionDisplayLabel(session),
 			});
-			const isSessionActive = isSidebarConversationActive(session, activeSessionPath, activeTeamSessionId);
+			const isSessionActive = isSidebarConversationActive(session, activeSessionPath);
 			const isRunning = runningSessionPaths.has(session.path);
 			const isSchedule =
 				identity.mutable &&
@@ -153,14 +145,12 @@ export function useProjectGroupModel({
 		return reuseUnchangedSessionViews(viewCacheRef.current, next);
 	}, [
 		activeSessionPath,
-		activeTeamSessionId,
 		i18n.language,
 		renamingSessionPath,
 		runningSessionPaths,
 		pinnedSessionPaths,
 		scheduledBasenames,
 		scheduledSessionPaths,
-		t,
 		ordering.visible,
 	]);
 
@@ -193,15 +183,7 @@ export function useProjectGroupModel({
 	const renameDone = useCallback(() => setRenamingSessionPath(null), [setRenamingSessionPath]);
 	const renameSessionByPath = useCallback(
 		(session: SidebarConversationInfo, name: string) => {
-			if (session.kind === "conversation") {
-				onRenameSession(projectCwd, session.path, name);
-				return;
-			}
-			void window.vetta.agentTeams
-				.renameSession({ id: session.teamSessionId, coordinationSessionPath: session.path }, name)
-				.then(() => {
-					notifyTeamSessionsChanged(session.teamId);
-				});
+			onRenameSession(projectCwd, session.path, name);
 		},
 		[onRenameSession, projectCwd],
 	);

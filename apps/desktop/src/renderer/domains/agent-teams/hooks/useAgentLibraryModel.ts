@@ -1,9 +1,4 @@
-import {
-	type AgentAbilitySelection,
-	type AgentProfile,
-	type AgentProfileDeleteImpact,
-	listLibraryAgentProfiles,
-} from "@vetta/agent-team";
+import { type AgentAbilitySelection, type AgentProfile, listLibraryAgentProfiles } from "@vetta/agent-team";
 import { useCallback, useMemo } from "react";
 import { type AgentTeamResources, agentTeamErrorMessage } from "./useAgentTeamResources";
 
@@ -12,7 +7,7 @@ export interface AgentLibraryCopy {
 	readonly defaultDescription: string;
 }
 
-/** 智能体库的增删改查；团队编队由 `useTeamRosterModel` 负责，两者共用同一份文档状态。 */
+/** 智能体库的增删改查。 */
 export function useAgentLibraryModel(resources: AgentTeamResources, copy: AgentLibraryCopy) {
 	const { document, setDocument, blueprints, setError } = resources;
 
@@ -37,22 +32,6 @@ export function useAgentLibraryModel(resources: AgentTeamResources, copy: AgentL
 		}
 	}, [blueprints, copy.defaultDescription, copy.defaultName, libraryAgents.length, setDocument, setError]);
 
-	const previewAgent = useCallback(async (agentId: string) => {
-		return window.vetta.agentTeams.previewAgentUpdate(agentId);
-	}, []);
-
-	const previewAgentDelete = useCallback(
-		async (agentId: string) => {
-			try {
-				return await window.vetta.agentTeams.previewAgentDelete(agentId);
-			} catch (cause) {
-				setError(agentTeamErrorMessage(cause));
-				return undefined;
-			}
-		},
-		[setError],
-	);
-
 	const saveAgent = useCallback(
 		async (agent: AgentProfile, input: AgentProfileEditInput) => {
 			const updated = await window.vetta.agentTeams.updateAgent(agent.id, {
@@ -69,19 +48,15 @@ export function useAgentLibraryModel(resources: AgentTeamResources, copy: AgentL
 					? { ...current, agents: current.agents.map((item) => (item.id === updated.id ? updated : item)) }
 					: current,
 			);
-			return { updated, impact: await previewAgent(agent.id) };
+			return { updated };
 		},
-		[previewAgent, setDocument],
+		[setDocument],
 	);
 
 	const deleteAgent = useCallback(
-		async (agent: AgentProfile, impact: AgentProfileDeleteImpact): Promise<boolean> => {
+		async (agent: AgentProfile): Promise<boolean> => {
 			try {
-				await window.vetta.agentTeams.deleteAgent(agent.id, {
-					expectedRevision: agent.revision,
-					expectedTeamIds: impact.teams.map((team) => team.teamId),
-					expectedTeamRevisions: Object.fromEntries(impact.teams.map((team) => [team.teamId, team.teamRevision])),
-				});
+				await window.vetta.agentTeams.deleteAgent(agent.id, { expectedRevision: agent.revision });
 				setDocument(await window.vetta.agentTeams.list());
 				setError(undefined);
 				return true;
@@ -95,7 +70,7 @@ export function useAgentLibraryModel(resources: AgentTeamResources, copy: AgentL
 
 	return {
 		libraryAgents,
-		actions: { createAgent, previewAgent, previewAgentDelete, saveAgent, deleteAgent },
+		actions: { createAgent, saveAgent, deleteAgent },
 	};
 }
 
@@ -103,7 +78,6 @@ export interface AgentProfileEditInput {
 	readonly name: string;
 	readonly description: string;
 	readonly avatar?: string;
-	/** `tint:<preset>` 或 `#rrggbb`；缺省表示按身份自动分配。 */
 	readonly mentionHandle: string;
 	readonly systemPrompt?: string;
 	readonly abilities: AgentAbilitySelection;

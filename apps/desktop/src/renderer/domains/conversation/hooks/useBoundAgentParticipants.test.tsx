@@ -3,13 +3,13 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { DEFAULT_AGENT_PARTICIPANT_ID } from "@shared/conversation";
 import { activeSessionAtom } from "@shared/store/atoms";
-import { createAgentTeamFixture } from "@vetta/agent-team";
+import { createAgentProfileFixture } from "@vetta/agent-team";
 import { createStore, Provider } from "jotai";
 import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useBoundAgentParticipants } from "./useBoundAgentParticipants";
 
-const document = createAgentTeamFixture();
+const document = createAgentProfileFixture();
 const agent = document.agents.find((candidate) => candidate.name === "Researcher");
 if (!agent) throw new Error("missing Agent fixture");
 

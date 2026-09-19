@@ -16,10 +16,6 @@ vi.mock("./persistent-page-loaders", () => ({
 	loadScenesPage: () => Promise.resolve({ default: () => <p>scenes-body</p> }),
 	loadNewSessionPage: () => Promise.resolve({ default: () => <p>new-session-body</p> }),
 	loadChatPage: () => Promise.resolve({ default: () => <p>chat-body</p> }),
-	loadTeamChatPage: () =>
-		Promise.resolve({
-			default: () => <p>team-body</p>,
-		}),
 	loadWorkspacePage: () => Promise.resolve({ default: () => <p>workspace-unused</p> }),
 }));
 

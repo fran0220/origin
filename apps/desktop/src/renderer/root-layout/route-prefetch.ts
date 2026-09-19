@@ -12,7 +12,6 @@ import {
 	loadNewSessionPage,
 	loadScenesPage,
 	loadSettingsPage,
-	loadTeamChatPage,
 	loadTimelinePage,
 	loadWorkspacePage,
 } from "./persistent-page-loaders";
@@ -30,7 +29,6 @@ type PrefetchKey =
 	| "/scenes"
 	| "new-session"
 	| "settings"
-	| "team-chat"
 	| "workspace";
 
 const LOADERS: Record<PrefetchKey, () => Promise<unknown>> = {
@@ -46,7 +44,6 @@ const LOADERS: Record<PrefetchKey, () => Promise<unknown>> = {
 	"/scenes": loadScenesPage,
 	"new-session": loadNewSessionPage,
 	settings: loadSettingsPage,
-	"team-chat": loadTeamChatPage,
 	workspace: loadWorkspacePage,
 };
 
@@ -68,7 +65,6 @@ export const IDLE_PREFETCH_KEYS: readonly PrefetchKey[] = [
 	"/batch-tasks",
 	"/evaluation",
 	"/timeline",
-	"team-chat",
 ];
 
 export const IDLE_PREFETCH_FIRST_MS = 0;

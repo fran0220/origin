@@ -12,7 +12,6 @@ import type { Usage } from "@vetta/ai/protocol";
 import type { ChatConversationItem } from "./types";
 import type { ConversationParticipantViewModel } from "@shared/conversation";
 import { AssistantMessage } from "./AssistantMessage";
-import { TeamMemberReplyCard } from "./TeamMemberReplyCard";
 import { ReadonlyUserMessage } from "./ReadonlyUserMessage";
 import { useMessageRendering } from "./MessageRendering";
 
@@ -37,7 +36,6 @@ export interface MessageItemProps {
 	pendingLabel?: string;
 	participant?: ConversationParticipantViewModel;
 	participants?: readonly ConversationParticipantViewModel[];
-	onTeamMemberOpen?: (memberId: string) => void;
 	sessionUsages?: readonly Usage[];
 }
 
@@ -55,21 +53,17 @@ export const DefaultMessageItem = memo(function DefaultMessageItem({
 	pendingLabel,
 	participant,
 	participants,
-	onTeamMemberOpen,
 	sessionUsages,
 	exportMode = false,
 }: MessageItemProps) {
 	if (message.kind === "event") {
 		if (message.event.kind === "compaction") return <CompactionBoundary />;
-		if (message.event.kind === "team-member-summary") {
-			return <TeamMemberReplyCard event={message.event} onOpen={onTeamMemberOpen} />;
-		}
 		return (
 			<Message.Root>
 				<MessageLayout.Event>
 					<MessageVisual.EventBubble>
 						<span className="icon-[solar--forward-linear] h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-						<span className="truncate">{message.event.label}</span>
+						<span className="truncate">{message.event.kind === "delegation" ? message.event.label : ""}</span>
 					</MessageVisual.EventBubble>
 				</MessageLayout.Event>
 			</Message.Root>
@@ -84,8 +78,7 @@ export const DefaultMessageItem = memo(function DefaultMessageItem({
 			isTailMessage={isTailMessage}
 			isStreaming={isStreaming}
 			pendingLabel={pendingLabel}
-			onTeamMemberOpen={onTeamMemberOpen}
-			exportMode={exportMode}
+				exportMode={exportMode}
 			participant={participant}
 			sessionUsages={sessionUsages}
 		/>

@@ -37,8 +37,7 @@ function readSnapshot(): readonly AgentModeOption[] | undefined {
 }
 
 /**
- * 该模式的叙事渲染方式。未加载 / 未指定模式 / 未知模式一律回退 "staged"——
- * 与历史会话缺模式记录时按 work 恢复（LEGACY_SESSION_AGENT_MODE）的口径一致。
+ * 该模式的叙事渲染方式。未加载 / 未指定模式 / 未知模式一律回退 "staged"。
  */
 export function useAgentModeNarration(modeId: string | null): "staged" | "inline" {
 	const modes = useSyncExternalStore(subscribe, readSnapshot);

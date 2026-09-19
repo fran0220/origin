@@ -40,7 +40,7 @@ export function useAssistantMessageModel({
 		message.phase === "streaming" ||
 		(isTailMessage && isStreaming && message.phase !== "failed" && message.phase !== "aborted");
 	// 按「本会话固化的模式」查注册表的 narration 能力位渲染，不是全局默认值，也不硬编码
-	// mode id（新增模式对本渲染层零改动）。未指定模式回退 staged（与历史会话按 work 恢复口径一致）。
+	// mode id（新增模式对本渲染层零改动）。未指定模式回退 staged。
 	const stagedNarration = narration === "staged";
 	const foldData = useMemo(
 		() => getAssistantFoldData(message.blocks, customToolNames, persistentToolCallIds),

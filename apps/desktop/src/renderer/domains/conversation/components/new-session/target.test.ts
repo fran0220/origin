@@ -3,38 +3,28 @@ import {
 	agentTargetKey,
 	CONVERSATION_TARGET_KEY,
 	filterTargetOptions,
-	isTeamTarget,
 	parseAgentTargetKey,
 	parseNewSessionTarget,
-	parseTeamTargetKey,
-	teamTargetKey,
 } from "./target";
 
 describe("new-session targets", () => {
-	it("uses conversation as the default and parses team keys", () => {
+	it("uses conversation as the default", () => {
 		expect(parseNewSessionTarget(undefined)).toBe(CONVERSATION_TARGET_KEY);
-		expect(parseTeamTargetKey(teamTargetKey("team-1"))).toBe("team-1");
-		expect(parseTeamTargetKey("conversation")).toBeNull();
+		expect(parseNewSessionTarget("conversation")).toBe(CONVERSATION_TARGET_KEY);
 	});
 
-	it("keeps team and agent key spaces apart", () => {
+	it("parses agent keys without treating them as conversation", () => {
 		expect(parseAgentTargetKey(agentTargetKey("agent-1"))).toBe("agent-1");
-		expect(parseAgentTargetKey(teamTargetKey("team-1"))).toBeNull();
-		expect(parseTeamTargetKey(agentTargetKey("agent-1"))).toBeNull();
-	});
-
-	it("treats only team keys as team targets, since a single agent is a plain conversation", () => {
-		expect(isTeamTarget(teamTargetKey("team-1"))).toBe(true);
-		expect(isTeamTarget(agentTargetKey("agent-1"))).toBe(false);
-		expect(isTeamTarget(null)).toBe(false);
+		expect(parseAgentTargetKey("conversation")).toBeNull();
+		expect(parseAgentTargetKey(null)).toBeNull();
 	});
 
 	it("filters target options by title and subtitle", () => {
 		const options = [
-			{ targetKey: teamTargetKey("a"), title: "Research", subtitle: "3 members", selected: false },
-			{ targetKey: teamTargetKey("b"), title: "Build", selected: false },
+			{ targetKey: agentTargetKey("a"), title: "Research", subtitle: "Find evidence", selected: false },
+			{ targetKey: agentTargetKey("b"), title: "Build", selected: false },
 		] as const;
-		expect(filterTargetOptions(options, "3 MEMBERS")).toHaveLength(1);
+		expect(filterTargetOptions(options, "FIND EVIDENCE")).toHaveLength(1);
 		expect(filterTargetOptions(options, "build")[0]?.title).toBe("Build");
 	});
 });

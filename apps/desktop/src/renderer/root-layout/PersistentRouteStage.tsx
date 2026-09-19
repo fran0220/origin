@@ -21,7 +21,7 @@ import {
 	loadSessionViewerPage,
 	loadThemePageRoute,
 } from "./outlet-page-loaders";
-import { PersistentSurfaceShell, TeamChatSurfaceShell } from "./PersistentSurfaceShell";
+import { PersistentSurfaceShell } from "./PersistentSurfaceShell";
 import { ThemePageRouteShell } from "../shared/theme/pages/ThemePageRouteShell";
 import {
 	loadAbilitiesPage,
@@ -36,18 +36,12 @@ import {
 	loadNewSessionPage,
 	loadScenesPage,
 	loadSettingsPage,
-	loadTeamChatPage,
 } from "./persistent-page-loaders";
 import {
 	persistentSurfaceIdForPath,
 	rememberVisitedSurface,
 	type PersistentSurfaceId,
 } from "./persistent-surface";
-import {
-	rememberVisitedTeamChat,
-	teamChatSurfaceForPath,
-	type TeamChatSurfaceRef,
-} from "./team-chat-surface";
 import {
 	rememberVisitedWorkspace,
 	workspaceSurfaceForPath,
@@ -65,7 +59,6 @@ const KnowledgePage = lazy(loadKnowledgePage);
 const KnowledgeListPage = lazy(loadKnowledgeListPage);
 const ScenesPage = lazy(loadScenesPage);
 const NewSessionPage = lazy(loadNewSessionPage);
-const TeamChatPage = lazy(loadTeamChatPage);
 const ProjectDetailPage = lazy(loadProjectDetailPage) as LazyExoticComponent<ComponentType<{ cwd?: string }>>;
 const SessionViewerPage = lazy(loadSessionViewerPage) as LazyExoticComponent<ComponentType<{ path?: string }>>;
 const ThemePageRoute = lazy(loadThemePageRoute) as LazyExoticComponent<
@@ -159,27 +152,6 @@ function PersistentWorkspacePage({
 	);
 }
 
-function PersistentTeamChatPage({
-	active,
-	teamId,
-	sessionId,
-	memberId,
-	stackLeave,
-}: TeamChatSurfaceRef & { active: boolean; stackLeave: boolean }): JSX.Element {
-	const ready = useSurfacePageReady(active, loadTeamChatPage);
-	return (
-		<DeferredSurface active={active} name={`team-chat:${teamId}`} stackLeave={stackLeave}>
-			{ready ? (
-				<Suspense fallback={<TeamChatSurfaceShell />}>
-					<TeamChatPage teamId={teamId} sessionId={sessionId} memberId={memberId} />
-				</Suspense>
-			) : (
-				<TeamChatSurfaceShell />
-			)}
-		</DeferredSurface>
-	);
-}
-
 function DetailSurfaceShell({ item }: { item: DetailSurfaceRef }): JSX.Element {
 	const common = useTranslation("common");
 	const chat = useTranslation("chat");
@@ -235,12 +207,11 @@ export interface PersistentRouteStageProps {
 /**
  * 侧栏主页面的工作台：已访问过的入口保活，当前入口占 flex-1。
  * 第一次走进时离场页叠一帧再 hidden；切回已挂载页则立刻 hidden，不盖住目标标题。
- * 未登记的路由仍走 Outlet（重定向 / 错误页）。插件工作区、团队会话、项目详情 / 查看器 / 主题页按 LRU 保活。
+ * 未登记的路由仍走 Outlet（重定向 / 错误页）。插件工作区、项目详情 / 查看器 / 主题页按 LRU 保活。
  */
 export function PersistentRouteStage({ currentPath }: PersistentRouteStageProps): JSX.Element {
 	const surface = persistentSurfaceIdForPath(currentPath);
 	const workspace = workspaceSurfaceForPath(currentPath);
-	const teamChat = teamChatSurfaceForPath(currentPath);
 	const detail = detailSurfaceForPath(currentPath);
 	const [visited, setVisited] = useState<ReadonlySet<PersistentSurfaceId>>(() =>
 		surface ? new Set<PersistentSurfaceId>([surface]) : new Set(),
@@ -248,28 +219,21 @@ export function PersistentRouteStage({ currentPath }: PersistentRouteStageProps)
 	const [visitedWorkspaces, setVisitedWorkspaces] = useState<readonly WorkspaceSurfaceRef[]>(() =>
 		workspace ? [workspace] : [],
 	);
-	const [visitedTeamChats, setVisitedTeamChats] = useState<readonly TeamChatSurfaceRef[]>(() =>
-		teamChat ? [teamChat] : [],
-	);
 	const [visitedDetails, setVisitedDetails] = useState<readonly DetailSurfaceRef[]>(() => (detail ? [detail] : []));
 	const nextVisited = rememberVisitedSurface(visited, surface);
 	if (nextVisited !== visited) setVisited(nextVisited);
 	const nextWorkspaces = rememberVisitedWorkspace(visitedWorkspaces, workspace);
 	if (nextWorkspaces !== visitedWorkspaces) setVisitedWorkspaces(nextWorkspaces);
-	const nextTeamChats = rememberVisitedTeamChat(visitedTeamChats, teamChat);
-	if (nextTeamChats !== visitedTeamChats) setVisitedTeamChats(nextTeamChats);
 	const nextDetails = rememberVisitedDetail(visitedDetails, detail);
 	if (nextDetails !== visitedDetails) setVisitedDetails(nextDetails);
 
-	const keepAlive = surface !== null || workspace !== null || teamChat !== null || detail !== null;
+	const keepAlive = surface !== null || workspace !== null || detail !== null;
 	const overlayLeave = keepAliveShouldStackLeave(
 		incomingKeepAliveAlreadyMounted({
 			surface,
 			visited,
 			workspace,
 			visitedWorkspaces,
-			teamChat,
-			visitedTeamChats,
 			detail,
 			visitedDetails,
 		}),
@@ -295,16 +259,6 @@ export function PersistentRouteStage({ currentPath }: PersistentRouteStageProps)
 					active={workspace?.key === item.key}
 					pluginId={item.pluginId}
 					viewId={item.viewId}
-					stackLeave={overlayLeave}
-				/>
-			))}
-			{visitedTeamChats.map((item) => (
-				<PersistentTeamChatPage
-					key={item.teamId}
-					active={teamChat?.teamId === item.teamId}
-					teamId={item.teamId}
-					sessionId={item.sessionId}
-					memberId={item.memberId}
 					stackLeave={overlayLeave}
 				/>
 			))}

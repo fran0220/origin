@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { AgentProfile, AgentTeamDocument, TeamDefinition } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import { describe, expect, it } from "vitest";
 import { localizeAgentTeamDocument } from "./agent-team-localization";
 
@@ -8,11 +8,10 @@ const catalogs = {
 	"preset-agent": {
 		defaultLocale: "zh",
 		locales: {
-			zh: { "agent.researcher.name": "检索员", "team.dev.name": "开发团队" },
+			zh: { "agent.researcher.name": "检索员" },
 			en: {
 				"agent.researcher.name": "Researcher",
 				"agent.researcher.description": "Gathers facts and verifies them.",
-				"team.dev.name": "Dev Team",
 			},
 		},
 	},
@@ -40,34 +39,16 @@ function agent(overrides: Partial<AgentProfile> = {}): AgentProfile {
 	};
 }
 
-function team(overrides: Partial<TeamDefinition> = {}): TeamDefinition {
-	return {
-		id: "dev-team",
-		revision: 1,
-		name: "开发团队",
-		description: "",
-		leaderMemberId: "m1",
-		members: [{ id: "m1", handle: "researcher", binding: { kind: "reference", agentProfileId: "researcher" } }],
-		orchestrationPolicyId: "leader-delegates-v1",
-		contextPolicyId: "public-results-v1",
-		source: { kind: "plugin", pluginId: "preset-agent", nameKey: "team.dev.name" },
-		createdAt: 0,
-		updatedAt: 0,
-		...overrides,
-	};
-}
-
-function document(agents: AgentProfile[], teams: TeamDefinition[] = []): AgentTeamDocument {
-	return { schemaVersion: 1, revision: 1, agents, teams };
+function document(agents: AgentProfile[]): AgentProfileDocument {
+	return { schemaVersion: 1, revision: 1, agents };
 }
 
 describe("localizeAgentTeamDocument", () => {
-	it("follows the interface language for plugin-provided agents and teams", () => {
-		const localized = localizeAgentTeamDocument(document([agent()], [team()]), "en", catalogs);
+	it("follows the interface language for plugin-provided agents", () => {
+		const localized = localizeAgentTeamDocument(document([agent()]), "en", catalogs);
 
 		expect(localized.agents[0]?.name).toBe("Researcher");
 		expect(localized.agents[0]?.description).toBe("Gathers facts and verifies them.");
-		expect(localized.teams[0]?.name).toBe("Dev Team");
 	});
 
 	it("keeps the stored default-locale literal when the catalog lacks an entry", () => {

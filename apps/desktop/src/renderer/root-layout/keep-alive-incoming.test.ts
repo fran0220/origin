@@ -6,8 +6,6 @@ const empty = {
 	visited: new Set<string>(),
 	workspace: null as { key: string } | null,
 	visitedWorkspaces: [] as { key: string }[],
-	teamChat: null as { teamId: string } | null,
-	visitedTeamChats: [] as { teamId: string }[],
 	detail: null as { key: string } | null,
 	visitedDetails: [] as { key: string }[],
 };
@@ -29,23 +27,6 @@ describe("incomingKeepAliveAlreadyMounted", () => {
 				...empty,
 				surface: "abilities",
 				visited: new Set(["chat"]),
-			}),
-		).toBe(false);
-	});
-
-	it("同一团队会话再走进算已挂载，换团队不算", () => {
-		expect(
-			incomingKeepAliveAlreadyMounted({
-				...empty,
-				teamChat: { teamId: "t1" },
-				visitedTeamChats: [{ teamId: "t1" }],
-			}),
-		).toBe(true);
-		expect(
-			incomingKeepAliveAlreadyMounted({
-				...empty,
-				teamChat: { teamId: "t2" },
-				visitedTeamChats: [{ teamId: "t1" }],
 			}),
 		).toBe(false);
 	});

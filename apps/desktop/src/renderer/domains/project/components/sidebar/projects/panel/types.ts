@@ -20,7 +20,6 @@ export interface BatchProjectEntry {
 
 export interface ProjectsPanelModel {
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	batchProjects: BatchProjectEntry[];
 	defaultConversationFilter: DefaultConversationFilter;
 	defaultProject: Project | undefined;

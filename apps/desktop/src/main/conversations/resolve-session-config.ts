@@ -6,8 +6,9 @@ import type {
 	CodingAgentRuntimeToolRegistration,
 } from "@vetta/coding-agent/runtime";
 import type { SessionConfig } from "@vetta/runtime-core";
+import { DEFAULT_AGENT_MODE } from "../agent-modes/index.js";
 import { allowProjectRoot, readDesktopConfig } from "../ipc/fs.js";
-import { type DesktopAgentMode, LEGACY_SESSION_AGENT_MODE, readSessionAgentMode } from "./session-agent-mode-store.js";
+import { type DesktopAgentMode, readSessionAgentMode } from "./session-agent-mode-store.js";
 import {
 	ensureConversationSubCwd,
 	ensureSessionWorkingCwd,
@@ -52,15 +53,15 @@ export interface ResolvedDesktopSessionConfig {
 /**
  * 工作模式的唯一来源：
  * - 新建会话取 desktop-config 的 defaultAgentMode（新会话默认值）；
- * - 恢复已有会话取该会话创建时固化的记录，缺记录时回落常量，绝不回落当前默认值，
- *   否则改默认值会连带改写历史会话的模式。
+ * - 恢复已有会话取该会话创建时固化的记录；缺记录回落出厂默认 Coding，
+ *   不跟随用户当前改过的默认值。
  */
 async function resolveSessionAgentMode(
 	existingSessionPath: string | undefined,
 	defaultAgentMode: DesktopAgentMode,
 ): Promise<DesktopAgentMode> {
 	if (!existingSessionPath) return defaultAgentMode;
-	return (await readSessionAgentMode(existingSessionPath)) ?? LEGACY_SESSION_AGENT_MODE;
+	return (await readSessionAgentMode(existingSessionPath)) ?? DEFAULT_AGENT_MODE;
 }
 
 export async function resolveDesktopSessionConfig(
@@ -89,7 +90,10 @@ export async function resolveDesktopSessionConfig(
 				? `${config.appendSystemPrompt}\n\n${VETTA_CLI_GUIDANCE}`
 				: VETTA_CLI_GUIDANCE
 			: config?.appendSystemPrompt;
-	const agentMode = await resolveSessionAgentMode(config?.sessionPath, desktopConfig.defaultAgentMode ?? "work");
+	const agentMode = await resolveSessionAgentMode(
+		config?.sessionPath,
+		desktopConfig.defaultAgentMode ?? DEFAULT_AGENT_MODE,
+	);
 	const {
 		scenario: _scenario,
 		agentMode: _agentMode,

@@ -17,8 +17,7 @@ describe("persistentSurfaceIdForPath", () => {
 		expect(persistentSurfaceIdForPath("/timeline")).toBe("timeline");
 	});
 
-	it("团队会话走独立 LRU，不映射到内置 surface", () => {
-		expect(persistentSurfaceIdForPath("/agent-teams/t1/sessions/s1")).toBeNull();
+	it("工作区、主题页和项目详情不映射到内置 surface", () => {
 		expect(persistentSurfaceIdForPath("/workspace/plugin/view")).toBeNull();
 		expect(persistentSurfaceIdForPath("/theme/xianxia/sanctum")).toBeNull();
 		expect(persistentSurfaceIdForPath("/project/foo")).toBeNull();

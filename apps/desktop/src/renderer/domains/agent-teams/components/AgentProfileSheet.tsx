@@ -1,5 +1,5 @@
 import { useAgentAvatarResolver } from "@shared/agent-teams/agent-avatar";
-import type { AgentBlueprint, AgentProfile, AgentProfileUpdateImpact } from "@vetta/agent-team";
+import type { AgentBlueprint, AgentProfile } from "@vetta/agent-team";
 import { AgentAvatarView } from "@vetta-org/theme-ui/chat";
 import { DetailDrawer, DetailDrawerEnter } from "@vetta-org/theme-ui/overlays";
 import { Button, cn } from "@vetta-org/ui";
@@ -22,13 +22,9 @@ export interface AgentProfileSheetProps {
 	readonly capabilities: readonly AgentCapabilityOption[];
 	readonly onClose: () => void;
 	readonly onExited?: () => void;
-	/** 落盘成功后通知外层刷新依赖该智能体的团队视图。 */
+	/** 落盘成功后通知外层刷新依赖该智能体的视图。 */
 	readonly onSaved: () => void;
-	readonly onPreview: (agentId: string) => Promise<AgentProfileUpdateImpact>;
-	readonly onSave: (
-		agent: AgentProfile,
-		input: AgentProfileEditInput,
-	) => Promise<{ updated: AgentProfile; impact: AgentProfileUpdateImpact }>;
+	readonly onSave: (agent: AgentProfile, input: AgentProfileEditInput) => Promise<{ updated: AgentProfile }>;
 	/** 创建模式必填：确认创建时把草稿写入智能体库。 */
 	readonly onCreate?: (input: AgentProfileEditInput) => Promise<AgentProfile | undefined>;
 	/** 省略时底部不出现删除入口。 */
@@ -52,7 +48,6 @@ export function AgentProfileSheet({
 	onClose,
 	onExited,
 	onSaved,
-	onPreview,
 	onSave,
 	onCreate,
 	onDelete,
@@ -212,13 +207,12 @@ export function AgentProfileSheet({
 									onSaved();
 									onClose();
 								}}
-								onPreview={mode === "create" ? previewNoop : onPreview}
 								onSave={
 									mode === "create"
 										? async (_agent, input) => {
 												const created = await onCreate?.(input);
 												if (!created) throw new Error(t("center.createAgentFailed"));
-												return { updated: created, impact: await previewNoop() };
+												return { updated: created };
 											}
 										: onSave
 								}
@@ -229,10 +223,6 @@ export function AgentProfileSheet({
 			</div>
 		</DetailDrawer>
 	);
-}
-
-async function previewNoop(): Promise<AgentProfileUpdateImpact> {
-	return { agentProfileId: "", teamIds: [], teamNames: [] };
 }
 
 /** 创建模式下的未落盘草稿：确认创建时才写入智能体库。 */

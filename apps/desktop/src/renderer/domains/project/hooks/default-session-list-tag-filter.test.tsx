@@ -40,7 +40,6 @@ function renderModel(filter: Parameters<typeof useDefaultSessionListModel>[0]["f
 		() =>
 			useDefaultSessionListModel({
 				activeSessionPath: "",
-				activeTeamSessionId: "",
 				cwd: CWD,
 				filter,
 				onNewSession: () => {},

@@ -70,16 +70,7 @@ export interface SessionInfo {
 	parentEntryId?: string;
 }
 
-/** Team session fields retained by the shared context-menu state. */
-export interface AgentTeamSessionInfo extends SessionInfo {
-	kind: "agent-team";
-	teamId: string;
-	teamSessionId: string;
-	sessionTitle: string;
-	memberAvatarUrls: readonly string[];
-}
-
-export type SessionContextMenuSession = SessionInfo | AgentTeamSessionInfo;
+export type SessionContextMenuSession = SessionInfo;
 
 /** coding-agent 对「无消息」session 给出的占位 firstMessage，UI 层不直接展示。 */
 export const NO_MESSAGES_SENTINEL = "(no messages)";

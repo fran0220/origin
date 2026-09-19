@@ -10,7 +10,7 @@ const PRESET_PLUGIN_DIR = resolve(import.meta.dirname, "../../../../../packages/
 /**
  * 按真实 manifest 把一个预设插件注册进 blueprint 注册表，供依赖预设资源的测试使用。
  *
- * 宿主自己不带人设：智能体与团队都要等提供方就位才解析得出来。产品里这一步由
+ * 宿主自己不带人设：智能体都要等提供方就位才解析得出来。产品里这一步由
  * initPluginAgentPresetSync 在插件目录就绪时完成，测试里没有插件目录，于是直接读源码目录
  * ——顺带让 manifest 与回填链路的对齐也被测到。插件 id 一律取自 manifest，不在宿主里写死。
  */
@@ -34,6 +34,6 @@ export function registerPresetPluginBlueprints(pluginDir: string = PRESET_PLUGIN
 		rootPath: pluginDir,
 		agent: manifest.agent,
 	} as unknown as InstalledPlugin;
-	const { agents, teams } = buildPluginAgentPresets({ plugins: [plugin], logger: { warn: () => {} } });
-	agentBlueprintRegistry.replacePluginPresets(agents, teams, [manifest.id]);
+	const { agents } = buildPluginAgentPresets({ plugins: [plugin], logger: { warn: () => {} } });
+	agentBlueprintRegistry.replacePluginPresets(agents, [manifest.id]);
 }

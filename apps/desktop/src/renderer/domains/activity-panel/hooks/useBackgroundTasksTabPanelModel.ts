@@ -7,7 +7,6 @@ import {
 	getMcpTasksForSession,
 	getSubagentsForSession,
 	isSubagentActive,
-	isWorkflowTask,
 	mcpTasksBySessionAtom,
 	type SubagentTask,
 	subagentsBySessionAtom,
@@ -225,12 +224,8 @@ export function useBackgroundTasksTabPanelModel(): BackgroundTasksTabPanelModel 
 		() => collectRuntimeScoped(runtimeIds, (runtimeId) => getBackgroundTasksForSession(tasksMap, runtimeId)),
 		[tasksMap, runtimeIds],
 	);
-	// Workflows have their own tab; this panel keeps bash + non-workflow subagents.
 	const scopedSubagents = useMemo(
-		() =>
-			collectRuntimeScoped(runtimeIds, (runtimeId) =>
-				getSubagentsForSession(subagentsMap, runtimeId).filter((a) => !isWorkflowTask(a)),
-			),
+		() => collectRuntimeScoped(runtimeIds, (runtimeId) => getSubagentsForSession(subagentsMap, runtimeId)),
 		[subagentsMap, runtimeIds],
 	);
 	const scopedMcpTasks = useMemo(

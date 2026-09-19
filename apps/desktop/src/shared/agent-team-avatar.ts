@@ -1,5 +1,3 @@
-import type { AgentProfile, TeamDefinition } from "@vetta/agent-team";
-
 const AVATAR_DIRECTORY = "./agent-team-avatars";
 
 /** 新增角色一律追加在末尾：LEGACY_AVATAR_ALIASES 按下标还原老档案里的 avatar-NN 路径。 */
@@ -36,23 +34,6 @@ export function agentAvatarUrl(
 	if (profile.avatar) return LEGACY_AVATAR_ALIASES[profile.avatar] ?? profile.avatar;
 	if (blueprint?.avatarUrl) return blueprint.avatarUrl;
 	return AGENT_AVATAR_OPTIONS[stableIndex(profile.id)]!;
-}
-
-export function teamMemberAvatarUrls(
-	team: TeamDefinition,
-	agentsById: ReadonlyMap<string, AgentProfile>,
-	blueprintsById?: ReadonlyMap<string, { readonly avatarUrl?: string }>,
-): readonly string[] {
-	return team.members.map((member) => {
-		const profile = agentsById.get(member.binding.agentProfileId);
-		return agentAvatarUrl(
-			{
-				id: profile?.id ?? member.id,
-				...(profile?.avatar ? { avatar: profile.avatar } : {}),
-			},
-			profile ? blueprintsById?.get(profile.blueprintId) : undefined,
-		);
-	});
 }
 
 function stableIndex(value: string): number {

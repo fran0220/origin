@@ -6,20 +6,16 @@ import { useTranslation } from "react-i18next";
 import { PluginTurnCardHost } from "../../../plugins/components/PluginTurnCardHost";
 import { classifyChatError } from "../../services/classifyChatError";
 import { StreamingIndicator } from "./AssistantMessage";
-import { WorkflowFooterItems } from "./WorkflowFooterItems";
 
 export const MessageListFooter = memo(function MessageListFooter({
 	isCompacting,
 	pendingLabel,
 	waiting,
-	sessionId,
 }: {
 	isCompacting: boolean;
 	pendingLabel?: string;
 	/** Runtime state; true while the live reply has not produced visible content. */
 	waiting: boolean;
-	/** Workflows only exist for an established live session. */
-	sessionId?: string;
 }) {
 	const { t } = useTranslation("chat");
 	const retryProgress = useAtomValue(retryProgressAtom);
@@ -60,7 +56,6 @@ export const MessageListFooter = memo(function MessageListFooter({
 					<StreamingIndicator />
 				</MessageListFooterPrimitive.Waiting>
 			) : null}
-			{sessionId ? <WorkflowFooterItems /> : null}
 			<PluginTurnCardHost />
 		</MessageListFooterPrimitive.Root>
 	);

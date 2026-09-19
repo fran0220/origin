@@ -1,4 +1,3 @@
-import type { DesktopTeamToolExecutionEvent } from "@preload/api-types/team-conversation-display";
 import {
 	type ConversationMessageEventState,
 	createConversationAgentMessage,
@@ -165,13 +164,12 @@ export function projectConversationAgentMessage(input: {
 
 /**
  * Applies execution-only tool events to the same Agent message projection used
- * by ordinary Chat. The events are deliberately kept outside Conversation
- * history so Team can expose tool cards without leaking execution details into
- * the model context or changing the storage contract.
+ * by ordinary Chat. The events stay outside Conversation history so tool cards
+ * can surface without leaking execution details into the model context.
  */
 export function reduceConversationToolExecutionEvent(
 	state: ConversationMessageEventState | undefined,
-	event: DesktopTeamToolExecutionEvent | ConversationToolExecutionEvent,
+	event: ConversationToolExecutionEvent,
 ): ConversationMessageEventState {
 	if (state && (state.conversationId !== event.conversationId || state.message.id !== event.messageId)) {
 		throw new Error("Conversation tool execution event does not match its reduction state");

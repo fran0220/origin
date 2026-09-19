@@ -15,7 +15,6 @@ export interface SubagentTask {
 	finalText?: string;
 	errorMessage?: string;
 	generation: number;
-	/** Workflow children mirror their todo progress (display only). */
 	todoProgress?: { done: number; total: number };
 	/** Human-readable one-line summary for UI display. */
 	title?: string;
@@ -28,19 +27,6 @@ export interface SubagentTask {
 		costTotal: number;
 	};
 }
-
-/** Display name for a workflow: human-readable title, falling back to the id. */
-export function workflowDisplayName(task: SubagentTask): string {
-	return task.title?.trim() || task.taskName;
-}
-
-/** Workflow children (dispatch_workflows) shown in the footer items + workflow tab. */
-export function isWorkflowTask(task: SubagentTask): boolean {
-	return task.agentType === "workflow";
-}
-
-/** Workflow selected in the activity panel's workflow tab (footer click targets it). */
-export const selectedWorkflowIdAtom = atom<string | null>(null);
 
 /**
  * Subagent children for the root session.

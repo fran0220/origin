@@ -67,14 +67,12 @@ const agentCenterRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/agents",
 	component: EmptyPersistentRoute,
-	// 智能体档案与团队设置都是抽屉，用 search 驱动，Esc 与返回键即关闭。
 	validateSearch: (search: Record<string, unknown>) => ({
 		...(typeof search.agent === "string" ? { agent: search.agent } : {}),
-		...(typeof search.team === "string" ? { team: search.team } : {}),
 	}),
 });
 
-/** 旧的团队列表页已并入智能体中心，深链保持可用。 */
+/** 旧的团队页已退役，深链统一落到智能体中心。 */
 const teamListRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/agent-teams",
@@ -83,38 +81,43 @@ const teamListRedirectRoute = createRoute({
 	},
 });
 
-const teamChatRoute = createRoute({
+const teamChatRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/agent-teams/$teamId",
-	component: EmptyPersistentRoute,
-});
-
-const teamSessionRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/sessions/$sessionId",
-	component: EmptyPersistentRoute,
-});
-
-const teamNewSessionRoute = createRoute({
-	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/new",
-	beforeLoad: ({ params }) => {
-		throw redirect({ to: "/new-session", search: { target: `team:${params.teamId}` } });
+	beforeLoad: () => {
+		throw redirect({ to: "/agents", replace: true });
 	},
 });
 
-const teamMemberSessionRoute = createRoute({
+const teamSessionRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/sessions/$sessionId/members/$memberId",
-	component: EmptyPersistentRoute,
+	path: "/agent-teams/$teamId/sessions/$sessionId",
+	beforeLoad: () => {
+		throw redirect({ to: "/agents", replace: true });
+	},
 });
 
-/** 团队设置已改为智能体中心的抽屉，深链保持可用。 */
+const teamNewSessionRedirectRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/agent-teams/$teamId/new",
+	beforeLoad: () => {
+		throw redirect({ to: "/new-session", replace: true });
+	},
+});
+
+const teamMemberSessionRedirectRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/agent-teams/$teamId/sessions/$sessionId/members/$memberId",
+	beforeLoad: () => {
+		throw redirect({ to: "/agents", replace: true });
+	},
+});
+
 const teamSettingsRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
 	path: "/agent-teams/$teamId/settings",
-	beforeLoad: ({ params }) => {
-		throw redirect({ to: "/agents", search: { team: params.teamId }, replace: true });
+	beforeLoad: () => {
+		throw redirect({ to: "/agents", replace: true });
 	},
 });
 
@@ -239,10 +242,10 @@ const routeTree = rootRoute.addChildren([
 	timelineRoute,
 	agentCenterRoute,
 	teamListRedirectRoute,
-	teamChatRoute,
-	teamNewSessionRoute,
-	teamSessionRoute,
-	teamMemberSessionRoute,
+	teamChatRedirectRoute,
+	teamNewSessionRedirectRoute,
+	teamSessionRedirectRoute,
+	teamMemberSessionRedirectRoute,
 	teamSettingsRedirectRoute,
 	knowledgeRoute,
 	knowledgeListRoute,

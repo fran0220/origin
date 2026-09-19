@@ -63,7 +63,6 @@ export function SessionMessageList(props: MessageListProps & { onSend?: (overrid
 						<MessageListFooter
 							isCompacting={isCompacting}
 							waiting={props.isStreaming && props.messages.at(-1)?.kind !== "agent"}
-							sessionId={props.sessionId ?? undefined}
 							pendingLabel={props.pendingLabel}
 						/>
 						{props.onSend ? <SuggestionBubbles onSend={props.onSend} /> : null}

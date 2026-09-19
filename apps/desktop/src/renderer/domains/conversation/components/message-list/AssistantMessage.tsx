@@ -38,7 +38,6 @@ interface AssistantMessageProps {
 	isStreaming: boolean;
 	isTailMessage: boolean;
 	message: ChatAgentMessageViewModel;
-	onTeamMemberOpen?: (memberId: string) => void;
 	pendingLabel?: string;
 	participant?: ConversationParticipantViewModel;
 	sessionUsages?: readonly Usage[];
@@ -49,7 +48,6 @@ export const AssistantMessage = memo(function AssistantMessage({
 	isTailMessage,
 	isStreaming,
 	pendingLabel,
-	onTeamMemberOpen,
 	exportMode = false,
 	participant,
 	sessionUsages,
@@ -233,8 +231,7 @@ export const AssistantMessage = memo(function AssistantMessage({
 									isLiveActivity={isCurrentlyStreaming && index === segments.length - 1}
 									liveThinkingId={liveThinkingId}
 									presentation={presentationFor(segment as BlockSegment)}
-									onTeamMemberOpen={onTeamMemberOpen}
-									animateIn={isCurrentlyStreaming && index === segments.length - 1}
+																animateIn={isCurrentlyStreaming && index === segments.length - 1}
 									exportMode={exportMode}
 								/>
 							) : (
@@ -244,8 +241,7 @@ export const AssistantMessage = memo(function AssistantMessage({
 									isStreamingTail={index === streamingTailIndex}
 									liveThinkingId={liveThinkingId}
 									presentation={presentationFor(segment as BlockSegment)}
-									onTeamMemberOpen={onTeamMemberOpen}
-									animateIn={isCurrentlyStreaming && index === segments.length - 1}
+																animateIn={isCurrentlyStreaming && index === segments.length - 1}
 									exportMode={exportMode}
 								/>
 							),

@@ -51,7 +51,6 @@ function renderSection(sessionsCwd: string, filter: "conversation" | "claw"): vo
 	render(
 		<DefaultConversationSection
 			activeSessionPath=""
-			activeTeamSessionId=""
 			defaultConversationFilter={filter}
 			onNewSession={() => {}}
 			onRenameSession={() => {}}

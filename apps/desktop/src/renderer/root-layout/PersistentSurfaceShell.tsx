@@ -44,8 +44,3 @@ export function PersistentSurfaceShell({
 }): JSX.Element {
 	return <TitledPageShell title={usePersistentSurfaceTitle(id)} />;
 }
-
-export function TeamChatSurfaceShell(): JSX.Element {
-	const { t } = useTranslation("agent-teams");
-	return <TitledPageShell title={t("teams.title")} />;
-}

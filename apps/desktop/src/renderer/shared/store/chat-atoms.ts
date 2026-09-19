@@ -13,30 +13,14 @@ import type { ContextCompactionEligibility, ContextCompositionReport } from "@ve
 import { atom } from "jotai";
 import { runningSessionPathsAtom } from "./running-sessions-atoms";
 
-export type TeamMemberSummaryEventViewModel = {
-	readonly kind: "team-member-summary";
-	readonly requestId: string;
-	readonly memberId: string;
-	readonly memberName: string;
-	readonly memberAvatar?: string;
-	readonly memberBlueprintId?: string;
-	readonly state: "pending" | "streaming" | "completed" | "failed" | "waiting" | "cancelled";
-	readonly currentKind?: "thinking" | "tool" | "text" | "status";
-	readonly current?: string;
-	readonly recent: readonly string[];
-	readonly result?: string;
-	readonly timestamp: number;
-};
-
 export type ChatTimelineEventViewModel =
 	| { readonly kind: "compaction"; readonly summary: string }
-	| { readonly kind: "delegation"; readonly label: string; readonly requestId: string; readonly timestamp: number }
-	| TeamMemberSummaryEventViewModel;
+	| { readonly kind: "delegation"; readonly label: string; readonly requestId: string; readonly timestamp: number };
 
 /** Display-only content kept beside a specific tool row and outside process folding. */
 export interface ChatToolCallPresentationViewModel {
 	readonly toolCallId: string;
-	readonly activities: readonly TeamMemberSummaryEventViewModel[];
+	readonly activities: readonly never[];
 }
 
 export type ChatAgentMessageViewModel = ConversationAgentMessageViewModel & {
@@ -278,7 +262,7 @@ export const sessionExecutionModeAtom = atom<SessionExecutionMode>(getStoredExec
  */
 export type AgentMode = string;
 /** 出厂默认模式：atom 水合前的初始值，也是模式 toggle 的显示排序锚点（默认模式排最前）。 */
-export const FACTORY_DEFAULT_AGENT_MODE: AgentMode = "work";
+export const FACTORY_DEFAULT_AGENT_MODE: AgentMode = "coding";
 export const defaultAgentModeAtom = atom<AgentMode>(FACTORY_DEFAULT_AGENT_MODE);
 
 /**

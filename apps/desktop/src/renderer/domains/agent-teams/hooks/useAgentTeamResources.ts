@@ -1,19 +1,18 @@
 import { useLocalizedAgentTeamDocument } from "@shared/agent-teams/agent-team-localization";
 import { waitForCommittedPaint } from "@shared/lib/committed-paint";
-import type { AgentBlueprint, AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentBlueprint, AgentProfileDocument } from "@vetta/agent-team";
 import { type Dispatch, type SetStateAction, useCallback, useEffect, useState } from "react";
 import type { BlueprintDisplayPlugin } from "../lib/blueprint-display";
 import type { AgentCapabilityOption } from "../lib/capability-options";
 import { loadAgentTeamConfigurationResources } from "../services/load-agent-team-resources";
 
 /**
- * Agent 与 Team 共用同一份 `AgentTeamDocument`，所以文档、蓝图和能力目录集中在
- * 这里加载，再由各职责 model 消费，避免两套状态各自请求后互相覆盖。
+ * 智能体库的文档、蓝图和能力目录集中在这里加载，再由各职责 model 消费。
  */
 export interface AgentTeamResources {
 	/** 已按界面语言解析插件名称的展示文档；`setDocument` 的函数式更新拿到的仍是原始文档。 */
-	readonly document?: AgentTeamDocument;
-	readonly setDocument: Dispatch<SetStateAction<AgentTeamDocument | undefined>>;
+	readonly document?: AgentProfileDocument;
+	readonly setDocument: Dispatch<SetStateAction<AgentProfileDocument | undefined>>;
 	readonly blueprints: readonly AgentBlueprint[];
 	readonly capabilities: readonly AgentCapabilityOption[];
 	readonly plugins: readonly BlueprintDisplayPlugin[];
@@ -24,7 +23,7 @@ export interface AgentTeamResources {
 }
 
 export function useAgentTeamResources(): AgentTeamResources {
-	const [document, setDocument] = useState<AgentTeamDocument>();
+	const [document, setDocument] = useState<AgentProfileDocument>();
 	const [blueprints, setBlueprints] = useState<readonly AgentBlueprint[]>([]);
 	const [plugins, setPlugins] = useState<readonly BlueprintDisplayPlugin[]>([]);
 	const [capabilities, setCapabilities] = useState<readonly AgentCapabilityOption[]>([]);

@@ -31,24 +31,24 @@ afterEach(async () => {
 	await Promise.all(temporaryRoots.splice(0).map((root) => rm(root, { recursive: true, force: true })));
 });
 
-describe("defaultAgentMode 兼容旧字段名", () => {
-	it("只有旧 agentMode 字段的配置仍能读出", async () => {
-		const store = await loadStoreWithConfig({ agentMode: "coding" });
+describe("defaultAgentMode", () => {
+	it("读取新字段", async () => {
+		const store = await loadStoreWithConfig({ defaultAgentMode: "work" });
+		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("work");
+	});
+
+	it("旧 agentMode 字段不再被读取", async () => {
+		const store = await loadStoreWithConfig({ agentMode: "work" });
 		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("coding");
 	});
 
-	it("新字段优先于旧字段", async () => {
-		const store = await loadStoreWithConfig({ agentMode: "coding", defaultAgentMode: "work" });
-		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("work");
-	});
-
-	it("两个字段都没有时回落 work", async () => {
+	it("字段缺失时回落 coding", async () => {
 		const store = await loadStoreWithConfig({});
-		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("work");
+		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("coding");
 	});
 
-	it("配置文件不存在时回落 work", async () => {
+	it("配置文件不存在时回落 coding", async () => {
 		const store = await loadStoreWithConfig(undefined);
-		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("work");
+		expect((await store.readDesktopConfig()).defaultAgentMode).toBe("coding");
 	});
 });

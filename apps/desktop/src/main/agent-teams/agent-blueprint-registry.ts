@@ -1,6 +1,6 @@
 import type { AgentBlueprint } from "@vetta/agent-team";
 import type { PluginPresetDeclarations } from "./plugin-agent-preset-reconcile.js";
-import type { PluginAgentPreset, PluginTeamPreset } from "./plugin-agent-presets.js";
+import type { PluginAgentPreset } from "./plugin-agent-presets.js";
 
 /**
  * 宿主的 blueprint 解析入口。
@@ -11,7 +11,6 @@ import type { PluginAgentPreset, PluginTeamPreset } from "./plugin-agent-presets
  */
 class AgentBlueprintRegistry {
 	private pluginAgents: readonly PluginAgentPreset[] = [];
-	private pluginTeams: readonly PluginTeamPreset[] = [];
 	private byId: ReadonlyMap<string, AgentBlueprint> = new Map();
 	private byLegacyId: ReadonlyMap<string, AgentBlueprint> = new Map();
 	private enabledPlugins: readonly string[] = [];
@@ -20,12 +19,10 @@ class AgentBlueprintRegistry {
 	/** 插件集合变化时整体替换：增量维护容易漏掉禁用/卸载，代价却只是重建一张小表。 */
 	replacePluginPresets(
 		agents: readonly PluginAgentPreset[],
-		teams: readonly PluginTeamPreset[],
 		enabledPlugins: readonly string[] = [],
 		declarations?: PluginPresetDeclarations,
 	): void {
 		this.pluginAgents = agents;
-		this.pluginTeams = teams;
 		this.enabledPlugins = enabledPlugins;
 		this.declarations = declarations;
 		this.byId = new Map(agents.map((preset) => [preset.blueprint.id, preset.blueprint]));
@@ -60,10 +57,6 @@ class AgentBlueprintRegistry {
 
 	listPluginAgents(): readonly PluginAgentPreset[] {
 		return this.pluginAgents;
-	}
-
-	listPluginTeams(): readonly PluginTeamPreset[] {
-		return this.pluginTeams;
 	}
 
 	/**

@@ -7,7 +7,6 @@ import { fileTabDefinition } from "./file-tab";
 import { knowledgeHistoryTabDefinition } from "./knowledge-history-tab";
 import { recordingTabDefinition } from "./recording-tab";
 import { todoTabDefinition } from "./todo-tab";
-import { workflowTabDefinition } from "./workflow-tab";
 
 /**
  * 内置活动面板 tab 注册表（顺序 = 默认自然序的次要键；主序看 definition.order）。
@@ -20,7 +19,6 @@ export const BUILTIN_ACTIVITY_TABS: readonly ActivityTabDefinition[] = [
 	recordingTabDefinition,
 	todoTabDefinition,
 	backgroundTasksTabDefinition,
-	workflowTabDefinition,
 	debugTabDefinition,
 	knowledgeHistoryTabDefinition,
 ];

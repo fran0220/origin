@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@vetta/agent-team";
 import { renderHook, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { useAgentTeamResources } from "./useAgentTeamResources";
@@ -17,7 +17,7 @@ vi.mock("@shared/lib/committed-paint", () => ({
 
 function resources(revision: number) {
 	return {
-		document: { schemaVersion: 1, revision, agents: [], teams: [] } as unknown as AgentTeamDocument,
+		document: { schemaVersion: 1, revision, agents: [] } as unknown as AgentProfileDocument,
 		blueprints: [{ id: `blueprint-${revision}` }],
 		plugins: [],
 		capabilities: [],

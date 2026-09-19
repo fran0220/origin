@@ -2,11 +2,11 @@
 
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { type AgentProfile, createAgentTeamFixture } from "@vetta/agent-team";
+import { type AgentProfile, createAgentProfileFixture } from "@vetta/agent-team";
 import { useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NewSessionAgentSelector } from "./NewSessionAgentSelector";
-import { agentTargetKey, type NewSessionTargetKey, teamTargetKey } from "./target";
+import { agentTargetKey, type NewSessionTargetKey } from "./target";
 
 vi.mock("react-i18next", () => ({
 	useTranslation: () => ({
@@ -18,10 +18,9 @@ vi.mock("react-i18next", () => ({
 afterEach(cleanup);
 
 describe("NewSessionAgentSelector", () => {
-	const document = createAgentTeamFixture();
-	const team = document.teams[0];
+	const document = createAgentProfileFixture();
 	const agent = document.agents.find((candidate) => candidate.name === "Researcher");
-	if (!team || !agent) throw new Error("missing Agent Team fixture");
+	if (!agent) throw new Error("missing Agent Profile fixture");
 
 	function mockCatalog(next = document): void {
 		Object.defineProperty(window, "vetta", {
@@ -45,30 +44,6 @@ describe("NewSessionAgentSelector", () => {
 		);
 	}
 
-	it("picks a team from the dialog and turns the trigger into the team's avatar stack", async () => {
-		const onSelect = vi.fn();
-		const user = userEvent.setup();
-		render(<Harness onSelect={onSelect} />);
-
-		const trigger = screen.getByRole("button", { name: "newSession.agentSelector.pickTitle" });
-		expect(within(trigger).getByText("newSession.agentSelector.pick")).toBeDefined();
-		await user.click(trigger);
-
-		const option = await screen.findByRole("option", { name: new RegExp(team.name) });
-		const optionStack = option.querySelector('[data-avatar-stack="true"]');
-		expect(optionStack).not.toBeNull();
-		expect(optionStack?.querySelectorAll("img")).toHaveLength(3);
-		expect(optionStack?.querySelector('[data-avatar-overflow="1"]')).not.toBeNull();
-
-		await user.click(option);
-		expect(onSelect).toHaveBeenCalledWith(teamTargetKey(team.id));
-
-		const selectedTrigger = screen.getByRole("button", { name: "newSession.agentSelector.switchTitle" });
-		expect(within(selectedTrigger).getByText(team.name)).toBeDefined();
-		expect(selectedTrigger.querySelectorAll("img")).toHaveLength(3);
-		expect(selectedTrigger.querySelector('[data-avatar-overflow="1"]')).not.toBeNull();
-	});
-
 	it("picks a single agent and shows only that agent's avatar on the trigger", async () => {
 		const onSelect = vi.fn();
 		const user = userEvent.setup();
@@ -85,41 +60,20 @@ describe("NewSessionAgentSelector", () => {
 		expect(selectedTrigger.querySelectorAll("img")).toHaveLength(1);
 	});
 
-	it("splits teams and agents into their own labelled groups", async () => {
-		const user = userEvent.setup();
-		render(<Harness onSelect={vi.fn()} />);
-
-		await user.click(screen.getByRole("button", { name: "newSession.agentSelector.pickTitle" }));
-
-		expect(await screen.findByRole("listbox", { name: "newSession.agentSelector.groupTeams" })).toBeDefined();
-		expect(screen.getByRole("listbox", { name: "newSession.agentSelector.groupAgents" })).toBeDefined();
-	});
-
-	it("filters both groups with one query and drops a group that matches nothing", async () => {
+	it("filters the agent list with one query and drops names that match nothing", async () => {
 		const user = userEvent.setup();
 		// 搜索框只在条目多到一定数量时出现，预置目录刚好卡在阈值上，故再添一个。
 		const extra: AgentProfile = { ...agent, id: "extra-1", name: "Translate" };
-		mockCatalog({ ...document, agents: [...document.agents, extra] });
+		const filler: AgentProfile = { ...agent, id: "extra-2", name: "Filler" };
+		mockCatalog({ ...document, agents: [...document.agents, extra, filler] });
 		render(<Harness onSelect={vi.fn()} />);
 
 		await user.click(screen.getByRole("button", { name: "newSession.agentSelector.pickTitle" }));
-		await screen.findByRole("option", { name: new RegExp(team.name) });
-		await user.type(screen.getByPlaceholderText("newSession.agentSelector.searchPlaceholder"), agent.name);
+		await screen.findByRole("option", { name: new RegExp(agent.name) });
+		await user.type(screen.getByPlaceholderText("newSession.agentSelector.searchPlaceholder"), extra.name);
 
-		expect(screen.queryByRole("listbox", { name: "newSession.agentSelector.groupTeams" })).toBeNull();
-		expect(screen.getByRole("listbox", { name: "newSession.agentSelector.groupAgents" })).toBeDefined();
+		expect(screen.queryByRole("option", { name: new RegExp(agent.name) })).toBeNull();
+		expect(screen.getByRole("option", { name: new RegExp(extra.name) })).toBeDefined();
 	});
 
-	it("hides team-scoped profile copies so the list shows no shadow duplicates", async () => {
-		const user = userEvent.setup();
-		const copied: AgentProfile = { ...agent, id: "copy-1", scope: { kind: "team", teamId: team.id } };
-		mockCatalog({ ...document, agents: [...document.agents, copied] });
-		render(<Harness onSelect={vi.fn()} />);
-
-		await user.click(screen.getByRole("button", { name: "newSession.agentSelector.pickTitle" }));
-		await screen.findByRole("option", { name: new RegExp(team.name) });
-
-		// 团队 `copy` 绑定的副本是团队私有的，摆进选择器就是一堆同名条目。
-		expect(screen.getAllByRole("option", { name: new RegExp(agent.name) })).toHaveLength(1);
-	});
 });

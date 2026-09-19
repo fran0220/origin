@@ -6,8 +6,7 @@
 			"todo": "待办",
 			"backgroundTasks": "后台任务",
 			"debug": "调试",
-			"knowledgeHistory": "知识库加工历史",
-			"workflow": "工作流"
+			"knowledgeHistory": "知识库加工历史"
 		},
 		"backgroundTasks": {
 			"statusRunning": "运行中",
@@ -96,19 +95,6 @@
 		},
 		"htmlPreview": {
 			"title": "HTML 预览"
-		},
-		"workflow": {
-			"empty": "暂无工作流",
-			"noTranscript": "工作流尚未产生消息",
-			"stop": "停止",
-			"statusQueued": "排队中",
-			"statusPending": "启动中",
-			"statusRunning": "运行中",
-			"statusCompleted": "已完成",
-			"statusFailed": "失败",
-			"statusInterrupted": "已中断",
-			"processingTitle": "有 {{count}} 个工作流正在处理",
-			"doneTitle": "工作流已全部结束"
 		}
 	},
 	"fileExplorer": {
@@ -884,15 +870,16 @@
 		"alias": {
 			"ask_user_question": "询问",
 			"bash": "执行命令",
+			"create_thread": "开新对话",
 			"current_time": "当前时间",
 			"dir_tree": "目录树",
-			"dispatch_workflows": "派发工作流",
 			"doc_to_pdf": "转 PDF",
 			"easy_use_vettaApp": "使用应用",
 			"edit": "修改",
 			"extract_text_from_img": "图片取字",
 			"extract_text_from_pdf": "PDF 取字",
 			"find": "查找文件",
+			"find_thread": "查找对话",
 			"followup_task": "追加任务",
 			"glob": "匹配文件",
 			"grep": "搜索",
@@ -904,8 +891,10 @@
 			"ls": "列目录",
 			"memory": "记忆",
 			"read": "读取",
+			"read_thread": "阅读对话",
 			"render_pdf_page": "渲染 PDF 页",
 			"send_message": "发送消息",
+			"send_thread_message": "给对话发消息",
 			"shell": "执行命令",
 			"spawn_agent": "派生子代理",
 			"task_output": "任务输出",
@@ -914,6 +903,7 @@
 			"tool_search": "检索工具",
 			"tree": "目录树",
 			"wait_agent": "等待子代理",
+			"wait_for_threads": "等待对话",
 			"write": "写入"
 		},
 		"knowledgeBase": {

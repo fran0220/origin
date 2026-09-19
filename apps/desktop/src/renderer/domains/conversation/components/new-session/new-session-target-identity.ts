@@ -1,10 +1,9 @@
 import { agentAvatarUrl } from "@shared/agent-teams/agent-avatar";
-import type { AgentProfile, AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import type { NewSessionHeroAvatar, NewSessionHeroIdentity } from "@vetta-org/theme-ui";
-import { parseAgentTargetKey, parseTeamTargetKey } from "./target";
+import { parseAgentTargetKey } from "./target";
 
 export interface NewSessionTargetIdentityLabels {
-	/** 团队没写描述时的兜底副标题（成员数）。 */
 	readonly memberCount: (count: number) => string;
 }
 
@@ -22,27 +21,12 @@ export type NewSessionAvatarResolver = (subject: {
  * 这时返回 null 让 hero 回到问候语，而不是显示一个空壳身份。
  */
 export function resolveNewSessionTargetIdentity(
-	document: AgentTeamDocument | undefined,
+	document: AgentProfileDocument | undefined,
 	targetKey: string | null,
-	labels: NewSessionTargetIdentityLabels,
+	_labels: NewSessionTargetIdentityLabels,
 	resolveAvatar: NewSessionAvatarResolver = agentAvatarUrl,
 ): NewSessionHeroIdentity | null {
 	if (!document || !targetKey) return null;
-
-	const teamId = parseTeamTargetKey(targetKey);
-	if (teamId) {
-		const team = document.teams.find((candidate) => candidate.id === teamId);
-		if (!team) return null;
-		const agentsById = new Map(document.agents.map((agent) => [agent.id, agent]));
-		return {
-			avatars: team.members.map((member) =>
-				heroAvatar(agentsById.get(member.binding.agentProfileId), member.id, resolveAvatar),
-			),
-			key: targetKey,
-			subtitle: team.description.trim() || labels.memberCount(team.members.length),
-			title: team.name,
-		};
-	}
 
 	const agentId = parseAgentTargetKey(targetKey);
 	if (agentId) {
@@ -59,7 +43,6 @@ export function resolveNewSessionTargetIdentity(
 	return null;
 }
 
-/** 成员绑定指向的档案可能缺失（团队私有副本被清理）：退回 member id 的兜底头像。 */
 function heroAvatar(
 	profile: AgentProfile | undefined,
 	fallbackId: string,

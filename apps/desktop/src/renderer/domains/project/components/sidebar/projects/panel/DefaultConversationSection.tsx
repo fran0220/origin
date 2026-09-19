@@ -8,7 +8,6 @@ import type { SidebarConversationInfo } from "../../../../services/sidebar-conve
 
 interface DefaultConversationSectionProps {
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	className?: string;
 	defaultConversationFilter: DefaultConversationFilter;
 	listClassName?: string;
@@ -46,7 +45,6 @@ export function DefaultConversationSection(
 			list={
 				<DefaultSessionList
 					activeSessionPath={props.activeSessionPath}
-					activeTeamSessionId={props.activeTeamSessionId}
 					className={cn("project-list-containment -mx-1.5 px-1.5", props.listClassName)}
 					cwd={props.sessionsCwd || props.project.cwd}
 					filter={props.defaultConversationFilter}

@@ -6,8 +6,7 @@
 			"todo": "Todo",
 			"backgroundTasks": "Background tasks",
 			"debug": "Debug",
-			"knowledgeHistory": "Processing history",
-			"workflow": "Workflows"
+			"knowledgeHistory": "Processing history"
 		},
 		"backgroundTasks": {
 			"statusRunning": "Running",
@@ -96,19 +95,6 @@
 		},
 		"htmlPreview": {
 			"title": "HTML preview"
-		},
-		"workflow": {
-			"empty": "No workflows",
-			"noTranscript": "No messages from this workflow yet",
-			"stop": "Stop",
-			"statusQueued": "Queued",
-			"statusPending": "Starting",
-			"statusRunning": "Running",
-			"statusCompleted": "Completed",
-			"statusFailed": "Failed",
-			"statusInterrupted": "Interrupted",
-			"processingTitle": "{{count}} workflow(s) in progress",
-			"doneTitle": "All workflows finished"
 		}
 	},
 	"fileExplorer": {
@@ -884,15 +870,16 @@
 		"alias": {
 			"ask_user_question": "Ask",
 			"bash": "Run command",
+			"create_thread": "Create thread",
 			"current_time": "Current time",
 			"dir_tree": "Directory tree",
-			"dispatch_workflows": "Dispatch workflows",
 			"doc_to_pdf": "To PDF",
 			"easy_use_vettaApp": "Use app",
 			"edit": "Edit",
 			"extract_text_from_img": "Extract text (image)",
 			"extract_text_from_pdf": "Extract text (PDF)",
 			"find": "Find files",
+			"find_thread": "Find thread",
 			"followup_task": "Follow-up task",
 			"glob": "Match files",
 			"grep": "Search",
@@ -904,8 +891,10 @@
 			"ls": "List",
 			"memory": "Memory",
 			"read": "Read",
+			"read_thread": "Read thread",
 			"render_pdf_page": "Render PDF page",
 			"send_message": "Send message",
+			"send_thread_message": "Message thread",
 			"shell": "Run command",
 			"spawn_agent": "Spawn agent",
 			"task_output": "Task output",
@@ -914,6 +903,7 @@
 			"tool_search": "Tool search",
 			"tree": "Directory tree",
 			"wait_agent": "Wait agent",
+			"wait_for_threads": "Wait for threads",
 			"write": "Write"
 		},
 		"knowledgeBase": {

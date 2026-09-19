@@ -136,7 +136,6 @@ const StageGroup = memo(function StageGroup({
 interface WorkSegmentRendererProps {
 	segment: WorkSegment;
 	presentation?: ChatToolCallPresentationViewModel;
-	onTeamMemberOpen?: (memberId: string) => void;
 	isStreamingTail?: boolean;
 	/** This is the last process segment in the currently streaming assistant turn. */
 	isLiveActivity?: boolean;
@@ -157,8 +156,7 @@ function arePropsEqual(previous: WorkSegmentRendererProps, next: WorkSegmentRend
 		previous.liveThinkingId !== next.liveThinkingId ||
 		previous.animateIn !== next.animateIn ||
 		previous.exportMode !== next.exportMode ||
-		previous.presentation !== next.presentation ||
-		previous.onTeamMemberOpen !== next.onTeamMemberOpen
+		previous.presentation !== next.presentation
 	) {
 		return false;
 	}
@@ -186,7 +184,6 @@ function arePropsEqual(previous: WorkSegmentRendererProps, next: WorkSegmentRend
 export const WorkSegmentRenderer = memo(function WorkSegmentRenderer({
 	segment,
 	presentation,
-	onTeamMemberOpen,
 	isStreamingTail = false,
 	isLiveActivity = false,
 	liveThinkingId,
@@ -263,8 +260,7 @@ export const WorkSegmentRenderer = memo(function WorkSegmentRenderer({
 						presentation={presentation}
 						exportMode={exportMode}
 						aliased
-						onTeamMemberOpen={onTeamMemberOpen}
-					/>
+									/>
 				) : (
 					<ToolCallBlockView block={segment.block} exportMode={exportMode} aliased />
 				);

@@ -15,12 +15,6 @@ vi.mock("./persistent-page-loaders", () => ({
 	loadScenesPage: () => Promise.resolve({ default: () => <p>scenes-body</p> }),
 	loadNewSessionPage: () => Promise.resolve({ default: () => <p>new-session-body</p> }),
 	loadChatPage: () => Promise.resolve({ default: () => <p>chat-body</p> }),
-	loadTeamChatPage: () =>
-		Promise.resolve({
-			default: ({ teamId, sessionId }: { teamId?: string; sessionId?: string }) => (
-				<p>{`team-${teamId}-${sessionId ?? "none"}`}</p>
-			),
-		}),
 	loadWorkspacePage: () => Promise.resolve({ default: () => <p>workspace-unused</p> }),
 }));
 
@@ -152,12 +146,12 @@ describe("PersistentRouteStage", () => {
 		});
 	});
 
-	it("第一次走进团队会话先画出标题壳，不等会话 chunk", async () => {
-		const { container } = render(<PersistentRouteStage currentPath="/agent-teams/t1/sessions/s1" />);
-		expect(container.textContent).toContain("teams.title");
-		expect(container.textContent).not.toContain("team-t1-s1");
+	it("第一次走进智能体库先画出标题壳，不等页面 chunk", async () => {
+		const { container } = render(<PersistentRouteStage currentPath="/agents" />);
+		expect(container.textContent).toContain("center.title");
+		expect(container.textContent).not.toContain("agents-body");
 		await waitFor(() => {
-			expect(container.textContent).toContain("team-t1-s1");
+			expect(container.textContent).toContain("agents-body");
 		});
 	});
 
@@ -197,7 +191,7 @@ describe("PersistentRouteStage", () => {
 		expect(chat?.closest("[hidden]")).toBeNull();
 	});
 
-	it("走进团队会话再切回聊天时两棵树都还在，聊天节点不重建", async () => {
+	it("走进智能体库再切回聊天时两棵树都还在，聊天节点不重建", async () => {
 		const { container, rerender } = render(<PersistentRouteStage currentPath="/" />);
 		await waitFor(() => {
 			expect(container.textContent).toContain("chat-body");
@@ -205,17 +199,17 @@ describe("PersistentRouteStage", () => {
 		const chat = [...container.querySelectorAll("p")].find((node) => node.textContent === "chat-body");
 		expect(chat).toBeTruthy();
 
-		rerender(<PersistentRouteStage currentPath="/agent-teams/t1/sessions/s1" />);
+		rerender(<PersistentRouteStage currentPath="/agents" />);
 		await waitFor(() => {
-			expect(container.textContent).toContain("team-t1-s1");
+			expect(container.textContent).toContain("agents-body");
 		});
 		expect(container.textContent).not.toContain("outlet-body");
 		expect(container.textContent).toContain("chat-body");
 
 		rerender(<PersistentRouteStage currentPath="/" />);
 		await waitFor(() => {
-			const teamHidden = [...container.querySelectorAll("p")].find((node) => node.textContent === "team-t1-s1");
-			expect(teamHidden?.closest("[hidden]")).not.toBeNull();
+			const agentsHidden = [...container.querySelectorAll("p")].find((node) => node.textContent === "agents-body");
+			expect(agentsHidden?.closest("[hidden]")).not.toBeNull();
 		});
 		expect([...container.querySelectorAll("p")].find((node) => node.textContent === "chat-body")).toBe(chat);
 	});

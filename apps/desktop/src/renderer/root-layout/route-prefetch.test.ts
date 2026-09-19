@@ -39,7 +39,7 @@ describe("PINNED_PREFETCH_KEYS", () => {
 	it("侧栏默认置顶入口（设计、能力、智能体）排在立刻预取队列", () => {
 		expect(PINNED_PREFETCH_KEYS).toEqual(["workspace", "/abilities", "/agents", "new-session", "settings"]);
 		expect(IDLE_PREFETCH_KEYS).not.toContain("workspace");
-		expect(IDLE_PREFETCH_KEYS).toContain("team-chat");
+		expect(IDLE_PREFETCH_KEYS).not.toContain("team-chat");
 		expect(IDLE_PREFETCH_KEYS).toContain("/knowledge/all");
 	});
 });

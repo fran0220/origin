@@ -40,7 +40,7 @@ export function useProjectsPanelMenusModel(model: ProjectsPanelModel) {
 			closeProjectMenu: () => setProjectMenu(null),
 			deleteSession: (session: SessionContextMenuSession) => {
 				setContextMenu(null);
-				const name = isAgentTeamSession(session) ? session.sessionTitle : sessionDisplayLabel(session);
+				const name = sessionDisplayLabel(session);
 				setConfirm({
 					title: t("sidebar.dialogs.deleteSessionTitle"),
 					message: t("sidebar.dialogs.deleteSessionMessage", { name }),
@@ -79,10 +79,4 @@ export function useProjectsPanelMenusModel(model: ProjectsPanelModel) {
 			},
 		},
 	};
-}
-
-function isAgentTeamSession(
-	session: SessionContextMenuSession,
-): session is Extract<SessionContextMenuSession, { readonly kind: "agent-team" }> {
-	return "kind" in session && session.kind === "agent-team";
 }

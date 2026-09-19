@@ -19,7 +19,6 @@ export interface MessageListProps {
 	onAbort?: () => void;
 	participants?: readonly ConversationParticipantViewModel[];
 	children?: ReactNode;
-	onTeamMemberOpen?: (memberId: string) => void;
 }
 
 export interface MessageListModel {
@@ -30,7 +29,6 @@ export interface MessageListModel {
 	tailMessageId: string | null;
 	participantsById: ReadonlyMap<string, ConversationParticipantViewModel>;
 	participants: readonly ConversationParticipantViewModel[];
-	onTeamMemberOpen?: MessageListProps["onTeamMemberOpen"];
 }
 
 export interface AssistantMessageModel {

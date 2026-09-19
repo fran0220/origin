@@ -56,7 +56,6 @@ interface ProjectGroupProps {
 	isExpanded: boolean;
 	isActive?: boolean;
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	onExpand: (cwd: string) => void;
 	onCollapse: (cwd: string) => void;
 	onNavigateProject: (cwd: string) => void;

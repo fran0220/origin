@@ -95,7 +95,6 @@ function ProgressDivider({ block }: { block: { args: Record<string, unknown> } }
 interface SegmentRendererProps {
 	segment: BlockSegment;
 	presentation?: ChatToolCallPresentationViewModel;
-	onTeamMemberOpen?: (memberId: string) => void;
 	isStreamingTail?: boolean;
 	/** 仍在追加的 thinking block id：就地换成实时滚动卡片。 */
 	liveThinkingId?: string | null;
@@ -123,7 +122,6 @@ function areSegmentRendererPropsEqual(previous: SegmentRendererProps, next: Segm
 		previous.animateIn === next.animateIn &&
 		previous.exportMode === next.exportMode &&
 		previous.presentation === next.presentation &&
-		previous.onTeamMemberOpen === next.onTeamMemberOpen &&
 		areSegmentsEqual(previous.segment, next.segment)
 	);
 }
@@ -131,7 +129,6 @@ function areSegmentRendererPropsEqual(previous: SegmentRendererProps, next: Segm
 export const SegmentRenderer = memo(function SegmentRenderer({
 	segment,
 	presentation,
-	onTeamMemberOpen,
 	isStreamingTail = false,
 	liveThinkingId,
 	animateIn = false,
@@ -162,8 +159,7 @@ export const SegmentRenderer = memo(function SegmentRenderer({
 						block={segment.block}
 						presentation={presentation}
 						exportMode={exportMode}
-						onTeamMemberOpen={onTeamMemberOpen}
-					/>
+									/>
 				) : (
 					<ToolCallBlockView block={segment.block} exportMode={exportMode} />
 				);

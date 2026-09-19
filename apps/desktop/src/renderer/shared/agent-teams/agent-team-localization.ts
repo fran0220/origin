@@ -1,9 +1,9 @@
 import { languageAtom, type PluginI18nEntry, pluginI18nByIdAtom } from "@shared/store/atoms";
-import type { AgentProfile, AgentTeamDocument, TeamDefinition } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import { useAtomValue } from "jotai";
 import { useCallback, useMemo } from "react";
 
-type LocalizableResource = Pick<AgentProfile | TeamDefinition, "name" | "description" | "source">;
+type LocalizableResource = Pick<AgentProfile, "name" | "description" | "source">;
 
 /**
  * 按当前界面语言解析插件提供的名称与描述。
@@ -28,16 +28,13 @@ export function localizeAgentTeamResource<T extends LocalizableResource>(
 }
 
 export function localizeAgentTeamDocument(
-	document: AgentTeamDocument,
+	document: AgentProfileDocument,
 	locale: string,
 	catalogs: Readonly<Record<string, PluginI18nEntry>>,
-): AgentTeamDocument {
+): AgentProfileDocument {
 	const agents = document.agents.map((agent) => localizeAgentTeamResource(agent, locale, catalogs));
-	const teams = document.teams.map((team) => localizeAgentTeamResource(team, locale, catalogs));
-	const changed =
-		agents.some((agent, index) => agent !== document.agents[index]) ||
-		teams.some((team, index) => team !== document.teams[index]);
-	return changed ? { ...document, agents, teams } : document;
+	const changed = agents.some((agent, index) => agent !== document.agents[index]);
+	return changed ? { ...document, agents } : document;
 }
 
 /**
@@ -45,7 +42,9 @@ export function localizeAgentTeamDocument(
  *
  * 只用于渲染。不要把结果写回会发往主进程的数据里——主进程侧的名字是默认语言的字面量。
  */
-export function useLocalizedAgentTeamDocument(document: AgentTeamDocument | undefined): AgentTeamDocument | undefined {
+export function useLocalizedAgentTeamDocument(
+	document: AgentProfileDocument | undefined,
+): AgentProfileDocument | undefined {
 	const locale = useAtomValue(languageAtom);
 	const catalogs = useAtomValue(pluginI18nByIdAtom);
 	return useMemo(

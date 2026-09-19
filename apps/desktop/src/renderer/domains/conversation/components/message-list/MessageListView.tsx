@@ -54,8 +54,7 @@ export function MessageListView({
 		tailMessageId,
 		participantsById,
 		participants,
-		onTeamMemberOpen,
-	} = model;
+		} = model;
 	const scrollerElement = scroll.scrollerElement;
 	// 有历史消息时不能先用空列表的零缓冲配置再异步扩大；会话恢复期间这会让 Virtuoso
 	// 重新挂载整批历史行并修正总高度。只有真正的空会话才使用轻量首屏配置。
@@ -92,8 +91,7 @@ export function MessageListView({
 						pendingLabel={message.kind === "agent" && message.phase === "pending" ? pendingLabel : undefined}
 						participants={participants}
 						sessionUsages={message.kind === "agent" ? sessionUsagesRef.current : undefined}
-						onTeamMemberOpen={onTeamMemberOpen}
-					/>
+									/>
 				</MessageRow>
 			);
 		},
@@ -105,8 +103,7 @@ export function MessageListView({
 			onAbort,
 			pendingLabel,
 			tailMessageId,
-			onTeamMemberOpen,
-			participants,
+					participants,
 			participantsById,
 		],
 	);

@@ -1,4 +1,4 @@
-import { type AgentTeamDocument, createAgentTeamFixture, INITIAL_AGENT_PROFILES } from "@vetta/agent-team";
+import { type AgentProfileDocument, createAgentProfileFixture, INITIAL_AGENT_PROFILES } from "@vetta/agent-team";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AgentTeamConfigRepository } from "./agent-team-config-repository.js";
 import { AgentTeamStore, PROVIDED_RESOURCE_WRITE_ERROR } from "./agent-team-store.js";
@@ -9,15 +9,15 @@ vi.mock("../logger.js", () => ({
 }));
 
 class MemoryRepository implements AgentTeamConfigRepository {
-	document: AgentTeamDocument = createAgentTeamFixture();
+	document: AgentProfileDocument = createAgentProfileFixture();
 	writes = 0;
 	failNextWrite = false;
 
-	async read(): Promise<AgentTeamDocument> {
+	async read(): Promise<AgentProfileDocument> {
 		return structuredClone(this.document);
 	}
 
-	async write(document: AgentTeamDocument): Promise<void> {
+	async write(document: AgentProfileDocument): Promise<void> {
 		this.writes += 1;
 		if (this.failNextWrite) {
 			this.failNextWrite = false;
@@ -38,7 +38,7 @@ function agentInput(name: string) {
 		name,
 		mentionHandle: name.toLocaleLowerCase("en-US"),
 		blueprintId: "builder",
-		abilities: { skills: [], mcpServers: [], plugins: [] },
+		abilities: { selectionMode: "custom" as const, skills: [], mcpServers: [], plugins: [] },
 	};
 }
 
@@ -52,14 +52,12 @@ describe("AgentTeamStore plugin preset sync", () => {
 		store.onPluginPresetsApplied(applied);
 		await store.read();
 
-		// 插件装卸与热重载走的就是这一趟：不重铺，用户看到的还是内存里那份旧配置。
 		await expect(store.syncPluginPresets()).resolves.toBe(true);
 
 		expect(applied).toHaveBeenCalledTimes(1);
 		const document = await store.read();
-		expect(document.teams.some((team) => team.source?.pluginId === "preset-agent")).toBe(true);
+		expect(document.agents.some((agent) => agent.source?.pluginId === "preset-agent")).toBe(true);
 		expect(applied.mock.calls[0]?.[0]).toBe(document);
-		// 已经对齐之后再同步一次不写盘，也不再叫醒订阅者。
 		const writes = repository.writes;
 		await expect(store.syncPluginPresets()).resolves.toBe(false);
 		expect(repository.writes).toBe(writes);
@@ -68,7 +66,6 @@ describe("AgentTeamStore plugin preset sync", () => {
 });
 
 describe("AgentTeamStore transaction boundary", () => {
-	// master / developer / researcher 的人设住在「预设智能体」插件里，装机档案要靠它解析。
 	beforeEach(() => registerPresetPluginBlueprints());
 
 	it("serializes concurrent mutations without losing either profile", async () => {
@@ -144,7 +141,6 @@ describe("AgentTeamStore transaction boundary", () => {
 		});
 		expect(overridden.systemPrompt).toBe("Speak plainly.");
 
-		// 留空即回到 blueprint 默认；存成空串会让下游的 `?? blueprint` 兜底失效。
 		const cleared = await store.updateAgent(overridden.id, {
 			expectedRevision: overridden.revision,
 			name: overridden.name,
@@ -156,271 +152,49 @@ describe("AgentTeamStore transaction boundary", () => {
 		expect(cleared.systemPrompt).toBeUndefined();
 	});
 
-	it("keeps a member assignment across unrelated team edits and clears it on demand", async () => {
-		const repository = new MemoryRepository();
-		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
-		const document = await store.read();
-		const team = document.teams[0];
-		if (!team) throw new Error("Expected an initial team");
-		const memberId = team.members[0]?.id;
-		if (!memberId) throw new Error("Expected a team member");
-
-		const assigned = await store.updateTeam(team.id, {
-			expectedRevision: team.revision,
-			name: team.name,
-			description: team.description,
-			members: team.members.map((member) => ({
-				kind: "existing" as const,
-				memberId: member.id,
-				leader: member.id === team.leaderMemberId,
-				...(member.id === memberId
-					? { assignment: { responsibility: "  Owns the release checklist.  ", instructions: "   " } }
-					: {}),
-			})),
-		});
-		// 空白折算成缺省，非空去掉首尾空格。
-		expect(assigned.members[0]?.assignment).toEqual({ responsibility: "Owns the release checklist." });
-
-		const renamed = await store.updateTeam(assigned.id, {
-			expectedRevision: assigned.revision,
-			name: "Renamed team",
-			description: assigned.description,
-			members: assigned.members.map((member) => ({
-				kind: "existing" as const,
-				memberId: member.id,
-				leader: member.id === assigned.leaderMemberId,
-			})),
-		});
-		// 输入不带 assignment 表示「本次没碰任务书」，不能被静默清空。
-		expect(renamed.members[0]?.assignment).toEqual({ responsibility: "Owns the release checklist." });
-
-		const cleared = await store.updateTeam(renamed.id, {
-			expectedRevision: renamed.revision,
-			name: renamed.name,
-			description: renamed.description,
-			members: renamed.members.map((member) => ({
-				kind: "existing" as const,
-				memberId: member.id,
-				leader: member.id === renamed.leaderMemberId,
-				assignment: { responsibility: "", instructions: "" },
-			})),
-		});
-		expect(cleared.members[0]?.assignment).toBeUndefined();
-	});
-
-	it("allows deleting an initially supplied profile like any other profile", async () => {
+	it("allows deleting an initially supplied profile", async () => {
 		const repository = new MemoryRepository();
 		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
 		const source = INITIAL_AGENT_PROFILES[0];
 		if (!source) throw new Error("Expected an initial Agent profile");
 
-		const impact = await store.previewAgentDelete(source.id);
 		await expect(
 			store.deleteAgent(source.id, {
 				expectedRevision: source.revision,
-				expectedTeamIds: impact.teams.map((team) => team.teamId),
-				expectedTeamRevisions: Object.fromEntries(impact.teams.map((team) => [team.teamId, team.teamRevision])),
 			}),
 		).resolves.toBeUndefined();
 		expect((await store.read()).agents.some((agent) => agent.id === source.id)).toBe(false);
 	});
 
-	it("refuses to edit an agent or a team that a provider owns", async () => {
+	it("refuses to edit an agent that a provider owns", async () => {
 		const repository = new MemoryRepository();
-		const document = repository.document;
-		const agent = document.agents[0]!;
-		const team = document.teams[0]!;
-		repository.document = {
-			...document,
-			agents: document.agents.map((candidate) =>
-				candidate.id === agent.id
-					? { ...candidate, source: { kind: "plugin" as const, pluginId: "preset-agent" } }
-					: candidate,
-			),
-			teams: document.teams.map((candidate) =>
-				candidate.id === team.id
-					? { ...candidate, source: { kind: "plugin" as const, pluginId: "preset-agent" } }
-					: candidate,
-			),
-		};
 		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
+		await store.syncPluginPresets();
+		const provided = (await store.read()).agents.find((agent) => agent.source?.kind === "plugin");
+		if (!provided) throw new Error("Expected a plugin-owned profile");
 
-		// 提供方 1:1 维护的资源就地改不动：下一次插件同步会用清单整体重铺它。
 		await expect(
-			store.updateAgent(agent.id, {
-				expectedRevision: agent.revision,
-				name: "我改的名字",
-				description: agent.description,
-				mentionHandle: agent.mentionHandle,
-				abilities: agent.abilities,
+			store.updateAgent(provided.id, {
+				expectedRevision: provided.revision,
+				name: "Hijacked",
+				description: provided.description,
+				mentionHandle: provided.mentionHandle,
+				abilities: provided.abilities,
 			}),
 		).rejects.toThrow(PROVIDED_RESOURCE_WRITE_ERROR);
+	});
+
+	it("refuses to delete an agent that a provider owns", async () => {
+		const repository = new MemoryRepository();
+		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
+		await store.syncPluginPresets();
+		const provided = (await store.read()).agents.find((agent) => agent.source?.kind === "plugin");
+		if (!provided) throw new Error("Expected a plugin-owned profile");
+
 		await expect(
-			store.updateTeam(team.id, {
-				expectedRevision: team.revision,
-				name: "我改的队名",
-				description: team.description,
-				members: team.members.map((member) => ({
-					kind: "existing" as const,
-					memberId: member.id,
-					leader: member.id === team.leaderMemberId,
-				})),
+			store.deleteAgent(provided.id, {
+				expectedRevision: provided.revision,
 			}),
 		).rejects.toThrow(PROVIDED_RESOURCE_WRITE_ERROR);
-
-		const reloaded = await store.read();
-		expect(reloaded.agents.find((candidate) => candidate.id === agent.id)?.name).toBe(agent.name);
-		expect(reloaded.teams.find((candidate) => candidate.id === team.id)?.name).toBe(team.name);
-	});
-
-	it("refuses to delete an agent or a team that a provider owns", async () => {
-		const repository = new MemoryRepository();
-		const document = repository.document;
-		const agent = document.agents[0]!;
-		const team = document.teams[0]!;
-		// 回填会给提供方铺下的资源盖戳；盖过戳的删不得，它下次启动本来也会被补回来。
-		repository.document = {
-			...document,
-			agents: document.agents.map((candidate) =>
-				candidate.id === agent.id
-					? { ...candidate, source: { kind: "plugin" as const, pluginId: "preset-agent" } }
-					: candidate,
-			),
-			teams: document.teams.map((candidate) =>
-				candidate.id === team.id
-					? { ...candidate, source: { kind: "plugin" as const, pluginId: "preset-agent" } }
-					: candidate,
-			),
-		};
-		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
-
-		const impact = await store.previewAgentDelete(agent.id);
-		await expect(
-			store.deleteAgent(agent.id, {
-				expectedRevision: agent.revision,
-				expectedTeamIds: impact.teams.map((entry) => entry.teamId),
-				expectedTeamRevisions: Object.fromEntries(impact.teams.map((entry) => [entry.teamId, entry.teamRevision])),
-			}),
-		).rejects.toThrow(PROVIDED_RESOURCE_WRITE_ERROR);
-		await expect(store.deleteTeam(team.id, { expectedRevision: team.revision })).rejects.toThrow(
-			PROVIDED_RESOURCE_WRITE_ERROR,
-		);
-
-		const reloaded = await store.read();
-		expect(reloaded.agents.some((candidate) => candidate.id === agent.id)).toBe(true);
-		expect(reloaded.teams.some((candidate) => candidate.id === team.id)).toBe(true);
-	});
-
-	it("deletes an unreferenced agent and cascades reviewed team references", async () => {
-		const repository = new MemoryRepository();
-		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
-		const removable = await store.createAgent(agentInput("Removable"));
-
-		await store.deleteAgent(removable.id, { expectedRevision: removable.revision });
-		expect((await store.read()).agents).toHaveLength(INITIAL_AGENT_PROFILES.length);
-
-		const referenced = await store.createAgent(agentInput("Referenced"));
-		const referencedTeam = await store.createTeam({
-			name: "Team",
-			members: [
-				{
-					agentProfileId: referenced.id,
-					handle: referenced.mentionHandle,
-					bindingKind: "reference",
-					leader: true,
-				},
-			],
-		});
-		await expect(store.deleteAgent(referenced.id, { expectedRevision: referenced.revision })).rejects.toThrow(
-			"review affected teams",
-		);
-		const staleImpact = await store.previewAgentDelete(referenced.id);
-		await store.updateTeam(referencedTeam.id, {
-			expectedRevision: referencedTeam.revision,
-			name: referencedTeam.name,
-			description: referencedTeam.description,
-			members: referencedTeam.members.map((member) => ({
-				kind: "existing" as const,
-				memberId: member.id,
-				leader: member.id === referencedTeam.leaderMemberId,
-			})),
-		});
-		await expect(
-			store.deleteAgent(referenced.id, {
-				expectedRevision: referenced.revision,
-				expectedTeamIds: staleImpact.teams.map((team) => team.teamId),
-				expectedTeamRevisions: Object.fromEntries(
-					staleImpact.teams.map((team) => [team.teamId, team.teamRevision]),
-				),
-			}),
-		).rejects.toThrow("review affected teams");
-		const impact = await store.previewAgentDelete(referenced.id);
-		await store.deleteAgent(referenced.id, {
-			expectedRevision: referenced.revision,
-			expectedTeamIds: impact.teams.map((team) => team.teamId),
-			expectedTeamRevisions: Object.fromEntries(impact.teams.map((team) => [team.teamId, team.teamRevision])),
-		});
-		expect((await store.read()).teams.some((team) => team.name === "Team")).toBe(false);
-	});
-
-	it("updates a team roster atomically and transfers responsibility", async () => {
-		const repository = new MemoryRepository();
-		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
-		const first = await store.createAgent(agentInput("First"));
-		const second = await store.createAgent(agentInput("Second"));
-		const team = await store.createTeam({
-			name: "Team",
-			members: [
-				{
-					agentProfileId: first.id,
-					handle: first.mentionHandle,
-					bindingKind: "reference",
-					leader: true,
-				},
-			],
-		});
-
-		const updated = await store.updateTeam(team.id, {
-			expectedRevision: team.revision,
-			name: team.name,
-			description: team.description,
-			members: [
-				{
-					kind: "new",
-					agentProfileId: second.id,
-					bindingKind: "reference",
-					leader: true,
-				},
-			],
-		});
-
-		expect(updated.members).toHaveLength(1);
-		expect(updated.members[0]?.binding.agentProfileId).toBe(second.id);
-		expect(updated.leaderMemberId).toBe(updated.members[0]?.id);
-	});
-
-	it("turns a copied initial profile into an independently editable profile", async () => {
-		const repository = new MemoryRepository();
-		const store = new AgentTeamStore({ repository, createId: createIdSequence(), now: () => 10 });
-		const source = INITIAL_AGENT_PROFILES[0];
-		if (!source) throw new Error("Expected an initial Agent profile");
-
-		const team = await store.createTeam({
-			name: "Copy team",
-			members: [
-				{
-					agentProfileId: source.id,
-					handle: "copy-leader",
-					bindingKind: "copy",
-					leader: true,
-				},
-			],
-		});
-		const copiedMember = team.members[0];
-		if (!copiedMember) throw new Error("Expected a copied team member");
-		const copiedId = copiedMember.binding.agentProfileId;
-		const copied = (await store.read()).agents.find((agent) => agent.id === copiedId);
-
-		expect(copied).toMatchObject({ scope: { kind: "team", teamId: team.id } });
 	});
 });

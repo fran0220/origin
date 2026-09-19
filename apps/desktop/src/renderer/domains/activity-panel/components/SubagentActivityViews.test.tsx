@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { BackgroundTasksTabPanelView, WorkflowTabPanelView } from "@vetta-org/theme-ui/activity";
+import { BackgroundTasksTabPanelView } from "@vetta-org/theme-ui/activity";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
@@ -44,39 +44,6 @@ describe("Subagent activity views", () => {
 		expect(html).toContain("break-words");
 	});
 
-	it("renders the selected workflow hierarchy with an icon-first stop action", () => {
-		const html = renderToStaticMarkup(
-			<WorkflowTabPanelView
-				items={[
-					{
-						id: "workflow-1",
-						name: "API contract",
-						progressLabel: "1/2",
-						statusLabel: "Running",
-						statusIcon: "icon-[solar--refresh-linear] animate-spin",
-						statusClassName: "text-emerald-400",
-						objective: "Complete and verify the API contract.",
-						usageLabel: "800 tokens · $0.01",
-						selected: true,
-						active: true,
-					},
-				]}
-				emptyLabel="No workflows"
-				stopLabel="Stop"
-				noTranscriptLabel="No transcript"
-				hasTranscript={false}
-				messageList={null}
-				onSelect={vi.fn()}
-				onStop={vi.fn()}
-			/>,
-		);
-
-		expect(html).toContain("Complete and verify the API contract.");
-		expect(html).toContain("duration-200");
-		expect(html).toContain('aria-label="Stop"');
-		expect(html).toContain("icon-[solar--stop-circle-linear]");
-	});
-
 	it("renders and cancels an active MCP protocol Task without presenting it as bash work", () => {
 		const onStop = vi.fn();
 		render(
@@ -109,39 +76,4 @@ describe("Subagent activity views", () => {
 		expect(onStop).toHaveBeenCalledWith("mcp-record-1", "mcp");
 	});
 
-	it("wires workflow selection and stop actions to the host", () => {
-		const onSelect = vi.fn();
-		const onStop = vi.fn();
-		render(
-			<WorkflowTabPanelView
-				items={[
-					{
-						id: "workflow-1",
-						name: "API contract",
-						progressLabel: "1/2",
-						statusLabel: "Running",
-						statusIcon: "icon-[solar--refresh-linear] animate-spin",
-						statusClassName: "text-emerald-400",
-						objective: "Complete and verify the API contract.",
-						usageLabel: "800 tokens · $0.01",
-						selected: true,
-						active: true,
-					},
-				]}
-				emptyLabel="No workflows"
-				stopLabel="Stop"
-				noTranscriptLabel="No transcript"
-				hasTranscript={false}
-				messageList={null}
-				onSelect={onSelect}
-				onStop={onStop}
-			/>,
-		);
-
-		fireEvent.click(screen.getByRole("button", { name: /API contract/u }));
-		fireEvent.click(screen.getByRole("button", { name: "Stop" }));
-
-		expect(onSelect).toHaveBeenCalledWith("workflow-1");
-		expect(onStop).toHaveBeenCalledWith("workflow-1");
-	});
 });

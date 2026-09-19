@@ -1,5 +1,5 @@
 import type { RegisteredNewSessionContext } from "@shared/store/plugin-atoms";
-import type { AgentProfile, TeamDefinition } from "@vetta/agent-team";
+import type { AgentProfile } from "@vetta/agent-team";
 import { parsePluginBlueprintId } from "@vetta/agent-team";
 
 /**
@@ -22,11 +22,8 @@ export interface ActiveNewSessionContext {
 
 export interface ResolveNewSessionContextsInput {
 	readonly contributions: readonly RegisteredNewSessionContext[];
-	/** 当前选中的智能体档案；选的是团队或什么都没选时为 undefined。 */
+	/** 当前选中的智能体档案；什么都没选时为 undefined。 */
 	readonly targetAgent?: AgentProfile;
-	readonly targetTeam?: TeamDefinition;
-	/** 解析团队成员用：档案 id → 档案。 */
-	readonly agentsById?: ReadonlyMap<string, AgentProfile>;
 	/** 输入框里提到的 skill 名。 */
 	readonly mentionedSkills?: readonly string[];
 	readonly mentionedMcpServers?: readonly string[];
@@ -64,7 +61,7 @@ function matchTarget(
 	contribution: RegisteredNewSessionContext,
 	input: ResolveNewSessionContextsInput,
 ): string | undefined {
-	const { agents, teams } = contribution.activateWhen;
+	const { agents } = contribution.activateWhen;
 
 	if (input.targetAgent) {
 		const parsed = parsePluginBlueprintId(input.targetAgent.blueprintId);
@@ -72,18 +69,6 @@ function matchTarget(
 		// agents 省略表示「本插件的任意智能体」。
 		if (agents && !agents.includes(parsed.agentId)) return undefined;
 		return parsed.agentId;
-	}
-
-	if (input.targetTeam) {
-		// 团队按成员推导：只要队里有本插件贡献的角色就算相关，插件不必重复声明团队 id。
-		for (const member of input.targetTeam.members) {
-			const profile = input.agentsById?.get(member.binding.agentProfileId);
-			const parsed = profile ? parsePluginBlueprintId(profile.blueprintId) : undefined;
-			if (!parsed || parsed.pluginId !== contribution.pluginId) continue;
-			if (agents && !agents.includes(parsed.agentId)) continue;
-			if (teams && !teams.includes(input.targetTeam.id)) continue;
-			return parsed.agentId;
-		}
 	}
 
 	return undefined;

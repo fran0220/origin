@@ -1,4 +1,3 @@
-import { notifyTeamSessionsChanged } from "@shared/agent-teams/team-session-events";
 import type { DefaultConversationFilter } from "@shared/store/atoms";
 import {
 	conversationFilterTagId,
@@ -60,7 +59,6 @@ export interface DefaultSessionListItemView {
 
 interface UseDefaultSessionListModelArgs {
 	activeSessionPath: string;
-	activeTeamSessionId: string;
 	cwd: string;
 	filter: DefaultConversationFilter;
 	onNewSession?: () => void;
@@ -71,7 +69,6 @@ interface UseDefaultSessionListModelArgs {
 
 export function useDefaultSessionListModel({
 	activeSessionPath,
-	activeTeamSessionId,
 	cwd,
 	filter,
 	onNewSession,
@@ -114,11 +111,7 @@ export function useDefaultSessionListModel({
 		setShowAll(false);
 	}
 
-	const activeConversationKey = activeTeamSessionId
-		? `agent-team:${activeTeamSessionId}`
-		: activeSessionPath
-			? `conversation:${activeSessionPath}`
-			: "";
+	const activeConversationKey = activeSessionPath ? `conversation:${activeSessionPath}` : "";
 	useEffect(() => {
 		if (!activeConversationKey) {
 			revealedActiveSessionRef.current = null;
@@ -141,15 +134,14 @@ export function useDefaultSessionListModel({
 
 	const isClaw = filter === "claw";
 
-	// t 在 changeLanguage 后可能保持同一引用；读 i18n.language 强制语言切换时重算未命名团队会话文案。
+	// t 在 changeLanguage 后可能保持同一引用；读 i18n.language 强制语言切换时重算未命名会话文案。
 	const allViews: DefaultSessionListItemView[] = useMemo(() => {
 		void i18n.language;
 		const next = ordering.all.map((session) => {
 			const identity = sidebarConversationIdentity(session, {
-				conversationLabel: session.kind === "conversation" ? sessionDisplayLabel(session) : undefined,
-				untitledTeamLabel: t("sidebar.session.untitledTeam"),
+				conversationLabel: sessionDisplayLabel(session),
 			});
-			const isActive = isSidebarConversationActive(session, activeSessionPath, activeTeamSessionId);
+			const isActive = isSidebarConversationActive(session, activeSessionPath);
 			const isRenaming = identity.mutable && renamingSessionPath === session.path;
 			const isRunning = runningSessionPaths.has(session.path);
 			const isSchedule =
@@ -176,7 +168,6 @@ export function useDefaultSessionListModel({
 		return reuseUnchangedSessionViews(viewCacheRef.current, next);
 	}, [
 		activeSessionPath,
-		activeTeamSessionId,
 		i18n.language,
 		renamingSessionPath,
 		runningSessionPaths,
@@ -187,7 +178,6 @@ export function useDefaultSessionListModel({
 		tagColorById,
 		tagFilterId,
 		tags,
-		t,
 	]);
 
 	const visiblePaths = useMemo(() => new Set(ordering.visible.map(({ path }) => path)), [ordering.visible]);
@@ -208,15 +198,7 @@ export function useDefaultSessionListModel({
 	);
 	const rename = useCallback(
 		(session: SidebarConversationInfo, name: string) => {
-			if (session.kind === "conversation") {
-				onRenameSession(cwd, session.path, name);
-				return;
-			}
-			void window.vetta.agentTeams
-				.renameSession({ id: session.teamSessionId, coordinationSessionPath: session.path }, name)
-				.then(() => {
-					notifyTeamSessionsChanged(session.teamId);
-				});
+			onRenameSession(cwd, session.path, name);
 		},
 		[cwd, onRenameSession],
 	);

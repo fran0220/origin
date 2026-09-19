@@ -404,12 +404,7 @@ export function createPluginUiApi({
 			throw new Error("New session context render is invalid");
 		}
 		const activateWhen = contribution.activateWhen ?? {};
-		if (
-			!activateWhen.agents?.length &&
-			!activateWhen.teams?.length &&
-			!activateWhen.skills?.length &&
-			!activateWhen.mcpServers?.length
-		) {
+		if (!activateWhen.agents?.length && !activateWhen.skills?.length && !activateWhen.mcpServers?.length) {
 			// 全空等于「任何新会话都上屏」，那不是上下文区该有的行为。
 			throw new Error("New session context must declare at least one activation condition");
 		}

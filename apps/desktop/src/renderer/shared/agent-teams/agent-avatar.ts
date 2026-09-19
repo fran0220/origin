@@ -2,7 +2,7 @@ import type { AgentProfile } from "@vetta/agent-team";
 import { useCallback, useEffect, useState } from "react";
 import { agentAvatarUrl } from "../../../shared/agent-team-avatar";
 
-export { AGENT_AVATAR_OPTIONS, agentAvatarUrl, teamMemberAvatarUrls } from "../../../shared/agent-team-avatar";
+export { AGENT_AVATAR_OPTIONS, agentAvatarUrl } from "../../../shared/agent-team-avatar";
 
 /** 档案里够用来定头像的部分：用户选过的图优先，其次按 blueprint 取提供方的图。 */
 type AvatarSubject = Pick<AgentProfile, "id" | "blueprintId"> & { readonly avatar?: string };

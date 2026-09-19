@@ -23,9 +23,7 @@ import { DefaultInputBarConnector } from "../input-bar/DefaultInputBarConnector"
 import type { SendInteractionContext } from "../input-bar/types";
 import { useActiveSessionRuntimeIds } from "@shared/workspace/active-session-runtime";
 import { createActivityWorkspace } from "@shared/workspace/activity-workspace";
-import { TeamComposerConnector } from "../../connectors/team/TeamComposerConnector";
-import type { TeamChatActions, TeamChatViewModel } from "../../connectors/team/teamChatModel";
-import { isTeamTarget, type NewSessionTargetKey } from "./target";
+import type { NewSessionTargetKey } from "./target";
 
 
 /** 命令区展开时输入栏下移的距离：面板向上生长，下方留白同步收掉。 */
@@ -39,7 +37,7 @@ interface NewSessionPageViewProps {
 	commandPanelShift: boolean;
 	cwd: string;
 	greetingTitle: string;
-	/** 选中的智能体/团队身份；null 时 hero 展示问候语。 */
+	/** 选中的智能体身份；null 时 hero 展示问候语。 */
 	heroIdentity: NewSessionHeroIdentity | null;
 	isShort: boolean;
 	mounted: boolean;
@@ -54,7 +52,6 @@ interface NewSessionPageViewProps {
 	projectTakenNames: readonly string[];
 	targetKey: NewSessionTargetKey | null;
 	onSelectTarget: (targetKey: NewSessionTargetKey | null) => void;
-	teamComposer: { readonly model: TeamChatViewModel | null; readonly actions: TeamChatActions | null };
 	/** 插件上下文区：由选中的目标或输入框里提到的能力唤起。 */
 	contextBlock: NewSessionContextBlockModel;
 	subtitle: string;
@@ -83,7 +80,6 @@ export function NewSessionPageView({
 	targetKey,
 	onSelectTarget,
 	contextBlock,
-	teamComposer,
 	subtitle,
 }: NewSessionPageViewProps): JSX.Element {
 	const activeRuntimeIds = useActiveSessionRuntimeIds();
@@ -170,31 +166,13 @@ export function NewSessionPageView({
 						transition={shiftTransition}
 					>
 						{/* Drop target is the input card; cwdOverride enables drop before a session exists. */}
-						{isTeamTarget(targetKey) ? (
-							teamComposer.model && teamComposer.actions ? (
-								<TeamComposerConnector
-									model={teamComposer.model}
-									actions={teamComposer.actions}
-									onExpandedChange={onCommandPanelExpandedChange}
-								/>
-							) : (
-								<div
-									role="status"
-									aria-busy="true"
-									className="mx-auto flex h-[136px] w-full max-w-2xl items-center justify-center rounded-xl border border-border bg-card/80 px-4 text-sm text-muted-foreground shadow-sm"
-								>
-									{t("newSession.agentSelector.loading")}
-								</div>
-							)
-						) : (
-							<DefaultInputBarConnector
-								onSend={onSend}
-								onAbort={onAbort}
-								cwdOverride={cwd}
-								onExpandedChange={onCommandPanelExpandedChange}
-								sendPending={preparingProject ? { label: preparingLabel } : undefined}
-							/>
-						)}
+						<DefaultInputBarConnector
+							onSend={onSend}
+							onAbort={onAbort}
+							cwdOverride={cwd}
+							onExpandedChange={onCommandPanelExpandedChange}
+							sendPending={preparingProject ? { label: preparingLabel } : undefined}
+						/>
 						{/* 窄插槽下的项目选择器：跟着输入栏一起位移，横向留白与输入框卡片对齐
 						    （`px-2 sm:px-4` + 内层 `max-w-2xl`），保证它的左缘压在卡片左缘上。 */}
 						{stackProjectSelector && (

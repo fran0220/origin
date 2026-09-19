@@ -13,7 +13,6 @@ const loaders = vi.hoisted(() => ({
 	loadNewSessionPage: vi.fn(() => Promise.resolve()),
 	loadScenesPage: vi.fn(() => Promise.resolve()),
 	loadSettingsPage: vi.fn(() => Promise.resolve()),
-	loadTeamChatPage: vi.fn(() => Promise.resolve()),
 	loadWorkspacePage: vi.fn(() => Promise.resolve()),
 }));
 
@@ -32,7 +31,6 @@ describe("prefetchIdleRoutes", () => {
 		expect(loaders.loadAgentsPage).toHaveBeenCalledTimes(1);
 		expect(loaders.loadNewSessionPage).toHaveBeenCalledTimes(1);
 		expect(loaders.loadSettingsPage).toHaveBeenCalledTimes(1);
-		expect(loaders.loadTeamChatPage).not.toHaveBeenCalled();
 		cancel();
 	});
 });

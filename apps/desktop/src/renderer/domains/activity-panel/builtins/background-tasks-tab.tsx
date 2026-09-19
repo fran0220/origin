@@ -4,7 +4,6 @@ import {
 	getMcpTasksForSession,
 	getSubagentsForSession,
 	isSubagentActive,
-	isWorkflowTask,
 	mcpTasksBySessionAtom,
 	subagentsBySessionAtom,
 } from "@shared/store/atoms";
@@ -41,7 +40,7 @@ export const backgroundTasksTabDefinition: ActivityTabDefinition = {
 		const subagents = useMemo(
 			() =>
 				collectRuntimeItems(runtimeIds, (runtimeId) =>
-					getSubagentsForSession(subagentsMap, runtimeId).filter((a) => !isWorkflowTask(a)),
+					getSubagentsForSession(subagentsMap, runtimeId),
 				),
 			[subagentsMap, runtimeIds],
 		);

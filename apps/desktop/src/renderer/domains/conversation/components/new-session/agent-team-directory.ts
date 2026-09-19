@@ -1,16 +1,16 @@
 import { useLocalizedAgentTeamDocument } from "@shared/agent-teams/agent-team-localization";
-import type { AgentTeamDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@vetta/agent-team";
 import { useEffect, useState } from "react";
 
 /**
- * 新会话页的 Agent Team 名录（模块级缓存）。
+ * 新会话页的 Agent Profile 名录（模块级缓存）。
  *
- * 同一屏有两个消费者：选择器（列出团队与智能体）和 hero 身份。两者各自拉一次
+ * 同一屏有两个消费者：选择器（列出智能体档案）和 hero 身份。两者各自拉一次
  * 就会在进页面时打两趟 IPC，而且可能拿到不同 revision 的文档、显示不一致的名字。
  * 这里合并同一时刻的请求并缓存最后一次结果，让后挂载的消费者先用缓存立即出内容。
  */
-let cached: AgentTeamDocument | undefined;
-let inflight: Promise<AgentTeamDocument> | undefined;
+let cached: AgentProfileDocument | undefined;
+let inflight: Promise<AgentProfileDocument> | undefined;
 const listeners = new Set<() => void>();
 /** 主进程侧「配置已变」的订阅，整个模块共一份。 */
 let unsubscribeChanged: (() => void) | undefined;
@@ -18,7 +18,7 @@ let unsubscribeChanged: (() => void) | undefined;
 /**
  * 跟随主进程的配置变更刷新缓存。
  *
- * 插件装卸与热重载会重铺插件贡献的智能体与团队，而这份缓存活到页面卸载之前都不会过期——不听
+ * 插件装卸与热重载会重铺插件贡献的智能体档案，而这份缓存活到页面卸载之前都不会过期——不听
  * 这条事件，新会话页会一直摆着上一版的阵容。
  */
 function watchAgentTeamDocument(): void {
@@ -33,7 +33,7 @@ function watchAgentTeamDocument(): void {
 	});
 }
 
-export function cachedAgentTeamDocument(): AgentTeamDocument | undefined {
+export function cachedAgentTeamDocument(): AgentProfileDocument | undefined {
 	return cached;
 }
 
@@ -46,7 +46,7 @@ export function subscribeAgentTeamDocument(listener: () => void): () => void {
 }
 
 /** 拉取名录：已有在途请求时复用它，成功后更新缓存并通知订阅者。失败不写缓存，下次重试。 */
-export function loadAgentTeamDocument(): Promise<AgentTeamDocument> {
+export function loadAgentTeamDocument(): Promise<AgentProfileDocument> {
 	inflight ??= window.vetta.agentTeams
 		.list()
 		.then((document) => {
@@ -70,11 +70,11 @@ export function resetAgentTeamDirectoryForTest(): void {
 }
 
 /**
- * 订阅名录缓存的智能体/团队文档。
+ * 订阅名录缓存的智能体档案。
  *
  * 加载失败静默：同屏的选择器已经有重试入口，不要为同一次失败在多处提示。
  */
-export function useAgentTeamDirectoryDocument(): AgentTeamDocument | undefined {
+export function useAgentTeamDirectoryDocument(): AgentProfileDocument | undefined {
 	const [document, setDocument] = useState(cachedAgentTeamDocument);
 	useEffect(() => {
 		const unsubscribe = subscribeAgentTeamDocument(() => setDocument(cachedAgentTeamDocument()));

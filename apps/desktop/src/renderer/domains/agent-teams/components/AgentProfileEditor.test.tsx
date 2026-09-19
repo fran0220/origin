@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import type { AgentProfile, AgentProfileUpdateImpact } from "@vetta/agent-team";
+import type { AgentProfile } from "@vetta/agent-team";
 import { type ReactNode, useState } from "react";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -69,16 +69,10 @@ const agent: AgentProfile = {
 	description: "Find evidence",
 	mentionHandle: "researcher",
 	blueprintId: "researcher",
-	abilities: { skills: [], mcpServers: [], plugins: [] },
+	abilities: { selectionMode: "custom" as const, skills: [], mcpServers: [], plugins: [] },
 	scope: { kind: "library" },
 	createdAt: 0,
 	updatedAt: 0,
-};
-
-const impact: AgentProfileUpdateImpact = {
-	agentProfileId: agent.id,
-	teamIds: ["team-a", "team-b"],
-	teamNames: ["A", "B"],
 };
 
 afterEach(cleanup);
@@ -90,8 +84,7 @@ describe("AgentProfileEditor", () => {
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
-				onSave={vi.fn(async () => ({ updated: agent, impact }))}
+				onSave={vi.fn(async () => ({ updated: agent }))}
 			/>,
 		);
 
@@ -110,8 +103,7 @@ describe("AgentProfileEditor", () => {
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
-				onSave={vi.fn(async () => ({ updated: agent, impact }))}
+				onSave={vi.fn(async () => ({ updated: agent }))}
 			/>,
 		);
 
@@ -127,12 +119,11 @@ describe("AgentProfileEditor", () => {
 
 	it("edits and persists the file-backed system prompt", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		render(
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 				onSave={onSave}
 			/>,
 		);
@@ -143,26 +134,6 @@ describe("AgentProfileEditor", () => {
 		await waitFor(() => expect(onSave).toHaveBeenCalledWith(agent, expect.objectContaining({
 			systemPrompt: "Use file-backed instructions.",
 		})));
-	});
-
-	it("requires confirmation before saving a profile shared by multiple teams", async () => {
-		const user = userEvent.setup();
-		const onPreview = vi.fn(async () => impact);
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
-		render(
-			<AgentProfileEditor
-				agent={agent}
-				capabilities={[]}
-				onPreview={onPreview}
-				onSave={onSave}
-			/>,
-		);
-
-		await user.click(screen.getByRole("button", { name: "profile.save" }));
-		await waitFor(() => expect(screen.getByText(/profile.sharedImpact2/)).toBeTruthy());
-		expect(onSave).not.toHaveBeenCalled();
-		await user.click(screen.getByRole("button", { name: "profile.confirmSharedSave" }));
-		await waitFor(() => expect(onSave).toHaveBeenCalledTimes(1));
 	});
 
 	it("renders globally disabled capabilities as unavailable", () => {
@@ -178,8 +149,7 @@ describe("AgentProfileEditor", () => {
 						enabledGlobally: false,
 					},
 				]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
-				onSave={vi.fn(async () => ({ updated: agent, impact }))}
+				onSave={vi.fn(async () => ({ updated: agent }))}
 			/>,
 		);
 		const abilitySwitch = screen.getByRole("switch") as HTMLButtonElement;
@@ -207,8 +177,7 @@ describe("AgentProfileEditor", () => {
 						enabledGlobally: true,
 					},
 				]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
-				onSave={vi.fn(async () => ({ updated: agent, impact }))}
+				onSave={vi.fn(async () => ({ updated: agent }))}
 			/>,
 		);
 
@@ -221,7 +190,7 @@ describe("AgentProfileEditor", () => {
 
 	it("hides an internal plugin skill but keeps it linked when the owning plugin is selected", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact: { ...impact, teamIds: [], teamNames: [] } }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		render(
 			<AgentProfileEditor
 				agent={agent}
@@ -244,7 +213,6 @@ describe("AgentProfileEditor", () => {
 						enabledGlobally: true,
 					},
 				]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 				onSave={onSave}
 			/>,
 		);
@@ -268,7 +236,7 @@ describe("AgentProfileEditor", () => {
 
 	it("edits identity fields in the sheet layout and saves them", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		function SheetHarness(): JSX.Element {
 			const [saveRequest, setSaveRequest] = useState(0);
 			return (
@@ -284,7 +252,6 @@ describe("AgentProfileEditor", () => {
 						hideSaveAction
 						saveRequest={saveRequest}
 						onDraftChange={vi.fn()}
-						onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 						onSave={onSave}
 					/>
 				</>
@@ -312,14 +279,13 @@ describe("AgentProfileEditor", () => {
 
 	it("uploads a picture and saves it as the avatar", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		const uploadAvatar = vi.fn(async () => "vetta-file://local/home/pictures/mine.png");
 		vi.stubGlobal("vetta", { agentTeams: { uploadAvatar } });
 		render(
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 				onSave={onSave}
 			/>,
 		);
@@ -342,13 +308,12 @@ describe("AgentProfileEditor", () => {
 
 	it("keeps the profile unchanged when the upload dialog is cancelled", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		vi.stubGlobal("vetta", { agentTeams: { uploadAvatar: vi.fn(async () => undefined) } });
 		render(
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 				onSave={onSave}
 			/>,
 		);
@@ -362,12 +327,11 @@ describe("AgentProfileEditor", () => {
 
 	it("offers every built-in avatar and saves the selected stable asset path", async () => {
 		const user = userEvent.setup();
-		const onSave = vi.fn(async () => ({ updated: agent, impact }));
+		const onSave = vi.fn(async () => ({ updated: agent }));
 		render(
 			<AgentProfileEditor
 				agent={agent}
 				capabilities={[]}
-				onPreview={vi.fn(async () => ({ ...impact, teamIds: [], teamNames: [] }))}
 				onSave={onSave}
 			/>,
 		);

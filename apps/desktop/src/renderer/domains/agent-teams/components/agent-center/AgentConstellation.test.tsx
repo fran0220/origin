@@ -13,7 +13,7 @@ function agent(id: string): AgentProfile {
 		description: "",
 		mentionHandle: id,
 		blueprintId: "builder",
-		abilities: { skills: [], mcpServers: [], plugins: [] },
+		abilities: { selectionMode: "custom" as const, skills: [], mcpServers: [], plugins: [] },
 		scope: { kind: "library" },
 		createdAt: 1,
 		updatedAt: 1,
