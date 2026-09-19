@@ -14,8 +14,12 @@
 | `react-dom/client` | 不单独安装；由 `react-dom` 提供 | Desktop 宿主 share scope |
 | `@vetta-org/plugin-sdk` | `devDependencies` 必须声明 | Desktop 宿主 shim/share scope |
 
-依赖版本应与仓库其他插件保持一致。当前仓库使用 `react` / `react-dom`
-`19.1.1`，本地包使用 `workspace:*`。
+依赖版本应与仓库其他插件保持一致。插件 `package.json` 里声明 `react` / `react-dom`
+`19.1.1`，本地包使用 `workspace:*`。仓库根 `package.json#overrides` 会把整个 workspace 的
+`react` / `react-dom` 统一到宿主实际打包的同一版本：Desktop、`@vetta-org/ui`、`theme-ui`
+共享同一个 React 实例，插件在仓库内构建和测试时也用这份。不要在单个包里另行 pin 版本，
+否则 Bun 的 hoist 结果会随插件数量变化而漂移，出现两份 React（hooks 失效、`react-day-picker`
+类型不相容）。
 
 最小声明示例：
 
