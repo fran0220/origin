@@ -13,6 +13,7 @@ export default defineConfig({
 			),
 			"@vetta/runtime-node/host": fileURLToPath(new URL("./src/host/index.ts", import.meta.url)),
 			"@vetta/runtime-node/sandbox": fileURLToPath(new URL("./src/sandbox/index.ts", import.meta.url)),
+			"@vetta/runtime-node/recording": fileURLToPath(new URL("./src/recording/index.ts", import.meta.url)),
 			"@vetta/runtime-node/coding": fileURLToPath(new URL("./src/coding/index.ts", import.meta.url)),
 			"@vetta/runtime-node/mcp": fileURLToPath(new URL("./src/mcp/index.ts", import.meta.url)),
 			"@vetta/runtime-node/conversation": fileURLToPath(
@@ -30,6 +31,7 @@ export default defineConfig({
 				new URL("../runtime-mcp/src/protocol/index.ts", import.meta.url),
 			),
 			"@vetta/runtime-mcp": fileURLToPath(new URL("../runtime-mcp/src/index.ts", import.meta.url)),
+			"@vetta/runtime-recording": fileURLToPath(new URL("../runtime-recording/src/index.ts", import.meta.url)),
 			"@vetta/runtime-storage/conversation": fileURLToPath(
 				new URL("../runtime-storage/src/conversation/index.ts", import.meta.url),
 			),

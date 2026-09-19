@@ -6,4 +6,5 @@ export * from "./evaluation/index.js";
 export * from "./evolution/index.js";
 export * from "./host/index.js";
 export * from "./mcp/index.js";
+export * from "./recording/index.js";
 export * from "./sandbox/index.js";

@@ -49,6 +49,10 @@
 		"./evolution": {
 			"types": "./dist/evolution/index.d.ts",
 			"import": "./dist/evolution/index.js"
+		},
+		"./recording": {
+			"types": "./dist/recording/index.d.ts",
+			"import": "./dist/recording/index.js"
 		}
 	},
 	"files": [
@@ -74,6 +78,7 @@
 		"@vetta/runtime-evolution": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",
+		"@vetta/runtime-recording": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",
 		"@vetta/runtime-subagents": "workspace:*",
 		"@vetta/runtime-tools": "workspace:*",
