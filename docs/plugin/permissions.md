@@ -81,6 +81,8 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 | `secrets.write` | `ctx.secrets.set/delete` | 同上 |
 | `media.generate` | `ctx.media.listProviders/createJob/getJob/cancelJob` | [media](./media.md) |
 | `media.provider.register` | `ctx.media.registerProvider`（注册媒体 Provider） | [media](./media.md#注册-provider) |
+| `evaluation:run` | `ctx.evaluation.run` / `registerEvidenceProvider` | [evaluation](./evaluation.md) |
+| `evaluation:read` | `ctx.evaluation.listDefinitions` / `listAttempts` / `get` | [evaluation](./evaluation.md) |
 | `ai.models.list` | `ctx.ai.listModels()` | [ai](./ai.md) |
 | `ai.complete` | `ctx.ai.complete()` / `ctx.ai.stream()` / `ctx.ai.chat()` | [ai](./ai.md) |
 | `models.manage` | `ctx.models.replaceOwnedProviders()` / `listOwnedProviders()` | [下方](#尚无专章的能力) |

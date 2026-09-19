@@ -11,6 +11,8 @@ import type {
 	PluginCommandSpawnExit,
 	PluginCommandSpawnHandle,
 	PluginConversationApi,
+	PluginEvaluationApi,
+	PluginEvaluationEvidenceProvider,
 	PluginFsApi,
 	PluginGatewayApi,
 	PluginI18nApi,
@@ -223,6 +225,83 @@ export function createBrowserApi(plugin: InstalledPlugin, capabilitySessionId: s
 		act: (sessionId, action, options) => {
 			permissions.require("browser.interact");
 			return browser.act(capabilitySessionId, sessionId, action, options);
+		},
+	};
+}
+
+const evaluationEvidenceProviders = new Map<string, PluginEvaluationEvidenceProvider>();
+let evaluationEvidenceListenerStarted = false;
+
+function ensureEvaluationEvidenceListener(): void {
+	if (evaluationEvidenceListenerStarted) return;
+	evaluationEvidenceListenerStarted = true;
+	window.vetta.evaluation.onEvidenceProviderRequest((request) => {
+		const provider = evaluationEvidenceProviders.get(request.providerId);
+		if (!provider) {
+			void window.vetta.evaluation.respondEvidenceProvider(request.requestId, {
+				error: `Evaluation evidence provider not found: ${request.providerId}`,
+			});
+			return;
+		}
+		void provider
+			.capture(request.scopeKey, request.trigger)
+			.then((captured) => window.vetta.evaluation.respondEvidenceProvider(request.requestId, captured.evidence))
+			.catch((error: unknown) =>
+				window.vetta.evaluation.respondEvidenceProvider(request.requestId, {
+					error: error instanceof Error ? error.message : String(error),
+				}),
+			);
+	});
+}
+
+export function createEvaluationApi(plugin: InstalledPlugin, disposers: Array<() => void>): PluginEvaluationApi {
+	const permissions = createPermissionApi(plugin);
+	return {
+		run: (request) => {
+			permissions.require("evaluation:run");
+			const scope =
+				request.scope?.kind === "project" && request.scope.projectKey
+					? { kind: "project" as const, projectKey: request.scope.projectKey }
+					: { kind: "global" as const };
+			return window.vetta.evaluation.run(scope, request.definitionId, request.trigger ?? { kind: "manual" });
+		},
+		listDefinitions: (scope) => {
+			permissions.require("evaluation:read");
+			return window.vetta.evaluation.listDefinitions(
+				scope?.kind === "project" && scope.projectKey
+					? { kind: "project", projectKey: scope.projectKey }
+					: { kind: "global" },
+			);
+		},
+		listAttempts: (scope) => {
+			permissions.require("evaluation:read");
+			return window.vetta.evaluation.listAttempts(
+				scope?.kind === "project" && scope.projectKey
+					? { kind: "project", projectKey: scope.projectKey }
+					: { kind: "global" },
+			);
+		},
+		get: (attemptId, scope) => {
+			permissions.require("evaluation:read");
+			return window.vetta.evaluation.get(
+				scope?.kind === "project" && scope.projectKey
+					? { kind: "project", projectKey: scope.projectKey }
+					: { kind: "global" },
+				attemptId,
+			);
+		},
+		registerEvidenceProvider: (provider) => {
+			permissions.require("evaluation:run");
+			ensureEvaluationEvidenceListener();
+			const providerId = `${plugin.id}:${provider.kind}:${crypto.randomUUID()}`;
+			evaluationEvidenceProviders.set(providerId, provider);
+			void window.vetta.evaluation.registerEvidenceProvider(providerId, provider.kind);
+			const dispose = (): void => {
+				evaluationEvidenceProviders.delete(providerId);
+				void window.vetta.evaluation.unregisterEvidenceProvider(providerId);
+			};
+			disposers.push(dispose);
+			return { dispose };
 		},
 	};
 }

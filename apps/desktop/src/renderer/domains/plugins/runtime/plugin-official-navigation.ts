@@ -40,6 +40,13 @@ const STATIC_TARGETS: readonly StaticNavigationTarget[] = [
 		aliases: ["批处理", "批量执行", "batch"],
 	},
 	{
+		id: "evaluation",
+		title: "评估",
+		description: "用明确标准核对工作是否达标的评估页面。",
+		hashPath: "/evaluation",
+		aliases: ["评估", "evaluation", "评测"],
+	},
+	{
 		id: "skills",
 		title: "能力",
 		description: "能力页：Skill / 场景 / MCP / 插件 / 能力套装统一管理。",

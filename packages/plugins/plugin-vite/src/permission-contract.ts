@@ -50,6 +50,20 @@ const BUNDLE_CAPABILITY_RULES: readonly BundleCapabilityRule[] = [
 		permissions: ["agent.hooks.register", "agent.hookHandler.execute"],
 		patterns: [/(?:\.|\[\s*["'])registerHook(?:["']\s*\])?\s*\(/u],
 	},
+	{
+		capability: "Evaluation run",
+		permissions: ["evaluation:run"],
+		patterns: [
+			/(?:\.|\[\s*["'])evaluation(?:["']\s*\])?(?:\.(?:run|registerEvidenceProvider)|\[\s*["'](?:run|registerEvidenceProvider)["']\s*\])\s*\(/u,
+		],
+	},
+	{
+		capability: "Evaluation read",
+		permissions: ["evaluation:read"],
+		patterns: [
+			/(?:\.|\[\s*["'])evaluation(?:["']\s*\])?(?:\.(?:listDefinitions|listAttempts|get)|\[\s*["'](?:listDefinitions|listAttempts|get)["']\s*\])\s*\(/u,
+		],
+	},
 ];
 
 function missingPermissions(

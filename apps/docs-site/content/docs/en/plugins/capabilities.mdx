@@ -28,6 +28,7 @@ The `ctx` passed to `activate(ctx)` is the single outlet for every capability. O
 | Use configured models | `ctx.ai.listModels`, `complete`, `stream`, `chat` | `ai.models.list` / `ai.complete` | Uses the user's credentials; never persist a key yourself |
 | Maintain your own model providers | `ctx.models.replaceOwnedProviders`, `listOwnedProviders` | `models.manage` | Writes are atomic snapshots, so omitting deletes; read back and reconcile first, and note the returned apiKey is masked |
 | Generate and provide media | `ctx.media.submit`, `registerProvider` | `media.generate` / `media.provider.register` | Track progress and cancellation of long work through `ctx.jobs` |
+| Read or run evaluations | `ctx.evaluation.run`, `listAttempts`, `registerEvidenceProvider` | `evaluation:run` / `evaluation:read` | Attempts are immutable; model claims belong in Finding.note |
 | Recognise and provide OCR | `ctx.ocr.recognize`, `registerProvider` | `ai.ocr.recognize` / `ai.ocr.provider.register` | Consuming and providing are separate permissions |
 | Manage CLIs and local services | `ctx.cliProviders.*`, `ctx.services.*` | declared through manifest `providers` | The host owns probing, installation, start and stop, and health checks |
 | Register discoverable actions | `ctx.appActions.register` | `app.actions.register` + `app.actionHandler.execute` | High-impact operations still need confirmation |

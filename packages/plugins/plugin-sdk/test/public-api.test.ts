@@ -5,6 +5,7 @@ import type {
 	PluginCodingAgentHookRegistration,
 	PluginCodingAgentHookResult,
 	PluginContext,
+	PluginEvaluationApi,
 } from "../src/index.js";
 import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES, PLUGIN_PERMISSIONS } from "../src/index.js";
 
@@ -15,11 +16,17 @@ describe("plugin-sdk public API", () => {
 		expect(PLUGIN_PERMISSIONS).toContain("browser.open");
 		expect(PLUGIN_PERMISSIONS).toContain("browser.interact");
 		expect(PLUGIN_PERMISSIONS).toContain("shell.openExternal");
+		expect(PLUGIN_PERMISSIONS).toContain("evaluation:run");
+		expect(PLUGIN_PERMISSIONS).toContain("evaluation:read");
 	});
 
 	it("exposes browser as a required facade with a display-only open method", () => {
 		expectTypeOf<PluginContext["browser"]>().toEqualTypeOf<PluginBrowserApi>();
 		expectTypeOf<PluginContext["browser"]["open"]>().toEqualTypeOf<(url: string) => void>();
+	});
+
+	it("exposes evaluation as a required facade", () => {
+		expectTypeOf<PluginContext["evaluation"]>().toEqualTypeOf<PluginEvaluationApi>();
 	});
 
 	it("exports the canonical Coding Agent Hook event catalog and event-specific types", () => {

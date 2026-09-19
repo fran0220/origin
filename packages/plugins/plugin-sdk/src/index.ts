@@ -345,6 +345,22 @@ export type {
 	OcrTransferResponse,
 	OcrUploadRequest,
 } from "./ocr.js";
+export type {
+	PluginEvaluationApi,
+	PluginEvaluationAttempt,
+	PluginEvaluationAttemptView,
+	PluginEvaluationDefinition,
+	PluginEvaluationEvidence,
+	PluginEvaluationEvidenceCapture,
+	PluginEvaluationEvidenceProvider,
+	PluginEvaluationEvidenceSource,
+	PluginEvaluationFinding,
+	PluginEvaluationOutcome,
+	PluginEvaluationRunRequest,
+	PluginEvaluationScope,
+	PluginEvaluationTrigger,
+	PluginEvaluationTriggerKind,
+} from "./evaluation.js";
 export { PluginMediaError } from "./media.js";
 export type {
 	PluginPromptAttachment,

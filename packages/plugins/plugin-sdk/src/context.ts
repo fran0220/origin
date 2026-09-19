@@ -13,6 +13,7 @@ import type { PluginFsApi } from "./fs.js";
 import type { PluginGatewayApi } from "./gateway.js";
 import type { PluginI18nApi } from "./i18n.js";
 import type { PluginJobsApi } from "./jobs.js";
+import type { PluginEvaluationApi } from "./evaluation.js";
 import type { PluginMediaApi } from "./media.js";
 import type { OcrClient } from "./ocr.js";
 import type { PluginModelsApi } from "./models.js";
@@ -62,6 +63,7 @@ export interface PluginContext {
 	/** Explicitly permissioned model provider owned by this plugin's id namespace. */
 	models: PluginModelsApi;
 	media: PluginMediaApi;
+	evaluation: PluginEvaluationApi;
 	ocr: OcrClient;
 	jobs: PluginJobsApi;
 	artifacts: PluginArtifactsApi;

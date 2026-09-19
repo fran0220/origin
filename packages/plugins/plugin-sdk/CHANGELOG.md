@@ -4,6 +4,8 @@ All notable changes to `@vetta-org/plugin-sdk` are documented in this file.
 
 ## [Unreleased]
 
+- Plugin API 2.6.0 adds `ctx.evaluation` with `evaluation:run` / `evaluation:read`. Plugins can run definitions, read attempts, and register evidence providers. Manifests that declare these permissions must use `pluginApiVersion: "^2.6.0"` so older hosts fail closed with an unsupported-version error instead of silently dropping the catalog entries.
+
 - `PluginModelDefinition` exposes `reasoningLevels` and `defaultReasoningLevel`, so model providers can publish their native reasoning choices without losing them at the host's write boundary. Requires the corresponding Desktop capability schema fix.
 
 - 新增 `@vetta-org/plugin-sdk/logger`。配套 `plugin-vite` 会从已校验的 `plugin.json` 为每个插件生成不可变的 `id@version` logger；插件无需持有或传递 `ctx`，日志仍由 Desktop 统一持久化、轮转并纳入诊断信息。使用该入口的插件要求 Plugin API `^2.5.0`。

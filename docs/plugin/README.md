@@ -23,6 +23,7 @@
 | [manifest.md](./manifest.md) | `plugin.json` 全字段、`commands`、`contributionMode`、`agent_mode`（已废弃）、`defaultLocale` / i18n、settings、guidingWords、agent 贡献、**贡献智能体与团队** |
 | [mcp.md](./mcp.md) | **MCP 三源聚合**、插件内聚 MCP（`agent.mcpServers`）、命名、生命周期、打包 |
 | [permissions.md](./permissions.md) | 权限完整清单、门控点、声明/授权流程 |
+| [evaluation.md](./evaluation.md) | **评估 API**：`ctx.evaluation.run` / `registerEvidenceProvider`，权限 `evaluation:run` / `evaluation:read` |
 | [ai.md](./ai.md) | 调用用户已配置的文本模型，模型列表、完成请求与凭据边界 |
 | [browser.md](./browser.md) | 宿主管理的浏览器 session、持久 profile、多账号隔离、域名范围与类型化动作 |
 | [file-explorer.md](./file-explorer.md) | 文件列表右键菜单、工具栏、装饰、定位、刷新与事件 |
