@@ -63,7 +63,7 @@ packages/ecosystem-adapter/src/claude/
         └── tool-mapper.ts
 ```
 
-这里的 plugin parser 是纯解析库，不负责把文件安装到 `~/.vetta`，也不执行命令。
+这里的 plugin parser 是纯解析库，不负责把文件安装到 `~/.origin`，也不执行命令。
 
 ### 2.2 `coding-agent`
 

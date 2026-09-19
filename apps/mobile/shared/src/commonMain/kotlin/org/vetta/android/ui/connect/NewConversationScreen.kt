@@ -36,7 +36,7 @@ import org.vetta.android.ui.components.PrimaryBlackButton
 import org.vetta.android.ui.components.SectionHeader
 import org.vetta.android.ui.components.ListRow
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,7 +55,7 @@ fun NewConversationScreen(
     val channels = listOf(Str.pairDesktop, Str.channelCloud)
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.newConversation, style = MaterialTheme.typography.titleMedium) },
@@ -66,7 +66,7 @@ fun NewConversationScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -85,7 +85,7 @@ fun NewConversationScreen(
                 Text(
                     Str.featureCloudDesc,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                 )
                 Spacer(Modifier.height(20.dp))
                 PrimaryBlackButton(text = Str.startConversation, onClick = onStartCloud)

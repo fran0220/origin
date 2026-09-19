@@ -25,7 +25,7 @@ bun run verify:ui:status:debug
 - `ui.reachable === true`
 - `ui.targetFound === true`
 
-Debug Profile 使用当前工作树独立且持久的 Origin home、Electron user-data、RPC endpoint 和 CDP endpoint，不与普通开发实例共用运行状态。首次启动从 `.vetta-dev` 白名单播种模型配置；具体边界见 [Desktop UI 验证](./README.md#验证-profile)。
+Debug Profile 使用当前工作树独立且持久的 Origin home、Electron user-data、RPC endpoint 和 CDP endpoint，不与普通开发实例共用运行状态。首次启动从 `.origin-dev` 白名单播种模型配置；具体边界见 [Desktop UI 验证](./README.md#验证-profile)。
 
 所有 Debug CLI 调用统一经过仓库入口：
 
@@ -59,8 +59,8 @@ bun run verify:ui:debug:debug -- run provider.models.list '{}'
 ```powershell
 bun run verify:ui:stop:debug
 bun run verify:ui:sync:debug
-$env:VETTA_PROVIDER_OBSERVATION_RUN_ID="cache-baseline-01"
-$env:VETTA_PROVIDER_OBSERVATION_CAPTURE="metadata"
+$env:ORIGIN_PROVIDER_OBSERVATION_RUN_ID="cache-baseline-01"
+$env:ORIGIN_PROVIDER_OBSERVATION_CAPTURE="metadata"
 bun run verify:ui:start:debug
 ```
 
@@ -91,15 +91,15 @@ bun run verify:ui:debug:debug -- run provider.preflight '{"modelKey":"provider/m
 中间件不改变 `conversation.create`、`conversation.continue` 或其他 Debug RPC 的返回合同。每次内置原生 Provider 调用完成后，会向以下文件追加一条 NDJSON：
 
 ```text
-<VETTA_HOME>/cache/provider-observations/<runId>.ndjson
+<ORIGIN_HOME>/cache/provider-observations/<runId>.ndjson
 ```
 
 每条记录包含模型身份、请求前缀指纹、稳定/动态系统提示词长度、消息和工具数量、归一化 usage、缓存读写 Token、停止原因及调用耗时。新的诊断还会以哈希形式保存 Prompt Block 与工具定义，并通过 `changedSystemPromptBlocks` / `changedTools` 给出具体变化的块 ID、工具名和变化类型；不会保存提示词正文、工具描述或 Schema。可以用相同 Prompt 和模型运行多轮，再按 `request.promptCache.cachePrefixHash`、`prefixStatus` 和 `response.usage.cacheRead` 对比前缀是否稳定及真实缓存命中情况。
 
 真实多轮工具实验、缓存指标分组、会话 Usage 提取和 Dev Profile 热更新干扰的完整方法见
-[Origin Debug 真实 Provider 实战](./vetta-debug-real-provider-runbook.md)。
+[Origin Debug 真实 Provider 实战](./origin-debug-real-provider-runbook.md)。
 
-`VETTA_PROVIDER_OBSERVATION_CAPTURE` 支持三档：
+`ORIGIN_PROVIDER_OBSERVATION_CAPTURE` 支持三档：
 
 | 值 | 记录内容 | 用途 |
 |---|---|---|
@@ -219,7 +219,7 @@ bun run verify:ui:debug -- run conversation.compact '{"sessionPath":"C:\\path\\t
 
 可选的 `customInstructions` 会传给既有压缩摘要链路；返回值只包含 `tokensBefore`、保留边界和摘要字符数，
 不会把摘要正文输出到终端。该能力属于 Origin Debug，打包环境不注册。自动和手动压缩的结构化诊断写入
-`<VETTA_HOME>/desktop-app/logs/main/<date>.log`，搜索 `context compaction` 可看到阈值、上下文 Token、结果和耗时。
+`<ORIGIN_HOME>/desktop-app/logs/main/<date>.log`，搜索 `context compaction` 可看到阈值、上下文 Token、结果和耗时。
 
 不要手工猜测 `sessionPath`，应从 `create` 返回值或 `conversation.list` 获取。
 

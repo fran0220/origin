@@ -519,7 +519,7 @@ Runtime 保留 TypeBox schema、路径解析和模糊重定向、执行顺序、
 - 相对路径、绝对路径、`~`、Unicode 内容、模糊目标重定向及重定向提示保持一致。
 - 仍先递归创建父目录，再原样写入内容；成功文本继续使用 JavaScript `content.length`，没有借重构改变
   旧有的 UTF-16 code unit 计数语义。
-- `.vetta/skills`、`.agents/skills`、Scene 和知识库 Wiki 保护继续返回原有工具结果，不改为抛错。
+- `.origin/skills`、`.agents/skills`、Scene 和知识库 Wiki 保护继续返回原有工具结果，不改为抛错。
 - 执行前、创建目录后和文件写入中的取消行为，以及 mkdir/write 错误传播均由合同测试覆盖。
 - Runtime Tools 全量测试 166 项通过；CLI Composition Root 9 项通过；7 个场景的 Tool Profile 差分为零。
 
@@ -1043,7 +1043,7 @@ SessionEvent 类型、source、稳定语义字段、消息角色、Tool 结果�
 
 动态 Skill 门禁在同一 Session 内依次验证“不存在、新增、内容修改、删除”，每次都从下一 Model Call 的
 真实系统提示词观察结果。审计发现原 ResourceLoader 只指纹化启动时已存在的 Skill 路径，因此 Session
-启动后首次创建 `.vetta/skills` 根目录不会触发刷新。现在默认用户/项目 Skill 根即使尚不存在也参与拓扑
+启动后首次创建 `.origin/skills` 根目录不会触发刷新。现在默认用户/项目 Skill 根即使尚不存在也参与拓扑
 指纹；变化时只重载 Skill 资源，不重建 Session、Runtime Snapshot 或其他 Feature。
 
 本轮没有改变 Tool 名称、描述、Schema、执行语义、selector 默认值或持久化格式。新增数据均为进程内
@@ -1264,7 +1264,7 @@ usage、缺失模型和释放；独立恢复合同验证首次 Turn 前关闭并
 ### 2.37 Knowledge Poller Greenfield opt-in 与多批写入差分
 
 第 119 轮没有新增 Knowledge 专用 Runtime 配置，而是复用 Desktop 已有进程级
-`VETTA_DESKTOP_AGENT_RUNTIME` selector。缺省、空值和 `legacy` 继续选择 Legacy；只有显式
+`ORIGIN_DESKTOP_AGENT_RUNTIME` selector。缺省、空值和 `legacy` 继续选择 Legacy；只有显式
 `greenfield` 才让 Knowledge Poller 组合 Greenfield Factory。环境变量解析留在 Desktop 进程边界，
 Coding Agent Composition 只接收已经类型化的选择结果和共享 ModelRegistry 来源。
 

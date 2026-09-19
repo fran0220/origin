@@ -149,7 +149,7 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 
 只声明真正用到的权限。`permissions` 越小，用户授权越省心、审核越快。
 
-使用 `@origin-org/plugin-vite` 构建或执行 `vetta-plugin pack` 时，构建器会检查最终 JavaScript
+使用 `@origin-org/plugin-vite` 构建或执行 `origin-plugin pack` 时，构建器会检查最终 JavaScript
 产物和 `plugin.json` 的能力声明；发现 `registerSystemPromptProvider`、`setToolEnabled`、
 `registerTool`、`registerHook` 等能力缺少对应权限时会直接终止构建。运行时权限校验仍然保留，
 用于验证用户是否实际授权并约束通过宿主公开 API 发起的调用。

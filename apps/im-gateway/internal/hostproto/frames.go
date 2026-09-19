@@ -85,7 +85,7 @@ type FeishuConfig struct {
 //     the active transport;
 //   - the absolute path to the persistent state file (so the parent can
 //     keep that file alongside its other vetta data and override the
-//     ~/.vetta/im-gateway/wechat.json default).
+//     ~/.origin/im-gateway/wechat.json default).
 type WechatConfig struct {
 	Enabled   bool   `json:"enabled"`
 	StatePath string `json:"statePath,omitempty"`
@@ -224,7 +224,7 @@ type CodingAgentSpec struct {
 	// because the normal GUI mode closes stdio before RPC can handshake.
 	RunAsNode bool `json:"runAsNode,omitempty"`
 	// PackageDir, when non-empty, is forwarded to the spawned subprocess
-	// as the `VETTA_PACKAGE_DIR` environment variable. The agent's
+	// as the `ORIGIN_PACKAGE_DIR` environment variable. The agent's
 	// `getPackageDir()` defaults to walking up `__dirname` to find
 	// `package.json` — which lands on the host bundle when coding-agent is
 	// Vite-bundled into Electron's main process. Setting this explicitly
@@ -232,8 +232,8 @@ type CodingAgentSpec struct {
 	// resolve correctly.
 	PackageDir string `json:"packageDir,omitempty"`
 	// ServerURL, when non-empty, is forwarded to the spawned subprocess as
-	// the `VETTA_SERVER_URL` environment variable. coding-agent's main.ts
-	// otherwise reads serverUrl from `~/.vetta/agent/settings.json`, which
+	// the `ORIGIN_SERVER_URL` environment variable. coding-agent's main.ts
+	// otherwise reads serverUrl from `~/.origin/agent/settings.json`, which
 	// may carry a stale LAN address (test env / fresh dev login residue)
 	// that produces 401 on the prod gateway. With this env present the
 	// agent ignores the settings residue and uses the host-injected URL.

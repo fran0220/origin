@@ -24,7 +24,7 @@ cd my-plugin && npm install
   把依赖提升到仓库根，一仓多插件时各插件还可能钉不同的 SDK 版本。用命令解析：
 
   ```bash
-  npx vetta-plugin-cli docs
+  npx origin-plugin-cli docs
   ```
 
   它打印手册目录的绝对路径与对应的 SDK 版本。因为手册与 SDK 同版本发布，Agent 读到的合同
@@ -36,13 +36,13 @@ cd my-plugin && npm install
 ```bash
 npm run dev            # Vite + Module Federation 开发服务器
 npm run validate       # 校验清单与构建产物
-npm run install:vetta  # 构建、打包并装进正在运行的 Origin
-npx vetta-plugin-cli watch      # 热更新：宿主改从本工程目录加载，改完即生效
-npx vetta-plugin-cli reload <id>  # 提示有 pending 版本时切换过去
-npx vetta-plugin-cli uninstall  # 卸载
+npm run install:origin  # 构建、打包并装进正在运行的 Origin
+npx origin-plugin-cli watch      # 热更新：宿主改从本工程目录加载，改完即生效
+npx origin-plugin-cli reload <id>  # 提示有 pending 版本时切换过去
+npx origin-plugin-cli uninstall  # 卸载
 ```
 
-`install:vetta` 把归档交给正在运行的桌面端校验、授权、安装，**不会**直接写 `~/.vetta/plugins`。
+`install:origin` 把归档交给正在运行的桌面端校验、授权、安装，**不会**直接写 `~/.origin/plugins`。
 
 安装一个更新版本只被记录为 pending，应用继续加载当前活动版本，直到 `reload` 才切换。改了代码却看不到变化时，先确认 `plugin.json` 的 `version` 已经提升。
 
@@ -67,13 +67,13 @@ npx vetta-plugin-cli uninstall  # 卸载
 
 ```ts
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		vettaPluginFederation({
+		originPluginFederation({
 			name: "my_plugin",
 			entry: "./src/index.tsx",
 			expose: "./plugin",
@@ -109,7 +109,7 @@ export default definePlugin({
 
 <Tabs items={["开发调试", "发布安装"]}>
   <Tab value="开发调试">
-    使用 `bunx vetta-plugin dev` 启动插件开发服务，再通过 Origin 的开发链接加载。改动后可快速验证界面与工具注册，但发布前仍要执行生产构建并测试 ZIP 安装流程。
+    使用 `bunx origin-plugin dev` 启动插件开发服务，再通过 Origin 的开发链接加载。改动后可快速验证界面与工具注册，但发布前仍要执行生产构建并测试 ZIP 安装流程。
   </Tab>
   <Tab value="发布安装">
     <Steps>
@@ -146,7 +146,7 @@ npx @origin-org/plugin-cli init hub --name my-market \
   --repository https://github.com/me/my-market --min-app-version 0.55.0
 ```
 
-它生成 `.vetta/marketplace.json` 索引、`abilities/` 目录约定、一份仓库级 `AGENTS.md`，以及跑
+它生成 `.origin/marketplace.json` 索引、`abilities/` 目录约定、一份仓库级 `AGENTS.md`，以及跑
 `sync --check` 的 CI。之后在 `abilities/plugins/<slug>` 里照常 `init` 即可——**开发命令一律作用于
 最近的那个能力目录**，所以在市场仓库里开发与开发单插件完全一样。
 

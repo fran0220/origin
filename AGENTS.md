@@ -8,7 +8,7 @@
 
 Origin 是一套 AI Agent 产品栈。**本仓库是客户端侧的开源仓库**：TypeScript/Bun monorepo、Electron 桌面应用、Kotlin 移动端、Next.js 文档站，以及 Go 写的 IM 旁路网关。面向外部贡献者的入口是 [`CONTRIBUTING.md`](CONTRIBUTING.md)，不要把本文件当成对外贡献指南。
 
-用户可见产品名是 Origin；`vetta`、`@origin/*`、`~/.vetta`、IPC 通道 `vetta:` 等仍是内部标识符遗留，第二阶段再迁移。
+用户可见产品名是 Origin。内部标识已迁到 `@origin/*`、`~/.origin`、IPC 通道 `origin:` 与 `window.originApp`。服务端仓库仍叫 `vetta-serv`；登录深链暂时兼容 `vetta://`。
 
 服务端（业务 API、管理控制台、官网）在独立的私有仓库 `vetta-serv`，不在此处。涉及计费、配额、订阅、权益的决策文档（ADR-0016/0017/0019/0038/0039/0051/0052/0056）同样只存在于那边——本仓库的 `docs/adr/` 会有对应的编号空洞，这是刻意的，见 `docs/adr/README.md`。
 
@@ -78,7 +78,7 @@ Desktop 主进程部分目录还有更细规则；修改对应目录时必须继
 | 任务 | 首先阅读 |
 | --- | --- |
 | 选择质量门禁与测试范围 | [`docs/dev/quality-gates.md`](docs/dev/quality-gates.md) |
-| 设计、编写或审查测试 | [`.agents/skills/vetta-testing/SKILL.md`](.agents/skills/vetta-testing/SKILL.md) |
+| 设计、编写或审查测试 | [`.agents/skills/origin-testing/SKILL.md`](.agents/skills/origin-testing/SKILL.md) |
 | Desktop 启动、调试与 UI 验证（仅在用户明确要求时） | [`docs/dev/README.md`](docs/dev/README.md) |
 | 新增 workspace 包 | [`docs/monorepo-new-package.md`](docs/monorepo-new-package.md) |
 | Plugin SDK、Preset 或外置插件 | [`packages/plugins/README.md`](packages/plugins/README.md) |
@@ -186,7 +186,7 @@ Desktop 主进程部分目录还有更细规则；修改对应目录时必须继
 
 如果代码难以测试正是因为职责混合、I/O 或全局状态耦合，应先按重构规则建立可测试边界，不能把“当前不好测”当作不测试的理由。现有测试框架无法表达风险时，优先补充最小测试基础设施；引入新依赖或高成本环境会明显扩大范围时，先说明方案和影响。
 
-这里的“用户常见使用操作路径或流程”指普通用户通过产品正常入口、在合理默认配置下完成目标的一串操作。应根据本次改动和功能实际支持的能力选择受影响的代表性流程，不要求穷举所有分支；具体识别方法、示例和测试写法见 [`.agents/skills/vetta-testing/SKILL.md`](.agents/skills/vetta-testing/SKILL.md)。
+这里的“用户常见使用操作路径或流程”指普通用户通过产品正常入口、在合理默认配置下完成目标的一串操作。应根据本次改动和功能实际支持的能力选择受影响的代表性流程，不要求穷举所有分支；具体识别方法、示例和测试写法见 [`.agents/skills/origin-testing/SKILL.md`](.agents/skills/origin-testing/SKILL.md)。
 
 ### 可以不新增测试
 

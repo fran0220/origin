@@ -29,7 +29,7 @@ describe("Desktop release workflow contracts", () => {
 
 	it("runs packaged boot and updater E2E on every release platform", () => {
 		expect(workflow).toContain("Run packaged app and updater E2E");
-		expect(workflow).toContain('VETTA_E2E_UPDATE_FEED: "1"');
+		expect(workflow).toContain('ORIGIN_E2E_UPDATE_FEED: "1"');
 		expect(workflow).toContain("xvfb-run --auto-servernum bun run test:e2e:packaged");
 		const initialVerify = workflow.indexOf("- name: Verify platform updater artifacts");
 		const packagedE2e = workflow.indexOf("- name: Run packaged app and updater E2E");
@@ -64,8 +64,8 @@ describe("Desktop release workflow contracts", () => {
 		expect(workflow).toContain("ubuntu:24.04");
 		expect(workflow).toContain("fedora:latest");
 		expect(workflow).toContain("dnf install --assumeyes --nogpgcheck");
-		expect(workflow).toContain('test "$(cat /opt/Vetta/resources/package-type)" = "deb"');
-		expect(workflow).toContain('test "$(cat /opt/Vetta/resources/package-type)" = "rpm"');
+		expect(workflow).toContain('test "$(cat /opt/Origin/resources/package-type)" = "deb"');
+		expect(workflow).toContain('test "$(cat /opt/Origin/resources/package-type)" = "rpm"');
 		expect(workflow).toContain("apps/desktop/release/*.AppImage");
 		expect(workflow).toContain("apps/desktop/release/*.deb");
 		expect(workflow).toContain("apps/desktop/release/*.rpm");

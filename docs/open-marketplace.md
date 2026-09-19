@@ -1,13 +1,13 @@
 # GitHub 开源能力市场格式
 
-Desktop 从 GitHub 下载完整仓库归档，并在本地读取 `.vetta/marketplace.json`。GitHub 不承担搜索、筛选或分页；这些操作全部基于客户端已校验的本地快照完成。
+Desktop 从 GitHub 下载完整仓库归档，并在本地读取 `.origin/marketplace.json`。GitHub 不承担搜索、筛选或分页；这些操作全部基于客户端已校验的本地快照完成。
 
 ## 客户端来源管理
 
 云市场与 GitHub 来源独立启用：开源版只不包含云服务，仍可配置多个 GitHub 仓库；云版可同时浏览两类来源。
-商业版默认不包含 GitHub 仓库。发行方通过 `VETTA_OPEN_MARKETPLACE_REPOSITORY` 声明可选内置来源，
+商业版默认不包含 GitHub 仓库。发行方通过 `ORIGIN_OPEN_MARKETPLACE_REPOSITORY` 声明可选内置来源，
 未设置、空串或纯空白都不注册。开源发行版要随包提供官方源时同样配置这个变量，代码没有仓库地址兜底。
-分支由 `VETTA_OPEN_MARKETPLACE_REF` 指定，省略时为 `main`；归档 URL 可单独配置，否则从仓库与分支推导。
+分支由 `ORIGIN_OPEN_MARKETPLACE_REF` 指定，省略时为 `main`；归档 URL 可单独配置，否则从仓库与分支推导。
 
 在「能力 → 市场来源」可添加多个仓库，分别设置启用、自动更新和分支，并单独刷新。
 内置来源可启停及设置自动更新，但不能在界面修改坐标或删除；自定义来源支持编辑和删除。
@@ -89,7 +89,7 @@ Plugin 的 `source.path` 指向一个可直接安装的插件目录。目录至�
 }
 ```
 
-MCP 必须有独立包目录。`marketplace.json` 只通过 `source.path` 指向目录，运行配置与可选的受管运行时声明放在目录内的 `mcp.json`。客户端同步时读取并校验该文件，再在用户安装时准备运行时并把解析后的 `server` 写入 `~/.vetta/agent/mcp.json` 的 `mcpServers[slug]`。索引内联 `config.mcp` 会被拒绝，避免索引与包文件形成两个真相源。
+MCP 必须有独立包目录。`marketplace.json` 只通过 `source.path` 指向目录，运行配置与可选的受管运行时声明放在目录内的 `mcp.json`。客户端同步时读取并校验该文件，再在用户安装时准备运行时并把解析后的 `server` 写入 `~/.origin/agent/mcp.json` 的 `mcpServers[slug]`。索引内联 `config.mcp` 会被拒绝，避免索引与包文件形成两个真相源。
 
 ```json
 {
@@ -153,11 +153,11 @@ SHA-256；首期支持直接可执行文件与 ZIP，不执行仓库或产物提
     }
   },
   "server": {
-    "command": "${VETTA_MCP_EXECUTABLE}",
+    "command": "${ORIGIN_MCP_EXECUTABLE}",
     "args": ["--stdio"],
     "env": {
-      "COOKIES_PATH": "${VETTA_MCP_DATA_DIR}/cookies.json",
-      "BROWSER_CACHE": "${VETTA_MCP_CACHE_DIR}/browser"
+      "COOKIES_PATH": "${ORIGIN_MCP_DATA_DIR}/cookies.json",
+      "BROWSER_CACHE": "${ORIGIN_MCP_CACHE_DIR}/browser"
     }
   }
 }
@@ -166,11 +166,11 @@ SHA-256；首期支持直接可执行文件与 ZIP，不执行仓库或产物提
 上例中的仓库地址和 SHA-256 仅用于说明字段形状，发布时必须替换为实际 Release
 产物及其校验值；客户端不会接受非 HTTPS 下载地址。
 
-`server.command` 必须精确等于 `${VETTA_MCP_EXECUTABLE}`。`args`、`env` 与 `cwd` 还可以使用：
+`server.command` 必须精确等于 `${ORIGIN_MCP_EXECUTABLE}`。`args`、`env` 与 `cwd` 还可以使用：
 
-- `${VETTA_MCP_RUNTIME_DIR}`：当前版本运行目录；
-- `${VETTA_MCP_DATA_DIR}`：升级和卸载运行文件时保留的用户数据目录；
-- `${VETTA_MCP_CACHE_DIR}`：可再生成缓存目录。
+- `${ORIGIN_MCP_RUNTIME_DIR}`：当前版本运行目录；
+- `${ORIGIN_MCP_DATA_DIR}`：升级和卸载运行文件时保留的用户数据目录；
+- `${ORIGIN_MCP_CACHE_DIR}`：可再生成缓存目录。
 
 Desktop 先下载、校验、解包并验证可执行文件，再解析占位符。最终写入 `mcp.json` 的仍是标准 stdio MCP 配置。
 更新失败时保留原版本；卸载默认只移除运行文件，不删除登录态。完整决策见
@@ -364,7 +364,7 @@ abilities/mcp/context7/
 
 - 新增字段应优先设计为可选字段，不改变已有字段含义。
 - 客户端版本低于 `minAppVersion` 时不会激活新快照；存在旧的兼容快照时继续使用旧快照。
-- 开发期不兼容缺少 `minAppVersion` 或使用旧字段名的 Manifest；直接修改仓库中的 `.vetta/marketplace.json`。
+- 开发期不兼容缺少 `minAppVersion` 或使用旧字段名的 Manifest；直接修改仓库中的 `.origin/marketplace.json`。
 - 当前不使用 `marketplace-index.json`。只有同一仓库确实需要并存互不兼容的 Schema 时才重新评估。
 
 ## 发布规则
@@ -380,12 +380,12 @@ abilities/mcp/context7/
 
 同一来源身份下，`marketplaceVersion` 对应的内容仍然不可变。来源身份发生变化时，即使新来源暂时使用相同的 `marketplaceVersion`，也允许下载并建立新的缓存快照。
 
-能力页打开时优先立即返回本地快照，并在后台读取 GitHub 上的 `.vetta/marketplace.json`。只有远端 `marketplaceVersion` 变化时才下载完整仓库归档；更新成功不发送通知，已打开的能力页只静默重读本地快照，未打开时则在下次进入时读取。后台检查失败时继续使用已有快照，不向用户产生干扰；用户主动点击刷新仍会立即执行完整同步并返回结果。
+能力页打开时优先立即返回本地快照，并在后台读取 GitHub 上的 `.origin/marketplace.json`。只有远端 `marketplaceVersion` 变化时才下载完整仓库归档；更新成功不发送通知，已打开的能力页只静默重读本地快照，未打开时则在下次进入时读取。后台检查失败时继续使用已有快照，不向用户产生干扰；用户主动点击刷新仍会立即执行完整同步并返回结果。
 
 ## 内置来源配置
 
 内置 GitHub 来源不在代码中设置仓库地址，完全由环境变量提供：
 
-- `VETTA_OPEN_MARKETPLACE_REPOSITORY`：GitHub 仓库 URL；未设置时不创建内置来源。
-- `VETTA_OPEN_MARKETPLACE_REF`：分支或 ref，默认 `main`。
-- `VETTA_OPEN_MARKETPLACE_ARCHIVE_URL`：可选归档地址；未设置时根据仓库与 ref 推导。
+- `ORIGIN_OPEN_MARKETPLACE_REPOSITORY`：GitHub 仓库 URL；未设置时不创建内置来源。
+- `ORIGIN_OPEN_MARKETPLACE_REF`：分支或 ref，默认 `main`。
+- `ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL`：可选归档地址；未设置时根据仓库与 ref 推导。

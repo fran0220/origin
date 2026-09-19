@@ -40,7 +40,7 @@
 
 - 新增 `coding-agent-mcp-supervisor.ts`，只负责注入全局/项目配置路径、MCP 客户端身份、凭证目录和诊断回调。
 - 文件 MCP 与插件 MCP 均直接组合 `McpServerSupervisor`、Runtime Client Factory、动态 Server Source 和 Runtime Tool Source。
-- HTTP 连接继续读取 `~/.vetta/agent/mcp-auth` 的已有凭证；stdio、HTTP、OAuth Provider 与协议实现不在 Coding Agent 重复实现。
+- HTTP 连接继续读取 `~/.origin/agent/mcp-auth` 的已有凭证；stdio、HTTP、OAuth Provider 与协议实现不在 Coding Agent 重复实现。
 - 插件 MCP 指纹留在插件组合职责内，继续保持排序无关和配置变化可检测，不恢复旧 Manager。
 
 ### 2. 把交互式 OAuth 明确归属 Desktop 宿主

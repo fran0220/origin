@@ -126,7 +126,7 @@ describe("remote relay Worker", () => {
 			type: "offer",
 			protocolVersion: 1,
 			sessionId: "desktop-session-1",
-			sdp: "v=0\r\ns=Vetta E2E\r\n",
+			sdp: "v=0\r\ns=Origin E2E\r\n",
 		} as const;
 		const forwarded = nextDesktopSignal(viewer);
 		host.send(encodeRemoteDesktopSignal(offer));

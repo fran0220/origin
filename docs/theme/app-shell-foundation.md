@@ -97,7 +97,7 @@ components: {
 
 窗口控制按钮组属于 component，不属于 region。它的粒度小于页面头部，但仍然可能被主题整体替换为自定义按钮组。单个按钮继续通过 `app.windowControlButton` 覆盖。
 
-`DefaultWindowControls` 不把 `window.vetta.window.*` 暴露给主题。主题只能通过 `WindowControlsModel.controls[].action` 调用公开动作。
+`DefaultWindowControls` 不把 `window.originApp.window.*` 暴露给主题。主题只能通过 `WindowControlsModel.controls[].action` 调用公开动作。
 
 `WindowControlsModel.controls[]` 只包含窗口控制的语义数据和动作，例如 `kind`、`label`、`action`。图标 class 不属于 model，默认图标由 `WindowControlButton` 根据 `kind` 决定。主题如果替换按钮，可以完全改用自己的图标、图片或动画。
 

@@ -102,8 +102,8 @@ Zod 只负责“输入形状是否合法”，不负责 block、stop、fail-open
 
 默认 Coding Agent 经 `buildDefaultHookConfigLayers` 仅提供 Origin 嵌套路径（source 带 `profileId`）：
 
-1. `~/.vetta/.codex/hooks.json`（用户，`VETTA_HOME` 可覆盖 vetta 根）；
-2. `<cwd>/.vetta/.codex/hooks.json`（项目）。
+1. `~/.origin/.codex/hooks.json`（用户，`ORIGIN_HOME` 可覆盖 vetta 根）；
+2. `<cwd>/.origin/.codex/hooks.json`（项目）。
 
 不读顶层 `~/.codex` / 项目根 `.codex`。兼容层不扫描 Codex 源码树或 marketplace；只解析宿主传入层。缺失文件 ENOENT 跳过。
 
@@ -122,7 +122,7 @@ Zod 只负责“输入形状是否合法”，不负责 block、stop、fail-open
 | Pre/PostCompact | 手动和自动压缩都会触发 | 可用 |
 | Stop 扫描 | 根 turn 自然结束点执行 | 可用 |
 | `commandWindows` | Windows 使用覆盖命令 | 可用 |
-| 样本 `.codex/hooks.json` 自动发现 | 需放到 `.vetta/.codex/hooks.json`（默认不读顶层 `.codex`） | 可用 |
+| 样本 `.codex/hooks.json` 自动发现 | 需放到 `.origin/.codex/hooks.json`（默认不读顶层 `.codex`） | 可用 |
 
 集成方必须把 Hook 配置作为 Origin 应用或插件的显式 source 提供，并保证配置引用的 Python 脚本路径与实际部署位置一致。兼容层不会自动改写脚本路径。
 

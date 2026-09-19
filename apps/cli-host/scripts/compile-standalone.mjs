@@ -33,7 +33,7 @@ try {
 		entryPath,
 		"--compile",
 		"--define",
-		`VETTA_COMPILED_PACKAGE_METADATA=${JSON.stringify(compiledPackageMetadata)}`,
+		`ORIGIN_COMPILED_PACKAGE_METADATA=${JSON.stringify(compiledPackageMetadata)}`,
 		"--outfile",
 		options.outfile,
 	];

@@ -95,7 +95,7 @@ import org.vetta.android.ui.i18n.Str
 import org.vetta.android.ui.media.imageBitmapFromBase64
 import org.vetta.android.ui.media.rememberImagePicker
 import org.vetta.android.ui.navigation.ChatSurface
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -162,7 +162,7 @@ fun ChatScreen(
             (draft.isNotBlank() || pendingImages.isNotEmpty())
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = {
@@ -177,7 +177,7 @@ fun ChatScreen(
                                 selectedModel?.name ?: Str.channelCloud
                             },
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.vettaExtra.secondaryText,
+                            color = MaterialTheme.originExtra.secondaryText,
                         )
                     }
                 },
@@ -199,7 +199,7 @@ fun ChatScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -494,7 +494,7 @@ private fun MessageBubble(message: LocalMessage) {
                         message.contextPercent?.let { append(" · ${Str.contextUsed} $it%") }
                     },
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                     modifier = Modifier.padding(top = 4.dp, start = 4.dp, end = 4.dp),
                 )
             }
@@ -502,7 +502,7 @@ private fun MessageBubble(message: LocalMessage) {
                 Text(
                     Str.responseInterrupted,
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                     modifier = Modifier.padding(top = 4.dp, start = 4.dp, end = 4.dp),
                 )
             }
@@ -558,7 +558,7 @@ private fun ToolTraceRow(tool: ToolTrace) {
                 Icon(
                     imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
                     contentDescription = if (expanded) Str.hideToolDetails else Str.showToolDetails,
-                    tint = MaterialTheme.vettaExtra.secondaryText,
+                    tint = MaterialTheme.originExtra.secondaryText,
                 )
             }
         }
@@ -599,7 +599,7 @@ private fun ToolTraceRow(tool: ToolTrace) {
                     Text(
                         text = "${Str.toolDuration} ${duration}ms",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.vettaExtra.secondaryText,
+                        color = MaterialTheme.originExtra.secondaryText,
                     )
                 }
             }
@@ -614,7 +614,7 @@ private fun ToolDetailSection(label: String, value: String?) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.vettaExtra.secondaryText,
+            color = MaterialTheme.originExtra.secondaryText,
         )
         if (content.trimStart().startsWith('{') || content.trimStart().startsWith('[')) {
             CodeBlockChrome(language = "json", code = content)
@@ -681,7 +681,7 @@ private fun QuestionPrompt(
         Text(Str.pendingDesktopQuestionTitle, style = MaterialTheme.typography.titleSmall)
         pending.questions.forEach { question ->
             if (question.header.isNotBlank()) {
-                Text(question.header, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.vettaExtra.secondaryText)
+                Text(question.header, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.originExtra.secondaryText)
             }
             Text(question.question, style = MaterialTheme.typography.bodyMedium)
             question.options.forEach { option ->

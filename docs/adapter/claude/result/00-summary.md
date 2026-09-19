@@ -47,12 +47,12 @@ packages/ecosystem-adapter/src/claude-code/hooks/
 | 官方用户/项目 | `~/.claude/settings.json`、`<cwd>/.claude/settings.json`、`settings.local.json`（`"hooks"` 字段） |
 | 插件 | 显式 `HookConfigSource`：`path=.../hooks/hooks.json` + `CLAUDE_PLUGIN_ROOT` 或 `profileId=claude-code-hooks/*` |
 | Codex | 官方 `.codex/hooks.json`；`profileId` / 路径过滤器隔离，不会吃 Claude settings |
-| 已移除 | Origin `agentDir` / `.vetta` 下的 `claude-hooks.json` / `hooks.json` |
+| 已移除 | Origin `agentDir` / `.origin` 下的 `claude-hooks.json` / `hooks.json` |
 
 ## 相关文档
 
 1. [验证报告](./01-verification-report.md)
 2. [支持矩阵与缺口](./02-supported-matrix-and-gaps.md)
 3. [如何本地复验](./03-how-to-reverify.md)
-4. [应用内可见会话复测](./04-ui-visible-retest.md)（cwd=已登记项目 `vetta-mono`，侧栏可见）
+4. [应用内可见会话复测](./04-ui-visible-retest.md)（cwd=已登记项目 `origin-mono`，侧栏可见）
 5. Fixture：[`../fixtures/hook-smoke`](../fixtures/hook-smoke)

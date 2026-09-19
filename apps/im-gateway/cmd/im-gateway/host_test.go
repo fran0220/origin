@@ -155,7 +155,7 @@ func (p *pipeReader) Read(b []byte) (int, error) {
 
 var errEOF = errors.New("EOF")
 
-const testConversationCwd = "/home/u/.vetta/conversation"
+const testConversationCwd = "/home/u/.origin/conversation"
 
 // TestHost_InitTimeout asserts the sidecar exits non-zero when the parent
 // fails to send an init frame within the timeout.

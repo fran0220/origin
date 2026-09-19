@@ -96,7 +96,7 @@ bun run vitest --run <test-file>
 bun run test:pkg <name>
 ```
 
-包装器会查找 Node 20+（可用 `VETTA_TEST_NODE` 指定 `node.exe`），再执行仓库里的 `node_modules/vitest/vitest.mjs`。不要使用 `bunx vitest`、`npx vitest` 或包脚本里的裸 `vitest`。`check-vitest-runner.mjs` 会扫描 workspace `package.json` 并拒绝这些入口。
+包装器会查找 Node 20+（可用 `ORIGIN_TEST_NODE` 指定 `node.exe`），再执行仓库里的 `node_modules/vitest/vitest.mjs`。不要使用 `bunx vitest`、`npx vitest` 或包脚本里的裸 `vitest`。`check-vitest-runner.mjs` 会扫描 workspace `package.json` 并拒绝这些入口。
 
 ## 包边界规则（`check-package-boundaries`）
 
@@ -139,7 +139,7 @@ Greenfield/Legacy 名称墓碑、固定文件数量、行数阈值及实施日�
 - 普通包声明 `dist/**`、插件 `release/**` 和 Next `.next/**` 为输出；lockfile、内部依赖任务哈希、根 `tsconfig.base.json`、根 `.env*` 与显式构建变量共同决定本地缓存键。包根 `test/**`、`tests/**`、README 和 CHANGELOG 不影响 build；`src/**` 内或被生成/打包脚本读取的资源仍参与哈希。
 - Desktop 完整 `build` 包含平台模型、生成、插件 staging 和多入口 bundle，初始阶段明确 `cache: false`。
 - Remote Cache 默认关闭且预先要求 HMAC 制品签名；启用前必须按 [Remote Cache 启用清单](./turborepo-remote-cache-rollout.md) 验证跨平台制品、环境变量、日志脱敏和缓存完整性，配置 `TURBO_REMOTE_CACHE_SIGNATURE_KEY`，并更新 ADR-0079。
-- Turbo 使用 strict environment mode。普通 build 只声明 `NODE_ENV`、`VETTA_PLUGIN_DEV_WATCH`、`VETTA_PLUGIN_DOCS_SRC` 和 `VETD_SRC`；Docs build 额外按自身合同声明 `DOCS_SITE_URL`，Desktop build 独立声明 `VETTA_*`/`VETD_*`，dev task 保留这些通配变量。新增影响构建的变量必须进入范围最小的 task `env`；只需运行时可见且不影响输出的秘密变量应审查后进入 `passThroughEnv`。
+- Turbo 使用 strict environment mode。普通 build 只声明 `NODE_ENV`、`ORIGIN_PLUGIN_DEV_WATCH`、`ORIGIN_PLUGIN_DOCS_SRC` 和 `VETD_SRC`；Docs build 额外按自身合同声明 `DOCS_SITE_URL`，Desktop build 独立声明 `ORIGIN_*`/`VETD_*`，dev task 保留这些通配变量。新增影响构建的变量必须进入范围最小的 task `env`；只需运行时可见且不影响输出的秘密变量应审查后进入 `passThroughEnv`。
 
 plugin-workbench 的 `prebuild` 会同步根 `docs/plugin/**`，该目录通过 `$TURBO_ROOT$` 作为其显式输入；其它包不会因插件文档变化而失效。
 
@@ -193,7 +193,7 @@ bun run --cwd apps/desktop dist:opensource -- --target dir
 bun run --cwd apps/desktop test:e2e:packaged
 ```
 
-该 E2E 会在 WDIO 启动 Electron 前创建本地 generic feed，通过真实 `window.vetta.updater.check()` 验证 `app-update.yml`、feed 请求、版本解析和 renderer/main IPC 链路；它不会安装伪造的更新包。发布后的真实安装包可读性、hash、blockmap 和平台安装准备仍由各平台 `verify:updates:*` 以及发布后 `verify-update-feed.mjs` 负责。
+该 E2E 会在 WDIO 启动 Electron 前创建本地 generic feed，通过真实 `window.originApp.updater.check()` 验证 `app-update.yml`、feed 请求、版本解析和 renderer/main IPC 链路；它不会安装伪造的更新包。发布后的真实安装包可读性、hash、blockmap 和平台安装准备仍由各平台 `verify:updates:*` 以及发布后 `verify-update-feed.mjs` 负责。
 
 需要验证真实安装、重启和版本切换时，先使用 `desktop-release` 的 `workflow_dispatch` + `channel=test` 发布基线和候选，
 再运行 `.github/workflows/desktop-upgrade-e2e.yml` 并填写 `baseline_version`、`candidate_version`。该 workflow 在
@@ -201,7 +201,7 @@ Windows、macOS、Linux runner 上真实安装基线包，驱动现有 updater �
 应用日志和升级状态文件。它使用独立的 `desktop-test` Environment，不会触碰 stable。当前 GitHub macOS runner 只验收
 其实际架构；macOS arm64 需要额外的自持 runner 矩阵。
 
-单元测试按包顺序执行，不使用根 workspace 的无界并发扇出；这会牺牲少量总耗时，但能避免多个 Vitest 进程同时争用 CPU、临时目录和子进程而产生假超时。包内测试若消费自身生成物，由该包的 `test` 脚本先生成（例如 `vetta-ui-design` 的独立 history runner），不把叶子包完整制品构建混入通用依赖预构建。CLI 的 Windows CI 进程型测试按文件串行，避免多个 Node、Bun、MCP 与 shell 子进程争用 Runner 资源；本地开发使用有界文件并行缩短反馈时间。平台相关行为至少由 Ubuntu、macOS 与 Windows 三个平台门禁覆盖。
+单元测试按包顺序执行，不使用根 workspace 的无界并发扇出；这会牺牲少量总耗时，但能避免多个 Vitest 进程同时争用 CPU、临时目录和子进程而产生假超时。包内测试若消费自身生成物，由该包的 `test` 脚本先生成（例如 `origin-ui-design` 的独立 history runner），不把叶子包完整制品构建混入通用依赖预构建。CLI 的 Windows CI 进程型测试按文件串行，避免多个 Node、Bun、MCP 与 shell 子进程争用 Runner 资源；本地开发使用有界文件并行缩短反馈时间。平台相关行为至少由 Ubuntu、macOS 与 Windows 三个平台门禁覆盖。
 
 ## 与 OpenClaw 的对应关系（有意不做的）
 

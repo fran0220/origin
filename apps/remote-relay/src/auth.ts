@@ -1,5 +1,5 @@
 export const REMOTE_WEBSOCKET_PROTOCOL = "vetta.remote.v1";
-export const PAIRING_PROTOCOL_PREFIX = "vetta.pairing.";
+export const PAIRING_PROTOCOL_PREFIX = "origin.pairing.";
 export const BOOTSTRAP_PROTOCOL_PREFIX = "vetta.bootstrap.";
 export const RESUME_PROTOCOL_PREFIX = "vetta.resume.";
 

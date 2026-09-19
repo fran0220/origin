@@ -54,7 +54,7 @@ import org.vetta.android.ui.components.VettaConfirmDialog
 import org.vetta.android.ui.components.VettaChoiceDialog
 import org.vetta.android.ui.components.VettaInfoDialog
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,13 +74,13 @@ fun MeScreen(
     val contact = user?.email ?: user?.phone ?: ""
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.me, style = MaterialTheme.typography.titleMedium) },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -101,7 +101,7 @@ fun MeScreen(
                         Text(
                             contact,
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.vettaExtra.secondaryText,
+                            color = MaterialTheme.originExtra.secondaryText,
                         )
                     }
                 }
@@ -139,7 +139,7 @@ fun MeScreen(
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = null,
-                        tint = MaterialTheme.vettaExtra.secondaryText,
+                        tint = MaterialTheme.originExtra.secondaryText,
                     )
                 }
                 subscription?.windows?.firstOrNull()?.let { w ->
@@ -230,24 +230,24 @@ private fun ProfileRow(
                 Text(
                     subtitle,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                 )
             }
         }
         if (!value.isNullOrBlank()) {
-            Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(value, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
             Spacer(Modifier.width(4.dp))
         }
         if (onClick != null) {
             Icon(
                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = MaterialTheme.vettaExtra.secondaryText,
+                tint = MaterialTheme.originExtra.secondaryText,
             )
         }
     }
     if (showDivider) {
-        androidx.compose.material3.HorizontalDivider(color = MaterialTheme.vettaExtra.border)
+        androidx.compose.material3.HorizontalDivider(color = MaterialTheme.originExtra.border)
     }
 }
 
@@ -266,7 +266,7 @@ fun PlanScreen(
     onLogin: () -> Unit,
 ) {
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.plan, style = MaterialTheme.typography.titleMedium) },
@@ -284,7 +284,7 @@ fun PlanScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -323,7 +323,7 @@ fun PlanScreen(
                     Text(
                         subscription.description.orEmpty(),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.vettaExtra.secondaryText,
+                        color = MaterialTheme.originExtra.secondaryText,
                     )
                 }
             }
@@ -366,7 +366,7 @@ fun SettingsScreen(
 ) {
     var confirmClearLocalData by remember { mutableStateOf(false) }
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.settings, style = MaterialTheme.typography.titleMedium) },
@@ -377,7 +377,7 @@ fun SettingsScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -392,7 +392,7 @@ fun SettingsScreen(
             Text(
                 Str.appearanceHint,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.vettaExtra.secondaryText,
+                color = MaterialTheme.originExtra.secondaryText,
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp),
             )
             Spacer(Modifier.height(10.dp))
@@ -484,7 +484,7 @@ private fun ThemeModeSelector(
                     Modifier
                         .weight(1f)
                         .clip(MaterialTheme.shapes.medium)
-                        .background(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.vettaExtra.chipBackground)
+                        .background(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.originExtra.chipBackground)
                         .clickable { onThemeMode(mode) }
                         .padding(vertical = 13.dp),
                 textAlign = androidx.compose.ui.text.style.TextAlign.Center,
@@ -516,12 +516,12 @@ private fun PreferenceSwitchRow(
         Column(Modifier.weight(1f)) {
             Text(title, style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(2.dp))
-            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
         }
         androidx.compose.material3.Switch(checked = checked, onCheckedChange = null)
     }
     if (showDivider) {
-        androidx.compose.material3.HorizontalDivider(color = MaterialTheme.vettaExtra.border)
+        androidx.compose.material3.HorizontalDivider(color = MaterialTheme.originExtra.border)
     }
 }
 
@@ -530,7 +530,7 @@ private fun PreferenceSwitchRow(
 fun AboutScreen(onBack: () -> Unit) {
     var openDocument by remember { mutableStateOf<AboutDocument?>(null) }
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.aboutVetta, style = MaterialTheme.typography.titleMedium) },
@@ -539,7 +539,7 @@ fun AboutScreen(onBack: () -> Unit) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = Str.back)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.vettaExtra.pageBackground),
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.originExtra.pageBackground),
             )
         },
     ) { padding ->
@@ -555,9 +555,9 @@ fun AboutScreen(onBack: () -> Unit) {
             Spacer(Modifier.height(16.dp))
             Text(Str.appName, style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(8.dp))
-            Text(Str.versionNumber, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(Str.versionNumber, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
             Spacer(Modifier.height(24.dp))
-            Text(Str.aboutDescription, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(Str.aboutDescription, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.originExtra.secondaryText)
             Spacer(Modifier.height(28.dp))
             VettaListGroup {
                 ProfileRow(

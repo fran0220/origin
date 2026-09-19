@@ -9,7 +9,7 @@ export default defineConfig({
 	root: __dirname,
 	resolve: {
 		alias: [
-			{ find: /^@vetta\/agent-team$/, replacement: resolve(__dirname, "../../packages/agent-team/src/index.ts") },
+			{ find: /^@vetta\/agent-profile$/, replacement: resolve(__dirname, "../../packages/agent-profile/src/index.ts") },
 			{ find: "@origin/runtime-telemetry/langfuse", replacement: resolve(__dirname, "../../packages/runtime-telemetry/src/langfuse.ts") },
 			{ find: "@origin/runtime-telemetry", replacement: resolve(__dirname, "../../packages/runtime-telemetry/src/index.ts") },
 			{

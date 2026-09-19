@@ -66,13 +66,13 @@ describe("Conversation message architecture guard", () => {
 					text: 'import type { ConversationMessageViewModel } from "@shared/conversation";',
 				},
 				{
-					path: "packages/agent-team/src/example.ts",
+					path: "packages/agent-profile/src/example.ts",
 					text: 'import { createSubagent } from "@origin/runtime-subagents";',
 				},
 			]),
 		).toEqual([
 			"apps/desktop/src/renderer/shared/components/message-feed/example.ts: product-neutral MessageFeed imports a product or message domain",
-			"packages/agent-team/src/example.ts: Agent Profile package must not depend on the private subagent runtime",
+			"packages/agent-profile/src/example.ts: Agent Profile package must not depend on the private subagent runtime",
 		]);
 	});
 

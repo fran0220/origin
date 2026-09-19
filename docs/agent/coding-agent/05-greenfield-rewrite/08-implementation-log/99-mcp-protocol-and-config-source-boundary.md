@@ -37,8 +37,8 @@ runtime-composition
 ```
 
 协议类型属于 Runtime Feature 的稳定边界；文件配置 Source 是基础设施适配器，不是 Runtime Core。
-它可以放在 `runtime-mcp/config`，但必须通过显式路径和环境参数工作，不能知道 `~/.vetta`、
-项目 `.vetta` 或 Desktop 配置目录。产品路径选择仍由 coding-agent 兼容适配器和宿主负责。
+它可以放在 `runtime-mcp/config`，但必须通过显式路径和环境参数工作，不能知道 `~/.origin`、
+项目 `.origin` 或 Desktop 配置目录。产品路径选择仍由 coding-agent 兼容适配器和宿主负责。
 
 ## 3. 实施内容
 

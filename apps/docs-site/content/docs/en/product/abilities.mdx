@@ -72,7 +72,7 @@ Select **Add capability** to choose one of these sources:
 | --- | --- |
 | Import skill archive | Local `zip`, `tar.gz`, or `tgz` |
 | Import plugin archive | Local ZIP with `plugin.json` at its root |
-| Add external repository | GitHub `owner/repo` containing `.vetta/marketplace.json`; it syncs immediately |
+| Add external repository | GitHub `owner/repo` containing `.origin/marketplace.json`; it syncs immediately |
 | Add MCP manually | Configure a STDIO or HTTP MCP server |
 
 Import only trusted sources. If an external repository fails to sync, the app may retain its last usable content and show an error.
@@ -85,6 +85,6 @@ The Origin official source (`openvetta/vetta-official-marketplace`) ships with t
 - **Remove** uninstalls the local capability.
 - **Update / reload** is for new versions and development debugging.
 - If another source already owns the same capability ID, Origin does not overwrite it automatically; confirm the source in the details view.
-- MCP is written to `~/.vetta/agent/mcp.json`; skills, scenes, and plugins are stored under `~/.vetta/skills`, `~/.vetta/scene`, and `~/.vetta/plugins`. The installation index is `~/.vetta/abilities.json`.
+- MCP is written to `~/.origin/agent/mcp.json`; skills, scenes, and plugins are stored under `~/.origin/skills`, `~/.origin/scene`, and `~/.origin/plugins`. The installation index is `~/.origin/abilities.json`.
 
 For plugin development, read [Plugin development](/plugins/overview/). For an external tool service, read [MCP connectors](/product/mcp/).

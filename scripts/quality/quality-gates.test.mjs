@@ -287,7 +287,7 @@ describe("affected package selection", () => {
 			expect.arrayContaining(["coding-agent", "ecosystem-adapter", "desktop"]),
 		);
 		expect(expandTestablePackages(["plugin-sdk"])).toEqual(
-			expect.arrayContaining(["presets/image-gen", "presets/vetta-ui-design", "desktop"]),
+			expect.arrayContaining(["presets/image-gen", "presets/origin-ui-design", "desktop"]),
 		);
 	});
 
@@ -435,7 +435,7 @@ describe("package boundary analysis", () => {
 	});
 
 	it("allows raw capability ids only in capability definition modules", () => {
-		const source = 'const id = "cap.domain.vetta.example.read";';
+		const source = 'const id = "cap.domain.origin.example.read";';
 		expect(findPackageBoundaryViolations("packages/capability-sdk/src/domain/example.ts", source)).toEqual([]);
 		expect(findPackageBoundaryViolations("packages/capability-sdk/src/adapters/example.ts", source)).toHaveLength(1);
 	});
@@ -453,7 +453,7 @@ describe("package boundary analysis", () => {
 	});
 
 	it("blocks Desktop globals in ordinary plugins while preserving workbench and security-probe exceptions", () => {
-		const source = "window.vetta.fs.readFile(path);";
+		const source = "window.originApp.fs.readFile(path);";
 		expect(findPackageBoundaryViolations("packages/plugins/externals/example/src/index.ts", source)).toHaveLength(1);
 		expect(findPackageBoundaryViolations("packages/plugins/presets/plugin-workbench/src/index.ts", source)).toEqual(
 			[],
@@ -1354,7 +1354,7 @@ describe("Turborepo build orchestration", () => {
 			expect.arrayContaining(["dist/**", "release/**", ".next/**", "!.next/cache/**"]),
 		);
 		expect(turboConfig.tasks.build.env).toEqual(
-			expect.arrayContaining(["NODE_ENV", "VETTA_PLUGIN_DEV_WATCH", "VETTA_PLUGIN_DOCS_SRC", "VETD_SRC"]),
+			expect.arrayContaining(["NODE_ENV", "ORIGIN_PLUGIN_DEV_WATCH", "ORIGIN_PLUGIN_DOCS_SRC", "VETD_SRC"]),
 		);
 		const docsBuild = turboConfig.tasks["@origin/docs-site#build"];
 		expect(docsBuild.env).toEqual(["DOCS_SITE_URL", "NODE_ENV"]);
@@ -1375,7 +1375,7 @@ describe("Turborepo build orchestration", () => {
 			expect.arrayContaining(["^build", "@origin-org/plugin-vite#build"]),
 		);
 		expect(turboConfig.tasks["@origin/desktop#build"].env).toEqual(
-			expect.arrayContaining(["NODE_ENV", "VETTA_*", "VETD_*"]),
+			expect.arrayContaining(["NODE_ENV", "ORIGIN_*", "VETD_*"]),
 		);
 		expect(turboConfig.remoteCache).toEqual({ enabled: false, signature: true });
 	});

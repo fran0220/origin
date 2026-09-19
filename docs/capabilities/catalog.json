@@ -2,7 +2,7 @@
   "generatedFrom": "@origin-org/capability-sdk Capability Tokens",
   "foundation": [
     {
-      "id": "cap.foundation.vetta.artifact.persist",
+      "id": "cap.foundation.origin.artifact.persist",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -136,7 +136,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.artifact.release",
+      "id": "cap.foundation.origin.artifact.release",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -161,7 +161,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.runtime-status",
+      "id": "cap.foundation.origin.browser.runtime-status",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -232,7 +232,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.runtime-install",
+      "id": "cap.foundation.origin.browser.runtime-install",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -316,7 +316,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.session-create",
+      "id": "cap.foundation.origin.browser.session-create",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -488,7 +488,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.session-get",
+      "id": "cap.foundation.origin.browser.session-get",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -605,7 +605,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.session-close",
+      "id": "cap.foundation.origin.browser.session-close",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -631,7 +631,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.navigate",
+      "id": "cap.foundation.origin.browser.navigate",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -688,7 +688,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.snapshot",
+      "id": "cap.foundation.origin.browser.snapshot",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -746,7 +746,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.read-text",
+      "id": "cap.foundation.origin.browser.read-text",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -805,7 +805,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.screenshot",
+      "id": "cap.foundation.origin.browser.screenshot",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -857,7 +857,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.browser.act",
+      "id": "cap.foundation.origin.browser.act",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1128,7 +1128,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.read-directory",
+      "id": "cap.foundation.origin.fs.read-directory",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1176,7 +1176,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.read-file",
+      "id": "cap.foundation.origin.fs.read-file",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1218,7 +1218,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.read-binary-file",
+      "id": "cap.foundation.origin.fs.read-binary-file",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1255,7 +1255,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.write-file",
+      "id": "cap.foundation.origin.fs.write-file",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1290,7 +1290,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.stat",
+      "id": "cap.foundation.origin.fs.stat",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1334,7 +1334,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.rename",
+      "id": "cap.foundation.origin.fs.rename",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1358,7 +1358,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.delete",
+      "id": "cap.foundation.origin.fs.delete",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1377,7 +1377,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.move",
+      "id": "cap.foundation.origin.fs.move",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1401,7 +1401,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.create-directory",
+      "id": "cap.foundation.origin.fs.create-directory",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1420,7 +1420,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.fs.list-files-recursive",
+      "id": "cap.foundation.origin.fs.list-files-recursive",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1460,7 +1460,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.job.get",
+      "id": "cap.foundation.origin.job.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -1672,7 +1672,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.job.cancel",
+      "id": "cap.foundation.origin.job.cancel",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -1884,7 +1884,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.get-all",
+      "id": "cap.foundation.origin.storage.get-all",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -1938,7 +1938,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.set",
+      "id": "cap.foundation.origin.storage.set",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2029,7 +2029,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.remove",
+      "id": "cap.foundation.origin.storage.remove",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2088,7 +2088,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.clear",
+      "id": "cap.foundation.origin.storage.clear",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2142,7 +2142,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.list",
+      "id": "cap.foundation.origin.storage.list",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2170,7 +2170,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.read-file",
+      "id": "cap.foundation.origin.storage.read-file",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2216,7 +2216,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.read-snapshot",
+      "id": "cap.foundation.origin.storage.read-snapshot",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2284,7 +2284,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.commit",
+      "id": "cap.foundation.origin.storage.commit",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2385,7 +2385,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.put-blob",
+      "id": "cap.foundation.origin.storage.put-blob",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2444,7 +2444,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.put-blob-from-file",
+      "id": "cap.foundation.origin.storage.put-blob-from-file",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2503,7 +2503,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.read-blob",
+      "id": "cap.foundation.origin.storage.read-blob",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2548,7 +2548,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.get-blob-ref",
+      "id": "cap.foundation.origin.storage.get-blob-ref",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2597,7 +2597,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.storage.delete-blob",
+      "id": "cap.foundation.origin.storage.delete-blob",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2623,7 +2623,7 @@
       "version": 1
     },
     {
-      "id": "cap.foundation.vetta.network.request",
+      "id": "cap.foundation.origin.network.request",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2704,7 +2704,7 @@
       "version": 2
     },
     {
-      "id": "cap.foundation.vetta.gateway.request",
+      "id": "cap.foundation.origin.gateway.request",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -2782,7 +2782,7 @@
   ],
   "domain": [
     {
-      "id": "cap.domain.vetta.agent-settings.experimental.get",
+      "id": "cap.domain.origin.agent-settings.experimental.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -2794,12 +2794,12 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "vettaCli",
+          "originCli",
           "promptPrediction",
           "agentSkills"
         ],
         "properties": {
-          "vettaCli": {
+          "originCli": {
             "type": "boolean"
           },
           "promptPrediction": {
@@ -2813,13 +2813,13 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.agent-settings.experimental.set",
+      "id": "cap.domain.origin.agent-settings.experimental.set",
       "inputSchema": {
         "additionalProperties": false,
         "minProperties": 1,
         "type": "object",
         "properties": {
-          "vettaCli": {
+          "originCli": {
             "type": "boolean"
           },
           "promptPrediction": {
@@ -2836,12 +2836,12 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "vettaCli",
+          "originCli",
           "promptPrediction",
           "agentSkills"
         ],
         "properties": {
-          "vettaCli": {
+          "originCli": {
             "type": "boolean"
           },
           "promptPrediction": {
@@ -2855,7 +2855,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.agent-settings.image-generation.get",
+      "id": "cap.domain.origin.agent-settings.image-generation.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -2892,7 +2892,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.agent-settings.image-generation.set",
+      "id": "cap.domain.origin.agent-settings.image-generation.set",
       "inputSchema": {
         "additionalProperties": false,
         "minProperties": 1,
@@ -2979,7 +2979,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.ai.models.list",
+      "id": "cap.domain.origin.ai.models.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -3068,7 +3068,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.ai.complete",
+      "id": "cap.domain.origin.ai.complete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -3160,7 +3160,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.ai.chat",
+      "id": "cap.domain.origin.ai.chat",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -3423,7 +3423,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.list",
+      "id": "cap.domain.origin.batch-task.project.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -3615,7 +3615,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.get",
+      "id": "cap.domain.origin.batch-task.project.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -3812,7 +3812,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.create",
+      "id": "cap.domain.origin.batch-task.project.create",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4102,7 +4102,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.update",
+      "id": "cap.domain.origin.batch-task.project.update",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4398,7 +4398,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.delete",
+      "id": "cap.domain.origin.batch-task.project.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4456,7 +4456,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.run",
+      "id": "cap.domain.origin.batch-task.task.run",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4519,7 +4519,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.retry",
+      "id": "cap.domain.origin.batch-task.task.retry",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4582,7 +4582,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.stop",
+      "id": "cap.domain.origin.batch-task.task.stop",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4645,7 +4645,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.delete",
+      "id": "cap.domain.origin.batch-task.task.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4708,7 +4708,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.resume",
+      "id": "cap.domain.origin.batch-task.task.resume",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4771,7 +4771,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.resume-with-text",
+      "id": "cap.domain.origin.batch-task.task.resume-with-text",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4838,7 +4838,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.task.session.delete",
+      "id": "cap.domain.origin.batch-task.task.session.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4901,7 +4901,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.task.delete-all",
+      "id": "cap.domain.origin.batch-task.project.task.delete-all",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -4959,7 +4959,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.start",
+      "id": "cap.domain.origin.batch-task.project.start",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5017,7 +5017,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.stop",
+      "id": "cap.domain.origin.batch-task.project.stop",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5075,7 +5075,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.reset",
+      "id": "cap.domain.origin.batch-task.project.reset",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5133,7 +5133,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.batch-task.project.failed-task.reset",
+      "id": "cap.domain.origin.batch-task.project.failed-task.reset",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5199,7 +5199,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.download.list",
+      "id": "cap.domain.origin.download.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5286,7 +5286,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.download.cancel",
+      "id": "cap.domain.origin.download.cancel",
       "inputSchema": {
         "type": "object",
         "required": [
@@ -5305,7 +5305,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.general-settings.get",
+      "id": "cap.domain.origin.general-settings.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5459,7 +5459,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.general-settings.notifications.set",
+      "id": "cap.domain.origin.general-settings.notifications.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5489,7 +5489,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.general-settings.default-execution-mode.set",
+      "id": "cap.domain.origin.general-settings.default-execution-mode.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5537,7 +5537,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.general-settings.workspace.set",
+      "id": "cap.domain.origin.general-settings.workspace.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5568,7 +5568,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.im.status.get",
+      "id": "cap.domain.origin.im.status.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5703,7 +5703,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.im.log.list",
+      "id": "cap.domain.origin.im.log.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5768,7 +5768,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.im.enabled.set",
+      "id": "cap.domain.origin.im.enabled.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5842,7 +5842,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.im.restart",
+      "id": "cap.domain.origin.im.restart",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -5909,7 +5909,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.im.agent-model.set",
+      "id": "cap.domain.origin.im.agent-model.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6009,7 +6009,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.base.list",
+      "id": "cap.domain.origin.knowledge.base.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6099,7 +6099,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.file-status.list",
+      "id": "cap.domain.origin.knowledge.file-status.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6147,7 +6147,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.processing.status.get",
+      "id": "cap.domain.origin.knowledge.processing.status.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6161,7 +6161,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.processing.settings.get",
+      "id": "cap.domain.origin.knowledge.processing.settings.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6199,7 +6199,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.base.create",
+      "id": "cap.domain.origin.knowledge.base.create",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6219,7 +6219,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.base.rename",
+      "id": "cap.domain.origin.knowledge.base.rename",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6244,7 +6244,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.base.delete",
+      "id": "cap.domain.origin.knowledge.base.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6264,7 +6264,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.entry.add-files",
+      "id": "cap.domain.origin.knowledge.entry.add-files",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6296,7 +6296,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.entry.delete",
+      "id": "cap.domain.origin.knowledge.entry.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6321,7 +6321,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.processing.scan",
+      "id": "cap.domain.origin.knowledge.processing.scan",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6348,7 +6348,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.processing.retry-failed",
+      "id": "cap.domain.origin.knowledge.processing.retry-failed",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6375,7 +6375,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.knowledge.processing.settings.set",
+      "id": "cap.domain.origin.knowledge.processing.settings.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6479,7 +6479,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.mcp.server.list",
+      "id": "cap.domain.origin.mcp.server.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6528,7 +6528,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.mcp.server.get",
+      "id": "cap.domain.origin.mcp.server.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6619,7 +6619,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.mcp.server.upsert",
+      "id": "cap.domain.origin.mcp.server.upsert",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6801,7 +6801,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.mcp.server.set-enabled",
+      "id": "cap.domain.origin.mcp.server.set-enabled",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6825,7 +6825,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.mcp.server.remove",
+      "id": "cap.domain.origin.mcp.server.remove",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -6845,7 +6845,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.media.provider.list",
+      "id": "cap.domain.origin.media.provider.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -7258,7 +7258,7 @@
       "version": 3
     },
     {
-      "id": "cap.domain.vetta.media.job.submit",
+      "id": "cap.domain.origin.media.job.submit",
       "inputSchema": {
         "anyOf": [
           {
@@ -8013,7 +8013,7 @@
       "version": 2
     },
     {
-      "id": "cap.domain.vetta.ocr.provider.list",
+      "id": "cap.domain.origin.ocr.provider.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -8257,7 +8257,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.ocr.recognize",
+      "id": "cap.domain.origin.ocr.recognize",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -8654,7 +8654,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.list",
+      "id": "cap.domain.origin.model.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -8746,7 +8746,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.config.get",
+      "id": "cap.domain.origin.model.config.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -8875,7 +8875,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.provider.get",
+      "id": "cap.domain.origin.model.provider.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9001,7 +9001,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.probe",
+      "id": "cap.domain.origin.model.probe",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9043,7 +9043,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.key.validate",
+      "id": "cap.domain.origin.model.key.validate",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9066,7 +9066,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.default.set",
+      "id": "cap.domain.origin.model.default.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9097,7 +9097,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.provider.upsert",
+      "id": "cap.domain.origin.model.provider.upsert",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9287,7 +9287,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.provider.remove",
+      "id": "cap.domain.origin.model.provider.remove",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9307,7 +9307,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.owned-providers.replace",
+      "id": "cap.domain.origin.model.owned-providers.replace",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9402,7 +9402,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.model.owned-providers.list",
+      "id": "cap.domain.origin.model.owned-providers.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9536,7 +9536,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.navigation.open-hosted-route",
+      "id": "cap.domain.origin.navigation.open-hosted-route",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9566,7 +9566,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.list",
+      "id": "cap.domain.origin.project.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9627,7 +9627,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.create",
+      "id": "cap.domain.origin.project.create",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9665,7 +9665,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.open",
+      "id": "cap.domain.origin.project.open",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9703,7 +9703,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.rename",
+      "id": "cap.domain.origin.project.rename",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9742,7 +9742,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.archive",
+      "id": "cap.domain.origin.project.archive",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9762,7 +9762,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.unarchive",
+      "id": "cap.domain.origin.project.unarchive",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9782,7 +9782,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.project.remove",
+      "id": "cap.domain.origin.project.remove",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9802,7 +9802,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.list",
+      "id": "cap.domain.origin.scheduler.task.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -9939,7 +9939,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.get",
+      "id": "cap.domain.origin.scheduler.task.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10081,7 +10081,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.history.list",
+      "id": "cap.domain.origin.scheduler.task.history.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10191,7 +10191,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.create",
+      "id": "cap.domain.origin.scheduler.task.create",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10415,7 +10415,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.update",
+      "id": "cap.domain.origin.scheduler.task.update",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10637,7 +10637,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.delete",
+      "id": "cap.domain.origin.scheduler.task.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10681,7 +10681,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.set-enabled",
+      "id": "cap.domain.origin.scheduler.task.set-enabled",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10827,7 +10827,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.run",
+      "id": "cap.domain.origin.scheduler.task.run",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10871,7 +10871,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.scheduler.task.abort",
+      "id": "cap.domain.origin.scheduler.task.abort",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10915,7 +10915,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.session.list",
+      "id": "cap.domain.origin.session.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -10977,7 +10977,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.session.runtime-project.list",
+      "id": "cap.domain.origin.session.runtime-project.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11008,7 +11008,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.shortcut.settings.get",
+      "id": "cap.domain.origin.shortcut.settings.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11098,7 +11098,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.shortcut.binding.set",
+      "id": "cap.domain.origin.shortcut.binding.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11157,7 +11157,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.shortcut.binding.reset",
+      "id": "cap.domain.origin.shortcut.binding.reset",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11216,7 +11216,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.shortcut.binding.reset-all",
+      "id": "cap.domain.origin.shortcut.binding.reset-all",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11263,7 +11263,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.quick-panel.trigger.set",
+      "id": "cap.domain.origin.quick-panel.trigger.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11340,7 +11340,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.quick-panel.post-send-behavior.set",
+      "id": "cap.domain.origin.quick-panel.post-send-behavior.set",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11409,7 +11409,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.skill.list",
+      "id": "cap.domain.origin.skill.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11632,7 +11632,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.skill.installed.list",
+      "id": "cap.domain.origin.skill.installed.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11706,7 +11706,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.skill.installed.set-enabled",
+      "id": "cap.domain.origin.skill.installed.set-enabled",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11745,7 +11745,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.skill.installed.uninstall",
+      "id": "cap.domain.origin.skill.installed.uninstall",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11777,7 +11777,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.state.get",
+      "id": "cap.domain.origin.updater.state.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11858,7 +11858,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.current-version.get",
+      "id": "cap.domain.origin.updater.current-version.get",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11872,7 +11872,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.check",
+      "id": "cap.domain.origin.updater.check",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -11953,7 +11953,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.download",
+      "id": "cap.domain.origin.updater.download",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12034,7 +12034,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.install",
+      "id": "cap.domain.origin.updater.install",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12046,7 +12046,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.dismiss",
+      "id": "cap.domain.origin.updater.dismiss",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12058,7 +12058,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.updater.cancel",
+      "id": "cap.domain.origin.updater.cancel",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12070,7 +12070,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.list",
+      "id": "cap.domain.origin.webhook.endpoint.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12158,7 +12158,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.provider.list",
+      "id": "cap.domain.origin.webhook.provider.list",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12200,7 +12200,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.create",
+      "id": "cap.domain.origin.webhook.endpoint.create",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12352,7 +12352,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.update",
+      "id": "cap.domain.origin.webhook.endpoint.update",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12494,7 +12494,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.delete",
+      "id": "cap.domain.origin.webhook.endpoint.delete",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12514,7 +12514,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.set-enabled",
+      "id": "cap.domain.origin.webhook.endpoint.set-enabled",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12611,7 +12611,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.test",
+      "id": "cap.domain.origin.webhook.endpoint.test",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",
@@ -12645,7 +12645,7 @@
       "version": 1
     },
     {
-      "id": "cap.domain.vetta.webhook.endpoint.send",
+      "id": "cap.domain.origin.webhook.endpoint.send",
       "inputSchema": {
         "additionalProperties": false,
         "type": "object",

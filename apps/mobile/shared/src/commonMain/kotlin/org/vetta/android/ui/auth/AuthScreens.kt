@@ -53,7 +53,7 @@ import org.vetta.android.ui.components.VettaTextField
 import org.vetta.android.ui.components.VettaErrorBanner
 import org.vetta.android.ui.i18n.Str
 import org.vetta.android.ui.remote.PairingScannerButton
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @Composable
 fun WelcomeScreen(
@@ -78,7 +78,7 @@ fun WelcomeScreen(
         Text(
             Str.welcomeSubtitle,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.vettaExtra.secondaryText,
+            color = MaterialTheme.originExtra.secondaryText,
         )
         Spacer(Modifier.height(28.dp))
         FeatureRow(Icons.Default.Computer, Str.featureDesktop, Str.featureDesktopDesc)
@@ -99,7 +99,7 @@ fun WelcomeScreen(
             onClick = onSkip,
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
-            Text(Str.skipForNow, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(Str.skipForNow, color = MaterialTheme.originExtra.secondaryText)
         }
         if (error != null) {
             Spacer(Modifier.height(12.dp))
@@ -116,7 +116,7 @@ fun WelcomeScreen(
                 Text(
                     Str.connectingDesktop,
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                 )
             }
         }
@@ -141,7 +141,7 @@ private fun FeatureRow(
         Column {
             Text(title, style = MaterialTheme.typography.titleSmall)
             Spacer(Modifier.height(2.dp))
-            Text(desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+            Text(desc, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
         }
     }
 }
@@ -163,7 +163,7 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.loginTitle, style = MaterialTheme.typography.titleMedium) },
@@ -174,7 +174,7 @@ fun LoginScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -192,7 +192,7 @@ fun LoginScreen(
             Text(
                 Str.loginSubtitle,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.vettaExtra.secondaryText,
+                color = MaterialTheme.originExtra.secondaryText,
             )
             Spacer(Modifier.height(16.dp))
             if (error != null) {

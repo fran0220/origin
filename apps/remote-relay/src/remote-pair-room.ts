@@ -29,8 +29,8 @@ export class RemotePairRoom extends DurableObject<Env> {
 
 	async fetch(request: Request): Promise<Response> {
 		if (request.method === "POST" && new URL(request.url).pathname.endsWith("/authorize")) {
-			const role = parseRole(request.headers.get("X-Vetta-Relay-Role"));
-			const credentialHash = request.headers.get("X-Vetta-Credential-Hash");
+			const role = parseRole(request.headers.get("X-Origin-Relay-Role"));
+			const credentialHash = request.headers.get("X-Origin-Credential-Hash");
 			if (role !== "mobile" || !credentialHash) return response("Unauthorized", 401);
 			const mode = await this.authorization.authorizeMobile(credentialHash);
 			return mode ? new Response(null, { status: 204 }) : response("Unauthorized", 401);
@@ -38,12 +38,12 @@ export class RemotePairRoom extends DurableObject<Env> {
 		if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
 			return response("WebSocket upgrade required", 426);
 		}
-		const role = parseRole(request.headers.get("X-Vetta-Relay-Role"));
-		const credentialHash = request.headers.get("X-Vetta-Credential-Hash");
-		const roomTag = request.headers.get("X-Vetta-Room-Tag");
+		const role = parseRole(request.headers.get("X-Origin-Relay-Role"));
+		const credentialHash = request.headers.get("X-Origin-Credential-Hash");
+		const roomTag = request.headers.get("X-Origin-Room-Tag");
 		if (!role || !credentialHash || !roomTag) return response("Invalid relay request", 400);
-		const resumeHash = request.headers.get("X-Vetta-Resume-Hash") ?? undefined;
-		const bootstrapHash = request.headers.get("X-Vetta-Bootstrap-Hash") ?? undefined;
+		const resumeHash = request.headers.get("X-Origin-Resume-Hash") ?? undefined;
+		const bootstrapHash = request.headers.get("X-Origin-Bootstrap-Hash") ?? undefined;
 		const authorization =
 			role === "desktop"
 				? (await this.authorization.authorizeDesktop(credentialHash, bootstrapHash))

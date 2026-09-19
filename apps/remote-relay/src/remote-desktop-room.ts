@@ -31,14 +31,14 @@ export class RemoteDesktopRoom extends DurableObject<Env> {
 	async fetch(request: Request): Promise<Response> {
 		if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket")
 			return response("WebSocket upgrade required", 426);
-		const role = desktopRole(request.headers.get("X-Vetta-Desktop-Role"));
-		const credentialHash = request.headers.get("X-Vetta-Credential-Hash");
-		const roomTag = request.headers.get("X-Vetta-Room-Tag");
+		const role = desktopRole(request.headers.get("X-Origin-Desktop-Role"));
+		const credentialHash = request.headers.get("X-Origin-Credential-Hash");
+		const roomTag = request.headers.get("X-Origin-Room-Tag");
 		if (!role || !credentialHash || !roomTag) return response("Invalid desktop relay request", 400);
 		const authorized =
 			role === "host"
 				? await this.authorization.authorizeDesktop(credentialHash)
-				: request.headers.get("X-Vetta-Preauthorized") === "mobile" ||
+				: request.headers.get("X-Origin-Preauthorized") === "mobile" ||
 					Boolean(await this.authorization.authorizeMobile(credentialHash));
 		if (!authorized) {
 			relayWarn("desktop_connection_rejected", { roomTag, role, reason: "invalid_pairing" });

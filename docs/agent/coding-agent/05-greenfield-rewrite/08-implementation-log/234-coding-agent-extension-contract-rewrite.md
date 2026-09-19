@@ -69,7 +69,7 @@ Extension 旧依赖从 26 条降到 6 条。剩余 4 条指向旧 Runner，另�
 - 迁移后 Extension、Greenfield、SDK 定向测试中的 17 个文件、108 项测试通过；覆盖动态加载、Runner、input、tool_call/tool_result、命令、压缩、分支、运行时控制、SDK 自定义工具和 Session 切换。
 - 重写治理测试 7 项通过，证明稳定 Extension 合同即使被写入统计基线也不能重新依赖旧实现。
 - `bun run check:quick` 与全仓 `bun run check` 通过；Extension 合同不再含 `any`、inline type import 或旧 `core` 导入。
-- 额外执行 `resource-loader.test.ts` 时有 5 项既有 `.pi`/`.vetta` 目录断言偏差；本阶段未修改资源加载逻辑，不以改变实现来迎合该无关结构断言。
+- 额外执行 `resource-loader.test.ts` 时有 5 项既有 `.pi`/`.origin` 目录断言偏差；本阶段未修改资源加载逻辑，不以改变实现来迎合该无关结构断言。
 
 ## 尚未完成的替换
 

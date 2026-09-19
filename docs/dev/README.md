@@ -4,8 +4,8 @@
 
 仓库入口负责启动隔离的验证实例、发现动态 CDP 端口、维护 Playwright session，并自动选择 `Origin Desktop` 主窗口。不要在提示词或脚本中写死端口、session 名、tab 下标或 snapshot ref。
 
-Origin Debug 的会话操作参数见 [Origin Debug](./vetta-debug.md)；真实模型、多轮工具和上下文缓存实验见
-[Origin Debug 真实 Provider 实战](./vetta-debug-real-provider-runbook.md)。
+Origin Debug 的会话操作参数见 [Origin Debug](./origin-debug.md)；真实模型、多轮工具和上下文缓存实验见
+[Origin Debug 真实 Provider 实战](./origin-debug-real-provider-runbook.md)。
 
 ## 使用授权
 
@@ -20,8 +20,8 @@ Origin Debug 的会话操作参数见 [Origin Debug](./vetta-debug.md)；真实�
 | Profile | 用途 | 数据生命周期 |
 | --- | --- | --- |
 | Fresh | 初始化、首次启动、空状态流程；也是无后缀命令的默认值 | 每次启动创建新的临时 home，从不复用上一次数据 |
-| Debug | 反复调试模型和 Agent 流程 | 使用当前工作树专属的 `~/.vetta-ui-debug/<workspace-id>`，重启后保留 |
-| Dev | 调试已经由 Desktop `dev` 命令启动的普通开发应用 | 只附着 `~/.vetta-dev`，验证脚本不会启动、同步或停止它 |
+| Debug | 反复调试模型和 Agent 流程 | 使用当前工作树专属的 `~/.origin-ui-debug/<workspace-id>`，重启后保留 |
+| Dev | 调试已经由 Desktop `dev` 命令启动的普通开发应用 | 只附着 `~/.origin-dev`，验证脚本不会启动、同步或停止它 |
 
 Fresh 标准流程：
 
@@ -34,7 +34,7 @@ bun run verify:ui:stop
 
 `verify:ui:start`、`status`、`pw`、`attach`、`debug`、`stop` 继续作为 Fresh 的兼容别名。`start` 会在后台启动实例，等待主 Renderer 的 CDP target 可用并完成 Playwright 附着后才返回；失败会在 120 秒内退出并给出 `logPath`，不再无限等待。
 
-Debug 首次启动时，从 `~/.vetta-dev` 白名单播种模型配置；之后使用自己的持久数据：
+Debug 首次启动时，从 `~/.origin-dev` 白名单播种模型配置；之后使用自己的持久数据：
 
 ```powershell
 bun run verify:ui:start:debug
@@ -67,7 +67,7 @@ Dev 是 attach-only Profile，没有对应的 `start` 或 `stop`。如果普通�
 开发中的外置插件应继续复用 Dev Profile。安装新 zip 即激活新版本（ADR-0113），不需要再补一次重载；`reload` 保留为「重新读盘刷新」，用于插件目录被就地改动的场景：
 
 ```powershell
-$env:VETTA_CONFIG_DIR = ".vetta-dev"
+$env:ORIGIN_CONFIG_DIR = ".origin-dev"
 bun packages/plugins/plugin-cli/src/cli.ts add C:\path\to\plugin.zip --json
 bun packages/plugins/plugin-cli/src/cli.ts reload plugin-id --json
 ```
@@ -130,7 +130,7 @@ bun run verify:ui:debug -- runtime-canary
 - 本地确定性 Provider 已停止；
 - Scheduler 与 Batch Provider 请求没有因重启重复执行。
 
-Canary 使用独立的 `VETTA_HOME`、Coding Agent 目录、Electron user data、工作区和本地 Provider，
+Canary 使用独立的 `ORIGIN_HOME`、Coding Agent 目录、Electron user data、工作区和本地 Provider，
 不读取或修改用户的真实模型、认证及会话数据。该命令会主动结束两代验证实例；完成后不需要再执行
 `verify:ui:stop`。
 

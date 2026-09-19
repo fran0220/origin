@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import org.vetta.android.domain.error.UiError
 import org.vetta.android.domain.error.UiErrorAction
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 /** 统一输入层级、边框和高度，避免各页面自行拼接 Material 输入框。 */
 @Composable
@@ -67,7 +67,7 @@ fun VettaTextField(
         shape = RoundedCornerShape(14.dp),
         colors =
             OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = MaterialTheme.vettaExtra.border,
+                unfocusedBorderColor = MaterialTheme.originExtra.border,
                 focusedBorderColor = MaterialTheme.colorScheme.onSurface,
             ),
     )
@@ -176,9 +176,9 @@ fun VettaErrorBanner(
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.vettaExtra.chipBackground,
+        color = MaterialTheme.originExtra.chipBackground,
         contentColor = MaterialTheme.colorScheme.onSurface,
-        border = BorderStroke(1.dp, MaterialTheme.vettaExtra.border),
+        border = BorderStroke(1.dp, MaterialTheme.originExtra.border),
     ) {
         Column(Modifier.padding(14.dp)) {
             Text(error.title, style = MaterialTheme.typography.titleSmall)
@@ -284,7 +284,7 @@ fun EmptyState(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.vettaExtra.secondaryText,
+                tint = MaterialTheme.originExtra.secondaryText,
                 modifier = Modifier.size(36.dp),
             )
             Spacer(Modifier.height(12.dp))

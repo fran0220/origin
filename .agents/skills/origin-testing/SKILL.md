@@ -1,9 +1,9 @@
 ---
-name: vetta-testing
-description: 为 OpenVetta 的功能变更、Bug 修复、重构、公共合同和 UI 交互设计、编写或审查测试；在决定测试范围、补充回归测试、覆盖用户常见使用流程或评估测试质量时使用。纯文档或没有运行时行为变化的编辑不使用。
+name: origin-testing
+description: 为 Origin 的功能变更、Bug 修复、重构、公共合同和 UI 交互设计、编写或审查测试；在决定测试范围、补充回归测试、覆盖用户常见使用流程或评估测试质量时使用。纯文档或没有运行时行为变化的编辑不使用。
 ---
 
-# OpenVetta 测试设计与编写
+# Origin 测试设计与编写
 
 ## 目标
 
@@ -126,4 +126,4 @@ bun run check
 
 ## Skill 维护
 
-`.agents/skills/vetta-testing/SKILL.md` 是事实源。修改本 Skill 时同步更新 `.claude/skills/vetta-testing/SKILL.md`，并验证两份文件内容一致。
+`.agents/skills/origin-testing/SKILL.md` 是事实源。修改本 Skill 时同步更新 `.claude/skills/origin-testing/SKILL.md`，并验证两份文件内容一致。

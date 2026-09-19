@@ -662,7 +662,7 @@ describe("installed standalone CLI artifact", () => {
 		expect(initialRequest?.rawBody).not.toContain(DYNAMIC_SKILL_V1);
 		expect(readToolDescription(initialRequest?.body.tools, MCP_TOOL_NAME)).toBe("");
 
-		const skillDirectory = join(fixture.workspace, ".vetta", "skills", "installed-dynamic");
+		const skillDirectory = join(fixture.workspace, ".origin", "skills", "installed-dynamic");
 		const skillPath = join(skillDirectory, "SKILL.md");
 		await mkdir(skillDirectory, { recursive: true });
 		await writeFile(skillPath, dynamicSkillDocument(DYNAMIC_SKILL_V1), "utf8");
@@ -760,7 +760,7 @@ describe("installed standalone CLI artifact", () => {
 			(await readdir(fixture.conversationDir)).filter((name) => name.endsWith(".conversation.jsonl")),
 		).toHaveLength(1);
 		const migratedContent = await readFile(migratedSessionPath, "utf8");
-		expect(migratedContent).toContain("vetta.legacy_agent_message");
+		expect(migratedContent).toContain("origin.legacy_agent_message");
 		expect(migratedContent).toContain('"role":"bashExecution"');
 		expect(migratedContent).toContain("installed-migrated-first");
 		expect(migratedContent).toContain("installed-migrated-second");
@@ -998,10 +998,10 @@ describe("installed standalone CLI artifact", () => {
 });
 
 async function buildInstalledCliArtifact(): Promise<InstalledCliArtifact> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-installed-cli-artifact-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-installed-cli-artifact-"));
 	const buildDir = join(root, "build");
 	const installDir = join(root, "install");
-	const binaryName = process.platform === "win32" ? "vetta.exe" : "vetta";
+	const binaryName = process.platform === "win32" ? "origin.exe" : "origin";
 	const buildBinaryPath = join(buildDir, binaryName);
 	const binaryPath = join(installDir, binaryName);
 	const buildMetafilePath = join(buildDir, "metafile.json");
@@ -1035,7 +1035,7 @@ async function buildInstalledCliArtifact(): Promise<InstalledCliArtifact> {
 }
 
 async function expectStandaloneArtifact(installed: InstalledCliArtifact): Promise<void> {
-	expect(await readdir(installed.installDir)).toEqual([process.platform === "win32" ? "vetta.exe" : "vetta"]);
+	expect(await readdir(installed.installDir)).toEqual([process.platform === "win32" ? "origin.exe" : "origin"]);
 	expect((await stat(installed.binaryPath)).size).toBeGreaterThan(0);
 	const metafile = MetafileSchema.parse(JSON.parse(await readFile(installed.buildMetafilePath, "utf8")));
 	const externalImports = Object.values(metafile.outputs)
@@ -1168,8 +1168,8 @@ function createIsolatedArtifactEnv(currentFixture: AgentRpcFixture): NodeJS.Proc
 	env.HOME = currentFixture.root;
 	env.NO_COLOR = "1";
 	env.USERPROFILE = currentFixture.root;
-	env.VETTA_CODING_AGENT_DIR = currentFixture.agentDir;
-	env.VETTA_HOME = join(currentFixture.root, "home");
+	env.ORIGIN_CODING_AGENT_DIR = currentFixture.agentDir;
+	env.ORIGIN_HOME = join(currentFixture.root, "home");
 	return env;
 }
 

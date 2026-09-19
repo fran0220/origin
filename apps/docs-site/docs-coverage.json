@@ -58,15 +58,15 @@
 		},
 		{
 			"id": "design-canvas",
-			"source": "packages/plugins/presets/vetta-ui-design",
+			"source": "packages/plugins/presets/origin-ui-design",
 			"status": "complete",
 			"pages": ["/product/design/"]
 		},
 		{
-			"id": "agent-teams",
-			"source": "packages/agent-team and apps/desktop/src/main/agent-teams",
+			"id": "agent-profiles",
+			"source": "packages/agent-profile and apps/desktop/src/main/agent-profiles",
 			"status": "complete",
-			"pages": ["/product/agent-teams/"]
+			"pages": ["/product/agent-profiles/"]
 		},
 		{
 			"id": "batch-tasks",

@@ -5,11 +5,11 @@
 ## 样式隔离：正常写 Tailwind 或 CSS
 
 使用 `@origin-org/plugin-vite` 构建时，插件 CSS 会自动包进以
-`[data-vetta-plugin-root="<id>"]` 为根的原生 `@scope`，`:root` / `:host` 会自动映射为
+`[data-origin-plugin-root="<id>"]` 为根的原生 `@scope`，`:root` / `:host` 会自动映射为
 `:scope`。
 插件作者不需要手写插件 id 前缀或 cascade layer，可以正常使用 Tailwind，也可以编写业务 CSS。
 
-宿主加载插件 CSS 时还会统一放入低优先级 `vetta-plugins` layer，兼容旧版构建产物，
+宿主加载插件 CSS 时还会统一放入低优先级 `origin-plugins` layer，兼容旧版构建产物，
 避免插件样式覆盖 Desktop。插件仍与宿主共享同一 document，不要依赖修改 `body`、`html`
 或宿主私有 class；这些选择器在新版构建中不会匹配到插件根以外的元素。
 
@@ -30,7 +30,7 @@
 ```
 
 - Vite 配 `@tailwindcss/vite`；入口 `import "./style.css"` 一次即可。
-- `vettaPluginFederation` 会在 Tailwind 编译前自动注入
+- `originPluginFederation` 会在 Tailwind 编译前自动注入
   `@origin-org/plugin-sdk/tailwind-theme.css` 的纯 Token 契约；插件不需要导入
   Desktop CSS、SDK 主题 CSS，也不需要重复声明 `@theme`。
 - `plugin.json`：`"styles": ["dist/style.css"]`。
@@ -138,7 +138,7 @@ function Icon() {
 
 ## React 是宿主单例
 
-`react` / `react-dom` 运行时由**宿主作为共享单例**提供，不打进你的 bundle（`vettaPluginFederation` 已设 `singleton + import:false`）。因此：
+`react` / `react-dom` 运行时由**宿主作为共享单例**提供，不打进你的 bundle（`originPluginFederation` 已设 `singleton + import:false`）。因此：
 
 - 你的插件与宿主用**同一个 React**，hook、context、状态都跨得过去（这正是 `useActiveConversation` 等能工作的前提）。
 - `package.json` 里的 `react` 只用于类型与本地构建，别试图 bundle 一份自己的 React。
@@ -155,7 +155,7 @@ import { Button, Switch, Slider, Dialog, DialogContent, cn } from "@origin-org/u
 同时在 Vite 配置中显式开启宿主 UI 共享：
 
 ```ts
-vettaPluginFederation({
+originPluginFederation({
   name: "my_plugin",
   hostUi: true,
 });
@@ -165,11 +165,11 @@ vettaPluginFederation({
 
 | 项 | 说明 |
 | --- | --- |
-| 运行时 | 由宿主单例提供（MF share + `vetta-host://ui`），**不要**打进插件 bundle |
+| 运行时 | 由宿主单例提供（MF share + `origin-host://ui`），**不要**打进插件 bundle |
 | 构建 | `hostUi: true` 会把 `@origin-org/ui` 设为 `shared.singleton + import:false`，并 rollup external |
 | `package.json` | 仅作类型 / 本地 tsc：`devDependencies` 里 `@origin-org/ui`（仓库内 `workspace:*`，仓库外按发布版本） |
 | 样式 | 组件 class 走宿主全局 token / Tailwind；插件 scoped CSS **管不到** Dialog 等 portal 到 `document.body` 的浮层（浮层依赖宿主已加载的全局样式，这是预期行为） |
-| 宿主版本 | 需要宿主提供 `vetta-host://ui` shim：desktop **>= 0.5.31**，且 `@origin-org/plugin-vite` **>= 0.0.5**。旧宿主上 import `@origin-org/ui` 会在加载插件时解析失败（模块找不到，整个插件不激活）——若你的插件要兼容更早的 App，就别用这条通道，自写 JSX + 语义 class |
+| 宿主版本 | 需要宿主提供 `origin-host://ui` shim：desktop **>= 0.5.31**，且 `@origin-org/plugin-vite` **>= 0.0.5**。旧宿主上 import `@origin-org/ui` 会在加载插件时解析失败（模块找不到，整个插件不激活）——若你的插件要兼容更早的 App，就别用这条通道，自写 JSX + 语义 class |
 | 稳定性 | **半稳定、可选**。宿主会尽量不无故破坏，但不对跨 App 大版本做 semver 承诺；props / 导出变更时官方插件随 monorepo 同改 |
 | 不在此列 | `@origin-org/theme-ui/plugin-ui` 是独立的按需共享合同，见下节；不要从其它 `@origin-org/theme-ui/*` 入口导入宿主业务 View |
 
@@ -183,7 +183,7 @@ vettaPluginFederation({
 它不是默认共享依赖；只有实际使用这些组件的插件才应开启：
 
 ```ts
-vettaPluginFederation({
+originPluginFederation({
   name: "my_plugin",
   hostThemeUi: true,
 });
@@ -196,11 +196,11 @@ vettaPluginFederation({
 
 ## 缓存刷新
 
-插件 bundle 经 `vetta-plugin://` 协议加载，**Chromium 会缓存 `remoteEntry.js`**——你改了代码重装，**重启 App 也未必清掉旧缓存**，表现为「改动不生效」。
+插件 bundle 经 `origin-plugin://` 协议加载，**Chromium 会缓存 `remoteEntry.js`**——你改了代码重装，**重启 App 也未必清掉旧缓存**，表现为「改动不生效」。
 
 可靠的强刷办法：**把 `plugin.json` 的 `version` 往上 bump**，宿主当作新版本重新拉取。配合在设置页 `reload(id)`（或重开 App）。调试期每次有效改动都建议 bump 一下 patch 版本。
 
-**开发期更省事的做法：插件工作台面板的「热更新」开关**。对已安装过一次的插件打开后，宿主把该插件 dev 链接到工程目录并常驻 `vetta-plugin dev`：React / CSS 走 HMR，清单与 agent 等资源定向重载，无需 bump / 重打 zip / 手动 reload。关闭开关（或重启 App）后回落安装目录。dev 会话内新增的普通权限仅在内存中放行；要在关闭热更新或重启后保留，仍需重新应用插件。
+**开发期更省事的做法：插件工作台面板的「热更新」开关**。对已安装过一次的插件打开后，宿主把该插件 dev 链接到工程目录并常驻 `origin-plugin dev`：React / CSS 走 HMR，清单与 agent 等资源定向重载，无需 bump / 重打 zip / 手动 reload。关闭开关（或重启 App）后回落安装目录。dev 会话内新增的普通权限仅在内存中放行；要在关闭热更新或重启后保留，仍需重新应用插件。
 
 ## 清理副作用
 

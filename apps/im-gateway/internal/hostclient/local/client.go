@@ -30,11 +30,11 @@ type Options struct {
 	ExtraEnv map[string]string
 
 	// SessionDir, when non-empty, is forwarded as `--session-dir`. The
-	// IM host runtime sets this to `<conversationCwd>/.vetta/sessions/`
+	// IM host runtime sets this to `<conversationCwd>/.origin/sessions/`
 	// to match desktop-app's `resolveSessionDirForCwd` convention so
 	// IM-created session .jsonl files appear in the desktop sidebar
 	// under the default "对话" project. Empty → coding-agent falls back
-	// to `~/.vetta/agent/sessions/<encoded-cwd>/`.
+	// to `~/.origin/agent/sessions/<encoded-cwd>/`.
 	SessionDir string
 
 	// BinPrefixArgs are prepended to the spawned subprocess's argv

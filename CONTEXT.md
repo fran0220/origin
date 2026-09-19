@@ -66,7 +66,7 @@ A user-attached file or directory reference carried alongside a chat prompt. Sha
 
 ### conversation cwd
 
-`~/.vetta/conversation`，desktop 中虚拟注入的「对话」项目的**项目根 cwd**（常量 `DEFAULT_CONVERSATION_CWD`，`apps/desktop/src/main/ipc/fs.ts`）。session jsonl 文件集中落在 `<conversation cwd>/.vetta/sessions/`。
+`~/.origin/conversation`，desktop 中虚拟注入的「对话」项目的**项目根 cwd**（常量 `DEFAULT_CONVERSATION_CWD`，`apps/desktop/src/main/ipc/fs.ts`）。session jsonl 文件集中落在 `<conversation cwd>/.origin/sessions/`。
 
 **项目根 cwd ≠ session 运行 cwd。** ADR-0007 起，「对话」下新建的每个 session 拿到自己的 [[session 产物子目录]] (`<conversation cwd>/<sessionId>/`) 作为运行 cwd，agent 产物落在那里，避免不同 session 在根目录互相窜味。读 session.cwd 而不是项目 cwd 才能拿到 agent 当时的真实工作目录。fs IPC 沙箱边界仍是项目根整体，不按 session 收紧——隔离的是状态不是权限。
 
@@ -74,7 +74,7 @@ A user-attached file or directory reference carried alongside a chat prompt. Sha
 
 ### session 产物子目录
 
-「对话」项目下每个**新建** session 在 main 进程 eager `mkdir` 出来的独立工作目录：`~/.vetta/conversation/<sessionId>/`。session 的运行 cwd 指向这里，agent 工具默认写入 `./` 时落入本目录，自然按 session 隔离。
+「对话」项目下每个**新建** session 在 main 进程 eager `mkdir` 出来的独立工作目录：`~/.origin/conversation/<sessionId>/`。session 的运行 cwd 指向这里，agent 工具默认写入 `./` 时落入本目录，自然按 session 隔离。
 
 命名刻意用不可变 `sessionId` 而非 session title slug——session 可重命名而产物内的相对引用不可控，stability 优先。Finder 不可读由 UI"在 Finder 中打开本 session 产物目录"入口补偿。
 
@@ -84,13 +84,13 @@ ADR-0007 之前创建的老 session 不迁移，cwd 保留为 [[conversation cwd
 
 ### im-gateway cwd
 
-`~/.vetta/im-gateway/conversation/`，im-gateway 所有 IM 渠道（wechat / feishu / ilink ...）共用的工作目录。session 文件落在 `<im-gateway cwd>/.vetta/sessions/`，agent 生成的产物（html/py/md 等）落在 cwd 根。路由 key 仍是 `(im_user, chatID)`（继承自 ADR-0004），单一 cwd 内靠 sessions 文件名区分不同 IM 会话。
+`~/.origin/im-gateway/conversation/`，im-gateway 所有 IM 渠道（wechat / feishu / ilink ...）共用的工作目录。session 文件落在 `<im-gateway cwd>/.origin/sessions/`，agent 生成的产物（html/py/md 等）落在 cwd 根。路由 key 仍是 `(im_user, chatID)`（继承自 ADR-0004），单一 cwd 内靠 sessions 文件名区分不同 IM 会话。
 
 与 [[conversation cwd]] 物理分离：桌面「对话」与 IM 入口的 session / 产物互不可见，desktop sidebar 不再展示 IM session（ADR-0005 推翻了 ADR-0004 的混合展示形态）。
 
 ### im-gateway inbox
 
-`~/.vetta/im-gateway/conversation/<YYYY-MM-DD>/`，im-gateway 把 IM 入站的图片/文件**原样字节**落盘到此（按本地日期分目录），文件名形如 `<msgId>-<原文件名或 ext>`。落盘后由 router（`router.go`，不是 bridge）在 prompt 文本头部为每个 `Attachment.URL` prepend 一行 `@<abspath>`，agent 通过 Read 工具自行读取（图片走 `resizeImageBuffer` 自动缩放）。落盘 + `Attachment` 填充是**各 transport 自己的职责**；router 的 `@<abspath>` 拼接是平台无关的，任何 transport 只要填好 `Attachment.URL` 就自动接入。
+`~/.origin/im-gateway/conversation/<YYYY-MM-DD>/`，im-gateway 把 IM 入站的图片/文件**原样字节**落盘到此（按本地日期分目录），文件名形如 `<msgId>-<原文件名或 ext>`。落盘后由 router（`router.go`，不是 bridge）在 prompt 文本头部为每个 `Attachment.URL` prepend 一行 `@<abspath>`，agent 通过 Read 工具自行读取（图片走 `resizeImageBuffer` 自动缩放）。落盘 + `Attachment` 填充是**各 transport 自己的职责**；router 的 `@<abspath>` 拼接是平台无关的，任何 transport 只要填好 `Attachment.URL` 就自动接入。
 
 「原样字节」的获取方式按平台而异：wechat 需先 CDN 下载再 AES-128-ECB 解密（见 ADR-0006）；feishu 走鉴权后的 `Im.MessageResource.Get`（image_key/file_key + Type），SDK 直接回放明文流，**无解密步骤**。
 
@@ -117,7 +117,7 @@ agent ↔ host 之间的反向 RPC 通道，扩自 coding-agent 的 RPC 协议�
 
 ### drop overlay (of ChatPage)
 
-A full-`ChatPage` overlay rendered while an OS-level drag carrying `Files` (or an internal drag carrying the `application/vetta-path` MIME) is hovering. Provides the visual affordance "release to reference"; on drop, each dragged item becomes a `mentionedFile` (or an `attachedImage` for image MIME). Triggers regardless of whether a session is currently active — items dropped on `NewSessionPage` stay in `mentionedFilesAtom` and are picked up by the next `sendPrompt`. Internal drags from File Explorer are detected via the `application/vetta-path` MIME and bypass `webUtils.getPathForFile`, reading the path directly from the dataTransfer payload.
+A full-`ChatPage` overlay rendered while an OS-level drag carrying `Files` (or an internal drag carrying the `application/origin-path` MIME) is hovering. Provides the visual affordance "release to reference"; on drop, each dragged item becomes a `mentionedFile` (or an `attachedImage` for image MIME). Triggers regardless of whether a session is currently active — items dropped on `NewSessionPage` stay in `mentionedFilesAtom` and are picked up by the next `sendPrompt`. Internal drags from File Explorer are detected via the `application/origin-path` MIME and bypass `webUtils.getPathForFile`, reading the path directly from the dataTransfer payload.
 
 ### memory-mode
 
@@ -206,7 +206,7 @@ im-gateway 一个 IM 会话（路由 key `(userID, chatID)`）从**首条消息*
 
 ### 源重定向（source redirection）
 
-在 bash tool spawn 子进程的瞬间注入临时环境变量，把包管理器指向国内可达镜像、并把 [[托管运行时]] 的 bin 前置进 PATH 的机制。复用既有的 `getShellEnv()`（已把 `~/.vetta/agent/bin` 前置）这一注入点扩展。
+在 bash tool spawn 子进程的瞬间注入临时环境变量，把包管理器指向国内可达镜像、并把 [[托管运行时]] 的 bin 前置进 PATH 的机制。复用既有的 `getShellEnv()`（已把 `~/.origin/agent/bin` 前置）这一注入点扩展。
 
 只解决「官方源不可达」，**不解决「需要现场编译」**。典型注入项：`npm_config_registry`、`npm_config_prefix`（全局包落私有目录、与运行时版本解耦、不污染系统）、`npm_config_cache`，以及 pip 侧的 index/trusted-host。
 
@@ -256,7 +256,7 @@ desktop 经由 OS 原生通知中心（macOS / Windows）向用户推送的、AP
 
 ### 个性化（personalization）
 
-一个**全局、跨所有项目/session** 的系统提示词追加能力，入口在 desktop 设置页「Agent配置」最上方。由两部分组成：一个 [[人设]] 单选 + 一段 [[自定义指令]] 自由文本。配置写入 `~/.vetta/agent/settings.json` 的 `personalization` 块（`{ personaId, customPrompt }`），与 [[image budget]] 的 `maxRecentImages` 同文件不同字段。
+一个**全局、跨所有项目/session** 的系统提示词追加能力，入口在 desktop 设置页「Agent配置」最上方。由两部分组成：一个 [[人设]] 单选 + 一段 [[自定义指令]] 自由文本。配置写入 `~/.origin/agent/settings.json` 的 `personalization` 块（`{ personaId, customPrompt }`），与 [[image budget]] 的 `maxRecentImages` 同文件不同字段。
 
 生效走 [[个性化懒重建]]：点「应用」只落盘、不触发任何 session 重建；每个 session 在**下一个 user prompt** 时按需检测并重建系统提示词。语义刻意复刻 MCP 的懒重建（mcp.json 写盘不 fan-out，prompt 入口 diff-reload）。
 
@@ -404,7 +404,7 @@ Skill/Scene 的分类，**独立受管实体**（id + 名称 + `scope` 区分 sk
 
 ### skills-manifest
 
-客户端 `~/.vetta/skills-manifest.json`，记录每个已装 Skill/Scene 的安装态（`version`/`source`/`enabled`/`type`/`alias`/`marketDescription`）。本地文件扁平铺在 `~/.vetta/{skills,scene}/<name>/`，**同名同时只存一个版本**，路径不含版本号。manifest 里的 `version` 是 [[skill version]] 的更新比对基准。
+客户端 `~/.origin/skills-manifest.json`，记录每个已装 Skill/Scene 的安装态（`version`/`source`/`enabled`/`type`/`alias`/`marketDescription`）。本地文件扁平铺在 `~/.origin/{skills,scene}/<name>/`，**同名同时只存一个版本**，路径不含版本号。manifest 里的 `version` 是 [[skill version]] 的更新比对基准。
 
 ### skill download_count（下载量）
 
@@ -413,7 +413,7 @@ _Avoid_: 当成「装机量/独立安装数」——它是原始下载次数，�
 
 ### 通用 Agent Skill 作用域（generic agent skill scope）
 
-Vetta 之外的、跨 Agent 通用的 Skill 存放约定：全局 `~/.agents/skills/` 与项目级 `<cwd>/.agents/skills/`。与 Vetta **专属作用域**（全局 `~/.vetta/agent/skills/`、项目级 `<cwd>/.vetta/skills/`）并列，是「适配通用 Agent Skill」能力把别的 Agent 写好的 skill 原样纳入 Vetta 发现范围的入口。
+Vetta 之外的、跨 Agent 通用的 Skill 存放约定：全局 `~/.agents/skills/` 与项目级 `<cwd>/.agents/skills/`。与 Vetta **专属作用域**（全局 `~/.origin/agent/skills/`、项目级 `<cwd>/.origin/skills/`）并列，是「适配通用 Agent Skill」能力把别的 Agent 写好的 skill 原样纳入 Vetta 发现范围的入口。
 
 发现规则刻意**只认子目录 `SKILL.md`**（不认根目录散装 `.md`），严格对齐业界 Agent Skill 约定——这正是「通用」的含义；根目录散装 `.md` 是 Vetta 专属作用域的特例，不带进通用目录。
 
@@ -421,7 +421,7 @@ Vetta 之外的、跨 Agent 通用的 Skill 存放约定：全局 `~/.agents/ski
 
 同名碰撞时 **Vetta 专属优先于通用**：通用 Agent Skill 目录在所有 Vetta 原生来源（`user`/`project`/`scene`）之后加载，先加载者胜，故加载顺序为 `user → project → scene → agents-user → agents-project`——通用 Agent Skill 是补充而非覆盖内置（含 scene）。两处目录均纳入 agent 路径保护（只读、禁止 agent 新增/修改），与 Vetta 自家 skill 目录同等对待。
 
-作用域支持是 coding-agent 核心**默认开**（CLI 也享受），desktop 侧由「Agent配置 → 扩展功能 → 适配通用 Agent Skill」开关控制（默认开、可关），关闭时向会话传入禁用标志。desktop 聊天侧技能选择器（`/` SlashPanel）经 `vetta:skills:list(cwd)` **按当前会话 cwd 列出**：既有全局 `~/.agents/skills`，也有该项目的 `<cwd>/.agents/skills`（不传 cwd 则只列全局来源）。技能**市场页**（技能广场）以独立的「通用 Agent Skill」**只读分区**展示全局 `~/.agents/skills`（按当前 tab 的 skill/scene 类型分流，可预览 SKILL.md，但不可安装/卸载/启停——这些是纯文件、无平台托管）。
+作用域支持是 coding-agent 核心**默认开**（CLI 也享受），desktop 侧由「Agent配置 → 扩展功能 → 适配通用 Agent Skill」开关控制（默认开、可关），关闭时向会话传入禁用标志。desktop 聊天侧技能选择器（`/` SlashPanel）经 `origin:skills:list(cwd)` **按当前会话 cwd 列出**：既有全局 `~/.agents/skills`，也有该项目的 `<cwd>/.agents/skills`（不传 cwd 则只列全局来源）。技能**市场页**（技能广场）以独立的「通用 Agent Skill」**只读分区**展示全局 `~/.agents/skills`（按当前 tab 的 skill/scene 类型分流，可预览 SKILL.md，但不可安装/卸载/启停——这些是纯文件、无平台托管）。
 _Avoid_: 把 `agents-*` 来源当成可在市场管理的条目——它们无 manifest、无平台托管，纯文件、纯展示。
 
 ### 黑胶播放器（vinyl player）
@@ -468,11 +468,11 @@ _Avoid_: 把它当成第三个"自动渲染"插槽——全局 slot 与文件预
 
 _Avoid_: 把设备边框当像素级真机渲染——逻辑分辨率 + 整体 scale 适配面板宽度，是 UI 形态仿真不是真机仿真。
 
-### 静态文件协议（vetta-file://）
+### 静态文件协议（origin-file://）
 
-desktop 主进程注册的通用静态文件协议：`vetta-file://local/<绝对路径>`，**pathname 承载路径**（区别于 [[媒体流协议]] 的 query 参数形态），故 HTML 内的相对资源（css/js/图片）能按目录正确解析；mime 按扩展名映射常见 web 资源，路径校验复用预览沙箱（项目根/主目录内可读）。动机：iframe `srcDoc` 无法加载相对资源，凡需「整页带资源地预览项目内 HTML」走本协议。见 ADR-0027。
+desktop 主进程注册的通用静态文件协议：`origin-file://local/<绝对路径>`，**pathname 承载路径**（区别于 [[媒体流协议]] 的 query 参数形态），故 HTML 内的相对资源（css/js/图片）能按目录正确解析；mime 按扩展名映射常见 web 资源，路径校验复用预览沙箱（项目根/主目录内可读）。动机：iframe `srcDoc` 无法加载相对资源，凡需「整页带资源地预览项目内 HTML」走本协议。见 ADR-0027。
 
-_Avoid_: 与 [[媒体流协议]] 混用——vetta-media 专责音视频 Range 流，vetta-file 专责静态整文件，不合并。
+_Avoid_: 与 [[媒体流协议]] 混用——origin-media 专责音视频 Range 流，origin-file 专责静态整文件，不合并。
 
 ### 对话插件 API（conversation plugin API）
 
@@ -480,7 +480,7 @@ _Avoid_: 与 [[媒体流协议]] 混用——vetta-media 专责音视频 Range �
 
 **读状态（hook 为主 + 事件补非 React）**：宿主从 `@origin-org/plugin-sdk` 导出 hook —— `useActiveConversation()`（→ id/cwd/title/model/isStreaming）、`useConversationMessages()`（→ ChatMessage[]）等，hook 内部读宿主默认 store 的 `activeSessionAtom` / `chatMessagesAtom` / `isStreamingAtom`、自动 rerender。落地靠：宿主在 `installPluginHostShim` 时把 jotai store/atoms/actions 注入 plugin-sdk 的内部 bridge，Module Federation 令宿主与插件共享同一份 pluginSdk 实例，故注入对插件 hook 可见（plugin-sdk 不反向依赖 desktop）。权限：`agent.session.read`。
 
-**事件（实时、细粒度）**：`ctx.conversation.on(event, cb)`，是 `window.vetta.session.subscribe` 生命周期流策展成的插件友好事件，刻意做到「agent 每次调用都有事件、可实时反应」——成员：`turn-start` / `turn-end`（agent_end，携 stopReason）/ `message-added` / `message-updated`(delta) / `tool-call-start` / `tool-call-end` / `conversation-changed`(活动 session 切换)。权限：`agent.session.read`。
+**事件（实时、细粒度）**：`ctx.conversation.on(event, cb)`，是 `window.originApp.session.subscribe` 生命周期流策展成的插件友好事件，刻意做到「agent 每次调用都有事件、可实时反应」——成员：`turn-start` / `turn-end`（agent_end，携 stopReason）/ `message-added` / `message-updated`(delta) / `tool-call-start` / `tool-call-end` / `conversation-changed`(活动 session 切换)。权限：`agent.session.read`。
 
 **写/驾驶**：`ctx.conversation.sendPrompt(text)`（复用 session.prompt IPC，往活动会话发一轮）、`insertText(text)`（纯 renderer 改 InputBar atom，填而不发，供「建议 prompt」类插件）、`abort()`（复用 session.abort）。权限：`agent.session.write`。
 
@@ -490,11 +490,11 @@ _Avoid_: 与 [[媒体流协议]] 混用——vetta-media 专责音视频 Range �
 
 [[可信插件]] 通过 `plugin.json` 的 `agent.mcpServers`（相对路径 `.mcp.json` 或内联 map）+ 权限 `agent.mcp.control` 贡献自带 MCP server。作为 **第三配置源** 进入会话 `McpManager`，与用户全局 / 项目 `mcp.json` **并列且不回写**用户文件。运行时名为 `plugin-<pluginId>-<localName>`（kebab、无 `_`）。生命周期绑定插件启停：禁用/卸载 reconcile 拆除进程。见 ADR-0040、`docs/plugin/mcp.md`。
 
-_Avoid_: 把插件 MCP 写入 `~/.vetta/agent/mcp.json`——卸载与版本切换会脏化用户配置。
+_Avoid_: 把插件 MCP 写入 `~/.origin/agent/mcp.json`——卸载与版本切换会脏化用户配置。
 
 ### 系统插件（system plugin）
 
-随 App 一起发布、**用户不可删除/修改**的[[可信插件]]，与用户自行安装的插件（`source: "archive" | "remote"`）相对，来源标记 `source: "system"`。物理上从**只读位置直服**——打包后在 `process.resourcesPath/system-plugins/<id>/`，dev 下在 `packages/plugins/presets/<id>/`——`vetta-plugin://` 解析按 source 选 base 目录，**不**拷进 `~/.vetta`、**不**写进 `plugins-manifest.json`（该文件只存用户态：用户插件记录 + 用户对系统插件的偏好覆盖）。`listPlugins()` 时由运行时发现并与用户插件合并呈现。因随 App 发布，版本跟随 App，不走用户插件的安装更新流。
+随 App 一起发布、**用户不可删除/修改**的[[可信插件]]，与用户自行安装的插件（`source: "archive" | "remote"`）相对，来源标记 `source: "system"`。物理上从**只读位置直服**——打包后在 `process.resourcesPath/system-plugins/<id>/`，dev 下在 `packages/plugins/presets/<id>/`——`origin-plugin://` 解析按 source 选 base 目录，**不**拷进 `~/.origin`、**不**写进 `plugins-manifest.json`（该文件只存用户态：用户插件记录 + 用户对系统插件的偏好覆盖）。`listPlugins()` 时由运行时发现并与用户插件合并呈现。因随 App 发布，版本跟随 App，不走用户插件的安装更新流。
 
 ### 预置插件（preset plugin）
 
@@ -525,7 +525,7 @@ _Avoid_: 把引导词与 NewSessionPage 的[[技能管理字段|场景/技能]]�
 
 ### 媒体流协议（media streaming protocol）
 
-desktop 主进程注册的自定义 protocol（`vetta-media://`），把校验过的本地媒体路径映射为支持 Range 的流式 URL，供 `<audio>`（未来含 `<video>`）直接作 `src`。与既有预览的 `readFile` IPC + base64 全量加载**并存**：图片/pdf/docx 等小文件维持旧路径，只有音视频走本协议。见 ADR-0021。
+desktop 主进程注册的自定义 protocol（`origin-media://`），把校验过的本地媒体路径映射为支持 Range 的流式 URL，供 `<audio>`（未来含 `<video>`）直接作 `src`。与既有预览的 `readFile` IPC + base64 全量加载**并存**：图片/pdf/docx 等小文件维持旧路径，只有音视频走本协议。见 ADR-0021。
 
 _Avoid_: 把音频也塞进 readFile base64 路径——无损音频可达百 MB，全量 IPC 会阻塞且内存翻倍。
 
@@ -569,7 +569,7 @@ _Avoid_: 把音频也塞进 readFile base64 路径——无损音频可达百 MB
 
 ### 主进程图像服务（Image Service）
 
-desktop 主进程的图像 IPC 服务：读[[插件设置]]拿 endpoint/模型/key，调用 OpenAI `/v1/images`（生成 / 编辑），把图像字节按 session 落盘，返回引用 id + `vetta-media://` URL。两条入口共用它：生成走 coding-agent 内置 image tool（薄包装转调，tool 通过 host 注入拿到该服务句柄，因 coding-agent 不能依赖 desktop）；[[图改图]]面板编辑走插件经 SDK 直调。是「一份实现、两条入口」的单一真相源。
+desktop 主进程的图像 IPC 服务：读[[插件设置]]拿 endpoint/模型/key，调用 OpenAI `/v1/images`（生成 / 编辑），把图像字节按 session 落盘，返回引用 id + `origin-media://` URL。两条入口共用它：生成走 coding-agent 内置 image tool（薄包装转调，tool 通过 host 注入拿到该服务句柄，因 coding-agent 不能依赖 desktop）；[[图改图]]面板编辑走插件经 SDK 直调。是「一份实现、两条入口」的单一真相源。
 
 ### 卡片描述符（card descriptor）
 
@@ -582,7 +582,7 @@ _Avoid_: 把 payload 当成内容快照——它是引用，实时内容由渲�
 
 工具产物里承载[[卡片描述符]]的字段。工具结果有两条通道：`content`（模型可见的结果文本）与 `details`（模型**永不可见**的 out-of-band 结构化数据，`extractToolImagePreview`/`extractToolUiDetails` 已在用）。卡片描述符作为 `details.cards: CardDescriptor[]` 搭 `details` 这条车，随 tool_call block 持久化进 jsonl、精确锚定到 `toolCallId`。
 
-是本期**唯一**的产卡契机（应用本地命令式 `host.pushCard` 仅预留、不实现）。取代了 [[图像生成插件]] 旧的把 image refs 夹带进 `content` 文本的 `<vetta-images>` 标记 hack。
+是本期**唯一**的产卡契机（应用本地命令式 `host.pushCard` 仅预留、不实现）。取代了 [[图像生成插件]] 旧的把 image refs 夹带进 `content` 文本的 `<origin-images>` 标记 hack。
 _Avoid_: 把卡片数据塞回 `content`——那会污染模型可见通道、解析脆弱，正是被本机制取代的旧做法。
 
 ### 预备描述符（pending card descriptor）
@@ -609,7 +609,7 @@ desktop 一个**全局快捷键唤出的独立悬浮窗**（frameless、alwaysOn
 
 面板由上到下两块：一个**纯文本输入框**（v1 不支持 [[mentionedFile]] / [[attachedImage]] / `/skill`，复杂带附件任务回主窗做）+ 一个[[最近会话面板]]列表。输入框打字 + Enter 在「对话」scope（[[conversation cwd]]）**新建一个 session 并运行**，复用「对话」默认模型与 `defaultExecutionMode`（面板无模型选择器）。
 
-默认**不启用**：触发选择与发送后行为都在设置页「快捷键设置」里，配置写 main 进程 desktop config（`~/.vetta/config.json`，与 `notificationsEnabled`/`experimental` 同处），**不**走既有 `vetta-shortcuts` localStorage——因触发监听在 main 进程、读不到 renderer localStorage。见 [[快捷面板触发器]]。
+默认**不启用**：触发选择与发送后行为都在设置页「快捷键设置」里，配置写 main 进程 desktop config（`~/.origin/config.json`，与 `notificationsEnabled`/`experimental` 同处），**不**走既有 `vetta-shortcuts` localStorage——因触发监听在 main 进程、读不到 renderer localStorage。见 [[快捷面板触发器]]。
 
 ### 快捷面板触发器（Quick Panel trigger）
 
@@ -620,9 +620,9 @@ _Avoid_: 以为触发是 Electron globalShortcut 或可录制任意组合键—�
 
 ### 最近会话面板（Quick Panel recent list）
 
-[[快捷面板]]输入框下方的会话列表，**镜像「对话」侧边栏列表**：仅「对话」scope 的 session，按 `modifiedAt` 倒序。每个 item 显示标题、**实时状态**（运行中 spinner / 待答确认 / 空闲 三态）与**最后一句消息的截断摘要**作副标题。状态与摘要由 main 推送：运行态复用 `runningSessionPathsAtom` 同源的 `vetta:session:running-changed` 广播，待答态复用 [[agent 提问待确认通知]] / pendingQuestions 信号。
+[[快捷面板]]输入框下方的会话列表，**镜像「对话」侧边栏列表**：仅「对话」scope 的 session，按 `modifiedAt` 倒序。每个 item 显示标题、**实时状态**（运行中 spinner / 待答确认 / 空闲 三态）与**最后一句消息的截断摘要**作副标题。状态与摘要由 main 推送：运行态复用 `runningSessionPathsAtom` 同源的 `origin:session:running-changed` 广播，待答态复用 [[agent 提问待确认通知]] / pendingQuestions 信号。
 
-键盘模型为 **Raycast 式「输入框为第 0 行」**：输入框始终聚焦，初始高亮输入行；Down 进入列表 item1/2/3、Up 回到输入行；Enter 作用于当前高亮行——高亮输入行且有文字=新建会话，高亮 item=**打开主窗并定位**到该 session（鼠标点击 item 同义）。「打开主窗定位」复用[[系统通知]]点击既有的前台化 + `vetta:notification:navigate` 路由通道。
+键盘模型为 **Raycast 式「输入框为第 0 行」**：输入框始终聚焦，初始高亮输入行；Down 进入列表 item1/2/3、Up 回到输入行；Enter 作用于当前高亮行——高亮输入行且有文字=新建会话，高亮 item=**打开主窗并定位**到该 session（鼠标点击 item 同义）。「打开主窗定位」复用[[系统通知]]点击既有的前台化 + `origin:notification:navigate` 路由通道。
 
 **发送后行为可配置**（设置项，默认「打开主窗并定位」）：① 打开主窗并定位到新会话 / ② 后台运行、面板只关闭、靠[[agent 完成通知]]提醒。
 
@@ -668,7 +668,7 @@ _Avoid_: 把工作流称作「后台任务」（那是 background-tasks 标签�
 
 平台侧**可分发扩展单元的统一概念**：Skill / Scene / MCP Server / Plugin / Bundle 在服务端收敛为**一张 `abilities` 表**、靠 `type` 判别，在 desktop 收敛为**一个「能力」列表 + 一套详情页**。
 
-**统一只发生在「数据存放」与「概念呈现」两层，刻意不统一物理分发与安装**：skill 装 `~/.vetta/skills/`、scene 装 `~/.vetta/scene/`、plugin 装 `~/.vetta/plugins/`、MCP 写进 `~/.vetta/agent/mcp.json` 的一个 key ——三条安装轨道原样保留，因为它们本来就是三种不同的运行时机制。scene 是这一模式的既有先例：服务端与 skill 同表同归档，仅客户端目录不同。
+**统一只发生在「数据存放」与「概念呈现」两层，刻意不统一物理分发与安装**：skill 装 `~/.origin/skills/`、scene 装 `~/.origin/scene/`、plugin 装 `~/.origin/plugins/`、MCP 写进 `~/.origin/agent/mcp.json` 的一个 key ——三条安装轨道原样保留，因为它们本来就是三种不同的运行时机制。scene 是这一模式的既有先例：服务端与 skill 同表同归档，仅客户端目录不同。
 
 标识为 `(type, slug)` 联合唯一，引用形式 `"skill:figma-ui"`。不来自市场的内置能力（`skill-presets`、系统插件）采用不会与市场冲突的 slug 命名空间，因此无需去重或优先级判定。
 
@@ -692,7 +692,7 @@ _Avoid_: 把工作流称作「后台任务」（那是 background-tasks 标签�
 
 ### 能力安装台账
 
-`~/.vetta/abilities.json`，desktop 侧记录「装了哪些 [[Ability（能力）]]、什么版本」的**单一索引**，键为 `<type>:<slug>`。
+`~/.origin/abilities.json`，desktop 侧记录「装了哪些 [[Ability（能力）]]、什么版本」的**单一索引**，键为 `<type>:<slug>`。
 
 它**只是索引，不是安装位置**：skill / scene / plugin 的产物与 mcp 的配置仍分别落在各自既有位置，台账不复制内容。存在的理由是统一「已安装 / 版本 / 是否可更新」的判定——在它之前这三件事分别来自 skill 目录下的 manifest、`plugins-manifest.json`、以及「`mcp.json` 里有没有这个 key」，其中 mcp 连版本都没有，导致 admin 改了市场 MCP 的 config 后存量用户永远收不到更新。
 

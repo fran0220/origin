@@ -53,7 +53,7 @@ interface OcrBridge {
 
 declare global {
 	interface Window {
-		__vettaOcr: OcrBridge;
+		__originOcr: OcrBridge;
 	}
 }
 
@@ -215,7 +215,7 @@ async function recognizeCanvas(
 
 async function runImagePipeline(payload: OcrImageStartPayload): Promise<void> {
 	const { sessionId, images } = payload;
-	const bridge = window.__vettaOcr;
+	const bridge = window.__originOcr;
 	try {
 		const pages: OcrPageResult[] = [];
 		for (let index = 0; index < images.length; index += 1) {
@@ -268,7 +268,7 @@ async function runImagePipeline(payload: OcrImageStartPayload): Promise<void> {
 
 async function runPdfPipeline(payload: OcrPdfStartPayload): Promise<void> {
 	const { sessionId, pdfBytes, pages, dpi, preferTextLayer, textLayerMinChars } = payload;
-	const bridge = window.__vettaOcr;
+	const bridge = window.__originOcr;
 	try {
 		log(`loading PDF (${pdfBytes.byteLength} bytes)`);
 		// pdfjs takes ownership of the buffer when transfer is true; we cannot
@@ -367,9 +367,9 @@ function main(): void {
 		log("missing sessionId");
 		return;
 	}
-	const bridge = window.__vettaOcr;
+	const bridge = window.__originOcr;
 	if (!bridge) {
-		log("__vettaOcr bridge not exposed by preload");
+		log("__originOcr bridge not exposed by preload");
 		return;
 	}
 	bridge.onStart((payload) => {

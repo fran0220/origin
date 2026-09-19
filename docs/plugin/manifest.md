@@ -22,7 +22,7 @@ import {
 - `parsePluginManifest(value)` 先按 Schema 校验，再负责默认值、字符串归一化、去重、相对路径和跨字段约束。
 - Schema 为向前兼容允许未知字段；发布工具可以对未知字段给警告，但宿主安装器不应因此拒绝更高版本清单。
 
-Schema 只描述 `plugin.json` 数据本身；Plugin API 版本是否兼容、声明的文件是否存在等包级规则，仍由宿主和 `vetta-plugin pack` 校验。
+Schema 只描述 `plugin.json` 数据本身；Plugin API 版本是否兼容、声明的文件是否存在等包级规则，仍由宿主和 `origin-plugin pack` 校验。
 
 ## 完整示例
 
@@ -90,15 +90,15 @@ Schema 只描述 `plugin.json` 数据本身；Plugin API 版本是否兼容、�
 用户插件按版本存放：
 
 ```text
-~/.vetta/plugins/<id>/versions/<version>/
+~/.origin/plugins/<id>/versions/<version>/
 ```
 
 - 安装一个**更新版本**只被记录为 **pending**；App 持续加载当前 `activeVersion`。
-- 直到用户（或代码）触发 `window.vetta.plugins.reload(id)` 才切换到新版本 UI。
+- 直到用户（或代码）触发 `window.originApp.plugins.reload(id)` 才切换到新版本 UI。
 - 调试时改了代码要 bump `version` + reload 才稳妥生效（见 [styling-and-pitfalls.md](./styling-and-pitfalls.md#缓存刷新)）。
 - `listPlugins()` 会给出 **`rootPath`**：活动版本包在磁盘上的绝对根（用户插件 = 上表版本目录；系统插件 = `system-plugins/<id>`）。脚本、MCP 相对路径均相对此根解析。
 
-系统插件不进 `~/.vetta/plugins`，见 [system-plugins.md](./system-plugins.md)。
+系统插件不进 `~/.origin/plugins`，见 [system-plugins.md](./system-plugins.md)。
 
 ## commands
 
@@ -198,7 +198,7 @@ revision 读取；不要依次调用多次 `writeFile()` 冒充多文件事务�
     "skillPresentation": {
       "defaultVisibility": "hidden",
       "skills": {
-        "vetta-ui-design": {
+        "origin-ui-design": {
           "defaultVisibility": "visible",
           "displayName": "%plugin.name%"
         }
@@ -224,7 +224,7 @@ revision 读取；不要依次调用多次 `writeFile()` 冒充多文件事务�
 宿主**不再内置任何人设**——装机自带的那几位现在也由 `preset-agent` 这个预置插件提供，所以你写的插件与它们走的是同一条路径、同一套字段。
 
 - **不需要权限**：这是清单声明面，不是运行时 API。用户对「装了什么插件」本身知情，因此没有单独的授权开关。
-- 校验在构建期（`vetta-plugin validate` / `pack`）就做：id 格式、路径越界、头像格式都会直接失败，而不是等用户装上后发现智能体没出现。
+- 校验在构建期（`origin-plugin validate` / `pack`）就做：id 格式、路径越界、头像格式都会直接失败，而不是等用户装上后发现智能体没出现。
 
 ```json
 {
@@ -284,11 +284,11 @@ revision 读取；不要依次调用多次 `writeFile()` 冒充多文件事务�
 | `auditor` | `preset-agent/auditor` | 审计员 | 红队挑刺：正确性、安全、边界、回归与无依据的结论 |
 | `business` | `preset-agent/business` | 业务员 | 把目标落成需求、范围与商业模式，并说清假设与风险 |
 
-来自 `vetta-ui-design`：
+来自 `origin-ui-design`：
 
 | role | agent | 名称 | 擅长什么 |
 | --- | --- | --- | --- |
-| `designer` | `vetta-ui-design/designer` | 设计师 | 在 Origin 设计画布上产出界面：App 页面、落地页、幻灯片与海报 |
+| `designer` | `origin-ui-design/designer` | 设计师 | 在 Origin 设计画布上产出界面：App 页面、落地页、幻灯片与海报 |
 
 这两个插件是**预置插件**，用户可以禁用但不会卸载。禁用时档案灰着留在原地，重新启用后原样回来。
 

@@ -13,7 +13,7 @@ import {
 	createCodingAgentRuntimeHostSessionConfig,
 	createCodingAgentSessionSetupSeedInitializer,
 } from "@origin/coding-agent/composition";
-import { getKnowledgeDir, getVettaHomePath, resolveNodeAccountScopedDir } from "@origin/coding-agent/config";
+import { getKnowledgeDir, getOriginHomePath, resolveNodeAccountScopedDir } from "@origin/coding-agent/config";
 import {
 	createCodingAgentMcpRuntimeToolSource,
 	createCodingAgentPluginMcpRuntime,
@@ -149,14 +149,14 @@ export async function createCliSessionAssembly(options: CliSessionAssemblyOption
 			initialModel: options.initialModel,
 			initialThinkingLevel: options.initialThinkingLevel,
 			streamFn: createLoopbackSessionAffinityStream(),
-			ocrMaxConcurrent: resolvePositiveInteger(process.env.VETTA_KB_OCR_CONCURRENCY),
+			ocrMaxConcurrent: resolvePositiveInteger(process.env.ORIGIN_KB_OCR_CONCURRENCY),
 			cwd: bootstrap.cwd,
 			workspaceFacts: detectWorkspaceFacts(bootstrap.cwd, (cwd) =>
 				probeWorkspaceSignals(cwd, nodeWorkspaceFactsFileSource),
 			),
 			agentDir: bootstrap.agentDir,
 			knowledgeRuntime:
-				process.env.VETTA_KNOWLEDGE_DISABLED === "1" ? undefined : createNodeKnowledgeRuntime(getKnowledgeDir()),
+				process.env.ORIGIN_KNOWLEDGE_DISABLED === "1" ? undefined : createNodeKnowledgeRuntime(getKnowledgeDir()),
 			createMemoryRolloverRuntime: createCliMemoryRolloverRuntime,
 			createHarnessRuntime: (sessionOptions) => {
 				const ledger = new EvolutionLedger(
@@ -170,7 +170,7 @@ export async function createCliSessionAssembly(options: CliSessionAssemblyOption
 			},
 			hookConfigLayers: buildDefaultHookConfigLayers({
 				cwd: bootstrap.cwd,
-				vettaHome: getVettaHomePath(),
+				originHome: getOriginHomePath(),
 			}),
 			scenario,
 			activation:

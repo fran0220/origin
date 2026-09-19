@@ -204,6 +204,6 @@ fun VettaTheme(
     }
 }
 
-val MaterialTheme.vettaExtra: VettaExtraColors
+val MaterialTheme.originExtra: VettaExtraColors
     @Composable
     get() = LocalVettaExtra.current

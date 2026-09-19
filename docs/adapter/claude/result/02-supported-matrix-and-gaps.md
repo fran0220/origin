@@ -32,7 +32,7 @@
 | `${CLAUDE_PLUGIN_ROOT}` / `${CLAUDE_PROJECT_DIR}` / `${CLAUDE_PLUGIN_DATA}` | 支持受控展开 |
 | CRLF / LF | 读取时规范化 |
 | 与 Codex `.codex` / `hooks.json` 路径隔离 | 支持（`profileId` + ownership filter） |
-| Origin `.vetta` / `agentDir` hook 路径 | **已移除**（仅官方布局） |
+| Origin `.origin` / `agentDir` hook 路径 | **已移除**（仅官方布局） |
 | 自动扫描 marketplace / 任意插件目录 | **不做**（宿主显式传入） |
 | 插件信任 UI / hash 重授权 | **未做**（后续 desktop 插件加载器） |
 
@@ -41,7 +41,7 @@
 | 场景 | 行为 |
 | --- | --- |
 | `node xxx.cjs` / 非 shell 命令 | 走默认 shell（Windows 为 cmd） |
-| `*.sh` / `bash ...` | 优先 Git Bash / `VETTA_BASH`；找不到则 **spawn_failed** 明确提示，**不回退 cmd** |
+| `*.sh` / `bash ...` | 优先 Git Bash / `ORIGIN_BASH`；找不到则 **spawn_failed** 明确提示，**不回退 cmd** |
 | 本机实测 | 无 Git Bash；WSL `system32\bash.exe` 被刻意跳过 |
 | 上游 council/cdt `.sh` | **可加载**，**默认无法在本机原样执行** |
 

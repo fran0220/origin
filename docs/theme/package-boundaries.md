@@ -54,7 +54,7 @@ SDK hook 是 facade，不是数据层实现。例如：
 import { useSidebarModel } from "@origin-org/theme-sdk/sidebar";
 ```
 
-这个 hook 从 `ThemeHostProvider` 读取 desktop 注入的实现。主题只能看到稳定 model 和 actions，不能接触内部 atom、router 或 `window.vetta`。
+这个 hook 从 `ThemeHostProvider` 读取 desktop 注入的实现。主题只能看到稳定 model 和 actions，不能接触内部 atom、router 或 `window.originApp`。
 
 ## Theme UI
 
@@ -92,7 +92,7 @@ desktop 负责把应用能力接到主题系统。
 - 通过 TypeScript module augmentation 声明本应用支持的 region/component/surface id。
 - 在运行时把 `react`、`@origin-org/theme-sdk` 和可选 `@origin-org/theme-ui` 作为 shared singleton 暴露给远程主题。
 
-desktop 不应该要求主题 import 内部路径，例如 `@shared/*`、`@domains/*` 或 `window.vetta.*`。
+desktop 不应该要求主题 import 内部路径，例如 `@shared/*`、`@domains/*` 或 `window.originApp.*`。
 
 ## 主题目录
 

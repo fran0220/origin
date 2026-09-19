@@ -7,7 +7,7 @@
 > **这份手册是随 `@origin-org/plugin-sdk` 装进 `node_modules` 的快照**，版本与本工程实际编译的 SDK 一致——这正是它的价值：它不会教你写宿主还不支持的东西。代价是工程不升级 SDK，它就永远停在初始化那天。开工前确认一次：
 >
 > ```bash
-> npx vetta-plugin-cli docs --check-latest
+> npx origin-plugin-cli docs --check-latest
 > ```
 >
 > 落后就按它打印的命令升级 SDK 并重读。`docs` 的输出永远比手册和 `AGENTS.md` 新（`npx` 默认取最新的 CLI），冲突时以它为准。

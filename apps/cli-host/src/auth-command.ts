@@ -45,13 +45,13 @@ export function parseAuthCommand(argv: string[]): AuthCommand | undefined {
 	if (rest.length === 0 || rest[0] === "-h" || rest[0] === "--help") {
 		return { type: "help" };
 	}
-	const serverUrl = readServerUrl(rest) ?? process.env.VETTA_SERVER_URL ?? "";
+	const serverUrl = readServerUrl(rest) ?? process.env.ORIGIN_SERVER_URL ?? "";
 	if (rest[0] === "login") {
-		if (!serverUrl) return { type: "error", exitCode: 2, message: "VETTA_SERVER_URL or --server is required." };
+		if (!serverUrl) return { type: "error", exitCode: 2, message: "ORIGIN_SERVER_URL or --server is required." };
 		return { type: "login", serverUrl };
 	}
 	if (rest[0] === "logout") {
-		if (!serverUrl) return { type: "error", exitCode: 2, message: "VETTA_SERVER_URL or --server is required." };
+		if (!serverUrl) return { type: "error", exitCode: 2, message: "ORIGIN_SERVER_URL or --server is required." };
 		return { type: "logout", serverUrl };
 	}
 	return { type: "error", exitCode: 2, message: `Unknown auth subcommand: ${rest[0]}` };

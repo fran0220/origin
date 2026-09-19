@@ -156,7 +156,7 @@ scripts/preflight.sh
 
 | 事件 | matcher | 脚本 | 行为 |
 | --- | --- | --- | --- |
-| `SessionStart` | 无 | `check-agent-teams.sh` | 未启用 Agent Teams 时返回 exit 2；该事件本身不可阻止，只产生警告 |
+| `SessionStart` | 无 | `check-agent-profiles.sh` | 未启用 Agent Teams 时返回 exit 2；该事件本身不可阻止，只产生警告 |
 | `UserPromptSubmit` | 无 | `block-cdt-without-teams.sh` | 检测 `/cdt`，以 `decision: "block"` 阻止提示词 |
 | `PreToolUse` | `TeamCreate` | 两个脚本 | 检查 Teams，并写入分支级团队状态 |
 | `PreToolUse` | `SendMessage` | 一个脚本 | 检查 Teams 是否启用 |

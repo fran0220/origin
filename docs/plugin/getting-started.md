@@ -16,7 +16,7 @@ cd my-plugin && npm install
 **手册就在工程里**——它随 `@origin-org/plugin-sdk` 一起装进 `node_modules`：
 
 ```bash
-npx vetta-plugin-cli docs      # 装完依赖后可用；未装时用 npx @origin-org/plugin-cli docs + 它对应的 SDK 版本
+npx origin-plugin-cli docs      # 装完依赖后可用；未装时用 npx @origin-org/plugin-cli docs + 它对应的 SDK 版本
 ```
 
 **不要硬编码那个路径**：工作区可能把依赖提升到仓库根，一仓多插件时各插件还可能钉不同的
@@ -29,16 +29,16 @@ SDK 版本。这条命令按 Node 的解析规则找，拿回来的永远是当�
 装进正在运行的 Origin：
 
 ```bash
-npm run install:vetta          # = vite build && vetta-plugin pack && vetta-plugin-cli add .
-npx vetta-plugin-cli reload my-plugin   # 提示有 pending 版本时
+npm run install:origin          # = vite build && origin-plugin pack && origin-plugin-cli add .
+npx origin-plugin-cli reload my-plugin   # 提示有 pending 版本时
 ```
 
 `add` 传目录即可（`add .`）：它向上找到最近的 `plugin.json`，再定位该工程打出来的归档，
-交给正在运行的 Desktop 校验、授权、安装，**不直接写** `~/.vetta/plugins`。
+交给正在运行的 Desktop 校验、授权、安装，**不直接写** `~/.origin/plugins`。
 
 ### 一仓多插件（能力市场 hub）
 
-仓库根有 `.vetta/marketplace.json` 时（如官方能力市场那种布局），命令一律作用于「最近的那个
+仓库根有 `.origin/marketplace.json` 时（如官方能力市场那种布局），命令一律作用于「最近的那个
 插件」，所以先 `cd` 进目标插件目录。在 hub 里 `init` 还会把新插件登记进那份索引——手动维护它
 是最容易漏的一步，插件建好了能装能跑、市场上却看不到。
 
@@ -85,7 +85,7 @@ dist/
   "private": true,
   "type": "module",
   "scripts": {
-	"dev": "vetta-plugin dev",
+	"dev": "origin-plugin dev",
     "build": "bunx vite build",
     "check": "bunx tsc --noEmit"
   },
@@ -108,17 +108,17 @@ dist/
 
 ## 3. vite.config.ts
 
-用 `@origin-org/plugin-vite` 的 `vettaPluginFederation` 封装 Module Federation；**UI 插件请始终接 Tailwind**（样式只走 className，见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）：
+用 `@origin-org/plugin-vite` 的 `originPluginFederation` 封装 Module Federation；**UI 插件请始终接 Tailwind**（样式只走 className，见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）：
 
 ```ts
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    vettaPluginFederation({
+    originPluginFederation({
       name: "my_plugin",        // MF remoteName，与 plugin.json.moduleFederation.remoteName 一致
       entry: "./src/index.tsx", // 入口（默认即此）
       expose: "./plugin",       // 暴露名（默认 "./plugin"，与 plugin.json.moduleFederation.expose 一致）
@@ -130,7 +130,7 @@ export default defineConfig({
 });
 ```
 
-`vettaPluginFederation` 默认把 `react` / `react-dom` / `@origin-org/plugin-sdk` 设为 `singleton`、`import:false`（用宿主的），生产构建时 external 化 SDK。设置 `hostUi: true` 后才会以相同方式共享并 external 化 `@origin-org/ui`。构建产出 `mf-manifest.json` + `remoteEntry.js`，CSS 落 `dist/style.css`。
+`originPluginFederation` 默认把 `react` / `react-dom` / `@origin-org/plugin-sdk` 设为 `singleton`、`import:false`（用宿主的），生产构建时 external 化 SDK。设置 `hostUi: true` 后才会以相同方式共享并 external 化 `@origin-org/ui`。构建产出 `mf-manifest.json` + `remoteEntry.js`，CSS 落 `dist/style.css`。
 
 它还会在插件 Tailwind 编译前自动接入 plugin-sdk 的宿主主题 Token 契约，因此
 `text-foreground`、`text-muted-foreground/50`、`bg-card` 等语义类可以直接使用；
@@ -138,7 +138,7 @@ export default defineConfig({
 
 ## 4. 样式入口 src/style.css
 
-插件 CSS 会由 `vettaPluginFederation` 自动限定到插件根节点，并由宿主放入低优先级 layer；
+插件 CSS 会由 `originPluginFederation` 自动限定到插件根节点，并由宿主放入低优先级 layer；
 不需要手写插件 id 前缀或 `@layer`。需要 Tailwind 时可以直接：
 
 ```css
@@ -197,7 +197,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 
 发布需要一个 **zip**：根目录放 `plugin.json`，其下 `dist/`。两种方式：
 
-- **自动**：`vettaPluginFederation({ ..., package: true })`，`vite build` 后自动产出 `release/<id>-<version>.zip`（打包 `plugin.json` + `dist/` + 清单声明的 `styles` / `agent.promptPaths` / `agent.skillPaths`；存在 `ability.json` 时也打包它和 `presentation/`）。
+- **自动**：`originPluginFederation({ ..., package: true })`，`vite build` 后自动产出 `release/<id>-<version>.zip`（打包 `plugin.json` + `dist/` + 清单声明的 `styles` / `agent.promptPaths` / `agent.skillPaths`；存在 `ability.json` 时也打包它和 `presentation/`）。
 - **手动**：自行把 `plugin.json` 与 `dist/` 一起 zip：
 
   ```text
@@ -227,7 +227,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 安装后用户插件落在：
 
 ```text
-~/.vetta/plugins/<id>/versions/<version>/
+~/.origin/plugins/<id>/versions/<version>/
 ```
 
 `listPlugins()` 中每条记录含 **`rootPath`**（该版本包的绝对根路径）。
@@ -247,7 +247,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 
 - 路径：本机可读 **`.zip` 绝对路径**（不限 cwd）。
 - 用户确认后：按 `plugin.json` **一次授予声明权限**并默认**启用**。
-- Desktop API：`window.vetta.plugins.installFromPath(path, { grantedPermissions?, enable? })`。
+- Desktop API：`window.originApp.plugins.installFromPath(path, { grantedPermissions?, enable? })`。
 - 不可覆盖系统插件 id。
 
 > **系统插件（presets）**不经此安装流，见 [system-plugins.md](./system-plugins.md)。
@@ -258,7 +258,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 
 ## 8. 调试闭环（dev loop）
 
-1. 插件工作台制作的用户插件首次先点「应用到 Origin」；安装、授权和启用完成后，工作台会等待工程内的 `vetta-plugin dev` 真正就绪，再把热更新标为运行中。
+1. 插件工作台制作的用户插件首次先点「应用到 Origin」；安装、授权和启用完成后，工作台会等待工程内的 `origin-plugin dev` 真正就绪，再把热更新标为运行中。
 2. 后续可在插件工作台开关热更新；开发进程由 Desktop 主进程持有，关闭工作台面板不会中止，不需要另开 `vite build --watch`。
 3. 修改 React 组件或 CSS 后由 Vite HMR 直接更新，组件状态在 Fast Refresh 可保留时不会丢失。
 4. 修改插件入口、`plugin.json`、locale 或 agent 资源时，宿主只替换当前插件的 activation，其他插件不重载。
@@ -269,7 +269,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 `bun run dev` 可单独启动同一个开发服务器并输出 NDJSON 状态，主要用于宿主或工具集成；使用插件工作台时不要重复启动。安装更新版本仍会记为 **pending**，直到 `reload` 才切换正式安装态的 `activeVersion`。
 
 开发 Desktop 仓库内的 preset 时，不需要打开插件工作台。`apps/desktop` 的开发启动器默认会为当前
-`VETTA_TENANT` 包含的全部 preset 启动开发服务器；直接运行即可：
+`ORIGIN_TENANT` 包含的全部 preset 启动开发服务器；直接运行即可：
 
 ```powershell
 bun run --cwd apps/desktop dev
@@ -279,11 +279,11 @@ bun run --cwd apps/desktop dev
 staging 制品：
 
 ```powershell
-$env:VETTA_PLUGIN_DEV="git,content-creation"
+$env:ORIGIN_PLUGIN_DEV="git,content-creation"
 bun run --cwd apps/desktop dev
 ```
 
-仓库外工程使用 `VETTA_PLUGIN_DEV_ROOTS`，多个绝对路径以当前平台的 PATH 分隔符分开。该入口只在未打包的 Desktop 中生效；显式选择但尚未安装的 external 使用纯内存开发记录，退出 App 后不会写入插件注册表。
+仓库外工程使用 `ORIGIN_PLUGIN_DEV_ROOTS`，多个绝对路径以当前平台的 PATH 分隔符分开。该入口只在未打包的 Desktop 中生效；显式选择但尚未安装的 external 使用纯内存开发记录，退出 App 后不会写入插件注册表。
 
 ## 下一步
 

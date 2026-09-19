@@ -10,7 +10,7 @@ import (
 )
 
 func TestDecodeInbound_Init(t *testing.T) {
-	line := []byte(`{"type":"init","feishu":{"appId":"a","appSecret":"s"},"conversationCwd":"/home/u/.vetta/conversation","state":[{"userId":"u","chatId":"c","sessionPath":"/s.jsonl"}],"logLevel":"info","codingAgent":{"bin":"/app/Vetta.exe","prefixArgs":["/res/coding-agent/dist/agent-rpc-cli.mjs"],"runAsNode":true}}`)
+	line := []byte(`{"type":"init","feishu":{"appId":"a","appSecret":"s"},"conversationCwd":"/home/u/.origin/conversation","state":[{"userId":"u","chatId":"c","sessionPath":"/s.jsonl"}],"logLevel":"info","codingAgent":{"bin":"/app/Vetta.exe","prefixArgs":["/res/coding-agent/dist/agent-rpc-cli.mjs"],"runAsNode":true}}`)
 	v, err := DecodeInbound(line)
 	if err != nil {
 		t.Fatalf("decode: %v", err)
@@ -22,7 +22,7 @@ func TestDecodeInbound_Init(t *testing.T) {
 	if init.Feishu == nil || init.Feishu.AppID != "a" || init.Feishu.AppSecret != "s" {
 		t.Errorf("feishu mismatch: %+v", init.Feishu)
 	}
-	if init.ConversationCwd != "/home/u/.vetta/conversation" {
+	if init.ConversationCwd != "/home/u/.origin/conversation" {
 		t.Errorf("conversationCwd mismatch: %q", init.ConversationCwd)
 	}
 	if len(init.State) != 1 || init.State[0].SessionPath != "/s.jsonl" || init.State[0].ChatID != "c" {

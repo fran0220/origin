@@ -15,7 +15,7 @@ func DefaultConfigPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolve home dir: %w", err)
 	}
-	return filepath.Join(home, ".vetta", "im-gateway", "config.yaml"), nil
+	return filepath.Join(home, ".origin", "im-gateway", "config.yaml"), nil
 }
 
 // GenerateTemplate writes a starter config.yaml + an empty credentials.yaml
@@ -110,9 +110,9 @@ logging:
 
 # Override on-disk file locations. All optional.
 # paths:
-#   conversationCwd: ~/.vetta/im-gateway/conversation
-#   state: ~/.vetta/im-gateway/state.json
-#   logsDir: ~/.vetta/im-gateway/logs
+#   conversationCwd: ~/.origin/im-gateway/conversation
+#   state: ~/.origin/im-gateway/state.json
+#   logsDir: ~/.origin/im-gateway/logs
 `
 
 const credentialsTemplate = `# vetta im-gateway credentials

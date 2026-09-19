@@ -40,7 +40,7 @@ bun apps/cli-host/src/cli.ts debug run ui.info
 
 ```powershell
 $payload = @{
-  cwd = "C:\develop\yiyun\vetta-mono\docs\adapter\claude\fixtures\hook-smoke"
+  cwd = "C:\develop\yiyun\origin-mono\docs\adapter\claude\fixtures\hook-smoke"
   prompt = "ClaudeHook验收 20260718-SESSION-START。只回复：session hooks ok。不要调用工具。"
   executionMode = "full-access"
   timeoutMs = 180000
@@ -53,7 +53,7 @@ bun apps/cli-host/src/cli.ts debug run conversation.create $payload
 
 - `status: completed`
 - `assistantText: session hooks ok`
-- 主进程日志 `~/.vetta/desktop-app/logs/main/2026-07-18.log`：
+- 主进程日志 `~/.origin/desktop-app/logs/main/2026-07-18.log`：
 
 ```text
 [ecosystem-hooks] claude handlers loaded {
@@ -61,8 +61,8 @@ bun apps/cli-host/src/cli.ts debug run conversation.create $payload
   total: 3,
   byEvent: { SessionStart: 1, UserPromptSubmit: 1, PreToolUse: 1 },
   sources: [
-    '...\\.vetta\\agent/claude-hooks.json',
-    '...\\fixtures\\hook-smoke\\.vetta/claude-hooks.json'
+    '...\\.origin\\agent/claude-hooks.json',
+    '...\\fixtures\\hook-smoke\\.origin/claude-hooks.json'
   ]
 }
 [ecosystem-hooks] dispatch {

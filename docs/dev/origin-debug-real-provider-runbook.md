@@ -1,7 +1,7 @@
 # Origin Debug 真实 Provider 实战
 
 本文记录如何使用 Origin Debug 驱动真实模型完成多轮工具调用，并验证上下文缓存、工具状态和模型行为。它是
-[Origin Debug](./vetta-debug.md) 的实战补充；能力契约、输入 Schema、错误码和安全边界仍以该文档为准。
+[Origin Debug](./origin-debug.md) 的实战补充；能力契约、输入 Schema、错误码和安全边界仍以该文档为准。
 
 ## 适用场景
 
@@ -44,7 +44,7 @@ bun run verify:ui:debug:debug -- describe conversation.answer
 ```
 
 Debug Profile 在正式实验前还应执行精确模型的认证预检，并按
-[Provider 请求观测](./vetta-debug.md#provider-请求观测) 启用独立 `runId`。`timeoutMs` 只是等待操作完成的上限，
+[Provider 请求观测](./origin-debug.md#provider-请求观测) 启用独立 `runId`。`timeoutMs` 只是等待操作完成的上限，
 不是模型输出 Token 限制；不传 `maxTokens` 才表示没有由 Origin Debug 额外限制输出。
 
 ## 推荐实验设计
@@ -191,8 +191,8 @@ $vettaEvents |
 在 Dev Profile 中遇到异常低命中时：
 
 1. 把 Provider 调用时间转换为本地时间。
-2. 对照 `<VETTA_HOME>/desktop/logs/main/<date>.log` 和 Renderer 日志。
-3. 若需要把完整 HMR 诊断持久化到 Renderer 日志，先设置 `VETTA_RENDERER_VERBOSE_LOGS=1` 并重启 Desktop；
+2. 对照 `<ORIGIN_HOME>/desktop/logs/main/<date>.log` 和 Renderer 日志。
+3. 若需要把完整 HMR 诊断持久化到 Renderer 日志，先设置 `ORIGIN_RENDERER_VERBOSE_LOGS=1` 并重启 Desktop；
    未设置时这些高频开发诊断仍可在 DevTools 中查看，但不会写入日志文件。搜索 `[vite-hmr] before-full-reload`；
    该日志包含 Vite 的 `path` 和 `triggeredBy`，用于定位触发
    Renderer 整页重载的文件。插件开发服务器的更新则搜索 `dev-watch: refreshed`，并读取

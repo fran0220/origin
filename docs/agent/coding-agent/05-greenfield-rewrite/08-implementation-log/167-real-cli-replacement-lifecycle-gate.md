@@ -17,8 +17,8 @@
 
 当前 Codex Hook profile 不支持 `SessionEnd`，不能为了测试虚构该能力。因此测试使用真实的 Origin 嵌套配置布局：
 
-- `<cwd>/.vetta/.codex/hooks.json` 记录 `SessionStart`；
-- `<cwd>/.vetta/.claude/settings.json` 记录 `SessionEnd`；
+- `<cwd>/.origin/.codex/hooks.json` 记录 `SessionStart`；
+- `<cwd>/.origin/.claude/settings.json` 记录 `SessionEnd`；
 - 两类 Hook command 与 TypeScript Extension 写入同一 JSONL 审计文件。
 
 这同时验证了配置来源所有权：Codex Adapter 只消费 `.codex/hooks.json`，Claude Adapter 只消费 `.claude/settings.json`，Runtime/Host 不解析具体生态 wire payload。

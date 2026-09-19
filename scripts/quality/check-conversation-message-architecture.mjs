@@ -4,9 +4,9 @@ import { join } from "node:path";
 import { fail, isDirectRun, ok, readText, rel, repoRoot, walkFiles } from "./lib.mjs";
 
 const SOURCE_DIRECTORIES = Object.freeze([
-	"apps/desktop/src/main/agent-teams",
+	"apps/desktop/src/main/agent-profiles",
 	"apps/desktop/src/renderer",
-	"packages/agent-team/src",
+	"packages/agent-profile/src",
 ]);
 
 const RETIRED_IDENTIFIERS = Object.freeze([
@@ -40,11 +40,11 @@ export function findConversationMessageArchitectureViolations(files) {
 		}
 		if (
 			file.path.includes("/shared/components/message-feed/") &&
-			/(?:domains\/(?:chat|agent-teams)|@shared\/store|@preload\/api|shared\/conversation)/u.test(file.text)
+			/(?:domains\/(?:chat|agent-profiles)|@shared\/store|@preload\/api|shared\/conversation)/u.test(file.text)
 		) {
 			violations.push(`${file.path}: product-neutral MessageFeed imports a product or message domain`);
 		}
-		if (file.path.startsWith("packages/agent-team/") && /@vetta\/runtime-subagents/u.test(file.text)) {
+		if (file.path.startsWith("packages/agent-profile/") && /@origin\/runtime-subagents/u.test(file.text)) {
 			violations.push(`${file.path}: Agent Profile package must not depend on the private subagent runtime`);
 		}
 		for (const [index, line] of file.text.split(/\r?\n/u).entries()) {

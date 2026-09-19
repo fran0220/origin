@@ -292,7 +292,7 @@ ctx.ui.registerFilePreview({ extensions: ["svg"], component: SvgPreview });
 
 | API | 适用 | 宿主行为 / 限制 |
 | --- | --- | --- |
-| **`getUrl()`** | **二进制 / 可能偏大 / 媒体 / 可流式解析**（PDF、Office zip、音视频、大图） | 返回 `vetta-media://…`（或远程 url）。**支持 Range**；`fetch(url)` 或交给原生 `<audio>`/`pdf.js` 等。**无整文件 10MB 封顶**（相对 IPC 全量读）。 |
+| **`getUrl()`** | **二进制 / 可能偏大 / 媒体 / 可流式解析**（PDF、Office zip、音视频、大图） | 返回 `origin-media://…`（或远程 url）。**支持 Range**；`fetch(url)` 或交给原生 `<audio>`/`pdf.js` 等。**无整文件 10MB 封顶**（相对 IPC 全量读）。 |
 | **`readBytes()`** | 仅当库**必须**拿到完整 `ArrayBuffer` 且你已接受体积风险 | 经 IPC 全量读盘。**硬上限约 10MB**——更大直接抛错（如 `File too large to preview (>10 MB)`）。base64 往返，内存与序列化成本高。 |
 | **`readText()`** | 明确的小文本（svg 源、json、轻量 xml） | 同样走 IPC；**大文本同样不适合**。 |
 
@@ -521,7 +521,7 @@ ctx.ui.registerNewSessionContext({
   id: "design-styles",
   label: "%tab.label%",
   // 选中本插件的设计师、或在输入框提到本插件的 skill 时上屏。
-  activateWhen: { agents: ["designer"], skills: ["vetta-ui-design"] },
+  activateWhen: { agents: ["designer"], skills: ["origin-ui-design"] },
   // 画廊类内容压在输入框宽度里，每一项都会小到看不出风格。
   width: "wide",
   render: (context) => <DesignStyleLibrary context={context} />,

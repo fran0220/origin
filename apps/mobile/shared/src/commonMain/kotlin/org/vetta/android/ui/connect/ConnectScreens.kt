@@ -50,7 +50,7 @@ import org.vetta.android.ui.components.StatusDot
 import org.vetta.android.ui.components.VettaTextField
 import org.vetta.android.ui.components.VettaListGroup
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 import org.vetta.android.ui.remote.RemoteDesktopSurface
 import org.vetta.android.ui.remote.PairingScannerButton
 
@@ -68,13 +68,13 @@ fun DiscoverConnectScreen(
     val channels = listOf(Str.channelLan, Str.channelRemote, Str.channelCloud)
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.discoverTitle, style = MaterialTheme.typography.titleMedium) },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -89,7 +89,7 @@ fun DiscoverConnectScreen(
             Text(
                 Str.discoverSubtitle,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.vettaExtra.secondaryText,
+                color = MaterialTheme.originExtra.secondaryText,
             )
             Spacer(Modifier.height(14.dp))
             FilterChipRow(options = channels, selectedIndex = channelIndex, onSelect = onChannelChange)
@@ -101,7 +101,7 @@ fun DiscoverConnectScreen(
                     Text(
                         Str.featureCloudDesc,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.vettaExtra.secondaryText,
+                        color = MaterialTheme.originExtra.secondaryText,
                         modifier = Modifier.padding(horizontal = 4.dp),
                     )
                     Spacer(Modifier.height(18.dp))
@@ -143,7 +143,7 @@ fun DiscoverConnectScreen(
                             trailing = {
                                 StatusDot(online = device.status == DeviceStatus.Online)
                                 Spacer(Modifier.width(12.dp))
-                                Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.vettaExtra.secondaryText)
+                                Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.originExtra.secondaryText)
                             },
                             onClick = { onOpenDevice(device.id) },
                             showDivider = index < devices.lastIndex,
@@ -192,7 +192,7 @@ fun DeviceDetailScreen(
             DeviceStatus.Offline -> Str.disconnected
         }
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(device.name, style = MaterialTheme.typography.titleMedium) },
@@ -203,7 +203,7 @@ fun DeviceDetailScreen(
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -267,7 +267,7 @@ fun DeviceDetailScreen(
 @Composable
 private fun Metric(label: String, value: String) {
     Column {
-        Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+        Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
         Text(value, style = MaterialTheme.typography.titleMedium)
     }
 }
@@ -279,7 +279,7 @@ private fun SystemInfoRow(label: String, value: String?) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.vettaExtra.secondaryText)
+        Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.originExtra.secondaryText)
         Text(value ?: Str.notAvailable, style = MaterialTheme.typography.bodySmall)
     }
 }

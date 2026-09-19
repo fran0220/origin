@@ -71,7 +71,7 @@ func applyEnvOverrides(cfg *Config) {
 }
 
 // applyDefaults fills in any zero-valued fields with sensible defaults
-// derived from $HOME/.vetta. Idempotent: calling it twice yields the same
+// derived from $HOME/.origin. Idempotent: calling it twice yields the same
 // Config.
 func applyDefaults(cfg *Config) error {
 	home, err := os.UserHomeDir()
@@ -97,7 +97,7 @@ func applyDefaults(cfg *Config) error {
 		cfg.Logging.Level = "info"
 	}
 
-	vettaDir := filepath.Join(home, ".vetta")
+	vettaDir := filepath.Join(home, ".origin")
 	gatewayDir := filepath.Join(vettaDir, "im-gateway")
 	if cfg.Paths.ConversationCwd == "" {
 		cfg.Paths.ConversationCwd = filepath.Join(gatewayDir, "conversation")

@@ -20,7 +20,7 @@ Clients must offer both protocols:
 
 ```text
 vetta.remote.v1
-vetta.pairing.<base64url-secret>
+origin.pairing.<base64url-secret>
 ```
 
 WebRTC signaling uses `vetta.desktop.v1` plus the same pairing protocol. SDP and ICE are validated and forwarded, never logged. Screen pixels and input messages never pass through the Worker.
@@ -45,4 +45,4 @@ Generate a high-entropy local pairing after the Worker is running:
 bun run pair http://127.0.0.1:8787
 ```
 
-Apply the two printed environment variables to Desktop and paste the printed mobile target into Android. System input remains disabled unless `VETTA_REMOTE_DESKTOP_INPUT_ENABLED=true` is set locally on Desktop.
+Apply the two printed environment variables to Desktop and paste the printed mobile target into Android. System input remains disabled unless `ORIGIN_REMOTE_DESKTOP_INPUT_ENABLED=true` is set locally on Desktop.

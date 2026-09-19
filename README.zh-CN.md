@@ -71,7 +71,7 @@ cd apps/desktop
 bun run dev
 ```
 
-开发应用默认使用 `~/.vetta-dev`，不会改动正式安装版位于 `~/.vetta` 的数据。仓库根目录的 `bun run dev` 只监听核心库，不会启动 Electron。完整环境准备与检查命令见 [`QUICKSTART.zh-CN.md`](QUICKSTART.zh-CN.md)。
+开发应用默认使用 `~/.origin-dev`，不会改动正式安装版位于 `~/.origin` 的数据。仓库根目录的 `bun run dev` 只监听核心库，不会启动 Electron。完整环境准备与检查命令见 [`QUICKSTART.zh-CN.md`](QUICKSTART.zh-CN.md)。
 
 ## 可以用它做什么
 

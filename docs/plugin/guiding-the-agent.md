@@ -59,7 +59,7 @@ Only for standalone visual exploration decoupled from any codebase,
 when the user asked for a design/mockup rather than working code.
 ```
 
-（`vetd_create`，packages/plugins/presets/vetta-ui-design/src/tools.ts）
+（`vetd_create`，packages/plugins/presets/origin-ui-design/src/tools.ts）
 
 ```text
 Do NOT use to read or move media that belongs to the user's codebase — assets a
@@ -112,7 +112,7 @@ Skill 走渐进披露：清单里只有 name + description（每轮都在 prompt
   不要为了防误调用删减功能、把创意与审查能力限定为已有工作流，或要求用户显式点名 Skill。任务匹配应由选择层结合用户目标与上下文完成。
 - **规则、流程、约束全部放正文。** 任何"你想让模型每次用你的工具前都知道"的长内容，都属于
   skill 正文而不是工具 description；用工具 description 的一句话把模型引到 skill
-  （"invoke the vetta-ui-design skill for the rules before writing any of them"）。
+  （"invoke the origin-ui-design skill for the rules before writing any of them"）。
 - frontmatter 的 `agent_mode` 已废弃，写了会被忽略。
 - 选用相关 Skill 后，正常执行完成用户目标所需的步骤；加载方法本身不代表授权执行与目标无关的动作。
 

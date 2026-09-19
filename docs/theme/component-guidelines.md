@@ -62,7 +62,7 @@ export interface SidebarNavItemButtonProps
 interface BadProps {
   atom: PrimitiveAtom<State>;
   navigate: NavigateFn;
-  ipc: typeof window.vetta;
+  ipc: typeof window.originApp;
   rawProject: InternalProjectRecord;
   icon: "icon-[mdi--close]";
   rowClassName: "px-2";
@@ -237,7 +237,7 @@ Theme SDK 是主题唯一应依赖的应用协议 API。它不承载具体 UI �
 - 访问 Jotai、router、IPC 的真实 hook 实现。
 - Jotai atom。
 - router 实例。
-- `window.vetta.*`。
+- `window.originApp.*`。
 - domain 私有 hook。
 - 仍在重构中的内部组件。
 

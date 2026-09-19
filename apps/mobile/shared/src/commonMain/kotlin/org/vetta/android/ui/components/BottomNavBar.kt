@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.vetta.android.ui.i18n.Str
 import org.vetta.android.ui.navigation.MainTab
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @Composable
 fun VettaBottomBar(
@@ -59,9 +59,9 @@ fun VettaBottomBar(
                     NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.onSurface,
                         selectedTextColor = MaterialTheme.colorScheme.onSurface,
-                        unselectedIconColor = MaterialTheme.vettaExtra.secondaryText,
-                        unselectedTextColor = MaterialTheme.vettaExtra.secondaryText,
-                        indicatorColor = MaterialTheme.vettaExtra.chipBackground,
+                        unselectedIconColor = MaterialTheme.originExtra.secondaryText,
+                        unselectedTextColor = MaterialTheme.originExtra.secondaryText,
+                        indicatorColor = MaterialTheme.originExtra.chipBackground,
                     ),
             )
         }

@@ -40,7 +40,7 @@ import org.vetta.android.ui.components.VettaTextField
 import org.vetta.android.ui.components.VettaConfirmDialog
 import org.vetta.android.ui.components.VettaTextInputDialog
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,13 +74,13 @@ fun SessionsScreen(
         }
 
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.sessionsTitle, style = MaterialTheme.typography.titleMedium) },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -127,7 +127,7 @@ fun SessionsScreen(
                                         Icon(
                                             Icons.Default.MoreVert,
                                             contentDescription = Str.sessionActions,
-                                            tint = MaterialTheme.vettaExtra.secondaryText,
+                                            tint = MaterialTheme.originExtra.secondaryText,
                                         )
                                     }
                                     DropdownMenu(

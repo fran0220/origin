@@ -6,7 +6,7 @@
 
 | 仓库 | 路径 | Commit | 日期 |
 | --- | --- | --- | --- |
-| Origin Mono | `C:\develop\yiyun\vetta-mono` | `2fae6596e18fc58c3b23e6d910ed327fa1a3eb66` | 2026-08-09 |
+| Origin Mono | `C:\develop\yiyun\origin-mono` | `2fae6596e18fc58c3b23e6d910ed327fa1a3eb66` | 2026-08-09 |
 | Vercel AI SDK | `C:\develop\github\ai` | `63db19387ba71ec50820d146658ae720ab50c80b` | 2026-08-07 |
 
 对比采用“职责对齐”，而不是只比较同名包：

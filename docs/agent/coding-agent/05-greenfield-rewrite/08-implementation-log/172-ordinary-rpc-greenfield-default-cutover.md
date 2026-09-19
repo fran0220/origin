@@ -44,7 +44,7 @@ RPC + 有 host bridge  -> greenfield-im
 
 ### 3. 兼容消息必须保留精确身份
 
-直接 Bash 的结果不能只投影为普通文本，否则恢复后会丢失 `bashExecution` 身份并改变既有 RPC 消息读取行为。本轮通过 V2 `context.recorded` 持久化 `vetta.legacy_agent_message` 信封，再由 Coding Agent 产品适配器恢复精确 `AgentMessage`。
+直接 Bash 的结果不能只投影为普通文本，否则恢复后会丢失 `bashExecution` 身份并改变既有 RPC 消息读取行为。本轮通过 V2 `context.recorded` 持久化 `origin.legacy_agent_message` 信封，再由 Coding Agent 产品适配器恢复精确 `AgentMessage`。
 
 HTML 导出同样直接消费 V2 `ConversationDocument`，不为了兼容旧导出器重新打开 Legacy `SessionManager`。格式兼容留在明确的投影和导出边界中。
 

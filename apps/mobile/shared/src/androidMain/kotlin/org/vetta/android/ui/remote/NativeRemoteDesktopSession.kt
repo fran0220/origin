@@ -38,7 +38,7 @@ import org.webrtc.SurfaceViewRenderer
 import org.webrtc.VideoTrack
 
 private const val PROTOCOL_VERSION = 1
-private const val INPUT_CHANNEL = "vetta-input-v1"
+private const val INPUT_CHANNEL = "origin-input-v1"
 
 class NativeRemoteDesktopSession(private val context: Context, private val target: String) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -139,7 +139,7 @@ class NativeRemoteDesktopSession(private val context: Context, private val targe
             val (socketUrl, token) = splitTarget(target)
             val socket = client.webSocketSession {
                 url.takeFrom(socketUrl)
-                headers.append(HttpHeaders.SecWebSocketProtocol, listOf("vetta.desktop.v1", "vetta.pairing.$token").joinToString(", "))
+                headers.append(HttpHeaders.SecWebSocketProtocol, listOf("vetta.desktop.v1", "origin.pairing.$token").joinToString(", "))
             }
             signaling = socket
             PlatformRemoteLogger.info("native WebRTC signaling connected")

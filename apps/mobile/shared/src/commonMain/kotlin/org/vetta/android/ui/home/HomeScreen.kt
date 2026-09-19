@@ -37,7 +37,7 @@ import org.vetta.android.ui.components.ListRow
 import org.vetta.android.ui.components.VettaListGroup
 import org.vetta.android.ui.components.EmptyState
 import org.vetta.android.ui.i18n.Str
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,13 +52,13 @@ fun HomeScreen(
     onUseCloudAi: () -> Unit,
 ) {
     Scaffold(
-        containerColor = MaterialTheme.vettaExtra.pageBackground,
+        containerColor = MaterialTheme.originExtra.pageBackground,
         topBar = {
             TopAppBar(
                 title = { Text(Str.tabHome, style = MaterialTheme.typography.titleMedium) },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.vettaExtra.pageBackground,
+                        containerColor = MaterialTheme.originExtra.pageBackground,
                     ),
             )
         },
@@ -85,7 +85,7 @@ fun HomeScreen(
                             Icon(
                                 Icons.Default.ChevronRight,
                                 contentDescription = null,
-                                tint = MaterialTheme.vettaExtra.secondaryText,
+                                tint = MaterialTheme.originExtra.secondaryText,
                             )
                         },
                         onClick = { onOpenDevice(primaryDevice.id) },
@@ -113,7 +113,7 @@ fun HomeScreen(
                 Text(
                     Str.noSessionsHint,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.vettaExtra.secondaryText,
+                    color = MaterialTheme.originExtra.secondaryText,
                     modifier = Modifier.padding(vertical = 12.dp),
                 )
             } else {
@@ -151,7 +151,7 @@ private fun SessionMiniRow(
             Icon(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
-                tint = MaterialTheme.vettaExtra.secondaryText,
+                tint = MaterialTheme.originExtra.secondaryText,
             )
         },
         onClick = onClick,

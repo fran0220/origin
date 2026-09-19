@@ -27,7 +27,7 @@ func TestEndToEnd_MockTransport_HelpCommand(t *testing.T) {
 
 	tr := mock.New(mock.Options{In: in, Out: out})
 
-	r := router.New(tr, command.NewRouter(), &noopStore{}, nil, "/home/u/.vetta/conversation")
+	r := router.New(tr, command.NewRouter(), &noopStore{}, nil, "/home/u/.origin/conversation")
 	defer r.Shutdown()
 
 	ctx, cancel := context.WithCancel(context.Background())

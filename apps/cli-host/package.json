@@ -5,10 +5,10 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"bin": {
-		"vetta": "dist/cli.js",
-		"vetta-agent": "dist/agent-cli.js",
-		"vetta-cli-app": "dist/cli.js",
-		"vetta-agent-rpc": "dist/agent-rpc-cli.js"
+		"origin": "dist/cli.js",
+		"origin-agent": "dist/agent-cli.js",
+		"origin-cli-app": "dist/cli.js",
+		"origin-agent-rpc": "dist/agent-rpc-cli.js"
 	},
 	"files": ["dist"],
 	"scripts": {

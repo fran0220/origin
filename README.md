@@ -71,7 +71,7 @@ cd apps/desktop
 bun run dev
 ```
 
-The development app uses `~/.vetta-dev` by default, keeping installed-app data in `~/.vetta` untouched. Root-level `bun run dev` watches core libraries; it does not launch Electron. See [`QUICKSTART.md`](QUICKSTART.md) for the complete setup and validation commands.
+The development app uses `~/.origin-dev` by default, keeping installed-app data in `~/.origin` untouched. Root-level `bun run dev` watches core libraries; it does not launch Electron. See [`QUICKSTART.md`](QUICKSTART.md) for the complete setup and validation commands.
 
 ## What you can do
 
@@ -103,9 +103,9 @@ You do not need this repository, or an Origin source checkout, to build a plugin
 ```bash
 npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
-npx vetta-plugin-cli docs        # where the manual is, and which SDK version it documents
-npm run install:vetta            # build, package, install into the running desktop app
-npx vetta-plugin-cli watch       # hot reload: the host loads the plugin from this directory
+npx origin-plugin-cli docs        # where the manual is, and which SDK version it documents
+npm run install:origin            # build, package, install into the running desktop app
+npx origin-plugin-cli watch       # hot reload: the host loads the plugin from this directory
 ```
 
 `init` also writes an `AGENTS.md`, so **any** coding agent — Claude Code, Cursor, or Origin's own —
@@ -121,7 +121,7 @@ npx @origin-org/plugin-cli init hub --name my-market \
 ```
 
 That lays down the index, the `abilities/` layout, a repository-level `AGENTS.md`, and CI running
-`vetta-plugin-cli sync --check`, which keeps `.vetta/marketplace.json` reconciled with each ability
+`origin-plugin-cli sync --check`, which keeps `.origin/marketplace.json` reconciled with each ability
 package. Development commands always act on the nearest ability directory, so working inside a
 marketplace is identical to working on a standalone plugin.
 

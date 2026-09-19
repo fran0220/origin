@@ -141,7 +141,7 @@ func defaultCredentialsPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("resolve home dir: %w", err)
 	}
-	return filepath.Join(home, ".vetta", "im-gateway", credentialsFilename), nil
+	return filepath.Join(home, ".origin", "im-gateway", credentialsFilename), nil
 }
 
 // loadCredentialsFile returns (file, true, nil) when the file exists and was

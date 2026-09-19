@@ -77,7 +77,7 @@ EglRenderer: Frames received: 0. Rendered: 0.
 
 - AI HTTP proxy 测试因为 `undici` 构造器环境差异失败。
 - Runtime 测试找不到 Windows sandbox host 二进制。
-- Desktop 测试桩缺少 `window.vetta.session.openViewer`。
+- Desktop 测试桩缺少 `window.originApp.session.openViewer`。
 
 这些失败不能归因于 WebRTC 修复；远程桌面包、Worker、Android 构建和完整静态 `check` 仍需单独报告。
 

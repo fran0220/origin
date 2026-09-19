@@ -19,9 +19,9 @@ describe("canonical executable ownership", () => {
 
 		expect(cliApp.bin).toEqual({
 			vetta: "dist/cli.js",
-			"vetta-agent": "dist/agent-cli.js",
-			"vetta-cli-app": "dist/cli.js",
-			"vetta-agent-rpc": "dist/agent-rpc-cli.js",
+			"origin-agent": "dist/agent-cli.js",
+			"origin-cli-app": "dist/cli.js",
+			"origin-agent-rpc": "dist/agent-rpc-cli.js",
 		});
 		expect(codingAgent.bin).toBeUndefined();
 	});

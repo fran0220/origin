@@ -26,8 +26,8 @@ describe("Runtime composition contract", () => {
 	const compositions: CodingAgentRuntimeComposition[] = [];
 	beforeEach(async () => {
 		const directory = await createTemporaryDirectory("runtime-test-home-");
-		vi.stubEnv("VETTA_HOME", directory);
-		vi.stubEnv("VETTA_CODING_AGENT_DIR", join(directory, "agent"));
+		vi.stubEnv("ORIGIN_HOME", directory);
+		vi.stubEnv("ORIGIN_CODING_AGENT_DIR", join(directory, "agent"));
 		vi.stubEnv("USERPROFILE", directory);
 	});
 

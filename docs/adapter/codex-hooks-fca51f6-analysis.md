@@ -321,7 +321,7 @@ interface CodexToolHookContract {
 ```text
 OriginHookSourceProvider
   - agentDir/hooks.json
-  - <cwd>/.vetta/hooks.json
+  - <cwd>/.origin/hooks.json
   - Origin 已安装插件 manifest 显式声明的 hooks paths
 
 CodexHookConfigDecoder
@@ -472,7 +472,7 @@ coding-agent lifecycle / tool wrapper
           -> Node command executor
 ```
 
-文件发现仍由应用决定。默认仅传入 `agentDir/hooks.json` 和 `<cwd>/.vetta/hooks.json`；兼容包不会访问 `C:\github\codex`、`CODEX_HOME`、`~/.codex` 或项目 `.codex`。`HookConfigLayer.sources` 可承接未来由 Origin 插件加载器显式提供的文件与环境变量。
+文件发现仍由应用决定。默认仅传入 `agentDir/hooks.json` 和 `<cwd>/.origin/hooks.json`；兼容包不会访问 `C:\github\codex`、`CODEX_HOME`、`~/.codex` 或项目 `.codex`。`HookConfigLayer.sources` 可承接未来由 Origin 插件加载器显式提供的文件与环境变量。
 
 ### 10.2 事件功能对照
 

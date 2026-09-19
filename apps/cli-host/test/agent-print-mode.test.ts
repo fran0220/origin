@@ -563,9 +563,9 @@ async function runAgentCli(
 				cwd: fixture.workspace,
 				env: {
 					...process.env,
-					VETTA_CODING_AGENT_DIR: fixture.agentDir,
-					VETTA_HOME: join(fixture.root, "home"),
-					VETTA_PACKAGE_DIR: undefined,
+					ORIGIN_CODING_AGENT_DIR: fixture.agentDir,
+					ORIGIN_HOME: join(fixture.root, "home"),
+					ORIGIN_PACKAGE_DIR: undefined,
 				},
 				stdio: "pipe",
 				windowsHide: true,
@@ -751,8 +751,8 @@ function readFrameType(frame: unknown): string | undefined {
 }
 
 async function buildAgentCliExecutable(): Promise<AgentCliExecutable> {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-agent-cli-executable-"));
-	const path = join(directory, process.platform === "win32" ? "vetta-agent.exe" : "vetta-agent");
+	const directory = await mkdtemp(join(tmpdir(), "origin-agent-cli-executable-"));
+	const path = join(directory, process.platform === "win32" ? "origin-agent.exe" : "origin-agent");
 	const platformTag = `${process.platform}-${process.arch}` as keyof typeof compileTargetByPlatform;
 	const compileTarget = compileTargetByPlatform[platformTag];
 	if (!compileTarget) throw new Error(`Unsupported Print artifact test platform: ${platformTag}`);

@@ -14,10 +14,10 @@ const preparedHosts: RpcRuntimeHostReady[] = [];
 let isolatedUserHome: string | undefined;
 
 beforeAll(async () => {
-	isolatedUserHome = await mkdtemp(join(tmpdir(), "vetta-im-runtime-host-home-"));
+	isolatedUserHome = await mkdtemp(join(tmpdir(), "origin-im-runtime-host-home-"));
 	vi.stubEnv("HOME", isolatedUserHome);
 	vi.stubEnv("USERPROFILE", isolatedUserHome);
-	vi.stubEnv("VETTA_HOME", isolatedUserHome);
+	vi.stubEnv("ORIGIN_HOME", isolatedUserHome);
 });
 
 afterAll(async () => {
@@ -633,7 +633,7 @@ async function createFixture(
 	readonly sessionCatalog: RuntimeSessionCatalog;
 	readonly bootstrap: CodingAgentBootstrap;
 }> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-im-runtime-host-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-im-runtime-host-"));
 	temporaryDirectories.push(root);
 	const fixture = {
 		root,

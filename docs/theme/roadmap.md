@@ -168,7 +168,7 @@ return <SidebarRenderer model={model} onOpenSession={props.onOpenSession} />;
 已落地点：
 
 - `@origin-org/theme-sdk/storage`：`useThemeStorage`、`useThemeStorageValue`。
-- desktop host + preload IPC + `~/.vetta/desktop-app/themes/<themeId>/data.json`。
+- desktop host + preload IPC + `~/.origin/desktop-app/themes/<themeId>/data.json`。
 
 暂不做：
 

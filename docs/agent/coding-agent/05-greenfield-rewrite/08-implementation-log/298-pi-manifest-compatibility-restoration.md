@@ -35,7 +35,7 @@
 - 将四个扩展示例的资源清单字段从无效的 `vetta` 恢复为 `pi`；
 - 将 package-manager 的七个清单场景恢复为 `pi`，继续验证扩展、Skill、过滤、强制包含和子目录清单；
 - 将 `dirty-repo-guard` 中未完成的 `pi -> api` 局部替换恢复为一致的 `pi` 参数，消除未定义变量和未使用参数错误；
-- 保留 `.vetta` 项目配置目录；
+- 保留 `.origin` 项目配置目录；
 - 保留 `vetta-extension-*` 示例包名和 `@origin/*` 产品包名。
 
 ## 旧实现依赖变化

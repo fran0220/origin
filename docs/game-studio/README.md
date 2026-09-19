@@ -4,7 +4,7 @@
 
 ## 1. 目标与边界
 
-- 用 Origin 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/origin-game-studio`，ADR-0121），与 `vetta-ui-design`（Sophon Design Studio 的 Origin 形态，ADR-0053/0054/0058）同构。用户指南见 [user-guide.md](./user-guide.md)。
+- 用 Origin 取代 Sophon。Game Studio 以**系统预置插件**形态进入（`packages/plugins/presets/origin-game-studio`，ADR-0121），与 `origin-ui-design`（Sophon Design Studio 的 Origin 形态，ADR-0053/0054/0058）同构。用户指南见 [user-guide.md](./user-guide.md)。
 - Game Studio 依赖的三项能力不是插件私有逻辑，而是**平台底层能力**，任何 Studio、CLI、IM 宿主都能复用：
   1. **Checkpoint**：每个 Turn 结束后的文件快照 + 验证 + 保留/回退，崩溃可恢复，历史不改写。
   2. **Evaluation + Evolution**：五记录评估模型（证据只来自产品记录与真实 verifier）；两级 continual-harness 账本（Global + subject），Agent 用工具沉淀规则，下一 Turn 准入时渲染进 system prompt。
@@ -22,7 +22,7 @@
 | 执行凭据 | `NodeHostBashExecutor` 返回结构化 exitCode | 对话记录 `toolResult` 无 exitCode；无独立、可引用的 Execution Receipt |
 | Git UI | `plugins/presets/git`：status/diff/log/graph 及 `graphLayout.ts`、`GitGraphCanvas.tsx` | 无 commit/revert；无 Timeline 语义 |
 | 记忆 | `coding-agent/src/memory/*`：可变 Markdown、runtime 构造时冻结快照、模型抽取事实 | 非 append-only、无版本/CAS/rollback/promote、无两级 scope、证据非真实 |
-| 评估 | `runtime-telemetry` trace（白名单、7d/5000/16MiB）；`vetta-blog/validate-blog.mjs` 局部门禁 | 无 Definition/Attempt/Evidence/Finding/Outcome 任何记录 |
+| 评估 | `runtime-telemetry` trace（白名单、7d/5000/16MiB）；`origin-blog/validate-blog.mjs` 局部门禁 | 无 Definition/Attempt/Evidence/Finding/Outcome 任何记录 |
 | Prompt 合成 | `system-prompt-policy.ts:359–419` 优先级块；`prompt-snapshot.ts` 准入冻结；plugin `registerSystemPromptProvider` | 缺一个"准入时捕获账本 revision → 渲染 `<continual_harness>`" 的 provider |
 | 浏览器 | 外部 `agent-browser` CLI（Agent 自有 session）；`ctx.browser` Foundation Capability | 无 screencast / MediaRecorder / 录像文件链路 |
 | 离屏抓帧 | `offscreen-capture-service.ts`：隐藏 OSR `BrowserWindow` + `capturePage`，仅 http(s) | 单帧、无时间轴、无音频、无编码、不接受 `file:` |
@@ -59,7 +59,7 @@
 
 依赖方向遵守 `scripts/quality/check-package-boundaries.mjs`：新增四个 `runtime-*` 包加入 `LIB_PREFIXES`；它们只依赖 `runtime-core`/`runtime-storage`/TypeBox；Node I/O 实现放 `runtime-node`；Desktop 只做装配、IPC 与 UI。
 
-持久化位置统一在**应用数据目录**（`getAgentDir()`），按 Project 键分目录，**不写入用户工作树**：写进 `<cwd>/.vetta/` 会让快照提交把自己的日志纳入版本历史，也会污染用户仓库。
+持久化位置统一在**应用数据目录**（`getAgentDir()`），按 Project 键分目录，**不写入用户工作树**：写进 `<cwd>/.origin/` 会让快照提交把自己的日志纳入版本历史，也会污染用户仓库。
 
 ```text
 <agentDir>/
@@ -93,7 +93,7 @@ ExecutionReceipt { executionId; sessionId; turnId; toolCallId?; command; cwd; st
 
 ### 4.2 快照策略：shadow repo（默认）与 project mainline（可选）
 
-- **默认 shadow repo**：`GIT_DIR=<accountPartition>/checkpoints/<projectStorageKey>/shadow.git`、`GIT_WORK_TREE=<cwd>`，遵守用户 `.gitignore`，另加 `.vetta/` 与 `node_modules/` 排除。用户仓库历史零改动；非 git 目录同样可用。
+- **默认 shadow repo**：`GIT_DIR=<accountPartition>/checkpoints/<projectStorageKey>/shadow.git`、`GIT_WORK_TREE=<cwd>`，遵守用户 `.gitignore`，另加 `.origin/` 与 `node_modules/` 排除。用户仓库历史零改动；非 git 目录同样可用。
 - **project mainline 模式**：由 Project 策略显式开启，直接提交到项目当前分支。当前平台默认均为 shadow，包括 Game Studio 项目，不因插件创建了目录就自动改用户仓库历史。
 - **回退 = 新提交**（restore 文件后再 commit），永不改写历史。Timeline 用 `feedback` 边连接 revert → 被回退的 checkpoint。
 - 对话回退与文件回退是两个动作，UI 先预览再执行，不声称原子。
@@ -219,7 +219,7 @@ RecordingRecord { id; projectKey; sessionId; startedAt; endedAt; durationMs; vid
 
 1. Checkpoint 默认使用 **shadow repo**，不改用户仓库历史；project mainline 必须显式选择。
 2. ffmpeg 作为**新增 managed runtime**（下载固定版本，非 npm 依赖）；视频默认 **H.264/AAC**，AV1 可选（Sophon 强制 AV1/Opus）。
-3. 持久化统一放 **`getAgentDir()`**，不写 `<cwd>/.vetta/`。
+3. 持久化统一放 **`getAgentDir()`**，不写 `<cwd>/.origin/`。
 4. Harness 与现有 Memory **并存**，不合并；`kind: skill/subagent` 条目在 MVP 里为提示词级引导。
 5. Evaluation 的模型审阅结论只能作为 Finding `note`，不能单独作为证据。
 6. 新增四个 `runtime-*` 包 + `packages/ai` 公共类型扩展 + plugin-sdk 三个新能力（需要 Plugin API minor 版本升级）。

@@ -42,11 +42,11 @@ fi
 
 mkdir -p "$BUN_GLOBAL_BIN"
 ln -sf "$CLI_APP_DIR/dist/cli.js" "$BUN_GLOBAL_BIN/vetta"
-ln -sf "$CLI_APP_DIR/dist/agent-cli.js" "$BUN_GLOBAL_BIN/vetta-agent"
-ln -sf "$CLI_APP_DIR/dist/agent-rpc-cli.js" "$BUN_GLOBAL_BIN/vetta-agent-rpc"
+ln -sf "$CLI_APP_DIR/dist/agent-cli.js" "$BUN_GLOBAL_BIN/origin-agent"
+ln -sf "$CLI_APP_DIR/dist/agent-rpc-cli.js" "$BUN_GLOBAL_BIN/origin-agent-rpc"
 
 echo "Bun global bin: $BUN_GLOBAL_BIN"
 
 echo ""
-echo "Done. You can now run 'vetta', 'vetta-agent', or 'vetta-agent-rpc' from any directory."
+echo "Done. You can now run 'vetta', 'origin-agent', or 'origin-agent-rpc' from any directory."
 echo "Check: vetta --help"

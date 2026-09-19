@@ -87,4 +87,4 @@ Origin 已经具备三块可复用基础：标准 Agent Skill 发现、可扩展
 - [Claude Code Skills](https://code.claude.com/docs/en/slash-commands)
 - [Claude Code Hooks reference](https://code.claude.com/docs/en/hooks)
 - [Claude Code Subagents](https://code.claude.com/docs/en/sub-agents)
-- [Claude Code Agent Teams](https://code.claude.com/docs/en/agent-teams)
+- [Claude Code Agent Teams](https://code.claude.com/docs/en/agent-profiles)

@@ -32,7 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.vetta.android.ui.theme.vettaExtra
+import org.vetta.android.ui.theme.originExtra
 
 @Composable
 fun VettaCard(
@@ -53,7 +53,7 @@ fun VettaCard(
         border =
             androidx.compose.foundation.BorderStroke(
                 1.dp,
-                MaterialTheme.vettaExtra.border,
+                MaterialTheme.originExtra.border,
             ),
         content = { Column(Modifier.padding(16.dp), content = content) },
     )
@@ -87,8 +87,8 @@ fun PrimaryBlackButton(
             ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
-                disabledContainerColor = MaterialTheme.vettaExtra.chipBackground,
-                disabledContentColor = MaterialTheme.vettaExtra.secondaryText,
+                disabledContainerColor = MaterialTheme.originExtra.chipBackground,
+                disabledContentColor = MaterialTheme.originExtra.secondaryText,
             ),
     ) {
         Text(text, style = MaterialTheme.typography.labelLarge)
@@ -138,7 +138,7 @@ fun SectionHeader(
             Text(
                 action,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.vettaExtra.secondaryText,
+                color = MaterialTheme.originExtra.secondaryText,
                 modifier = Modifier.clickable(onClick = onAction),
             )
         }
@@ -156,7 +156,7 @@ fun StatusDot(
                 .size(8.dp)
                 .clip(CircleShape)
                 .background(
-                    if (online) MaterialTheme.vettaExtra.success else MaterialTheme.vettaExtra.secondaryText,
+                    if (online) MaterialTheme.originExtra.success else MaterialTheme.originExtra.secondaryText,
                 ),
     )
 }
@@ -169,15 +169,15 @@ fun StatusChip(
 ) {
     val bg =
         if (positive) {
-            MaterialTheme.vettaExtra.success.copy(alpha = 0.12f)
+            MaterialTheme.originExtra.success.copy(alpha = 0.12f)
         } else {
-            MaterialTheme.vettaExtra.chipBackground
+            MaterialTheme.originExtra.chipBackground
         }
     val fg =
         if (positive) {
-            MaterialTheme.vettaExtra.success
+            MaterialTheme.originExtra.success
         } else {
-            MaterialTheme.vettaExtra.secondaryText
+            MaterialTheme.originExtra.secondaryText
         }
     Text(
         text = text,
@@ -220,7 +220,7 @@ fun FilterChipRow(
                             if (selected) {
                                 MaterialTheme.colorScheme.primary
                             } else {
-                                MaterialTheme.vettaExtra.chipBackground
+                                MaterialTheme.originExtra.chipBackground
                             },
                         )
                         .clickable { onSelect(index) }
@@ -259,7 +259,7 @@ fun ListRow(
                     Text(
                         subtitle,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.vettaExtra.secondaryText,
+                        color = MaterialTheme.originExtra.secondaryText,
                     )
                 }
             }
@@ -268,7 +268,7 @@ fun ListRow(
             }
         }
         if (showDivider) {
-            HorizontalDivider(color = MaterialTheme.vettaExtra.border)
+            HorizontalDivider(color = MaterialTheme.originExtra.border)
         }
     }
 }
@@ -283,7 +283,7 @@ fun PageScaffoldContent(
         modifier =
             modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.vettaExtra.pageBackground)
+                .background(MaterialTheme.originExtra.pageBackground)
                 .padding(contentPadding),
         content = content,
     )

@@ -107,14 +107,14 @@ desktop 自定义导入虽然递归查找 `SKILL.md`，但只选择一个最浅�
 
 外部 `story-setup` 的 generic/OpenClaw 路径会把 Skill 复制到项目根 `skills/{skill-name}/`。Origin 默认发现路径是：
 
-- 全局 `~/.vetta/agent/skills/` / `~/.agents/skills/`
-- 项目 `.vetta/skills/` / `.agents/skills/`
+- 全局 `~/.origin/agent/skills/` / `~/.agents/skills/`
+- 项目 `.origin/skills/` / `.agents/skills/`
 - package 或插件声明的 Skill 路径
 
 项目根裸 `skills/` 不是 Origin 默认发现源。适配时需要选择以下方案之一：
 
 1. 不复制，统一从插件声明的 `agent.skillPaths` 加载。
-2. 将 Origin 部署目标改为 `.vetta/skills/`。
+2. 将 Origin 部署目标改为 `.origin/skills/`。
 3. 将通用部署目标改为 `.agents/skills/`。
 
 优先推荐方案 1，避免每个写作项目重复复制整套 references。
@@ -221,7 +221,7 @@ Node 脚本本身只依赖内置模块，适配成本较低。适配版应：
 2. 使用插件 `agent.skillPaths: ["skills/"]` 一次注册 13 个 Skill；该声明能力见 [`plugin manifest`](../plugin/manifest.md)。
 3. 保留上游 Skill 和 references 目录结构，适配改动单独维护，方便后续同步上游。
 4. 将所有路由改成 `invoke_skill` / `/skill:name`。
-5. 将 `story-setup` 的 Origin 目标改成插件路径或 `.vetta/skills`，不写裸 `skills/`。
+5. 将 `story-setup` 的 Origin 目标改成插件路径或 `.origin/skills`，不写裸 `skills/`。
 6. 修改 `story-cover`，优先调用 Origin 原生图像工具。
 7. 清理 Windows 不兼容的 Shell 片段，优先复用 Node/Python。
 8. 在运行报告中明确输出 `Effective Mode: solo`，不伪装 full/lean。

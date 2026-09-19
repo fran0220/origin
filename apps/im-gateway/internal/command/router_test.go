@@ -78,7 +78,7 @@ func defaultEnv() Env {
 	return Env{
 		UserID:          "u1",
 		ChatID:          "c1",
-		ConversationCwd: "/home/u/.vetta/conversation",
+		ConversationCwd: "/home/u/.origin/conversation",
 		State:           newFakeStore(),
 		HostPool:        &fakePool{},
 	}
@@ -156,7 +156,7 @@ func TestDispatch_Whoami_WithSession(t *testing.T) {
 		UserID: "u1", ChatID: "c1", SessionPath: "/sessions/foo.jsonl",
 	})
 	res, _ := r.Dispatch(context.Background(), env, "/whoami")
-	for _, want := range []string{"u1", "/sessions/foo.jsonl", "/home/u/.vetta/conversation"} {
+	for _, want := range []string{"u1", "/sessions/foo.jsonl", "/home/u/.origin/conversation"} {
 		if !strings.Contains(res.Reply.Text, want) {
 			t.Errorf("/whoami should contain %q, got:\n%s", want, res.Reply.Text)
 		}

@@ -200,7 +200,7 @@ describe("historical session migration", () => {
 });
 
 async function createFixture(content: string) {
-	const root = await mkdtemp(join(tmpdir(), "vetta-greenfield-legacy-migration-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-greenfield-legacy-migration-"));
 	temporaryRoots.add(root);
 	const sourcePath = join(root, "legacy.jsonl");
 	const targetRootDir = join(root, "conversations");

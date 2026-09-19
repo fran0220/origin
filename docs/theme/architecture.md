@@ -36,7 +36,7 @@ Region override
 
 ```txt
 App Data Center
-  Jotai atoms、router、window.vetta IPC、业务 hooks、权限、持久化
+  Jotai atoms、router、window.originApp IPC、业务 hooks、权限、持久化
 
 UI Abstract Layer
   model hooks、view model、actions、region/slot/component contract
@@ -50,7 +50,7 @@ UI Implementation Layer
 数据层由应用维护。主题不应直接访问：
 
 - 内部 Jotai atom。
-- `window.vetta.*`。
+- `window.originApp.*`。
 - router 原始细节。
 - domain 内部 hook。
 - 文件系统、网络、权限等底层能力。
@@ -61,7 +61,7 @@ UI Implementation Layer
 
 - SDK：`useThemeStorage` / `useThemeStorageValue`（`@origin-org/theme-sdk/storage`）。
 - Host：按当前 `theme.meta.id` 隔离，主题不能指定其他 themeId。
-- 落盘：main 进程 `~/.vetta/desktop-app/themes/<themeId>/data.json`。
+- 落盘：main 进程 `~/.origin/desktop-app/themes/<themeId>/data.json`。
 
 详见 [主题自有数据存储](./storage.md)。
 
@@ -339,7 +339,7 @@ SDK 不应导出：
 - 访问 Jotai、router、IPC 的真实 hook 实现。
 - Jotai atom。
 - router 实例。
-- `window.vetta.*`。
+- `window.originApp.*`。
 - domain 私有 hook。
 - 尚未稳定的内部组件。
 
@@ -376,7 +376,7 @@ import { useSidebarModel } from "@origin-org/theme-sdk/sidebar";
 主题不能：
 
 - 直接 import 内部 atom。
-- 直接调用 `window.vetta.*`。
+- 直接调用 `window.originApp.*`。
 - 复制删除、登录、导入、导航等业务逻辑。
 - 绕过 i18n。
 - 绕过 desktop 的 `DESIGN.md` 约束。

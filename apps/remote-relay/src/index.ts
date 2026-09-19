@@ -50,8 +50,8 @@ export default {
 				new Request("https://remote-pair-room.internal/authorize", {
 					method: "POST",
 					headers: {
-						"X-Vetta-Relay-Role": "mobile",
-						"X-Vetta-Credential-Hash": credentialHash,
+						"X-Origin-Relay-Role": "mobile",
+						"X-Origin-Credential-Hash": credentialHash,
 					},
 				}),
 			);
@@ -62,12 +62,12 @@ export default {
 		const internalRequest = new Request("https://remote-pair-room.internal/connect", {
 			headers: {
 				Upgrade: "websocket",
-				...(desktopRoute ? { "X-Vetta-Desktop-Role": desktopRoute.role } : { "X-Vetta-Relay-Role": route.role }),
-				"X-Vetta-Credential-Hash": credentialHash,
-				...(resumeHash ? { "X-Vetta-Resume-Hash": resumeHash } : {}),
-				...(bootstrapHash ? { "X-Vetta-Bootstrap-Hash": bootstrapHash } : {}),
-				...(preauthorizedViewer ? { "X-Vetta-Preauthorized": "mobile" } : {}),
-				"X-Vetta-Room-Tag": roomTag,
+				...(desktopRoute ? { "X-Origin-Desktop-Role": desktopRoute.role } : { "X-Origin-Relay-Role": route.role }),
+				"X-Origin-Credential-Hash": credentialHash,
+				...(resumeHash ? { "X-Origin-Resume-Hash": resumeHash } : {}),
+				...(bootstrapHash ? { "X-Origin-Bootstrap-Hash": bootstrapHash } : {}),
+				...(preauthorizedViewer ? { "X-Origin-Preauthorized": "mobile" } : {}),
+				"X-Origin-Room-Tag": roomTag,
 			},
 		});
 		const response = await stub.fetch(internalRequest);

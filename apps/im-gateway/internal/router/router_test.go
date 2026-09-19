@@ -113,7 +113,7 @@ func itoa(n int) string {
 	return s
 }
 
-const testCwd = "/home/u/.vetta/conversation"
+const testCwd = "/home/u/.origin/conversation"
 
 func TestRouter_FirstMessageStartsSession_PersistsResolvedPath(t *testing.T) {
 	// First message in a fresh chat: state has no entry yet. Router should

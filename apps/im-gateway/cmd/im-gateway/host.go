@@ -122,12 +122,12 @@ func runHostWithIO(opts hostOptions) int {
 	stateStore.Replace(stateFromFrames(initFrame.State))
 
 	// Mirror desktop-app's resolveSessionDirForCwd convention: the IM
-	// conversation cwd stores its sessions under <cwd>/.vetta/sessions/
-	// instead of the global ~/.vetta/agent/sessions/<encoded-cwd>/. desktop-
+	// conversation cwd stores its sessions under <cwd>/.origin/sessions/
+	// instead of the global ~/.origin/agent/sessions/<encoded-cwd>/. desktop-
 	// app's Claw tab reads from this same directory to render IM sessions
 	// read-only.
 	hclocalOpts := hclocal.Options{
-		SessionDir: filepath.Join(initFrame.ConversationCwd, ".vetta", "sessions"),
+		SessionDir: filepath.Join(initFrame.ConversationCwd, ".origin", "sessions"),
 		// Always enable the host-bridge channel in embedded mode: it's how
 		// im-gateway-driven sessions deliver IM attachments via
 		// im_send_attachment / host_request. Other agents (desktop, TUI,
@@ -153,13 +153,13 @@ func runHostWithIO(opts hostOptions) int {
 			if hclocalOpts.ExtraEnv == nil {
 				hclocalOpts.ExtraEnv = map[string]string{}
 			}
-			hclocalOpts.ExtraEnv["VETTA_PACKAGE_DIR"] = initFrame.CodingAgent.PackageDir
+			hclocalOpts.ExtraEnv["ORIGIN_PACKAGE_DIR"] = initFrame.CodingAgent.PackageDir
 		}
 		if initFrame.CodingAgent.ServerURL != "" {
 			if hclocalOpts.ExtraEnv == nil {
 				hclocalOpts.ExtraEnv = map[string]string{}
 			}
-			hclocalOpts.ExtraEnv["VETTA_SERVER_URL"] = initFrame.CodingAgent.ServerURL
+			hclocalOpts.ExtraEnv["ORIGIN_SERVER_URL"] = initFrame.CodingAgent.ServerURL
 		}
 		emitLog("info", "coding-agent binary configured by parent",
 			map[string]any{

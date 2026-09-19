@@ -44,7 +44,7 @@ Normalizer 抛错、产生未知 Entry 或修改树身份时统一报告 `invali
 Coding Agent 新增独立 Legacy Import Normalizer：
 
 - 使用 TypeBox 验证四种官方扩展 AgentMessage；
-- 将其转换为 `vetta.legacy_agent_message` 上下文记录；
+- 将其转换为 `origin.legacy_agent_message` 上下文记录；
 - `details.agentMessage` 保存完整原始身份；
 - `content` 保存 `convertToLlm()` 产生的精确模型投影；
 - `modelVisible` 保留 `excludeFromContext` 和模型不可见 Prompt Marker 语义；

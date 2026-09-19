@@ -55,7 +55,7 @@
 
 ### 3. 保持动态 Skill 行为
 
-- Session Resource Runtime 每次 Skill 更新都会重新考虑项目和用户默认 Skill 根目录，因此会话启动时尚不存在的 `.vetta/skills` 目录在后续创建后也能被发现。
+- Session Resource Runtime 每次 Skill 更新都会重新考虑项目和用户默认 Skill 根目录，因此会话启动时尚不存在的 `.origin/skills` 目录在后续创建后也能被发现。
 - Resource Runtime 通过中性 `ResourceSettingsPort` 读取同一份 Settings Runtime，动态发现仍遵循原有禁用规则和项目级覆盖优先级。
 - 新增同一会话内“目录缺失、创建、修改、删除”的测试，验证下一 Turn 的 Skill 投影依次为无、v1、v2、无。
 

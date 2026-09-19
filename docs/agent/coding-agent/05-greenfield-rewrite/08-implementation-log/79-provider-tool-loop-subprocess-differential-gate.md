@@ -137,7 +137,7 @@ tsgo、Desktop `tsc --noEmit`、Admin `tsc -b`、Biome 和全部质量守卫。
 
 下一阶段应把“宿主 opt-in + 会话可见/可打开”作为一个完整阶段实施：
 
-1. Desktop/IM sidecar Composition Root 显式选择新的 `vetta-agent-rpc` 入口与 Runtime 参数。
+1. Desktop/IM sidecar Composition Root 显式选择新的 `origin-agent-rpc` 入口与 Runtime 参数。
 2. 默认仍为 Legacy，并保留可观测、可撤回的开关。
 3. Desktop Session Catalog、open/resume、rename/delete 一次性识别 Legacy 与 Greenfield 格式，不能只
    增加列表可见性。
