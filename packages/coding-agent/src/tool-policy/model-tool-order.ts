@@ -33,6 +33,13 @@ export const CODING_AGENT_MODEL_TOOL_ORDER = Object.freeze({
 	askUserQuestion: 3_200,
 	evaluation: 3_250,
 	plugin: 3_300,
+	recordingStart: 3_400,
+	recordingStop: 3_500,
+	recordingSample: 3_600,
+	recordingRead: 3_700,
+	recordingList: 3_800,
+	recordingClear: 3_900,
+	reviewRecording: 4_000,
 });
 
 export const CODING_AGENT_SUBAGENT_MODEL_TOOL_ORDER_STEP = 100;

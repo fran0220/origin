@@ -1,6 +1,6 @@
 /** Coding Agent model-context message contracts and factories. */
 
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { ImageContent, TextContent, UserContentPart } from "@vetta/ai";
 
 /** Persisted prompt metadata marker. It is intentionally excluded from LLM context. */
 export const PROMPT_RESOURCE_REFERENCE_TYPE = "prompt_resource_reference";
@@ -49,7 +49,7 @@ export interface BashExecutionMessage {
 export interface CustomMessage<T = unknown> {
 	role: "custom";
 	customType: string;
-	content: string | (TextContent | ImageContent)[];
+	content: string | UserContentPart[];
 	display: boolean;
 	details?: T;
 	timestamp: number;

@@ -133,6 +133,7 @@
 		"@vetta/runtime-evaluation": "workspace:*",
 		"@vetta/runtime-evolution": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",
+		"@vetta/runtime-recording": "workspace:*",
 		"@vetta/runtime-node": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",

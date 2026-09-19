@@ -1,3 +1,4 @@
+import type { Api, Model } from "@vetta/ai";
 import type { EcosystemHookAdapterFactory, HookConfigLayer } from "@vetta/ecosystem-adapter";
 import type {
 	RuntimeAgentDefinition,
@@ -16,6 +17,7 @@ import type {
 } from "@vetta/runtime-core/session-extensions";
 import type { EvaluationScope } from "@vetta/runtime-evaluation";
 import type { McpRuntimeToolSource } from "@vetta/runtime-mcp";
+import type { RecordingEngine, RecordingRecord } from "@vetta/runtime-recording";
 import type { ConversationOwnershipManager } from "@vetta/runtime-storage/conversation";
 import type { SubagentTypeRegistryLike } from "@vetta/runtime-subagents";
 import type { CodingToolResultPolicy } from "@vetta/runtime-tools";
@@ -107,6 +109,15 @@ export interface CodingAgentRuntimeToolOptions {
 	readonly reservedOutputTokens?: number;
 	/** Host-resolved process-wide OCR concurrency. */
 	readonly ocrMaxConcurrent?: number;
+	/** Platform recording engine. When omitted, recording tools are not registered. */
+	readonly recordingEngine?: RecordingEngine;
+	readonly recordingSession?: () => { readonly sessionId: string; readonly projectKey: string; readonly cwd?: string };
+	readonly resolveRecordingVideoModel?: (requested?: string) => Promise<{
+		readonly model: Model<Api>;
+		readonly apiKey?: string;
+	}>;
+	readonly recordingDirectoryFor?: (record: RecordingRecord) => string;
+	readonly recordingFfmpegPath?: string;
 }
 
 export interface CodingAgentRuntimeSubagentOptions {

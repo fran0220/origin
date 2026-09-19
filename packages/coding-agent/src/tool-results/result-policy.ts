@@ -70,9 +70,7 @@ async function projectLargeResult(
 	return {
 		content: [
 			{ type: "text", text: projectedText },
-			...result.content.filter(
-				(item): item is Extract<(typeof result.content)[number], { type: "image" }> => item.type === "image",
-			),
+			...result.content.filter((item) => item.type === "image" || item.type === "video"),
 		],
 		details: result.details,
 		...(result.isError === undefined ? {} : { isError: result.isError }),

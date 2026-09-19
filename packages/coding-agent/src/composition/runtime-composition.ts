@@ -62,6 +62,7 @@ export type {
 	CodingAgentRuntimeToolAccess,
 } from "./contracts/index.js";
 
+import { createRecordingToolRegistrations } from "../recording/index.js";
 import {
 	type CodingAgentObservationRuntime,
 	createChildCodingAgentObservationOptions,
@@ -131,6 +132,23 @@ async function assembleCodingAgentRuntimeComposition(
 	const extensionToolRuntime = new CodingAgentExtensionToolRuntime(options.extensionTools ?? []);
 	const resourceRegistry = new CodingAgentCompositionResourceRegistry();
 	const imageSettingsSnapshots = new CodingAgentImageSettingsSnapshotRouter(observationPublisher);
+	const recordingRegistrations =
+		options.recordingEngine && options.recordingSession && options.resolveRecordingVideoModel
+			? createRecordingToolRegistrations({
+					engine: options.recordingEngine,
+					session: () => {
+						const session = options.recordingSession?.();
+						return {
+							sessionId: session?.sessionId ?? "desktop",
+							projectKey: session?.projectKey ?? "home",
+							cwd: session?.cwd ?? cwd,
+						};
+					},
+					resolveVideoModel: options.resolveRecordingVideoModel,
+					directoryFor: options.recordingDirectoryFor,
+					ffmpegPath: options.recordingFfmpegPath,
+				})
+			: undefined;
 	const toolSurface = await createCodingAgentRuntimeToolSurface({
 		cwd,
 		agentDir: options.agentDir,
@@ -138,6 +156,7 @@ async function assembleCodingAgentRuntimeComposition(
 		activation: options.activation,
 		knowledgeRuntime: options.knowledgeRuntime,
 		inheritedMcpView,
+		recordingRegistrations,
 		mcpSource: options.mcpSource,
 		indexes: resourceRegistry.indexes,
 		tokenBudget: options.tokenBudget,

@@ -20,8 +20,15 @@ export default defineConfig({
 			"@vetta/runtime-storage/conversation": fileURLToPath(
 				new URL("../runtime-storage/src/conversation/index.ts", import.meta.url),
 			),
+			"@vetta/coding-agent/connections": fileURLToPath(
+				new URL("./src/public-api/connections.ts", import.meta.url),
+			),
+			"@vetta/runtime-recording": fileURLToPath(new URL("../runtime-recording/src/index.ts", import.meta.url)),
 			"@vetta/runtime-node/evolution": fileURLToPath(
 				new URL("../runtime-node/src/evolution/index.ts", import.meta.url),
+			),
+			"@vetta/runtime-node/recording": fileURLToPath(
+				new URL("../runtime-node/src/recording/index.ts", import.meta.url),
 			),
 			"@vetta/runtime-node/sandbox": fileURLToPath(
 				new URL("../runtime-node/src/sandbox/index.ts", import.meta.url),

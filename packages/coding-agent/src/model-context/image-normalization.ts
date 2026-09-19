@@ -66,7 +66,7 @@ export async function normalizeModelInputImages(
 		}
 
 		let changed = false;
-		const content: (TextContent | ImageContent)[] = [];
+		const content: Array<TextContent | ImageContent | (typeof message.content)[number]> = [];
 		for (const item of message.content) {
 			if (item.type !== "image") {
 				content.push(item);

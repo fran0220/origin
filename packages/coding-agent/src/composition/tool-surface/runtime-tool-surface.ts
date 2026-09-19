@@ -14,7 +14,7 @@ import {
 } from "../../features/knowledge/index.js";
 import type { CodingAgentSessionConfigurationState } from "../../host/session-configuration/configuration-state.js";
 import { ALL_SCENARIOS, type ConversationScenario } from "../../profiles/index.js";
-import type { CodingAgentToolActivation } from "../../runtime-contracts/index.js";
+import type { CodingAgentRuntimeToolRegistration, CodingAgentToolActivation } from "../../runtime-contracts/index.js";
 import {
 	isCodingAgentKnowledgeToolEnabled,
 	resolveCodingAgentToolActivation,
@@ -51,6 +51,7 @@ export interface CodingAgentRuntimeToolSurfaceOptions {
 	readonly resultPolicy?: CodingToolResultPolicy;
 	readonly observationPublisher?: RuntimeObservationPublisher;
 	readonly configurationSource?: RuntimeConfigurationSnapshotSource;
+	readonly recordingRegistrations?: readonly CodingAgentRuntimeToolRegistration[];
 }
 
 export interface CodingAgentRuntimeToolSurface {
@@ -133,6 +134,7 @@ export async function createCodingAgentRuntimeToolSurface(
 				category: "external" as const,
 				resultProjection: "preserve" as const,
 			})),
+			...(options.recordingRegistrations ?? []),
 		],
 		tokenBudget: options.tokenBudget,
 		reservedOutputTokens: options.reservedOutputTokens,

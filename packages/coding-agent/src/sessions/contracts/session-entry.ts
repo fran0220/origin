@@ -1,5 +1,5 @@
 import type { AgentMessage, ToolPhase } from "@vetta/agent-core";
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 
 /** Extension-facing compatibility version; native persistence has its own schema version. */
 export const CODING_AGENT_SESSION_VIEW_VERSION = 3;
@@ -53,7 +53,7 @@ export interface CodingAgentCustomEntry<T = unknown> extends CodingAgentSessionE
 export interface CodingAgentCustomMessageEntry<T = unknown> extends CodingAgentSessionEntryBase {
 	type: "custom_message";
 	customType: string;
-	content: string | (TextContent | ImageContent)[];
+	content: string | UserContentPart[];
 	details?: T;
 	display: boolean;
 }

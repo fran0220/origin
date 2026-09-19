@@ -210,12 +210,14 @@ function isUserContent(value: unknown): value is UserMessage["content"] {
 	return value.every((item) => {
 		if (!item || typeof item !== "object" || !("type" in item)) return false;
 		if (item.type === "text") return "text" in item && typeof item.text === "string";
-		return (
-			item.type === "image" &&
-			"data" in item &&
-			typeof item.data === "string" &&
-			"mimeType" in item &&
-			typeof item.mimeType === "string"
-		);
+		if (item.type === "image") {
+			return (
+				"data" in item && typeof item.data === "string" && "mimeType" in item && typeof item.mimeType === "string"
+			);
+		}
+		if (item.type === "video") {
+			return "mimeType" in item && typeof item.mimeType === "string";
+		}
+		return false;
 	});
 }

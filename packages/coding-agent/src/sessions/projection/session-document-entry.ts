@@ -25,9 +25,19 @@ const ImageContentSchema = Type.Object(
 	{ type: Type.Literal("image"), data: Type.String(), mimeType: Type.String() },
 	{ additionalProperties: false },
 );
+const VideoContentSchema = Type.Object(
+	{
+		type: Type.Literal("video"),
+		mimeType: Type.String(),
+		data: Type.Optional(Type.String()),
+		uri: Type.Optional(Type.String()),
+		durationMs: Type.Optional(Type.Number()),
+	},
+	{ additionalProperties: false },
+);
 const CustomContentSchema = Type.Union([
 	Type.String(),
-	Type.Array(Type.Union([TextContentSchema, ImageContentSchema])),
+	Type.Array(Type.Union([TextContentSchema, ImageContentSchema, VideoContentSchema])),
 ]);
 export const CodingAgentExtendedMessageSchema = Type.Union([
 	Type.Object(

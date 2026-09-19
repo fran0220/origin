@@ -102,14 +102,19 @@ function isRuntimeMessage(message: AgentMessage): message is Message {
 
 function blockImages(message: Message): Message {
 	if (message.role !== "user" && message.role !== "toolResult") return message;
-	if (!Array.isArray(message.content) || !message.content.some(({ type }) => type === "image")) return message;
+	if (!Array.isArray(message.content) || !message.content.some(({ type }) => type === "image" || type === "video"))
+		return message;
 	const content = message.content
-		.map((item): TextContent => (item.type === "image" ? { type: "text", text: "Image reading is disabled." } : item))
+		.map((item): TextContent => {
+			if (item.type === "image") return { type: "text", text: "Image reading is disabled." };
+			if (item.type === "video") return { type: "text", text: "Video reading is disabled." };
+			return item as TextContent;
+		})
 		.filter(
 			(item, index, items) =>
-				item.text !== "Image reading is disabled." ||
+				(item.text !== "Image reading is disabled." && item.text !== "Video reading is disabled.") ||
 				index === 0 ||
-				items[index - 1].text !== "Image reading is disabled.",
+				items[index - 1].text !== item.text,
 		);
 	return { ...message, content };
 }

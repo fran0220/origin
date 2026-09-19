@@ -70,12 +70,13 @@ function truncateToolResult(message: ToolResultMessage, maxBytes: number): ToolR
 		.map((item) => item.text)
 		.join("\n\n");
 	if (utf8ByteLength(text) <= maxBytes) return message;
-	const images = message.content.filter(
-		(item): item is Extract<(typeof message.content)[number], { type: "image" }> => item.type === "image",
+	const media = message.content.filter(
+		(item): item is Extract<(typeof message.content)[number], { type: "image" | "video" }> =>
+			item.type === "image" || item.type === "video",
 	);
 	return {
 		...message,
-		content: [{ type: "text", text: truncateText(text, maxBytes) }, ...images],
+		content: [{ type: "text", text: truncateText(text, maxBytes) }, ...media],
 	};
 }
 

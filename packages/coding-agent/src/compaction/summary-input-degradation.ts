@@ -71,7 +71,7 @@ function toEssentialMessage(message: AgentMessage): AgentMessage {
 }
 
 function hasImage(message: ToolResultMessage): boolean {
-	return message.content.some((item) => item.type === "image");
+	return message.content.some((item) => item.type === "image" || item.type === "video");
 }
 
 function truncateUtf8(value: string, maxBytes: number): string {

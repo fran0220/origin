@@ -75,7 +75,8 @@ function isUserContent(value: unknown): value is UserMessage["content"] {
 		(item) =>
 			isRecord(item) &&
 			((item.type === "text" && typeof item.text === "string") ||
-				(item.type === "image" && typeof item.data === "string" && typeof item.mimeType === "string")),
+				(item.type === "image" && typeof item.data === "string" && typeof item.mimeType === "string") ||
+				(item.type === "video" && typeof item.mimeType === "string")),
 	);
 }
 

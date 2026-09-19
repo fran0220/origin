@@ -110,6 +110,7 @@ function isContentBlock(
 ): value is CustomMessageEntry["content"] extends readonly (infer T)[] ? T : never {
 	if (!value || typeof value !== "object" || !("type" in value)) return false;
 	if (value.type === "text") return "text" in value && typeof value.text === "string";
+	if (value.type === "video") return "mimeType" in value && typeof value.mimeType === "string";
 	return (
 		value.type === "image" &&
 		"data" in value &&

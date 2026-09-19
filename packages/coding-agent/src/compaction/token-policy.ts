@@ -91,18 +91,22 @@ export function estimateTextTokens(text: string): number {
 }
 
 const IMAGE_TOKENS = 1200;
+const VIDEO_TOKENS_PER_SECOND = 258;
 
 /** Conservatively estimate a message's tokens; see estimateTextTokens for the text policy. */
 export function estimateTokens(message: AgentMessage): number {
 	let tokens = 0;
 	switch (message.role) {
 		case "user": {
-			const content = (message as { content: string | Array<{ type: string; text?: string }> }).content;
+			const content = (message as { content: string | Array<{ type: string; text?: string; durationMs?: number }> })
+				.content;
 			if (typeof content === "string") {
 				tokens = estimateTextTokens(content);
 			} else {
 				for (const block of content) {
 					if (block.type === "text" && block.text) tokens += estimateTextTokens(block.text);
+					if (block.type === "image") tokens += IMAGE_TOKENS;
+					if (block.type === "video") tokens += estimateVideoTokens(block.durationMs);
 				}
 			}
 			return Math.ceil(tokens);
@@ -122,6 +126,7 @@ export function estimateTokens(message: AgentMessage): number {
 				for (const block of message.content) {
 					if (block.type === "text" && block.text) tokens += estimateTextTokens(block.text);
 					if (block.type === "image") tokens += IMAGE_TOKENS;
+					if (block.type === "video") tokens += estimateVideoTokens((block as { durationMs?: number }).durationMs);
 				}
 			}
 			return Math.ceil(tokens);
@@ -132,4 +137,9 @@ export function estimateTokens(message: AgentMessage): number {
 			return Math.ceil(estimateTextTokens(message.summary));
 	}
 	return 0;
+}
+
+function estimateVideoTokens(durationMs: number | undefined): number {
+	const seconds = Math.max(1, Math.ceil((durationMs ?? 1_000) / 1_000));
+	return seconds * VIDEO_TOKENS_PER_SECOND;
 }
