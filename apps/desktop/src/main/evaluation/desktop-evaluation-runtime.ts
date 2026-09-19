@@ -1,6 +1,5 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { evaluationOperationsFromService } from "@vetta/coding-agent/composition";
 import { getAgentDir } from "@vetta/coding-agent/config";
 import {
@@ -21,6 +20,7 @@ import {
 	FileEvaluationStore,
 } from "@vetta/runtime-node/evaluation";
 import { DEFAULT_CONVERSATION_CWD } from "../config/desktop-config-store.js";
+import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { getAppLogger } from "../logger.js";
 
 const log = getAppLogger("evaluation");
@@ -46,7 +46,7 @@ function parseTriggerRef(trigger: EvaluationTrigger): string | undefined {
 export function createDesktopEvaluationService(): EvaluationService {
 	if (shared) return shared;
 	const store = new FileEvaluationStore({
-		rootDir: () => join(getAgentDir(), "evaluation"),
+		rootDir: () => resolveAccountScopedDirForHost("evaluation"),
 	});
 	const evidenceProvider = new CompositeEvaluationEvidenceProvider([
 		createExecutionReceiptEvidenceProvider({

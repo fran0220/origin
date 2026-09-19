@@ -5,6 +5,7 @@ export const ACCOUNT_SCOPE_KIND = [
 	"checkpoints",
 	"evolution",
 	"recordings",
+	"evaluation",
 	"connections",
 	"sessions",
 	"settings",
@@ -44,8 +45,8 @@ export function resolveAccountPartition(agentDir: string, selection: AccountSele
 
 /**
  * Account-scoped directory for a well-known kind. Checkpoint / Evolution /
- * Recording threads currently write to `<agentDir>/<kind>`; after merge they
- * should call this so data lands in the signed-in (or logged-out) partition.
+ * Recording / Evaluation hosts should call this so data lands in the
+ * signed-in (or logged-out) partition.
  *
  * Migration strategy (owned by the host that first opens the agent dir):
  * 1. Existing files at `<agentDir>/<kind>` move into `logged-out/<kind>`

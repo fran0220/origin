@@ -23,6 +23,9 @@ describe("account-scoped directories", () => {
 		expect(resolveAccountScopedDir("/home/u/.vetta/agent", "checkpoints", defaultLoggedOutSelection())).toBe(
 			"/home/u/.vetta/agent/logged-out/checkpoints",
 		);
+		expect(resolveAccountScopedDir("/home/u/.vetta/agent", "evaluation", defaultLoggedOutSelection())).toBe(
+			"/home/u/.vetta/agent/logged-out/evaluation",
+		);
 	});
 
 	it("isolates signed-in accounts from each other and from logged-out data", () => {
@@ -31,6 +34,12 @@ describe("account-scoped directories", () => {
 		expect(resolveAccountPartition("/agent", a)).not.toBe(resolveAccountPartition("/agent", b));
 		expect(resolveAccountPartition("/agent", a)).not.toBe(
 			resolveAccountPartition("/agent", defaultLoggedOutSelection()),
+		);
+		expect(resolveAccountScopedDir("/agent", "evaluation", a)).not.toBe(
+			resolveAccountScopedDir("/agent", "evaluation", b),
+		);
+		expect(resolveAccountScopedDir("/agent", "evaluation", a)).not.toBe(
+			resolveAccountScopedDir("/agent", "evaluation", defaultLoggedOutSelection()),
 		);
 	});
 });

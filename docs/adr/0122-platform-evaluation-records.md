@@ -1,4 +1,4 @@
-# ADR-0119：平台级 Evaluation 五记录模型
+# ADR-0122：平台级 Evaluation 五记录模型
 
 ## 状态
 
@@ -15,7 +15,7 @@ Game Studio 与其它产品面需要一套「工作是否达标」的产品记�
 1. 新增平台中立包 `@vetta/runtime-evaluation`，只描述五记录模型、TypeBox schema（`recordType` + `schemaVersion`，current-write / compatible-read）、纯聚合规则、指纹去重与端口。生产源码不导入 `node:*`、Electron 或其它 runtime 实现。
 2. Attempt 不可变。`inputFingerprint = sha256(scope, definition, trigger, evidenceIds)`；相同指纹复用已有 Attempt，但 `cancelled` / `budget-limited` 不参与复用。证据超过 256 条记为 `budget-limited`。
 3. 聚合：全部 required 通过才 `passed`；任一 required `failed` → `failed`；缺证据或缺 finding → `inconclusive`；required verifier 崩溃 → `error`。可选 criterion 不影响 Outcome。模型自述只能进入 `Finding.note`，不是 Evidence。
-4. Node 文件账本、命令型 verifier 与默认证据适配器放在 `@vetta/runtime-node/evaluation`：`<agentDir>/evaluation/<scopeKey>/definitions.jsonl`、`attempts.jsonl`、`evidence/<id>.json`。Desktop 通过 IPC `vetta:evaluation:*` 暴露 list/upsert/run/get/cancel，并提供全页 `/evaluation`。
+4. Node 文件账本、命令型 verifier 与默认证据适配器放在 `@vetta/runtime-node/evaluation`：`<accountPartition>/evaluation/<scopeKey>/definitions.jsonl`、`attempts.jsonl`、`evidence/<id>.json`。Desktop 通过 `resolveAccountScopedDir(..., "evaluation")` 解析分区（登录账号进 `accounts/<hash>/evaluation`，未登录进 `logged-out/evaluation`），既有 `<agentDir>/evaluation` 会迁入当前分区。IPC `vetta:evaluation:*` 暴露 list/upsert/run/get/cancel，并提供全页 `/evaluation`。
 5. Coding Agent 在宿主注入 `evaluationRuntime` 时注册 `evaluation_run` / `evaluation_list` / `evaluation_get`。Plugin API 2.6.0 增加 `ctx.evaluation` 与权限 `evaluation:run` / `evaluation:read`。
 6. 证据 kind 固定为 `execution-receipt` | `checkpoint` | `recording` | `trace` | `artifact`。Recording 的 ref 形状先作为合同；默认 provider 在 recording 包落地前返回空集。
 
@@ -27,4 +27,4 @@ Game Studio 与其它产品面需要一套「工作是否达标」的产品记�
 
 ## 后果
 
-Desktop 侧栏出现评估页；Agent 与插件可以触发同一套账本。Checkpoint / Recording 未落地时，对应证据为空，命令型 verifier 仍可产出 execution-receipt。新增权限要求插件声明 `pluginApiVersion ^2.6.0`。旧数据不存在，无需迁移。
+Desktop 侧栏出现评估页；Agent 与插件可以触发同一套账本。Checkpoint / Recording 未落地时，对应证据为空，命令型 verifier 仍可产出 execution-receipt。新增权限要求插件声明 `pluginApiVersion ^2.6.0`。若本机已有未分区的 `<agentDir>/evaluation`，首次打开会迁入当前账号分区，不丢数据。

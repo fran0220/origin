@@ -14,7 +14,13 @@ import {
 } from "@vetta/coding-agent/connections";
 import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
 
-const LEGACY_KIND_NAMES: readonly AccountScopeKind[] = ["checkpoints", "evolution", "recordings", "sessions"];
+const LEGACY_KIND_NAMES: readonly AccountScopeKind[] = [
+	"checkpoints",
+	"evolution",
+	"recordings",
+	"evaluation",
+	"sessions",
+];
 
 export interface AccountDirectoryService {
 	selection(): AccountSelection;
