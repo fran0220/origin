@@ -95,7 +95,7 @@ export function AgentSettingsView({ model, imageGeneration, runtimeConfiguration
 						title={model.labels.appOp}
 						description={model.labels.appOpDescription}
 					>
-						<Switch checked={model.vettaCliEnabled} onCheckedChange={model.actions.toggleVettaCli} />
+						<Switch checked={model.originCliEnabled} onCheckedChange={model.actions.toggleVettaCli} />
 					</SettingRow>
 					<SettingRow
 						title={model.labels.inputPrediction}

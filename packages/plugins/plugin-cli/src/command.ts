@@ -70,19 +70,19 @@ export type PluginAddCommandDependencies = PluginCommandDependencies;
 const HELP_TEXT = `Vetta plugin manager
 
 Usage:
-  vetta-plugin-cli add <npm-package|zip-path|http-url> [--json]
-  vetta-plugin-cli reload <plugin-id> [--json]
-  vetta-plugin-cli docs [--check-latest] [--json]
-  vetta-plugin-cli init --id <plugin-id> [--name <display>] [dir] [--json]
-  vetta-plugin-cli init --refresh-guide [dir] [--dry-run] [--force] [--json]
-  vetta-plugin-cli init hub --name <slug> --repository <url> --min-app-version <x.y.z> [dir]
-  vetta-plugin-cli watch [dir] [--stop] [--json]
-  vetta-plugin-cli uninstall [plugin-id] [--json]
-  vetta-plugin-cli sync [--check] [--json]
+  origin-plugin-cli add <npm-package|zip-path|http-url> [--json]
+  origin-plugin-cli reload <plugin-id> [--json]
+  origin-plugin-cli docs [--check-latest] [--json]
+  origin-plugin-cli init --id <plugin-id> [--name <display>] [dir] [--json]
+  origin-plugin-cli init --refresh-guide [dir] [--dry-run] [--force] [--json]
+  origin-plugin-cli init hub --name <slug> --repository <url> --min-app-version <x.y.z> [dir]
+  origin-plugin-cli watch [dir] [--stop] [--json]
+  origin-plugin-cli uninstall [plugin-id] [--json]
+  origin-plugin-cli sync [--check] [--json]
 
 Examples:
-  npx @origin-org/plugin-cli add @example/vetta-plugin-demo
-  npx @origin-org/plugin-cli add @example/vetta-plugin-demo@1.2.0
+  npx @origin-org/plugin-cli add @example/origin-plugin-demo
+  npx @origin-org/plugin-cli add @example/origin-plugin-demo@1.2.0
   npx @origin-org/plugin-cli add .                      # 当前插件工程（先 pack）
   npx @origin-org/plugin-cli add ./release/demo-1.2.0.zip
   npx @origin-org/plugin-cli reload demo
@@ -91,7 +91,7 @@ Examples:
   npx @origin-org/plugin-cli init hub --name my-market --repository https://github.com/me/my-market --min-app-version 0.55.0
   npx @origin-org/plugin-cli watch          # 让宿主改从工程目录加载，改完即生效
   npx @origin-org/plugin-cli uninstall      # 卸载当前插件工程对应的插件
-  npx @origin-org/plugin-cli sync           # 在市场仓库根对账 .vetta/marketplace.json
+  npx @origin-org/plugin-cli sync           # 在市场仓库根对账 .origin/marketplace.json
   npx @origin-org/plugin-cli sync --check   # 只报不写，给 CI 用
 `;
 
@@ -346,7 +346,7 @@ function isDirectorySource(source: string): boolean {
 /**
  * 把「装当前这个工程」翻译成一个具体的归档路径。
  *
- * 这条路径是给 `install:vetta` 这类脚本用的：作者（或 Agent）在插件目录里跑一条命令就
+ * 这条路径是给 `install:origin` 这类脚本用的：作者（或 Agent）在插件目录里跑一条命令就
  * 装进 Vetta，不必记住产物叫什么名字。找不到产物时给出该跑的那条命令，而不是报一个
  * 「文件不存在」让人自己猜。
  */
@@ -357,7 +357,7 @@ function resolveProjectArchive(source: string): { archivePath: string; project: 
 		const hub = findPluginHub(from);
 		if (hub) {
 			throw new Error(
-				`${from} indexes plugins but is not one itself. Run this from a plugin directory, or pass its path: vetta-plugin-cli add ./path/to/plugin`,
+				`${from} indexes plugins but is not one itself. Run this from a plugin directory, or pass its path: origin-plugin-cli add ./path/to/plugin`,
 			);
 		}
 		throw new Error(`No plugin.json found in ${from} or any parent directory.`);
@@ -365,7 +365,7 @@ function resolveProjectArchive(source: string): { archivePath: string; project: 
 	const archivePath = join(project.root, "release", `${project.pluginId}-${project.version}.zip`);
 	if (!existsSync(archivePath)) {
 		throw new Error(
-			`Packaged archive not found: ${archivePath}\nBuild it first: npm run build && npx vetta-plugin pack`,
+			`Packaged archive not found: ${archivePath}\nBuild it first: npm run build && npx origin-plugin pack`,
 		);
 	}
 	return { archivePath, project };
@@ -390,7 +390,7 @@ function npmInstallInput(resolved: ResolvedNpmPluginArchive): Record<string, unk
 		enable: true,
 		source: "npm",
 		expectedSha256: resolved.expectedSha256,
-		expectedId: resolved.packageManifest.vetta.pluginId,
+		expectedId: resolved.packageManifest.origin.pluginId,
 		expectedVersion: resolved.packageManifest.version,
 		npm: {
 			packageName: resolved.packageManifest.name,
@@ -412,7 +412,7 @@ function resultSummary(result: unknown): string {
 	const id = typeof plugin.id === "string" ? plugin.id : "plugin";
 	const version = typeof plugin.version === "string" ? `@${plugin.version}` : "";
 	const pending = typeof plugin.pendingVersion === "string"
-		? ` Update ${plugin.pendingVersion} is pending reload. Run \`vetta-plugin-cli reload ${id}\` to apply it.`
+		? ` Update ${plugin.pendingVersion} is pending reload. Run \`origin-plugin-cli reload ${id}\` to apply it.`
 		: "";
 	return `Installed ${id}${version}.${pending}\n`;
 }
@@ -593,7 +593,7 @@ async function runDocsCommand(
 					? {
 							root: hub.root,
 							manifestPath: hub.manifestPath,
-							syncHint: "After changing version/permissions, run `vetta-plugin-cli sync` at the repository root.",
+							syncHint: "After changing version/permissions, run `origin-plugin-cli sync` at the repository root.",
 						}
 					: undefined,
 			})}\n`,
@@ -630,7 +630,7 @@ async function runDocsCommand(
 	if (hub) {
 		lines.push(`Marketplace index: ${hub.manifestPath}`);
 		// Agent 几乎一定会先跑 docs，所以这是告诉它「索引要对账」的最佳时机。
-		lines.push("After changing version/permissions, run `vetta-plugin-cli sync` at the repository root.");
+		lines.push("After changing version/permissions, run `origin-plugin-cli sync` at the repository root.");
 	}
 	dependencies.writeStdout(`${lines.join("\n")}\n`);
 	return 0;
@@ -643,7 +643,7 @@ async function runDocsCommand(
  * 版本一致。代价是它不会自己变新，所以「怎么变新」必须由 CLI 每次说一遍：`npx` 默认取最新的
  * CLI，它的输出是这条链路上唯一不会过期的位置。
  */
-const SDK_REFRESH_COMMAND = "npm i -D @origin-org/plugin-sdk@latest && npx vetta-plugin-cli docs";
+const SDK_REFRESH_COMMAND = "npm i -D @origin-org/plugin-sdk@latest && npx origin-plugin-cli docs";
 
 /** 刷新说明书的命令。与手册各刷各的：一个随 SDK 走，一个随 CLI 走。 */
 const GUIDE_REFRESH_COMMAND = "npx @origin-org/plugin-cli init --refresh-guide";
@@ -727,7 +727,7 @@ function runRefreshGuideCommand(
 		}
 		dependencies.writeStdout(
 			result.written
-				? `Rewrote ${result.file}\nNext: npx vetta-plugin-cli docs --check-latest\n`
+				? `Rewrote ${result.file}\nNext: npx origin-plugin-cli docs --check-latest\n`
 				// dry-run 把正文直接吐到 stdout，人工合并时可以重定向成文件再 diff。
 				: `${result.content}`,
 		);
@@ -762,8 +762,8 @@ function runInitCommand(
 				? `${JSON.stringify({ ok: true, ...result })}\n`
 				: [
 						`Created ${result.pluginId} at ${result.root}`,
-						"Next: npm install && npm run install:vetta",
-						"The agent brief is in AGENTS.md; after npm install, run `npx vetta-plugin-cli docs` for the manual.",
+						"Next: npm install && npm run install:origin",
+						"The agent brief is in AGENTS.md; after npm install, run `npx origin-plugin-cli docs` for the manual.",
 					]
 						.filter(Boolean)
 						.join("\n")
@@ -849,7 +849,7 @@ async function runUninstallCommand(
 			const project = findPluginProject(cwd);
 			if (!project) {
 				throw new Error(
-					`No plugin.json found in ${cwd} or any parent directory. Pass the id: vetta-plugin-cli uninstall <plugin-id>`,
+					`No plugin.json found in ${cwd} or any parent directory. Pass the id: origin-plugin-cli uninstall <plugin-id>`,
 				);
 			}
 			pluginId = project.pluginId;
@@ -874,7 +874,7 @@ async function runUninstallCommand(
 }
 
 /**
- * 对账能力市场索引。定位靠向上找 `.vetta/marketplace.json`，因此在仓库任何位置都能跑。
+ * 对账能力市场索引。定位靠向上找 `.origin/marketplace.json`，因此在仓库任何位置都能跑。
  *
  * `--check` 只报不写并以非零退出，给 CI 用：索引漂移的三种后果里，两种不在作者机器上复现，
  * 一种压根不报错，光靠人自觉看不住。
@@ -886,7 +886,7 @@ function runSyncCommand(
 	const cwd = dependencies.cwd?.() ?? process.cwd();
 	const hub = findPluginHub(cwd);
 	if (!hub) {
-		const message = `No .vetta/marketplace.json found in ${cwd} or any parent directory. sync is for marketplace repositories.\n`;
+		const message = `No .origin/marketplace.json found in ${cwd} or any parent directory. sync is for marketplace repositories.\n`;
 		if (command.json) {
 			dependencies.writeStdout(`${JSON.stringify({ ok: false, error: { code: "HUB_NOT_FOUND", message: message.trim() } })}\n`);
 		} else {
@@ -932,7 +932,7 @@ function formatSyncReport(result: ReturnType<typeof syncMarketplaceIndex>, check
 		for (const dir of result.unlisted) lines.push(`  ${dir}`);
 	}
 	if (lines.length === 0) return "Index is in sync.\n";
-	if (check && result.changes.length > 0) lines.push("Run `vetta-plugin-cli sync` to apply.");
+	if (check && result.changes.length > 0) lines.push("Run `origin-plugin-cli sync` to apply.");
 	return `${lines.join("\n")}\n`;
 }
 
@@ -955,7 +955,7 @@ function runInitHubCommand(
 				: [
 						`Created marketplace ${result.name} at ${result.root}`,
 						"Add an ability: npx @origin-org/plugin-cli init --id <slug> --name \"<Display>\" abilities/plugins/<slug>",
-						"Then list it in .vetta/marketplace.json and run: npx @origin-org/plugin-cli sync",
+						"Then list it in .origin/marketplace.json and run: npx @origin-org/plugin-cli sync",
 						"The working agreement for agents is in AGENTS.md.",
 					].join("\n") + "\n",
 		);

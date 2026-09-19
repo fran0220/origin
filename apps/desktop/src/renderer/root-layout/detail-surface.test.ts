@@ -33,13 +33,13 @@ describe("detailSurfaceForPath", () => {
 	});
 
 	it("认得路由器双层编码的项目与查看器路径", () => {
-		const cwd = "/Users/m4/.vetta/workspace/无纸会议移动端";
+		const cwd = "/Users/m4/.origin/workspace/无纸会议移动端";
 		expect(detailSurfaceForPath(`/project/${encodeURIComponent(encodeURIComponent(cwd))}`)).toEqual({
 			kind: "project",
 			key: `project:${cwd}`,
 			cwd,
 		});
-		const sessionPath = "/Users/m4/.vetta/workspace/无纸会议移动端/session.jsonl";
+		const sessionPath = "/Users/m4/.origin/workspace/无纸会议移动端/session.jsonl";
 		expect(detailSurfaceForPath(`/viewer/${encodeURIComponent(encodeURIComponent(sessionPath))}`)).toEqual({
 			kind: "viewer",
 			key: `viewer:${sessionPath}`,

@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { URL } from "node:url";
-import { getVettaHomePath, VETTA_HOME_ENV } from "@origin/action-rpc";
+import { getOriginHomePath, ORIGIN_HOME_ENV } from "@origin/action-rpc";
 import { app, type BrowserWindow, dialog, ipcMain, nativeImage, nativeTheme, protocol, session, shell } from "electron";
 import { APP_PROTOCOL_SCHEMES, APP_RUNTIME_NAME, isAppProtocolUrl } from "../shared/app-identity.js";
 import { isCloudBuildEnabled } from "../shared/feature-flags.js";
@@ -119,7 +119,7 @@ const isMac = process.platform === "darwin";
 const appRoot = app.isPackaged ? app.getAppPath() : process.cwd();
 const buildDir = join(appRoot, "build");
 const devMainEntryPath = join(appRoot, "dist/main/index.js");
-const packagedCliBinaryName = process.platform === "win32" ? "vetta.exe" : "vetta";
+const packagedCliBinaryName = process.platform === "win32" ? "origin.exe" : "origin";
 const packagedCliPlatformTag = `${process.platform}-${process.arch}`;
 const packagedCliAppPath = join(process.resourcesPath, "cli-app", "bin", packagedCliPlatformTag, packagedCliBinaryName);
 // Command-specific parsers run before the top-level help parser so commands
@@ -194,10 +194,10 @@ const mainLog = getAppLogger("main");
 const rendererCdp = configureRendererCdp({
 	isCliMode,
 	isPackaged: app.isPackaged,
-	devServerUrl: process.env.VETTA_DESKTOP_DEV_URL,
-	portValue: process.env.VETTA_DEBUG_CDP_PORT,
+	devServerUrl: process.env.ORIGIN_DESKTOP_DEV_URL,
+	portValue: process.env.ORIGIN_DEBUG_CDP_PORT,
 });
-process.env[VETTA_HOME_ENV] = getVettaHomePath();
+process.env[ORIGIN_HOME_ENV] = getOriginHomePath();
 
 if (isCliMode) {
 	const cliUserDataDir =
@@ -209,7 +209,7 @@ if (isCliMode) {
 					? `vetta-action-cli-${process.pid}`
 					: helpCliCommand !== null
 						? `vetta-help-cli-${process.pid}`
-						: `vetta-agent-rpc-${process.pid}`;
+						: `origin-agent-rpc-${process.pid}`;
 	app.setPath("userData", join(tmpdir(), cliUserDataDir));
 	app.commandLine.appendSwitch("disable-gpu");
 	app.commandLine.appendSwitch("disable-gpu-shader-disk-cache");
@@ -236,7 +236,7 @@ if (isCliMode) {
 
 // app 名字必须在任何 safeStorage 调用之前固定，且开发态与打包版取同一个值：
 // safeStorage 按 app 名字定位主密钥，名字分叉会让两侧各持一把密钥，
-// 共享 ~/.vetta 时表现为凭据"丢失"并互相覆盖（见 shared/app-identity.ts）。
+// 共享 ~/.origin 时表现为凭据"丢失"并互相覆盖（见 shared/app-identity.ts）。
 app.name = APP_RUNTIME_NAME;
 
 let ipcTeardown: IpcTeardown | undefined;
@@ -252,7 +252,7 @@ function ensureAppMonitorInitialized(): Promise<void> {
 
 function attachMainWindowLifecycle(mainWindow: BrowserWindow): void {
 	const sendWindowMaximizedChanged = () => {
-		mainWindow.webContents.send("vetta:window:maximized-changed", mainWindow.isMaximized());
+		mainWindow.webContents.send("origin:window:maximized-changed", mainWindow.isMaximized());
 	};
 	mainWindow.on("maximize", sendWindowMaximizedChanged);
 	mainWindow.on("unmaximize", sendWindowMaximizedChanged);
@@ -307,7 +307,7 @@ if (!isCliMode) {
 	}
 }
 
-// 云服务模块句柄：lite 构建（VETTA_CLOUD_ENABLED=false）恒为 null。
+// 云服务模块句柄：lite 构建（ORIGIN_CLOUD_ENABLED=false）恒为 null。
 let cloudMain: CloudMainHandle | null = null;
 
 function handleProtocolUrl(rawUrl: string): void {
@@ -453,19 +453,19 @@ if (!gotSingleLock) {
 				return win;
 			},
 		});
-		const remoteControlUrl = process.env.VETTA_REMOTE_CONTROL_URL;
-		const remotePairingToken = process.env.VETTA_REMOTE_PAIRING_TOKEN;
+		const remoteControlUrl = process.env.ORIGIN_REMOTE_CONTROL_URL;
+		const remotePairingToken = process.env.ORIGIN_REMOTE_PAIRING_TOKEN;
 		const remoteDesktopTarget =
-			process.env.VETTA_REMOTE_DESKTOP_SIGNALING_URL ?? desktopSignalingTarget(remoteControlUrl);
-		const remoteDesktopToken = process.env.VETTA_REMOTE_DESKTOP_PAIRING_TOKEN ?? remotePairingToken;
+			process.env.ORIGIN_REMOTE_DESKTOP_SIGNALING_URL ?? desktopSignalingTarget(remoteControlUrl);
+		const remoteDesktopToken = process.env.ORIGIN_REMOTE_DESKTOP_PAIRING_TOKEN ?? remotePairingToken;
 		if (remoteDesktopTarget && remoteDesktopToken) {
 			void startDesktopRemoteDesktopHost({
 				signalingUrl: remoteDesktopTarget,
 				pairingToken: remoteDesktopToken,
-				inputEnabled: process.env.VETTA_REMOTE_DESKTOP_INPUT_ENABLED === "true",
+				inputEnabled: process.env.ORIGIN_REMOTE_DESKTOP_INPUT_ENABLED === "true",
 				appRoot,
 				isPackaged: app.isPackaged,
-				devServerUrl: process.env.VETTA_DESKTOP_DEV_URL,
+				devServerUrl: process.env.ORIGIN_DESKTOP_DEV_URL,
 			}).catch((error: unknown) => {
 				mainLog.error("remote desktop host failed to start", error);
 			});
@@ -476,7 +476,7 @@ if (!gotSingleLock) {
 			if (mainWindow.isDestroyed()) return;
 			// 被安装器重启时应用不是活动应用（ShipIt 以守护进程身份拉起），
 			// 窗口 show() 出不来，用户以为没重启。仅这一种情况主动抢焦点。
-			if (consumePendingUpdateRelaunch(getVettaHomePath()) && isMac) {
+			if (consumePendingUpdateRelaunch(getOriginHomePath()) && isMac) {
 				app.focus({ steal: true });
 			}
 			// Windows: first ShowWindow may be swallowed by STARTUPINFO SW_HIDE
@@ -513,7 +513,7 @@ if (!gotSingleLock) {
 		}
 
 		// Theme IPC
-		ipcMain.handle("vetta:theme:set", (_event, mode: string) => {
+		ipcMain.handle("origin:theme:set", (_event, mode: string) => {
 			nativeTheme.themeSource = mode as "system" | "light" | "dark";
 			const mainWindow = getMainWindow();
 			if (mainWindow) {
@@ -522,7 +522,7 @@ if (!gotSingleLock) {
 			}
 		});
 
-		ipcMain.handle("vetta:theme:get-native", () => {
+		ipcMain.handle("origin:theme:get-native", () => {
 			return {
 				source: nativeTheme.themeSource,
 				shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
@@ -535,29 +535,29 @@ if (!gotSingleLock) {
 				if (!isMac) {
 					mainWindow.setBackgroundColor(nativeTheme.shouldUseDarkColors ? "#161616" : "#f5f5f7");
 				}
-				mainWindow.webContents.send("vetta:theme:native-changed", {
+				mainWindow.webContents.send("origin:theme:native-changed", {
 					shouldUseDarkColors: nativeTheme.shouldUseDarkColors,
 				});
 			}
 		});
 
-		ipcMain.handle("vetta:shell:show-in-folder", async (_event, fullPath: string) => {
+		ipcMain.handle("origin:shell:show-in-folder", async (_event, fullPath: string) => {
 			await shell.openPath(fullPath);
 		});
 
-		ipcMain.handle("vetta:shell:show-item-in-folder", (_event, fullPath: string) => {
+		ipcMain.handle("origin:shell:show-item-in-folder", (_event, fullPath: string) => {
 			shell.showItemInFolder(fullPath);
 		});
 
-		ipcMain.handle("vetta:shell:open-external", async (_event, url: string) => {
+		ipcMain.handle("origin:shell:open-external", async (_event, url: string) => {
 			await openExternalUrl(url);
 		});
 
-		ipcMain.handle("vetta:window:minimize", () => {
+		ipcMain.handle("origin:window:minimize", () => {
 			getMainWindow()?.minimize();
 		});
 
-		ipcMain.handle("vetta:window:maximize", () => {
+		ipcMain.handle("origin:window:maximize", () => {
 			const mainWindow = getMainWindow();
 			if (mainWindow?.isMaximized()) {
 				mainWindow.unmaximize();
@@ -566,15 +566,15 @@ if (!gotSingleLock) {
 			}
 		});
 
-		ipcMain.handle("vetta:window:close", () => {
+		ipcMain.handle("origin:window:close", () => {
 			getMainWindow()?.close();
 		});
 
-		ipcMain.handle("vetta:window:is-maximized", () => {
+		ipcMain.handle("origin:window:is-maximized", () => {
 			return getMainWindow()?.isMaximized() ?? false;
 		});
 
-		ipcMain.handle("vetta:window:toggle-always-on-top", () => {
+		ipcMain.handle("origin:window:toggle-always-on-top", () => {
 			const mainWindow = getMainWindow();
 			if (!mainWindow) return false;
 			const next = !mainWindow.isAlwaysOnTop();
@@ -582,7 +582,7 @@ if (!gotSingleLock) {
 			return next;
 		});
 
-		ipcMain.handle("vetta:window:is-always-on-top", () => {
+		ipcMain.handle("origin:window:is-always-on-top", () => {
 			return getMainWindow()?.isAlwaysOnTop() ?? false;
 		});
 
@@ -590,7 +590,7 @@ if (!gotSingleLock) {
 		// 供「移动UI预览」插件导出渲染图：iframe 内容跨源，渲染端画不出来，
 		// 只能由 Chromium 合成器整体截屏。返回保存路径，取消返回 null。
 		ipcMain.handle(
-			"vetta:window:capture-region",
+			"origin:window:capture-region",
 			async (
 				event,
 				rect: { x: number; y: number; width: number; height: number },
@@ -614,21 +614,21 @@ if (!gotSingleLock) {
 			},
 		);
 
-		ipcMain.handle("vetta:tray:set-quit-behavior", (_event, hideToTray: boolean) => {
+		ipcMain.handle("origin:tray:set-quit-behavior", (_event, hideToTray: boolean) => {
 			setHideToTrayOnClose(hideToTray);
 		});
 
-		ipcMain.handle("vetta:tray:get-quit-behavior", () => {
+		ipcMain.handle("origin:tray:get-quit-behavior", () => {
 			return getHideToTrayOnClose();
 		});
 
-		ipcMain.handle("vetta:tray:set-tooltip", (_event, tooltip: string) => {
+		ipcMain.handle("origin:tray:set-tooltip", (_event, tooltip: string) => {
 			getTray()?.setToolTip(tooltip);
 		});
 
 		// 注意：channel 名叫 auth 只是历史沿革，实际是通用的「用系统浏览器打开 URL」，
 		// 浏览器面板等非云功能也在用，因此留在宿主、不随 cloud 模块裁剪。
-		ipcMain.handle("vetta:auth:open-external", async (_event, url: string) => {
+		ipcMain.handle("origin:auth:open-external", async (_event, url: string) => {
 			await openExternalUrl(url);
 		});
 
@@ -644,24 +644,24 @@ if (!gotSingleLock) {
 		}
 
 		// 默认「对话」项目目录：保证一直存在。
-		// 顺带把 in-tree session 目录（<cwd>/.vetta/sessions）也建好，
+		// 顺带把 in-tree session 目录（<cwd>/.origin/sessions）也建好，
 		// 让默认项目走与批量项目一致的会话布局，避免设备相关的编码路径。
 		try {
-			await mkdir(join(getVettaHomePath(), "conversation", ".vetta", "sessions"), { recursive: true });
+			await mkdir(join(getOriginHomePath(), "conversation", ".origin", "sessions"), { recursive: true });
 		} catch (err) {
 			mainLog.error("failed to ensure default conversation dir", err);
 		}
 		// im-gateway 独立 cwd（ADR-0005）：跟桌面「对话」物理分家。先把空目录建好，
 		// 这样 sidecar 启动前 desktop 的 Claw tab 也能正常 listSessions（拿到空列表）。
 		try {
-			await mkdir(join(getVettaHomePath(), "im-gateway", "conversation", ".vetta", "sessions"), {
+			await mkdir(join(getOriginHomePath(), "im-gateway", "conversation", ".origin", "sessions"), {
 				recursive: true,
 			});
 		} catch (err) {
 			mainLog.error("failed to ensure im-gateway conversation dir", err);
 		}
 
-		// 托管运行时(ADR-0011):首启从内置 vendor 拷贝 node/python 到 ~/.vetta/runtimes,
+		// 托管运行时(ADR-0011):首启从内置 vendor 拷贝 node/python 到 ~/.origin/runtimes,
 		// 再把它们 + 国内镜像源注入全局 process.env。必须早于 getImHost().bootstrap()——
 		// 快速应用已经存在的托管运行时路径；vendor seed、系统探测和 shim 修复放到
 		// 首帧之后执行，避免这些维护工作阻塞窗口出现。
@@ -671,7 +671,7 @@ if (!gotSingleLock) {
 			void startDesktopRemoteAccess({
 				controlUrl: remoteControlUrl,
 				pairingToken: remotePairingToken,
-				conversationCwd: join(getVettaHomePath(), "conversation"),
+				conversationCwd: join(getOriginHomePath(), "conversation"),
 			}).catch((error: unknown) => {
 				mainLog.error("remote access connector failed to start", error);
 			});
@@ -694,26 +694,26 @@ if (!gotSingleLock) {
 			}
 
 			try {
-				let vettaAppPath: string;
-				let vettaCliPath: string;
+				let originAppPath: string;
+				let originCliPath: string;
 				if (app.isPackaged) {
-					vettaAppPath = process.execPath;
-					vettaCliPath = packagedCliAppPath;
+					originAppPath = process.execPath;
+					originCliPath = packagedCliAppPath;
 				} else {
-					vettaAppPath = await ensureDevCliShim({
+					originAppPath = await ensureDevCliShim({
 						appRoot,
 						electronPath: process.execPath,
 						mainEntryPath: devMainEntryPath,
 					});
-					vettaCliPath = await ensureDevVettaCliShim({
+					originCliPath = await ensureDevVettaCliShim({
 						appRoot,
 						cliAppRoot: join(appRoot, "..", "cli-host"),
 					});
 				}
-				process.env.VETTA_DESKTOP_EXE = vettaAppPath;
-				process.env.VETTA_CLI_APP_PATH = vettaCliPath;
-				await ensureVettaCommandShim(vettaCliPath);
-				await persistVettaCliPaths({ vettaAppPath, vettaCliAppPath: vettaCliPath });
+				process.env.ORIGIN_DESKTOP_EXE = originAppPath;
+				process.env.ORIGIN_CLI_APP_PATH = originCliPath;
+				await ensureVettaCommandShim(originCliPath);
+				await persistVettaCliPaths({ originAppPath, originCliAppPath: originCliPath });
 			} catch (err) {
 				mainLog.error("failed to install vetta CLI paths", err);
 			}
@@ -737,9 +737,9 @@ if (!gotSingleLock) {
 		const remotePairingService = new DesktopRemotePairingService({
 			appRoot,
 			isPackaged: app.isPackaged,
-			devServerUrl: process.env.VETTA_DESKTOP_DEV_URL,
-			conversationCwd: join(getVettaHomePath(), "conversation"),
-			defaultRelayBaseUrl: process.env.VETTA_REMOTE_RELAY_BASE_URL,
+			devServerUrl: process.env.ORIGIN_DESKTOP_DEV_URL,
+			conversationCwd: join(getOriginHomePath(), "conversation"),
+			defaultRelayBaseUrl: process.env.ORIGIN_REMOTE_RELAY_BASE_URL,
 		});
 
 		// Register IPC handlers

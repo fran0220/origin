@@ -18,7 +18,7 @@ export const loadAbilitiesPage = memoizeLoader(() =>
 );
 
 export const loadAgentsPage = memoizeLoader(() =>
-	import("../domains/agent-teams/components/AgentCenterPage").then((module) => ({
+	import("../domains/agent-profiles/components/AgentCenterPage").then((module) => ({
 		default: module.AgentCenterPage,
 	})),
 );

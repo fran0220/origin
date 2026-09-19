@@ -74,7 +74,7 @@ describe("MessageInput compound primitives", () => {
 		);
 
 		const surface = screen.getByTestId("surface");
-		expect(surface.getAttribute("data-vetta-drop-scope")).toBe("input");
+		expect(surface.getAttribute("data-origin-drop-scope")).toBe("input");
 		expect(surface.className).toContain("input-card");
 		expect(surface.querySelector('[data-theme-surface="chat.inputBar"]')).toBeTruthy();
 	});

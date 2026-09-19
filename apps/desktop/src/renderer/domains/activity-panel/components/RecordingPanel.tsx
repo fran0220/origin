@@ -1,5 +1,5 @@
 import type { RecordingRecord } from "@origin/runtime-recording";
-import { toVettaFileUrl } from "@shared/lib/utils";
+import { toOriginFileUrl } from "@shared/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useActivityPanelCwd } from "../registry/context";
@@ -15,7 +15,7 @@ export function RecordingPanel(): JSX.Element {
 
 	const refresh = useCallback(async () => {
 		try {
-			setRecords(await window.vetta.recording.list());
+			setRecords(await window.originApp.recording.list());
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));
 		}
@@ -77,7 +77,7 @@ export function RecordingPanel(): JSX.Element {
 				<video
 					className="max-h-48 w-full rounded-md bg-black"
 					controls
-					src={toVettaFileUrl(selected.video.path)}
+					src={toOriginFileUrl(selected.video.path)}
 				>
 					<track kind="captions" />
 				</video>
@@ -89,7 +89,7 @@ export function RecordingPanel(): JSX.Element {
 					disabled={busy || !cwd}
 					onClick={() =>
 						void run(() =>
-							window.vetta.recording.start({
+							window.originApp.recording.start({
 								projectKey: "home",
 								sessionId: "desktop",
 								url: "https://example.com",
@@ -104,7 +104,7 @@ export function RecordingPanel(): JSX.Element {
 					type="button"
 					className="rounded-md border border-input px-2 py-1 text-[12px]"
 					disabled={busy || !selected}
-					onClick={() => selected && void run(() => window.vetta.recording.stop(selected.id))}
+					onClick={() => selected && void run(() => window.originApp.recording.stop(selected.id))}
 				>
 					{t("stop")}
 				</button>
@@ -115,7 +115,7 @@ export function RecordingPanel(): JSX.Element {
 					onClick={() =>
 						selected &&
 						void run(async () => {
-							const sample = await window.vetta.recording.sample({
+							const sample = await window.originApp.recording.sample({
 								recordingId: selected.id,
 								everyMs: 1_000,
 								contactSheet: { columns: 3 },
@@ -130,7 +130,7 @@ export function RecordingPanel(): JSX.Element {
 					type="button"
 					className="rounded-md border border-input px-2 py-1 text-[12px]"
 					disabled={busy || !selected}
-					onClick={() => selected && void run(() => window.vetta.recording.clear(selected.id))}
+					onClick={() => selected && void run(() => window.originApp.recording.clear(selected.id))}
 				>
 					{t("clear")}
 				</button>
@@ -138,7 +138,7 @@ export function RecordingPanel(): JSX.Element {
 			{samplePaths.length > 0 ? (
 				<div className="flex flex-wrap gap-1">
 					{samplePaths.map((path) => (
-						<img key={path} alt={t("framePreview")} className="h-16 w-auto rounded" src={toVettaFileUrl(path)} />
+						<img key={path} alt={t("framePreview")} className="h-16 w-auto rounded" src={toOriginFileUrl(path)} />
 					))}
 				</div>
 			) : null}

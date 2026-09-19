@@ -46,7 +46,7 @@ export class ArtifactStore {
 	private readonly root: string;
 
 	constructor(options: ArtifactStoreOptions = {}) {
-		this.root = options.root ?? join(tmpdir(), "vetta-artifacts", String(process.pid));
+		this.root = options.root ?? join(tmpdir(), "origin-artifacts", String(process.pid));
 	}
 
 	async putBase64(ownerId: string, data: string, metadata: ArtifactWriteMetadata): Promise<ArtifactRef> {

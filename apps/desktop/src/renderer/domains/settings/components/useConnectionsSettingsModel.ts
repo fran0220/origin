@@ -48,13 +48,13 @@ export function useConnectionsSettingsModel(): ConnectionsSettingsModel {
 	const [quotas, setQuotas] = useState<Record<string, LiveQuota>>({});
 
 	const reload = useCallback(async () => {
-		const result = await window.vetta.connections.list();
+		const result = await window.originApp.connections.list();
 		setConnections(result.connections);
 		setWarning(result.warning?.message ?? null);
 		const next: Record<string, LiveQuota> = {};
 		await Promise.all(
 			result.connections.map(async (state) => {
-				next[state.descriptor.id] = await window.vetta.connections.quota(state.descriptor.id);
+				next[state.descriptor.id] = await window.originApp.connections.quota(state.descriptor.id);
 			}),
 		);
 		setQuotas(next);
@@ -69,7 +69,7 @@ export function useConnectionsSettingsModel(): ConnectionsSettingsModel {
 	const onSave = useCallback(async () => {
 		setSaving(true);
 		try {
-			await window.vetta.connections.upsert({
+			await window.originApp.connections.upsert({
 				displayName: form.displayName,
 				endpoint: form.endpoint,
 				protocol: form.protocol,
@@ -99,7 +99,7 @@ export function useConnectionsSettingsModel(): ConnectionsSettingsModel {
 				return;
 			}
 			if (action === "remove") {
-				await window.vetta.connections.remove(state.descriptor.id);
+				await window.originApp.connections.remove(state.descriptor.id);
 				await reload();
 			}
 		},

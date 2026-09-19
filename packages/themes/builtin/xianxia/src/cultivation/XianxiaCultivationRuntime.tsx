@@ -9,7 +9,7 @@ const SYNC_INTERVAL_MS = 30_000;
  * Headless runtime: app-monitor aggregates → theme cultivation storage.
  * CultivationRepository owns persistence for the canonical cultivation state.
  * Verify via console `[xianxia-cultivation]` and
- * `~/.vetta/desktop-app/themes/xianxia/{cultivation,cultivation-history}.json`.
+ * `~/.origin/desktop-app/themes/xianxia/{cultivation,cultivation-history}.json`.
  */
 export function XianxiaCultivationRuntime(): null {
 	const repository = useCultivationRepository();

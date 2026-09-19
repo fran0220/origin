@@ -5,7 +5,7 @@ import type { Plugin } from "vite";
 export const HOST_THEME_STYLESHEET_ID = "@origin-org/plugin-sdk/tailwind-theme.css";
 
 const HOST_THEME_IMPORT = `@import "${HOST_THEME_STYLESHEET_ID}";`;
-const HOST_THEME_IMPORT_PATTERN = /@import\s+["']@vetta-org\/plugin-sdk\/tailwind-theme\.css["']\s*;/u;
+const HOST_THEME_IMPORT_PATTERN = /@import\s+["']@origin-org\/plugin-sdk\/tailwind-theme\.css["']\s*;/u;
 const TAILWIND_IMPORT_PATTERN = /@import\s+["']tailwindcss(?:\/(?:theme|utilities)\.css)?["'](?:\s+layer\([^)]*\))?\s*;/u;
 
 export function injectHostThemeBridge(css: string): string | undefined {
@@ -19,7 +19,7 @@ export function injectHostThemeBridge(css: string): string | undefined {
 export function createHostThemeBridgePlugin(): Plugin {
 	let rootDir = "";
 	return {
-		name: "vetta-plugin-host-theme",
+		name: "origin-plugin-host-theme",
 		enforce: "pre",
 		configResolved(config) {
 			rootDir = config.root;

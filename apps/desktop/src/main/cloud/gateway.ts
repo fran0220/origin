@@ -1,10 +1,10 @@
-import type { VettaGatewayRequest, VettaGatewayResponse } from "../cloud-bridge.js";
+import type { OriginGatewayRequest, OriginGatewayResponse } from "../cloud-bridge.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
 import { readAccountAccessToken } from "../credentials/account-token-store.js";
 import { getAppLogger } from "../logger.js";
 import { tryRefreshAccessToken } from "./auth-session.js";
 
-export type { VettaGatewayRequest, VettaGatewayResponse };
+export type { OriginGatewayRequest, OriginGatewayResponse };
 
 const log = getAppLogger("vetta-gateway");
 
@@ -49,7 +49,7 @@ async function readBody(response: Response): Promise<string> {
 	return body;
 }
 
-function unwrap<T>(status: number, body: string): VettaGatewayResponse<T> {
+function unwrap<T>(status: number, body: string): OriginGatewayResponse<T> {
 	let envelope: ApiEnvelope<T> | undefined;
 	try {
 		envelope = body.length > 0 ? (JSON.parse(body) as ApiEnvelope<T>) : undefined;
@@ -58,7 +58,7 @@ function unwrap<T>(status: number, body: string): VettaGatewayResponse<T> {
 	}
 	const code = envelope?.code ?? -1;
 	const ok = status >= 200 && status < 300 && code === 0;
-	const result: VettaGatewayResponse<T> = {
+	const result: OriginGatewayResponse<T> = {
 		ok,
 		status,
 		code,
@@ -69,10 +69,10 @@ function unwrap<T>(status: number, body: string): VettaGatewayResponse<T> {
 }
 
 /** Authenticated Vetta `/api/v1` transport. Callers never receive the token. */
-export async function requestVettaGateway<T = unknown>(
-	request: VettaGatewayRequest,
+export async function requestOriginGateway<T = unknown>(
+	request: OriginGatewayRequest,
 	signal?: AbortSignal,
-): Promise<VettaGatewayResponse<T>> {
+): Promise<OriginGatewayResponse<T>> {
 	const url = `${baseUrl()}/${resolvePath(request.path)}`;
 	const method = request.method ?? (request.body === undefined ? "GET" : "POST");
 	const body = request.body === undefined ? undefined : JSON.stringify(request.body);

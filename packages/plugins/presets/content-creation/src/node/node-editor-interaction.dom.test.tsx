@@ -102,7 +102,7 @@ describe("node editor interaction boundary", () => {
 							kind: "image",
 							name: "Mood board",
 							mimeType: "image/png",
-							previewUrl: "vetta-media://mood",
+							previewUrl: "origin-media://mood",
 							createdAt: "2026-01-01T00:00:00.000Z",
 						},
 					},
@@ -124,9 +124,9 @@ describe("node editor interaction boundary", () => {
 
 		expect(screen.getByTestId("popover-content")).toBeTruthy();
 		const optionPreview = screen.getByRole("img", { name: "Mood board" });
-		expect(optionPreview.getAttribute("src")).toBe("vetta-media://mood");
+		expect(optionPreview.getAttribute("src")).toBe("origin-media://mood");
 		fireEvent.click(screen.getByText("Mood board"));
-		expect(editor.querySelector("img")?.getAttribute("src")).toBe("vetta-media://mood");
+		expect(editor.querySelector("img")?.getAttribute("src")).toBe("origin-media://mood");
 	});
 
 	it("preserves an active prompt draft across stale parent refreshes", () => {
@@ -221,7 +221,7 @@ describe("node editor interaction boundary", () => {
 							kind: "image",
 							name: "Mood board",
 							mimeType: "image/png",
-							previewUrl: "vetta-media://mood",
+							previewUrl: "origin-media://mood",
 							createdAt: "2026-01-01T00:00:00.000Z",
 						},
 					},
@@ -264,7 +264,7 @@ describe("node editor interaction boundary", () => {
 		expect(screen.getByText("Storyboard prompt")).toBeTruthy();
 		expect(screen.getByText("Mood board")).toBeTruthy();
 		fireEvent.click(screen.getByText("Mood board"));
-		expect(editor.querySelector("img")?.getAttribute("src")).toBe("vetta-media://mood");
+		expect(editor.querySelector("img")?.getAttribute("src")).toBe("origin-media://mood");
 		expect(onUpdate).toHaveBeenCalledWith(
 			expect.objectContaining({
 				inputs: expect.arrayContaining([

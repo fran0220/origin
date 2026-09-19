@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import { isLanguagePreference, type LanguagePreference } from "../../shared/i18n/config.js";
 import { normalizeShortcutsConfig, type ShortcutsConfig } from "../../shared/shortcuts.js";
@@ -15,8 +15,8 @@ export interface ProjectEntry {
 
 /** 实验性功能开关分组（设置页「Agent配置 → 扩展功能」）。新增实验项只加一个键。 */
 export interface ExperimentalConfig {
-	/** Vetta CLI 提示词：开启后仅注入桌面端对话会话。缺省开。 */
-	vettaCli?: boolean;
+	/** Origin CLI 提示词：开启后仅注入桌面端对话会话。缺省开。 */
+	originCli?: boolean;
 	/** 输入预测：每轮正常回答后预测用户下一个可能输入的 prompt。缺省关。 */
 	promptPrediction?: boolean;
 	/** 适配通用 Agent Skill。缺省开。 */
@@ -37,8 +37,8 @@ export interface DesktopConfig {
 	workspacePath: string;
 	defaultExecutionMode: "sandbox" | "full-access";
 	debugMode?: boolean;
-	vettaAppPath?: string;
-	vettaCliAppPath?: string;
+	originAppPath?: string;
+	originCliAppPath?: string;
 	notificationsEnabled?: boolean;
 	language?: LanguagePreference;
 	/** 新建会话的默认工作模式（合法值来自 main/agent-modes 模式注册表，ADR-0071）。会话创建时固化进会话，改这里只影响之后新建的会话。 */
@@ -85,23 +85,23 @@ export interface KnowledgeBaseConfig {
 	ocrConcurrency?: number;
 }
 
-export const DEFAULT_CONVERSATION_CWD = join(getVettaHomePath(), "conversation");
-export const DEFAULT_CONVERSATION_SESSION_DIR = join(DEFAULT_CONVERSATION_CWD, ".vetta", "sessions");
-export const DEFAULT_IM_CONVERSATION_CWD = join(getVettaHomePath(), "im-gateway", "conversation");
-export const DEFAULT_IM_CONVERSATION_SESSION_DIR = join(DEFAULT_IM_CONVERSATION_CWD, ".vetta", "sessions");
-export const KB_PROCESSING_CWD = join(getVettaHomePath(), "knowledges", "processing_records");
-export const KB_PROCESSING_SESSION_DIR = join(KB_PROCESSING_CWD, ".vetta", "sessions");
+export const DEFAULT_CONVERSATION_CWD = join(getOriginHomePath(), "conversation");
+export const DEFAULT_CONVERSATION_SESSION_DIR = join(DEFAULT_CONVERSATION_CWD, ".origin", "sessions");
+export const DEFAULT_IM_CONVERSATION_CWD = join(getOriginHomePath(), "im-gateway", "conversation");
+export const DEFAULT_IM_CONVERSATION_SESSION_DIR = join(DEFAULT_IM_CONVERSATION_CWD, ".origin", "sessions");
+export const KB_PROCESSING_CWD = join(getOriginHomePath(), "knowledges", "processing_records");
+export const KB_PROCESSING_SESSION_DIR = join(KB_PROCESSING_CWD, ".origin", "sessions");
 
-const CONFIG_PATH = join(getVettaHomePath(), "desktop-config.json");
+const CONFIG_PATH = join(getOriginHomePath(), "desktop-config.json");
 const DEFAULT_CONFIG: DesktopConfig = {
 	projects: [],
 	archivedProjects: [],
-	workspacePath: join(getVettaHomePath(), "workspace"),
+	workspacePath: join(getOriginHomePath(), "workspace"),
 	defaultExecutionMode: "full-access",
 	defaultAgentMode: "coding",
 	debugMode: false,
 	notificationsEnabled: true,
-	experimental: { vettaCli: true, agentSkills: true },
+	experimental: { originCli: true, agentSkills: true },
 	imageGeneration: {},
 	shortcuts: { bindings: {} },
 	quickPanel: { trigger: "none", postSendBehavior: "foreground" },
@@ -182,14 +182,14 @@ export function normalizeAppshot(value: unknown): AppshotConfig {
 export function normalizeExperimental(value: unknown): ExperimentalConfig {
 	if (typeof value !== "object" || value === null) {
 		return {
-			vettaCli: true,
+			originCli: true,
 			promptPrediction: false,
 			agentSkills: true,
 		};
 	}
 	const input = value as Record<string, unknown>;
 	return {
-		vettaCli: typeof input.vettaCli === "boolean" ? input.vettaCli : true,
+		originCli: typeof input.originCli === "boolean" ? input.originCli : true,
 		promptPrediction: typeof input.promptPrediction === "boolean" ? input.promptPrediction : false,
 		agentSkills: typeof input.agentSkills === "boolean" ? input.agentSkills : true,
 	};
@@ -247,8 +247,8 @@ function parseDesktopConfig(parsed: Record<string, unknown>): DesktopConfig {
 		defaultExecutionMode: normalizeExecutionMode(parsed.defaultExecutionMode),
 		defaultAgentMode: normalizeAgentMode(parsed.defaultAgentMode),
 		debugMode: typeof parsed.debugMode === "boolean" ? parsed.debugMode : false,
-		vettaAppPath: typeof parsed.vettaAppPath === "string" ? parsed.vettaAppPath : undefined,
-		vettaCliAppPath: typeof parsed.vettaCliAppPath === "string" ? parsed.vettaCliAppPath : undefined,
+		originAppPath: typeof parsed.originAppPath === "string" ? parsed.originAppPath : undefined,
+		originCliAppPath: typeof parsed.originCliAppPath === "string" ? parsed.originCliAppPath : undefined,
 		notificationsEnabled: typeof parsed.notificationsEnabled === "boolean" ? parsed.notificationsEnabled : true,
 		language: isLanguagePreference(parsed.language) ? parsed.language : undefined,
 		experimental: normalizeExperimental(parsed.experimental),
@@ -286,9 +286,9 @@ export async function writeDesktopConfig(config: DesktopConfig): Promise<void> {
 	atomicWriteJSON(CONFIG_PATH, config);
 }
 
-export async function persistVettaCliPaths(paths: { vettaAppPath: string; vettaCliAppPath: string }): Promise<void> {
+export async function persistVettaCliPaths(paths: { originAppPath: string; originCliAppPath: string }): Promise<void> {
 	const config = await readDesktopConfig();
-	if (config.vettaAppPath === paths.vettaAppPath && config.vettaCliAppPath === paths.vettaCliAppPath) return;
+	if (config.originAppPath === paths.originAppPath && config.originCliAppPath === paths.originCliAppPath) return;
 	await writeDesktopConfig({ ...config, ...paths });
 }
 

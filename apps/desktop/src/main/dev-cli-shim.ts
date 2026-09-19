@@ -10,9 +10,9 @@ const execFileAsync = promisify(execFile);
 const DEV_CLI_DIR = ".desktop-dev";
 const LAUNCHER_SOURCE_NAME = "vetta-dev-cli-launcher.js";
 const LAUNCHER_BINARY_BASE_NAME = "vetta-dev-cli-launcher";
-const VETTA_CLI_BINARY_BASE_NAME = "vetta-cli-app";
-const VETTA_COMMAND_NAMES = process.platform === "win32" ? ["vetta.exe"] : ["vetta"];
-const WINDOWS_LEGACY_VETTA_COMMAND_NAMES = ["vetta.cmd", "vetta"];
+const ORIGIN_CLI_BINARY_BASE_NAME = "origin-cli-app";
+const ORIGIN_COMMAND_NAMES = process.platform === "win32" ? ["origin.exe"] : ["vetta"];
+const WINDOWS_LEGACY_ORIGIN_COMMAND_NAMES = ["vetta.cmd", "vetta"];
 
 interface DevCliShimOptions {
 	appRoot: string;
@@ -20,7 +20,7 @@ interface DevCliShimOptions {
 	mainEntryPath: string;
 }
 
-interface DevVettaCliShimOptions {
+interface DevOriginCliShimOptions {
 	appRoot: string;
 	cliAppRoot: string;
 }
@@ -145,8 +145,8 @@ function getLauncherBinaryName(): string {
 	return process.platform === "win32" ? `${LAUNCHER_BINARY_BASE_NAME}.exe` : LAUNCHER_BINARY_BASE_NAME;
 }
 
-function getVettaCliBinaryName(): string {
-	return process.platform === "win32" ? `${VETTA_CLI_BINARY_BASE_NAME}.exe` : VETTA_CLI_BINARY_BASE_NAME;
+function getOriginCliBinaryName(): string {
+	return process.platform === "win32" ? `${ORIGIN_CLI_BINARY_BASE_NAME}.exe` : ORIGIN_CLI_BINARY_BASE_NAME;
 }
 
 function resolveBunCommand(): string {
@@ -193,10 +193,10 @@ export async function ensureDevCliShim(options: DevCliShimOptions): Promise<stri
 	return binaryPath;
 }
 
-export async function ensureDevVettaCliShim(options: DevVettaCliShimOptions): Promise<string> {
+export async function ensureDevVettaCliShim(options: DevOriginCliShimOptions): Promise<string> {
 	const shimDir = join(options.appRoot, DEV_CLI_DIR, getCurrentPlatformArchId());
 	const sourceDir = join(options.cliAppRoot, "src");
-	const binaryPath = join(shimDir, getVettaCliBinaryName());
+	const binaryPath = join(shimDir, getOriginCliBinaryName());
 	await mkdir(shimDir, { recursive: true });
 
 	try {
@@ -219,18 +219,18 @@ export async function ensureDevVettaCliShim(options: DevVettaCliShimOptions): Pr
 	return binaryPath;
 }
 
-function createVettaCommandShim(vettaCliAppPath: string): string {
+function createOriginCommandShim(originCliAppPath: string): string {
 	if (process.platform === "win32") {
-		return ["@echo off", `"${vettaCliAppPath}" %*`, ""].join("\r\n");
+		return ["@echo off", `"${originCliAppPath}" %*`, ""].join("\r\n");
 	}
 
-	return ["#!/usr/bin/env sh", `exec "${vettaCliAppPath}" "$@"`, ""].join("\n");
+	return ["#!/usr/bin/env sh", `exec "${originCliAppPath}" "$@"`, ""].join("\n");
 }
 
 async function removeLegacyWindowsCommandShims(binDir: string): Promise<void> {
 	if (process.platform !== "win32") return;
 	await Promise.all(
-		WINDOWS_LEGACY_VETTA_COMMAND_NAMES.map(async (name) => {
+		WINDOWS_LEGACY_ORIGIN_COMMAND_NAMES.map(async (name) => {
 			try {
 				await unlink(join(binDir, name));
 			} catch {
@@ -240,17 +240,17 @@ async function removeLegacyWindowsCommandShims(binDir: string): Promise<void> {
 	);
 }
 
-export async function ensureVettaCommandShim(vettaCliAppPath: string): Promise<string> {
-	await assertExecutable(vettaCliAppPath);
+export async function ensureVettaCommandShim(originCliAppPath: string): Promise<string> {
+	await assertExecutable(originCliAppPath);
 	const binDir = join(getAgentDir(), "bin");
 	await mkdir(binDir, { recursive: true });
 	await removeLegacyWindowsCommandShims(binDir);
-	const shimPaths = VETTA_COMMAND_NAMES.map((name) => join(binDir, name));
+	const shimPaths = ORIGIN_COMMAND_NAMES.map((name) => join(binDir, name));
 	await Promise.all(
 		shimPaths.map((shimPath) =>
 			process.platform === "win32" && shimPath.endsWith(".exe")
-				? copyFileIfChanged(vettaCliAppPath, shimPath)
-				: writeFileIfChanged(shimPath, createVettaCommandShim(vettaCliAppPath)),
+				? copyFileIfChanged(originCliAppPath, shimPath)
+				: writeFileIfChanged(shimPath, createOriginCommandShim(originCliAppPath)),
 		),
 	);
 	for (const shimPath of shimPaths) {

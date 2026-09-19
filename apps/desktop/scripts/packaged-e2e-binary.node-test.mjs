@@ -10,7 +10,7 @@ import {
 } from "./packaged-e2e-binary.mjs";
 
 test("Linux unpacked E2E uses the built AppImage as the updater runtime image", async () => {
-	const packageRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-"));
+	const packageRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-"));
 	const appImage = join(packageRoot, "release", "Origin-1.2.3.AppImage");
 	await mkdir(join(packageRoot, "release"), { recursive: true });
 	await writeFile(appImage, "appimage");
@@ -23,7 +23,7 @@ test("Linux unpacked E2E uses the built AppImage as the updater runtime image", 
 });
 
 test("Linux packaged E2E rejects unsafe or missing AppImage paths", async () => {
-	const packageRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-"));
+	const packageRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-"));
 	try {
 		assert.throws(
 			() => resolvePackagedE2eAppImagePath(packageRoot, "../escape"),
@@ -39,8 +39,8 @@ test("Linux packaged E2E rejects unsafe or missing AppImage paths", async () => 
 });
 
 test("Linux packaged E2E stages an isolated AppImage before updater tests", async () => {
-	const packageRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-"));
-	const temporaryRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-stage-"));
+	const packageRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-"));
+	const temporaryRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-stage-"));
 	const releaseAppImage = join(packageRoot, "release", "Origin-1.2.3.AppImage");
 	await mkdir(join(packageRoot, "release"), { recursive: true });
 	await writeFile(releaseAppImage, "release-appimage");
@@ -61,7 +61,7 @@ test("Linux packaged E2E stages an isolated AppImage before updater tests", asyn
 });
 
 test("Windows packaged E2E drives the versioned Electron binary instead of the detached launcher", async () => {
-	const packageRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-"));
+	const packageRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-"));
 	const unpackedRoot = join(packageRoot, "release", "win-unpacked");
 	const versionedBinary = join(unpackedRoot, "versions", "1.2.3", "Origin.exe");
 	await mkdir(join(unpackedRoot, "versions", "1.2.3"), { recursive: true });
@@ -79,7 +79,7 @@ test("Windows packaged E2E drives the versioned Electron binary instead of the d
 });
 
 test("Windows packaged E2E rejects an unsafe version pointer", async () => {
-	const packageRoot = await mkdtemp(join(tmpdir(), "vetta-packaged-e2e-"));
+	const packageRoot = await mkdtemp(join(tmpdir(), "origin-packaged-e2e-"));
 	const unpackedRoot = join(packageRoot, "release", "win-unpacked");
 	await mkdir(unpackedRoot, { recursive: true });
 	await writeFile(join(unpackedRoot, "current.json"), '{"version":"../escape"}\n');

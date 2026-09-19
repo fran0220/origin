@@ -38,7 +38,7 @@ function service(
 }
 
 async function createRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-plugin-service-installer-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-plugin-service-installer-"));
 	temporaryDirectories.push(root);
 	return root;
 }

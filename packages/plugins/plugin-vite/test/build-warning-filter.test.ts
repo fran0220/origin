@@ -6,14 +6,14 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { build } from "vite";
 import type { Rollup } from "vite";
 import { isIgnorableThirdPartyClientDirective } from "../src/build-warning-filter.js";
-import { vettaPluginFederation } from "../src/index.js";
+import { originPluginFederation } from "../src/index.js";
 
 const temporaryDirectories: string[] = [];
 const originalFederationTestOverride = process.env.MFE_VITE_NO_TEST_ENV_CHECK;
 const mediaViewerRequire = createRequire(
 	fileURLToPath(new URL("../../presets/media-viewer/package.json", import.meta.url)),
 );
-const vettaUiRoot = fileURLToPath(new URL("../../../ui", import.meta.url));
+const originUiRoot = fileURLToPath(new URL("../../../ui", import.meta.url));
 
 beforeEach(() => {
 	process.env.MFE_VITE_NO_TEST_ENV_CHECK = "true";
@@ -68,7 +68,7 @@ describe("plugin build warning filter", () => {
 						},
 					},
 				},
-				plugins: vettaPluginFederation({
+				plugins: originPluginFederation({
 					name: "warning_filter_fixture",
 					entry: "./src/index.js",
 					package: false,
@@ -94,7 +94,7 @@ async function createDirectiveFixture(): Promise<string> {
 	await Promise.all([
 		symlinkPackage(mediaViewerRequire.resolve("react/package.json"), join(rootDir, "node_modules", "react")),
 		symlinkPackage(mediaViewerRequire.resolve("react-dom/package.json"), join(rootDir, "node_modules", "react-dom")),
-		symlink(vettaUiRoot, join(rootDir, "node_modules", "@vetta", "ui"), "junction"),
+		symlink(originUiRoot, join(rootDir, "node_modules", "@vetta", "ui"), "junction"),
 		writeFile(join(rootDir, "package.json"), JSON.stringify({ private: true, type: "module" })),
 		writeFile(
 			join(rootDir, "plugin.json"),

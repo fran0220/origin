@@ -9,7 +9,7 @@ import { findPluginHub, findPluginProject, resolveManualDir } from "../src/works
 const created: string[] = [];
 
 function scratch(): string {
-	const root = mkdtempSync(join(tmpdir(), "vetta-plugin-cli-"));
+	const root = mkdtempSync(join(tmpdir(), "origin-plugin-cli-"));
 	created.push(root);
 	// 每个夹具都是一个独立仓库：向上查找必须停在这里，不能爬到真实的开发机目录。
 	mkdirSync(join(root, ".git"), { recursive: true });
@@ -22,11 +22,11 @@ function write(path: string, content: string): void {
 }
 
 function installManual(root: string, version: string): string {
-	const docs = join(root, "node_modules", "@vetta-org", "plugin-sdk", "docs");
+	const docs = join(root, "node_modules", "@origin-org", "plugin-sdk", "docs");
 	mkdirSync(docs, { recursive: true });
 	writeFileSync(join(docs, "README.md"), "# manual", "utf8");
 	writeFileSync(
-		join(root, "node_modules", "@vetta-org", "plugin-sdk", "package.json"),
+		join(root, "node_modules", "@origin-org", "plugin-sdk", "package.json"),
 		JSON.stringify({ name: "@origin-org/plugin-sdk", version }),
 		"utf8",
 	);
@@ -51,7 +51,7 @@ describe("workspace resolution", () => {
 
 	it("reports no project at the root of a hub that only indexes plugins", () => {
 		const root = scratch();
-		write(join(root, ".vetta", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
+		write(join(root, ".origin", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
 		write(join(root, "plugins", "demo", "plugin.json"), JSON.stringify({ id: "demo", version: "1.0.0" }));
 
 		// hub 根不是任何一个插件；此时必须由调用方指定目标，而不是猜一个。
@@ -61,11 +61,11 @@ describe("workspace resolution", () => {
 
 	it("finds the hub from inside one of its plugins", () => {
 		const root = scratch();
-		write(join(root, ".vetta", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
+		write(join(root, ".origin", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
 		write(join(root, "plugins", "demo", "plugin.json"), JSON.stringify({ id: "demo", version: "1.0.0" }));
 
 		expect(findPluginHub(join(root, "plugins", "demo"))?.manifestPath).toBe(
-			join(root, ".vetta", "marketplace.json"),
+			join(root, ".origin", "marketplace.json"),
 		);
 	});
 
@@ -143,12 +143,12 @@ describe("installing the current project directory", () => {
 		);
 
 		expect(code).toBe(5);
-		expect(stderr).toContain("vetta-plugin pack");
+		expect(stderr).toContain("origin-plugin pack");
 	});
 
 	it("refuses to guess which plugin a hub root means", async () => {
 		const root = scratch();
-		write(join(root, ".vetta", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
+		write(join(root, ".origin", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
 		write(join(root, "plugins", "demo", "plugin.json"), JSON.stringify({ id: "demo", version: "1.0.0" }));
 		let stderr = "";
 
@@ -293,7 +293,7 @@ describe("docs command", () => {
 		installManual(root, "0.3.0");
 		const pluginRoot = join(root, "plugins", "demo");
 		write(join(pluginRoot, "plugin.json"), JSON.stringify({ id: "demo", version: "1.0.0" }));
-		write(join(root, ".vetta", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
+		write(join(root, ".origin", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
 		let stdout = "";
 
 		const code = await runPluginCommand(
@@ -474,7 +474,7 @@ describe("docs command", () => {
 
 	it("sends the caller into an ability directory when run at a hub root", async () => {
 		const root = scratch();
-		write(join(root, ".vetta", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
+		write(join(root, ".origin", "marketplace.json"), JSON.stringify({ name: "hub", abilities: [] }));
 		let stderr = "";
 
 		const code = await runPluginCommand(

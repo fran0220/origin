@@ -3,7 +3,7 @@ import { RemoteDesktopHost, WebSocketRemoteDesktopSignaling } from "@origin/remo
 
 declare global {
 	interface Window {
-		vettaRemoteDesktop?: { onInput(message: unknown): void };
+		originRemoteDesktop?: { onInput(message: unknown): void };
 	}
 }
 
@@ -38,7 +38,7 @@ host = new RemoteDesktopHost(
 		},
 	},
 	async (signal) => signaling.send(signal),
-	(message) => window.vettaRemoteDesktop?.onInput(message),
+	(message) => window.originAppRemoteDesktop?.onInput(message),
 );
 await host.start(stream, { waitForPeerReady: true });
 for (const signal of pending.splice(0)) await host.acceptSignal(signal);

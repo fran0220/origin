@@ -263,7 +263,7 @@ export function useSessionEventController({ activeSessionRef }: SessionEventCont
 					// Reload history identities so user bubbles get session entryId / branch siblings
 					// (optimistic messages use synthetic ids and cannot be edited until this).
 					// Matching timelines keep live assistant blocks; mismatched shapes still replace.
-					void window.vetta.session
+					void window.originApp.session
 						.getFullHistory(sessionId)
 						.then((history) => {
 							if (activeSessionRef.current?.runtimeId !== sessionId) return;
@@ -314,13 +314,13 @@ export function useSessionEventController({ activeSessionRef }: SessionEventCont
 							const token = suggestionTokenRef.current.get(rid) ?? 0;
 							void (async () => {
 								try {
-									const cfg = await window.vetta.config.get();
+									const cfg = await window.originApp.config.get();
 									if (cfg.experimental?.promptPrediction !== true) return;
 									const conversation = buildRecentConversation(predictSnapshot);
 									if (!conversation) return;
 									// 进入「生成中」：末条 assistant 操作栏显示闪光提示。
 									markPredicting(rid, true);
-									const suggestions = await window.vetta.session.nextPromptSuggestions(rid, conversation);
+									const suggestions = await window.originApp.session.nextPromptSuggestions(rid, conversation);
 									// 过期判定：该会话期间已开新轮 / 发新 prompt 则丢弃。
 									if ((suggestionTokenRef.current.get(rid) ?? 0) !== token) return;
 									setPromptSuggestions((prev) => {
@@ -507,7 +507,7 @@ export function useSessionEventController({ activeSessionRef }: SessionEventCont
 						event.reason === "manual" &&
 						getQueueForSession(getDefaultStore().get(messageQueueBySessionAtom), sessionId).length === 0
 					) {
-						void window.vetta.session
+						void window.originApp.session
 							.getFullHistory(sessionId)
 							.then((history) => {
 								if (activeSessionRef.current?.runtimeId !== sessionId) return;

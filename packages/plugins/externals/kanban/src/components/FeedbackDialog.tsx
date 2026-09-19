@@ -43,7 +43,7 @@ export function FeedbackDialog({ card, onOpenChange, onSubmit, open, skills }: F
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent data-vetta-plugin-root="kanban" className="max-w-md">
+			<DialogContent data-origin-plugin-root="kanban" className="max-w-md">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
 						<span className="icon-[solar--undo-left-round-linear] h-4 w-4 text-amber-500" />

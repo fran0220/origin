@@ -131,7 +131,7 @@ export class RuntimeManager {
 		delete this.data.systemDetection.ffmpeg;
 	}
 
-	/** 内置 vendor → ~/.vetta/runtimes 首启安装。返回是否完成 seed。 */
+	/** 内置 vendor → ~/.origin/runtimes 首启安装。返回是否完成 seed。 */
 	private async seedFromVendor(type: RuntimeType): Promise<boolean> {
 		if (type === "ffmpeg") return this.seedFfmpegFromVendor();
 		const entry = platformEntry(type);
@@ -447,7 +447,7 @@ export class RuntimeManager {
 				"import sys",
 				"import tempfile",
 				"",
-				"if os.name == 'nt' and os.environ.get('VETTA_WINDOWS_SANDBOX') == '1':",
+				"if os.name == 'nt' and os.environ.get('ORIGIN_WINDOWS_SANDBOX') == '1':",
 				"    def _vetta_mkdtemp(suffix=None, prefix=None, dir=None):",
 				"        prefix, suffix, dir, output_type = tempfile._sanitize_params(prefix, suffix, dir)",
 				"        names = tempfile._get_candidate_names()",
@@ -709,8 +709,8 @@ export class RuntimeManager {
 		if (process.platform === "win32" && this.isReady("python")) {
 			this.writePipConfig();
 			process.env.PIP_CONFIG_FILE = this.pipConfigPath();
-			process.env.VETTA_MANAGED_PYTHON_SITE_PACKAGES = this.pythonSitePackagesDir();
-			process.env.VETTA_MANAGED_PYTHON_SCRIPTS = this.pipScriptsDir();
+			process.env.ORIGIN_MANAGED_PYTHON_SITE_PACKAGES = this.pythonSitePackagesDir();
+			process.env.ORIGIN_MANAGED_PYTHON_SCRIPTS = this.pipScriptsDir();
 		}
 		process.env.PIP_INDEX_URL = RUNTIME_MANIFEST.mirrors.pipIndexUrl;
 		process.env.PIP_TRUSTED_HOST = RUNTIME_MANIFEST.mirrors.pipTrustedHost;

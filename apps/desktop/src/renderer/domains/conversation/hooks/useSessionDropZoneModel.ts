@@ -9,14 +9,14 @@ import { useTranslation } from "react-i18next";
 import { insertFileToken, insertImageToken } from "../components/input-bar/editor/inputEditorHandle";
 import { persistImageFiles } from "../components/input-bar/editor/persistImages";
 
-const VETTA_PATH_MIME = "application/vetta-path";
-const VETTA_PATH_META_MIME = "application/vetta-path-meta";
+const ORIGIN_PATH_MIME = "application/origin-path";
+const ORIGIN_PATH_META_MIME = "application/origin-path-meta";
 
 type DragKind = "files" | "internal";
 
 function detectKind(e: React.DragEvent): DragKind | null {
 	const types = Array.from(e.dataTransfer.types);
-	if (types.includes(VETTA_PATH_MIME)) return "internal";
+	if (types.includes(ORIGIN_PATH_MIME)) return "internal";
 	if (types.includes("Files")) return "files";
 	return null;
 }
@@ -102,11 +102,11 @@ export function useSessionDropZoneModel(cwdOverride?: string): SessionDropZoneMo
 			e.stopPropagation();
 
 			if (kind === "internal") {
-				const path = e.dataTransfer.getData(VETTA_PATH_MIME);
+				const path = e.dataTransfer.getData(ORIGIN_PATH_MIME);
 				if (!path) return;
 				let isDirectory = false;
 				let name = pathBasename(path);
-				const metaRaw = e.dataTransfer.getData(VETTA_PATH_META_MIME);
+				const metaRaw = e.dataTransfer.getData(ORIGIN_PATH_META_MIME);
 				if (metaRaw) {
 					try {
 						const meta = JSON.parse(metaRaw) as { isDirectory?: boolean; name?: string };
@@ -137,7 +137,7 @@ export function useSessionDropZoneModel(cwdOverride?: string): SessionDropZoneMo
 				}
 				if (!isDirectory && file.type === "" && file.size === 0) isDirectory = true;
 
-				const path = window.vetta.fs.pathForFile(file);
+				const path = window.originApp.fs.pathForFile(file);
 				if (path && rootDirectory && isSubPath(path, rootDirectory)) {
 					otherEntries.push({ path, name: file.name || pathBasename(path), isDirectory, sizeBytes: file.size });
 					continue;

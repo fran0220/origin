@@ -4,8 +4,8 @@ import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { Plugin, ResolvedConfig } from "vite";
 
 export const PLUGIN_LOGGER_MODULE_ID = "@origin-org/plugin-sdk/logger";
-export const VETTA_PLUGIN_LOGGER_MODULE_ID = "virtual:vetta-plugin-logger";
-const RESOLVED_PLUGIN_LOGGER_MODULE_ID = `\0${VETTA_PLUGIN_LOGGER_MODULE_ID}`;
+export const ORIGIN_PLUGIN_LOGGER_MODULE_ID = "virtual:origin-plugin-logger";
+const RESOLVED_PLUGIN_LOGGER_MODULE_ID = `\0${ORIGIN_PLUGIN_LOGGER_MODULE_ID}`;
 
 function readPluginIdentity(config: ResolvedConfig): { id: string; version: string } {
 	const raw: unknown = JSON.parse(readFileSync(resolve(config.root, "plugin.json"), "utf8"));
@@ -17,13 +17,13 @@ function readPluginIdentity(config: ResolvedConfig): { id: string; version: stri
 export function createPluginLoggerBindingPlugin(): Plugin {
 	let identity: { id: string; version: string } | undefined;
 	return {
-		name: "vetta-plugin-logger-binding",
+		name: "origin-plugin-logger-binding",
 		enforce: "pre",
 		configResolved(config) {
 			identity = readPluginIdentity(config);
 		},
 		resolveId(id) {
-			if (id === PLUGIN_LOGGER_MODULE_ID || id === VETTA_PLUGIN_LOGGER_MODULE_ID) {
+			if (id === PLUGIN_LOGGER_MODULE_ID || id === ORIGIN_PLUGIN_LOGGER_MODULE_ID) {
 				return RESOLVED_PLUGIN_LOGGER_MODULE_ID;
 			}
 		},

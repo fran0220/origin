@@ -153,7 +153,7 @@ function ModelsList({ model }: { model: SubscriptionCardsViewModel }): JSX.Eleme
 	);
 }
 
-function VettaGoCard({
+function OriginGoCard({
 	model,
 	beforeWindows,
 	children,
@@ -205,8 +205,8 @@ export function SubscriptionCardsView({
 		) : null;
 	}
 	return (
-		<VettaGoCard model={model} beforeWindows={beforeWindows}>
+		<OriginGoCard model={model} beforeWindows={beforeWindows}>
 			{children}
-		</VettaGoCard>
+		</OriginGoCard>
 	);
 }

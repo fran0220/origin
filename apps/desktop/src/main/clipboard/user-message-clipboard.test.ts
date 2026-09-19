@@ -36,8 +36,8 @@ describe("user message clipboard", () => {
 			"data:image/png;base64,second",
 		]);
 
-		expect(html).toContain('data-vetta-user-message="1"');
-		expect(html.match(/data-vetta-clipboard-image/g)).toHaveLength(2);
+		expect(html).toContain('data-origin-user-message="1"');
+		expect(html.match(/data-origin-clipboard-image/g)).toHaveLength(2);
 		expect(html).toContain("&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;");
 		expect(html).not.toContain("<script>");
 	});
@@ -121,10 +121,10 @@ describe("user message clipboard", () => {
 		expect(readUserMessageClipboard({ readHTML: () => "<p>ordinary</p>", readText: () => "ordinary" })).toBeNull();
 		expect(
 			readUserMessageClipboard({
-				readHTML: () => '<div data-vetta-user-message="1"></div>',
+				readHTML: () => '<div data-origin-user-message="1"></div>',
 				readText: () => "hello",
 			}),
-		).toEqual({ text: "hello", html: '<div data-vetta-user-message="1"></div>' });
+		).toEqual({ text: "hello", html: '<div data-origin-user-message="1"></div>' });
 	});
 
 	it("persists rich clipboard images in main and returns only lightweight metadata", async () => {
@@ -134,7 +134,7 @@ describe("user message clipboard", () => {
 		const result = await pasteUserMessageClipboard("session-1", {
 			clipboard: {
 				readHTML: () =>
-					'<div data-vetta-user-message="1"><img data-vetta-clipboard-image src="data:image/png;base64,AQID"></div>',
+					'<div data-origin-user-message="1"><img data-origin-clipboard-image src="data:image/png;base64,AQID"></div>',
 				readText: () => "before @C:/old/copied.png after",
 			},
 			persistImages,

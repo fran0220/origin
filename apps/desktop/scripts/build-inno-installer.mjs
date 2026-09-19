@@ -10,7 +10,7 @@ import { stringify } from "yaml";
 const require = createRequire(import.meta.url);
 const { appBuilderPath } = require("app-builder-bin");
 const projectRoot = join(import.meta.dirname, "..");
-const buildStageDir = join(tmpdir(), "vetta-desktop-build");
+const buildStageDir = join(tmpdir(), "origin-desktop-build");
 const releaseDir = join(projectRoot, "release");
 const installerScript = join(projectRoot, "build", "installer.iss");
 
@@ -21,7 +21,7 @@ function readOption(name) {
 }
 
 export function resolveInnoCompiler(environment = process.env) {
-	const configured = environment.VETTA_INNO_SETUP_COMPILER?.trim();
+	const configured = environment.ORIGIN_INNO_SETUP_COMPILER?.trim();
 	const candidates = [
 		configured,
 		environment.LOCALAPPDATA
@@ -35,7 +35,7 @@ export function resolveInnoCompiler(environment = process.env) {
 	const compiler = candidates.find((candidate) => existsSync(candidate));
 	if (compiler) return compiler;
 	throw new Error(
-		"[build-inno] Inno Setup 6 compiler not found. Install it or set VETTA_INNO_SETUP_COMPILER to ISCC.exe.",
+		"[build-inno] Inno Setup 6 compiler not found. Install it or set ORIGIN_INNO_SETUP_COMPILER to ISCC.exe.",
 	);
 }
 

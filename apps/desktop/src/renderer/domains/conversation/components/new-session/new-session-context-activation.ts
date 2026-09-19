@@ -1,5 +1,5 @@
-import type { AgentProfile } from "@origin/agent-team";
-import { parsePluginBlueprintId } from "@origin/agent-team";
+import type { AgentProfile } from "@origin/agent-profile";
+import { parsePluginBlueprintId } from "@origin/agent-profile";
 import type { RegisteredNewSessionContext } from "@shared/store/plugin-atoms";
 
 /**

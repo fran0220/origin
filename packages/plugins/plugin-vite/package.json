@@ -5,7 +5,7 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"bin": {
-		"vetta-plugin": "./dist/cli.js"
+		"origin-plugin": "./dist/cli.js"
 	},
 	"exports": {
 		".": {

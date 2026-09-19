@@ -1,7 +1,7 @@
 // react-i18next 类型增强：基于 zh 资源给 t() / useTranslation 提供 key 自动补全与校验。
 import "i18next";
 import type abilities from "@/shared/i18n/locales/zh/abilities.json";
-import type agentTeams from "@/shared/i18n/locales/zh/agent-teams.json";
+import type agentProfiles from "@/shared/i18n/locales/zh/agent-profiles.json";
 import type automation from "@/shared/i18n/locales/zh/automation.json";
 import type batchTasks from "@/shared/i18n/locales/zh/batch-tasks.json";
 import type evaluation from "@/shared/i18n/locales/zh/evaluation.json";
@@ -34,7 +34,7 @@ declare module "i18next" {
 			timeline: typeof timeline;
 			recording: typeof recording;
 			automation: typeof automation;
-			"agent-teams": typeof agentTeams;
+			"agent-profiles": typeof agentProfiles;
 		};
 	}
 }

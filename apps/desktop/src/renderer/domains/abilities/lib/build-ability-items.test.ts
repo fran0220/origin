@@ -101,7 +101,7 @@ function installedPlugin(overrides?: Partial<InstalledPlugin>): InstalledPlugin 
 		version: "0.1.7",
 		activeVersion: "0.1.7",
 		pluginApiVersion: "^2.0.0",
-		entryUrl: "vetta-plugin://cowart-vetta/mf-manifest.json",
+		entryUrl: "origin-plugin://cowart-vetta/mf-manifest.json",
 		moduleFederation: { remoteName: "cowart_vetta", expose: "./plugin" },
 		styleUrls: [],
 		permissions: [],
@@ -139,9 +139,9 @@ describe("buildPluginAbilities", () => {
 			origin: {
 				kind: "github-marketplace" as const,
 				sourceId: "test-source",
-				marketplace: "vetta-open-abilities",
+				marketplace: "origin-open-abilities",
 				marketplaceVersion: "2026.07.3",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 		};
 
@@ -159,9 +159,9 @@ describe("buildSkillAbilities", () => {
 			slug: "open-skill",
 			origin: {
 				kind: "github-marketplace" as const,
-				marketplace: "vetta-open-abilities",
+				marketplace: "origin-open-abilities",
 				marketplaceVersion: "2026.07.1",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 		};
 
@@ -236,7 +236,7 @@ describe("buildSkillAbilities", () => {
 				localSkills: [
 					{ name: "internal", description: "Internal", source: "plugin", type: "skill" },
 					{
-						name: "vetta-ui-design",
+						name: "origin-ui-design",
 						description: "Internal description",
 						source: "plugin",
 						type: "skill",
@@ -252,7 +252,7 @@ describe("buildSkillAbilities", () => {
 
 		expect(items).toHaveLength(1);
 		expect(items[0]).toMatchObject({
-			slug: "vetta-ui-design",
+			slug: "origin-ui-design",
 			title: "Origin 设计",
 			description: "设计产品界面",
 		});
@@ -284,23 +284,23 @@ describe("buildSkillAbilities", () => {
 						description: "",
 						source: "builtin",
 						type: "skill",
-						icon: "vetta-file://local/system-skills/create-skill/assets/icon.svg",
+						icon: "origin-file://local/system-skills/create-skill/assets/icon.svg",
 					},
 				],
 			}),
 		);
 
-		expect(item?.icon).toBe("vetta-file://local/system-skills/create-skill/assets/icon.svg");
+		expect(item?.icon).toBe("origin-file://local/system-skills/create-skill/assets/icon.svg");
 	});
 
 	it("uses host plugin icon for plugin-contributed skills", () => {
-		const pluginIcon = "vetta-plugin://vetta-ui-design/versions/0.1.0/icon.png?v=0.1.0";
+		const pluginIcon = "origin-plugin://origin-ui-design/versions/0.1.0/icon.png?v=0.1.0";
 		const items = buildSkillAbilities(
 			[],
 			createState({
 				localSkills: [
 					{
-						name: "vetta-ui-design",
+						name: "origin-ui-design",
 						description: "",
 						source: "plugin",
 						type: "skill",
@@ -359,9 +359,9 @@ describe("buildMcpAbilities", () => {
 			origin: {
 				kind: "github-marketplace" as const,
 				sourceId: "test-source",
-				marketplace: "vetta-open-abilities",
+				marketplace: "origin-open-abilities",
 				marketplaceVersion: "2026.07.3",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 		};
 
@@ -429,15 +429,15 @@ describe("buildMcpAbilities", () => {
 			origin: {
 				kind: "github-marketplace" as const,
 				sourceId: "official",
-				marketplace: "vetta-open-abilities",
+				marketplace: "origin-open-abilities",
 				marketplaceVersion: "2026.09.1",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 			catalogSource: {
 				kind: "github" as const,
 				id: "official",
 				name: "official",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 		} as unknown as MarketAbility;
 		const installed = {
@@ -557,15 +557,15 @@ describe("buildMcpAbilities", () => {
 			origin: {
 				kind: "github-marketplace" as const,
 				sourceId: "test-source",
-				marketplace: "vetta-open-abilities",
+				marketplace: "origin-open-abilities",
 				marketplaceVersion: "2026.07.3",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 			catalogSource: {
 				kind: "github" as const,
 				id: "test-source",
 				name: "Test source",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 			},
 		};
 		const state = createState({

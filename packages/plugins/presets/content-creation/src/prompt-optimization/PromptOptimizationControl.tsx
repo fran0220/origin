@@ -56,7 +56,7 @@ export function PromptOptimizationControl({
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent
-				data-vetta-plugin-root="content-creation"
+				data-origin-plugin-root="content-creation"
 				align="end"
 				side="bottom"
 				className="w-72"

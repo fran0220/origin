@@ -101,10 +101,10 @@ export function registerRenderTool(ctx: PluginContext): void {
 			}
 
 			const jobId = crypto.randomUUID();
-			const jobsDir = joinPath(session.cwd, ".vetta/remotion/jobs");
+			const jobsDir = joinPath(session.cwd, ".origin/remotion/jobs");
 			const outDir = joinPath(session.cwd, "out");
-			await ensureDirectory(ctx, joinPath(session.cwd, ".vetta"));
-			await ensureDirectory(ctx, joinPath(session.cwd, ".vetta/remotion"));
+			await ensureDirectory(ctx, joinPath(session.cwd, ".origin"));
+			await ensureDirectory(ctx, joinPath(session.cwd, ".origin/remotion"));
 			await ensureDirectory(ctx, jobsDir);
 			await ensureDirectory(ctx, outDir);
 			const documentPath = joinPath(jobsDir, `${jobId}.json`);

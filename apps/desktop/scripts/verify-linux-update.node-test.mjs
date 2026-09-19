@@ -17,7 +17,7 @@ function createAppImage() {
 }
 
 test("verifyLinuxUpdates verifies AppImage size, hash, and embedded block map metadata", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-linux-update-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-linux-update-"));
 	try {
 		const { artifact, blockMap } = createAppImage();
 		const sha512 = createHash("sha512").update(artifact).digest("base64");
@@ -51,7 +51,7 @@ test("verifyLinuxUpdates verifies AppImage size, hash, and embedded block map me
 });
 
 test("verifyLinuxUpdates requires every Linux release format from one update manifest", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-linux-update-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-linux-update-"));
 	try {
 		const { artifact: appImage, blockMap } = createAppImage();
 		const deb = Buffer.from("deb-package");
@@ -102,7 +102,7 @@ test("verifyLinuxUpdates requires every Linux release format from one update man
 });
 
 test("verifyLinuxUpdates rejects a release manifest that omits a native Linux format", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-linux-update-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-linux-update-"));
 	try {
 		const { artifact, blockMap } = createAppImage();
 		const sha512 = createHash("sha512").update(artifact).digest("base64");
@@ -136,7 +136,7 @@ test("verifyLinuxUpdates rejects a release manifest that omits a native Linux fo
 });
 
 test("verifyLinuxUpdates rejects metadata whose hash does not match the AppImage", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-linux-update-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-linux-update-"));
 	try {
 		const { artifact, blockMap } = createAppImage();
 		await Promise.all([

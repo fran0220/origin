@@ -6,7 +6,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { recordAbilityInstall } from "../abilities/ability-ledger.js";
 import { getCloudBridge } from "../cloud-bridge.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
@@ -23,7 +23,7 @@ import {
 } from "./skill-service.js";
 
 const log = getAppLogger("skill-market-install");
-const tmpBaseDir = join(getVettaHomePath(), "tmp");
+const tmpBaseDir = join(getOriginHomePath(), "tmp");
 
 export interface MarketAbilityInfo {
 	slug: string;

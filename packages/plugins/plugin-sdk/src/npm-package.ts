@@ -3,11 +3,11 @@ import { Value } from "@sinclair/typebox/value";
 import { PluginIdSchema, PluginVersionSchema } from "./manifest-schema.js";
 import { validatePluginRelativePath } from "./manifest.js";
 
-export const VETTA_NPM_PACKAGE_SCHEMA_VERSION = 1 as const;
+export const ORIGIN_NPM_PACKAGE_SCHEMA_VERSION = 1 as const;
 
-export const VettaNpmPluginMetadataSchema = Type.Object(
+export const OriginNpmPluginMetadataSchema = Type.Object(
 	{
-		schemaVersion: Type.Literal(VETTA_NPM_PACKAGE_SCHEMA_VERSION),
+		schemaVersion: Type.Literal(ORIGIN_NPM_PACKAGE_SCHEMA_VERSION),
 		type: Type.Literal("desktop-plugin"),
 		pluginId: PluginIdSchema,
 		archive: Type.String({ minLength: 1 }),
@@ -15,12 +15,12 @@ export const VettaNpmPluginMetadataSchema = Type.Object(
 	{ additionalProperties: false },
 );
 
-export type VettaNpmPluginMetadata = Static<typeof VettaNpmPluginMetadataSchema>;
+export type OriginNpmPluginMetadata = Static<typeof OriginNpmPluginMetadataSchema>;
 
-export interface VettaNpmPluginPackage {
+export interface OriginNpmPluginPackage {
 	name: string;
 	version: string;
-	vetta: VettaNpmPluginMetadata;
+	vetta: OriginNpmPluginMetadata;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -28,7 +28,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 /** Parse the npm distribution envelope without trusting package-owned metadata. */
-export function parseVettaNpmPluginPackage(value: unknown): VettaNpmPluginPackage {
+export function parseOriginNpmPluginPackage(value: unknown): OriginNpmPluginPackage {
 	if (!isRecord(value)) throw new Error("Invalid npm plugin package: package.json must contain an object");
 	if (typeof value.name !== "string" || value.name.trim().length === 0) {
 		throw new Error("Invalid npm plugin package: name is required");
@@ -36,15 +36,15 @@ export function parseVettaNpmPluginPackage(value: unknown): VettaNpmPluginPackag
 	if (!Value.Check(PluginVersionSchema, value.version)) {
 		throw new Error("Invalid npm plugin package: version must be a semantic version");
 	}
-	if (!Value.Check(VettaNpmPluginMetadataSchema, value.vetta)) {
+	if (!Value.Check(OriginNpmPluginMetadataSchema, value.origin)) {
 		throw new Error("Invalid npm plugin package: package.json#vetta does not match schema version 1");
 	}
 
-	const metadata = value.vetta as VettaNpmPluginMetadata;
+	const metadata = value.origin as OriginNpmPluginMetadata;
 	return {
 		name: value.name.trim(),
 		version: value.version,
-		vetta: {
+		originApp: {
 			...metadata,
 			archive: validatePluginRelativePath(metadata.archive.trim(), "npm archive"),
 		},

@@ -30,7 +30,7 @@ const file = await window.showOpenFilePicker({
   types: [{ description: "Vetta plugin", accept: { "application/zip": [".zip"] } }]
 });
 const buffer = await (await file[0].getFile()).arrayBuffer();
-await window.vetta.plugins.installFromArchive(buffer, {
+await window.originApp.plugins.installFromArchive(buffer, {
   grantedPermissions: [
     "ui.slot.global",
     "agent.systemPrompt.write",
@@ -43,7 +43,7 @@ await window.vetta.plugins.installFromArchive(buffer, {
     "fs.write"
   ]
 });
-await window.vetta.plugins.setEnabled("global-slot-demo", true);
+await window.originApp.plugins.setEnabled("global-slot-demo", true);
 ```
 
 The settings page can also install and enable the generated zip from the plugin management UI.

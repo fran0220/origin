@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
 import { join, parse } from "node:path";
 import { inspect } from "node:util";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { scrubSecrets } from "@origin/runtime-node/credentials";
 import electronLog from "electron-log/main";
 import { getDesktopCredentialVault } from "./credentials/desktop-credential-vault.js";
@@ -21,15 +21,15 @@ const APP_LOG_MAX_TOTAL_BYTES = 200 * 1024 * 1024;
 const APP_LOG_ROTATION_FALLBACK_SIZE = 256 * 1024;
 const APP_LOG_CLEANUP_INTERVAL_MS = 60 * 60 * 1000;
 const APP_LOG_TIME_ZONE = "Asia/Shanghai";
-const APP_LOG_DIR = join(getVettaHomePath(), "desktop-app", "logs");
+const APP_LOG_DIR = join(getOriginHomePath(), "desktop-app", "logs");
 const APP_LOG_TYPES: readonly AppLogType[] = ["main", "render", "im"];
 const FILE_SUFFIX = roleFileSuffix(detectProcessRole());
 // agent-rpc 子进程的 stdout 跑 coding-agent 的 RPC NDJSON 协议，绝不能镜像日志到
 // console——electron-log 的 node console transport 在 require 时就快照了原始
 // console.*（→ 真实 stdout），main.ts 把 console 改写为 stderr 对它无效，dev 下
-// agent-rpc 继承 VETTA_DESKTOP_DEV_URL 会让镜像打开并污染协议。故与角色解耦。
+// agent-rpc 继承 ORIGIN_DESKTOP_DEV_URL 会让镜像打开并污染协议。故与角色解耦。
 const SHOULD_MIRROR_LOGS_TO_CONSOLE =
-	process.env.VETTA_DESKTOP_DEV_URL !== undefined && detectProcessRole() !== "agent-rpc";
+	process.env.ORIGIN_DESKTOP_DEV_URL !== undefined && detectProcessRole() !== "agent-rpc";
 
 let appLoggingConfigured = false;
 let consolePatched = false;

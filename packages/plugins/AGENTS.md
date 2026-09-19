@@ -12,7 +12,7 @@
 
 ## 相关文档
 
-- [Module Federation 共享依赖约定](./docs/module-federation.md)：说明 `vettaPluginFederation` 的宿主共享依赖、构建期本地依赖要求、顶层求值限制和验证方式。
+- [Module Federation 共享依赖约定](./docs/module-federation.md)：说明 `originPluginFederation` 的宿主共享依赖、构建期本地依赖要求、顶层求值限制和验证方式。
 
 ## 改动对外合同时必须同步文档
 
@@ -29,7 +29,7 @@
 
 | 出口 | 机制 | 到达谁 |
 | --- | --- | --- |
-| npm tarball | `plugin-sdk/scripts/bundle-docs.mjs` 在 `plugin-sdk` 的 `build` 里跑，把整个目录拷进包 | 插件工程的 `node_modules/@origin-org/plugin-sdk/docs/`，由 `vetta-plugin-cli docs` 解析 |
+| npm tarball | `plugin-sdk/scripts/bundle-docs.mjs` 在 `plugin-sdk` 的 `build` 里跑，把整个目录拷进包 | 插件工程的 `node_modules/@origin-org/plugin-sdk/docs/`，由 `origin-plugin-cli docs` 解析 |
 | 插件工作台 | 工作台内置 `plugin-cli`（`bundle-cli.mjs`），由它解析上面那份 | 工作台里开发的插件 |
 
 两条都是构建期自动的，**不需要手工拷贝**。改 `docs/plugin/` 就够了。
@@ -77,7 +77,7 @@
   "defaultProfile": "development",
   "profiles": {
     "development": {
-      "common": ["vetta-actions", "image-gen", "svg-viewer"]
+      "common": ["origin-actions", "image-gen", "svg-viewer"]
     },
     "production": {
       "common": ["image-gen", "svg-viewer"]
@@ -93,21 +93,21 @@
 - `build:presets:dev` 强制使用 `development`；`prepare:desktop-pack` 及所有 `pack` / `dist`
   入口强制使用 `production`，避免发布时因本地环境变量带入开发插件。
 
-构建/开发时通过 `VETTA_TENANT` 环境变量选择租户（缺省取 `default`）：
+构建/开发时通过 `ORIGIN_TENANT` 环境变量选择租户（缺省取 `default`）：
 
 ```bash
 # dev：仅构建并 staging 当前租户的系统插件
 cd apps/desktop
-VETTA_TENANT=common bun run dev
+ORIGIN_TENANT=common bun run dev
 
-# 打包 App：build:presets 与 prepare-pack 都读取同一 VETTA_TENANT
-VETTA_TENANT=common bun run dist:win
+# 打包 App：build:presets 与 prepare-pack 都读取同一 ORIGIN_TENANT
+ORIGIN_TENANT=common bun run dist:win
 ```
 
 `build-presets.mjs` 只构建/staging 当前 profile + 租户的插件，切换组合时会自动清理
 `.artifacts/system-plugins` 下不属于该组合的旧插件；`prepare-pack.js` 只把该
 profile + 租户的 zip 制品打入 `Resources/system-plugins`。同一次构建务必使用一致的
-`VETTA_SYSTEM_PLUGIN_PROFILE` 与 `VETTA_TENANT`，否则打包阶段会因缺少对应 zip 而报错。
+`ORIGIN_SYSTEM_PLUGIN_PROFILE` 与 `ORIGIN_TENANT`，否则打包阶段会因缺少对应 zip 而报错。
 
 若租户包含 `plugin-workbench`，`build-presets.mjs` 在算缓存哈希之前会先跑
 `presets/plugin-workbench/scripts/bundle-cli.mjs`，把 `plugin-cli` 的构建产物内置到该插件包内
@@ -122,13 +122,13 @@ profile + 租户的 zip 制品打入 `Resources/system-plugins`。同一次构�
 | 仓库内依赖管理 | 根 workspace 和根 `bun.lock` | 当前仓库示例同样属于根 workspace |
 | Vetta 开发包依赖 | 可使用 `workspace:*` 或与本地包匹配的 semver | 仓库内同左；移出仓库后必须使用已发布版本 |
 | 安装方式 | 随 Desktop 发布，不需要用户安装 | 构建 zip 后由用户安装 |
-| 开发加载 | 构建 zip 后解压到 Desktop `.artifacts/system-plugins`；`bun dev` 默认叠加当前租户全部 preset 的内存 dev 链接 | 从 `~/.vetta/plugins` 读取已安装版本；显式 dev 链接可覆盖 |
+| 开发加载 | 构建 zip 后解压到 Desktop `.artifacts/system-plugins`；`bun dev` 默认叠加当前租户全部 preset 的内存 dev 链接 | 从 `~/.origin/plugins` 读取已安装版本；显式 dev 链接可覆盖 |
 | App 打包 | 从 `release/<id>-<version>.zip` 解压到 `Resources/system-plugins` | 不随 App 打包 |
 | 插件制品 | `@origin-org/plugin-vite` 在构建后生成 zip | `@origin-org/plugin-vite` 在构建后生成安装 zip |
 | 权限 | manifest 中声明的权限自动授予，不可撤销 | 安装后由用户授权 |
 | 生命周期 | 默认启用，可停用，不可卸载，版本随 App | 可安装、更新、重载和卸载 |
 
-Preset 不进入 `~/.vetta/plugins`，也不写 `plugins-manifest.json`。
+Preset 不进入 `~/.origin/plugins`，也不写 `plugins-manifest.json`。
 
 `plugin-sdk`、`plugin-vite`、`presets/*` 与 `externals/*` 都列在根 workspace
 中，共用根依赖图与锁文件；各插件仍保留独立的 `package.json` 和构建制品。
@@ -240,12 +240,12 @@ Module Federation 的共享依赖约定和常见构建警告见
 `vite.config.ts`、共享依赖或 `package.json` 时，必须同步检查该文档中的依赖和验证清单。
 
 ```ts
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
-    vettaPluginFederation({
+    originPluginFederation({
       name: "example",
       entry: "./src/index.tsx",
     }),

@@ -2,30 +2,30 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { listPluginManifestResources, parsePluginManifest, type PluginManifest } from "@origin-org/plugin-sdk/manifest";
-import { parseVettaNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
+import { parseOriginNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
 import { assertPluginPermissionContract } from "./permission-contract.js";
 
-export interface VettaPluginPackageFile {
+export interface OriginPluginPackageFile {
 	fullPath: string;
 	archivePath: string;
 }
 
-export interface VettaPluginPackageResult {
+export interface OriginPluginPackageResult {
 	outputPath: string;
 	npmOutputPath?: string;
-	files: VettaPluginPackageFile[];
+	files: OriginPluginPackageFile[];
 }
 
-export interface CreateVettaPluginPackageOptions {
+export interface CreateOriginPluginPackageOptions {
 	rootDir?: string;
 	manifestPath?: string;
 	releaseDir?: string;
 	distDir?: string;
-	/** Also write the stable npm distribution artifact `release/vetta-plugin.zip`. */
+	/** Also write the stable npm distribution artifact `release/origin-plugin.zip`. */
 	npmArchive?: boolean;
 }
 
-export const VETTA_NPM_PLUGIN_ARCHIVE_PATH = "release/vetta-plugin.zip";
+export const ORIGIN_NPM_PLUGIN_ARCHIVE_PATH = "release/origin-plugin.zip";
 
 const crcTable = new Uint32Array(256);
 for (let i = 0; i < 256; i += 1) {
@@ -93,9 +93,9 @@ function archivePathFromRoot(rootDir: string, fullPath: string): string {
 	return archivePath;
 }
 
-async function collectFiles(dir: string): Promise<VettaPluginPackageFile[]> {
+async function collectFiles(dir: string): Promise<OriginPluginPackageFile[]> {
 	const entries = await readdir(dir, { withFileTypes: true });
-	const files: VettaPluginPackageFile[] = [];
+	const files: OriginPluginPackageFile[] = [];
 	for (const entry of entries) {
 		const fullPath = join(dir, entry.name);
 		if (entry.isDirectory()) {
@@ -107,7 +107,7 @@ async function collectFiles(dir: string): Promise<VettaPluginPackageFile[]> {
 	return files;
 }
 
-async function collectPath(path: string): Promise<VettaPluginPackageFile[]> {
+async function collectPath(path: string): Promise<OriginPluginPackageFile[]> {
 	const info = await stat(path);
 	if (info.isDirectory()) {
 		return collectFiles(path);
@@ -118,7 +118,7 @@ async function collectPath(path: string): Promise<VettaPluginPackageFile[]> {
 	return [];
 }
 
-async function createZip(files: VettaPluginPackageFile[]): Promise<Buffer> {
+async function createZip(files: OriginPluginPackageFile[]): Promise<Buffer> {
 	const localParts: Buffer[] = [];
 	const centralParts: Buffer[] = [];
 	let offset = 0;
@@ -204,9 +204,9 @@ async function collectRuntimeFiles(
 	rootDir: string,
 	manifestPath: string,
 	distDir: string,
-): Promise<VettaPluginPackageFile[]> {
+): Promise<OriginPluginPackageFile[]> {
 	const pluginManifest = parsePluginManifest(parseJsonObject(await readFile(manifestPath), basename(manifestPath)));
-	const packageFiles = new Map<string, VettaPluginPackageFile>();
+	const packageFiles = new Map<string, OriginPluginPackageFile>();
 	const addFile = (fullPath: string) => {
 		const resolved = resolve(fullPath);
 		const archivePath = archivePathFromRoot(rootDir, resolved);
@@ -318,9 +318,9 @@ async function collectRuntimeFiles(
 	return [...packageFiles.values()].sort((a, b) => a.archivePath.localeCompare(b.archivePath));
 }
 
-export async function createVettaPluginPackage(
-	options: CreateVettaPluginPackageOptions = {},
-): Promise<VettaPluginPackageResult> {
+export async function createOriginPluginPackage(
+	options: CreateOriginPluginPackageOptions = {},
+): Promise<OriginPluginPackageResult> {
 	const rootDir = resolve(options.rootDir ?? process.cwd());
 	const manifestPath = resolve(rootDir, options.manifestPath ?? "plugin.json");
 	const releaseDir = resolve(rootDir, options.releaseDir ?? "release");
@@ -338,7 +338,7 @@ export async function createVettaPluginPackage(
 	);
 	let npmOutputPath: string | undefined;
 	if (options.npmArchive === true) {
-		const packageManifest = parseVettaNpmPluginPackage(
+		const packageManifest = parseOriginNpmPluginPackage(
 			parseJsonObject(await readFile(resolve(rootDir, "package.json")), "package.json"),
 		);
 		if (packageManifest.version !== pluginManifest.version) {
@@ -346,15 +346,15 @@ export async function createVettaPluginPackage(
 				`npm package version ${packageManifest.version} must match plugin version ${pluginManifest.version}.`,
 			);
 		}
-		if (packageManifest.vetta.pluginId !== pluginManifest.id) {
+		if (packageManifest.origin.pluginId !== pluginManifest.id) {
 			throw new Error(
-				`npm package plugin id ${packageManifest.vetta.pluginId} must match plugin id ${pluginManifest.id}.`,
+				`npm package plugin id ${packageManifest.origin.pluginId} must match plugin id ${pluginManifest.id}.`,
 			);
 		}
-		if (packageManifest.vetta.archive !== VETTA_NPM_PLUGIN_ARCHIVE_PATH) {
-			throw new Error(`npm package archive must be ${VETTA_NPM_PLUGIN_ARCHIVE_PATH}.`);
+		if (packageManifest.origin.archive !== ORIGIN_NPM_PLUGIN_ARCHIVE_PATH) {
+			throw new Error(`npm package archive must be ${ORIGIN_NPM_PLUGIN_ARCHIVE_PATH}.`);
 		}
-		npmOutputPath = resolve(rootDir, VETTA_NPM_PLUGIN_ARCHIVE_PATH);
+		npmOutputPath = resolve(rootDir, ORIGIN_NPM_PLUGIN_ARCHIVE_PATH);
 	}
 
 	await mkdir(releaseDir, { recursive: true });

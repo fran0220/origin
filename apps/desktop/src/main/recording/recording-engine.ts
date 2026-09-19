@@ -31,7 +31,7 @@ import { appendJsonl, executeAndPersistProbe, RECORDING_PROBE_SCRIPT } from "./p
 import { resolveRecordingTargetUrl } from "./url-policy.js";
 
 const log = getAppLogger("recording");
-const AUDIO_CHANNEL = "vetta:recording:audio";
+const AUDIO_CHANNEL = "origin:recording:audio";
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 const DEFAULT_FPS = 30;
@@ -225,7 +225,7 @@ export class DesktopRecordingEngine implements RecordingEngine {
 		await window.loadURL(url);
 		await window.webContents
 			.executeJavaScript(
-				`window.__vettaRecordingAudio && window.__vettaRecordingAudio.setRecordingId(${JSON.stringify(id)}); true`,
+				`window.__originRecordingAudio && window.__originRecordingAudio.setRecordingId(${JSON.stringify(id)}); true`,
 				true,
 			)
 			.catch(() => undefined);

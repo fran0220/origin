@@ -15,7 +15,7 @@ function htmlStorageKey(cwd: string): string {
 
 /** 静态文件协议 URL（ADR-0027）：pathname 承载绝对路径，相对资源按目录解析。 */
 function toFileProtocolUrl(filePath: string): string {
-	return `vetta-file://local${encodeURI(filePath)}`;
+	return `origin-file://local${encodeURI(filePath)}`;
 }
 
 function dirOf(filePath: string): string {

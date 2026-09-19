@@ -98,7 +98,7 @@ describe("batch RuntimeHost consumer", () => {
 		const prompt = vi.fn(async () => {});
 		const runtime = {
 			createSession,
-			getSessionPath: () => join(projectDir, ".vetta", "sessions", "batch.jsonl"),
+			getSessionPath: () => join(projectDir, ".origin", "sessions", "batch.jsonl"),
 			getMessages: () => [assistantMessage("batch completed")],
 			prompt,
 			renameSessionById,
@@ -114,7 +114,7 @@ describe("batch RuntimeHost consumer", () => {
 
 		expect(createSession).toHaveBeenCalledWith({
 			cwd: task.cwd,
-			sessionDir: join(project.id, ".vetta", "sessions"),
+			sessionDir: join(project.id, ".origin", "sessions"),
 			agent: {
 				id: "coding-agent",
 				sessionConfiguration: {
@@ -152,7 +152,7 @@ describe("batch RuntimeHost consumer", () => {
 			taskId: task.id,
 			status: "paused",
 			sessionId: "paused-session",
-			sessionPath: join(projectDir, ".vetta", "sessions", "paused.jsonl"),
+			sessionPath: join(projectDir, ".origin", "sessions", "paused.jsonl"),
 			executionMode: "full-access",
 			lastModified: 1,
 		});
@@ -199,7 +199,7 @@ describe("batch RuntimeHost consumer", () => {
 			abort,
 			createSession,
 			getMessages: () => [assistantMessage("aborted")],
-			getSessionPath: () => join(projectDir, ".vetta", "sessions", "batch.jsonl"),
+			getSessionPath: () => join(projectDir, ".origin", "sessions", "batch.jsonl"),
 			prompt,
 			renameSessionById: vi.fn(),
 		} as unknown as RuntimeHost;

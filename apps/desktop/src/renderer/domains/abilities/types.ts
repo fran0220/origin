@@ -36,9 +36,9 @@ export const ABILITY_CATEGORY_CONNECTORS = "__connectors__";
 /**
  * 分组 key：随 App 分发的内置能力（`isBuiltin`：skill-presets、通用 Agent、系统插件）。
  * 与用户自己安装的能力（市场 / `~/.agents/skills`）分开成组，展示名走
- * `abilities:group.vettaBuiltin`。
+ * `abilities:group.originBuiltin`。
  */
-export const ABILITY_CATEGORY_VETTA_BUILTIN = "__vetta_builtin__";
+export const ABILITY_CATEGORY_ORIGIN_BUILTIN = "__vetta_builtin__";
 
 /** 用户触发的能力操作阶段；用于让列表与详情说明当前正在发生什么。 */
 export type AbilityOperation =
@@ -64,7 +64,7 @@ export interface AbilityBase {
 	catalogSource: AbilityCatalogSource;
 	title: string;
 	description: string;
-	/** 已解析的图标值：空 / `solar:xxx` / 绝对 URL / `vetta-plugin://…`。 */
+	/** 已解析的图标值：空 / `solar:xxx` / 绝对 URL / `origin-plugin://…`。 */
 	icon?: string;
 	/** 分类的规范名；未分类为空串。它是分组与筛选的 key，展示名另见 `categoryI18n`。 */
 	category: string;

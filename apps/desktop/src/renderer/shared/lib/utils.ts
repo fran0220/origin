@@ -72,9 +72,9 @@ export function pathNormalize(path: string): string {
 }
 
 /**
- * Map a local absolute path to the privileged vetta-file:// scheme (ADR-0027).
+ * Map a local absolute path to the privileged origin-file:// scheme (ADR-0027).
  * Do not use file:// — Electron renderer blocks it ("Not allowed to load local resource").
  */
-export function toVettaFileUrl(path: string): string {
+export function toOriginFileUrl(path: string): string {
 	return createLocalFileUrl(pathNormalize(path));
 }

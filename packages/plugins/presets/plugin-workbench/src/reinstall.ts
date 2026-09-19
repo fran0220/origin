@@ -24,7 +24,7 @@ export interface ApplyPluginOptions {
  * Build (optional) → installFromPath → enable → grant → optional hot reload / full app refresh.
  * Shared by panel buttons and the reinstall message card.
  */
-export async function applyPluginToVetta(options: ApplyPluginOptions): Promise<{ zipPath: string }> {
+export async function applyPluginToOrigin(options: ApplyPluginOptions): Promise<{ zipPath: string }> {
 	const { project, forceBuild = false, refreshApp = false, startHotReload = true } = options;
 	const workbenchRoot = options.workbenchRoot ?? (await resolveWorkbenchRoot());
 	const command = getWorkbenchCommand();
@@ -74,16 +74,16 @@ export async function applyPluginToVetta(options: ApplyPluginOptions): Promise<{
 	if (startHotReload) {
 		await plugins.startDevWatch(project.id, project.dir);
 	}
-	window.dispatchEvent(new Event("vetta:plugins-changed"));
+	window.dispatchEvent(new Event("origin:plugins-changed"));
 	return { zipPath: zip };
 }
 
 /** Reinstall = force rebuild + re-apply + full app refresh. */
-export async function reinstallPluginToVetta(
+export async function reinstallPluginToOrigin(
 	project: ProjectInfo,
 	workbenchRoot?: string,
 ): Promise<{ zipPath: string }> {
-	return applyPluginToVetta({
+	return applyPluginToOrigin({
 		project,
 		workbenchRoot,
 		forceBuild: true,

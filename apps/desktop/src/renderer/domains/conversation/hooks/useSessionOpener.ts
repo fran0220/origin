@@ -252,7 +252,7 @@ export function useSessionOpener(): SessionOpenerController {
 			let previewPresentation: Promise<void> | undefined;
 			if (stageExistingSessionOpen) {
 				markSessionSwitch("session-preview-history-start");
-				previewPresentation = window.vetta.session
+				previewPresentation = window.originApp.session
 					.openViewer(sessionPath)
 					.then(async (snapshot) => {
 						markSessionSwitch("session-preview-history-loaded");
@@ -301,7 +301,7 @@ export function useSessionOpener(): SessionOpenerController {
 			const isBatchProject = batchProjectsRef.current.some((project) => project.id === cwd);
 			const projectType = getProjects().find((project) => project.cwd === cwd)?.type;
 			const sessionKind = isBatchSession || isBatchProject || projectType === "batch" ? "other" : "conversation";
-			// 对话场景显式下发（不依赖 sessionKind，避免改 kind 牵动 VETTA_CLI/子目录等行为）：
+			// 对话场景显式下发（不依赖 sessionKind，避免改 kind 牵动 ORIGIN_CLI/子目录等行为）：
 			// - 批量 → "batch"（与 batch-task-executor 一致，重开不退化成 project，输入栏 badge 不复活）。
 			// - 默认「对话」项目（cwd 归一到 defaultConversationCwd）→ "conversation"。
 			// - 其余交互式项目 → "project"。此前普通项目被 sessionKind="conversation" 误标成
@@ -314,11 +314,11 @@ export function useSessionOpener(): SessionOpenerController {
 					: isDefaultConversation
 						? "conversation"
 						: "project";
-			let createResult: Awaited<ReturnType<typeof window.vetta.session.create>>;
+			let createResult: Awaited<ReturnType<typeof window.originApp.session.create>>;
 			try {
 				perfSendMark("session-create-start", interactionId);
 				markSessionSwitch("session-create-start");
-				createResult = await window.vetta.session.create(
+				createResult = await window.originApp.session.create(
 					{
 						cwd,
 						sessionPath,
@@ -396,7 +396,7 @@ export function useSessionOpener(): SessionOpenerController {
 			let resolvedSessionPath: string;
 			try {
 				resolvedSessionPath =
-					canonicalSessionPath || (await window.vetta.session.getSessionPath(sessionId)) || sessionPath || "";
+					canonicalSessionPath || (await window.originApp.session.getSessionPath(sessionId)) || sessionPath || "";
 			} catch (error) {
 				failSessionHydration("path", error);
 				return;
@@ -419,7 +419,10 @@ export function useSessionOpener(): SessionOpenerController {
 				markSessionSwitch("session-subscribe-start");
 				let unsubscribeFn: () => void;
 				try {
-					unsubscribeFn = await window.vetta.session.subscribe(sessionId, createSessionEventHandler(sessionId));
+					unsubscribeFn = await window.originApp.session.subscribe(
+						sessionId,
+						createSessionEventHandler(sessionId),
+					);
 				} catch (error) {
 					failSessionHydration("subscribe", error);
 					return false;
@@ -472,8 +475,8 @@ export function useSessionOpener(): SessionOpenerController {
 			perfSendMark("session-state-load-start", interactionId);
 			markSessionSwitch("session-hydration-start");
 			const historyPromise =
-				sessionPath === undefined ? Promise.resolve([]) : window.vetta.session.getFullHistory(sessionId);
-			const statePromise = window.vetta.session.getState(sessionId);
+				sessionPath === undefined ? Promise.resolve([]) : window.originApp.session.getFullHistory(sessionId);
+			const statePromise = window.originApp.session.getState(sessionId);
 			const [historyResult, stateResult] = await Promise.allSettled([historyPromise, statePromise]);
 			if (historyResult.status === "rejected") {
 				failSessionHydration("history", historyResult.reason);
@@ -546,7 +549,7 @@ export function useSessionOpener(): SessionOpenerController {
 			if (sessionPath === undefined) {
 				const desired = selectedModelRef.current;
 				if (desired && desired !== backendModelKey) {
-					void window.vetta.session.updateSettings(sessionId, { modelKey: desired });
+					void window.originApp.session.updateSettings(sessionId, { modelKey: desired });
 				}
 			} else if (backendModelKey) {
 				setSelectedModel(backendModelKey);
@@ -601,7 +604,7 @@ export function useSessionOpener(): SessionOpenerController {
 
 			// kernel 队列镜像初始化（ADR-0060）：整体替换、不做消费差分——后台期间被
 			// 消费的条目由历史重放呈现，这里只要拿到当前真实队列与 paused 状态。
-			void window.vetta.session
+			void window.originApp.session
 				.getQueueState(sessionId)
 				.then((state) => {
 					if (activeSessionRef.current?.runtimeId !== sessionId) return;

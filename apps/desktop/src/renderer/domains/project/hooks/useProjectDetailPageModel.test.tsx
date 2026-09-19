@@ -40,9 +40,9 @@ describe("useProjectDetailPageModel keep-alive identity", () => {
 		expect(result.current.decodedCwd).toBe("/tmp/demo");
 		expect(result.current.cwd).toBe("/tmp/demo");
 		await waitFor(() => {
-			expect(window.vetta.fs.readFile).toHaveBeenCalledWith("/tmp/demo/AGENTS.md");
+			expect(window.originApp.fs.readFile).toHaveBeenCalledWith("/tmp/demo/AGENTS.md");
 		});
-		expect(window.vetta.fs.readFile).not.toHaveBeenCalledWith("/workspace/from-route/AGENTS.md");
+		expect(window.originApp.fs.readFile).not.toHaveBeenCalledWith("/workspace/from-route/AGENTS.md");
 	});
 
 	it("未传入 cwd 时仍从路由 params 解码身份", async () => {
@@ -50,7 +50,7 @@ describe("useProjectDetailPageModel keep-alive identity", () => {
 
 		expect(result.current.decodedCwd).toBe("/workspace/from-route");
 		await waitFor(() => {
-			expect(window.vetta.fs.readFile).toHaveBeenCalledWith("/workspace/from-route/AGENTS.md");
+			expect(window.originApp.fs.readFile).toHaveBeenCalledWith("/workspace/from-route/AGENTS.md");
 		});
 	});
 
@@ -62,9 +62,9 @@ describe("useProjectDetailPageModel keep-alive identity", () => {
 			),
 		});
 		await waitFor(() => {
-			expect(window.vetta.fs.readFile).toHaveBeenCalledWith("/tmp/demo/AGENTS.md");
+			expect(window.originApp.fs.readFile).toHaveBeenCalledWith("/tmp/demo/AGENTS.md");
 		});
-		const readFile = window.vetta.fs.readFile as ReturnType<typeof vi.fn>;
+		const readFile = window.originApp.fs.readFile as ReturnType<typeof vi.fn>;
 		expect(readFile).toHaveBeenCalledTimes(1);
 
 		act(() => {

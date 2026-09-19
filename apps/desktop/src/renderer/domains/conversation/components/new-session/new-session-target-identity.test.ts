@@ -1,4 +1,4 @@
-import { createAgentProfileFixture } from "@origin/agent-team";
+import { createAgentProfileFixture } from "@origin/agent-profile";
 import { describe, expect, it } from "vitest";
 import { resolveNewSessionTargetIdentity } from "./new-session-target-identity";
 import { agentTargetKey } from "./target";

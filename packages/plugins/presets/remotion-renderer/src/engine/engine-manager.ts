@@ -49,7 +49,7 @@ async function resolveHome(ctx: PluginContext): Promise<string> {
 }
 
 async function engineRoot(ctx: PluginContext): Promise<string> {
-	return `${await resolveHome(ctx)}/.vetta/plugin-data/remotion-renderer/engine/${ENGINE_VERSION}`;
+	return `${await resolveHome(ctx)}/.origin/plugin-data/remotion-renderer/engine/${ENGINE_VERSION}`;
 }
 
 async function isReady(ctx: PluginContext, root: string): Promise<boolean> {

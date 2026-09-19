@@ -49,10 +49,10 @@ export function useAutomationPageModel(): AutomationPageModel {
 	}, [refreshTasks]);
 
 	useEffect(() => {
-		void window.vetta.scheduler.getRunningTaskIds().then((ids) => {
+		void window.originApp.scheduler.getRunningTaskIds().then((ids) => {
 			setRunningTaskIds(new Set(ids));
 		});
-		return window.vetta.scheduler.onTaskEvent((event) => {
+		return window.originApp.scheduler.onTaskEvent((event) => {
 			if (event.type === "tasks.changed") return;
 			setRunningTaskIds((prev) => {
 				const next = new Set(prev);

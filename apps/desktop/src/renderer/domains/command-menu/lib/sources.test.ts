@@ -161,7 +161,7 @@ describe("buildInstalledAbilityEntries", () => {
 		const skills: SkillInfo[] = [
 			{ name: "internal", description: "Hidden", source: "plugin", type: "skill" },
 			{
-				name: "vetta-ui-design",
+				name: "origin-ui-design",
 				description: "Internal",
 				source: "plugin",
 				type: "skill",
@@ -176,7 +176,7 @@ describe("buildInstalledAbilityEntries", () => {
 		const entries = buildInstalledAbilityEntries({ skills, plugins: [] }, labels);
 		expect(entries).toHaveLength(1);
 		expect(entries[0]).toMatchObject({
-			id: "ability:skill:vetta-ui-design",
+			id: "ability:skill:origin-ui-design",
 			title: "Origin 设计",
 			subtitle: "设计产品界面",
 		});

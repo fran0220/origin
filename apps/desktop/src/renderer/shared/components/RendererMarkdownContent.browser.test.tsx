@@ -21,7 +21,7 @@ afterEach(cleanup);
 
 const cases = [
 	createActivityWorkspace("C:/projects/vetta", "C:/projects/vetta"),
-	createActivityWorkspace("agent-team:delivery", "C:/projects/vetta"),
+	createActivityWorkspace("agent-profile:delivery", "C:/projects/vetta"),
 	createActivityWorkspace("conversation:no-project", null),
 ] as const;
 

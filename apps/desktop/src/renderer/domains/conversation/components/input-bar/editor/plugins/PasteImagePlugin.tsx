@@ -39,11 +39,11 @@ export function PasteImagePlugin({
 		};
 		const persistClipboardImages = (clipboardImages: ClipboardImages): void => {
 			const persist =
-				clipboardImages.kind === "vetta-message"
+				clipboardImages.kind === "origin-message"
 					? persistBase64Images(clipboardImages.images, effectiveRuntimeId, "paste")
 					: persistImageFiles(clipboardImages.files, effectiveRuntimeId, "paste");
 			void persist.then((paths) => {
-				if (clipboardImages.kind === "vetta-message") {
+				if (clipboardImages.kind === "origin-message") {
 					insert(clipboardImages.messageText, paths);
 				} else {
 					insert("", paths);
@@ -58,7 +58,7 @@ export function PasteImagePlugin({
 				const nativeImageFiles = readClipboardImageFiles(event.clipboardData);
 				if (nativeImageFiles.length > 0) {
 					event.preventDefault();
-					void window.vetta.clipboard
+					void window.originApp.clipboard
 						.pasteUserMessage(effectiveRuntimeId ?? "draft")
 						.catch((error: unknown) => {
 							console.warn("[input-editor] rich clipboard paste failed:", error);
@@ -79,7 +79,7 @@ export function PasteImagePlugin({
 				}
 				const clipboardImages = readClipboardImages(event.clipboardData);
 				const hasImages =
-					clipboardImages.kind === "vetta-message"
+					clipboardImages.kind === "origin-message"
 						? clipboardImages.images.length > 0
 						: clipboardImages.files.length > 0;
 				if (!hasImages) return false;

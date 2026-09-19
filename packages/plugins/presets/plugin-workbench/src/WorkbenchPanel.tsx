@@ -2,14 +2,14 @@ import { useActiveConversation, useActivityTab, useTranslation } from "@origin-o
 import { Button, Switch } from "@origin-org/ui";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { discoverProjects, joinPath, readJson, type ProjectInfo } from "./project";
-import { applyPluginToVetta, reinstallPluginToVetta } from "./reinstall";
+import { applyPluginToOrigin, reinstallPluginToOrigin } from "./reinstall";
 import { getWorkbenchCommand, getWorkbenchDialog, getWorkbenchFs, getWorkbenchPlugins } from "./runtime";
 
 interface InstalledInfo {
 	id: string;
 	version: string;
 	enabled: boolean;
-	devWatch: VettaPluginDevWatchState | null;
+	devWatch: OriginPluginDevWatchState | null;
 }
 
 // ─── Icons (created at render — never at module top level in an MF remote) ───
@@ -213,7 +213,7 @@ export function WorkbenchPanel() {
 		try {
 			if (!workbenchRoot) throw new Error("plugin-workbench rootPath missing");
 			if (!project.zipPath) setBusy(`build:${project.id}`);
-			await applyPluginToVetta({
+			await applyPluginToOrigin({
 				project,
 				workbenchRoot,
 				forceBuild: !project.zipPath,
@@ -238,7 +238,7 @@ export function WorkbenchPanel() {
 			if (!workbenchRoot) throw new Error("plugin-workbench rootPath missing");
 			hotReloadUserOffRef.current.delete(project.id);
 			hotReloadAutoAttemptedRef.current.add(project.id);
-			await reinstallPluginToVetta(project, workbenchRoot);
+			await reinstallPluginToOrigin(project, workbenchRoot);
 			// location.reload() scheduled inside reinstall — no refresh()
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));
@@ -253,7 +253,7 @@ export function WorkbenchPanel() {
 			await getWorkbenchPlugins().uninstall(id);
 			hotReloadUserOffRef.current.delete(id);
 			hotReloadAutoAttemptedRef.current.delete(id);
-			window.dispatchEvent(new Event("vetta:plugins-changed"));
+			window.dispatchEvent(new Event("origin:plugins-changed"));
 			await refresh();
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));
@@ -267,7 +267,7 @@ export function WorkbenchPanel() {
 		setError(null);
 		try {
 			await getWorkbenchPlugins().reload(id);
-			window.dispatchEvent(new Event("vetta:plugins-changed"));
+			window.dispatchEvent(new Event("origin:plugins-changed"));
 			await refresh();
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));
@@ -288,7 +288,7 @@ export function WorkbenchPanel() {
 				hotReloadAutoAttemptedRef.current.add(project.id);
 				await getWorkbenchPlugins().startDevWatch(project.id, project.dir);
 			}
-			window.dispatchEvent(new Event("vetta:plugins-changed"));
+			window.dispatchEvent(new Event("origin:plugins-changed"));
 			await refresh();
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));

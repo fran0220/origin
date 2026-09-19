@@ -57,7 +57,7 @@ export function useToolCallsSubTabModel(): ToolCallsSubTabModel {
 		}
 		setLoading(true);
 		try {
-			const data = await window.vetta.debug.parseToolCalls(sessionPath);
+			const data = await window.originApp.debug.parseToolCalls(sessionPath);
 			setRecords(data);
 		} catch {
 			setRecords([]);

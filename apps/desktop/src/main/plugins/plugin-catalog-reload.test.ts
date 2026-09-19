@@ -16,7 +16,7 @@ const testPaths = vi.hoisted(() => {
 	};
 });
 
-vi.mock("@origin/action-rpc", () => ({ getVettaHomePath: () => testPaths.home }));
+vi.mock("@origin/action-rpc", () => ({ getOriginHomePath: () => testPaths.home }));
 vi.mock("electron", () => ({
 	app: { isPackaged: true, resourcesPath: testPaths.resources },
 	webContents: { getAllWebContents: () => [] },
@@ -45,12 +45,12 @@ const previousService: PluginServiceProviderManifest = {
 			},
 		},
 	},
-	process: { args: ["--port=:${" + "VETTA_SERVICE_PORT}"] },
+	process: { args: ["--port=:${" + "ORIGIN_SERVICE_PORT}"] },
 	health: { path: "/health" },
 };
 const updatedService: PluginServiceProviderManifest = {
 	...previousService,
-	process: { args: ["--headless=false", "--port=:${" + "VETTA_SERVICE_PORT}"] },
+	process: { args: ["--headless=false", "--port=:${" + "ORIGIN_SERVICE_PORT}"] },
 };
 
 function createInstalledPlugin(): InstalledPlugin {
@@ -61,7 +61,7 @@ function createInstalledPlugin(): InstalledPlugin {
 		activeVersion: "1.0.0",
 		pendingVersion: "2.0.0",
 		pluginApiVersion: "^2.0.0",
-		entryUrl: `vetta-plugin://${PLUGIN_ID}/versions/1.0.0/dist/mf-manifest.json?v=1.0.0`,
+		entryUrl: `origin-plugin://${PLUGIN_ID}/versions/1.0.0/dist/mf-manifest.json?v=1.0.0`,
 		moduleFederation: { remoteName: "reload_service_test", expose: "./plugin" },
 		serviceProviders: [previousService],
 		styleUrls: [],

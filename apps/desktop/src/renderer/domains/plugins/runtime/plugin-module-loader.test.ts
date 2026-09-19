@@ -35,7 +35,7 @@ describe("loadPluginDefinition", () => {
 		vi.stubGlobal("fetch", fetchMock);
 		const plugin = {
 			id: "single-loader",
-			entryUrl: "vetta-plugin://single-loader/dist/mf-manifest.json?v=1",
+			entryUrl: "origin-plugin://single-loader/dist/mf-manifest.json?v=1",
 			moduleFederation: { remoteName: "single_loader", expose: "./plugin" },
 		} as unknown as InstalledPlugin;
 

@@ -31,12 +31,12 @@ vi.mock("react-i18next", () => ({
 const { DefaultConversationSection } = await import("./DefaultConversationSection.js");
 
 const DEFAULT_PROJECT: Project = {
-	cwd: "/home/user/.vetta/desktop-app/conversation",
+	cwd: "/home/user/.origin/desktop-app/conversation",
 	name: "对话",
 	isDefault: true,
 } as Project;
 
-const IM_CWD = "/home/user/.vetta/im-gateway/conversation";
+const IM_CWD = "/home/user/.origin/im-gateway/conversation";
 
 const CLAW_SESSION: SessionInfo = {
 	id: "claw-1",

@@ -41,7 +41,7 @@ interface RegistryEntry {
 	verified: boolean;
 }
 
-/** ~/.vetta/runtimes/.cache/registry.json 的形状。 */
+/** ~/.origin/runtimes/.cache/registry.json 的形状。 */
 export interface RuntimeRegistryData {
 	version: 1;
 	binaries: Partial<Record<RuntimeType, RegistryEntry>>;

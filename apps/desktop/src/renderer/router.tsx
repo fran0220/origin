@@ -75,7 +75,7 @@ const agentCenterRoute = createRoute({
 /** 旧的团队页已退役，深链统一落到智能体中心。 */
 const teamListRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams",
+	path: "/agent-profiles",
 	beforeLoad: () => {
 		throw redirect({ to: "/agents", replace: true });
 	},
@@ -83,7 +83,7 @@ const teamListRedirectRoute = createRoute({
 
 const teamChatRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId",
+	path: "/agent-profiles/$teamId",
 	beforeLoad: () => {
 		throw redirect({ to: "/agents", replace: true });
 	},
@@ -91,7 +91,7 @@ const teamChatRedirectRoute = createRoute({
 
 const teamSessionRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/sessions/$sessionId",
+	path: "/agent-profiles/$teamId/sessions/$sessionId",
 	beforeLoad: () => {
 		throw redirect({ to: "/agents", replace: true });
 	},
@@ -99,7 +99,7 @@ const teamSessionRedirectRoute = createRoute({
 
 const teamNewSessionRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/new",
+	path: "/agent-profiles/$teamId/new",
 	beforeLoad: () => {
 		throw redirect({ to: "/new-session", replace: true });
 	},
@@ -107,7 +107,7 @@ const teamNewSessionRedirectRoute = createRoute({
 
 const teamMemberSessionRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/sessions/$sessionId/members/$memberId",
+	path: "/agent-profiles/$teamId/sessions/$sessionId/members/$memberId",
 	beforeLoad: () => {
 		throw redirect({ to: "/agents", replace: true });
 	},
@@ -115,7 +115,7 @@ const teamMemberSessionRedirectRoute = createRoute({
 
 const teamSettingsRedirectRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: "/agent-teams/$teamId/settings",
+	path: "/agent-profiles/$teamId/settings",
 	beforeLoad: () => {
 		throw redirect({ to: "/agents", replace: true });
 	},

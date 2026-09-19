@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { SETTINGS_SECTION } from "../registry";
 import { recordSettingsUsage } from "./recordSettingsUsage";
 
-type RuntimesStatus = Awaited<ReturnType<typeof window.vetta.runtimes.getStatus>>;
+type RuntimesStatus = Awaited<ReturnType<typeof window.originApp.runtimes.getStatus>>;
 export type EnvironmentRuntimeStatus = RuntimesStatus["node"];
 export type EnvironmentRuntimeKind = "node" | "python" | "ffmpeg";
 export type EnvironmentRecordingRetention = "30m" | "2h" | "until-cleared";
@@ -54,7 +54,7 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 
 	const refresh = useCallback(async () => {
 		try {
-			setStatus(await window.vetta.runtimes.getStatus());
+			setStatus(await window.originApp.runtimes.getStatus());
 		} catch (err) {
 			setError(err instanceof Error ? err.message : String(err));
 		}
@@ -62,7 +62,7 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 
 	useEffect(() => {
 		void refresh();
-		void window.vetta.config.get().then((config) => {
+		void window.originApp.config.get().then((config) => {
 			const retention = config.recording?.defaultRetention;
 			if (retention === "30m" || retention === "2h" || retention === "until-cleared") {
 				setRecordingRetention(retention);
@@ -75,7 +75,7 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 			setBusy(kind);
 			setError(null);
 			try {
-				await window.vetta.runtimes.reinstall(kind);
+				await window.originApp.runtimes.reinstall(kind);
 				await refresh();
 				recordSettingsUsage({ tab: "environment", action: "reinstalled", target: "runtime", value: kind });
 			} catch (err) {
@@ -89,7 +89,7 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 
 	const setRetention = useCallback(async (value: EnvironmentRecordingRetention) => {
 		setRecordingRetention(value);
-		await window.vetta.config.set({ recording: { defaultRetention: value } });
+		await window.originApp.config.set({ recording: { defaultRetention: value } });
 		recordSettingsUsage({ tab: "environment", action: "changed", target: "recordingRetention", value });
 	}, []);
 

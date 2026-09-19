@@ -8,11 +8,11 @@ import { assertPathReadableForPreview } from "./ipc/fs.js";
 
 /**
  * 静态文件协议（ADR-0027）：把校验过的本地文件路径映射为可直接作 iframe/img/script
- * src 的 URL。与媒体流协议（vetta-media://，query 参数承载路径）刻意不同：本协议
+ * src 的 URL。与媒体流协议（origin-media://，query 参数承载路径）刻意不同：本协议
  * **pathname 直接承载绝对路径**——HTML 内相对引用的 css/js/图片按所在目录天然解析
  * 正确，无需改写 HTML。凡需「整页带资源地预览项目内 HTML」走本协议。
  *
- * URL 形态：vetta-file://local/<绝对路径>
+ * URL 形态：origin-file://local/<绝对路径>
  */
 
 const FILE_MIME: Record<string, string> = {

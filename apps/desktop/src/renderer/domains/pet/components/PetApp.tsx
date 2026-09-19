@@ -37,7 +37,7 @@ const USER_ACTION_HOLD_MS = 10_000;
 
 declare global {
 	interface Window {
-		vettaPet?: PetBridge;
+		originPet?: PetBridge;
 	}
 }
 
@@ -155,7 +155,7 @@ export function PetApp(): JSX.Element {
 	}, [actionId]);
 
 	useEffect(() => {
-		return window.vettaPet?.onCommand((command) => {
+		return window.originAppPet?.onCommand((command) => {
 			if (command.type === "show-bubble") {
 				const input = getShowPetBubbleInput(command);
 				if (input) showBubble(input);

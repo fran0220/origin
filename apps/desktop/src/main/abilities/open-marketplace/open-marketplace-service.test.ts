@@ -14,9 +14,9 @@ vi.mock("../../logger", () => ({ getAppLogger: () => marketplaceLog }));
 
 const temporaryRoots: string[] = [];
 const APP_VERSION = "0.5.11";
-const originalRepository = process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY;
-const originalRef = process.env.VETTA_OPEN_MARKETPLACE_REF;
-const originalArchiveUrl = process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+const originalRepository = process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY;
+const originalRef = process.env.ORIGIN_OPEN_MARKETPLACE_REF;
+const originalArchiveUrl = process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 
 function restoreEnvironment(name: string, value: string | undefined): void {
 	if (value === undefined) delete process.env[name];
@@ -24,7 +24,7 @@ function restoreEnvironment(name: string, value: string | undefined): void {
 }
 
 async function temporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-open-marketplace-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-open-marketplace-test-"));
 	temporaryRoots.push(root);
 	return root;
 }
@@ -44,9 +44,9 @@ function archive(options?: {
 	const description = options?.description ?? "Demo ability";
 	const manifest = {
 		schemaVersion: 1,
-		name: "vetta-open-abilities",
+		name: "origin-open-abilities",
 		marketplaceVersion,
-		repository: "https://github.com/example/vetta-abilities",
+		repository: "https://github.com/example/origin-abilities",
 		minAppVersion: options?.minAppVersion ?? APP_VERSION,
 		abilities: [
 			{
@@ -65,7 +65,7 @@ function archive(options?: {
 		],
 	};
 	const zip = new AdmZip();
-	zip.addFile("vetta-abilities-main/.vetta/marketplace.json", Buffer.from(JSON.stringify(manifest)));
+	zip.addFile("vetta-abilities-main/.origin/marketplace.json", Buffer.from(JSON.stringify(manifest)));
 	zip.addFile(
 		"vetta-abilities-main/abilities/skills/demo-skill/SKILL.md",
 		Buffer.from(`---\nname: demo-skill\ndescription: Demo ability\nversion: ${packageVersion}\n---\n\n# Demo\n`),
@@ -95,9 +95,9 @@ function archive(options?: {
 function pluginBundleArchive(pluginId = "demo-plugin"): Buffer {
 	const manifest = {
 		schemaVersion: 1,
-		name: "vetta-open-abilities",
+		name: "origin-open-abilities",
 		marketplaceVersion: "2026.07.3",
-		repository: "https://github.com/example/vetta-abilities",
+		repository: "https://github.com/example/origin-abilities",
 		minAppVersion: APP_VERSION,
 		abilities: [
 			{
@@ -142,7 +142,7 @@ function pluginBundleArchive(pluginId = "demo-plugin"): Buffer {
 		commands: ["git"],
 	};
 	const zip = new AdmZip();
-	zip.addFile("vetta-abilities-main/.vetta/marketplace.json", Buffer.from(JSON.stringify(manifest)));
+	zip.addFile("vetta-abilities-main/.origin/marketplace.json", Buffer.from(JSON.stringify(manifest)));
 	zip.addFile(
 		"vetta-abilities-main/abilities/plugins/demo-plugin/plugin.json",
 		Buffer.from(JSON.stringify(pluginManifest)),
@@ -211,7 +211,7 @@ function streamingResponse(
 }
 
 function manifestResponse(buffer: Buffer): Response {
-	const entry = new AdmZip(buffer).getEntry("vetta-abilities-main/.vetta/marketplace.json");
+	const entry = new AdmZip(buffer).getEntry("vetta-abilities-main/.origin/marketplace.json");
 	if (!entry) throw new Error("Marketplace manifest fixture is missing");
 	const body = entry.getData();
 	return new Response(new Uint8Array(body), {
@@ -221,7 +221,7 @@ function manifestResponse(buffer: Buffer): Response {
 }
 
 function githubManifestResponse(buffer: Buffer): Response {
-	const entry = new AdmZip(buffer).getEntry("vetta-abilities-main/.vetta/marketplace.json");
+	const entry = new AdmZip(buffer).getEntry("vetta-abilities-main/.origin/marketplace.json");
 	if (!entry) throw new Error("Marketplace manifest fixture is missing");
 	const content = entry.getData().toString("base64");
 	const body = JSON.stringify({ content, encoding: "base64" });
@@ -233,16 +233,16 @@ function githubManifestResponse(buffer: Buffer): Response {
 
 beforeEach(() => {
 	marketplaceLog.error.mockClear();
-	process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/vetta-abilities";
-	process.env.VETTA_OPEN_MARKETPLACE_REF = "main";
-	delete process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+	process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/origin-abilities";
+	process.env.ORIGIN_OPEN_MARKETPLACE_REF = "main";
+	delete process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 });
 
 afterEach(async () => {
 	await Promise.all(temporaryRoots.splice(0).map((root) => rm(root, { recursive: true, force: true })));
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_REPOSITORY", originalRepository);
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_REF", originalRef);
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_ARCHIVE_URL", originalArchiveUrl);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", originalRepository);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_REF", originalRef);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL", originalArchiveUrl);
 });
 
 describe("OpenMarketplaceService", () => {
@@ -263,7 +263,7 @@ describe("OpenMarketplaceService", () => {
 		const snapshot = await service.refresh();
 		expect(snapshot.error).toBeUndefined();
 		expect(fetchArchive).toHaveBeenCalledWith(
-			"https://api.github.com/repos/example/vetta-abilities/zipball/main",
+			"https://api.github.com/repos/example/origin-abilities/zipball/main",
 			expect.anything(),
 		);
 	});
@@ -293,7 +293,7 @@ describe("OpenMarketplaceService", () => {
 		expect(snapshot.marketplaceVersion).toBe("2026.07.1");
 		await vi.waitFor(() => expect(fetchManifest).toHaveBeenCalledOnce());
 		expect(fetchManifest).toHaveBeenCalledWith(
-			"https://api.github.com/repos/example/vetta-abilities/contents/.vetta/marketplace.json?ref=main",
+			"https://api.github.com/repos/example/origin-abilities/contents/.origin/marketplace.json?ref=main",
 			expect.objectContaining({ redirect: "follow" }),
 		);
 	});
@@ -499,7 +499,7 @@ describe("OpenMarketplaceService", () => {
 		expect(snapshot.abilities[0]).toMatchObject({
 			slug: "demo-skill",
 			configVersion: 2,
-			origin: { kind: "github-marketplace", marketplace: "vetta-open-abilities" },
+			origin: { kind: "github-marketplace", marketplace: "origin-open-abilities" },
 		});
 		const stored = await readFile(
 			join(rootDir, "snapshots", "2026.07.1", "abilities", "skills", "demo-skill", "SKILL.md"),
@@ -528,7 +528,7 @@ describe("OpenMarketplaceService", () => {
 		for (const [index, version] of ["2026.07.1", "2026.07.2", "2026.07.3"].entries()) {
 			const historicalDir = join(rootDir, "snapshots", version);
 			await cp(activeDir, historicalDir, { recursive: true });
-			const manifestPath = join(historicalDir, ".vetta", "marketplace.json");
+			const manifestPath = join(historicalDir, ".origin", "marketplace.json");
 			const manifest = JSON.parse(await readFile(manifestPath, "utf-8")) as Record<string, unknown>;
 			await writeFile(manifestPath, JSON.stringify({ ...manifest, marketplaceVersion: version }));
 			const age = new Date(Date.now() - [96, 12, 6][index]! * 60 * 60 * 1000);
@@ -715,7 +715,7 @@ describe("OpenMarketplaceService", () => {
 			"marketplace sync failed",
 			expect.objectContaining({
 				sourceId: "vetta-official",
-				repository: "https://github.com/example/vetta-abilities",
+				repository: "https://github.com/example/origin-abilities",
 				ref: "main",
 				operation: "refresh",
 				errorCode: "sync-failed",
@@ -846,7 +846,7 @@ describe("OpenMarketplaceService", () => {
 		expect(snapshot.error).toBeUndefined();
 		await vi.waitFor(() => expect(fetchManifest).toHaveBeenCalledOnce());
 		expect(fetchManifest).toHaveBeenCalledWith(
-			"https://github.com/example/vetta-abilities/raw/refs/heads/main/.vetta/marketplace.json",
+			"https://github.com/example/origin-abilities/raw/refs/heads/main/.origin/marketplace.json",
 			expect.objectContaining({ redirect: "follow" }),
 		);
 		expect(fetchArchive).not.toHaveBeenCalled();

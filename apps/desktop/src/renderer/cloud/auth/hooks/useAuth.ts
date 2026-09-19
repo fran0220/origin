@@ -40,7 +40,7 @@ export function useAuth() {
 		if (bootstrappedRef.current) return;
 		bootstrappedRef.current = true;
 		if (token) return;
-		void window.vetta.settings.getServerToken().then((stored) => {
+		void window.originApp.settings.getServerToken().then((stored) => {
 			if (!stored?.signedIn) return;
 			setToken("signed-in");
 		});
@@ -69,7 +69,7 @@ export function useAuth() {
 
 	// 主进程在 refresh 失败时广播 unauthorized
 	useEffect(() => {
-		return window.vetta.auth.onUnauthorized(() => {
+		return window.originApp.auth.onUnauthorized(() => {
 			logout();
 		});
 	}, [logout]);
@@ -90,7 +90,7 @@ export function useAuth() {
 	}, [token]);
 
 	useEffect(() => {
-		const cleanup = window.vetta.auth.onOAuthCallback(() => {
+		const cleanup = window.originApp.auth.onOAuthCallback(() => {
 			setToken("signed-in");
 			setLoginOpen(false);
 			void fetchCurrentUser("signed-in")
@@ -113,7 +113,7 @@ export function useAuth() {
 		// 401 时主进程返回 {}，会无条件覆盖旧的远程 providers，
 		// 否则 ModelSelector 仍会展示已失效的线上模型。
 		void modelCatalog.revalidate({ force: true, sources: ["remote"] });
-		void window.vetta.subscription
+		void window.originApp.subscription
 			.getStatus()
 			.then((result) => {
 				// 拉取成功才覆盖；失败(status:null)保持内存态不变，UI 用 localStorage 缓存回退。
@@ -125,7 +125,7 @@ export function useAuth() {
 	// SSE: connect when token is available, disconnect on logout
 	useEffect(() => {
 		if (!token) return;
-		void window.vetta.auth.sseUrl().then((issued) => {
+		void window.originApp.auth.sseUrl().then((issued) => {
 			if (!issued?.url) return;
 			sseClient.connect(issued.url, "");
 		});

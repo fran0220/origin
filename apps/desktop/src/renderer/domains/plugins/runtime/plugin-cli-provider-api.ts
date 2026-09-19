@@ -12,7 +12,7 @@ let exitSubscriptionInstalled = false;
 function ensureExitSubscription(): void {
 	if (exitSubscriptionInstalled) return;
 	exitSubscriptionInstalled = true;
-	window.vetta.plugins.onCliProviderSpawnExit((event) => {
+	window.originApp.plugins.onCliProviderSpawnExit((event) => {
 		const listeners = exitListeners.get(event.spawnId);
 		if (!listeners) return;
 		exitListeners.delete(event.spawnId);
@@ -31,20 +31,20 @@ export function createPluginCliProviderApi(
 		return providerId;
 	};
 	return {
-		getStatus: (providerId) => window.vetta.plugins.getCliProviderStatus(plugin.id, assertDeclared(providerId)),
+		getStatus: (providerId) => window.originApp.plugins.getCliProviderStatus(plugin.id, assertDeclared(providerId)),
 		onStatusChanged: (listener): Disposable => {
-			const unsubscribe = window.vetta.plugins.onCliProviderStatusChanged((event) => {
+			const unsubscribe = window.originApp.plugins.onCliProviderStatusChanged((event) => {
 				if (event.pluginId === plugin.id) listener(event.status);
 			});
 			disposers.push(unsubscribe);
 			return { dispose: unsubscribe };
 		},
-		retry: (providerId) => window.vetta.plugins.retryCliProvider(plugin.id, assertDeclared(providerId)),
+		retry: (providerId) => window.originApp.plugins.retryCliProvider(plugin.id, assertDeclared(providerId)),
 		run: (providerId, args, options) =>
-			window.vetta.plugins.runCliProvider(plugin.id, assertDeclared(providerId), args ?? [], options),
+			window.originApp.plugins.runCliProvider(plugin.id, assertDeclared(providerId), args ?? [], options),
 		spawn: async (providerId, args, options): Promise<PluginCommandSpawnHandle> => {
 			ensureExitSubscription();
-			const result = await window.vetta.plugins.spawnCliProvider(
+			const result = await window.originApp.plugins.spawnCliProvider(
 				plugin.id,
 				assertDeclared(providerId),
 				args ?? [],
@@ -54,14 +54,14 @@ export function createPluginCliProviderApi(
 			const stop = async (): Promise<void> => {
 				if (stopped) return;
 				stopped = true;
-				await window.vetta.plugins.stopCliProviderSpawn(plugin.id, result.spawnId);
+				await window.originApp.plugins.stopCliProviderSpawn(plugin.id, result.spawnId);
 			};
 			disposers.push(() => void stop());
 			return {
 				spawnId: result.spawnId,
 				pid: result.pid,
 				stop,
-				status: () => window.vetta.plugins.getCliProviderSpawnStatus(plugin.id, result.spawnId),
+				status: () => window.originApp.plugins.getCliProviderSpawnStatus(plugin.id, result.spawnId),
 				onExit: (listener) => {
 					const listeners = exitListeners.get(result.spawnId) ?? new Set();
 					listeners.add(listener);

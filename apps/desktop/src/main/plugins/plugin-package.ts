@@ -60,7 +60,7 @@ export function versionedPluginPath(version: string, relativePath: string): stri
 
 export function toInstalledPluginUrl(pluginId: string, version: string, relativePath: string): string {
 	const normalized = validatePluginRelativePath(relativePath, "path");
-	return `vetta-plugin://${pluginId}/${versionedPluginPath(version, normalized)}?v=${encodeURIComponent(version)}`;
+	return `origin-plugin://${pluginId}/${versionedPluginPath(version, normalized)}?v=${encodeURIComponent(version)}`;
 }
 
 /**

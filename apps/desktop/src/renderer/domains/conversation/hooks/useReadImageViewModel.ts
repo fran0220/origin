@@ -50,7 +50,7 @@ export function useReadImageViewModel(image: ToolImagePreviewLike): ReadImageVie
 			showInFolderLabel: t("imagePreview.showInFolderButton"),
 			onOpenOriginal: originalPath
 				? () => {
-						void window.vetta.shell.showItemInFolder(originalPath);
+						void window.originApp.shell.showItemInFolder(originalPath);
 					}
 				: undefined,
 		};

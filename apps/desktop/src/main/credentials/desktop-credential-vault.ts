@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import {
 	CredentialVault,
 	type CredentialVaultWarning,
@@ -13,7 +13,7 @@ let desktopVaultWarning: CredentialVaultWarning | undefined;
 
 export function getDesktopCredentialVault(): CredentialVault {
 	if (desktopCredentialVault) return desktopCredentialVault;
-	const rootDirectory = join(getVettaHomePath(), "desktop-app", "credentials");
+	const rootDirectory = join(getOriginHomePath(), "desktop-app", "credentials");
 	const osProtected = new ElectronSafeStorageCryptography();
 	if (osProtected.isAvailable()) {
 		desktopCredentialVault = new CredentialVault(rootDirectory, osProtected);

@@ -76,7 +76,7 @@ the built-in `vetta` MCP server. It is always available and needs no setup.
    For `skill`/`scene`/`plugin` this also **opens the archive** and cross-checks the payload
    against `plugin.json`, `locales/*.json`, and `SKILL.md` frontmatter. That is the only place
    the "same data, two sources" mistakes surface: a translation key that does not match the
-   package's own locale files, a `slug` or `version` that the server will ignore, a `vetta.json`
+   package's own locale files, a `slug` or `version` that the server will ignore, a `origin.json`
    that your `detail` silently supersedes. None of these fail the upload — they just make part
    of what you wrote unreachable. Do not skip the dry-run on packaged types.
 
@@ -92,10 +92,10 @@ the built-in `vetta` MCP server. It is always available and needs no setup.
   "review_status": "...", "has_pending": bool, "warnings": [...]}`.
 - `warnings` are things that did not block the submission but changed what gets published —
   a hand-written translation overriding the package's own, a `slug` that was ignored, a
-  `vetta.json` that was skipped. Relay them to the user; do not treat the run as clean.
+  `origin.json` that was skipped. Relay them to the user; do not treat the run as clean.
 - Input may also arrive on stdin (`cat payload.json | node .../publish.mjs`) if that is more
   convenient than a temp file.
-- The script reads the login token from `~/.vetta/auth.json` itself. If it reports "未登录", tell
+- The script reads the login token from `~/.origin/auth.json` itself. If it reports "未登录", tell
   the user to log in through the Vetta client — do not attempt to pass credentials yourself.
 
 ## Review

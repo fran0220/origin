@@ -1,6 +1,6 @@
-import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-profile";
 import type { NewSessionHeroAvatar, NewSessionHeroIdentity } from "@origin-org/theme-ui";
-import { agentAvatarUrl } from "@shared/agent-teams/agent-avatar";
+import { agentAvatarUrl } from "@shared/agent-profiles/agent-avatar";
 import { parseAgentTargetKey } from "./target";
 
 export interface NewSessionTargetIdentityLabels {

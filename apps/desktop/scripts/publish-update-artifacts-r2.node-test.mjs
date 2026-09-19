@@ -19,7 +19,7 @@ test("contentTypeFor publishes native package formats with package media types",
 });
 
 test("collectArtifacts uploads updater files and matching Windows supplements before metadata", async () => {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-r2-publish-"));
+	const directory = await mkdtemp(join(tmpdir(), "origin-r2-publish-"));
 	try {
 		await Promise.all([
 			writeFile(
@@ -47,7 +47,7 @@ test("collectArtifacts uploads updater files and matching Windows supplements be
 });
 
 test("collectArtifacts rejects metadata that points to a missing artifact", async () => {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-r2-publish-"));
+	const directory = await mkdtemp(join(tmpdir(), "origin-r2-publish-"));
 	try {
 		await writeFile(join(directory, "latest-linux-arm64.yml"), "version: 1.2.3\npath: Origin-1.2.3.AppImage\n");
 		await assert.rejects(() => collectArtifacts(directory), /references missing artifact/);
@@ -57,7 +57,7 @@ test("collectArtifacts rejects metadata that points to a missing artifact", asyn
 });
 
 test("readReleaseVersion requires all updater metadata to use one valid version", async () => {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-r2-publish-"));
+	const directory = await mkdtemp(join(tmpdir(), "origin-r2-publish-"));
 	try {
 		await Promise.all([
 			writeFile(join(directory, "latest.yml"), "version: 1.2.3\n"),

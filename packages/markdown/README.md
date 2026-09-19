@@ -13,7 +13,7 @@ import "@origin/markdown/markdown.css";
 <MarkdownView content={post.content} />;
 ```
 
-样式全部挂在 `.vetta-markdown` 下，颜色取宿主的 shadcn 主题变量（`--foreground` / `--border` / `--primary` / `--muted` …），亮暗主题自动跟随，无需额外配置。
+样式全部挂在 `.origin-markdown` 下，颜色取宿主的 shadcn 主题变量（`--foreground` / `--border` / `--primary` / `--muted` …），亮暗主题自动跟随，无需额外配置。
 
 ### transformImageSrc
 

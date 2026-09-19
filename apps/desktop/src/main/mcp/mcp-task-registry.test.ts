@@ -63,7 +63,7 @@ describe("DesktopMcpTaskRegistry", () => {
 });
 
 async function temporaryStatePath(): Promise<string> {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-mcp-task-test-"));
+	const directory = await mkdtemp(join(tmpdir(), "origin-mcp-task-test-"));
 	temporaryDirectories.push(directory);
 	return join(directory, "state.json");
 }

@@ -1,4 +1,4 @@
-@layer vetta-plugins, theme, base, components, utilities;
+@layer origin-plugins, theme, base, components, utilities;
 
 @import "tailwindcss";
 @import "tw-animate-css";

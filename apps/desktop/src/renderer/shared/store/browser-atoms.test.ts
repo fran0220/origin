@@ -9,12 +9,12 @@ describe("workspace browser state", () => {
 	it("opens and remembers URLs under an explicit workspace without reading active conversation state", () => {
 		const store = createStore();
 		store.set(openUrlInActivityWorkspaceAtom, {
-			workspaceId: "agent-team:delivery",
+			workspaceId: "agent-profile:delivery",
 			url: "https://example.com/team",
 		});
 
-		expect(store.get(browserUrlByWorkspaceAtom).get("agent-team:delivery")).toBe("https://example.com/team");
-		expect(store.get(activityPanelTabByProjectAtom).get("agent-team:delivery")).toBe("browser");
+		expect(store.get(browserUrlByWorkspaceAtom).get("agent-profile:delivery")).toBe("https://example.com/team");
+		expect(store.get(activityPanelTabByProjectAtom).get("agent-profile:delivery")).toBe("browser");
 		expect(store.get(activityPanelOpenAtom)).toBe(true);
 	});
 });

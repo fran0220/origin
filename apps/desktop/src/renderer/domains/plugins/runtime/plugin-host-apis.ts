@@ -68,7 +68,7 @@ export function createConversationApi(plugin: InstalledPlugin, disposers: Array<
 
 export function createFsApi(plugin: InstalledPlugin, capabilitySessionId: string): PluginFsApi {
 	const permissions = createPermissionApi(plugin);
-	const filesystem = window.vetta.plugins.internalCapabilities.filesystem;
+	const filesystem = window.originApp.plugins.internalCapabilities.filesystem;
 	return {
 		readDir: (dirPath) => {
 			permissions.require("fs.read");
@@ -112,19 +112,19 @@ export function createFsApi(plugin: InstalledPlugin, capabilitySessionId: string
 		},
 		saveAs: (defaultFileName, content, encoding, options) => {
 			permissions.require("fs.write");
-			return window.vetta.dialog.saveData(defaultFileName, content, encoding, options);
+			return window.originApp.dialog.saveData(defaultFileName, content, encoding, options);
 		},
 		watchDirectory: (dirPath, listener) => {
 			permissions.require("fs.read");
-			const unsubscribe = window.vetta.fs.onDirChanged(listener);
-			void window.vetta.fs.watchDir(dirPath).catch((error: unknown) => {
+			const unsubscribe = window.originApp.fs.onDirChanged(listener);
+			void window.originApp.fs.watchDir(dirPath).catch((error: unknown) => {
 				unsubscribe();
 				console.error(`Plugin ${plugin.id} failed to watch directory ${dirPath}`, error);
 			});
 			return {
 				dispose: () => {
 					unsubscribe();
-					void window.vetta.fs.unwatchDir(dirPath);
+					void window.originApp.fs.unwatchDir(dirPath);
 				},
 			};
 		},
@@ -138,7 +138,7 @@ export function createPluginSecretsApi(
 ): PluginSecretsApi {
 	const permissions = createPermissionApi(plugin);
 	const listeners = new Set<(keys: readonly string[]) => void>();
-	const unsub = subscribePluginSecretsChanged(window.vetta.plugins, plugin.id, (keys) => {
+	const unsub = subscribePluginSecretsChanged(window.originApp.plugins, plugin.id, (keys) => {
 		for (const listener of listeners) listener(keys);
 	});
 	disposers.push(() => {
@@ -148,23 +148,23 @@ export function createPluginSecretsApi(
 	return {
 		get(key: string): Promise<string | undefined> {
 			permissions.require("secrets.read");
-			return window.vetta.plugins.secretsGet(capabilitySessionId, key);
+			return window.originApp.plugins.secretsGet(capabilitySessionId, key);
 		},
 		has(key: string): Promise<boolean> {
 			permissions.require("secrets.read");
-			return window.vetta.plugins.secretsHas(capabilitySessionId, key);
+			return window.originApp.plugins.secretsHas(capabilitySessionId, key);
 		},
 		keys(): Promise<string[]> {
 			permissions.require("secrets.read");
-			return window.vetta.plugins.secretsKeys(capabilitySessionId);
+			return window.originApp.plugins.secretsKeys(capabilitySessionId);
 		},
 		set(key: string, value: string): Promise<void> {
 			permissions.require("secrets.write");
-			return window.vetta.plugins.secretsSet(capabilitySessionId, key, value);
+			return window.originApp.plugins.secretsSet(capabilitySessionId, key, value);
 		},
 		delete(key: string): Promise<void> {
 			permissions.require("secrets.write");
-			return window.vetta.plugins.secretsDelete(capabilitySessionId, key);
+			return window.originApp.plugins.secretsDelete(capabilitySessionId, key);
 		},
 		onChange(listener: (keys: readonly string[]) => void): Disposable {
 			listeners.add(listener);
@@ -175,7 +175,7 @@ export function createPluginSecretsApi(
 
 export function createBrowserApi(plugin: InstalledPlugin, capabilitySessionId: string): PluginBrowserApi {
 	const permissions = createPermissionApi(plugin);
-	const browser = window.vetta.plugins.internalCapabilities.browser;
+	const browser = window.originApp.plugins.internalCapabilities.browser;
 	return {
 		open: (url) => {
 			permissions.require("browser.open");
@@ -239,19 +239,19 @@ let evaluationEvidenceListenerStarted = false;
 function ensureEvaluationEvidenceListener(): void {
 	if (evaluationEvidenceListenerStarted) return;
 	evaluationEvidenceListenerStarted = true;
-	window.vetta.evaluation.onEvidenceProviderRequest((request) => {
+	window.originApp.evaluation.onEvidenceProviderRequest((request) => {
 		const provider = evaluationEvidenceProviders.get(request.providerId);
 		if (!provider) {
-			void window.vetta.evaluation.respondEvidenceProvider(request.requestId, {
+			void window.originApp.evaluation.respondEvidenceProvider(request.requestId, {
 				error: `Evaluation evidence provider not found: ${request.providerId}`,
 			});
 			return;
 		}
 		void provider
 			.capture(request.scopeKey, request.trigger)
-			.then((captured) => window.vetta.evaluation.respondEvidenceProvider(request.requestId, captured.evidence))
+			.then((captured) => window.originApp.evaluation.respondEvidenceProvider(request.requestId, captured.evidence))
 			.catch((error: unknown) =>
-				window.vetta.evaluation.respondEvidenceProvider(request.requestId, {
+				window.originApp.evaluation.respondEvidenceProvider(request.requestId, {
 					error: error instanceof Error ? error.message : String(error),
 				}),
 			);
@@ -263,7 +263,7 @@ export function createEvaluationApi(plugin: InstalledPlugin, disposers: Array<()
 	return {
 		run: (request) => {
 			permissions.require("evaluation:run");
-			return window.vetta.evaluation.run(
+			return window.originApp.evaluation.run(
 				toHostEvaluationScope(request.scope),
 				request.definitionId,
 				request.trigger ?? { kind: "manual" },
@@ -271,29 +271,29 @@ export function createEvaluationApi(plugin: InstalledPlugin, disposers: Array<()
 		},
 		upsertDefinition: (request) => {
 			permissions.require("evaluation:write");
-			return window.vetta.evaluation.upsertDefinition(toHostEvaluationScope(request.scope), request.definition);
+			return window.originApp.evaluation.upsertDefinition(toHostEvaluationScope(request.scope), request.definition);
 		},
 		listDefinitions: (scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.listDefinitions(toHostEvaluationScope(scope));
+			return window.originApp.evaluation.listDefinitions(toHostEvaluationScope(scope));
 		},
 		listAttempts: (scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.listAttempts(toHostEvaluationScope(scope));
+			return window.originApp.evaluation.listAttempts(toHostEvaluationScope(scope));
 		},
 		get: (attemptId, scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.get(toHostEvaluationScope(scope), attemptId);
+			return window.originApp.evaluation.get(toHostEvaluationScope(scope), attemptId);
 		},
 		registerEvidenceProvider: (provider) => {
 			permissions.require("evaluation:run");
 			ensureEvaluationEvidenceListener();
 			const providerId = `${plugin.id}:${provider.kind}:${crypto.randomUUID()}`;
 			evaluationEvidenceProviders.set(providerId, provider);
-			void window.vetta.evaluation.registerEvidenceProvider(providerId, provider.kind);
+			void window.originApp.evaluation.registerEvidenceProvider(providerId, provider.kind);
 			const dispose = (): void => {
 				evaluationEvidenceProviders.delete(providerId);
-				void window.vetta.evaluation.unregisterEvidenceProvider(providerId);
+				void window.originApp.evaluation.unregisterEvidenceProvider(providerId);
 			};
 			disposers.push(dispose);
 			return { dispose };
@@ -309,7 +309,7 @@ export function createMediaApi(
 	pendingRuntimeRegistrations: Promise<void>[],
 ): PluginMediaApi {
 	const permissions = createPermissionApi(plugin);
-	const media = window.vetta.plugins.internalCapabilities.media;
+	const media = window.originApp.plugins.internalCapabilities.media;
 	return {
 		registerProvider: (registration) => {
 			permissions.require("media.provider.register");
@@ -326,7 +326,7 @@ export function createMediaApi(
 				handlerId,
 				registration,
 			});
-			const registrationPromise = window.vetta.plugins
+			const registrationPromise = window.originApp.plugins
 				.registerMediaProvider(plugin.id, {
 					id: registration.id,
 					displayName: registration.displayName?.trim() || undefined,
@@ -346,7 +346,7 @@ export function createMediaApi(
 				if (disposed) return;
 				disposed = true;
 				handlerHandle.dispose();
-				void window.vetta.plugins.unregisterMediaProvider(plugin.id, registration.id, activationId);
+				void window.originApp.plugins.unregisterMediaProvider(plugin.id, registration.id, activationId);
 			};
 			disposers.push(dispose);
 			return { dispose };
@@ -357,7 +357,7 @@ export function createMediaApi(
 		},
 		onProvidersChanged: (listener) => {
 			permissions.require("media.generate");
-			const unsubscribe = window.vetta.plugins.onMediaProvidersChanged(listener);
+			const unsubscribe = window.originApp.plugins.onMediaProvidersChanged(listener);
 			return { dispose: unsubscribe };
 		},
 		submit: (request) => {
@@ -375,7 +375,7 @@ export function createOcrApi(
 	pendingRuntimeRegistrations: Promise<void>[],
 ): OcrClient {
 	const permissions = createPermissionApi(plugin);
-	const ocr = window.vetta.plugins.internalCapabilities.ocr;
+	const ocr = window.originApp.plugins.internalCapabilities.ocr;
 	return {
 		registerProvider: (registration) => {
 			permissions.require("ai.ocr.provider.register");
@@ -384,7 +384,7 @@ export function createOcrApi(
 				throw new Error("OCR provider recognize handler is required");
 			const handlerId = `${registration.id}:${crypto.randomUUID()}`;
 			const handler = registerPluginOcrProviderHandler({ pluginId: plugin.id, handlerId, registration });
-			const promise = window.vetta.plugins
+			const promise = window.originApp.plugins
 				.registerOcrProvider(plugin.id, {
 					id: registration.id,
 					displayName: registration.displayName,
@@ -409,7 +409,7 @@ export function createOcrApi(
 				disposed = true;
 				handler.dispose();
 				void registration.dispose?.();
-				void window.vetta.plugins.unregisterOcrProvider(plugin.id, registration.id, activationId);
+				void window.originApp.plugins.unregisterOcrProvider(plugin.id, registration.id, activationId);
 			};
 			disposers.push(dispose);
 			return { dispose };
@@ -420,7 +420,10 @@ export function createOcrApi(
 		},
 		onProvidersChanged: (listener) => {
 			permissions.require("ai.ocr.recognize");
-			return trackActivationDisposable({ dispose: window.vetta.plugins.onOcrProvidersChanged(listener) }, disposers);
+			return trackActivationDisposable(
+				{ dispose: window.originApp.plugins.onOcrProvidersChanged(listener) },
+				disposers,
+			);
 		},
 		recognize: (request, options) => {
 			permissions.require("ai.ocr.recognize");
@@ -451,7 +454,7 @@ function waitForPoll(ms: number, signal?: AbortSignal): Promise<void> {
 
 export function createJobsApi(plugin: InstalledPlugin, capabilitySessionId: string): PluginJobsApi {
 	const permissions = createPermissionApi(plugin);
-	const jobs = window.vetta.plugins.internalCapabilities.jobs;
+	const jobs = window.originApp.plugins.internalCapabilities.jobs;
 	const idOf = (job: string | { id: string }): string => (typeof job === "string" ? job : job.id);
 	return {
 		get: (job) => {
@@ -482,7 +485,7 @@ export function createJobsApi(plugin: InstalledPlugin, capabilitySessionId: stri
 
 export function createArtifactsApi(plugin: InstalledPlugin, capabilitySessionId: string): PluginArtifactsApi {
 	const permissions = createPermissionApi(plugin);
-	const artifacts = window.vetta.plugins.internalCapabilities.artifacts;
+	const artifacts = window.originApp.plugins.internalCapabilities.artifacts;
 	return {
 		persist: async (artifact, destination) => {
 			permissions.require("media.generate");
@@ -511,7 +514,7 @@ export function createGatewayApi(capabilitySessionId: string): PluginGatewayApi 
 		// 同样按 JSON 归一化：请求体也要过 capability 的 CapabilityJsonValue 校验，
 		// body 里带一个 undefined 字段就会让整次调用被拒（见 toJsonValue）。
 		request: (request) =>
-			window.vetta.plugins.gatewayRequest(capabilitySessionId, toJsonValue(request) as typeof request),
+			window.originApp.plugins.gatewayRequest(capabilitySessionId, toJsonValue(request) as typeof request),
 	};
 }
 
@@ -536,7 +539,7 @@ export function createProjectApi(plugin: InstalledPlugin): PluginProjectApi {
 			if (typeof cwd !== "string" || cwd.trim().length === 0) {
 				throw new Error("cwd is required");
 			}
-			return window.vetta.project.resolve(cwd);
+			return window.originApp.project.resolve(cwd);
 		},
 	};
 }
@@ -546,15 +549,15 @@ export function createCheckpointsApi(plugin: InstalledPlugin): PluginCheckpoints
 	return {
 		list: (projectKey) => {
 			permissions.require("checkpoints:read");
-			return window.vetta.checkpoints.list(projectKey);
+			return window.originApp.checkpoints.list(projectKey);
 		},
 		get: (projectKey, checkpointId) => {
 			permissions.require("checkpoints:read");
-			return window.vetta.checkpoints.get(projectKey, checkpointId);
+			return window.originApp.checkpoints.get(projectKey, checkpointId);
 		},
 		requestRevert: (projectKey, checkpointId) => {
 			permissions.require("checkpoints:revert");
-			return window.vetta.checkpoints.revert(projectKey, checkpointId);
+			return window.originApp.checkpoints.revert(projectKey, checkpointId);
 		},
 	};
 }
@@ -562,7 +565,7 @@ export function createCheckpointsApi(plugin: InstalledPlugin): PluginCheckpoints
 export function createStorageApi(plugin: InstalledPlugin, capabilitySessionId: string) {
 	const requireRead = (): void => createPermissionApi(plugin).require("storage.read");
 	const requireWrite = (): void => createPermissionApi(plugin).require("storage.write");
-	return createPluginStorageApi(capabilitySessionId, window.vetta.plugins, requireRead, requireWrite);
+	return createPluginStorageApi(capabilitySessionId, window.originApp.plugins, requireRead, requireWrite);
 }
 
 export function createI18nApi(plugin: InstalledPlugin): PluginI18nApi {
@@ -642,7 +645,7 @@ let spawnExitSubscribed = false;
 function ensureSpawnExitSubscription(): void {
 	if (spawnExitSubscribed) return;
 	spawnExitSubscribed = true;
-	window.vetta.plugins.onCommandSpawnExit((event) => {
+	window.originApp.plugins.onCommandSpawnExit((event) => {
 		const listeners = spawnExitListeners.get(event.spawnId);
 		if (!listeners) return;
 		spawnExitListeners.delete(event.spawnId);
@@ -694,18 +697,18 @@ export function createCommandApi(
 		run: (file, args, options) => {
 			permissions.require("agent.command.run");
 			const allowed = assertCommandAllowed(file);
-			return window.vetta.plugins.runCommand(capabilitySessionId, allowed, args ?? [], options);
+			return window.originApp.plugins.runCommand(capabilitySessionId, allowed, args ?? [], options);
 		},
 		spawn: async (file, args, options): Promise<PluginCommandSpawnHandle> => {
 			permissions.require("agent.command.spawn");
 			const allowed = assertCommandAllowed(file);
 			ensureSpawnExitSubscription();
-			const result = await window.vetta.plugins.spawnCommand(capabilitySessionId, allowed, args ?? [], options);
+			const result = await window.originApp.plugins.spawnCommand(capabilitySessionId, allowed, args ?? [], options);
 			let stopped = false;
 			const stop = async (): Promise<void> => {
 				if (stopped) return;
 				stopped = true;
-				await window.vetta.plugins.stopCommandSpawn(capabilitySessionId, result.spawnId);
+				await window.originApp.plugins.stopCommandSpawn(capabilitySessionId, result.spawnId);
 			};
 			// 插件卸载/重载时统一回收（主进程在 reload/disable/uninstall 也会兜底清扫）。
 			disposers.push(() => void stop());
@@ -714,7 +717,7 @@ export function createCommandApi(
 				pid: result.pid,
 				port: result.port,
 				stop,
-				status: () => window.vetta.plugins.getCommandSpawnStatus(capabilitySessionId, result.spawnId),
+				status: () => window.originApp.plugins.getCommandSpawnStatus(capabilitySessionId, result.spawnId),
 				onExit: (listener) => {
 					const listeners = spawnExitListeners.get(result.spawnId) ?? new Set();
 					listeners.add(listener);
@@ -736,7 +739,7 @@ export function createCaptureApi(plugin: InstalledPlugin, disposers: Array<() =>
 	// （主进程在 reload/disable/uninstall 也会兜底清扫）。
 	const sessionKeys = new Set<string>();
 	disposers.push(() => {
-		for (const key of sessionKeys) void window.vetta.plugins.offscreenRelease(plugin.id, key);
+		for (const key of sessionKeys) void window.originApp.plugins.offscreenRelease(plugin.id, key);
 		sessionKeys.clear();
 	});
 	return {
@@ -745,12 +748,12 @@ export function createCaptureApi(plugin: InstalledPlugin, disposers: Array<() =>
 			if (typeof options?.sessionKey === "string" && options.sessionKey.length > 0) {
 				sessionKeys.add(options.sessionKey);
 			}
-			return window.vetta.plugins.offscreenCapture(plugin.id, options);
+			return window.originApp.plugins.offscreenCapture(plugin.id, options);
 		},
 		releaseOffscreen: (sessionKey) => {
 			permissions.require("capture.offscreen");
 			sessionKeys.delete(sessionKey);
-			return window.vetta.plugins.offscreenRelease(plugin.id, sessionKey);
+			return window.originApp.plugins.offscreenRelease(plugin.id, sessionKey);
 		},
 	};
 }
@@ -762,14 +765,14 @@ export function createRecordingApi(plugin: InstalledPlugin): PluginRecordingApi 
 		return run();
 	};
 	return {
-		start: (request) => requireCapture(() => window.vetta.recording.start(request)),
-		stop: (recordingId) => requireCapture(() => window.vetta.recording.stop(recordingId)),
-		cancel: (recordingId) => requireCapture(() => window.vetta.recording.cancel(recordingId)),
-		list: (query) => requireCapture(() => window.vetta.recording.list(query)),
-		read: (recordingId) => requireCapture(() => window.vetta.recording.read(recordingId)),
-		sample: (request) => requireCapture(() => window.vetta.recording.sample(request)),
-		clear: (recordingId) => requireCapture(() => window.vetta.recording.clear(recordingId)),
+		start: (request) => requireCapture(() => window.originApp.recording.start(request)),
+		stop: (recordingId) => requireCapture(() => window.originApp.recording.stop(recordingId)),
+		cancel: (recordingId) => requireCapture(() => window.originApp.recording.cancel(recordingId)),
+		list: (query) => requireCapture(() => window.originApp.recording.list(query)),
+		read: (recordingId) => requireCapture(() => window.originApp.recording.read(recordingId)),
+		sample: (request) => requireCapture(() => window.originApp.recording.sample(request)),
+		clear: (recordingId) => requireCapture(() => window.originApp.recording.clear(recordingId)),
 		probe: (recordingId, kind, payload) =>
-			requireCapture(() => window.vetta.recording.probe(recordingId, kind, payload)),
+			requireCapture(() => window.originApp.recording.probe(recordingId, kind, payload)),
 	};
 }

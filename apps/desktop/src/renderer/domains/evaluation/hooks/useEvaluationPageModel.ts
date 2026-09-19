@@ -79,8 +79,8 @@ export function useEvaluationPageModel(): EvaluationPageModel {
 	const refresh = useCallback(async () => {
 		try {
 			const [nextDefinitions, nextAttempts] = await Promise.all([
-				window.vetta.evaluation.listDefinitions(GLOBAL_SCOPE),
-				window.vetta.evaluation.listAttempts(GLOBAL_SCOPE),
+				window.originApp.evaluation.listDefinitions(GLOBAL_SCOPE),
+				window.originApp.evaluation.listAttempts(GLOBAL_SCOPE),
 			]);
 			setDefinitions([...nextDefinitions]);
 			setAttempts([...nextAttempts]);
@@ -120,7 +120,7 @@ export function useEvaluationPageModel(): EvaluationPageModel {
 							}
 						: {}),
 				}));
-			const saved = await window.vetta.evaluation.upsertDefinition(GLOBAL_SCOPE, {
+			const saved = await window.originApp.evaluation.upsertDefinition(GLOBAL_SCOPE, {
 				title: draftTitle,
 				criteria,
 			});
@@ -137,8 +137,8 @@ export function useEvaluationPageModel(): EvaluationPageModel {
 		try {
 			setRunning(true);
 			setError(null);
-			const attempt = await window.vetta.evaluation.run(GLOBAL_SCOPE, selectedDefinitionId, { kind: "manual" });
-			const view = await window.vetta.evaluation.get(GLOBAL_SCOPE, attempt.id);
+			const attempt = await window.originApp.evaluation.run(GLOBAL_SCOPE, selectedDefinitionId, { kind: "manual" });
+			const view = await window.originApp.evaluation.get(GLOBAL_SCOPE, attempt.id);
 			setSelectedAttempt(view);
 			await refresh();
 		} catch {
@@ -152,7 +152,7 @@ export function useEvaluationPageModel(): EvaluationPageModel {
 		async (id: string) => {
 			try {
 				setError(null);
-				setSelectedAttempt(await window.vetta.evaluation.get(GLOBAL_SCOPE, id));
+				setSelectedAttempt(await window.originApp.evaluation.get(GLOBAL_SCOPE, id));
 			} catch {
 				setError(t("error.load"));
 			}

@@ -29,7 +29,7 @@ export const defaultConversationCwdAtom = atom<string>("");
 export const defaultImConversationCwdAtom = atom<string>("");
 
 /**
- * 知识库加工特殊项目 cwd（~/.vetta/knowledges/processing_records）。
+ * 知识库加工特殊项目 cwd（~/.origin/knowledges/processing_records）。
  * 用于判定一条 session 是否是知识库加工 session：session.path 落在该 cwd 的 sessions 目录下。
  */
 export const knowledgeProcessingCwdAtom = atom<string>("");
@@ -267,7 +267,7 @@ export const defaultConversationFilterAtom = atom(
 // Always start expanded on app launch — collapse state is per-session only.
 export const sidebarCollapsedAtom = atom<boolean>(false);
 
-const DEFAULT_WORKSPACE = "~/.vetta/workspace";
+const DEFAULT_WORKSPACE = "~/.origin/workspace";
 export const workspacePathAtom = atom<string>(localStorage.getItem("vetta-workspace-path") || DEFAULT_WORKSPACE);
 
 export const sessionContextMenuAtom = atom<{

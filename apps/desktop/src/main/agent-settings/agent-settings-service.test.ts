@@ -9,7 +9,7 @@ function createConfig(): DesktopConfig {
 		workspacePath: "C:\\workspace",
 		defaultExecutionMode: "full-access",
 		notificationsEnabled: true,
-		experimental: { vettaCli: false, promptPrediction: false, agentSkills: true },
+		experimental: { originCli: false, promptPrediction: false, agentSkills: true },
 		imageGeneration: {},
 	};
 }
@@ -22,7 +22,7 @@ describe("AgentSettingsService", () => {
 		});
 
 		await expect(service.getExperimental()).resolves.toEqual({
-			vettaCli: true,
+			originCli: true,
 			promptPrediction: false,
 			agentSkills: true,
 		});
@@ -36,13 +36,13 @@ describe("AgentSettingsService", () => {
 		});
 
 		await expect(service.setExperimental({ promptPrediction: true })).resolves.toEqual({
-			vettaCli: false,
+			originCli: false,
 			promptPrediction: true,
 			agentSkills: true,
 		});
 		expect(writeConfig).toHaveBeenCalledWith({
 			...createConfig(),
-			experimental: { vettaCli: false, promptPrediction: true, agentSkills: true },
+			experimental: { originCli: false, promptPrediction: true, agentSkills: true },
 		});
 	});
 

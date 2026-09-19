@@ -8,7 +8,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const fixtureDirectory = mkdtempSync(join(tmpdir(), "vetta-recording-e2e-"));
+const fixtureDirectory = mkdtempSync(join(tmpdir(), "origin-recording-e2e-"));
 const fixturePath = join(fixtureDirectory, "index.html");
 writeFileSync(
 	fixturePath,
@@ -19,13 +19,13 @@ const fixtureUrl = pathToFileURL(fixturePath).toString();
 describe("Desktop webpage recording", () => {
 	it("records a local file page through OSR, then samples frames", async () => {
 		await browser.waitUntil(
-			async () => browser.execute(() => Boolean(window.vetta?.recording)),
-			{ timeout: 60_000, timeoutMsg: "window.vetta.recording was not exposed" },
+			async () => browser.execute(() => Boolean(window.originApp?.recording)),
+			{ timeout: 60_000, timeoutMsg: "window.originApp.recording was not exposed" },
 		);
 
 		const result = await browser.execute(
 			async (pageUrl: string, cwd: string) => {
-				const started = await window.vetta.recording.start({
+				const started = await window.originApp.recording.start({
 					projectKey: "e2e",
 					sessionId: "e2e",
 					url: pageUrl,
@@ -36,16 +36,16 @@ describe("Desktop webpage recording", () => {
 					retention: "30m",
 				});
 				await new Promise((resolve) => setTimeout(resolve, 3_200));
-				const stopped = await window.vetta.recording.stop(started.id);
+				const stopped = await window.originApp.recording.stop(started.id);
 				const sample =
 					stopped.status === "ready"
-						? await window.vetta.recording.sample({
+						? await window.originApp.recording.sample({
 								recordingId: started.id,
 								atMs: [0, 1_000],
 								contactSheet: { columns: 2 },
 							})
 						: undefined;
-				await window.vetta.recording.clear(started.id).catch(() => undefined);
+				await window.originApp.recording.clear(started.id).catch(() => undefined);
 				return {
 					status: stopped.status,
 					durationMs: stopped.durationMs ?? 0,

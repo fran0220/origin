@@ -1,7 +1,7 @@
 /**
  * Vetta 云服务的登录会话（主进程侧）：token 持久化 / refresh 单飞 / 带鉴权的服务端请求。
  *
- * 本文件属于 cloud 模块——lite 构建（VETTA_CLOUD_ENABLED=false）不注册相关 IPC。
+ * 本文件属于 cloud 模块——lite 构建（ORIGIN_CLOUD_ENABLED=false）不注册相关 IPC。
  * 从 ipc/settings.ts 抽出：settings.json 的读写仍复用宿主的 readSettings/updateSettings
  * （跨进程锁语义见那边的注释），本文件只拥有「云会话」这一职责。
  */
@@ -35,7 +35,7 @@ function broadcastUnauthorized(reason: string): void {
 	sessionLog.warn(`广播 unauthorized，渲染层将登出：${reason}`);
 	for (const win of BrowserWindow.getAllWindows()) {
 		if (!win.isDestroyed()) {
-			win.webContents.send("vetta:auth:unauthorized");
+			win.webContents.send("origin:auth:unauthorized");
 		}
 	}
 }
@@ -44,7 +44,7 @@ function broadcastUnauthorized(reason: string): void {
 function broadcastTokenRefreshed(): void {
 	for (const win of BrowserWindow.getAllWindows()) {
 		if (!win.isDestroyed()) {
-			win.webContents.send("vetta:auth:token-refreshed", { signedIn: true });
+			win.webContents.send("origin:auth:token-refreshed", { signedIn: true });
 		}
 	}
 }
@@ -298,11 +298,11 @@ function registerWakeRefreshHooks(): () => void {
 
 /** 注册云会话相关 IPC（token 存取 / refresh / 远程模型 / 订阅）。lite 构建不调用。 */
 export function registerCloudAuthIpc(): () => void {
-	ipcMain.handle("vetta:settings:get-server-token", () => {
+	ipcMain.handle("origin:settings:get-server-token", () => {
 		return hasAccountSession() ? { signedIn: true } : undefined;
 	});
 
-	ipcMain.handle("vetta:settings:set-server-token", async (_event, token: unknown) => {
+	ipcMain.handle("origin:settings:set-server-token", async (_event, token: unknown) => {
 		if (typeof token === "string" && token.length > 0) {
 			sessionLog.warn("renderer attempted to write an access token; ignored");
 			return;
@@ -310,11 +310,11 @@ export function registerCloudAuthIpc(): () => void {
 		await signOutAccount();
 	});
 
-	ipcMain.handle("vetta:settings:get-server-refresh-token", () => {
+	ipcMain.handle("origin:settings:get-server-refresh-token", () => {
 		return hasAccountSession() ? { present: true } : undefined;
 	});
 
-	ipcMain.handle("vetta:settings:set-server-refresh-token", (_event, token: unknown) => {
+	ipcMain.handle("origin:settings:set-server-refresh-token", (_event, token: unknown) => {
 		if (typeof token === "string" && token.length > 0) {
 			sessionLog.warn("renderer attempted to write a refresh token; ignored");
 			return;
@@ -322,25 +322,25 @@ export function registerCloudAuthIpc(): () => void {
 		void signOutAccount();
 	});
 
-	ipcMain.handle("vetta:models:fetch-remote", async () => {
+	ipcMain.handle("origin:models:fetch-remote", async () => {
 		return fetchRemoteProviders();
 	});
 
-	ipcMain.handle("vetta:subscription:status", async () => {
+	ipcMain.handle("origin:subscription:status", async () => {
 		return fetchSubscriptionStatus();
 	});
 
 	// 渲染层 401 时统一委托主进程 refresh，避免跨进程并发使用同一 refresh_token
 	// 触发服务端 reuse-detection（revoked）导致误踢登录。
-	ipcMain.handle("vetta:auth:refresh-token", async () => {
+	ipcMain.handle("origin:auth:refresh-token", async () => {
 		return tryRefreshAccessToken();
 	});
 
-	ipcMain.handle("vetta:auth:sign-out", async () => {
+	ipcMain.handle("origin:auth:sign-out", async () => {
 		return signOutAccount();
 	});
 
-	ipcMain.handle("vetta:auth:sse-url", async () => {
+	ipcMain.handle("origin:auth:sse-url", async () => {
 		return issueAccountSseUrl();
 	});
 
@@ -348,14 +348,14 @@ export function registerCloudAuthIpc(): () => void {
 
 	return () => {
 		teardownWakeHooks();
-		ipcMain.removeHandler("vetta:settings:get-server-token");
-		ipcMain.removeHandler("vetta:settings:set-server-token");
-		ipcMain.removeHandler("vetta:settings:get-server-refresh-token");
-		ipcMain.removeHandler("vetta:settings:set-server-refresh-token");
-		ipcMain.removeHandler("vetta:models:fetch-remote");
-		ipcMain.removeHandler("vetta:subscription:status");
-		ipcMain.removeHandler("vetta:auth:refresh-token");
-		ipcMain.removeHandler("vetta:auth:sign-out");
-		ipcMain.removeHandler("vetta:auth:sse-url");
+		ipcMain.removeHandler("origin:settings:get-server-token");
+		ipcMain.removeHandler("origin:settings:set-server-token");
+		ipcMain.removeHandler("origin:settings:get-server-refresh-token");
+		ipcMain.removeHandler("origin:settings:set-server-refresh-token");
+		ipcMain.removeHandler("origin:models:fetch-remote");
+		ipcMain.removeHandler("origin:subscription:status");
+		ipcMain.removeHandler("origin:auth:refresh-token");
+		ipcMain.removeHandler("origin:auth:sign-out");
+		ipcMain.removeHandler("origin:auth:sse-url");
 	};
 }

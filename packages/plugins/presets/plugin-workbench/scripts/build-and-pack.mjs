@@ -57,7 +57,7 @@ function parsePackResult(stdout) {
 			// npm may write non-JSON informational lines before the CLI result.
 		}
 	}
-	throw new Error("vetta-plugin pack did not return a valid result");
+	throw new Error("origin-plugin pack did not return a valid result");
 }
 
 const args = parseArgs(process.argv.slice(2));
@@ -80,7 +80,7 @@ try {
 
 	await run("npm", ["run", "build"], args.root);
 
-	const pluginCliPath = join(args.root, "node_modules", "@vetta-org", "plugin-vite", "dist", "cli.js");
+	const pluginCliPath = join(args.root, "node_modules", "@origin-org", "plugin-vite", "dist", "cli.js");
 	const packRun = await run(
 		process.execPath,
 		[pluginCliPath, "pack", "--root", args.root],

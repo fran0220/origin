@@ -47,7 +47,7 @@ export function useRequestHistorySubTabModel(cwd: string): RequestHistorySubTabM
 		}
 		setLoading(true);
 		try {
-			const data = await window.vetta.debug.listRequestFiles(projectName, sessionId);
+			const data = await window.originApp.debug.listRequestFiles(projectName, sessionId);
 			setRawFiles(data);
 		} catch {
 			setRawFiles([]);
@@ -80,7 +80,7 @@ export function useRequestHistorySubTabModel(cwd: string): RequestHistorySubTabM
 	);
 
 	const onShowInFolder = useCallback((filePath: string) => {
-		void window.vetta.shell.showItemInFolder(filePath);
+		void window.originApp.shell.showItemInFolder(filePath);
 	}, []);
 
 	const labels = useMemo<RequestHistorySubTabViewLabels>(

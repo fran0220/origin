@@ -1,11 +1,11 @@
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		vettaPluginFederation({
+		originPluginFederation({
 			name: "build_apple_apps",
 			entry: "./src/index.tsx",
 		}),

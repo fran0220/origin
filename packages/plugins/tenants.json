@@ -4,9 +4,9 @@
   "profiles": {
     "development": {
       "common": [
-        "vetta-actions",
+        "origin-actions",
         "preset-agent",
-        "vetta-ui-design",
+        "origin-ui-design",
         "image-gen",
         "media-viewer",
         "office-viewer",
@@ -23,9 +23,9 @@
     },
     "production": {
       "common": [
-        "vetta-actions",
+        "origin-actions",
         "preset-agent",
-        "vetta-ui-design",
+        "origin-ui-design",
         "image-gen",
         "media-viewer",
         "office-viewer",

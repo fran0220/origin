@@ -1,4 +1,4 @@
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { runFileMigrations } from "@origin/toolkit/file-migrations";
 import { removeRetiredBuiltinMcpServersMigration } from "./001_remove_retired_builtin_servers.js";
 
@@ -8,7 +8,7 @@ let migrationPromise: Promise<void> | undefined;
 
 export function ensureMcpFileMigrations(): Promise<void> {
 	migrationPromise ??= runFileMigrations({
-		root: getVettaHomePath(),
+		root: getOriginHomePath(),
 		migrations: MCP_FILE_MIGRATIONS,
 		statePath: "agent/mcp-migrations.json",
 	}).then(() => undefined);

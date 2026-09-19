@@ -4,26 +4,26 @@ import { resolve } from "node:path";
 import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { Plugin, PluginOption } from "vite";
 import {
-	createVettaPluginDevPlugins,
-	isVettaPluginDevServer,
-	VETTA_PLUGIN_DEV_ENTRY_ID,
+	createOriginPluginDevPlugins,
+	isOriginPluginDevServer,
+	ORIGIN_PLUGIN_DEV_ENTRY_ID,
 } from "./dev-vite-plugins.js";
 import { createPluginBuildWarningFilter } from "./build-warning-filter.js";
 import { createHostThemeBridgePlugin } from "./host-theme.js";
-import { type CreateVettaPluginPackageOptions, createVettaPluginPackage } from "./pack.js";
+import { type CreateOriginPluginPackageOptions, createOriginPluginPackage } from "./pack.js";
 import { assertPluginPermissionContract } from "./permission-contract.js";
 import { createPluginStyleScopePlugin } from "./style-scope.js";
 import { createPluginLoggerBindingPlugin } from "./plugin-logger.js";
 
-const SHARED_REACT_COMMONJS_BRIDGE_ID = "virtual:vetta-plugin-shared-react-commonjs";
+const SHARED_REACT_COMMONJS_BRIDGE_ID = "virtual:origin-plugin-shared-react-commonjs";
 const RESOLVED_SHARED_REACT_COMMONJS_BRIDGE_ID = `\0${SHARED_REACT_COMMONJS_BRIDGE_ID}`;
 const STATIC_REACT_REQUIRE_PATTERN = /\brequire\s*\(\s*(["'])react\1\s*\)/gu;
 
-export interface VettaPluginPackageOptions extends Omit<CreateVettaPluginPackageOptions, "rootDir" | "distDir"> {
+export interface OriginPluginPackageOptions extends Omit<CreateOriginPluginPackageOptions, "rootDir" | "distDir"> {
 	enabled?: boolean;
 }
 
-export interface VettaPluginFederationOptions {
+export interface OriginPluginFederationOptions {
 	name: string;
 	expose?: string;
 	entry?: string;
@@ -34,10 +34,10 @@ export interface VettaPluginFederationOptions {
 	/** Share the narrow host UI contract exposed by `@origin-org/theme-ui/plugin-ui`. */
 	hostThemeUi?: boolean;
 	shared?: ModuleFederationOptions["shared"];
-	package?: boolean | VettaPluginPackageOptions;
+	package?: boolean | OriginPluginPackageOptions;
 }
 
-export function createVettaPluginFederationConfig(options: VettaPluginFederationOptions): ModuleFederationOptions {
+export function createOriginPluginFederationConfig(options: OriginPluginFederationOptions): ModuleFederationOptions {
 	const expose = options.expose ?? "./plugin";
 	const entry = options.entry ?? "./src/index.tsx";
 	return {
@@ -97,9 +97,9 @@ export function createVettaPluginFederationConfig(options: VettaPluginFederation
 	};
 }
 
-function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFederationOptions, "hostUi">): Plugin {
+function createBuildDefaultsPlugin(entry: string, options: Pick<OriginPluginFederationOptions, "hostUi">): Plugin {
 	return {
-		name: "vetta-plugin-build-defaults",
+		name: "origin-plugin-build-defaults",
 		apply: "build",
 		config() {
 			return {
@@ -111,7 +111,7 @@ function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFeder
 					assetsInlineLimit: 32 * 1024,
 					rollupOptions: {
 						input: entry,
-						// Host-provided singletons (see desktop-app plugin-shared-modules + vetta-host protocol).
+						// Host-provided singletons (see desktop-app plugin-shared-modules + origin-host protocol).
 						external: [
 							"@origin-org/plugin-sdk",
 							...(options.hostUi
@@ -131,11 +131,11 @@ function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFeder
 									: "assets/[name]-[hash][extname]";
 							},
 							paths: {
-								"@origin-org/plugin-sdk": "vetta-host://plugin-sdk",
-								"@origin-org/ui": "vetta-host://ui",
-								"@origin/ui": "vetta-host://ui",
-								"@origin-org/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
-								"@origin/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
+								"@origin-org/plugin-sdk": "origin-host://plugin-sdk",
+								"@origin-org/ui": "origin-host://ui",
+								"@origin/ui": "origin-host://ui",
+								"@origin-org/theme-ui/plugin-ui": "origin-host://theme-ui-plugin",
+								"@origin/theme-ui/plugin-ui": "origin-host://theme-ui-plugin",
 							},
 						},
 					},
@@ -150,7 +150,7 @@ function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFeder
 // bindings stable when dependencies such as use-sync-external-store are bundled.
 function createSharedReactCommonJsBridgePlugin(): Plugin {
 	return {
-		name: "vetta-plugin-shared-react-commonjs-bridge",
+		name: "origin-plugin-shared-react-commonjs-bridge",
 		apply: "build",
 		enforce: "pre",
 		transform(code) {
@@ -175,13 +175,13 @@ export default React;
 	};
 }
 
-function createPackagePlugin(options: VettaPluginPackageOptions): Plugin {
+function createPackagePlugin(options: OriginPluginPackageOptions): Plugin {
 	let rootDir = "";
 	let distDir = "";
 	let buildFailed = false;
 
 	return {
-		name: "vetta-plugin-package",
+		name: "origin-plugin-package",
 		apply: "build",
 		buildStart() {
 			buildFailed = false;
@@ -197,12 +197,12 @@ function createPackagePlugin(options: VettaPluginPackageOptions): Plugin {
 			if (options.enabled === false || buildFailed) {
 				return;
 			}
-			const result = await createVettaPluginPackage({
+			const result = await createOriginPluginPackage({
 				...options,
 				rootDir,
 				distDir,
 			});
-			console.log(`[vetta-plugin-vite] Wrote ${result.outputPath} with ${result.files.length} runtime files`);
+			console.log(`[origin-plugin-vite] Wrote ${result.outputPath} with ${result.files.length} runtime files`);
 		},
 	};
 }
@@ -210,7 +210,7 @@ function createPackagePlugin(options: VettaPluginPackageOptions): Plugin {
 function createPermissionContractPlugin(): Plugin {
 	let rootDir = "";
 	return {
-		name: "vetta-plugin-permission-contract",
+		name: "origin-plugin-permission-contract",
 		apply: "build",
 		configResolved(config) {
 			rootDir = config.root;
@@ -229,28 +229,28 @@ function createPermissionContractPlugin(): Plugin {
 	};
 }
 
-export function vettaPluginFederation(options: VettaPluginFederationOptions): PluginOption[] {
+export function originPluginFederation(options: OriginPluginFederationOptions): PluginOption[] {
 	const packageOptions = typeof options.package === "object" ? options.package : {};
 	const entry = options.entry ?? "./src/index.tsx";
-	const devServer = isVettaPluginDevServer();
+	const devServer = isOriginPluginDevServer();
 	const plugins: PluginOption[] = [
 		createPluginBuildWarningFilter(),
 		createHostThemeBridgePlugin(),
 		createPluginLoggerBindingPlugin(),
-		...(devServer ? createVettaPluginDevPlugins(entry) : []),
+		...(devServer ? createOriginPluginDevPlugins(entry) : []),
 		createBuildDefaultsPlugin(entry, options),
 		createSharedReactCommonJsBridgePlugin(),
 		...federation({
-			...createVettaPluginFederationConfig(options),
+			...createOriginPluginFederationConfig(options),
 			exposes: {
-				[options.expose ?? "./plugin"]: devServer ? VETTA_PLUGIN_DEV_ENTRY_ID : entry,
+				[options.expose ?? "./plugin"]: devServer ? ORIGIN_PLUGIN_DEV_ENTRY_ID : entry,
 			},
 		}),
 		createPluginStyleScopePlugin(),
 		createPermissionContractPlugin(),
 	];
 	// 兼容旧宿主的 build-watch 流程：增量构建时不重复打 zip。
-	if (options.package !== false && process.env.VETTA_PLUGIN_DEV_WATCH !== "1") {
+	if (options.package !== false && process.env.ORIGIN_PLUGIN_DEV_WATCH !== "1") {
 		plugins.push(createPackagePlugin(packageOptions));
 	}
 	return plugins;

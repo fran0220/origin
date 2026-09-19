@@ -7,15 +7,15 @@ import { writeAppUpdateConfig, writeInnoVerificationManifest } from "./build-inn
 import { resolveUpdatePublishConfig } from "./resolve-update-publish-config.mjs";
 
 test("writes updater config into the version directory installed by Inno", async () => {
-	const sourceDir = await mkdtemp(join(tmpdir(), "vetta-inno-test-"));
+	const sourceDir = await mkdtemp(join(tmpdir(), "origin-inno-test-"));
 	const version = "0.5.42";
 	const resourcesDir = join(sourceDir, "versions", version, "resources");
 	await mkdir(resourcesDir, { recursive: true });
 
 	try {
 		const publishConfig = resolveUpdatePublishConfig({
-			VETTA_UPDATE_PROVIDER: "generic",
-			VETTA_UPDATE_URL: "https://releases.openvetta.com/desktop/test",
+			ORIGIN_UPDATE_PROVIDER: "generic",
+			ORIGIN_UPDATE_URL: "https://releases.openvetta.com/desktop/test",
 		});
 		assert.ok(publishConfig);
 		await writeAppUpdateConfig(sourceDir, version, publishConfig);
@@ -31,7 +31,7 @@ test("writes updater config into the version directory installed by Inno", async
 });
 
 test("writes a stable versioned file manifest for pre-publish verification", async () => {
-	const sourceDir = await mkdtemp(join(tmpdir(), "vetta-inno-test-"));
+	const sourceDir = await mkdtemp(join(tmpdir(), "origin-inno-test-"));
 	const manifestPath = join(sourceDir, "installer.files.json");
 	const versionDir = join(sourceDir, "version");
 	await mkdir(join(versionDir, "resources"), { recursive: true });

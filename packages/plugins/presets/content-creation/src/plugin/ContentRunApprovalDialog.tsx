@@ -55,7 +55,7 @@ export function ContentRunApprovalDialog({ runtime }: { runtime: ContentCreation
 
 	return (
 		<Dialog open={Boolean(runId && run)} onOpenChange={(open) => !open && close()}>
-			<DialogContent data-vetta-plugin-root="content-creation" className="max-w-lg">
+			<DialogContent data-origin-plugin-root="content-creation" className="max-w-lg">
 				<DialogHeader>
 					<DialogTitle>{t("runApproval.title")}</DialogTitle>
 					<DialogDescription>{t("runApproval.description")}</DialogDescription>

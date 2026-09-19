@@ -8,7 +8,7 @@ App Action 是 agent 调用 Vetta Desktop 能力的受控 RPC 边界。主进程
 - 审批 broker
 - 插件动态注册（`PluginActionService`）
 
-**业务 Action 实现由插件提供**（官方系统插件 `vetta-actions` 与第三方插件），不再在 `app-actions/*` 下维护静态领域实现。
+**业务 Action 实现由插件提供**（官方系统插件 `origin-actions` 与第三方插件），不再在 `app-actions/*` 下维护静态领域实现。
 
 ## 注册与冲突
 
@@ -23,11 +23,11 @@ App Action 是 agent 调用 Vetta Desktop 能力的受控 RPC 边界。主进程
 - JSON Schema 校验、write/execute 审批、超时、取消、结果序列化由宿主强制执行。
 - handler 在插件 renderer 运行；renderer 不可用时返回 `PLUGIN_ACTION_UNAVAILABLE`。
 - 写操作对 `local-server` 来源走审批；`assertReady` 失败不得弹审批。
-- 公共内置 Action 依赖 required 系统插件 `vetta-actions`；该 provider 未就绪时，Catalog 必须返回 `ACTION_RUNTIME_NOT_READY`，不能把空目录伪装成正常结果。
+- 公共内置 Action 依赖 required 系统插件 `origin-actions`；该 provider 未就绪时，Catalog 必须返回 `ACTION_RUNTIME_NOT_READY`，不能把空目录伪装成正常结果。
 
 ## 新增 / 修改 Action
 
-1. 改官方插件 `packages/plugins/presets/vetta-actions`（或独立官方 Action 插件）。
+1. 改官方插件 `packages/plugins/presets/origin-actions`（或独立官方 Action 插件）。
 2. 需要宿主数据时扩展 `ctx.official`（`plugin-sdk` + `plugin-official-api.ts`），禁止插件任意 IPC。
 3. 写操作复用已有审批 presentation id；不能注入新审批组件。
 4. 文档见 `docs/plugin/app-actions.md` 与 `docs/adr/0045-plugin-provided-app-actions.md`。

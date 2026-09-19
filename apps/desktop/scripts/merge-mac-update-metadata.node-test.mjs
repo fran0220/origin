@@ -23,7 +23,7 @@ function metadata(version, fileName) {
 }
 
 async function createReleaseDir({ arm64Version = "1.2.3", x64Version = "1.2.3" } = {}) {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-mac-merge-test-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-mac-merge-test-"));
 	temporaryRoots.push(releaseDir);
 	await writeFile(join(releaseDir, "latest-mac-arm64.yml"), metadata(arm64Version, "Origin-1.2.3-arm64-mac.zip"));
 	await writeFile(join(releaseDir, "latest-mac-x64.yml"), metadata(x64Version, "Origin-1.2.3-mac.zip"));
@@ -53,7 +53,7 @@ test("rejects metadata built from different versions", async () => {
 });
 
 test("does nothing when no per-architecture metadata exists", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-mac-merge-test-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-mac-merge-test-"));
 	temporaryRoots.push(releaseDir);
 	assert.equal(await mergeMacUpdateMetadata({ releaseDir }), null);
 });

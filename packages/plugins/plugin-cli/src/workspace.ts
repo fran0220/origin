@@ -21,7 +21,7 @@ export interface PluginProject {
 }
 
 export interface PluginHub {
-	/** 含 .vetta/marketplace.json 的仓库根。 */
+	/** 含 .origin/marketplace.json 的仓库根。 */
 	readonly root: string;
 	readonly manifestPath: string;
 }
@@ -71,10 +71,10 @@ export function findPluginProject(from: string): PluginProject | undefined {
 	return undefined;
 }
 
-/** 从 `from` 向上找最近的能力市场 hub（`.vetta/marketplace.json`）。 */
+/** 从 `from` 向上找最近的能力市场 hub（`.origin/marketplace.json`）。 */
 export function findPluginHub(from: string): PluginHub | undefined {
 	for (const dir of walkUp(from)) {
-		const manifestPath = join(dir, ".vetta", "marketplace.json");
+		const manifestPath = join(dir, ".origin", "marketplace.json");
 		if (existsSync(manifestPath)) return { root: dir, manifestPath };
 		if (isBoundary(dir)) return undefined;
 	}
@@ -93,7 +93,7 @@ function isBoundary(dir: string): boolean {
  */
 export function resolveManualDir(from: string): string | undefined {
 	for (const dir of walkUp(from)) {
-		const candidate = join(dir, "node_modules", "@vetta-org", "plugin-sdk", "docs");
+		const candidate = join(dir, "node_modules", "@origin-org", "plugin-sdk", "docs");
 		if (existsSync(join(candidate, "README.md"))) return candidate;
 	}
 	return undefined;

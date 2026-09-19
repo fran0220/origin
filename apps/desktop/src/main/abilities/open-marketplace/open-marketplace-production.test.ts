@@ -78,7 +78,7 @@ describe("installOpenMarketplaceAbilityInDesktop", () => {
 		{ scenario: "update after permissions were revoked", previousGrants: [], previousEnabled: true },
 		{ scenario: "update of a disabled plugin", previousGrants: ["ui.slot.ability-detail"], previousEnabled: false },
 	])("preserves install consent and GitHub origin: $scenario", async ({ previousGrants, previousEnabled }) => {
-		const snapshotRoot = await mkdtemp(join(tmpdir(), "vetta-open-production-test-"));
+		const snapshotRoot = await mkdtemp(join(tmpdir(), "origin-open-production-test-"));
 		temporaryRoots.push(snapshotRoot);
 		const sourceDir = join(snapshotRoot, "abilities", "plugins", "demo-plugin");
 		await mkdir(join(sourceDir, "dist"), { recursive: true });

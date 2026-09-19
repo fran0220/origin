@@ -23,7 +23,7 @@ vi.mock("../execution-mode.js", () => ({
 }));
 vi.mock("../ipc/fs.js", () => ({
 	DEFAULT_CONVERSATION_CWD: "C:/desktop/conversations",
-	DEFAULT_CONVERSATION_SESSION_DIR: "C:/desktop/conversations/.vetta/sessions",
+	DEFAULT_CONVERSATION_SESSION_DIR: "C:/desktop/conversations/.origin/sessions",
 	readDesktopConfig: async () => ({ defaultExecutionMode: "full-access" }),
 }));
 vi.mock("../ipc/scheduler.js", () => ({
@@ -72,7 +72,7 @@ describe("scheduler RuntimeHost consumer", () => {
 			createSession,
 			renameSessionById,
 			disposeSession,
-			getSessionPath: () => "C:/desktop/conversations/.vetta/sessions/automation.jsonl",
+			getSessionPath: () => "C:/desktop/conversations/.origin/sessions/automation.jsonl",
 			subscribe: (_sessionId: string, handler: (event: SessionEvent) => void) => {
 				handlers.add(handler);
 				return () => handlers.delete(handler);
@@ -98,7 +98,7 @@ describe("scheduler RuntimeHost consumer", () => {
 				},
 			},
 			executionMode: "full-access",
-			sessionDir: "C:/desktop/conversations/.vetta/sessions",
+			sessionDir: "C:/desktop/conversations/.origin/sessions",
 		});
 		expect(prompt).toHaveBeenCalledWith("automation-session", {
 			text: task.prompt,
@@ -141,7 +141,7 @@ describe("scheduler RuntimeHost consumer", () => {
 		const runtime = {
 			abort,
 			createSession: vi.fn(async () => ({ sessionId: "automation-session" })),
-			getSessionPath: () => "C:/desktop/conversations/.vetta/sessions/automation.jsonl",
+			getSessionPath: () => "C:/desktop/conversations/.origin/sessions/automation.jsonl",
 			prompt,
 			renameSessionById: vi.fn(),
 			subscribe: (_sessionId: string, handler: (event: SessionEvent) => void) => {

@@ -1,8 +1,8 @@
 import type { NewSessionHeroIdentity } from "@origin-org/theme-ui";
-import { useAgentAvatarResolver } from "@shared/agent-teams/agent-avatar";
+import { useAgentAvatarResolver } from "@shared/agent-profiles/agent-avatar";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useAgentTeamDirectoryDocument } from "./agent-team-directory";
+import { useAgentProfileDirectoryDocument } from "./agent-profile-directory";
 import { resolveNewSessionTargetIdentity } from "./new-session-target-identity";
 import type { NewSessionTargetKey } from "./target";
 
@@ -14,7 +14,7 @@ import type { NewSessionTargetKey } from "./target";
  */
 export function useNewSessionTargetIdentity(targetKey: NewSessionTargetKey | null): NewSessionHeroIdentity | null {
 	const { t } = useTranslation("chat");
-	const document = useAgentTeamDirectoryDocument();
+	const document = useAgentProfileDirectoryDocument();
 	const resolveAvatar = useAgentAvatarResolver();
 
 	return useMemo(

@@ -15,7 +15,7 @@ afterEach(() => {
 it("publishes the relay credential, rotates it, and removes the external contract on sign-out", () => {
 	const root = mkdtempSync(join(tmpdir(), "origin-cli-credential-"));
 	roots.push(root);
-	vi.stubEnv("VETTA_HOME", root);
+	vi.stubEnv("ORIGIN_HOME", root);
 	const path = join(root, "auth.json");
 	syncCredentialFile("relay-first", "http://127.0.0.1:12345/");
 	expect(JSON.parse(readFileSync(path, "utf8"))).toEqual({

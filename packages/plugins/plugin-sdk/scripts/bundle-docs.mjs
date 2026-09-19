@@ -15,8 +15,8 @@ import { fileURLToPath } from "node:url";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const destDir = join(packageRoot, "docs");
-const srcDir = process.env.VETTA_PLUGIN_DOCS_SRC
-	? resolve(process.env.VETTA_PLUGIN_DOCS_SRC)
+const srcDir = process.env.ORIGIN_PLUGIN_DOCS_SRC
+	? resolve(process.env.ORIGIN_PLUGIN_DOCS_SRC)
 	: resolve(packageRoot, "../../../docs/plugin");
 
 async function isDirectory(path) {

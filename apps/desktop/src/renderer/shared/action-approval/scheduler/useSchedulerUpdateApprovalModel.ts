@@ -85,7 +85,7 @@ export function useSchedulerUpdateApprovalModel(): SchedulerUpdateApprovalModel 
 			return;
 		}
 		let cancelled = false;
-		void window.vetta.scheduler
+		void window.originApp.scheduler
 			.getTasks()
 			.then((listed) => {
 				if (cancelled) return;

@@ -6,7 +6,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import type { ReactNode } from "react";
 import { useCallback, useMemo } from "react";
 import { focusInputEditor, insertPlainText, prependPlainText } from "../input-bar/editor/inputEditorHandle";
-import { useAgentTeamDirectoryDocument } from "./agent-team-directory";
+import { useAgentProfileDirectoryDocument } from "./agent-profile-directory";
 import { type ActiveNewSessionContext, resolveNewSessionContexts } from "./new-session-context-activation";
 import { parseAgentTargetKey } from "./target";
 
@@ -28,7 +28,7 @@ export interface UseNewSessionContextBlockInput {
  */
 export function useNewSessionContextBlock(input: UseNewSessionContextBlockInput): NewSessionContextBlockModel {
 	const contributions = useAtomValue(pluginNewSessionContextsAtom);
-	const document = useAgentTeamDirectoryDocument();
+	const document = useAgentProfileDirectoryDocument();
 	const draft = useAtomValue(inputValueAtom);
 	const setPromptAttachment = useSetAtom(promptAttachmentAtom);
 

@@ -201,12 +201,12 @@ export function useRootLayoutModel(): RootLayoutModel {
 	// 时报其 sessionPath，否则 null。主进程据此 + 窗口聚焦态做系统通知抑制判定。
 	useEffect(() => {
 		const sessionPath = currentPath === "/" ? activeSession?.sessionPath || null : null;
-		void window.vetta.notification.setForegroundSession(sessionPath);
+		void window.originApp.notification.setForegroundSession(sessionPath);
 	}, [currentPath, activeSession]);
 
 	// 点击系统通知 → 主进程已前台化窗口，这里把对应 session 打开并路由到聊天页。
 	useEffect(() => {
-		return window.vetta.notification.onNavigate((payload) => {
+		return window.originApp.notification.onNavigate((payload) => {
 			if (payload.type === "agent-turn-complete" || payload.type === "agent-question-pending") {
 				void openSession(payload.cwd, payload.sessionPath);
 			}
@@ -216,7 +216,7 @@ export function useRootLayoutModel(): RootLayoutModel {
 	// 快捷面板回车 → 主进程已据 postSendBehavior 处理窗口聚焦，这里在默认「对话」目录下
 	// 新建会话并直接发送 prompt（复用通知路由同款 openSession + sendMessage）。
 	useEffect(() => {
-		return window.vetta.quickPanel.onRunPrompt(({ text }) => {
+		return window.originApp.quickPanel.onRunPrompt(({ text }) => {
 			const cwd = defaultConversationCwd;
 			if (!cwd || !text.trim()) return;
 			void (async () => {
@@ -232,7 +232,7 @@ export function useRootLayoutModel(): RootLayoutModel {
 
 	useEffect(() => {
 		const store = getDefaultStore();
-		const unsubCaptured = window.vetta.appshot.onCaptured((payload) => {
+		const unsubCaptured = window.originApp.appshot.onCaptured((payload) => {
 			store.set(appshotAttachmentAtom, {
 				id: payload.id,
 				appName: payload.appName,
@@ -251,7 +251,7 @@ export function useRootLayoutModel(): RootLayoutModel {
 			}
 			store.set(focusInputRequestAtom, (previous) => previous + 1);
 		});
-		const unsubCaptureError = window.vetta.appshot.onCaptureError((payload) => {
+		const unsubCaptureError = window.originApp.appshot.onCaptureError((payload) => {
 			const message =
 				payload.reason === "self-capture"
 					? i18n.t("chat:appshot.errorSelfCapture")
@@ -274,23 +274,25 @@ export function useRootLayoutModel(): RootLayoutModel {
 		const liveRequests = new Map<string, DesktopUserQuestionRequest>();
 		const resolvedRequestIds = new Set<string>();
 
-		const unsubscribeRequest = window.vetta.session.onQuestionRequest((request) => {
+		const unsubscribeRequest = window.originApp.session.onQuestionRequest((request) => {
 			liveRequests.set(request.requestId, request);
 			setPendingQuestions((prev) => ({ ...prev, [request.sessionId]: request }));
 		});
-		const unsubscribeResolved = window.vetta.session.onQuestionResolved((event: DesktopUserQuestionResolvedEvent) => {
-			resolvedRequestIds.add(event.requestId);
-			liveRequests.delete(event.requestId);
-			setPendingQuestions((prev) => {
-				const pending = prev[event.sessionId];
-				if (!pending || pending.requestId !== event.requestId) return prev;
-				const next = { ...prev };
-				delete next[event.sessionId];
-				return next;
-			});
-		});
+		const unsubscribeResolved = window.originApp.session.onQuestionResolved(
+			(event: DesktopUserQuestionResolvedEvent) => {
+				resolvedRequestIds.add(event.requestId);
+				liveRequests.delete(event.requestId);
+				setPendingQuestions((prev) => {
+					const pending = prev[event.sessionId];
+					if (!pending || pending.requestId !== event.requestId) return prev;
+					const next = { ...prev };
+					delete next[event.sessionId];
+					return next;
+				});
+			},
+		);
 
-		void window.vetta.session
+		void window.originApp.session
 			.listPendingQuestions()
 			.then((snapshot) => {
 				if (!active) return;
@@ -315,11 +317,11 @@ export function useRootLayoutModel(): RootLayoutModel {
 		let active = true;
 		const live = new Map<string, DesktopMcpElicitationRequest>();
 		const resolved = new Set<string>();
-		const unsubscribeRequest = window.vetta.session.onMcpElicitationRequest((request) => {
+		const unsubscribeRequest = window.originApp.session.onMcpElicitationRequest((request) => {
 			live.set(request.requestId, request);
 			setPendingMcpElicitations((previous) => ({ ...previous, [request.sessionId]: request }));
 		});
-		const unsubscribeResolved = window.vetta.session.onMcpElicitationResolved(
+		const unsubscribeResolved = window.originApp.session.onMcpElicitationResolved(
 			(event: DesktopMcpElicitationResolvedEvent) => {
 				resolved.add(event.requestId);
 				live.delete(event.requestId);
@@ -331,7 +333,7 @@ export function useRootLayoutModel(): RootLayoutModel {
 				});
 			},
 		);
-		void window.vetta.session
+		void window.originApp.session
 			.listPendingMcpElicitations()
 			.then((snapshot) => {
 				if (!active) return;
@@ -358,10 +360,10 @@ export function useRootLayoutModel(): RootLayoutModel {
 			latest = tasks;
 			setMcpTasks(groupMcpTasksBySession(tasks));
 		};
-		const unsubscribe = window.vetta.session.onMcpTasksChanged((event: DesktopMcpTasksChangedEvent) => {
+		const unsubscribe = window.originApp.session.onMcpTasksChanged((event: DesktopMcpTasksChangedEvent) => {
 			if (active) apply(event.tasks);
 		});
-		void window.vetta.session
+		void window.originApp.session
 			.listMcpTasks()
 			.then((snapshot) => {
 				if (active && latest === undefined) apply(snapshot);
@@ -373,11 +375,15 @@ export function useRootLayoutModel(): RootLayoutModel {
 		};
 	}, [setMcpTasks]);
 
-	const grantQueueRef = useRef<Parameters<Parameters<typeof window.vetta.session.onSandboxGrantRequest>[0]>[0][]>([]);
+	const grantQueueRef = useRef<Parameters<Parameters<typeof window.originApp.session.onSandboxGrantRequest>[0]>[0][]>(
+		[],
+	);
 	const grantActiveRef = useRef(false);
 
 	useEffect(() => {
-		const showGrant = (request: Parameters<Parameters<typeof window.vetta.session.onSandboxGrantRequest>[0]>[0]) => {
+		const showGrant = (
+			request: Parameters<Parameters<typeof window.originApp.session.onSandboxGrantRequest>[0]>[0],
+		) => {
 			grantActiveRef.current = true;
 			const showNext = () => {
 				const nextRequest = grantQueueRef.current.shift();
@@ -394,25 +400,25 @@ export function useRootLayoutModel(): RootLayoutModel {
 				message: request.message,
 				sensitive: request.sensitive,
 				onConfirm: () => {
-					void window.vetta.session.respondToSandboxGrant(request.requestId, "allow_once");
+					void window.originApp.session.respondToSandboxGrant(request.requestId, "allow_once");
 					setSandboxPermissionDrawer(null);
 					showNext();
 				},
 				onCancel: () => {
-					void window.vetta.session.respondToSandboxGrant(request.requestId, "deny");
+					void window.originApp.session.respondToSandboxGrant(request.requestId, "deny");
 					setSandboxPermissionDrawer(null);
 					showNext();
 				},
 				onAllowSession: request.sensitive
 					? undefined
 					: () => {
-							void window.vetta.session.respondToSandboxGrant(request.requestId, "allow_session");
+							void window.originApp.session.respondToSandboxGrant(request.requestId, "allow_session");
 							setSandboxPermissionDrawer(null);
 							showNext();
 						},
 			});
 		};
-		return window.vetta.session.onSandboxGrantRequest((request) => {
+		return window.originApp.session.onSandboxGrantRequest((request) => {
 			if (grantActiveRef.current) {
 				grantQueueRef.current.push(request);
 				return;
@@ -427,10 +433,10 @@ export function useRootLayoutModel(): RootLayoutModel {
 	const setScheduledSessionPaths = useSetAtom(scheduledSessionPathsAtom);
 	useEffect(() => {
 		// 启动时拉取已有定时 session 路径，供侧栏识别并挂图标。
-		void window.vetta.scheduler.getScheduledSessionPaths().then((paths) => {
+		void window.originApp.scheduler.getScheduledSessionPaths().then((paths) => {
 			setScheduledSessionPaths(new Set(paths));
 		});
-		return window.vetta.scheduler.onTaskEvent((event) => {
+		return window.originApp.scheduler.onTaskEvent((event) => {
 			if (event.type !== "task.started") return;
 			if (!event.sessionPath || !event.cwd) return;
 			setScheduledSessionPaths((prev) => new Set(prev).add(event.sessionPath));

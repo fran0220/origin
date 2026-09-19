@@ -191,7 +191,7 @@ describe("GraphWorkspace mouse interactions", () => {
 	it("hydrates current asset previews when React Flow initializes after preview resolution", () => {
 		const project = createContentProject("C:\\project");
 		const assetId = "generated-image";
-		const previewUrl = "vetta-media://local/generated-image";
+		const previewUrl = "origin-media://local/generated-image";
 		project.assets = [
 			{
 				id: assetId,

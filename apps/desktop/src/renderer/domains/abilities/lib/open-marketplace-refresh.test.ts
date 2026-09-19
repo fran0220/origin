@@ -24,7 +24,7 @@ function archive(includeX: boolean): Response {
 	];
 	const zip = new AdmZip();
 	zip.addFile(
-		"market/.vetta/marketplace.json",
+		"market/.origin/marketplace.json",
 		Buffer.from(
 			JSON.stringify({
 				schemaVersion: 1,
@@ -53,11 +53,11 @@ function archive(includeX: boolean): Response {
 }
 
 beforeEach(() => {
-	vi.stubEnv("VETTA_CLOUD_ENABLED", "true");
-	vi.stubEnv("VETTA_BUILD_ENV", "development");
-	vi.stubEnv("VETTA_OPEN_MARKETPLACE_REPOSITORY", repository);
-	vi.stubEnv("VETTA_OPEN_MARKETPLACE_REF", "main");
-	vi.stubEnv("VETTA_OPEN_MARKETPLACE_ARCHIVE_URL", undefined);
+	vi.stubEnv("ORIGIN_CLOUD_ENABLED", "true");
+	vi.stubEnv("ORIGIN_BUILD_ENV", "development");
+	vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", repository);
+	vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_REF", "main");
+	vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL", undefined);
 });
 
 afterEach(async () => {
@@ -67,7 +67,7 @@ afterEach(async () => {
 
 describe("Desktop GitHub marketplace refresh", () => {
 	it("loads GitHub sources into an empty cloud catalog and shows newly published MCP cards after refresh", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-marketplace-refresh-test-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-marketplace-refresh-test-"));
 		roots.push(root);
 		const filePath = join(root, "sources.json");
 		await writeFile(filePath, JSON.stringify({ version: 1, sources: [] }));

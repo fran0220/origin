@@ -4,7 +4,7 @@
 
 ## 默认共享依赖
 
-`vettaPluginFederation()` 会把以下模块配置为 Module Federation 的
+`originPluginFederation()` 会把以下模块配置为 Module Federation 的
 `singleton: true` 和 `import: false`：
 
 | 模块 | 插件 `package.json` 中的要求 | 运行时来源 |
@@ -40,7 +40,7 @@
 `hostUi` 并声明本地开发依赖：
 
 ```ts
-vettaPluginFederation({
+originPluginFederation({
   name: "my_plugin",
   hostUi: true,
 });
@@ -64,7 +64,7 @@ vettaPluginFederation({
 只有实际导入该入口的插件才应同时完成两项声明：
 
 ```ts
-vettaPluginFederation({
+originPluginFederation({
   name: "my_plugin",
   hostThemeUi: true,
 });
@@ -117,21 +117,21 @@ const EmptyState = <div />;
 
 ## 新增或修改插件时的清单
 
-1. 使用 `vettaPluginFederation()` 时，先检查上述默认共享依赖是否都在
+1. 使用 `originPluginFederation()` 时，先检查上述默认共享依赖是否都在
    `devDependencies` 中；导入 `@origin-org/ui` 时再同时添加 `hostUi: true` 和对应依赖。
 2. 修改依赖后在仓库根目录运行 `bun install`，只提交根 `bun.lock`。
 3. 在插件目录运行生产构建，确认日志中没有 `Shared dependency` 警告。
 4. 修改 `shared` 配置时同步检查 Desktop 宿主的 share scope 和
    `plugin-shared-modules` 导出列表。
 5. 若插件是 resource-only，不需要 renderer Module Federation 入口时，不要
-   引入 `vettaPluginFederation()`；否则仍需遵守本页的共享依赖契约。
+   引入 `originPluginFederation()`；否则仍需遵守本页的共享依赖契约。
 
 ## 警告排查
 
 - `react` / `react-dom` 缺失：插件通常是非 UI 入口，但仍使用了默认 Federation
   配置；补充对应开发依赖，或改用 resource-only 构建路径。
 - `@origin-org/ui` 缺失：仅当源码确实导入它时开启 `hostUi`、补充 `workspace:*`
-  开发依赖，并确认宿主版本提供 `vetta-host://ui` shim；未使用时不要增加依赖。
+  开发依赖，并确认宿主版本提供 `origin-host://ui` shim；未使用时不要增加依赖。
 - `@origin-org/theme-ui/plugin-ui` 缺失：仅在源码确实导入该入口时开启
   `hostThemeUi`，并安装基础包 `@origin-org/theme-ui`；未使用时不要把它加入
   `shared`。

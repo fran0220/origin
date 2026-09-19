@@ -225,7 +225,7 @@ export const PromptTextarea = forwardRef<PromptTextareaHandle, PromptTextareaPro
 				</div>
 			</PopoverAnchor>
 			<PopoverContent
-				data-vetta-plugin-root="kanban"
+				data-origin-plugin-root="kanban"
 				align="start"
 				side="top"
 				sideOffset={6}

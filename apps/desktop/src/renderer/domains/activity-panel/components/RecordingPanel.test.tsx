@@ -59,7 +59,7 @@ describe("RecordingPanel", () => {
 			frames: [{ atMs: 0, path: "/tmp/recordings/home/rec_1/frames/a.png" }],
 		});
 		recording.clear.mockResolvedValue(undefined);
-		window.vetta = { recording } as unknown as typeof window.vetta;
+		window.originApp = { recording } as unknown as typeof window.originApp;
 	});
 
 	afterEach(() => {

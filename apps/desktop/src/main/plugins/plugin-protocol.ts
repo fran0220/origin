@@ -45,7 +45,7 @@ function moduleResponse(source: string): Response {
 function hostModuleResponse(moduleName: string): Response {
 	if (moduleName === "react") {
 		return moduleResponse(`
-const React = globalThis.__VETTA_PLUGIN_HOST__.React;
+const React = globalThis.__ORIGIN_PLUGIN_HOST__.React;
 export default React;
 export const Children = React.Children;
 export const Component = React.Component;
@@ -85,7 +85,7 @@ export const useTransition = React.useTransition;
 	}
 	if (moduleName === "react/jsx-runtime") {
 		return moduleResponse(`
-const jsxRuntime = globalThis.__VETTA_PLUGIN_HOST__.jsxRuntime;
+const jsxRuntime = globalThis.__ORIGIN_PLUGIN_HOST__.jsxRuntime;
 export const Fragment = jsxRuntime.Fragment;
 export const jsx = jsxRuntime.jsx;
 export const jsxs = jsxRuntime.jsxs;
@@ -93,7 +93,7 @@ export const jsxs = jsxRuntime.jsxs;
 	}
 	if (moduleName === "react/jsx-dev-runtime") {
 		return moduleResponse(`
-const jsxDevRuntime = globalThis.__VETTA_PLUGIN_HOST__.jsxDevRuntime;
+const jsxDevRuntime = globalThis.__ORIGIN_PLUGIN_HOST__.jsxDevRuntime;
 export const Fragment = jsxDevRuntime.Fragment;
 export const jsxDEV = jsxDevRuntime.jsxDEV;
 `);
@@ -103,7 +103,7 @@ export const jsxDEV = jsxDevRuntime.jsxDEV;
 		// 插件构建时 @origin-org/plugin-sdk 被外部化为本模块，漏列会在插件模块求值时
 		// 抛 "does not provide an export named ..." 导致整个插件加载失败。
 		return moduleResponse(`
-const sdk = globalThis.__VETTA_PLUGIN_HOST__.pluginSdk;
+const sdk = globalThis.__ORIGIN_PLUGIN_HOST__.pluginSdk;
 export const PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES = sdk.PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES;
 export const PLUGIN_PERMISSIONS = sdk.PLUGIN_PERMISSIONS;
 export const definePlugin = sdk.definePlugin;
@@ -133,7 +133,7 @@ export const usePluginShortcutScope = sdk.usePluginShortcutScope;
 		// 与 packages/theme-ui/src/plugin-ui/index.ts 的运行时导出保持同步（纯类型无需列出）：
 		// 漏列会在插件模块求值时抛 "does not provide an export named ..." 导致整个插件加载失败。
 		return moduleResponse(`
-const themeUi = globalThis.__VETTA_PLUGIN_HOST__.themeUiPlugin;
+const themeUi = globalThis.__ORIGIN_PLUGIN_HOST__.themeUiPlugin;
 export const ModelSelectorView = themeUi.ModelSelectorView;
 export const MultiplierTag = themeUi.MultiplierTag;
 export const fmtMultiplier = themeUi.fmtMultiplier;
@@ -146,7 +146,7 @@ export const getProviderIcon = themeUi.getProviderIcon;
 		// Federation chunks can reach @origin-org/ui through the host shim as well as the
 		// share scope; keep this export list in sync with packages/ui/src/index.ts.
 		return moduleResponse(`
-const ui = globalThis.__VETTA_PLUGIN_HOST__.vettaUi;
+const ui = globalThis.__ORIGIN_PLUGIN_HOST__.originUi;
 export const Button = ui.Button;
 export const buttonVariants = ui.buttonVariants;
 export const Calendar = ui.Calendar;
@@ -220,7 +220,7 @@ export const cn = ui.cn;
  */
 export const PLUGIN_PROTOCOL_PRIVILEGES: CustomScheme[] = [
 	{
-		scheme: "vetta-plugin",
+		scheme: "origin-plugin",
 		privileges: {
 			standard: true,
 			secure: true,
@@ -240,7 +240,7 @@ export const PLUGIN_PROTOCOL_PRIVILEGES: CustomScheme[] = [
 ];
 
 export function registerPluginProtocols(): void {
-	protocol.handle("vetta-plugin", async (request) => {
+	protocol.handle("origin-plugin", async (request) => {
 		const url = new URL(request.url);
 		const pluginId = url.hostname;
 		const relativePath = decodeURIComponent(url.pathname.replace(/^\/+/, ""));

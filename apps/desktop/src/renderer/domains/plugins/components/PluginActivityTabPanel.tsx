@@ -47,7 +47,7 @@ export function PluginActivityTabPanel({
 	const tabKey = `${tab.pluginId}:${tab.tabId}`;
 	const contextValue = useMemo(() => ({ cwd, active }), [cwd, active]);
 	return (
-		<div className="flex min-h-0 flex-1 flex-col overflow-hidden" data-vetta-plugin-activity-tab={tabKey}>
+		<div className="flex min-h-0 flex-1 flex-col overflow-hidden" data-origin-plugin-activity-tab={tabKey}>
 			<PluginActivityTabErrorBoundary tabKey={tabKey}>
 				<PluginI18nBoundary pluginId={tab.pluginId}>
 					<__ActivityTabContext.Provider value={contextValue}>

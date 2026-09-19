@@ -63,14 +63,14 @@ export function initPluginProject(input: InitPluginInput): InitPluginResult {
 			private: true,
 			type: "module",
 			scripts: {
-				dev: "vetta-plugin dev",
+				dev: "origin-plugin dev",
 				build: "vite build",
 				check: "tsc --noEmit",
-				pack: "vetta-plugin pack",
-				validate: "vetta-plugin validate",
-				docs: "vetta-plugin-cli docs",
+				pack: "origin-plugin pack",
+				validate: "origin-plugin validate",
+				docs: "origin-plugin-cli docs",
 				// 一条命令走完「构建 → 打包 → 装进正在运行的 Vetta」。
-				"install:vetta": "vite build && vetta-plugin pack && vetta-plugin-cli add .",
+				"install:origin": "vite build && origin-plugin pack && origin-plugin-cli add .",
 			},
 			devDependencies: {
 				"@tailwindcss/vite": "^4.1.12",
@@ -102,13 +102,13 @@ export function initPluginProject(input: InitPluginInput): InitPluginResult {
 			include: ["src/**/*.ts", "src/**/*.tsx"],
 		}),
 		"vite.config.ts": `import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		vettaPluginFederation({
+		originPluginFederation({
 			name: "${remote}",
 			entry: "./src/index.tsx",
 		}),
@@ -122,7 +122,7 @@ import "./style.css";
 
 export default definePlugin({
 	activate(ctx) {
-		// Read the manual before adding contributions: npx vetta-plugin-cli docs
+		// Read the manual before adding contributions: npx origin-plugin-cli docs
 		void ctx;
 	},
 });
@@ -178,7 +178,7 @@ export function refreshAgentsGuide(targetDir: string, options: RefreshGuideOptio
 	const root = resolve(targetDir);
 	const file = join(root, "AGENTS.md");
 	const manifestPath = join(root, "plugin.json");
-	const hubManifestPath = join(root, ".vetta", "marketplace.json");
+	const hubManifestPath = join(root, ".origin", "marketplace.json");
 
 	let kind: "plugin" | "hub";
 	let content: string;
@@ -297,7 +297,7 @@ export function initHubRepository(input: InitHubInput): InitHubResult {
 	}
 
 	const root = resolve(input.targetDir);
-	const manifestRelativePath = join(".vetta", "marketplace.json");
+	const manifestRelativePath = join(".origin", "marketplace.json");
 	if (existsSync(join(root, manifestRelativePath))) {
 		throw new Error(`Refusing to overwrite an existing marketplace at ${root}`);
 	}

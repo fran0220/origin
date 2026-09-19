@@ -107,13 +107,13 @@ describe("PersistentRouteStage", () => {
 		const chat = [...container.querySelectorAll("p")].find((node) => node.textContent === "chat-body");
 		expect(chat).toBeTruthy();
 
-		rerender(<PersistentRouteStage currentPath="/workspace/vetta-ui-design/gallery" />);
+		rerender(<PersistentRouteStage currentPath="/workspace/origin-ui-design/gallery" />);
 		await waitFor(() => {
-			expect(container.textContent).toContain("workspace-vetta-ui-design-gallery");
+			expect(container.textContent).toContain("workspace-origin-ui-design-gallery");
 		});
 		expect(container.textContent).not.toContain("outlet-body");
 		const gallery = [...container.querySelectorAll("p")].find(
-			(node) => node.textContent === "workspace-vetta-ui-design-gallery",
+			(node) => node.textContent === "workspace-origin-ui-design-gallery",
 		);
 		expect(gallery?.closest("[hidden]")).toBeNull();
 		expect(container.textContent).toContain("chat-body");
@@ -124,13 +124,13 @@ describe("PersistentRouteStage", () => {
 		rerender(<PersistentRouteStage currentPath="/" />);
 		await waitFor(() => {
 			const galleryHidden = [...container.querySelectorAll("p")].find(
-				(node) => node.textContent === "workspace-vetta-ui-design-gallery",
+				(node) => node.textContent === "workspace-origin-ui-design-gallery",
 			);
 			expect(galleryHidden?.closest("[hidden]")).not.toBeNull();
 		});
 		const chatAgain = [...container.querySelectorAll("p")].find((node) => node.textContent === "chat-body");
 		const galleryAgain = [...container.querySelectorAll("p")].find(
-			(node) => node.textContent === "workspace-vetta-ui-design-gallery",
+			(node) => node.textContent === "workspace-origin-ui-design-gallery",
 		);
 		expect(chatAgain).toBe(chat);
 		expect(galleryAgain).toBe(gallery);

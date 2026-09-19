@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { isAbsolute, join, relative } from "node:path";
-import { ACTION_RPC_ENDPOINT_FILE_ENV, VETTA_HOME_ENV } from "@origin/action-rpc";
+import { ACTION_RPC_ENDPOINT_FILE_ENV, ORIGIN_HOME_ENV } from "@origin/action-rpc";
 import { parseWikiPage } from "@origin/runtime-knowledge";
 import { z } from "zod";
 import {
@@ -131,21 +131,21 @@ const knowledgeMonitorSchema = z
 try {
 	const statePath = readArgument("--state-file");
 	const state = runtimeCanaryHostStateSchema.parse(JSON.parse(await readFile(statePath, "utf8")));
-	const endpointFilePath = join(state.runtimeCanary.vettaHome, "action-server.json");
+	const endpointFilePath = join(state.runtimeCanary.originHome, "action-server.json");
 	await waitFor(
 		() => existsSync(state.runtimeCanary.installedCliPath),
 		30_000,
-		"Timed out waiting for Desktop to install the standalone Vetta CLI",
+		"Timed out waiting for Desktop to install the standalone Origin CLI",
 	);
 	if (!isOutside(repoRoot, state.runtimeCanary.installedCliPath)) {
 		throw new Error(`Runtime Canary CLI must be installed outside the repository: ${state.runtimeCanary.installedCliPath}`);
 	}
 	const invokeDebug: RuntimeCanaryDebugInvoker = async (debugId, input) =>
-		await runVettaDebug(
+		await runOriginDebug(
 			state.runtimeCanary.installedCliPath,
 			state.runtimeCanary.workspace,
 			endpointFilePath,
-			state.runtimeCanary.vettaHome,
+			state.runtimeCanary.originHome,
 			debugId,
 			input,
 		);
@@ -242,11 +242,11 @@ try {
 	await rm(pendingRawPath, { force: true });
 
 	const restartedInvokeDebug: RuntimeCanaryDebugInvoker = async (debugId, input) =>
-		await runVettaDebug(
+		await runOriginDebug(
 			activeRestartedState.runtimeCanary.installedCliPath,
 			activeRestartedState.runtimeCanary.workspace,
 			endpointFilePath,
-			activeRestartedState.runtimeCanary.vettaHome,
+			activeRestartedState.runtimeCanary.originHome,
 			debugId,
 			input,
 		);
@@ -361,7 +361,7 @@ try {
 		throw new Error("Restarted Runtime Canary prompts were not persisted to the conversation");
 	}
 	const monitor = knowledgeMonitorSchema.parse(
-		JSON.parse(await readFile(join(state.runtimeCanary.vettaHome, "app-monitor", "summary.json"), "utf8")),
+		JSON.parse(await readFile(join(state.runtimeCanary.originHome, "app-monitor", "summary.json"), "utf8")),
 	);
 	if (
 		monitor.knowledgeBase.processingRounds !== 3 ||
@@ -449,11 +449,11 @@ async function waitForKnowledgeActionProvider(
 ): Promise<void> {
 	await waitFor(
 		async () => {
-			const result = await runVettaAction(
+			const result = await runOriginAction(
 				state.runtimeCanary.installedCliPath,
 				state.runtimeCanary.workspace,
 				endpointFilePath,
-				state.runtimeCanary.vettaHome,
+				state.runtimeCanary.originHome,
 				["search", "knowledge"],
 			);
 			return result.code === 0 && result.stdout.includes("knowledge.manage");
@@ -467,11 +467,11 @@ async function startApprovedKnowledgeScan(
 	state: RuntimeCanaryHostState,
 	endpointFilePath: string,
 ): Promise<{ readonly result: Promise<ProcessResult> }> {
-	const result = runVettaAction(
+	const result = runOriginAction(
 		state.runtimeCanary.installedCliPath,
 		state.runtimeCanary.workspace,
 		endpointFilePath,
-		state.runtimeCanary.vettaHome,
+		state.runtimeCanary.originHome,
 		["run", "knowledge.manage", JSON.stringify({ operation: "scan-now" })],
 	);
 	await approveNextKnowledgeAction(state.cdpPort);
@@ -522,8 +522,8 @@ async function installKnowledgeNotificationAudit(cdpPort: number, reset: boolean
 				record,
 				processingHandler,
 				statusesHandler,
-				offProcessing: window.vetta.knowledge.onProcessingChanged(processingHandler),
-				offStatuses: window.vetta.knowledge.onStatusesChanged(statusesHandler),
+				offProcessing: window.originApp.knowledge.onProcessingChanged(processingHandler),
+				offStatuses: window.originApp.knowledge.onStatusesChanged(statusesHandler),
 			};
 			return true;
 		})()`,
@@ -639,17 +639,17 @@ function normalizeKnowledgeScan(
 	return { operation: result.operation, skipped: false };
 }
 
-async function runVettaAction(
+async function runOriginAction(
 	installedCliPath: string,
 	cwd: string,
 	endpointFilePath: string,
-	vettaHome: string,
+	originHome: string,
 	args: string[],
 ): Promise<ProcessResult> {
 	return await runProcess(installedCliPath, ["action", ...args], cwd, {
 		...process.env,
 		[ACTION_RPC_ENDPOINT_FILE_ENV]: endpointFilePath,
-		[VETTA_HOME_ENV]: vettaHome,
+		[ORIGIN_HOME_ENV]: originHome,
 	});
 }
 
@@ -759,7 +759,7 @@ function processingStates(
 }
 
 async function listKnowledgeSessionPaths(knowledgeRoot: string): Promise<string[]> {
-	const sessionDirectory = join(knowledgeRoot, "processing_records", ".vetta", "sessions");
+	const sessionDirectory = join(knowledgeRoot, "processing_records", ".origin", "sessions");
 	if (!existsSync(sessionDirectory)) return [];
 	const entries = await readdir(sessionDirectory, { withFileTypes: true });
 	return entries
@@ -777,18 +777,18 @@ async function readJsonFile<T>(path: string, schema: z.ZodType<T>): Promise<T> {
 	return schema.parse(JSON.parse(await readFile(path, "utf8")));
 }
 
-async function runVettaDebug(
+async function runOriginDebug(
 	installedCliPath: string,
 	cwd: string,
 	endpointFilePath: string,
-	vettaHome: string,
+	originHome: string,
 	debugId: string,
 	input: unknown,
 ): Promise<unknown> {
 	const result = await runProcess(installedCliPath, ["debug", "run", debugId, JSON.stringify(input)], cwd, {
 		...process.env,
 		[ACTION_RPC_ENDPOINT_FILE_ENV]: endpointFilePath,
-		[VETTA_HOME_ENV]: vettaHome,
+		[ORIGIN_HOME_ENV]: originHome,
 	});
 	if (result.code !== 0) {
 		throw new Error(

@@ -12,8 +12,8 @@ import {
 
 const log = getAppLogger("action-approval");
 
-const ACTION_APPROVAL_REQUEST_CHANNEL = "vetta:action-approval:request";
-const ACTION_APPROVAL_TIMEOUT_CHANNEL = "vetta:action-approval:timeout";
+const ACTION_APPROVAL_REQUEST_CHANNEL = "origin:action-approval:request";
+const ACTION_APPROVAL_TIMEOUT_CHANNEL = "origin:action-approval:timeout";
 const DEFAULT_APPROVAL_TIMEOUT_MS = 2 * 60 * 1000;
 
 export interface DesktopActionApprovalRequest extends ActionApprovalRequest {

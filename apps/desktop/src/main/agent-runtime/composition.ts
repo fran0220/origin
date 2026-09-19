@@ -178,7 +178,7 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 					}),
 				],
 				knowledgeRuntime:
-					process.env.VETTA_KNOWLEDGE_DISABLED === "1"
+					process.env.ORIGIN_KNOWLEDGE_DISABLED === "1"
 						? undefined
 						: createNodeKnowledgeRuntime(getKnowledgeRoot()),
 				...getDesktopEvaluationRuntime(),

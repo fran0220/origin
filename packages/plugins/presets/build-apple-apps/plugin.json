@@ -30,7 +30,7 @@
 	],
 	"agent": {
 		"skillPaths": [
-			"agent/skills/vetta-apple-app-dev-guide"
+			"agent/skills/origin-apple-app-dev-guide"
 		]
 	},
 	"description": "%plugin.description%",

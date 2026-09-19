@@ -88,7 +88,7 @@ describe("PluginContentProjectRepository", () => {
 		const harness = createFsHarness();
 		const repository = new PluginContentProjectRepository(harness.fs, createStorage().storage);
 		const project = createContentProject("C:\\project");
-		harness.files.set("C:\\project\\.vetta\\content-creation\\project.json", JSON.stringify(project));
+		harness.files.set("C:\\project\\.origin\\content-creation\\project.json", JSON.stringify(project));
 
 		expect(await repository.read("C:\\project")).toMatchObject({ document: { projectId: project.projectId } });
 		expect(harness.files.has("C:\\project\\content-creation.json")).toBe(true);

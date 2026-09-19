@@ -63,22 +63,22 @@ export const runtimeIsolationProbes: ProbeDefinition[] = [
 	{
 		id: "runtime.window-vetta",
 		category: "信任模型 / 运行时隔离",
-		title: "插件可直接访问 window.vetta 宿主桥",
+		title: "插件可直接访问 window.originApp 宿主桥",
 		findingSeverity: "critical",
 		run: () =>
 			timedResult(
 				{
 					id: "runtime.window-vetta",
 					category: "信任模型 / 运行时隔离",
-					title: "插件可直接访问 window.vetta 宿主桥",
+					title: "插件可直接访问 window.originApp 宿主桥",
 				},
 				async () => {
-					const vetta = window.vetta;
+					const vetta = window.originApp;
 					if (!vetta) {
 						return {
 							status: "pass",
 							severity: "info",
-							summary: "window.vetta 未暴露（意外 hardening）",
+							summary: "window.originApp 未暴露（意外 hardening）",
 						};
 					}
 					const topKeys = topLevelKeys(vetta);
@@ -92,7 +92,7 @@ export const runtimeIsolationProbes: ProbeDefinition[] = [
 						typeof vetta.plugins?.grantPermissions === "function";
 
 					const surfaceDetail = [
-						`window.vetta top-level: ${topKeys.join(", ") || "(none)"}`,
+						`window.originApp top-level: ${topKeys.join(", ") || "(none)"}`,
 						`plugins keys (sample): ${pluginKeys.join(", ") || "(none)"}`,
 						`fs=${hasFs} session=${hasSession} config=${hasConfig} plugins.manage-like=${hasPluginsManage}`,
 					].join("\n");
@@ -155,7 +155,7 @@ export const runtimeIsolationProbes: ProbeDefinition[] = [
 						return {
 							status: "finding",
 							severity: "critical",
-							summary: "插件可导入宿主持令牌模块并绕过 window.vetta 门禁",
+							summary: "插件可导入宿主持令牌模块并绕过 window.originApp 门禁",
 							detail: [
 								`url=${moduleUrl}`,
 								`plugins.list result=${Array.isArray(plugins) ? `${plugins.length} items` : typeof plugins}`,

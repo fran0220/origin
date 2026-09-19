@@ -35,28 +35,28 @@ describe("buildSkillTokenMetaMap", () => {
 	});
 
 	it("插件 skill 用列表自带的宿主插件 icon", () => {
-		const icon = "vetta-plugin://vetta-ui-design/versions/0.1.0/icon.png?v=0.1.0";
+		const icon = "origin-plugin://origin-ui-design/versions/0.1.0/icon.png?v=0.1.0";
 		const map = buildSkillTokenMetaMap(
-			[{ name: "vetta-ui-design", description: "", source: "plugin", type: "skill", icon }],
+			[{ name: "origin-ui-design", description: "", source: "plugin", type: "skill", icon }],
 			new Map(),
 		);
-		expect(map.get("skill:vetta-ui-design")).toEqual({ label: "vetta-ui-design", icon });
+		expect(map.get("skill:origin-ui-design")).toEqual({ label: "origin-ui-design", icon });
 	});
 
 	it("本地 Skill 或 Provider 图标优先于市场目录，避免离线恢复后换图", () => {
 		const map = buildSkillTokenMetaMap(
 			[
 				{
-					name: "vetta-ui-design",
+					name: "origin-ui-design",
 					description: "",
 					source: "plugin",
 					type: "skill",
-					icon: "vetta-plugin://vetta-ui-design/icon.png",
+					icon: "origin-plugin://origin-ui-design/icon.png",
 				},
 			],
-			new Map([["skill:vetta-ui-design", "solar:layers-bold"]]),
+			new Map([["skill:origin-ui-design", "solar:layers-bold"]]),
 		);
-		expect(map.get("skill:vetta-ui-design")?.icon).toBe("vetta-plugin://vetta-ui-design/icon.png");
+		expect(map.get("skill:origin-ui-design")?.icon).toBe("origin-plugin://origin-ui-design/icon.png");
 	});
 
 	it("scene 与同名 skill 分别解析，且场景继续使用自己的图标", () => {

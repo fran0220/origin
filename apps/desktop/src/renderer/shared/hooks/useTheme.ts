@@ -49,15 +49,15 @@ export function useTheme() {
 			let isDark: boolean;
 			if (mode === "auto") {
 				try {
-					const native = await window.vetta.theme.getNative();
+					const native = await window.originApp.theme.getNative();
 					isDark = native.shouldUseDarkColors;
 				} catch {
 					isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 				}
-				await window.vetta.theme.set("system").catch(() => {});
+				await window.originApp.theme.set("system").catch(() => {});
 			} else {
 				isDark = mode === "dark";
-				await window.vetta.theme.set(mode).catch(() => {});
+				await window.originApp.theme.set(mode).catch(() => {});
 			}
 			const r: ResolvedMode = isDark ? "dark" : "light";
 			const currentTheme = resolveThemeId(localStorage.getItem(THEME_STORAGE_KEY) ?? DEFAULT_THEME_ID);
@@ -69,7 +69,7 @@ export function useTheme() {
 
 	// 监听原生主题变化（auto 模式下才响应）。
 	useEffect(() => {
-		const unsubscribe = window.vetta.theme.onNativeChanged((info) => {
+		const unsubscribe = window.originApp.theme.onNativeChanged((info) => {
 			const current = (localStorage.getItem(MODE_STORAGE_KEY) as ThemeMode | null) ?? "dark";
 			if (current !== "auto") return;
 			const r: ResolvedMode = info.shouldUseDarkColors ? "dark" : "light";
@@ -86,15 +86,15 @@ export function useTheme() {
 
 			let r: ResolvedMode;
 			if (newMode === "auto") {
-				await window.vetta.theme.set("system").catch(() => {});
+				await window.originApp.theme.set("system").catch(() => {});
 				try {
-					const native = await window.vetta.theme.getNative();
+					const native = await window.originApp.theme.getNative();
 					r = native.shouldUseDarkColors ? "dark" : "light";
 				} catch {
 					r = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 				}
 			} else {
-				await window.vetta.theme.set(newMode).catch(() => {});
+				await window.originApp.theme.set(newMode).catch(() => {});
 				r = newMode;
 			}
 			const nextThemeName = themeNameOverride ?? themeName;
@@ -108,7 +108,7 @@ export function useTheme() {
 	);
 
 	useEffect(() => {
-		return window.vetta.theme.onModeRequested(({ mode: requestedMode }) => {
+		return window.originApp.theme.onModeRequested(({ mode: requestedMode }) => {
 			void setMode(requestedMode);
 		});
 	}, [setMode]);
@@ -126,7 +126,7 @@ export function useTheme() {
 	);
 
 	useEffect(() => {
-		return window.vetta.theme.onChangeRequested(async ({ mode: requestedMode, themeId, cursorStyle }) => {
+		return window.originApp.theme.onChangeRequested(async ({ mode: requestedMode, themeId, cursorStyle }) => {
 			if (cursorStyle !== undefined) {
 				setStoredCursorStyle(cursorStyle);
 				setCursorStyleAtom(cursorStyle);
@@ -150,11 +150,11 @@ export function useTheme() {
 	}, [getThemeSnapshot, setCursorStyleAtom, setMode, setThemeName, setThemeNameAtom]);
 
 	useEffect(() => {
-		return window.vetta.theme.onStateRequested(getThemeSnapshot);
+		return window.originApp.theme.onStateRequested(getThemeSnapshot);
 	}, [getThemeSnapshot]);
 
 	useEffect(() => {
-		return window.vetta.theme.onHelpRequested(() => ({
+		return window.originApp.theme.onHelpRequested(() => ({
 			state: getThemeSnapshot(),
 			themes: THEMES.map(({ id, label }) => {
 				const labelKey = COLOR_THEME_LABEL_KEYS[id as keyof typeof COLOR_THEME_LABEL_KEYS];

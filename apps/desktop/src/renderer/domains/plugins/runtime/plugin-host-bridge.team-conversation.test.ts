@@ -26,7 +26,7 @@ beforeEach(() => {
 	vi.resetModules();
 	delete (globalThis as unknown as Record<string, unknown>)[RUNTIME_STATE_KEY];
 	vi.stubGlobal("window", {
-		vetta: {
+		originApp: {
 			plugins: {
 				onAgentToolRequest: () => () => undefined,
 				onAgentHookRequest: () => () => undefined,

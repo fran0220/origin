@@ -36,15 +36,15 @@ function SpinKeyframes(): React.JSX.Element {
 			{`@keyframes vetta-spin-rotate{0%,49.999%,100%{transform:none}50%,99.999%{transform:rotate(90deg)}}` +
 				`@keyframes vetta-spin-shift-left{0%,100%{transform:translateX(0)}50%{transform:scale(.65) translateX(-75%)}}` +
 				`@keyframes vetta-spin-shift-right{0%,100%{transform:translateX(0)}50%{transform:scale(.65) translateX(75%)}}` +
-				`.vetta-spin{position:relative;animation:vetta-spin-rotate calc(var(--vetta-spin-speed) * 2) linear infinite}` +
-				`.vetta-spin::before,.vetta-spin::after{content:"";position:absolute;top:0;left:25%;width:50%;height:100%;background:currentColor;border-radius:100%}` +
-				`.vetta-spin::before{animation:vetta-spin-shift-left var(--vetta-spin-speed) ease infinite}` +
-				`.vetta-spin::after{animation:vetta-spin-shift-right var(--vetta-spin-speed) ease infinite}` +
+				`.origin-spin{position:relative;animation:vetta-spin-rotate calc(var(--vetta-spin-speed) * 2) linear infinite}` +
+				`.origin-spin::before,.origin-spin::after{content:"";position:absolute;top:0;left:25%;width:50%;height:100%;background:currentColor;border-radius:100%}` +
+				`.origin-spin::before{animation:vetta-spin-shift-left var(--vetta-spin-speed) ease infinite}` +
+				`.origin-spin::after{animation:vetta-spin-shift-right var(--vetta-spin-speed) ease infinite}` +
 				// 关掉动效时停在两球分离的静止态，避免只剩一个黏在一起的圆点看不出是加载中
 				`@media (prefers-reduced-motion:reduce){` +
-				`.vetta-spin{animation:none}` +
-				`.vetta-spin::before{animation:none;transform:scale(.65) translateX(-75%)}` +
-				`.vetta-spin::after{animation:none;transform:scale(.65) translateX(75%)}}`}
+				`.origin-spin{animation:none}` +
+				`.origin-spin::before{animation:none;transform:scale(.65) translateX(-75%)}` +
+				`.origin-spin::after{animation:none;transform:scale(.65) translateX(75%)}}`}
 		</style>
 	);
 }

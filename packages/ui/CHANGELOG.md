@@ -10,7 +10,7 @@ All notable changes to `@origin-org/ui` are documented in this file.
 ### Changed
 
 - 包名由 `@origin/ui` 改为 `@origin-org/ui`：`@vetta` scope 不属于本账号，公开包统一发在
-  `@vetta-org` 下（与 plugin-sdk / plugin-vite / plugin-cli 一致）。
+  `@origin-org` 下（与 plugin-sdk / plugin-vite / plugin-cli 一致）。
 
 ### Added
 

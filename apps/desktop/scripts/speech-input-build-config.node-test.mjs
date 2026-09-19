@@ -20,7 +20,7 @@ test("enables speech input by default for Windows x64 targets", () => {
 test("disables speech input explicitly without changing the target", () => {
 	assert.deepEqual(
 		resolveSpeechInputBuildConfig({
-			env: { VETTA_SPEECH_INPUT_ENABLED: "false" },
+			env: { ORIGIN_SPEECH_INPUT_ENABLED: "false" },
 			platformTags: ["win32-x64"],
 		}),
 		{
@@ -34,7 +34,7 @@ test("disables speech input explicitly without changing the target", () => {
 
 test("keeps speech input disabled for unsupported targets", () => {
 	const config = resolveSpeechInputBuildConfig({
-		env: { VETTA_SPEECH_INPUT_ENABLED: "true" },
+		env: { ORIGIN_SPEECH_INPUT_ENABLED: "true" },
 		platformTags: ["darwin-arm64"],
 	});
 	assert.equal(config.configuredEnabled, true);
@@ -47,10 +47,10 @@ test("rejects ambiguous feature flag values", () => {
 		assert.throws(
 			() =>
 				resolveSpeechInputBuildConfig({
-					env: { VETTA_SPEECH_INPUT_ENABLED: value },
+					env: { ORIGIN_SPEECH_INPUT_ENABLED: value },
 					platformTags: ["win32-x64"],
 				}),
-			/VETTA_SPEECH_INPUT_ENABLED must be "true" or "false"/,
+			/ORIGIN_SPEECH_INPUT_ENABLED must be "true" or "false"/,
 		);
 	}
 });
@@ -58,9 +58,9 @@ test("rejects ambiguous feature flag values", () => {
 test("uses the existing target environment precedence", () => {
 	assert.deepEqual(
 		resolveSpeechInputTargetTags({
-			VETTA_VENDOR_PLATFORM: "linux-x64",
-			VETTA_CLI_TARGET_PLATFORMS: "win32-x64,darwin-arm64",
-			VETTA_IM_GATEWAY_TARGET_PLATFORMS: "darwin-x64",
+			ORIGIN_VENDOR_PLATFORM: "linux-x64",
+			ORIGIN_CLI_TARGET_PLATFORMS: "win32-x64,darwin-arm64",
+			ORIGIN_IM_GATEWAY_TARGET_PLATFORMS: "darwin-x64",
 		}),
 		["darwin-x64"],
 	);

@@ -3,7 +3,7 @@
  *
  * 宿主代码一律从这里取云服务组件，不得静态 import `@cloud/**`：
  * 本文件用构建期常量 + 动态 import 隔离 cloud chunk，lite 构建
- * （VETTA_CLOUD_ENABLED=false）下各槽位恒渲染 null 且不打包 cloud 代码。
+ * （ORIGIN_CLOUD_ENABLED=false）下各槽位恒渲染 null 且不打包 cloud 代码。
  */
 
 import { isCloudBuildEnabled } from "@/shared/feature-flags";

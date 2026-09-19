@@ -97,14 +97,14 @@ Write prompts that show a real use of the ability, not placeholders.
 
 ## Shipping `detail` inside the package
 
-`vetta.json` at the package root (next to `SKILL.md` / `plugin.json`) holds exactly the same
+`origin.json` at the package root (next to `SKILL.md` / `plugin.json`) holds exactly the same
 object as `detail`. It is the second delivery route for the same data: **the `detail` field wins,
 the file is the fallback**, and it is read only when the payload omits `detail` entirely — there
 is no per-field merge between the two.
 
 Use it when the package is the thing being maintained (the description then travels with the
 code and stays right on every re-submission). Use the payload field for one-off submissions or
-for marketplace copy you do not want in the package. A malformed `vetta.json` fails the upload
+for marketplace copy you do not want in the package. A malformed `origin.json` fails the upload
 rather than being skipped.
 
 ## Multi-language

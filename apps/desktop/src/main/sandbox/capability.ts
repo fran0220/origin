@@ -136,7 +136,7 @@ function findOnPathUnix(binary: string): string | undefined {
 }
 
 function resolveMacosSandboxExecPath(): string | undefined {
-	const explicitPath = process.env.VETTA_MACOS_SANDBOX_EXEC_PATH?.trim();
+	const explicitPath = process.env.ORIGIN_MACOS_SANDBOX_EXEC_PATH?.trim();
 	if (explicitPath) {
 		if (isAbsolute(explicitPath)) {
 			if (!existsSync(explicitPath)) {
@@ -361,8 +361,8 @@ async function probeWindowsSandbox(): Promise<SandboxCapability> {
 		};
 	}
 
-	const probeRoot = mkdtempSync(join(tmpdir(), "vetta-windows-sandbox-probe-"));
-	const outsideRoot = mkdtempSync(join(homedir(), ".vetta-windows-sandbox-outside-"));
+	const probeRoot = mkdtempSync(join(tmpdir(), "origin-windows-sandbox-probe-"));
+	const outsideRoot = mkdtempSync(join(homedir(), ".origin-windows-sandbox-outside-"));
 	try {
 		const workspaceRoot = join(probeRoot, "workspace");
 		const tempRoot = join(probeRoot, "temp");

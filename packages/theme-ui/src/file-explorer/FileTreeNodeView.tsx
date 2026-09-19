@@ -10,7 +10,7 @@ import type {
 	FileExplorerSelectOptions,
 } from "./types";
 
-const DRAG_MIME = "application/vetta-path";
+const DRAG_MIME = "application/origin-path";
 
 export interface FileTreeNodeViewProps {
 	/** DOM id referenced by the tree's `aria-activedescendant`; rows themselves are not focusable. */

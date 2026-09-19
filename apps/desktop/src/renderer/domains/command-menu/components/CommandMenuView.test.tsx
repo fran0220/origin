@@ -154,7 +154,7 @@ describe("CommandMenuView", () => {
 				items: [
 					item({
 						id: "a1",
-						title: "vetta-testing",
+						title: "origin-testing",
 						subtitle: "为 Origin 的功能变更、Bug 修复、重构、公共合同和 UI 交互设计、编写或审查测试",
 					}),
 				],

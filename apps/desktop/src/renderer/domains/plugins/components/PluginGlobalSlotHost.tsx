@@ -89,7 +89,7 @@ export function PluginGlobalSlotHost(): JSX.Element | null {
 		};
 		window.addEventListener(PLUGINS_CHANGED_EVENT, requestFullReload);
 		// Main process install/enable/reload (Action / workbench) → re-load remotes.
-		const unsubMain = window.vetta.plugins.onPluginsChanged(requestMainReload);
+		const unsubMain = window.originApp.plugins.onPluginsChanged(requestMainReload);
 		return () => {
 			window.removeEventListener(PLUGINS_CHANGED_EVENT, requestFullReload);
 			unsubMain();
@@ -112,7 +112,7 @@ export function PluginGlobalSlotHost(): JSX.Element | null {
 			markPluginHostLoading();
 
 			const previousPlugins = loadedPluginsRef.current;
-			const loadedPlugins = await window.vetta.plugins
+			const loadedPlugins = await window.originApp.plugins
 				.list()
 				.then((installedPlugins) =>
 					loadPluginSnapshot(
@@ -140,7 +140,7 @@ export function PluginGlobalSlotHost(): JSX.Element | null {
 			loadedPluginsRef.current = loadedPlugins;
 			setPlugins(loadedPlugins);
 			try {
-				await window.vetta.plugins.reportAgentContributionHostReady();
+				await window.originApp.plugins.reportAgentContributionHostReady();
 			} catch (error) {
 				console.error("Failed to report plugin contribution host readiness", error);
 			} finally {
@@ -390,13 +390,13 @@ export function PluginGlobalSlotHost(): JSX.Element | null {
 	if (slots.length === 0) return null;
 
 	return (
-		<div className="contents vetta-plugin-host">
+		<div className="contents origin-plugin-host">
 			{slots.map((slot) => {
 				const SlotComponent = slot.component;
 				const pluginId = slot.id.slice(0, slot.id.indexOf(":"));
 				return (
 					<PluginSlotErrorBoundary key={slot.id} pluginSlotId={slot.id}>
-						<div className="contents vetta-plugin" data-vetta-plugin-slot={slot.id}>
+						<div className="contents origin-plugin" data-origin-plugin-slot={slot.id}>
 							<PluginI18nBoundary pluginId={pluginId}>
 								<SlotComponent />
 							</PluginI18nBoundary>

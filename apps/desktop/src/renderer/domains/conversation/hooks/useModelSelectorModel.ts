@@ -149,7 +149,7 @@ export function useModelSelectorModel({
 			setSelectedModel(key);
 			persistSelectedModel(key);
 			if (!scope && updateActiveSession && activeSession?.runtimeId) {
-				void window.vetta.session.updateSettings(activeSession.runtimeId, { modelKey: key });
+				void window.originApp.session.updateSettings(activeSession.runtimeId, { modelKey: key });
 			}
 		},
 		[setSelectedModel, activeSession, updateActiveSession, scope, options, dialFrozen],

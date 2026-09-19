@@ -15,7 +15,7 @@ import {
 const temporaryRoots: string[] = [];
 
 async function createTemporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-inno-update-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-inno-update-"));
 	temporaryRoots.push(root);
 	return root;
 }

@@ -7,7 +7,7 @@ import { loadSkillPackagePresentationIcon, readDeclaredSkillIconReference } from
 const temporaryRoots: string[] = [];
 
 async function createSkill(frontmatter: string): Promise<{ root: string; filePath: string }> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-skill-presentation-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-skill-presentation-test-"));
 	temporaryRoots.push(root);
 	const filePath = join(root, "SKILL.md");
 	await writeFile(filePath, `---\n${frontmatter}\n---\n`, "utf-8");

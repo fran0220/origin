@@ -7,10 +7,10 @@ import {
 
 describe("workspaceSurfaceForPath", () => {
 	it("把侧栏设计画廊解析成可保活的工作区 surface", () => {
-		expect(workspaceSurfaceForPath("/workspace/vetta-ui-design/gallery")).toEqual({
-			pluginId: "vetta-ui-design",
+		expect(workspaceSurfaceForPath("/workspace/origin-ui-design/gallery")).toEqual({
+			pluginId: "origin-ui-design",
 			viewId: "gallery",
-			key: "vetta-ui-design/gallery",
+			key: "origin-ui-design/gallery",
 		});
 	});
 

@@ -169,7 +169,7 @@ ctx.ui.registerNewSessionContext({
   id: "design-styles",
   label: "%tab.label%",
   // 至少声明一条激活条件，且只能写本插件自己的智能体 / skill / MCP。
-  activateWhen: { agents: ["designer"], skills: ["vetta-ui-design"] },
+  activateWhen: { agents: ["designer"], skills: ["origin-ui-design"] },
   width: "wide", // 画廊类内容才用 wide；补充说明用默认的 "input"
   render: (context) => <StyleLibrary context={context} />,
 });

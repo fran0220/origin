@@ -3,7 +3,7 @@
  *
  * 宿主只允许通过 `startCloudMain()` 挂载本模块，且必须包在
  * `isCloudBuildEnabled()` 判断里用动态 import 加载——lite 构建
- * （VETTA_CLOUD_ENABLED=false）经常量折叠后整个模块不进产物。
+ * （ORIGIN_CLOUD_ENABLED=false）经常量折叠后整个模块不进产物。
  *
  * 宿主功能需要云能力（远程模型目录、网关中转、token refresh）时，
  * 一律经 `../cloud-bridge.js` 的 CloudBridge 间接调用，由本入口注入实现。
@@ -20,7 +20,7 @@ import { consumeOAuthCallback, reopenOAuthLogin, startOAuthLogin } from "./auth/
 import { setLoopbackCallbackHandler } from "./auth/oauth-loopback.js";
 import { startPkceOrLegacyLogin } from "./auth/pkce-login.js";
 import { fetchRemoteProviders, registerCloudAuthIpc, tryRefreshAccessToken } from "./auth-session.js";
-import { requestVettaGateway } from "./gateway.js";
+import { requestOriginGateway } from "./gateway.js";
 
 export interface CloudMainHandle {
 	/**
@@ -45,7 +45,7 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 
 	// 授权登录由主进程发起：state 的生成与校验都在这里，渲染层碰不到，
 	// 未通过校验的 token 也就永远进不了渲染层。
-	ipcMain.handle("vetta:auth:start-oauth", async () => {
+	ipcMain.handle("origin:auth:start-oauth", async () => {
 		const mode = await startPkceOrLegacyLogin();
 		if (mode === "legacy") {
 			await startOAuthLogin();
@@ -53,12 +53,12 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 		}
 	});
 
-	ipcMain.handle("vetta:auth:reopen-oauth", async () => {
+	ipcMain.handle("origin:auth:reopen-oauth", async () => {
 		await reopenOAuthLogin();
 	});
 
 	ipcMain.handle(
-		"vetta:cloud:request",
+		"origin:cloud:request",
 		async (
 			_event,
 			path: unknown,
@@ -67,7 +67,7 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 			if (typeof path !== "string" || path.length === 0) {
 				return { ok: false, status: 400, code: -1, message: "path required" };
 			}
-			return requestVettaGateway({
+			return requestOriginGateway({
 				path: path.replace(/^\/+/, ""),
 				method: options?.method,
 				body: options?.body,
@@ -81,7 +81,7 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 	// 不直接 import cloud 内部实现。
 	setCloudBridge({
 		fetchRemoteProviders,
-		requestGateway: requestVettaGateway,
+		requestGateway: requestOriginGateway,
 		tryRefreshAccessToken,
 	});
 
@@ -97,18 +97,18 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 				void import("../connections/runtime-binding.js").then(({ bindModelRuntimeToConnectionRelays }) =>
 					bindModelRuntimeToConnectionRelays(),
 				);
-				mainWindow.webContents.send("vetta:auth:oauth-callback", { signedIn: true });
+				mainWindow.webContents.send("origin:auth:oauth-callback", { signedIn: true });
 			} else {
-				mainWindow.webContents.send("vetta:auth:oauth-rejected");
+				mainWindow.webContents.send("origin:auth:oauth-rejected");
 			}
 			return true;
 		},
 		teardown(): void {
 			setCloudBridge(null);
 			teardownAuthIpc();
-			ipcMain.removeHandler("vetta:auth:start-oauth");
-			ipcMain.removeHandler("vetta:auth:reopen-oauth");
-			ipcMain.removeHandler("vetta:cloud:request");
+			ipcMain.removeHandler("origin:auth:start-oauth");
+			ipcMain.removeHandler("origin:auth:reopen-oauth");
+			ipcMain.removeHandler("origin:cloud:request");
 		},
 	};
 }

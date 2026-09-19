@@ -1,5 +1,5 @@
 export const RUNTIME_CONFIGURATION_CHANNELS = {
-	LIST: "vetta:runtime-configuration:list",
-	SET: "vetta:runtime-configuration:set",
-	CHANGED: "vetta:runtime-configuration:changed",
+	LIST: "origin:runtime-configuration:list",
+	SET: "origin:runtime-configuration:set",
+	CHANGED: "origin:runtime-configuration:changed",
 } as const;

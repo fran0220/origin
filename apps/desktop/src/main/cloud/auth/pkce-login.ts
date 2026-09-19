@@ -60,14 +60,14 @@ export async function startPkceOrLegacyLogin(): Promise<"pkce" | "legacy"> {
 				.then(({ bindModelRuntimeToConnectionRelays }) => bindModelRuntimeToConnectionRelays())
 				.then(() => {
 					for (const win of BrowserWindow.getAllWindows()) {
-						if (!win.isDestroyed()) win.webContents.send("vetta:auth:oauth-callback", { signedIn: true });
+						if (!win.isDestroyed()) win.webContents.send("origin:auth:oauth-callback", { signedIn: true });
 					}
 				});
 		})
 		.catch((error: unknown) => {
 			log.warn("PKCE login failed");
 			for (const win of BrowserWindow.getAllWindows()) {
-				if (!win.isDestroyed()) win.webContents.send("vetta:auth:oauth-rejected");
+				if (!win.isDestroyed()) win.webContents.send("origin:auth:oauth-rejected");
 			}
 			void error;
 		});

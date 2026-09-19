@@ -43,11 +43,11 @@ vi.mock("../../app-monitor/app-monitor-service.js", () => ({
 vi.mock("../../ipc/fs.js", () => ({
 	allowProjectRoot: () => undefined,
 	DEFAULT_CONVERSATION_CWD: "C:/vetta/conversation",
-	DEFAULT_CONVERSATION_SESSION_DIR: "C:/vetta/conversation/.vetta/sessions",
+	DEFAULT_CONVERSATION_SESSION_DIR: "C:/vetta/conversation/.origin/sessions",
 	DEFAULT_IM_CONVERSATION_CWD: "C:/vetta/im",
-	DEFAULT_IM_CONVERSATION_SESSION_DIR: "C:/vetta/im/.vetta/sessions",
+	DEFAULT_IM_CONVERSATION_SESSION_DIR: "C:/vetta/im/.origin/sessions",
 	KB_PROCESSING_CWD: "C:/vetta/knowledge",
-	KB_PROCESSING_SESSION_DIR: "C:/vetta/knowledge/.vetta/sessions",
+	KB_PROCESSING_SESSION_DIR: "C:/vetta/knowledge/.origin/sessions",
 	readDesktopConfig: async () => ({
 		defaultAgentMode: "work",
 		defaultExecutionMode: "full-access",
@@ -221,7 +221,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		const sessionCatalog = new DesktopRuntimeSessionCatalog({
 			resolveRoots: () => [
 				{ cwd: workspace, sessionDir: codingAgentSessionShardPath(workspace) },
-				{ cwd: workspace, sessionDir: join(workspace, ".vetta", "sessions") },
+				{ cwd: workspace, sessionDir: join(workspace, ".origin", "sessions") },
 			],
 		});
 		const observedCompactions: Array<
@@ -258,7 +258,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		expect(existsSync(endpointFilePath)).toBe(true);
 
 		const createResponse = completedCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.create", {
+			await runOriginDebug(endpointFilePath, "conversation.create", {
 				cwd: workspace,
 				prompt: firstPrompt,
 				executionMode: "full-access",
@@ -274,7 +274,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		expect(existsSync(createResponse.result.sessionPath)).toBe(true);
 
 		const continueResponse = completedCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.continue", {
+			await runOriginDebug(endpointFilePath, "conversation.continue", {
 				sessionPath: createResponse.result.sessionPath,
 				prompt: secondPrompt,
 				executionMode: "full-access",
@@ -290,7 +290,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		});
 
 		const compactResponse = compactCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.compact", {
+			await runOriginDebug(endpointFilePath, "conversation.compact", {
 				sessionPath: createResponse.result.sessionPath,
 				executionMode: "full-access",
 				customInstructions: "Preserve canary decisions",
@@ -313,7 +313,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		expect(compactResponse.result.summaryChars).toBe(persistedCompaction.summary.length);
 
 		const automaticResponse = completedCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.create", {
+			await runOriginDebug(endpointFilePath, "conversation.create", {
 				cwd: workspace,
 				prompt: automaticCompactionPrompt,
 				executionMode: "full-access",
@@ -336,7 +336,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		});
 
 		const automaticContinuationResponse = completedCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.continue", {
+			await runOriginDebug(endpointFilePath, "conversation.continue", {
 				sessionPath: automaticResponse.result.sessionPath,
 				prompt: automaticCompactionContinuation,
 				executionMode: "full-access",
@@ -377,7 +377,7 @@ describe("Vetta CLI Desktop Runtime canary", { timeout: INTEGRATION_TEST_TIMEOUT
 		expect(persistedAutomaticCompaction.summary).toContain(compactionSummary);
 
 		const listResponse = listCliResponseSchema.parse(
-			await runVettaDebug(endpointFilePath, "conversation.list", { cwd: workspace, limit: 20 }),
+			await runOriginDebug(endpointFilePath, "conversation.list", { cwd: workspace, limit: 20 }),
 		);
 		expect(listResponse.result).toContainEqual(
 			expect.objectContaining({
@@ -455,7 +455,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 	return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-async function runVettaDebug(endpointFilePath: string, debugId: string, input: unknown): Promise<unknown> {
+async function runOriginDebug(endpointFilePath: string, debugId: string, input: unknown): Promise<unknown> {
 	const result = await runCli(["debug", "run", debugId, JSON.stringify(input)], {
 		...process.env,
 		[ACTION_RPC_ENDPOINT_FILE_ENV]: endpointFilePath,

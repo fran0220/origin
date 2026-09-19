@@ -1,12 +1,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import { WEBHOOK_KINDS, type WebhookEndpointPublic, type WebhookKind } from "./types.js";
 
 /**
  * Non-secret webhook endpoint metadata. Stored in plaintext under
- *   ~/.vetta/desktop-app/webhook-config.json
+ *   ~/.origin/desktop-app/webhook-config.json
  *
  * Sensitive fields (raw webhook URL, sign secret) live in credential-store.ts;
  * this file only carries identifiers, names, enabled flags, and per-kind
@@ -18,7 +18,7 @@ interface WebhookConfigFile {
 	endpoints: WebhookEndpointPublic[];
 }
 
-const DEFAULT_PATH = join(getVettaHomePath(), "desktop-app", "webhook-config.json");
+const DEFAULT_PATH = join(getOriginHomePath(), "desktop-app", "webhook-config.json");
 
 export function defaultWebhookConfigPath(): string {
 	return DEFAULT_PATH;

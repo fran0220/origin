@@ -7,11 +7,11 @@ Create, document and install Origin Desktop plugins from any directory.
 ```bash
 npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
-npm run install:vetta      # build → pack → install into the running Desktop
+npm run install:origin      # build → pack → install into the running Desktop
 ```
 
 The scaffold includes an `AGENTS.md` brief so a coding agent can pick the project up without any
-host-side setup. Inside a marketplace hub (a repository with `.vetta/marketplace.json`) the new
+host-side setup. Inside a marketplace hub (a repository with `.origin/marketplace.json`) the new
 plugin is also listed in that manifest.
 
 ## Update an existing project
@@ -60,7 +60,7 @@ workflow running `sync --check`. Add abilities with `init` inside `abilities/plu
 ## Keep a marketplace repository honest
 
 ```bash
-npx @origin-org/plugin-cli sync           # reconcile .vetta/marketplace.json with the ability directories
+npx @origin-org/plugin-cli sync           # reconcile .origin/marketplace.json with the ability directories
 npx @origin-org/plugin-cli sync --check   # report only, non-zero exit — for CI
 ```
 
@@ -91,12 +91,12 @@ the chain that cannot be out of date — when it disagrees with a checked-in bri
 Install an npm-distributed plugin into the running Origin Desktop app:
 
 ```bash
-npx @origin-org/plugin-cli add @example/vetta-plugin-demo
+npx @origin-org/plugin-cli add @example/origin-plugin-demo
 ```
 
 The npm package is fetched with lifecycle scripts disabled. The CLI extracts only the archive declared by
 `package.json#vetta`, then asks the running Desktop host to validate, approve, and install it. It never writes
-`~/.vetta/plugins` directly.
+`~/.origin/plugins` directly.
 
 Local archives and HTTP(S) archives use the same command:
 
@@ -114,7 +114,7 @@ npx @origin-org/plugin-cli reload demo
 
 Reload follows the same Desktop approval flow as the UI and reports the active version after approval.
 
-Use `--json` for machine-readable output. Set `VETTA_CONFIG_DIR` or `VETTA_HOME` when targeting an isolated
+Use `--json` for machine-readable output. Set `ORIGIN_CONFIG_DIR` or `ORIGIN_HOME` when targeting an isolated
 Desktop environment.
 
 ## Publisher contract
@@ -123,14 +123,14 @@ The published plugin package must include a standard Desktop plugin archive and 
 
 ```json
 {
-  "name": "@example/vetta-plugin-demo",
+  "name": "@example/origin-plugin-demo",
   "version": "1.0.0",
-  "files": ["release/vetta-plugin.zip"],
+  "files": ["release/origin-plugin.zip"],
   "vetta": {
     "schemaVersion": 1,
     "type": "desktop-plugin",
     "pluginId": "demo",
-    "archive": "release/vetta-plugin.zip"
+    "archive": "release/origin-plugin.zip"
   }
 }
 ```

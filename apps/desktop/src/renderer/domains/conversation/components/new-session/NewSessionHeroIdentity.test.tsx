@@ -2,10 +2,10 @@
 
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createAgentProfileFixture } from "@origin/agent-team";
+import { createAgentProfileFixture } from "@origin/agent-profile";
 import { createElement, type ReactNode, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { resetAgentTeamDirectoryForTest } from "./agent-team-directory";
+import { resetAgentProfileDirectoryForTest } from "./agent-profile-directory";
 import { NewSessionAgentSelector } from "./NewSessionAgentSelector";
 import { DefaultNewSessionHero } from "./NewSessionHero";
 import type { NewSessionTargetKey } from "./target";
@@ -73,10 +73,10 @@ describe("new session hero identity", () => {
 	if (!agent) throw new Error("missing Agent Profile fixture");
 
 	beforeEach(() => {
-		resetAgentTeamDirectoryForTest();
+		resetAgentProfileDirectoryForTest();
 		Object.defineProperty(window, "vetta", {
 			configurable: true,
-			value: { agentTeams: { list: vi.fn(async () => document), onChanged: () => () => {} } },
+			value: { agentProfiles: { list: vi.fn(async () => document), onChanged: () => () => {} } },
 		});
 	});
 

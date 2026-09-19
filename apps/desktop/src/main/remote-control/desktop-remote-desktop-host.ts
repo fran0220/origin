@@ -62,7 +62,7 @@ export async function startDesktopRemoteDesktopHost(
 			log.warn("invalid remote desktop IPC input rejected", { sessionId });
 		}
 	};
-	ipcMain.on("vetta:remote-desktop:input", onInput);
+	ipcMain.on("origin:remote-desktop:input", onInput);
 	let displayMediaHandlerInstalled = false;
 	try {
 		// Electron supplies the first physical display to getDisplayMedia in the
@@ -112,7 +112,7 @@ export async function startDesktopRemoteDesktopHost(
 	} catch (error) {
 		input.setEnabled(false);
 		unregisterVideoPermission();
-		ipcMain.removeListener("vetta:remote-desktop:input", onInput);
+		ipcMain.removeListener("origin:remote-desktop:input", onInput);
 		if (displayMediaHandlerInstalled) session.defaultSession.setDisplayMediaRequestHandler(null);
 		if (!window.isDestroyed()) window.destroy();
 		throw error;
@@ -132,7 +132,7 @@ export async function startDesktopRemoteDesktopHost(
 			input.setEnabled(false);
 			unregisterVideoPermission();
 			session.defaultSession.setDisplayMediaRequestHandler(null);
-			ipcMain.removeListener("vetta:remote-desktop:input", onInput);
+			ipcMain.removeListener("origin:remote-desktop:input", onInput);
 			if (!window.isDestroyed()) window.destroy();
 			activeHost = undefined;
 			log.info("remote desktop host stopped", { sessionId });

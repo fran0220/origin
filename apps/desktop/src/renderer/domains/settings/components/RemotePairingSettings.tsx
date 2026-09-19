@@ -15,7 +15,7 @@ export function RemotePairingSettings(): JSX.Element {
 
 	useEffect(() => {
 		const sync = (): void => {
-			void window.vetta.remotePairing.getState().then((next) => {
+			void window.originApp.remotePairing.getState().then((next) => {
 				setState(next);
 			});
 		};
@@ -37,7 +37,7 @@ export function RemotePairingSettings(): JSX.Element {
 	const create = async (): Promise<void> => {
 		setBusy(true);
 		try {
-			setState(await window.vetta.remotePairing.create(DEFAULT_RELAY));
+			setState(await window.originApp.remotePairing.create(DEFAULT_RELAY));
 		} catch {
 			setState((current) => ({ ...current, status: "error" }));
 		} finally {
@@ -47,7 +47,7 @@ export function RemotePairingSettings(): JSX.Element {
 
 	const setInputEnabled = async (enabled: boolean): Promise<void> => {
 		try {
-			setState(await window.vetta.remotePairing.setInputEnabled(enabled));
+			setState(await window.originApp.remotePairing.setInputEnabled(enabled));
 		} catch {
 			setState((current) => ({ ...current, status: "error" }));
 		}
@@ -55,7 +55,7 @@ export function RemotePairingSettings(): JSX.Element {
 
 	const revoke = async (): Promise<void> => {
 		try {
-			setState(await window.vetta.remotePairing.revoke());
+			setState(await window.originApp.remotePairing.revoke());
 		} catch {
 			setState((current) => ({ ...current, status: "error" }));
 		}

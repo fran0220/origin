@@ -3,8 +3,8 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
-import { startVettaPluginDevServer } from "./dev-server.js";
-import { createVettaPluginPackage } from "./pack.js";
+import { startOriginPluginDevServer } from "./dev-server.js";
+import { createOriginPluginPackage } from "./pack.js";
 
 type CliCommand = "dev" | "pack" | "validate";
 
@@ -16,7 +16,7 @@ interface CliOptions {
 function parseCliOptions(argv: string[]): CliOptions {
 	const command = argv[0];
 	if (command !== "dev" && command !== "pack" && command !== "validate") {
-		throw new Error("Usage: vetta-plugin <dev|validate|pack> [--root <plugin-directory>]");
+		throw new Error("Usage: origin-plugin <dev|validate|pack> [--root <plugin-directory>]");
 	}
 	let rootDir = process.cwd();
 	for (let index = 1; index < argv.length; index += 1) {
@@ -35,7 +35,7 @@ function writeEvent(event: object): void {
 }
 
 async function runDevServer(rootDir: string): Promise<void> {
-	const devServer = await startVettaPluginDevServer(rootDir, writeEvent);
+	const devServer = await startOriginPluginDevServer(rootDir, writeEvent);
 	await new Promise<void>((resolvePromise) => {
 		let closing = false;
 		const close = () => {
@@ -65,7 +65,7 @@ async function validateManifest(rootDir: string): Promise<void> {
 async function packPlugin(rootDir: string): Promise<void> {
 	const raw: unknown = JSON.parse(await readFile(resolve(rootDir, "plugin.json"), "utf8"));
 	const manifest = parsePluginManifest(raw);
-	const result = await createVettaPluginPackage({ rootDir });
+	const result = await createOriginPluginPackage({ rootDir });
 	process.stdout.write(
 		`${JSON.stringify({
 			ok: true,

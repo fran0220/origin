@@ -54,7 +54,7 @@ export class RemoteDesktopHost {
 		if (this.started) throw new Error("remote desktop host is already started");
 		if (stream.getVideoTracks().length === 0) throw new Error("screen stream must contain a video track");
 		for (const track of stream.getTracks()) this.peer.addTrack(track, stream);
-		this.inputChannel = this.peer.createDataChannel("vetta-input-v1", { ordered: true });
+		this.inputChannel = this.peer.createDataChannel("origin-input-v1", { ordered: true });
 		this.configureInputChannel(this.inputChannel);
 		this.started = true;
 		if (startOptions.waitForPeerReady !== true || this.peerReady) await this.negotiate();
@@ -200,7 +200,7 @@ export class RemoteDesktopViewer {
 			this.onStream(stream);
 		};
 		this.peer.ondatachannel = (event) => {
-			if (event.channel.label !== "vetta-input-v1" || this.inputChannel) {
+			if (event.channel.label !== "origin-input-v1" || this.inputChannel) {
 				event.channel.close();
 				return;
 			}

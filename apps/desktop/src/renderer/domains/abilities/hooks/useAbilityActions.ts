@@ -111,11 +111,11 @@ export function useAbilityActions({
 
 	const reloadPluginAndConfirm = useCallback(async (item: PluginAbility): Promise<void> => {
 		try {
-			await window.vetta.plugins.reload(item.slug);
+			await window.originApp.plugins.reload(item.slug);
 			return;
 		} catch (error: unknown) {
 			if (!isPluginLifecycleAbortError(error)) throw error;
-			const installed = await window.vetta.plugins.listAll?.();
+			const installed = await window.originApp.plugins.listAll?.();
 			const current = installed?.find((plugin) => plugin.id === item.slug);
 			const expectedVersion = item.pendingVersion ?? item.localVersion ?? item.version;
 			if (!current || (current.pendingVersion && current.pendingVersion !== expectedVersion)) throw error;
@@ -183,12 +183,12 @@ export function useAbilityActions({
 			if (item.type !== "skill" && item.type !== "scene") return "skipped";
 			if (item.origin?.kind === "github-marketplace") {
 				if (!item.installed) setOperation?.("checkingSource");
-				await window.vetta.abilities.installOpenAbility(item.type, item.slug, item.origin.sourceId);
+				await window.originApp.abilities.installOpenAbility(item.type, item.slug, item.origin.sourceId);
 				setOperation?.("installing");
 				return "installed";
 			}
 			const buffer = await downloadAbility(item.type, item.slug, token);
-			await window.vetta.skills.installFromMarket(item.slug, buffer, item.type, {
+			await window.originApp.skills.installFromMarket(item.slug, buffer, item.type, {
 				alias: item.title,
 				marketDescription: item.description,
 				version: item.version,
@@ -202,7 +202,9 @@ export function useAbilityActions({
 	const finishPluginInstall = useCallback(
 		async (item: PluginAbility, setOperation?: (next: AbilityOperation) => void): Promise<void> => {
 			if (item.installed) {
-				const installedPlugin = (await window.vetta.plugins.listAll?.())?.find((plugin) => plugin.id === item.slug);
+				const installedPlugin = (await window.originApp.plugins.listAll?.())?.find(
+					(plugin) => plugin.id === item.slug,
+				);
 				if (installedPlugin) {
 					const permissionChanges = changeSet(item.permissions, installedPlugin.permissions);
 					const commandChanges = changeSet(item.commands, installedPlugin.declaredCommands);
@@ -239,7 +241,9 @@ export function useAbilityActions({
 				});
 				return;
 			}
-			const installedPlugin = (await window.vetta.plugins.listAll?.())?.find((plugin) => plugin.id === item.slug);
+			const installedPlugin = (await window.originApp.plugins.listAll?.())?.find(
+				(plugin) => plugin.id === item.slug,
+			);
 			if (installedPlugin) {
 				setPendingPluginSetup({
 					...item,
@@ -261,13 +265,13 @@ export function useAbilityActions({
 		async (item: PluginAbility, setOperation?: (next: AbilityOperation) => void): Promise<InstallOutcome> => {
 			if (item.origin?.kind === "github-marketplace") {
 				if (!item.installed) setOperation?.("checkingSource");
-				await window.vetta.abilities.installOpenAbility("plugin", item.slug, item.origin.sourceId);
+				await window.originApp.abilities.installOpenAbility("plugin", item.slug, item.origin.sourceId);
 				setOperation?.("installing");
 				await finishPluginInstall(item, setOperation);
 				return "installed";
 			}
 			const buffer = await downloadAbility("plugin", item.slug, token);
-			await window.vetta.plugins.installFromArchive(buffer, {
+			await window.originApp.plugins.installFromArchive(buffer, {
 				source: "remote",
 				expectedSha256: item.sha256,
 			});
@@ -308,12 +312,12 @@ export function useAbilityActions({
 			let preparedServer: McpServerConfigData | undefined;
 			if (market && item.origin?.kind === "github-marketplace") {
 				const unsubscribe =
-					window.vetta.abilities.onMcpRuntimeProgress?.((progress: OpenMarketplaceMcpRuntimeProgress) => {
+					window.originApp.abilities.onMcpRuntimeProgress?.((progress: OpenMarketplaceMcpRuntimeProgress) => {
 						if (progress.sourceId !== item.origin?.sourceId || progress.slug !== item.slug) return;
 						setOperation?.("installing", progress);
 					}) ?? (() => undefined);
 				try {
-					preparedServer = await window.vetta.abilities.prepareOpenMcpAbility(item.slug, item.origin.sourceId);
+					preparedServer = await window.originApp.abilities.prepareOpenMcpAbility(item.slug, item.origin.sourceId);
 				} finally {
 					unsubscribe();
 				}
@@ -363,15 +367,15 @@ export function useAbilityActions({
 	const uninstallOne = useCallback(
 		async (item: AbilityItem): Promise<void> => {
 			if (item.type === "plugin") {
-				await window.vetta.plugins.uninstall(item.slug);
+				await window.originApp.plugins.uninstall(item.slug);
 				notifyPluginsChanged();
 			} else if (item.type === "mcp") {
 				await mcp.onDeleteServer(item.serverName);
 				if (item.origin?.kind === "github-marketplace") {
-					await window.vetta.abilities.removeOpenMcpRuntime(item.slug, item.origin.sourceId);
+					await window.originApp.abilities.removeOpenMcpRuntime(item.slug, item.origin.sourceId);
 				}
 			} else if (item.type === "skill" || item.type === "scene") {
-				await window.vetta.skills.uninstall(item.slug, item.type);
+				await window.originApp.skills.uninstall(item.slug, item.type);
 			} else {
 				return;
 			}
@@ -434,7 +438,7 @@ export function useAbilityActions({
 	const toggleOne = useCallback(
 		async (item: AbilityItem): Promise<void> => {
 			if (item.type === "plugin") {
-				await window.vetta.plugins.setEnabled(item.slug, !item.enabled);
+				await window.originApp.plugins.setEnabled(item.slug, !item.enabled);
 				notifyPluginsChanged();
 				return;
 			}
@@ -443,7 +447,7 @@ export function useAbilityActions({
 				return;
 			}
 			if (item.type === "skill" || item.type === "scene") {
-				await window.vetta.skills.toggle(item.slug);
+				await window.originApp.skills.toggle(item.slug);
 			}
 		},
 		[mcp],
@@ -469,8 +473,8 @@ export function useAbilityActions({
 	const setPluginPermission = useCallback(
 		(item: PluginAbility, permission: PluginPermission, granted: boolean) => {
 			run(`${item.id}:permission:${permission}`, "saving", async () => {
-				if (granted) await window.vetta.plugins.grantPermissions(item.slug, [permission]);
-				else await window.vetta.plugins.revokePermissions(item.slug, [permission]);
+				if (granted) await window.originApp.plugins.grantPermissions(item.slug, [permission]);
+				else await window.originApp.plugins.revokePermissions(item.slug, [permission]);
 				notifyPluginsChanged();
 			});
 		},
@@ -484,7 +488,7 @@ export function useAbilityActions({
 		) => {
 			return run(`${item.id}:setup`, "applyingSetup", async (setOperation) => {
 				setOperation("activating");
-				await window.vetta.plugins.applySetup(item.slug, next);
+				await window.originApp.plugins.applySetup(item.slug, next);
 				if (item.setupMode === "update" && item.pendingVersion) {
 					await reloadPluginAndConfirm(item);
 				}
@@ -497,8 +501,8 @@ export function useAbilityActions({
 	const setPluginCommand = useCallback(
 		(item: PluginAbility, command: string, granted: boolean) => {
 			run(`${item.id}:command:${command}`, "saving", async () => {
-				if (granted) await window.vetta.plugins.grantCommands(item.slug, [command]);
-				else await window.vetta.plugins.revokeCommands(item.slug, [command]);
+				if (granted) await window.originApp.plugins.grantCommands(item.slug, [command]);
+				else await window.originApp.plugins.revokeCommands(item.slug, [command]);
 				notifyPluginsChanged();
 			});
 		},
@@ -528,7 +532,7 @@ export function useAbilityActions({
 			setError(null);
 			void file
 				.arrayBuffer()
-				.then((buffer) => window.vetta.skills.importCustom(buffer))
+				.then((buffer) => window.originApp.skills.importCustom(buffer))
 				.catch((err: unknown) => setError(errorMessage(err)))
 				.finally(() => {
 					setImporting(false);
@@ -544,7 +548,7 @@ export function useAbilityActions({
 			setError(null);
 			void file
 				.arrayBuffer()
-				.then((buffer) => window.vetta.plugins.installFromArchive(buffer, { source: "archive" }))
+				.then((buffer) => window.originApp.plugins.installFromArchive(buffer, { source: "archive" }))
 				.then((plugin) => {
 					notifyPluginsChanged();
 					setPermissionPromptSlug(plugin.id);

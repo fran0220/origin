@@ -13,7 +13,7 @@ import { FileIcon, ListViewIcon, TreeViewIcon } from "./icons";
 import { SplitHandle } from "./SplitHandle";
 
 type ViewMode = "tree" | "flat";
-const VIEW_MODE_KEY = "vetta-git-view-mode";
+const VIEW_MODE_KEY = "origin-git-view-mode";
 
 // 容器宽于此值时显示右侧 diff 区；窄于此值只显示文件树（拖窄自动收起 diff）。
 const DIFF_MIN_WIDTH = 460;

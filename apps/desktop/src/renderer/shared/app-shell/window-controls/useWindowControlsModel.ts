@@ -10,22 +10,22 @@ export function useWindowControlsModel(): WindowControlsModel {
 	useEffect(() => {
 		if (isMac) return;
 
-		void window.vetta.window.isMaximized().then(setIsMaximized);
-		return window.vetta.window.onMaximizedChanged(setIsMaximized);
+		void window.originApp.window.isMaximized().then(setIsMaximized);
+		return window.originApp.window.onMaximizedChanged(setIsMaximized);
 	}, []);
 
 	const minimize = useCallback(() => {
-		void window.vetta.window.minimize();
+		void window.originApp.window.minimize();
 	}, []);
 
 	const maximize = useCallback(async () => {
-		await window.vetta.window.maximize();
-		const maximized = await window.vetta.window.isMaximized();
+		await window.originApp.window.maximize();
+		const maximized = await window.originApp.window.isMaximized();
 		setIsMaximized(maximized);
 	}, []);
 
 	const close = useCallback(() => {
-		void window.vetta.window.close();
+		void window.originApp.window.close();
 	}, []);
 
 	const controls: WindowControlItem[] = [

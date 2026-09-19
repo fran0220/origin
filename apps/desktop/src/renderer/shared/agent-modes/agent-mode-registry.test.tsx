@@ -35,7 +35,7 @@ beforeEach(() => {
 	__resetAgentModeRegistryForTests();
 	(globalThis as unknown as { window: unknown }).window = globalThis.window;
 	Object.assign(globalThis.window, {
-		vetta: { session: { getAgentModes: async () => REGISTRY } },
+		originApp: { session: { getAgentModes: async () => REGISTRY } },
 	});
 	container = document.createElement("div");
 	document.body.appendChild(container);
@@ -65,7 +65,7 @@ it("未指定 / 未知模式回退 staged", async () => {
 it("注册表拉取失败保持回退值，不抛错", async () => {
 	__resetAgentModeRegistryForTests();
 	Object.assign(globalThis.window, {
-		vetta: {
+		originApp: {
 			session: {
 				getAgentModes: async () => {
 					throw new Error("ipc down");

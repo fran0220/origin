@@ -35,14 +35,14 @@ function githubMcpAbility(): McpAbility {
 			version: "1.0.0",
 			configVersion: 2,
 			icon: "",
-			config: { mcp: { command: String.raw`\${VETTA_MCP_EXECUTABLE}` } },
+			config: { mcp: { command: String.raw`\${ORIGIN_MCP_EXECUTABLE}` } },
 		} as unknown as McpAbility["market"],
 		preset: {
 			id: "github:official:mcp:demo-mcp",
 			name: "demo-mcp",
 			displayName: "Demo MCP",
 			description: "Managed MCP",
-			config: { command: String.raw`\${VETTA_MCP_EXECUTABLE}` },
+			config: { command: String.raw`\${ORIGIN_MCP_EXECUTABLE}` },
 		},
 		installConflictIds: [],
 		readonly: false,
@@ -107,7 +107,7 @@ describe("useAbilityActions managed MCP wiring", () => {
 						};
 					}),
 					prepareOpenMcpAbility: vi.fn(async () => ({
-						command: "C:/Users/test/.vetta/abilities/mcp/demo/runtime/versions/1.0.0/demo.exe",
+						command: "C:/Users/test/.origin/abilities/mcp/demo/runtime/versions/1.0.0/demo.exe",
 						args: ["--stdio"],
 					})),
 					removeOpenMcpRuntime: vi.fn(async () => undefined),
@@ -123,7 +123,7 @@ describe("useAbilityActions managed MCP wiring", () => {
 
 	it("surfaces runtime download progress while preparation is in flight", async () => {
 		let resolvePrepare!: (config: { command: string; args: string[] }) => void;
-		window.vetta.abilities.prepareOpenMcpAbility = vi.fn(
+		window.originApp.abilities.prepareOpenMcpAbility = vi.fn(
 			() =>
 				new Promise<McpServerConfigData>((resolve) => {
 					resolvePrepare = resolve;
@@ -161,11 +161,11 @@ describe("useAbilityActions managed MCP wiring", () => {
 		act(() => result.current.install(item));
 
 		await waitFor(() => expect(mcp.onAddBuiltinServer).toHaveBeenCalledOnce());
-		expect(window.vetta.abilities.prepareOpenMcpAbility).toHaveBeenCalledWith("demo-mcp", "official");
+		expect(window.originApp.abilities.prepareOpenMcpAbility).toHaveBeenCalledWith("demo-mcp", "official");
 		expect(mcp.onAddBuiltinServer).toHaveBeenCalledWith(
 			expect.objectContaining({
 				config: {
-					command: "C:/Users/test/.vetta/abilities/mcp/demo/runtime/versions/1.0.0/demo.exe",
+					command: "C:/Users/test/.origin/abilities/mcp/demo/runtime/versions/1.0.0/demo.exe",
 					args: ["--stdio"],
 				},
 			}),
@@ -182,19 +182,19 @@ describe("useAbilityActions managed MCP wiring", () => {
 
 		act(() => result.current.uninstall(item));
 
-		await waitFor(() => expect(window.vetta.abilities.removeOpenMcpRuntime).toHaveBeenCalledOnce());
+		await waitFor(() => expect(window.originApp.abilities.removeOpenMcpRuntime).toHaveBeenCalledOnce());
 		expect(onDeleteServer).toHaveBeenCalledWith("demo-mcp");
 		expect(onDeleteServer.mock.invocationCallOrder[0]).toBeLessThan(
-			vi.mocked(window.vetta.abilities.removeOpenMcpRuntime).mock.invocationCallOrder[0]!,
+			vi.mocked(window.originApp.abilities.removeOpenMcpRuntime).mock.invocationCallOrder[0]!,
 		);
-		expect(window.vetta.abilities.removeOpenMcpRuntime).toHaveBeenCalledWith("demo-mcp", "official");
+		expect(window.originApp.abilities.removeOpenMcpRuntime).toHaveBeenCalledWith("demo-mcp", "official");
 	});
 
 	it("updates an installed plugin, exposes both phases, then reloads it automatically", async () => {
 		const install = deferred();
 		const reload = deferred();
-		window.vetta.abilities.installOpenAbility = vi.fn(() => install.promise);
-		window.vetta.plugins.reload = vi.fn(() =>
+		window.originApp.abilities.installOpenAbility = vi.fn(() => install.promise);
+		window.originApp.plugins.reload = vi.fn(() =>
 			reload.promise.then(() => ({ id: "demo-plugin" }) as InstalledPlugin),
 		);
 		const refresh = vi.fn();
@@ -206,10 +206,10 @@ describe("useAbilityActions managed MCP wiring", () => {
 		expect(result.current.busyIds.has(item.id)).toBe(true);
 
 		await act(async () => install.resolve());
-		await waitFor(() => expect(window.vetta.plugins.reload).toHaveBeenCalledWith("demo-plugin"));
+		await waitFor(() => expect(window.originApp.plugins.reload).toHaveBeenCalledWith("demo-plugin"));
 		expect(result.current.operationById.get(item.id)).toBe("applyingUpdate");
-		expect(vi.mocked(window.vetta.abilities.installOpenAbility).mock.invocationCallOrder[0]).toBeLessThan(
-			vi.mocked(window.vetta.plugins.reload).mock.invocationCallOrder[0]!,
+		expect(vi.mocked(window.originApp.abilities.installOpenAbility).mock.invocationCallOrder[0]).toBeLessThan(
+			vi.mocked(window.originApp.plugins.reload).mock.invocationCallOrder[0]!,
 		);
 
 		await act(async () => reload.resolve());
@@ -225,14 +225,14 @@ describe("useAbilityActions managed MCP wiring", () => {
 
 	it("keeps first-time plugin setup separate and does not reload a fresh install", async () => {
 		const item = githubPluginAbility(false);
-		window.vetta.plugins.listAll = vi.fn(async () => [{ id: "demo-plugin", enabled: false } as InstalledPlugin]);
+		window.originApp.plugins.listAll = vi.fn(async () => [{ id: "demo-plugin", enabled: false } as InstalledPlugin]);
 		const { result } = renderHook(() => useAbilityActions({ mcp: mcpModel(), refresh: vi.fn() }));
 
 		act(() => result.current.install(item));
 
 		await waitFor(() => expect(result.current.permissionPromptSlug).toBe("demo-plugin"));
 		expect(result.current.pendingPluginSetup?.plugin?.id).toBe("demo-plugin");
-		expect(window.vetta.plugins.reload).not.toHaveBeenCalled();
+		expect(window.originApp.plugins.reload).not.toHaveBeenCalled();
 		expect(showToast).not.toHaveBeenCalled();
 	});
 
@@ -244,7 +244,7 @@ describe("useAbilityActions managed MCP wiring", () => {
 			commands: ["old.command"],
 			grantedCommands: ["old.command"],
 		} as PluginAbility;
-		window.vetta.plugins.listAll = vi.fn(async () => [
+		window.originApp.plugins.listAll = vi.fn(async () => [
 			{
 				id: "demo-plugin",
 				permissions: ["storage.read", "network.fetch"],
@@ -265,11 +265,11 @@ describe("useAbilityActions managed MCP wiring", () => {
 			removed: [],
 			retained: ["storage.read"],
 		});
-		expect(window.vetta.plugins.reload).not.toHaveBeenCalled();
+		expect(window.originApp.plugins.reload).not.toHaveBeenCalled();
 	});
 
 	it("reports an automatic reload failure without claiming the update is active", async () => {
-		window.vetta.plugins.reload = vi.fn(async () => {
+		window.originApp.plugins.reload = vi.fn(async () => {
 			throw new Error("reload failed");
 		});
 		const refresh = vi.fn();
@@ -286,10 +286,10 @@ describe("useAbilityActions managed MCP wiring", () => {
 
 	it("accepts a renderer bridge abort when the new plugin version is already active", async () => {
 		const item = githubPluginAbility(true);
-		window.vetta.plugins.reload = vi.fn(async () => {
-			throw new Error("Error invoking remote method 'vetta:plugins:reload': AbortError: This operation was aborted");
+		window.originApp.plugins.reload = vi.fn(async () => {
+			throw new Error("Error invoking remote method 'origin:plugins:reload': AbortError: This operation was aborted");
 		});
-		window.vetta.plugins.listAll = vi.fn(async () => [
+		window.originApp.plugins.listAll = vi.fn(async () => [
 			{
 				id: "demo-plugin",
 				version: "2.0.0",

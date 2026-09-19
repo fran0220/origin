@@ -14,7 +14,7 @@ export type PluginOfficialGeneralSettingsUpdate =
 	| { operation: "set-workspace"; path: string };
 
 export interface PluginOfficialExperimentalSettings {
-	vettaCli: boolean;
+	originCli: boolean;
 	promptPrediction: boolean;
 	agentSkills: boolean;
 }

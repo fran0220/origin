@@ -1,42 +1,42 @@
 import { describe, expect, it } from "vitest";
-import { parseVettaNpmPluginPackage } from "../src/npm-package.js";
+import { parseOriginNpmPluginPackage } from "../src/npm-package.js";
 
 const validPackage = {
-	name: "@example/vetta-plugin-demo",
+	name: "@example/origin-plugin-demo",
 	version: "1.2.3",
-	vetta: {
+	originApp: {
 		schemaVersion: 1,
 		type: "desktop-plugin",
 		pluginId: "demo",
-		archive: "release/vetta-plugin.zip",
+		archive: "release/origin-plugin.zip",
 	},
 };
 
-describe("parseVettaNpmPluginPackage", () => {
+describe("parseOriginNpmPluginPackage", () => {
 	it("parses a valid npm plugin distribution envelope", () => {
-		expect(parseVettaNpmPluginPackage(validPackage)).toEqual(validPackage);
+		expect(parseOriginNpmPluginPackage(validPackage)).toEqual(validPackage);
 	});
 
 	it("rejects archive paths that escape the npm package", () => {
 		expect(() =>
-			parseVettaNpmPluginPackage({
+			parseOriginNpmPluginPackage({
 				...validPackage,
-				vetta: { ...validPackage.vetta, archive: "../plugin.zip" },
+				originApp: { ...validPackage.origin, archive: "../plugin.zip" },
 			}),
 		).toThrow("npm archive");
 	});
 
 	it("rejects unsupported metadata versions and extra fields", () => {
 		expect(() =>
-			parseVettaNpmPluginPackage({
+			parseOriginNpmPluginPackage({
 				...validPackage,
-				vetta: { ...validPackage.vetta, schemaVersion: 2 },
+				originApp: { ...validPackage.origin, schemaVersion: 2 },
 			}),
 		).toThrow("schema version 1");
 		expect(() =>
-			parseVettaNpmPluginPackage({
+			parseOriginNpmPluginPackage({
 				...validPackage,
-				vetta: { ...validPackage.vetta, unexpected: true },
+				originApp: { ...validPackage.origin, unexpected: true },
 			}),
 		).toThrow("schema version 1");
 	});

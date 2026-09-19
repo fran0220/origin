@@ -70,7 +70,7 @@ export function useSkillPromptAreaModel({
 	}, [slashOpen]);
 
 	useEffect(() => {
-		void window.vetta.skills.list(cwd).then(setInstalledSkills);
+		void window.originApp.skills.list(cwd).then(setInstalledSkills);
 	}, [cwd]);
 
 	const skillMissing = useMemo(() => {

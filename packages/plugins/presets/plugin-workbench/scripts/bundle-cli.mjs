@@ -15,9 +15,9 @@ import { fileURLToPath } from "node:url";
 
 const pluginRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const destDir = join(pluginRoot, "agent", "cli");
-const destFile = join(destDir, "vetta-plugin-cli.js");
-const sourceFile = process.env.VETTA_PLUGIN_CLI_DIST
-	? resolve(process.env.VETTA_PLUGIN_CLI_DIST)
+const destFile = join(destDir, "origin-plugin-cli.js");
+const sourceFile = process.env.ORIGIN_PLUGIN_CLI_DIST
+	? resolve(process.env.ORIGIN_PLUGIN_CLI_DIST)
 	: resolve(pluginRoot, "../../plugin-cli/dist/cli.js");
 
 async function isFile(path) {

@@ -14,7 +14,7 @@ import {
 	stageSystemPluginsFromArchives,
 } from "./stage-system-plugins.mjs";
 
-// 在读取 VETTA_TENANT 等构建期变量前，从 .env.<mode>/.env 注入（命令行内联优先）。
+// 在读取 ORIGIN_TENANT 等构建期变量前，从 .env.<mode>/.env 注入（命令行内联优先）。
 loadBuildEnv();
 
 const desktopAppDir = join(import.meta.dirname, "..");
@@ -188,7 +188,7 @@ if (cache.installHash === installHash && workspaceNodeModulesDirs.every((dir) =>
 	await writeCache(cache);
 }
 
-if (process.env.VETTA_SKIP_PLUGIN_TOOLING_BUILD === "1") {
+if (process.env.ORIGIN_SKIP_PLUGIN_TOOLING_BUILD === "1") {
 	console.log("[build-presets] 插件工具包已由 workspace 前置构建完成，跳过");
 } else {
 	for (const name of ["plugin-sdk", "plugin-vite", "plugin-cli"]) {

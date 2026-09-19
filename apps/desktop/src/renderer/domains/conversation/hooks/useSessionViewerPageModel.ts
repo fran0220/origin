@@ -80,11 +80,11 @@ export function useSessionViewerPageModel(pathProp?: string): SessionViewerPageM
 
 		(async () => {
 			try {
-				const initial = await window.vetta.session.openViewer(path);
+				const initial = await window.originApp.session.openViewer(path);
 				if (cancelled) return;
 				setMessages(fullHistoryToChat(initial.history));
 
-				unsubscribe = await window.vetta.session.subscribeViewer(path, (snapshot) => {
+				unsubscribe = await window.originApp.session.subscribeViewer(path, (snapshot) => {
 					setMessages(fullHistoryToChat(snapshot.history));
 				});
 				if (cancelled) unsubscribe?.();

@@ -10,7 +10,7 @@ const fixture = await vi.hoisted(async () => {
 	return { root: mkdtempSync(join(tmpdir(), "origin-mcp-secrets-")), available: true };
 });
 
-vi.mock("@origin/action-rpc", () => ({ getVettaHomePath: () => fixture.root }));
+vi.mock("@origin/action-rpc", () => ({ getOriginHomePath: () => fixture.root }));
 vi.mock("../abilities/ability-ledger.js", () => ({
 	recordAbilityInstall: vi.fn(),
 	removeAbilityLedgerEntry: vi.fn(),

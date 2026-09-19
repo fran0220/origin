@@ -78,7 +78,7 @@ export function RootLayoutView({ model }: RootLayoutViewProps): JSX.Element {
 		let contentPaintFrame = 0;
 		const layoutFrame = requestAnimationFrame(() => {
 			contentPaintFrame = requestAnimationFrame(() => {
-				window.vetta.appLifecycle.reportRendererContentPainted();
+				window.originApp.appLifecycle.reportRendererContentPainted();
 			});
 		});
 		return () => {

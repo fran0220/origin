@@ -11,7 +11,7 @@
 工作台内置 `@origin-org/plugin-cli` 的单文件产物，由它解析手册位置：
 
 ```bash
-node <workbenchRoot>/agent/cli/vetta-plugin-cli.js docs --json
+node <workbenchRoot>/agent/cli/origin-plugin-cli.js docs --json
 ```
 
 - **构建期自动内置**：`scripts/bundle-cli.mjs`（`prebuild` 钩子；`apps/desktop` 的 `build:presets`
@@ -25,8 +25,8 @@ node <workbenchRoot>/agent/cli/vetta-plugin-cli.js docs --json
 
 | 脚本 | 作用 |
 | --- | --- |
-| `scripts/build-and-pack.mjs` | bump + npm install + build + `vetta-plugin pack` |
-| `scripts/check-manifest.mjs` | 委托 `vetta-plugin validate` 校验清单 |
+| `scripts/build-and-pack.mjs` | bump + npm install + build + `origin-plugin pack` |
+| `scripts/check-manifest.mjs` | 委托 `origin-plugin validate` 校验清单 |
 | `scripts/bundle-cli.mjs` | 内置 plugin-cli 产物到 `agent/cli/` |
 
 ## 硬隔离

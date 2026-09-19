@@ -54,12 +54,12 @@ describe("PluginCapabilityAdapter official domain capabilities", () => {
 			...Object.values(DOMAIN_WEBHOOK_CAPABILITIES).map((capability) => capability.id),
 		]);
 		await expect(adapter.getAgentExperimental(sessionId)).resolves.toEqual({
-			vettaCli: true,
+			originCli: true,
 			promptPrediction: false,
 			agentSkills: true,
 		});
 		await expect(adapter.setAgentExperimental(sessionId, { promptPrediction: true })).resolves.toEqual({
-			vettaCli: true,
+			originCli: true,
 			promptPrediction: false,
 			agentSkills: true,
 		});
@@ -112,7 +112,7 @@ describe("PluginCapabilityAdapter official domain capabilities", () => {
 		await expect(adapter.listSessions(sessionId, "C:/workspace")).resolves.toEqual([
 			{
 				id: "session",
-				path: "C:/workspace/.vetta/sessions/session.jsonl",
+				path: "C:/workspace/.origin/sessions/session.jsonl",
 				cwd: "C:/workspace",
 				firstMessage: "hello",
 				modifiedAt: 1,

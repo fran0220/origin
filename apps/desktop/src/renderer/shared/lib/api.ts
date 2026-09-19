@@ -7,7 +7,7 @@ const hostFetch = globalThis.fetch.bind(globalThis);
 
 async function getApiBase(): Promise<string> {
 	if (cachedBaseUrl) return cachedBaseUrl;
-	cachedBaseUrl = await window.vetta.settings.getServerUrl();
+	cachedBaseUrl = await window.originApp.settings.getServerUrl();
 	return cachedBaseUrl;
 }
 
@@ -15,7 +15,7 @@ async function cloudRequest<T>(
 	path: string,
 	options?: { method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"; body?: unknown },
 ): Promise<T> {
-	const result = await window.vetta.cloud.request<T>(path.replace(/^\//, ""), options);
+	const result = await window.originApp.cloud.request<T>(path.replace(/^\//, ""), options);
 	if (result.status === 401) {
 		notifyUnauthorized();
 		throw new Error("登录已过期，请重新登录");
@@ -62,7 +62,7 @@ function notifyTokenRefreshed(next: { signedIn: true }): void {
  * 单飞：并发 401 只触发一次 refresh。
  * 实现：委托主进程做唯一权威 refresh，避免主/渲染两端同时拿同一个
  * refresh_token 调 /auth/refresh 触发服务端 reuse-detection 的 revoked 错误。
- * 主进程成功后会写 settings.json + 广播 `vetta:auth:token-refreshed`，
+ * 主进程成功后会写 settings.json + 广播 `origin:auth:token-refreshed`，
  * renderer atom 由顶部的广播订阅 + notifyTokenRefreshed 同步。
  */
 let refreshInFlight: Promise<RefreshOutcome> | null = null;
@@ -71,7 +71,7 @@ export async function tryRefreshAccessToken(): Promise<RefreshOutcome> {
 	if (refreshInFlight) return refreshInFlight;
 	refreshInFlight = (async (): Promise<RefreshOutcome> => {
 		try {
-			return await window.vetta.auth.refreshToken();
+			return await window.originApp.auth.refreshToken();
 		} catch {
 			// IPC 异常按暂时性处理，不登出。
 			return { status: "transient" };
@@ -87,7 +87,7 @@ export async function tryRefreshAccessToken(): Promise<RefreshOutcome> {
 /**
  * 主进程广播 refresh 结果后只通知内存订阅者，不在 renderer 持久化凭据。
  */
-window.vetta?.auth?.onTokenRefreshed?.((next) => {
+window.originApp?.auth?.onTokenRefreshed?.((next) => {
 	notifyTokenRefreshed(next);
 });
 
@@ -220,7 +220,7 @@ export interface UserInfo {
 
 /** 主动注销 refresh token（登出时调用，失败不阻塞本地清理） */
 export async function logoutOnServer(_refreshToken?: string): Promise<void> {
-	await window.vetta.auth.signOut();
+	await window.originApp.auth.signOut();
 }
 
 export async function fetchOAuthProviders(): Promise<string[]> {
@@ -290,7 +290,7 @@ export interface AbilityMember {
 
 /** raw.config：客户端运行时读，按 type 取不同字段。 */
 export interface AbilityConfig {
-	/** type=mcp：原样写入 `~/.vetta/agent/mcp.json` 的配置块。 */
+	/** type=mcp：原样写入 `~/.origin/agent/mcp.json` 的配置块。 */
 	mcp?: Record<string, unknown>;
 	/** type=plugin：以 zip 内 plugin.json 为准，admin 不可改。 */
 	api_version?: string;
@@ -512,7 +512,7 @@ export async function fetchAbilityInfo(type: AbilityType, slug: string, token?: 
 
 /** mcp / bundle 没有业务服务端归档；GitHub MCP 的受管运行时由 Desktop Ability 安装器处理。 */
 export async function downloadAbility(type: AbilityType, slug: string, token?: string | null): Promise<ArrayBuffer> {
-	const serverUrl = await window.vetta.settings.getServerUrl();
+	const serverUrl = await window.originApp.settings.getServerUrl();
 	const resp = await hostFetch(
 		`${serverUrl}/abilities/${encodeURIComponent(type)}/${encodeURIComponent(slug)}/download`,
 		{

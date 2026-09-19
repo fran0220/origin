@@ -1,8 +1,8 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
-const CHANNEL = "vetta:recording:audio";
+const CHANNEL = "origin:recording:audio";
 
-contextBridge.exposeInMainWorld("__vettaRecordingAudio", {
+contextBridge.exposeInMainWorld("__originRecordingAudio", {
 	send(payload) {
 		ipcRenderer.send(CHANNEL, payload);
 	},
@@ -13,8 +13,8 @@ contextBridge.exposeInMainWorld("__vettaRecordingAudio", {
 
 function installAudioCapture() {
 	const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
-	if (!OriginalAudioContext || window.__vettaRecordingAudioInstalled) return;
-	window.__vettaRecordingAudioInstalled = true;
+	if (!OriginalAudioContext || window.__originRecordingAudioInstalled) return;
+	window.__originRecordingAudioInstalled = true;
 
 	const destinationNodes = new Set();
 	let recorder = null;
@@ -49,7 +49,7 @@ function installAudioCapture() {
 		try {
 			recorder = new MediaRecorder(stream, { mimeType: "audio/webm;codecs=opus" });
 		} catch {
-			window.__vettaRecordingAudio.send({
+			window.__originRecordingAudio.send({
 				type: "unavailable",
 				recordingId: window.__vettaRecordingId,
 			});
@@ -58,7 +58,7 @@ function installAudioCapture() {
 		recorder.ondataavailable = (event) => {
 			if (!event.data || event.data.size === 0) return;
 			event.data.arrayBuffer().then((buffer) => {
-				window.__vettaRecordingAudio.send({
+				window.__originRecordingAudio.send({
 					type: "chunk",
 					recordingId: window.__vettaRecordingId,
 					data: Array.from(new Uint8Array(buffer)),
@@ -66,9 +66,9 @@ function installAudioCapture() {
 			});
 		};
 		recorder.onstop = () =>
-			window.__vettaRecordingAudio.send({ type: "end", recordingId: window.__vettaRecordingId });
+			window.__originRecordingAudio.send({ type: "end", recordingId: window.__vettaRecordingId });
 		recorder.start(1_000);
-		window.__vettaRecordingAudio.send({ type: "start", recordingId: window.__vettaRecordingId });
+		window.__originRecordingAudio.send({ type: "start", recordingId: window.__vettaRecordingId });
 	}
 
 	window.addEventListener("vetta-recording-stop-audio", () => {

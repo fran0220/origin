@@ -22,7 +22,7 @@ vi.mock("./runtime", () => ({
 	withWorkbenchFs: (callback: (fs: { stat: typeof mocks.stat }) => unknown) => callback({ stat: mocks.stat }),
 }));
 
-import { applyPluginToVetta } from "./reinstall";
+import { applyPluginToOrigin } from "./reinstall";
 
 const project: ProjectInfo = {
 	dir: "C:/plugins/demo",
@@ -40,12 +40,12 @@ beforeEach(() => {
 	mocks.reload.mockResolvedValue(undefined);
 });
 
-describe("applyPluginToVetta", () => {
+describe("applyPluginToOrigin", () => {
 	it("reports a development server startup failure after applying the plugin", async () => {
 		mocks.startDevWatch.mockRejectedValue(new Error("plugin dev server unavailable"));
 
 		await expect(
-			applyPluginToVetta({ project, workbenchRoot: "C:/workbench", startHotReload: true }),
+			applyPluginToOrigin({ project, workbenchRoot: "C:/workbench", startHotReload: true }),
 		).rejects.toThrow("plugin dev server unavailable");
 	});
 });

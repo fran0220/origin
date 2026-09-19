@@ -63,7 +63,7 @@ describe("BrowserAutomationService", () => {
 	let service: BrowserAutomationService;
 
 	beforeEach(async () => {
-		temporaryDirectory = await mkdtemp(join(tmpdir(), "vetta-browser-service-test-"));
+		temporaryDirectory = await mkdtemp(join(tmpdir(), "origin-browser-service-test-"));
 		engine = new FakeBrowserEngine();
 		logger = { info: vi.fn(), warn: vi.fn(), error: vi.fn() };
 		service = new BrowserAutomationService({

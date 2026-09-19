@@ -1,4 +1,4 @@
-export const TELEMETRY_CONTEXT_CHANNEL = "vetta:telemetry:set-context";
+export const TELEMETRY_CONTEXT_CHANNEL = "origin:telemetry:set-context";
 
 export interface TelemetryContext {
 	appSessionId: string;

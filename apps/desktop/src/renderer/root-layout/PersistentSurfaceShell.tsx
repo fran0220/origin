@@ -6,7 +6,7 @@ import { persistentSurfaceTitleRef } from "./persistent-surface-shell";
 
 function usePersistentSurfaceTitle(id: Exclude<PersistentSurfaceId, "chat">): string {
 	const abilities = useTranslation("abilities");
-	const agents = useTranslation("agent-teams");
+	const agents = useTranslation("agent-profiles");
 	const automation = useTranslation("automation");
 	const batchTasks = useTranslation("batch-tasks");
 	const evaluation = useTranslation("evaluation");
@@ -18,7 +18,7 @@ function usePersistentSurfaceTitle(id: Exclude<PersistentSurfaceId, "chat">): st
 	switch (ref.ns) {
 		case "abilities":
 			return abilities.t(ref.key);
-		case "agent-teams":
+		case "agent-profiles":
 			return agents.t(ref.key);
 		case "automation":
 			return automation.t(ref.key);

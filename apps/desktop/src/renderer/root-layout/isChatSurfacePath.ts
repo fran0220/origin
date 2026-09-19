@@ -4,7 +4,7 @@
  */
 const NON_CHAT_PREFIXES = [
 	"/abilities",
-	"/agent-teams",
+	"/agent-profiles",
 	"/agents",
 	"/automation",
 	"/batch-tasks",

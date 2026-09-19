@@ -72,7 +72,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 </svg>
 `;
 
-const stageDir = join(tmpdir(), "vetta-dmg-bg");
+const stageDir = join(tmpdir(), "origin-dmg-bg");
 rmSync(stageDir, { recursive: true, force: true });
 mkdirSync(stageDir, { recursive: true });
 mkdirSync(buildDir, { recursive: true });

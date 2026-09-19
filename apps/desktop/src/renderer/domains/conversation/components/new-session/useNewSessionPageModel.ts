@@ -291,11 +291,11 @@ export function useNewSessionPageModel(): NewSessionPageModel {
 	}, [decodedCwd]);
 
 	useEffect(() => {
-		void window.vetta.window.isAlwaysOnTop().then(setPinned);
+		void window.originApp.window.isAlwaysOnTop().then(setPinned);
 	}, []);
 
 	const handleTogglePin = useCallback(async () => {
-		const next = await window.vetta.window.toggleAlwaysOnTop();
+		const next = await window.originApp.window.toggleAlwaysOnTop();
 		setPinned(next);
 	}, []);
 

@@ -9,7 +9,7 @@ function action(id: string, title: string, overrides: Partial<ActionDefinition> 
 		title,
 		summary: title,
 		availability: "gui-renderer",
-		permission: "plugin.vetta-actions.app-action.write",
+		permission: "plugin.origin-actions.app-action.write",
 		inputSchema: { description: "Object input" },
 		examples: [],
 		validateInput: () => ({}),

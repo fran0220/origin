@@ -7,7 +7,7 @@ import { getConnectionRelayRoute, refreshConnectionRelays } from "./relay-host.j
 
 /**
  * Point the model runtime at loopback relays so raw account / BYOK secrets
- * never leave main. `~/.vetta/auth.json` receives the signed-in relay bearer.
+ * never leave main. `~/.origin/auth.json` receives the signed-in relay bearer.
  */
 export async function bindModelRuntimeToConnectionRelays(): Promise<readonly RelayRoute[]> {
 	const routes = await refreshConnectionRelays();

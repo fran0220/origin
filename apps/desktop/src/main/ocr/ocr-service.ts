@@ -2,8 +2,8 @@ import { randomUUID } from "node:crypto";
 import {
 	DEFAULT_OCR_PROVIDER_ID,
 	type OcrRemoteProviderPolicy,
-	VETTA_OCR_CONFIGURATION,
-	type VettaOcrConfiguration,
+	ORIGIN_OCR_CONFIGURATION,
+	type OriginOcrConfiguration,
 } from "@origin/runtime-tools";
 import {
 	CAPABILITY_ERROR_CODES,
@@ -39,12 +39,12 @@ export class OcrService {
 		return this.options.registry.listProviders();
 	}
 
-	readConfiguration(): VettaOcrConfiguration {
+	readConfiguration(): OriginOcrConfiguration {
 		const persisted = this.options.readConfiguration();
 		const value = isRecord(persisted)
-			? mergeConfiguration(VETTA_OCR_CONFIGURATION.defaultValue, persisted)
-			: VETTA_OCR_CONFIGURATION.defaultValue;
-		return VETTA_OCR_CONFIGURATION.codec.decode(value);
+			? mergeConfiguration(ORIGIN_OCR_CONFIGURATION.defaultValue, persisted)
+			: ORIGIN_OCR_CONFIGURATION.defaultValue;
+		return ORIGIN_OCR_CONFIGURATION.codec.decode(value);
 	}
 
 	async recognize(request: OcrRequest, options: OcrServiceCallOptions): Promise<OcrResult> {
@@ -134,7 +134,7 @@ function validateResult(result: OcrResult, providerId: string, inputs: readonly 
 	return result;
 }
 
-function mergeConfiguration(base: VettaOcrConfiguration, patch: Record<string, unknown>): Record<string, unknown> {
+function mergeConfiguration(base: OriginOcrConfiguration, patch: Record<string, unknown>): Record<string, unknown> {
 	return { ...base, ...patch };
 }
 

@@ -7,16 +7,16 @@ let initialized = false;
 
 export function initializeMainErrorMonitoring(): void {
 	if (initialized) return;
-	const sentryDsn = readEnv("VETTA_SENTRY_DSN");
+	const sentryDsn = readEnv("ORIGIN_SENTRY_DSN");
 	if (!sentryDsn) return;
 	try {
 		Sentry.init({
 			dsn: sentryDsn,
-			environment: readEnv("VETTA_TELEMETRY_ENVIRONMENT") ?? (app.isPackaged ? "production" : "development"),
-			release: readEnv("VETTA_SENTRY_RELEASE") ?? `vetta-desktop@${app.getVersion()}`,
+			environment: readEnv("ORIGIN_TELEMETRY_ENVIRONMENT") ?? (app.isPackaged ? "production" : "development"),
+			release: readEnv("ORIGIN_SENTRY_RELEASE") ?? `vetta-desktop@${app.getVersion()}`,
 			sendDefaultPii: false,
 			attachScreenshot: false,
-			tracesSampleRate: parseSampleRate(readEnv("VETTA_SENTRY_TRACES_SAMPLE_RATE")),
+			tracesSampleRate: parseSampleRate(readEnv("ORIGIN_SENTRY_TRACES_SAMPLE_RATE")),
 			beforeBreadcrumb(breadcrumb) {
 				return {
 					...breadcrumb,

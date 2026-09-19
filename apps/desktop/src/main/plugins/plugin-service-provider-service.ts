@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import type {
 	PluginServiceArtifactPayload,
 	PluginServiceConnection,
@@ -37,7 +37,7 @@ const MAX_REQUEST_TIMEOUT_MS = 5 * 60_000;
 const STOP_GRACE_MS = 3_000;
 const TRANSPORT_READY_WAIT_MS = 15_000;
 const TRANSPORT_READY_POLL_MS = 50;
-const TOKEN_PATTERN = /\$\{VETTA_SERVICE_(PORT|RUNTIME_DIR|DATA_DIR|CACHE_DIR|SECRET_([A-Z0-9_]+))\}/g;
+const TOKEN_PATTERN = /\$\{ORIGIN_SERVICE_(PORT|RUNTIME_DIR|DATA_DIR|CACHE_DIR|SECRET_([A-Z0-9_]+))\}/g;
 
 interface ServiceSecrets {
 	schemaVersion: 1;
@@ -258,7 +258,7 @@ export class PluginServiceProviderService {
 
 	constructor(
 		private readonly dependencies: PluginServiceProviderDependencies = (() => {
-			const rootDirectory = join(getVettaHomePath(), "plugin-services");
+			const rootDirectory = join(getOriginHomePath(), "plugin-services");
 			return {
 				listPlugins,
 				installer: new PluginServiceRuntimeInstaller(rootDirectory),

@@ -62,14 +62,14 @@ test("package command output parsers normalize Debian and RPM metadata", () => {
 	assert.deepEqual(
 		parseDebContents(
 			"-rwxr-xr-x root/root 123 2026-01-01 00:00 ./opt/Origin/Origin\n" +
-				"lrwxrwxrwx root/root 0 2026-01-01 00:00 ./usr/bin/vetta -> /opt/Origin/Origin\n",
+				"lrwxrwxrwx root/root 0 2026-01-01 00:00 ./usr/bin/origin -> /opt/Origin/Origin\n",
 		),
-		["/opt/Origin/Origin", "/usr/bin/vetta"],
+		["/opt/Origin/Origin", "/usr/bin/origin"],
 	);
 });
 
 test("native package verification uses the release manifest version", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-linux-packages-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-linux-packages-"));
 	try {
 		await writeFile(join(releaseDir, "latest-linux.yml"), "version: 9.8.7\n");
 		assert.equal(await readExpectedVersion(releaseDir), "9.8.7");

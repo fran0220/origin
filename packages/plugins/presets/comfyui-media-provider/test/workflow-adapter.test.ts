@@ -121,7 +121,7 @@ describe("adaptMinimaxWorkflow", () => {
 		expect(generator["ref_videos.ref_video_0"]).toEqual(["video", 0]);
 		expect(generator["ref_video_audios.ref_video_audio_0"]).toEqual(["video", 1]);
 		expect(generator["ref_audios.ref_audio_0"]).toEqual(["audio", 0]);
-		expect(result.prompt.vetta_image_input_1.inputs.image).toBe("uploads/image-2.png");
+		expect(result.prompt.origin_image_input_1.inputs.image).toBe("uploads/image-2.png");
 		expect(result.prompt.video.inputs.video).toBe("uploads/video-1.mp4");
 		expect(result.prompt.audio.inputs.audio).toBe("uploads/audio-1.wav");
 		expect(result.prompt.resolution.inputs.megapixels).toBe(0.5);
@@ -145,11 +145,11 @@ describe("adaptMinimaxWorkflow", () => {
 			7,
 		);
 
-		expect(result.prompt.vetta_video_input_1).toEqual({
+		expect(result.prompt.origin_video_input_1).toEqual({
 			class_type: "LoadVideo",
 			inputs: { file: "uploads/video-1.mp4" },
 		});
-		expect(result.prompt.vetta_audio_input_1).toEqual({
+		expect(result.prompt.origin_audio_input_1).toEqual({
 			class_type: "LoadAudio",
 			inputs: { audio: "uploads/audio-1.wav" },
 		});

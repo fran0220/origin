@@ -12,7 +12,7 @@
 		}
 	},
 	"bin": {
-		"vetta-plugin-cli": "./dist/cli.js"
+		"origin-plugin-cli": "./dist/cli.js"
 	},
 	"files": [
 		"dist",

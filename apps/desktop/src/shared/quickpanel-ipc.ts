@@ -3,25 +3,25 @@
 
 export const QUICK_PANEL_CHANNELS = {
 	// panel(renderer) -> main (invoke)
-	GET_CONFIG: "vetta:quickpanel:get-config",
-	CREATE_CONVERSATION: "vetta:quickpanel:create-conversation",
-	OPEN_SESSION: "vetta:quickpanel:open-session",
-	LIST_RECENT: "vetta:quickpanel:list-recent",
-	HIDE: "vetta:quickpanel:hide",
+	GET_CONFIG: "origin:quickpanel:get-config",
+	CREATE_CONVERSATION: "origin:quickpanel:create-conversation",
+	OPEN_SESSION: "origin:quickpanel:open-session",
+	LIST_RECENT: "origin:quickpanel:list-recent",
+	HIDE: "origin:quickpanel:hide",
 	// main -> panel(renderer) (event / webContents.send)
-	ON_SHOWN: "vetta:quickpanel:shown",
-	ON_GLASS: "vetta:quickpanel:glass",
+	ON_SHOWN: "origin:quickpanel:shown",
+	ON_GLASS: "origin:quickpanel:glass",
 	// settings(main renderer) -> main (invoke)
-	RELOAD_HOTKEY: "vetta:quickpanel:reload-hotkey",
+	RELOAD_HOTKEY: "origin:quickpanel:reload-hotkey",
 	// main -> MAIN renderer (event)
-	RUN_PROMPT: "vetta:quickpanel:run-prompt",
+	RUN_PROMPT: "origin:quickpanel:run-prompt",
 } as const;
 
 // session.ts 已广播的运行状态通道（面板 preload 直接订阅同名通道）。
 // 与 session.ts 中 CHANNELS 的字面量保持一致；Group 3 新增 pending-question 通道。
 export const QUICK_PANEL_SESSION_CHANNELS = {
-	RUNNING_CHANGED: "vetta:session:running-changed",
-	PENDING_QUESTION_CHANGED: "vetta:session:pending-question-changed",
+	RUNNING_CHANGED: "origin:session:running-changed",
+	PENDING_QUESTION_CHANGED: "origin:session:pending-question-changed",
 } as const;
 
 export type QuickPanelPostSendBehavior = "foreground" | "background";
@@ -71,7 +71,7 @@ export interface QuickPanelRunPromptPayload {
 	foreground: boolean;
 }
 
-// panel preload bridge（window.vettaQuickPanel）
+// panel preload bridge（window.originAppQuickPanel）
 export interface QuickPanelBridge {
 	// App 语言真相源（desktop-config）。preload 在暴露前 sendSync 同步取得，供面板 i18n
 	// 首帧前读取、与主窗口语言一致（不再用 navigator 猜测）。

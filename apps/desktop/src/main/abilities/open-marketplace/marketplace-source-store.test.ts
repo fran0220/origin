@@ -7,13 +7,13 @@ import { MarketplaceSourceStore } from "./marketplace-source-store";
 import { OFFICIAL_MARKETPLACE_REPOSITORY } from "./official-marketplace-source";
 
 const temporaryRoots: string[] = [];
-const originalRepository = process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY;
-const originalRef = process.env.VETTA_OPEN_MARKETPLACE_REF;
-const originalArchiveUrl = process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
-const originalCloudEnabled = process.env.VETTA_CLOUD_ENABLED;
+const originalRepository = process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY;
+const originalRef = process.env.ORIGIN_OPEN_MARKETPLACE_REF;
+const originalArchiveUrl = process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
+const originalCloudEnabled = process.env.ORIGIN_CLOUD_ENABLED;
 
 beforeEach(() => {
-	vi.stubEnv("VETTA_BUILD_ENV", "development");
+	vi.stubEnv("ORIGIN_BUILD_ENV", "development");
 });
 
 function restoreEnvironment(name: string, value: string | undefined): void {
@@ -22,7 +22,7 @@ function restoreEnvironment(name: string, value: string | undefined): void {
 }
 
 async function temporaryFile(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-marketplace-sources-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-marketplace-sources-test-"));
 	temporaryRoots.push(root);
 	return join(root, "sources.json");
 }
@@ -47,18 +47,18 @@ function builtinSource(): MarketplaceSource {
 afterEach(async () => {
 	await Promise.all(temporaryRoots.splice(0).map((root) => rm(root, { recursive: true, force: true })));
 	vi.unstubAllEnvs();
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_REPOSITORY", originalRepository);
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_REF", originalRef);
-	restoreEnvironment("VETTA_OPEN_MARKETPLACE_ARCHIVE_URL", originalArchiveUrl);
-	restoreEnvironment("VETTA_CLOUD_ENABLED", originalCloudEnabled);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", originalRepository);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_REF", originalRef);
+	restoreEnvironment("ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL", originalArchiveUrl);
+	restoreEnvironment("ORIGIN_CLOUD_ENABLED", originalCloudEnabled);
 });
 
 describe("MarketplaceSourceStore", () => {
 	it("creates a GitHub source in cloud builds without an extra flag", async () => {
-		process.env.VETTA_CLOUD_ENABLED = "true";
-		process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
-		delete process.env.VETTA_OPEN_MARKETPLACE_REF;
-		delete process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+		process.env.ORIGIN_CLOUD_ENABLED = "true";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
+		delete process.env.ORIGIN_OPEN_MARKETPLACE_REF;
+		delete process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 
 		expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 			{ repository: "https://github.com/example/environment-market" },
@@ -66,10 +66,10 @@ describe("MarketplaceSourceStore", () => {
 	});
 
 	it("derives the GitHub archive URL in cloud development", async () => {
-		process.env.VETTA_CLOUD_ENABLED = "true";
-		process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
-		process.env.VETTA_OPEN_MARKETPLACE_REF = "main";
-		delete process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+		process.env.ORIGIN_CLOUD_ENABLED = "true";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REF = "main";
+		delete process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 
 		expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 			{
@@ -81,24 +81,24 @@ describe("MarketplaceSourceStore", () => {
 	});
 
 	it.each(["production", "test", "opensource"])("keeps GitHub sources independent in %s mode", async (mode) => {
-		vi.stubEnv("VETTA_BUILD_ENV", mode);
-		process.env.VETTA_CLOUD_ENABLED = "true";
-		process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "example/environment-market";
+		vi.stubEnv("ORIGIN_BUILD_ENV", mode);
+		process.env.ORIGIN_CLOUD_ENABLED = "true";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "example/environment-market";
 
 		expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toHaveLength(1);
 	});
 
 	it("upgrades an empty cloud catalog and preserves user switches across editions", async () => {
-		process.env.VETTA_CLOUD_ENABLED = "true";
-		process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "example/environment-market";
-		delete process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+		process.env.ORIGIN_CLOUD_ENABLED = "true";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "example/environment-market";
+		delete process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 		const filePath = await temporaryFile();
 		await writeFile(filePath, JSON.stringify({ version: 1, sources: [] }));
 
 		const enabled = new MarketplaceSourceStore({ filePath });
 		expect(enabled.list()).toHaveLength(1);
 		enabled.update("vetta-official", { autoUpdate: false });
-		process.env.VETTA_CLOUD_ENABLED = "false";
+		process.env.ORIGIN_CLOUD_ENABLED = "false";
 		expect(new MarketplaceSourceStore({ filePath }).list()).toMatchObject([
 			{ id: "vetta-official", enabled: true, autoUpdate: false },
 		]);
@@ -107,9 +107,9 @@ describe("MarketplaceSourceStore", () => {
 	it.each(["true", "false"])(
 		"registers the Vetta official source without configuration with cloud=%s",
 		async (cloud) => {
-			vi.stubEnv("VETTA_CLOUD_ENABLED", cloud);
+			vi.stubEnv("ORIGIN_CLOUD_ENABLED", cloud);
 			for (const repository of [undefined, "", "   "]) {
-				vi.stubEnv("VETTA_OPEN_MARKETPLACE_REPOSITORY", repository);
+				vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", repository);
 				expect(new MarketplaceSourceStore({ filePath: await temporaryFile() }).list()).toMatchObject([
 					{
 						id: "vetta-official",
@@ -124,8 +124,8 @@ describe("MarketplaceSourceStore", () => {
 	);
 
 	it("keeps persisted sources when a later distribution registers the official default", async () => {
-		vi.stubEnv("VETTA_OPEN_MARKETPLACE_REPOSITORY", undefined);
-		vi.stubEnv("VETTA_CLOUD_ENABLED", "true");
+		vi.stubEnv("ORIGIN_OPEN_MARKETPLACE_REPOSITORY", undefined);
+		vi.stubEnv("ORIGIN_CLOUD_ENABLED", "true");
 		const filePath = await temporaryFile();
 		const previous = new MarketplaceSourceStore({ filePath, defaultSources: [builtinSource()] });
 		previous.update("official", { autoUpdate: false });
@@ -142,10 +142,10 @@ describe("MarketplaceSourceStore", () => {
 	});
 
 	it("creates the built-in source entirely from environment configuration", async () => {
-		delete process.env.VETTA_CLOUD_ENABLED;
-		process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
-		process.env.VETTA_OPEN_MARKETPLACE_REF = "testing/v2";
-		delete process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL;
+		delete process.env.ORIGIN_CLOUD_ENABLED;
+		process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY = "https://github.com/example/environment-market";
+		process.env.ORIGIN_OPEN_MARKETPLACE_REF = "testing/v2";
+		delete process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL;
 		const store = new MarketplaceSourceStore({ filePath: await temporaryFile() });
 
 		expect(store.list()).toMatchObject([

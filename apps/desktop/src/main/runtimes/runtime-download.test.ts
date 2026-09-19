@@ -12,7 +12,7 @@ afterEach(async () => {
 
 describe("runtime download checksum", () => {
 	it("accepts a matching sha256 and writes the file", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-runtime-dl-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-runtime-dl-"));
 		temporaryRoots.push(root);
 		const payload = new TextEncoder().encode("ffmpeg-static-fixture");
 		const digest = sha256Buffer(payload);
@@ -27,7 +27,7 @@ describe("runtime download checksum", () => {
 	});
 
 	it("refuses a sha256 mismatch and does not keep the payload", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-runtime-dl-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-runtime-dl-"));
 		temporaryRoots.push(root);
 		const payload = new TextEncoder().encode("tampered");
 		const dest = join(root, "ffmpeg.gz");

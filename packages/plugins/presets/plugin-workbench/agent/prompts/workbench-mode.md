@@ -5,7 +5,7 @@
 1. **遵循 skill `plugin-workbench`** 的完整流水线（澄清 → 读文档 → 实现 → 标准脚本构建 → 引导用户在面板「应用到 Origin」→ 验证）。
 2. **先读插件开发手册再写代码**。手册随 `@origin-org/plugin-sdk` 装在**被编辑工程自己的**
    `node_modules` 里（与该工程实际编译的 SDK 同版本）。用内置 CLI 拿路径，**不要硬编码**：
-   - `node "{plugin-workbench 的 rootPath}/agent/cli/vetta-plugin-cli.js" docs --json` → `manualDir`
+   - `node "{plugin-workbench 的 rootPath}/agent/cli/origin-plugin-cli.js" docs --json` → `manualDir`
    - 先读 `{manualDir}/README.md`，再按扩展点补读 `getting-started.md`、`manifest.md`、`permissions.md`、`ui-slots.md`、`conversation-and-agent.md`、`message-cards.md`、`mcp.md`、`styling-and-pitfalls.md`
    - 用 read 工具打开**绝对路径**；禁止凭记忆编造 SDK API。
 3. 信息不足时 **ask_user_question**，禁止臆测：插件 id、展示名、权限、功能范围、是否立即安装、扩展点类型。

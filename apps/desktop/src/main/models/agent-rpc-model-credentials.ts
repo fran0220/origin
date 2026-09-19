@@ -10,12 +10,12 @@
  * 占位串并把它当 Bearer 发出去，远端 provider（deepseek 等）随即报 401。
  *
  * 子进程同样是 Electron，且 `app.name` 与主进程一致（见 shared/app-identity.ts），
- * 保险库又存在共享的 `~/.vetta/desktop-app/credentials`（不是 userData），
+ * 保险库又存在共享的 `~/.origin/desktop-app/credentials`（不是 userData），
  * 所以子进程可以自己解密——明文 key 不需要经过 argv 或环境变量外传。
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import type { CodingAgentAuthRuntime } from "@origin/coding-agent/host-services";
 
 /** 只取注入需要的字段；models.json 的完整 schema 由 coding-agent 校验。 */
@@ -37,7 +37,7 @@ export interface SyncAgentRpcModelCredentialsOptions {
 
 /** 默认 models.json 位置；与 ModelSettingsService 的落盘路径保持一致。 */
 export function defaultModelsJsonPath(): string {
-	return join(getVettaHomePath(), "agent", "models.json");
+	return join(getOriginHomePath(), "agent", "models.json");
 }
 
 /**

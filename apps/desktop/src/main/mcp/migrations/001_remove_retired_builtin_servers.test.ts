@@ -53,7 +53,7 @@ describe("removeRetiredBuiltinMcpServers", () => {
 	});
 
 	it("clears legacy config, ledger and OAuth state only once", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-mcp-migration-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-mcp-migration-"));
 		const agentDirectory = join(root, "agent");
 		const authDirectory = join(agentDirectory, "mcp-auth");
 		const configPath = join(agentDirectory, "mcp.json");
@@ -113,7 +113,7 @@ describe("removeRetiredBuiltinMcpServers", () => {
 	});
 
 	it("keeps ledger and OAuth state for a same-name custom server", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-mcp-migration-custom-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-mcp-migration-custom-"));
 		const agentDirectory = join(root, "agent");
 		const authDirectory = join(agentDirectory, "mcp-auth");
 		try {

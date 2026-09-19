@@ -1,9 +1,9 @@
-export const VETTA_PLUGIN_DEV_PROTOCOL_VERSION = 1;
+export const ORIGIN_PLUGIN_DEV_PROTOCOL_VERSION = 1;
 
-export type VettaPluginDevEvent =
+export type OriginPluginDevEvent =
 	| {
 			type: "ready";
-			protocolVersion: typeof VETTA_PLUGIN_DEV_PROTOCOL_VERSION;
+			protocolVersion: typeof ORIGIN_PLUGIN_DEV_PROTOCOL_VERSION;
 			pluginId: string;
 			entryUrl: string;
 			origin: string;
@@ -21,14 +21,14 @@ export type VettaPluginDevEvent =
 			message: string;
 		};
 
-type VettaPluginDevEventListener = (event: VettaPluginDevEvent) => void;
+type OriginPluginDevEventListener = (event: OriginPluginDevEvent) => void;
 
-let listener: VettaPluginDevEventListener | undefined;
+let listener: OriginPluginDevEventListener | undefined;
 
-export function setVettaPluginDevEventListener(nextListener: VettaPluginDevEventListener | undefined): void {
+export function setOriginPluginDevEventListener(nextListener: OriginPluginDevEventListener | undefined): void {
 	listener = nextListener;
 }
 
-export function emitVettaPluginDevEvent(event: VettaPluginDevEvent): void {
+export function emitOriginPluginDevEvent(event: OriginPluginDevEvent): void {
 	listener?.(event);
 }

@@ -28,7 +28,7 @@ test("Windows supplemental package names are stable and versioned", () => {
 });
 
 test("Windows package inspection accepts the versioned launcher layout at any extraction depth", async () => {
-	const root = await mkdtemp(join(tmpdir(), "vetta-windows-package-layout-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-windows-package-layout-"));
 	try {
 		const layoutRoot = join(root, "Program Files", "Vetta");
 		await createLayout(layoutRoot, "1.2.3");
@@ -39,7 +39,7 @@ test("Windows package inspection accepts the versioned launcher layout at any ex
 });
 
 test("Windows package inspection rejects an incomplete or wrong-version layout", async () => {
-	const root = await mkdtemp(join(tmpdir(), "vetta-windows-package-layout-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-windows-package-layout-"));
 	try {
 		await createLayout(root, "1.2.2");
 		await assert.rejects(
@@ -52,7 +52,7 @@ test("Windows package inspection rejects an incomplete or wrong-version layout",
 });
 
 test("Windows package verification uses the Inno update manifest version", async () => {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-windows-packages-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-windows-packages-"));
 	try {
 		await writeFile(join(releaseDir, "latest.yml"), "version: 9.8.7\n");
 		assert.equal(await readExpectedWindowsVersion(releaseDir), "9.8.7");

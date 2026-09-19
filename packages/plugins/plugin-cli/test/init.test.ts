@@ -13,15 +13,15 @@ import { initHubRepository, initPluginProject, refreshAgentsGuide } from "../src
 const created: string[] = [];
 
 function scratch(): string {
-	const root = mkdtempSync(join(tmpdir(), "vetta-plugin-init-"));
+	const root = mkdtempSync(join(tmpdir(), "origin-plugin-init-"));
 	created.push(root);
 	mkdirSync(join(root, ".git"), { recursive: true });
 	return root;
 }
 
 function hub(root: string): string {
-	const manifestPath = join(root, ".vetta", "marketplace.json");
-	mkdirSync(join(root, ".vetta"), { recursive: true });
+	const manifestPath = join(root, ".origin", "marketplace.json");
+	mkdirSync(join(root, ".origin"), { recursive: true });
 	writeFileSync(
 		manifestPath,
 		JSON.stringify({ schemaVersion: 2, name: "demo-hub", marketplaceVersion: "1", abilities: [] }),
@@ -70,12 +70,12 @@ describe("scaffolding a project", () => {
 			devDependencies: Record<string, string>;
 		};
 		// 一条命令走完构建到安装，Agent 不需要记住产物路径。
-		expect(pkg.scripts["install:vetta"]).toContain("vetta-plugin-cli add .");
+		expect(pkg.scripts["install:origin"]).toContain("origin-plugin-cli add .");
 		expect(pkg.devDependencies["@origin-org/plugin-sdk"]).toMatch(/^\^\d/);
 
 		const brief = readFileSync(join(result.root, "AGENTS.md"), "utf8");
 		// 说明书只指路，不复述合同——手册才是真源，而且随 SDK 版本走。
-		expect(brief).toContain("vetta-plugin-cli docs");
+		expect(brief).toContain("origin-plugin-cli docs");
 		expect(brief).not.toContain("agent/docs/plugin");
 	});
 
@@ -142,7 +142,7 @@ describe("scaffolding a marketplace repository", () => {
 			minAppVersion: "0.55.0",
 		});
 
-		const manifest = JSON.parse(readFileSync(join(result.root, ".vetta", "marketplace.json"), "utf8")) as Record<
+		const manifest = JSON.parse(readFileSync(join(result.root, ".origin", "marketplace.json"), "utf8")) as Record<
 			string,
 			unknown
 		>;
@@ -334,8 +334,8 @@ describe("refreshing the agent brief in an existing directory", () => {
 		expect(content).toContain("npm run build");
 		// 照着不存在的 script 跑只会得到一句 "Missing script"。
 		expect(content).not.toContain("npm run dev");
-		expect(content).not.toContain("npm run install:vetta");
-		expect(content).toContain("vetta-plugin-cli add .");
+		expect(content).not.toContain("npm run install:origin");
+		expect(content).toContain("origin-plugin-cli add .");
 	});
 
 	it("refuses a directory that is neither", () => {

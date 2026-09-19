@@ -1,6 +1,6 @@
 import { stat } from "node:fs/promises";
 import { extname, isAbsolute, resolve } from "node:path";
-import type { AgentProfileDocument } from "@origin/agent-team";
+import type { AgentProfileDocument } from "@origin/agent-profile";
 import { CODING_AGENT_SESSION_TITLE_GENERATE } from "@origin/coding-agent/session-extensions";
 import {
 	isSessionError,
@@ -15,7 +15,7 @@ import {
 } from "@origin/runtime-core";
 import { sanitizeRuntimeErrorMessage } from "@origin/runtime-desktop";
 import { type DesktopSessionHistoryInfo, UNAVAILABLE_RUNTIME_SESSION_ACCESS } from "../../shared/session-access.js";
-import { agentTeamStore } from "../agent-teams/agent-team-store.js";
+import { agentProfileStore } from "../agent-profiles/agent-profile-store.js";
 
 import { monitorRuntimeSession } from "../app-monitor/app-monitor-service.js";
 import { allowProjectRoot, readDesktopConfig } from "../ipc/fs.js";
@@ -134,8 +134,8 @@ export class DesktopConversationService {
 
 	constructor(
 		private readonly runtime: RuntimeHost,
-		/** Agent 目录读取口，仅为单测可注入而外露；缺省走主进程共享的 agentTeamStore。 */
-		private readonly readAgentTeamDocument: () => Promise<AgentProfileDocument> = () => agentTeamStore.read(),
+		/** Agent 目录读取口，仅为单测可注入而外露；缺省走主进程共享的 agentProfileStore。 */
+		private readonly readAgentProfileDocument: () => Promise<AgentProfileDocument> = () => agentProfileStore.read(),
 	) {}
 
 	/**
@@ -154,7 +154,7 @@ export class DesktopConversationService {
 		if (!agentProfileId) return undefined;
 		const resolved = await resolveSessionAgentProfile({
 			agentProfileId,
-			readDocument: this.readAgentTeamDocument,
+			readDocument: this.readAgentProfileDocument,
 		});
 		if (resolved) return resolved;
 		if (!isResume) {

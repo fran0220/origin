@@ -1,11 +1,11 @@
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@origin-org/plugin-vite";
+import { originPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		vettaPluginFederation({
+		originPluginFederation({
 			name: "origin_game_studio",
 			entry: "./src/index.tsx",
 		}),

@@ -108,7 +108,7 @@ export function CardEditorDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent data-vetta-plugin-root="kanban" className="max-w-xl">
+			<DialogContent data-origin-plugin-root="kanban" className="max-w-xl">
 				<DialogHeader>
 					<DialogTitle>{t(card ? "editor.editTitle" : "editor.newTitle")}</DialogTitle>
 					<DialogDescription>{t("editor.description")}</DialogDescription>

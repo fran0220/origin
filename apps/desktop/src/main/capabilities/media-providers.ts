@@ -6,7 +6,7 @@ import type { JobManager } from "../jobs/job-manager.js";
 import { getAppLogger } from "../logger.js";
 import { MediaArtifactStore } from "../media-generation/media-artifact-store.js";
 import { MediaProviderRegistry } from "../media-generation/media-provider-registry.js";
-import { createVettaImageProvider } from "../media-generation/vetta-image-provider.js";
+import { createOriginImageProvider } from "../media-generation/origin-image-provider.js";
 
 const DOMAIN_MEDIA_PROVIDER_OWNER = "vetta.domain.media";
 
@@ -32,7 +32,7 @@ export function registerDesktopMediaProviders(
 	desktopMediaRuntime = { providers, artifacts };
 	// Vetta 图像生成走云端网关：lite 构建不注册，provider 列表中不出现。
 	const vettaRegistration = isCloudBuildEnabled()
-		? providers.registerProvider(createVettaImageProvider(artifacts))
+		? providers.registerProvider(createOriginImageProvider(artifacts))
 		: undefined;
 	const capabilityRegistration = registry.registerOwner(DOMAIN_MEDIA_PROVIDER_OWNER, [
 		bindCapability(DOMAIN_MEDIA_CAPABILITIES.LIST_PROVIDERS, {

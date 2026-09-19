@@ -12,7 +12,7 @@ const TABS = [
 		label: "更多选项",
 		children: [
 			{ key: "workspace:browser/console", icon: "icon-[c]", label: "浏览器操作" },
-			{ key: "workspace:vetta-ui-design/gallery", icon: "icon-[d]", label: "设计" },
+			{ key: "workspace:origin-ui-design/gallery", icon: "icon-[d]", label: "设计" },
 		],
 	},
 ];
@@ -68,7 +68,7 @@ describe("SettingsSidebarView", () => {
 
 		await userEvent.click(screen.getByText("设计"));
 
-		expect(onSelectChild).toHaveBeenCalledWith("workspace:vetta-ui-design/gallery");
+		expect(onSelectChild).toHaveBeenCalledWith("workspace:origin-ui-design/gallery");
 		expect(onSelectTab).not.toHaveBeenCalled();
 	});
 
@@ -79,7 +79,7 @@ describe("SettingsSidebarView", () => {
 	});
 
 	it("深链停在某个下级入口时自动展开并高亮它", () => {
-		renderSidebar({ activeChildKey: "workspace:vetta-ui-design/gallery" });
+		renderSidebar({ activeChildKey: "workspace:origin-ui-design/gallery" });
 
 		// 从列表页或深链进来时，用户要能立刻看出自己停在哪一层。
 		expect(screen.getByText("设计")).toBeTruthy();

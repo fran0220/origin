@@ -13,7 +13,7 @@ afterEach(async () => {
 describe("plugin development watch", () => {
 	it("resolves the CLI through the project module graph", async () => {
 		const projectRoot = join(testRoot, "installed");
-		const packageDir = join(projectRoot, "node_modules", "@vetta-org", "plugin-vite");
+		const packageDir = join(projectRoot, "node_modules", "@origin-org", "plugin-vite");
 		await mkdir(join(packageDir, "dist"), { recursive: true });
 		await writeFile(join(projectRoot, "package.json"), JSON.stringify({ type: "module" }));
 		await writeFile(
@@ -46,7 +46,7 @@ describe("plugin development watch", () => {
 
 	it("reports an installed plugin-vite version without the public CLI export", async () => {
 		const projectRoot = join(testRoot, "incompatible");
-		const packageDir = join(projectRoot, "node_modules", "@vetta-org", "plugin-vite");
+		const packageDir = join(projectRoot, "node_modules", "@origin-org", "plugin-vite");
 		await mkdir(join(packageDir, "dist"), { recursive: true });
 		await writeFile(join(projectRoot, "package.json"), JSON.stringify({ type: "module" }));
 		await writeFile(

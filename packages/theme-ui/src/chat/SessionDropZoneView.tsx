@@ -51,7 +51,7 @@ export const SessionDropZoneView = forwardRef<HTMLDivElement, SessionDropZoneVie
 	return (
 		<div
 			ref={forwardedRef}
-			data-vetta-drop-scope="input"
+			data-origin-drop-scope="input"
 			className={className}
 			style={style}
 			onDragEnter={onDragEnter}

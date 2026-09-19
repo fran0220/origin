@@ -78,7 +78,7 @@ export function ProjectPicker({
 					<span className="icon-[solar--alt-arrow-down-linear] h-2.5 w-2.5 shrink-0 opacity-60" />
 				</button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent data-vetta-plugin-root="kanban" align="start" className="max-h-64 w-60 overflow-y-auto">
+			<DropdownMenuContent data-origin-plugin-root="kanban" align="start" className="max-h-64 w-60 overflow-y-auto">
 				{projects.map((project) => (
 					<DropdownMenuItem
 						key={project.path}

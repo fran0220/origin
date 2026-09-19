@@ -1,7 +1,7 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-profile";
 import { type RuntimeHost, runtimeError } from "@origin/runtime-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { onConversationListChanged } from "./conversation-list-events.js";
@@ -24,11 +24,11 @@ vi.mock("../app-monitor/app-monitor-service.js", () => ({
 vi.mock("../ipc/fs.js", () => ({
 	allowProjectRoot: () => undefined,
 	DEFAULT_CONVERSATION_CWD: "C:/vetta/conversation",
-	DEFAULT_CONVERSATION_SESSION_DIR: "C:/vetta/conversation/.vetta/sessions",
+	DEFAULT_CONVERSATION_SESSION_DIR: "C:/vetta/conversation/.origin/sessions",
 	DEFAULT_IM_CONVERSATION_CWD: "C:/vetta/im",
-	DEFAULT_IM_CONVERSATION_SESSION_DIR: "C:/vetta/im/.vetta/sessions",
+	DEFAULT_IM_CONVERSATION_SESSION_DIR: "C:/vetta/im/.origin/sessions",
 	KB_PROCESSING_CWD: "C:/vetta/knowledge",
-	KB_PROCESSING_SESSION_DIR: "C:/vetta/knowledge/.vetta/sessions",
+	KB_PROCESSING_SESSION_DIR: "C:/vetta/knowledge/.origin/sessions",
 	readDesktopConfig: async () => ({
 		defaultAgentMode: "work",
 		defaultExecutionMode: "sandbox",
@@ -478,7 +478,7 @@ describe("DesktopConversationService agent binding", () => {
 });
 
 async function createTemporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-desktop-session-access-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-desktop-session-access-"));
 	temporaryRoots.push(root);
 	return root;
 }

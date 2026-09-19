@@ -9,11 +9,11 @@ import {
  * 项目硬删除时清空该 cwd 的会话存储。
  *
  * 会话文件不在项目目录里，而是在按 cwd 路径算出的全局分片目录
- * （`~/.vetta/agent/sessions/--<路径>--`，见 `codingAgentSessionShardPath`）。
+ * （`~/.origin/agent/sessions/--<路径>--`，见 `codingAgentSessionShardPath`）。
  * 只删项目目录不会动它，于是同路径重建项目时旧会话会原样复活。
  */
 export interface ProjectSessionPurgeDependencies {
-	/** 列出该 cwd 名下的全部会话（并集分片目录与 `<项目>/.vetta/sessions`）。 */
+	/** 列出该 cwd 名下的全部会话（并集分片目录与 `<项目>/.origin/sessions`）。 */
 	readonly listSessions: (cwd: string) => Promise<readonly { readonly path: string }[]>;
 	/** 单条会话的完整回收：dispose 活动句柄 + 删 jsonl/snapshot/lock/产物。 */
 	readonly deleteSession: (sessionPath: string) => Promise<void>;

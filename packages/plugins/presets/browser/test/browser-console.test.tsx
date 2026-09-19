@@ -102,13 +102,13 @@ function buttonWithText(host: HTMLElement, text: string): HTMLButtonElement | un
 }
 
 describe("页头图标", () => {
-	it("走 vetta-plugin:// 协议，而不是打包器生成的资源路径", () => {
+	it("走 origin-plugin:// 协议，而不是打包器生成的资源路径", () => {
 		// 回归：`import icon from "../../icon.png"` 在 dev 链接下会变成插件 dev server 上的
 		// 路径 URL，但 remote 跑在宿主页面里、按宿主 origin 解析，开发态图标直接 404 空白。
 		const { host, cleanup } = renderConsole();
 		const img = host.querySelector("img");
 		expect(img?.getAttribute("src")).toBe(PLUGIN_ICON_URL);
-		expect(PLUGIN_ICON_URL.startsWith("vetta-plugin://")).toBe(true);
+		expect(PLUGIN_ICON_URL.startsWith("origin-plugin://")).toBe(true);
 		cleanup();
 	});
 });

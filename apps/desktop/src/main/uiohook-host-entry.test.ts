@@ -84,7 +84,7 @@ describe("main bundle asset-URL guard", () => {
 			const copied = await readFile(join(outDir, "audio-preload.js"), "utf8");
 			const source = await readFile(join(MAIN_DIR, "recording/audio-preload.js"), "utf8");
 			expect(copied).toBe(source);
-			expect(copied).toContain("vetta:recording:audio");
+			expect(copied).toContain("origin:recording:audio");
 		} finally {
 			process.chdir(previousCwd);
 			await rm(outDir, { recursive: true, force: true });

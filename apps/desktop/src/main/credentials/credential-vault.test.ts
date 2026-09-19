@@ -67,7 +67,7 @@ class TestCryptography implements CredentialCryptography {
 }
 
 function createTemporaryDirectory(): string {
-	const directory = mkdtempSync(join(tmpdir(), "vetta-credential-vault-"));
+	const directory = mkdtempSync(join(tmpdir(), "origin-credential-vault-"));
 	temporaryDirectories.push(directory);
 	return directory;
 }

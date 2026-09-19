@@ -70,7 +70,7 @@ function model(overrides: Partial<ConnectionsSettingsModel> = {}): ConnectionsSe
 		form: { displayName: "", endpoint: "", protocol: "openai", secret: "" },
 		saving: false,
 		quotas: {
-			vetta: { status: "unknown", readAt: "2026-01-01T00:00:00.000Z" },
+			originApp: { status: "unknown", readAt: "2026-01-01T00:00:00.000Z" },
 			openai: { status: "ok", readAt: "2026-01-01T00:00:00.000Z" },
 		},
 		setForm: vi.fn(),

@@ -19,7 +19,7 @@ describe("readClipboardImages", () => {
 		const duplicatedNativeFile = new File([new Uint8Array([9])], "native.png", { type: "image/png" });
 		const result = readClipboardImages(
 			clipboardData({
-				html: `<div data-vetta-user-message="1"><img data-vetta-clipboard-image src="data:image/png;base64,AQID"><img data-vetta-clipboard-image src="data:image/png;base64,BAUG"></div>`,
+				html: `<div data-origin-user-message="1"><img data-origin-clipboard-image src="data:image/png;base64,AQID"><img data-origin-clipboard-image src="data:image/png;base64,BAUG"></div>`,
 				text: "message text",
 				items: [
 					{
@@ -32,7 +32,7 @@ describe("readClipboardImages", () => {
 		);
 
 		expect(result).toEqual({
-			kind: "vetta-message",
+			kind: "origin-message",
 			messageText: "message text",
 			images: [
 				{ data: "AQID", mimeType: "image/png", name: "copied-image-1.png" },
@@ -65,13 +65,13 @@ describe("readClipboardImages", () => {
 
 		const result = readClipboardImages(
 			clipboardData({
-				html: `<div data-vetta-user-message="1"><img data-vetta-clipboard-image="" src="data:image/png;base64,${payload}" alt=""></div>`,
+				html: `<div data-origin-user-message="1"><img data-origin-clipboard-image="" src="data:image/png;base64,${payload}" alt=""></div>`,
 				text: "large image",
 			}),
 		);
 
-		expect(result.kind).toBe("vetta-message");
-		if (result.kind === "vetta-message") expect(result.images[0]?.data).toBe(payload);
+		expect(result.kind).toBe("origin-message");
+		if (result.kind === "origin-message") expect(result.images[0]?.data).toBe(payload);
 		expect(atobSpy).not.toHaveBeenCalled();
 	});
 });

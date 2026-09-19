@@ -6,9 +6,9 @@ import type {
 import {
 	CONFIG_DIR_NAME,
 	getAgentDir,
+	getOriginHomePath,
 	getSceneDir,
 	getUserSkillsDir,
-	getVettaHomePath,
 } from "@origin/coding-agent/config";
 import {
 	configureThemeRuntime,
@@ -92,7 +92,7 @@ export function createDesktopSessionResourceRuntime(
 		skillLocations: {
 			sceneDir: getSceneDir(),
 			managedSkillsDir: getUserSkillsDir(),
-			manifestPath: host.resourceAccess.paths.join(getVettaHomePath(), "skills-manifest.json"),
+			manifestPath: host.resourceAccess.paths.join(getOriginHomePath(), "skills-manifest.json"),
 		},
 	});
 }

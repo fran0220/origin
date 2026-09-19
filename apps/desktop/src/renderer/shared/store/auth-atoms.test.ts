@@ -46,12 +46,12 @@ describe("cloudLogoutAtom", () => {
 		expect(store.get(remoteProvidersAtom)).toEqual({});
 		expect(sse.disconnect).toHaveBeenCalledOnce();
 		await vi.waitFor(() => {
-			expect(window.vetta.auth.signOut).toHaveBeenCalledOnce();
+			expect(window.originApp.auth.signOut).toHaveBeenCalledOnce();
 		});
 	});
 
 	it("主进程登出失败时仍然清除本地登录态", async () => {
-		vi.mocked(window.vetta.auth.signOut).mockRejectedValueOnce(new Error("network down"));
+		vi.mocked(window.originApp.auth.signOut).mockRejectedValueOnce(new Error("network down"));
 		const store = createStore();
 		store.set(authTokenAtom, "signed-in");
 
@@ -59,7 +59,7 @@ describe("cloudLogoutAtom", () => {
 
 		expect(store.get(authTokenAtom)).toBeNull();
 		await vi.waitFor(() => {
-			expect(window.vetta.auth.signOut).toHaveBeenCalledOnce();
+			expect(window.originApp.auth.signOut).toHaveBeenCalledOnce();
 		});
 	});
 });

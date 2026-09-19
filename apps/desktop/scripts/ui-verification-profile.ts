@@ -22,7 +22,7 @@ export interface UiVerificationProfileLayout {
   workspaceId: string;
   sessionName: string;
   configDir: string;
-  vettaHome: string;
+  originHome: string;
   userDataDir: string;
   endpointFile: string;
   runtimeDir: string;
@@ -91,20 +91,20 @@ export function resolveProfileLayout(
 ): UiVerificationProfileLayout {
   const homeDirectory = resolve(options.homeDirectory ?? homedir());
   const runtimeRoot = resolve(
-    options.runtimeRoot ?? join(tmpdir(), "vetta-ui-verification", options.workspaceId),
+    options.runtimeRoot ?? join(tmpdir(), "origin-ui-verification", options.workspaceId),
   );
   const profileRuntimeDir = join(runtimeRoot, options.profile);
 
   if (options.profile === "dev") {
-    const vettaHome = join(homeDirectory, ".vetta-dev");
+    const originHome = join(homeDirectory, ".origin-dev");
     return {
       profile: options.profile,
       workspaceId: options.workspaceId,
       sessionName: `vetta-dev-${options.workspaceId}`,
-      configDir: ".vetta-dev",
-      vettaHome,
-      userDataDir: join(vettaHome, "electron-user-data"),
-      endpointFile: join(vettaHome, "action-server.json"),
+      configDir: ".origin-dev",
+      originHome,
+      userDataDir: join(originHome, "electron-user-data"),
+      endpointFile: join(originHome, "action-server.json"),
       runtimeDir: profileRuntimeDir,
       statePath: null,
       artifactDir: join(runtimeRoot, "artifacts", "dev"),
@@ -114,19 +114,19 @@ export function resolveProfileLayout(
   }
 
   const runId = options.profile === "fresh" ? options.runId ?? randomUUID() : null;
-  const vettaHome =
+  const originHome =
     options.profile === "fresh"
       ? join(profileRuntimeDir, "runs", runId as string, "home")
-      : join(homeDirectory, ".vetta-ui-debug", options.workspaceId);
-  const configDir = `.vetta-ui-${options.profile}-${options.workspaceId}`;
+      : join(homeDirectory, ".origin-ui-debug", options.workspaceId);
+  const configDir = `.origin-ui-${options.profile}-${options.workspaceId}`;
 
   return {
     profile: options.profile,
     workspaceId: options.workspaceId,
     sessionName: `vetta-${options.profile}-${options.workspaceId}`,
     configDir,
-    vettaHome,
-    userDataDir: join(vettaHome, "electron-user-data"),
+    originHome,
+    userDataDir: join(originHome, "electron-user-data"),
     endpointFile: join(profileRuntimeDir, "action-server.json"),
     runtimeDir: profileRuntimeDir,
     statePath: join(profileRuntimeDir, "host.json"),
@@ -142,18 +142,18 @@ export function createProfileEnvironment(
 ): NodeJS.ProcessEnv {
   const profileEnvironment: NodeJS.ProcessEnv = {
     ...environment,
-    VETTA_CONFIG_DIR: layout.configDir,
-    VETTA_HOME: layout.vettaHome,
-    VETTA_CODING_AGENT_DIR: join(layout.vettaHome, "agent"),
-    VETTA_DESKTOP_USER_DATA_DIR: layout.userDataDir,
-    VETTA_ACTION_RPC_ENDPOINT_FILE: layout.endpointFile,
-    VETTA_THEME_DEV_SERVER: "0",
+    ORIGIN_CONFIG_DIR: layout.configDir,
+    ORIGIN_HOME: layout.originHome,
+    ORIGIN_CODING_AGENT_DIR: join(layout.originHome, "agent"),
+    ORIGIN_DESKTOP_USER_DATA_DIR: layout.userDataDir,
+    ORIGIN_ACTION_RPC_ENDPOINT_FILE: layout.endpointFile,
+    ORIGIN_THEME_DEV_SERVER: "0",
   };
 
   if (layout.profile !== "dev") {
-    profileEnvironment.VETTA_UI_VERIFICATION = "1";
+    profileEnvironment.ORIGIN_UI_VERIFICATION = "1";
   } else {
-    delete profileEnvironment.VETTA_UI_VERIFICATION;
+    delete profileEnvironment.ORIGIN_UI_VERIFICATION;
   }
 
   return profileEnvironment;

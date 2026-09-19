@@ -65,7 +65,7 @@ function useAgentsMd(cwd: string) {
 		if (loadedPathRef.current === filePath) return;
 		setLoading(true);
 		try {
-			const result = await window.vetta.fs.readFile(filePath);
+			const result = await window.originApp.fs.readFile(filePath);
 			setContent(result.content);
 			setOriginal(result.content);
 		} catch {
@@ -83,7 +83,7 @@ function useAgentsMd(cwd: string) {
 	const save = useCallback(async () => {
 		setSaveStatus("saving");
 		try {
-			await window.vetta.fs.writeFile(filePath, content);
+			await window.originApp.fs.writeFile(filePath, content);
 			setOriginal(content);
 			setSaveStatus("saved");
 			setTimeout(() => setSaveStatus("idle"), 2000);
@@ -102,7 +102,7 @@ function useCreatedAt(cwd: string) {
 	const [createdAt, setCreatedAt] = useState<number | null>(null);
 
 	useEffect(() => {
-		void window.vetta.fs.stat(cwd).then((result) => {
+		void window.originApp.fs.stat(cwd).then((result) => {
 			if (result) setCreatedAt(result.createdAt);
 		});
 	}, [cwd]);
@@ -148,7 +148,7 @@ export function useProjectDetailPageModel(cwdProp?: string): ProjectDetailPageMo
 			confirmLabel: t("exportDialog.confirm"),
 			variant: "default",
 			onConfirm: async () => {
-				const result = await window.vetta.project.export(decodedCwd);
+				const result = await window.originApp.project.export(decodedCwd);
 				if (result && "error" in result) {
 					setConfirm({
 						title: t("exportDialog.failedTitle"),
@@ -226,7 +226,7 @@ export function useProjectDetailPageModel(cwdProp?: string): ProjectDetailPageMo
 			void save();
 		},
 		onShowInFolder: () => {
-			void window.vetta.shell.showInFolder(decodedCwd);
+			void window.originApp.shell.showInFolder(decodedCwd);
 		},
 		onToggleActivity: () => setActivityOpen((o) => !o),
 	};

@@ -4,7 +4,7 @@ import { mkdtemp, readFile, realpath, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseVettaNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
+import { parseOriginNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
 import npa from "npm-package-arg";
 import { x as extractTar } from "tar";
 
@@ -25,7 +25,7 @@ export interface ResolvedNpmPluginArchive {
 export interface NpmPluginPackageManifest {
 	name: string;
 	version: string;
-	vetta: {
+	originApp: {
 		schemaVersion: 1;
 		type: "desktop-plugin";
 		pluginId: string;
@@ -172,7 +172,7 @@ export async function resolveNpmPluginArchive(
 	pack: NpmPackRunner = runNpmPack,
 ): Promise<ResolvedNpmPluginArchive> {
 	const requestedPackageName = registryPackageName(packageSpec);
-	const temporaryRoot = await mkdtemp(join(tmpdir(), "vetta-plugin-add-"));
+	const temporaryRoot = await mkdtemp(join(tmpdir(), "origin-plugin-add-"));
 	const cleanup = () => rm(temporaryRoot, { recursive: true, force: true });
 	try {
 		const packed = await pack(packageSpec, temporaryRoot);
@@ -184,13 +184,13 @@ export async function resolveNpmPluginArchive(
 		}
 
 		const packageJsonPath = await extractRegularFile(tarballPath, temporaryRoot, "package.json");
-		const packageManifest = parseVettaNpmPluginPackage(JSON.parse(await readFile(packageJsonPath, "utf8")) as unknown);
+		const packageManifest = parseOriginNpmPluginPackage(JSON.parse(await readFile(packageJsonPath, "utf8")) as unknown);
 		if (packageManifest.name !== requestedPackageName) {
 			throw new Error(
 				`npm package name mismatch: requested ${requestedPackageName}, received ${packageManifest.name}`,
 			);
 		}
-		const archivePath = await extractRegularFile(tarballPath, temporaryRoot, packageManifest.vetta.archive);
+		const archivePath = await extractRegularFile(tarballPath, temporaryRoot, packageManifest.origin.archive);
 		const archive = await readFile(archivePath);
 		if (archive.length > MAX_PLUGIN_ARCHIVE_BYTES) {
 			throw new Error("Vetta plugin archive exceeds the 512 MB limit");

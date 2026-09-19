@@ -1,8 +1,8 @@
 import type { PersistedImageResult } from "./image-cache.js";
 
 export const USER_MESSAGE_CLIPBOARD_VERSION = "1";
-export const USER_MESSAGE_CLIPBOARD_ATTRIBUTE = "data-vetta-user-message";
-export const USER_MESSAGE_CLIPBOARD_IMAGE_ATTRIBUTE = "data-vetta-clipboard-image";
+export const USER_MESSAGE_CLIPBOARD_ATTRIBUTE = "data-origin-user-message";
+export const USER_MESSAGE_CLIPBOARD_IMAGE_ATTRIBUTE = "data-origin-clipboard-image";
 
 export type UserMessageClipboardImageSource =
 	| { kind: "data-url"; dataUrl: string }

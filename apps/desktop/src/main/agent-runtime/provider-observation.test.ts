@@ -16,10 +16,10 @@ describe("Desktop provider observation runtime", () => {
 	it("is disabled outside UI verification and without an explicit run id", () => {
 		expect(
 			createDesktopProviderObservationRuntime({
-				environment: { VETTA_PROVIDER_OBSERVATION_RUN_ID: "experiment-1" },
+				environment: { ORIGIN_PROVIDER_OBSERVATION_RUN_ID: "experiment-1" },
 			}),
 		).toBeUndefined();
-		expect(createDesktopProviderObservationRuntime({ environment: { VETTA_UI_VERIFICATION: "1" } })).toBeUndefined();
+		expect(createDesktopProviderObservationRuntime({ environment: { ORIGIN_UI_VERIFICATION: "1" } })).toBeUndefined();
 	});
 
 	it("creates an isolated trace path and validates capture configuration", async () => {
@@ -28,9 +28,9 @@ describe("Desktop provider observation runtime", () => {
 		const runtime = createDesktopProviderObservationRuntime({
 			cacheService,
 			environment: {
-				VETTA_UI_VERIFICATION: "1",
-				VETTA_PROVIDER_OBSERVATION_RUN_ID: "cache-run_1",
-				VETTA_PROVIDER_OBSERVATION_CAPTURE: "payload",
+				ORIGIN_UI_VERIFICATION: "1",
+				ORIGIN_PROVIDER_OBSERVATION_RUN_ID: "cache-run_1",
+				ORIGIN_PROVIDER_OBSERVATION_CAPTURE: "payload",
 			},
 		});
 
@@ -40,11 +40,11 @@ describe("Desktop provider observation runtime", () => {
 			createDesktopProviderObservationRuntime({
 				cacheService,
 				environment: {
-					VETTA_UI_VERIFICATION: "1",
-					VETTA_PROVIDER_OBSERVATION_RUN_ID: "invalid/path",
+					ORIGIN_UI_VERIFICATION: "1",
+					ORIGIN_PROVIDER_OBSERVATION_RUN_ID: "invalid/path",
 				},
 			}),
-		).toThrow("VETTA_PROVIDER_OBSERVATION_RUN_ID");
+		).toThrow("ORIGIN_PROVIDER_OBSERVATION_RUN_ID");
 	});
 
 	it("serializes concurrent observations as complete NDJSON records", async () => {
@@ -66,7 +66,7 @@ describe("Desktop provider observation runtime", () => {
 });
 
 async function createTemporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-provider-observation-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-provider-observation-test-"));
 	temporaryRoots.push(root);
 	return root;
 }

@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { createVettaPluginFederationConfig } from "../src/index.js";
+import { createOriginPluginFederationConfig } from "../src/index.js";
 
-function readShared(options: Parameters<typeof createVettaPluginFederationConfig>[0]) {
-	const shared = createVettaPluginFederationConfig(options).shared;
+function readShared(options: Parameters<typeof createOriginPluginFederationConfig>[0]) {
+	const shared = createOriginPluginFederationConfig(options).shared;
 	if (shared === undefined || Array.isArray(shared)) {
 		throw new Error("Expected object-form Module Federation shared config");
 	}
 	return shared;
 }
 
-describe("createVettaPluginFederationConfig", () => {
+describe("createOriginPluginFederationConfig", () => {
 	it("does not couple every plugin to the optional host Theme UI contract", () => {
 		const shared = readShared({ name: "default_plugin" });
 

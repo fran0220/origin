@@ -56,15 +56,15 @@ export function usePetSettingsModel(): PetSettingsModel {
 	useEffect(() => {
 		let disposed = false;
 		let receivedConfigEvent = false;
-		const unsubscribe = window.vetta.pet.onConfigChanged((next) => {
+		const unsubscribe = window.originApp.pet.onConfigChanged((next) => {
 			receivedConfigEvent = true;
 			if (!disposed) setConfig(next);
 		});
-		void window.vetta.pet.getConfig().then((next) => {
+		void window.originApp.pet.getConfig().then((next) => {
 			if (!disposed && !receivedConfigEvent) setConfig(next);
 		});
-		void window.vetta.pet.getDecorations().then(setDecorations);
-		void window.vetta.pet.getBubbleStyleAssets().then((next) => {
+		void window.originApp.pet.getDecorations().then(setDecorations);
+		void window.originApp.pet.getBubbleStyleAssets().then((next) => {
 			setBubbleStyleAssets(next);
 		});
 		return () => {
@@ -75,13 +75,13 @@ export function usePetSettingsModel(): PetSettingsModel {
 
 	const persist = useCallback(async (patch: Partial<PetConfig>) => {
 		setConfig((current) => ({ ...current, ...patch }));
-		const next = await window.vetta.pet.setConfig(patch);
+		const next = await window.originApp.pet.setConfig(patch);
 		setConfig(next);
 	}, []);
 
 	const handleEnabled = useCallback((checked: boolean) => {
 		setConfig((current) => ({ ...current, enabled: checked }));
-		const request = checked ? window.vetta.pet.show() : window.vetta.pet.hide();
+		const request = checked ? window.originApp.pet.show() : window.originApp.pet.hide();
 		void request.then(setConfig);
 		recordSettingsUsage({ tab: "pet", action: checked ? "enabled" : "disabled", target: "pet-window" });
 	}, []);

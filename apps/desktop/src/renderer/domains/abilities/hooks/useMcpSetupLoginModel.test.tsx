@@ -31,7 +31,7 @@ function stubVetta(overrides?: {
 	const getSetupLoginStatus = vi.fn(
 		overrides?.status ?? (async () => ({ state: "unauthenticated" as const })),
 	);
-	(window as unknown as { vetta: unknown }).vetta = {
+	(window as unknown as { vetta: unknown }).origin = {
 		mcp: { startSetupLogin, getSetupLoginStatus, cancelSetupLogin },
 	};
 	return { startSetupLogin, cancelSetupLogin, getSetupLoginStatus };

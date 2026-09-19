@@ -2,11 +2,11 @@ import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { join, relative } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { startVettaPluginDevServer, type VettaPluginDevServer } from "../src/dev-server.js";
-import type { VettaPluginDevEvent } from "../src/dev-events.js";
+import { startOriginPluginDevServer, type OriginPluginDevServer } from "../src/dev-server.js";
+import type { OriginPluginDevEvent } from "../src/dev-events.js";
 
 const temporaryDirectories: string[] = [];
-const runningServers: VettaPluginDevServer[] = [];
+const runningServers: OriginPluginDevServer[] = [];
 const originalFederationTestOverride = process.env.MFE_VITE_NO_TEST_ENV_CHECK;
 
 beforeEach(() => {
@@ -59,9 +59,9 @@ export default { activate() { void rawTheme; } };
 	);
 	await writeFile(
 		join(rootDir, "vite.config.ts"),
-		`import { vettaPluginFederation } from ${JSON.stringify(pluginViteEntryPath)};
+		`import { originPluginFederation } from ${JSON.stringify(pluginViteEntryPath)};
 export default {
-  plugins: [vettaPluginFederation({ name: "dev_server_test", entry: "./src/index.tsx" })],
+  plugins: [originPluginFederation({ name: "dev_server_test", entry: "./src/index.tsx" })],
   esbuild: { jsx: "automatic", jsxImportSource: "react" },
 };
 `,
@@ -69,11 +69,11 @@ export default {
 	return rootDir;
 }
 
-describe("startVettaPluginDevServer", () => {
+describe("startOriginPluginDevServer", () => {
 	it("serves the MF manifest, React preamble, HMR entry and scoped CSS", async () => {
 		const rootDir = await createPluginProject();
-		const events: VettaPluginDevEvent[] = [];
-		const server = await startVettaPluginDevServer(rootDir, (event) => events.push(event));
+		const events: OriginPluginDevEvent[] = [];
+		const server = await startOriginPluginDevServer(rootDir, (event) => events.push(event));
 		runningServers.push(server);
 
 		expect(server.origin).toMatch(/^http:\/\/127\.0\.0\.1:\d+$/);
@@ -87,9 +87,9 @@ describe("startVettaPluginDevServer", () => {
 
 		const [manifest, preamble, virtualEntry, virtualLogger, pluginEntry, cssModule, rawCssModule] = await Promise.all([
 			fetch(server.entryUrl),
-			fetch(`${server.origin}/@vetta-plugin-dev-preamble`),
-			fetch(`${server.origin}/@id/__x00__virtual:vetta-plugin-dev-entry`),
-			fetch(`${server.origin}/@id/__x00__virtual:vetta-plugin-logger`),
+			fetch(`${server.origin}/@origin-plugin-dev-preamble`),
+			fetch(`${server.origin}/@id/__x00__virtual:origin-plugin-dev-entry`),
+			fetch(`${server.origin}/@id/__x00__virtual:origin-plugin-logger`),
 			fetch(`${server.origin}/src/index.tsx`),
 			fetch(`${server.origin}/src/style.css`),
 			fetch(`${server.origin}/src/theme.css?raw`),
@@ -101,14 +101,14 @@ describe("startVettaPluginDevServer", () => {
 		const virtualEntryText = await virtualEntry.text();
 		expect(virtualEntry.status).toBe(200);
 		expect(virtualEntry.headers.get("content-type")).toContain("javascript");
-		expect(virtualEntryText).toContain("__VETTA_PLUGIN_DEV_MODULES__");
+		expect(virtualEntryText).toContain("__ORIGIN_PLUGIN_DEV_MODULES__");
 		expect(virtualEntryText).toContain("triggeredBy");
 		const virtualLoggerText = await virtualLogger.text();
 		expect(virtualLogger.status).toBe(200);
 		expect(virtualLoggerText).toContain('__createPluginLogger({"id":"dev-server-test","version":"0.1.0"})');
 		expect(await pluginEntry.text()).toContain("/@vite/client");
 		const cssText = await cssModule.text();
-		expect(cssText).toContain("@scope ([data-vetta-plugin-root=dev-server-test])");
+		expect(cssText).toContain("@scope ([data-origin-plugin-root=dev-server-test])");
 		expect(cssText).toContain("__vite__updateStyle");
 		expect(rawCssModule.status).toBe(200);
 		const rawCssText = await rawCssModule.text();
@@ -119,8 +119,8 @@ describe("startVettaPluginDevServer", () => {
 
 	it("emits a targeted resource update when a locale changes", async () => {
 		const rootDir = await createPluginProject();
-		const events: VettaPluginDevEvent[] = [];
-		const server = await startVettaPluginDevServer(rootDir, (event) => events.push(event));
+		const events: OriginPluginDevEvent[] = [];
+		const server = await startOriginPluginDevServer(rootDir, (event) => events.push(event));
 		runningServers.push(server);
 
 		await writeFile(join(rootDir, "locales", "en.json"), JSON.stringify({ title: "Updated" }));
@@ -142,9 +142,9 @@ describe("startVettaPluginDevServer", () => {
 			entrySource: `import "./broken.ts";\nexport default { activate() {} };\n`,
 			additionalFiles: { "src/broken.ts": "export const broken = ;\n" },
 		});
-		const events: VettaPluginDevEvent[] = [];
+		const events: OriginPluginDevEvent[] = [];
 
-		await expect(startVettaPluginDevServer(rootDir, (event) => events.push(event))).rejects.toThrow(
+		await expect(startOriginPluginDevServer(rootDir, (event) => events.push(event))).rejects.toThrow(
 			/Plugin development module failed to transform .*broken\.ts/u,
 		);
 		expect(events).not.toContainEqual(expect.objectContaining({ type: "ready" }));

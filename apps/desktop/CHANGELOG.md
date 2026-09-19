@@ -54,7 +54,7 @@
 
 - 插件 Skill 改为默认隐藏的内部实现；插件可显式公开指定 Skill，并按能力中心、智能体配置、命令菜单和 Skill 选择器分别控制可见性及本地化展示名。隐藏不会影响 Agent 调用或既有配置（ADR-0110）。
 
-- 能力市场内置 Vetta 官方 GitHub 来源（`openvetta/vetta-official-marketplace`）：未配置发行方仓库的构建也会注册该来源，且不可停用、不可删除，界面以锁定图标替代启停开关；发行方仍可用 `VETTA_OPEN_MARKETPLACE_REPOSITORY` 把内置来源换成自己的 fork，用户自行添加的来源不受影响。已存在的来源目录若缺少该内置来源（含历史上“注册过一次就不再恢复”的记录），启动时会自动补回。
+- 能力市场内置 Vetta 官方 GitHub 来源（`openvetta/vetta-official-marketplace`）：未配置发行方仓库的构建也会注册该来源，且不可停用、不可删除，界面以锁定图标替代启停开关；发行方仍可用 `ORIGIN_OPEN_MARKETPLACE_REPOSITORY` 把内置来源换成自己的 fork，用户自行添加的来源不受影响。已存在的来源目录若缺少该内置来源（含历史上“注册过一次就不再恢复”的记录），启动时会自动补回。
 
 - 修复对不上规范历史的乐观用户气泡永久残留：这类气泡此前每次对账都会被重新追加到消息列表末尾，造成重复与错位；现在最多再撑过三次对账即清除，落盘较慢的正常消息仍会一直保留到确认。
 
@@ -306,8 +306,8 @@
   Agent Settings 与 Plugin Settings 各自的持久化 Adapter 负责。没有配置的 Tool 不显示空条目。
 - 侧边栏导航项支持**原色图片图标**：`SidebarNavItem` 新增可选 `iconUrl`，设置后导航项以 `<img>` 渲染而不染色，插件可用 `registerWorkspaceView({ iconTint: false })` 让自己的彩色 Logo 保持原样（`svg` / `png` / `webp` 等任意图像资源）。`icon` 仍是必填的 class 字符串并同时下发 mask 版本，因此不认识 `iconUrl` 的主题（含替换了 `sidebar.navItem` 组件的主题）继续渲染单色图标，不受影响。缺省仍为单色，与内置导航项保持一致。
 - 插件工作区视图未声明 `icon` 时回落到插件自己的 `plugin.json` Logo（此前固定落到一个通用 widget 图标）：包内图片由宿主生成 mask class 承载，跟随主题前景色着色，因此自带图形的插件不必再去 Iconify 集合里找近似图标。导航项 `icon` 仍是 class 字符串，主题层（含第三方主题）无需改动。
-- 新增通用浏览器自动化能力与系统插件**浏览器操作（Browser Use）**：插件可经 `ctx.browser` 使用宿主管理、按 namespace 隔离的 session 和持久 profile，manifest 权限与 `browser.allowedHosts` 在主进程逐次校验。Agent 则通过 Skill 直接调用锁定版本的 `agent-browser` CLI，每个 Coding Agent Session 以 `VETTA_AGENT_SESSION_ID` 使用独立 upstream session，不与其它 Agent 任务或 Plugin API 共享活跃页面。Skill 会在 Vetta 私有 npm prefix 中自动安装缺失或过旧的锁定 CLI，并按健康检查补装 Chrome for Testing；插件面板保留人工安装与诊断兜底。公共 `ctx.browser` v1 继续提供导航、快照、文本读取和类型化动作，并新增仅展示型 `ctx.browser.open()` 将 HTTP(S) 页面打开到 Desktop 内置 Browser Panel。见 ADR-0088、ADR-0090。
-- 插件 AI 能力新增无状态多轮对话 capability `cap.domain.vetta.ai.chat`（`ctx.ai.chat`）：插件自持全量消息转写（user / assistant / toolResult），可携带仅本次请求可见的插件内部工具；模型触发工具调用时按 `stopReason: "toolUse"` 原样返回 `toolCalls`，由插件在自身 loop 内执行。权限沿用 `ai.complete`，宿主不保存任何插件会话状态。
+- 新增通用浏览器自动化能力与系统插件**浏览器操作（Browser Use）**：插件可经 `ctx.browser` 使用宿主管理、按 namespace 隔离的 session 和持久 profile，manifest 权限与 `browser.allowedHosts` 在主进程逐次校验。Agent 则通过 Skill 直接调用锁定版本的 `agent-browser` CLI，每个 Coding Agent Session 以 `ORIGIN_AGENT_SESSION_ID` 使用独立 upstream session，不与其它 Agent 任务或 Plugin API 共享活跃页面。Skill 会在 Vetta 私有 npm prefix 中自动安装缺失或过旧的锁定 CLI，并按健康检查补装 Chrome for Testing；插件面板保留人工安装与诊断兜底。公共 `ctx.browser` v1 继续提供导航、快照、文本读取和类型化动作，并新增仅展示型 `ctx.browser.open()` 将 HTTP(S) 页面打开到 Desktop 内置 Browser Panel。见 ADR-0088、ADR-0090。
+- 插件 AI 能力新增无状态多轮对话 capability `cap.domain.origin.ai.chat`（`ctx.ai.chat`）：插件自持全量消息转写（user / assistant / toolResult），可携带仅本次请求可见的插件内部工具；模型触发工具调用时按 `stopReason: "toolUse"` 原样返回 `toolCalls`，由插件在自身 loop 内执行。权限沿用 `ai.complete`，宿主不保存任何插件会话状态。
 
 ### Fixed
 
@@ -319,7 +319,7 @@
 - Desktop 客户端日志保留 App Action、插件激活等用户操作链路及所有 warning/error，同时不再默认持久化逐条插件注册、
   活动页签解析、主题加载和常规 Vite HMR 等高频内部信息；App Action 与 Skill 日志只记录安全的类型、计数、耗时和
   稳定错误码，不再写入完整输入、异常正文、Skill 名称或工作区绝对路径。需要完整 Renderer 开发诊断时可设置
-  `VETTA_RENDERER_VERBOSE_LOGS=1`。
+  `ORIGIN_RENDERER_VERBOSE_LOGS=1`。
 - 修复 GitHub 能力市场更新插件时清空已有授权、导致详情配置等插件功能消失的问题；更新保留仍被声明的已有权限，首次安装和新增权限仍需用户确认。详情页缺少配置面板权限时显示原因和权限检查入口，已有空授权记录需用户重新确认，不会静默补授。
 - 能力页在更新插件时会明确展示“正在更新 / 正在重载新版本”阶段，更新完成后自动重载并确认结果；手动重载入口上移到详情页头，保留给主动刷新和失败恢复使用。
 - Agent Team 共享上下文改从持久 checkpoint 与成员交付回执恢复，Turn 结束或 Runtime 重建后仍可供手动压缩使用；不再依赖活动 Turn 内存 Map，也不会把另一成员的新版本或变化后的自定义策略结果当作原上下文。回执持久化成功后才推进成员引用，失败可重新准入。
@@ -455,7 +455,7 @@
 - Claw 渠道网格补齐 Slack、WhatsApp 品牌图标，并更新飞书图标。
 - Claw 每个渠道的配置对话框（飞书 / 微信 / Signal / 通用渠道）标题旁新增「使用说明」入口，点开是一个二级引导弹窗：编号步骤 + 可复制的命令或地址 + 提醒块，视觉与「知识库是怎么工作的」同一套。八个渠道的手册内容与 `apps/im-gateway/docs/*-setup.md` 对齐，中英文齐备。
 - Claw 的 Signal 渠道改为扫码接入：装好 signal-cli 后，在「设置 → Claw → Signal」点「扫码连接」，用手机 Signal 的「已关联的设备」扫码即可，桌面端会自动找到 signal-cli、托管 daemon 并回填账号号码，不再需要手填服务地址与 E.164 号码。未安装 signal-cli 时对话框直接给出本平台的安装命令。原先「连接自建 signal-cli 服务」的表单保留在对话框底部的高级入口。
-- IM 桥接主进程新增六个渠道的协议与配置合同：Telegram、Slack、Discord、Signal（静态凭证）、WhatsApp（扫码配对，含 `vetta:im:whatsapp:*` 绑定 IPC）与 iMessage（macOS 本地权限）。渠道能力收敛到 `im-host/channels.ts` 描述符注册表，测试连接按渠道分派校验；本次仅覆盖主进程与 preload 合同层，设置页 UI 与 i18n 文案随后续任务提供。
+- IM 桥接主进程新增六个渠道的协议与配置合同：Telegram、Slack、Discord、Signal（静态凭证）、WhatsApp（扫码配对，含 `origin:im:whatsapp:*` 绑定 IPC）与 iMessage（macOS 本地权限）。渠道能力收敛到 `im-host/channels.ts` 描述符注册表，测试连接按渠道分派校验；本次仅覆盖主进程与 preload 合同层，设置页 UI 与 i18n 文案随后续任务提供。
 
 - 新增可选的手机远程接入宿主：Desktop 可主动连接 Cloudflare Worker 中继，将本地对话会话暴露为受版本化协议约束的远程请求；屏幕画面和鼠标键盘输入使用独立 WebRTC 通道，输入默认关闭并由本地配置显式授权。
 - 开发环境的 Vetta Debug 新增只读 `provider.models.list`，可刷新并列出 Runtime 当前可用的本地模型与登录后远程模型；
@@ -511,10 +511,10 @@
 - Desktop 打包新增跨平台环境前置检查，在清理和编译前统一校验开源/商业版本、服务端与更新源、Marketplace、目标平台、遥测参数和 macOS 签名组合；新增 `dist:opensource` 作为 Windows、macOS、Linux 共用的开源版构建入口，GitHub Releases 与开源版、R2 与商业版不再允许混用。
 - Desktop 正式发布 Action 新增独立质量门禁：根检查、质量脚本测试和 packaging 合同测试全部通过后才启动平台矩阵；R2/GitHub 发布完成后验证三平台公开更新 feed 与其引用的安装包可读；默认手动构建只保留临时 Artifact，手动 `test` / `stable` 发布与 tag 发布走同一发布门禁。
 - Desktop packaged E2E 扩展到 Windows、macOS、Linux：真实启动 unpacked 应用并通过 renderer updater bridge 检查本地隔离 feed，发布矩阵在上传产物前即可发现启动、`app-update.yml`、feed 请求和 IPC 回归；本地 feed 不会触碰真实生产更新源。
-- Desktop 发布 workflow 支持通过 `workflow_dispatch` 发布隔离的 R2 `test` 通道；`build_version` 只允许用于 test channel 并注入 `VETTA_DESKTOP_BUILD_VERSION`，测试升级候选不会覆盖 stable，R2 凭据使用独立的 `desktop-test` Environment。
+- Desktop 发布 workflow 支持通过 `workflow_dispatch` 发布隔离的 R2 `test` 通道；`build_version` 只允许用于 test channel 并注入 `ORIGIN_DESKTOP_BUILD_VERSION`，测试升级候选不会覆盖 stable，R2 凭据使用独立的 `desktop-test` Environment。
 - 新增 `desktop-upgrade-e2e` workflow：从 test channel 基线包开始，在 Windows、macOS、Linux runner 上真实安装、检查更新、下载、退出、重启并校验候选版本；失败时保留应用日志和升级状态，生产 stable 不参与该验收。
 - Desktop 打包未配置更新源时默认使用官方 stable 更新源，并在显式传入不支持的 `none` provider 时于构建期失败，避免安装包缺少 `app-update.yml` 导致检查更新时报 `ENOENT`。
-- 打包版不再向终端用户暴露开发者工具入口：应用不再沿用 Electron 默认菜单，改为自建应用菜单——macOS 保留完整的应用/编辑/视图/窗口菜单（复制粘贴等 Edit role 不受影响），但打包版的「视图」不再包含重新加载、强制重新加载和切换开发者工具；Windows/Linux 打包版直接不装配应用菜单，对应快捷键一并失效。桌宠右键菜单的 DevTools 项沿用同一门禁。开发态行为不变，打包版排障可用 `VETTA_DEVTOOLS=1` 启动重新打开这些入口。
+- 打包版不再向终端用户暴露开发者工具入口：应用不再沿用 Electron 默认菜单，改为自建应用菜单——macOS 保留完整的应用/编辑/视图/窗口菜单（复制粘贴等 Edit role 不受影响），但打包版的「视图」不再包含重新加载、强制重新加载和切换开发者工具；Windows/Linux 打包版直接不装配应用菜单，对应快捷键一并失效。桌宠右键菜单的 DevTools 项沿用同一门禁。开发态行为不变，打包版排障可用 `ORIGIN_DEVTOOLS=1` 启动重新打开这些入口。
 - 自动更新不再只在启动时检查一次：应用保持运行时每 2 小时后台重查一次；系统从睡眠唤醒、以及用户打开侧边栏底部的设置菜单时也会机会性补查一次（距上次检查不足 30 分钟则跳过）。所有后台补查只在空闲或上次检查出错时发起，不会打断已经在下载或已就绪的更新。长期不退出应用的用户不再长时间收不到新版本提示。
 - 子代理与工作流活动面板新增实时 Todo、Token/费用、结构化目标和分类错误展示；状态图标统一为 Solar，运行/失败使用主题语义色，选择与状态变化使用 200ms 过渡，并补齐长内容与水平溢出处理。
 
@@ -573,5 +573,5 @@
 - 新会话页在「对话」与待创建项目下进入时，右侧活动面板默认收起，不再继承其它页面记忆的展开态
   （面板此时只有「选择项目」空态）；用户在该 scope 下手动展开仍然有效。
 - 「对话」上下文里的文件面板不再暴露各会话工作区的 uuid 内部目录：目录列举（文件树与 @文件补全）在
-  `~/.vetta/conversation` 根这一层隐藏 uuid 命名的工作区子目录（老产物文件仍可见，文件权限边界不变）；
+  `~/.origin/conversation` 根这一层隐藏 uuid 命名的工作区子目录（老产物文件仍可见，文件权限边界不变）；
   新会话页在「不指定项目」与待创建项目下，活动面板文件页改为显示「选择项目」空态，而不是列出 conversation 根。

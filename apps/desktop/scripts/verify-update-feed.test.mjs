@@ -25,14 +25,14 @@ function createFetch() {
 test("resolves provider-specific public feed bases", () => {
 	assert.equal(
 		resolveUpdateFeedBase({
-			env: { VETTA_UPDATE_PROVIDER: "generic", VETTA_UPDATE_URL: "https://updates.example.com/desktop/stable" },
+			env: { ORIGIN_UPDATE_PROVIDER: "generic", ORIGIN_UPDATE_URL: "https://updates.example.com/desktop/stable" },
 			version,
 		}),
 		"https://updates.example.com/desktop/stable/",
 	);
 	assert.equal(
 		resolveUpdateFeedBase({
-			env: { VETTA_UPDATE_PROVIDER: "github", VETTA_UPDATE_GITHUB_OWNER: "openvetta", VETTA_UPDATE_GITHUB_REPO: "open-vetta" },
+			env: { ORIGIN_UPDATE_PROVIDER: "github", ORIGIN_UPDATE_GITHUB_OWNER: "openvetta", ORIGIN_UPDATE_GITHUB_REPO: "open-vetta" },
 			version,
 		}),
 		"https://github.com/openvetta/open-vetta/releases/download/v0.5.46/",
@@ -42,7 +42,7 @@ test("resolves provider-specific public feed bases", () => {
 test("accepts a Git tag version with the leading v", () => {
 	assert.equal(
 		resolveUpdateFeedBase({
-			env: { VETTA_UPDATE_PROVIDER: "github", VETTA_UPDATE_GITHUB_OWNER: "openvetta", VETTA_UPDATE_GITHUB_REPO: "open-vetta" },
+			env: { ORIGIN_UPDATE_PROVIDER: "github", ORIGIN_UPDATE_GITHUB_OWNER: "openvetta", ORIGIN_UPDATE_GITHUB_REPO: "open-vetta" },
 		version: "v0.5.46",
 		}),
 		"https://github.com/openvetta/open-vetta/releases/download/v0.5.46/",
@@ -52,7 +52,7 @@ test("accepts a Git tag version with the leading v", () => {
 test("verifies all platform metadata and referenced artifacts", async () => {
 	const fake = createFetch();
 	const result = await verifyUpdateFeed({
-		env: { VETTA_UPDATE_PROVIDER: "generic", VETTA_UPDATE_URL: "https://updates.example.com/desktop/stable" },
+		env: { ORIGIN_UPDATE_PROVIDER: "generic", ORIGIN_UPDATE_URL: "https://updates.example.com/desktop/stable" },
 		version,
 		fetchImpl: fake.fetchImpl,
 		retryDelayMs: 0,
@@ -70,7 +70,7 @@ test("falls back to a ranged GET when a CDN rejects HEAD", async () => {
 		return fake.fetchImpl(url, init);
 	};
 	await verifyUpdateFeed({
-		env: { VETTA_UPDATE_PROVIDER: "generic", VETTA_UPDATE_URL: "https://updates.example.com/desktop/stable" },
+		env: { ORIGIN_UPDATE_PROVIDER: "generic", ORIGIN_UPDATE_URL: "https://updates.example.com/desktop/stable" },
 		version,
 		metadataFiles: ["latest-linux.yml"],
 		fetchImpl,
@@ -83,7 +83,7 @@ test("rejects a feed that serves a different release version", async () => {
 	const fake = createFetch();
 	assert.rejects(
 		verifyUpdateFeed({
-			env: { VETTA_UPDATE_PROVIDER: "generic", VETTA_UPDATE_URL: "https://updates.example.com/desktop/stable" },
+			env: { ORIGIN_UPDATE_PROVIDER: "generic", ORIGIN_UPDATE_URL: "https://updates.example.com/desktop/stable" },
 			version: "0.5.47",
 			metadataFiles: ["latest.yml"],
 			fetchImpl: fake.fetchImpl,

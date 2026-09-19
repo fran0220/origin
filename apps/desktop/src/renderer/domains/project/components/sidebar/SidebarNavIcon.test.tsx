@@ -13,7 +13,7 @@ function item(overrides: Partial<SidebarNavItem>): SidebarNavItem {
 	return {
 		key: "workspace:demo-plugin/board",
 		label: "演示视图",
-		icon: "vetta-plugin-nav-icon-1",
+		icon: "origin-plugin-nav-icon-1",
 		active: false,
 		type: "custom",
 		...overrides,
@@ -46,22 +46,22 @@ describe("sidebar navigation icon", () => {
 	});
 
 	it("renders iconUrl as a full-color img instead of the tinted span", () => {
-		renderNav([item({ iconUrl: "vetta-plugin://demo-plugin/assets/logo.png?v=1" })]);
+		renderNav([item({ iconUrl: "origin-plugin://demo-plugin/assets/logo.png?v=1" })]);
 		const image = within(navButton("演示视图")).getByRole("presentation", { hidden: true });
 		expect(image.tagName).toBe("IMG");
-		expect(image.getAttribute("src")).toBe("vetta-plugin://demo-plugin/assets/logo.png?v=1");
+		expect(image.getAttribute("src")).toBe("origin-plugin://demo-plugin/assets/logo.png?v=1");
 		// A tinted mask class would repaint it with currentColor and destroy the colors.
-		expect(image.className).not.toContain("vetta-plugin-nav-icon-1");
+		expect(image.className).not.toContain("origin-plugin-nav-icon-1");
 	});
 
 	it("keeps the sizing classes on both shapes so the row does not shift", () => {
 		const { unmount } = renderNav([item({})]);
-		const span = navButton("演示视图").querySelector("span.vetta-plugin-nav-icon-1");
+		const span = navButton("演示视图").querySelector("span.origin-plugin-nav-icon-1");
 		expect(span?.className).toContain("h-4");
 		expect(span?.className).toContain("w-4");
 		unmount();
 
-		renderNav([item({ iconUrl: "vetta-plugin://p/logo.webp" })]);
+		renderNav([item({ iconUrl: "origin-plugin://p/logo.webp" })]);
 		const image = within(navButton("演示视图")).getByRole("presentation", { hidden: true });
 		expect(image.className).toContain("h-4");
 		expect(image.className).toContain("w-4");
@@ -69,9 +69,9 @@ describe("sidebar navigation icon", () => {
 	});
 
 	it("uses the image for a collapsed entry that is the active route", () => {
-		renderNav([], [item({ active: true, iconUrl: "vetta-plugin://p/logo.svg" })]);
+		renderNav([], [item({ active: true, iconUrl: "origin-plugin://p/logo.svg" })]);
 		// The "more" trigger mirrors the active collapsed entry.
 		const image = screen.getAllByRole("presentation", { hidden: true }).find((el) => el.tagName === "IMG");
-		expect(image?.getAttribute("src")).toBe("vetta-plugin://p/logo.svg");
+		expect(image?.getAttribute("src")).toBe("origin-plugin://p/logo.svg");
 	});
 });

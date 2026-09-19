@@ -81,7 +81,7 @@ const FILE_DRAG_HOVER_DELAY_MS = 300;
 
 function isFileDrag(event: ReactDragEvent<HTMLElement>): boolean {
 	const types = Array.from(event.dataTransfer.types);
-	return types.includes("Files") || types.includes("application/vetta-path");
+	return types.includes("Files") || types.includes("application/origin-path");
 }
 
 /**

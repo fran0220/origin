@@ -142,7 +142,7 @@ function ContentOptionMenu({ value, label, options, onValueChange }: ContentOpti
 			{open ? (
 				<DropdownMenuContent
 					ref={contentRef}
-					data-vetta-plugin-root="content-creation"
+					data-origin-plugin-root="content-creation"
 					align="start"
 					className="z-[100] min-w-36 rounded-lg p-1"
 				>

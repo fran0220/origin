@@ -117,8 +117,8 @@ export function useHarnessLedgerModel(input: {
 		setError(null);
 		try {
 			const [nextRead, nextHistory] = await Promise.all([
-				window.vetta.evolution.read(currentScope),
-				window.vetta.evolution.history({ scope: currentScope, limit: 64 }),
+				window.originApp.evolution.read(currentScope),
+				window.originApp.evolution.history({ scope: currentScope, limit: 64 }),
 			]);
 			setRead(nextRead);
 			setHistory(nextHistory);
@@ -167,7 +167,7 @@ export function useHarnessLedgerModel(input: {
 							content,
 						},
 					};
-			await window.vetta.evolution.commit({
+			await window.originApp.evolution.commit({
 				scope,
 				source: "host",
 				proposal: {
@@ -195,7 +195,7 @@ export function useHarnessLedgerModel(input: {
 				onConfirm: () => {
 					void (async () => {
 						try {
-							await window.vetta.evolution.commit({
+							await window.originApp.evolution.commit({
 								scope,
 								source: "host",
 								proposal: {
@@ -226,7 +226,7 @@ export function useHarnessLedgerModel(input: {
 				onConfirm: () => {
 					void (async () => {
 						try {
-							await window.vetta.evolution.promote({ subjectId, entryId: entry.id });
+							await window.originApp.evolution.promote({ subjectId, entryId: entry.id });
 							await load();
 						} catch (caught) {
 							setError(formatError(caught));
@@ -247,7 +247,7 @@ export function useHarnessLedgerModel(input: {
 				onConfirm: () => {
 					void (async () => {
 						try {
-							await window.vetta.evolution.rollback({
+							await window.originApp.evolution.rollback({
 								scope,
 								digest: event.digest,
 								reason: "taken back from the harness settings surface",

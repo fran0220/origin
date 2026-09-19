@@ -53,11 +53,11 @@ export interface PdfOcrResult {
 	pages: OcrPageResult[];
 }
 
-const READY_CHANNEL = "vetta:ocr:ready";
-const START_CHANNEL = "vetta:ocr:start";
-const PROGRESS_CHANNEL = "vetta:ocr:progress";
-const DONE_CHANNEL = "vetta:ocr:done";
-const ERROR_CHANNEL = "vetta:ocr:error";
+const READY_CHANNEL = "origin:ocr:ready";
+const START_CHANNEL = "origin:ocr:start";
+const PROGRESS_CHANNEL = "origin:ocr:progress";
+const DONE_CHANNEL = "origin:ocr:done";
+const ERROR_CHANNEL = "origin:ocr:error";
 
 const IMAGE_EXT_MIME: Record<string, string> = {
 	".png": "image/png",

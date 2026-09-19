@@ -9,7 +9,7 @@ import { resolveCategoryLabel } from "../lib/ability-presentation";
 import {
 	ABILITY_CATEGORY_CONNECTORS,
 	ABILITY_CATEGORY_UNCATEGORIZED,
-	ABILITY_CATEGORY_VETTA_BUILTIN,
+	ABILITY_CATEGORY_ORIGIN_BUILTIN,
 	type AbilitiesModel,
 	type AbilityScope,
 } from "../types";
@@ -165,8 +165,8 @@ export function AbilitiesPageView({ model }: { model: AbilitiesModel }): JSX.Ele
 															? t("group.uncategorized")
 															: group.category === ABILITY_CATEGORY_CONNECTORS
 																? t("group.connectors")
-																: group.category === ABILITY_CATEGORY_VETTA_BUILTIN
-																	? t("group.vettaBuiltin")
+																: group.category === ABILITY_CATEGORY_ORIGIN_BUILTIN
+																	? t("group.originBuiltin")
 																	: resolveCategoryLabel(group.category, group.categoryI18n, i18n.language)}
 											</h2>
 											<span className="text-[11px] tabular-nums text-muted-foreground/50">

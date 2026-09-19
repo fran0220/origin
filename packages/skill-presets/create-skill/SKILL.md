@@ -13,16 +13,16 @@ Infer the target from the request. If it is ambiguous, ask the user to choose be
 
 | Target | Skill directory | Required registration |
 | --- | --- | --- |
-| Global Vetta product skill | `~/.vetta/skills/<skill-name>/` | Update `~/.vetta/skills-manifest.json`. |
-| Project skill | `<project-root>/.vetta/skills/<skill-name>/` | No global manifest entry; project discovery is directory-based. |
+| Global Vetta product skill | `~/.origin/skills/<skill-name>/` | Update `~/.origin/skills-manifest.json`. |
+| Project skill | `<project-root>/.origin/skills/<skill-name>/` | No global manifest entry; project discovery is directory-based. |
 | Plugin skill | `<plugin-root>/agent/skills/<skill-name>/` | Update `plugin.json` under `agent.skillPaths`. |
-| Built-in Desktop skill | `<vetta-mono>/packages/skill-presets/<skill-name>/` | Update `<vetta-mono>/packages/skill-presets/skills-manifest.json`. |
+| Built-in Desktop skill | `<origin-mono>/packages/skill-presets/<skill-name>/` | Update `<origin-mono>/packages/skill-presets/skills-manifest.json`. |
 
-Do not place a global product Skill only in `~/.vetta/agent/skills`; that directory is Agent-compatible but does not provide the Vetta product registration metadata required by the Skills UI.
+Do not place a global product Skill only in `~/.origin/agent/skills`; that directory is Agent-compatible but does not provide the Vetta product registration metadata required by the Skills UI.
 
 ## Understand the directory protection
 
-Skill and scene roots — `~/.vetta/skills`, `~/.vetta/agent/skills`, `~/.vetta/scene`, `<project-root>/.vetta/skills`, and the `.agents/skills` equivalents — are read-only so that generated artifacts never land in them. Creating a new `<root>/<skill-name>/` directory is exempt: once this session authors that directory, every file inside it stays writable for the rest of the session.
+Skill and scene roots — `~/.origin/skills`, `~/.origin/agent/skills`, `~/.origin/scene`, `<project-root>/.origin/skills`, and the `.agents/skills` equivalents — are read-only so that generated artifacts never land in them. Creating a new `<root>/<skill-name>/` directory is exempt: once this session authors that directory, every file inside it stays writable for the rest of the session.
 
 An already-installed Skill stays read-only. `write` and `edit` reject its files, and a shell command that touches them returns a warning to move the output out. To change one, edit the source it was installed from — the plugin, the repository preset, or the project directory — or ask the user to uninstall it first. Never work around the rejection with shell redirection.
 
@@ -50,7 +50,7 @@ Concise workflow instructions.
 
 ## Register a global Vetta Skill
 
-Read the full `~/.vetta/skills-manifest.json` before editing it. The file is a root-level JSON object keyed by Skill name. Preserve every existing entry and add or update only the target Skill.
+Read the full `~/.origin/skills-manifest.json` before editing it. The file is a root-level JSON object keyed by Skill name. Preserve every existing entry and add or update only the target Skill.
 
 Use an entry shaped like this:
 

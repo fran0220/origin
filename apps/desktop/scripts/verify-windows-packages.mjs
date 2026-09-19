@@ -95,7 +95,7 @@ export async function verifyWindowsPackages({ releaseDir = defaultReleaseDir } =
 	const zipPath = join(releaseDir, zipFileName);
 	await Promise.all([assertNonEmptyFile(msiPath), assertNonEmptyFile(zipPath)]);
 
-	const extractionRoot = await mkdtemp(join(tmpdir(), "vetta-windows-packages-"));
+	const extractionRoot = await mkdtemp(join(tmpdir(), "origin-windows-packages-"));
 	const msiRoot = join(extractionRoot, "msi");
 	const zipRoot = join(extractionRoot, "zip");
 	await Promise.all([mkdir(msiRoot, { recursive: true }), mkdir(zipRoot, { recursive: true })]);

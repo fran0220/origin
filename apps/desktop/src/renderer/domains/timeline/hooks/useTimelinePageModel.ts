@@ -50,7 +50,7 @@ export function useTimelinePageModel(): TimelinePageModel {
 	const refresh = useCallback(async () => {
 		setLoading(true);
 		try {
-			const listed = await window.vetta.checkpoints.list();
+			const listed = await window.originApp.checkpoints.list();
 			setCheckpoints(listed);
 			setError(undefined);
 		} catch (cause) {
@@ -108,13 +108,13 @@ export function useTimelinePageModel(): TimelinePageModel {
 
 	const revertSelected = useCallback(async () => {
 		if (!selected) return;
-		await window.vetta.checkpoints.revert(selected.projectKey, selected.id);
+		await window.originApp.checkpoints.revert(selected.projectKey, selected.id);
 		await refresh();
 	}, [refresh, selected]);
 
 	const rerunSelected = useCallback(async () => {
 		if (!selected) return;
-		await window.vetta.checkpoints.rerunVerification(selected.projectKey, selected.id);
+		await window.originApp.checkpoints.rerunVerification(selected.projectKey, selected.id);
 		await refresh();
 	}, [refresh, selected]);
 

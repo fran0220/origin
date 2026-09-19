@@ -186,7 +186,7 @@ function normalizeArchiveEntryPath(value: string): string {
 function marketplaceManifestUrl(repository: string, ref: string): string {
 	const parsed = new URL(repository);
 	const encodedRef = ref.split("/").map(encodeURIComponent).join("/");
-	return `${parsed.origin}${parsed.pathname}/raw/refs/heads/${encodedRef}/.vetta/marketplace.json`;
+	return `${parsed.origin}${parsed.pathname}/raw/refs/heads/${encodedRef}/.origin/marketplace.json`;
 }
 
 function githubRepositoryCoordinates(repository: string): { owner: string; repository: string } {
@@ -199,7 +199,7 @@ function githubRepositoryCoordinates(repository: string): { owner: string; repos
 
 function githubManifestUrl(repository: string, ref: string): string {
 	const coordinates = githubRepositoryCoordinates(repository);
-	return `https://api.github.com/repos/${coordinates.owner}/${coordinates.repository}/contents/.vetta/marketplace.json?ref=${encodeURIComponent(ref)}`;
+	return `https://api.github.com/repos/${coordinates.owner}/${coordinates.repository}/contents/.origin/marketplace.json?ref=${encodeURIComponent(ref)}`;
 }
 
 function githubZipballUrl(repository: string, ref: string): string {
@@ -306,15 +306,15 @@ export class OpenMarketplaceService {
 		const marketplaceCache = getApplicationCacheService().namespace("marketplace");
 		this.sourceId = options.sourceId ?? DEFAULT_MARKETPLACE_SOURCE_ID;
 		this.rootDir = options.rootDir ?? marketplaceCache.path(this.sourceId);
-		this.sourceRef = options.sourceRef ?? process.env.VETTA_OPEN_MARKETPLACE_REF ?? "main";
-		const configuredRepository = options.repository ?? process.env.VETTA_OPEN_MARKETPLACE_REPOSITORY;
+		this.sourceRef = options.sourceRef ?? process.env.ORIGIN_OPEN_MARKETPLACE_REF ?? "main";
+		const configuredRepository = options.repository ?? process.env.ORIGIN_OPEN_MARKETPLACE_REPOSITORY;
 		if (!configuredRepository?.trim()) {
 			throw new Error("Open marketplace repository is not configured");
 		}
 		this.repository = configuredRepository.trim().replace(/\/$/, "");
 		this.archiveUrl =
 			options.archiveUrl ??
-			(options.repository ? undefined : process.env.VETTA_OPEN_MARKETPLACE_ARCHIVE_URL?.trim() || undefined) ??
+			(options.repository ? undefined : process.env.ORIGIN_OPEN_MARKETPLACE_ARCHIVE_URL?.trim() || undefined) ??
 			`${this.repository}/archive/refs/heads/${this.sourceRef.split("/").map(encodeURIComponent).join("/")}.zip`;
 		if (!isValidAppVersion(options.appVersion)) {
 			throw new Error(`Invalid desktop app version: ${options.appVersion}`);
@@ -497,7 +497,7 @@ export class OpenMarketplaceService {
 		if (!state || !this.matchesCurrentSource(state)) return null;
 		const snapshotRoot = join(this.snapshotsDir, state.marketplaceVersion);
 		try {
-			const raw: unknown = JSON.parse(await readFile(join(snapshotRoot, ".vetta", "marketplace.json"), "utf-8"));
+			const raw: unknown = JSON.parse(await readFile(join(snapshotRoot, ".origin", "marketplace.json"), "utf-8"));
 			const manifest = parseMarketplaceManifest(raw);
 			if (manifest.marketplaceVersion !== state.marketplaceVersion) return null;
 			this.assertManifestCompatible(manifest);
@@ -824,13 +824,13 @@ export class OpenMarketplaceService {
 	}
 
 	private async locateMarketplaceRoot(unpackedDir: string): Promise<string> {
-		if (existsSync(join(unpackedDir, ".vetta", "marketplace.json"))) return unpackedDir;
+		if (existsSync(join(unpackedDir, ".origin", "marketplace.json"))) return unpackedDir;
 		const entries = await readdir(unpackedDir, { withFileTypes: true });
 		const candidates = entries
 			.filter((entry) => entry.isDirectory())
 			.map((entry) => join(unpackedDir, entry.name))
-			.filter((dir) => existsSync(join(dir, ".vetta", "marketplace.json")));
-		if (candidates.length !== 1) throw new Error("Archive must contain exactly one .vetta/marketplace.json");
+			.filter((dir) => existsSync(join(dir, ".origin", "marketplace.json")));
+		if (candidates.length !== 1) throw new Error("Archive must contain exactly one .origin/marketplace.json");
 		return candidates[0];
 	}
 
@@ -856,7 +856,7 @@ export class OpenMarketplaceService {
 			await this.extractArchive(buffer, unpackedDir);
 			const marketplaceRoot = await this.locateMarketplaceRoot(unpackedDir);
 			const manifestRaw: unknown = JSON.parse(
-				await readFile(join(marketplaceRoot, ".vetta", "marketplace.json"), "utf-8"),
+				await readFile(join(marketplaceRoot, ".origin", "marketplace.json"), "utf-8"),
 			);
 			const manifest = parseMarketplaceManifest(manifestRaw);
 			this.assertManifestCompatible(manifest);

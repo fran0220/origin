@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 const mockState = vi.hoisted(() => ({ home: "" }));
-vi.mock("@origin/action-rpc", () => ({ getVettaHomePath: () => mockState.home }));
+vi.mock("@origin/action-rpc", () => ({ getOriginHomePath: () => mockState.home }));
 
 import {
 	commitPluginStorage,
@@ -15,7 +15,7 @@ import {
 
 describe("plugin storage commits", () => {
 	beforeAll(async () => {
-		mockState.home = await mkdtemp(join(tmpdir(), "vetta-plugin-storage-"));
+		mockState.home = await mkdtemp(join(tmpdir(), "origin-plugin-storage-"));
 	});
 
 	afterAll(async () => {

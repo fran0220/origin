@@ -7,7 +7,7 @@ import {
 	serializeInputSegments,
 	toTokenPath,
 } from "@shared/lib/input-tokens";
-import { pathBasename, toVettaFileUrl } from "@shared/lib/utils";
+import { pathBasename, toOriginFileUrl } from "@shared/lib/utils";
 import type { FilePreviewItem } from "@shared/store/atoms";
 import { isSystemAttachmentPath, isUserImageFile, parseUserPrefixes } from "../../services/chat-service";
 import type { AppshotCardData } from "../AppshotCard";
@@ -23,7 +23,7 @@ function isAppshotPath(path: string): boolean {
 }
 
 export function userMessagePreviewSource(item: FilePreviewItem): string {
-	if (item.path) return toVettaFileUrl(item.path);
+	if (item.path) return toOriginFileUrl(item.path);
 	return item.url ?? "";
 }
 
@@ -106,7 +106,7 @@ export function projectUserMessage(message: ConversationUserMessageViewModel): U
 			];
 	const copyImageSources = [
 		...imageItems.map(userMessagePreviewSource).filter((source) => source.length > 0),
-		...(appshot?.imagePath ? [toVettaFileUrl(appshot.imagePath)] : []),
+		...(appshot?.imagePath ? [toOriginFileUrl(appshot.imagePath)] : []),
 	];
 
 	return {

@@ -13,7 +13,7 @@ interface SkillPromptAreaProps {
 	minHeight?: number;
 	className?: string;
 	autoFocus?: boolean;
-	/** 目标会话/项目 cwd，用于列出项目级 `<cwd>/.agents/skills` 与 `<cwd>/.vetta/skills`。 */
+	/** 目标会话/项目 cwd，用于列出项目级 `<cwd>/.agents/skills` 与 `<cwd>/.origin/skills`。 */
 	cwd?: string;
 }
 

@@ -17,7 +17,7 @@ function installedPlugin(grantedPermissions: PluginPermission[] = []): Installed
 		version: "1.0.3",
 		activeVersion: "1.0.3",
 		pluginApiVersion: "^2.0.0",
-		entryUrl: "vetta-plugin://cli-proxy-api/dist/mf-manifest.json",
+		entryUrl: "origin-plugin://cli-proxy-api/dist/mf-manifest.json",
 		moduleFederation: { remoteName: "cli_proxy_api", expose: "./plugin" },
 		styleUrls: [],
 		permissions: ["ui.slot.ability-detail", "shell.openExternal", "models.manage", "network.fetch"],

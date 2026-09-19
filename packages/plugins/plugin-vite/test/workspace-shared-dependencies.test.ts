@@ -99,7 +99,7 @@ async function configEnablesHostUi(root: string): Promise<boolean> {
 		if (
 			ts.isCallExpression(node) &&
 			ts.isIdentifier(node.expression) &&
-			node.expression.text === "vettaPluginFederation"
+			node.expression.text === "originPluginFederation"
 		) {
 			const options = node.arguments[0];
 			if (options && ts.isObjectLiteralExpression(options)) {

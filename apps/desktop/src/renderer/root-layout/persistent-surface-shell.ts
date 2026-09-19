@@ -2,7 +2,7 @@ import type { PersistentSurfaceId } from "./persistent-surface";
 
 export type PersistentSurfaceTitleRef =
 	| { readonly ns: "abilities"; readonly key: "page.title" }
-	| { readonly ns: "agent-teams"; readonly key: "center.title" }
+	| { readonly ns: "agent-profiles"; readonly key: "center.title" }
 	| { readonly ns: "automation"; readonly key: "page.title" }
 	| { readonly ns: "batch-tasks"; readonly key: "page.title" }
 	| { readonly ns: "evaluation"; readonly key: "page.title" }
@@ -19,7 +19,7 @@ export function persistentSurfaceTitleRef(id: Exclude<PersistentSurfaceId, "chat
 		case "abilities":
 			return { ns: "abilities", key: "page.title" };
 		case "agents":
-			return { ns: "agent-teams", key: "center.title" };
+			return { ns: "agent-profiles", key: "center.title" };
 		case "automation":
 			return { ns: "automation", key: "page.title" };
 		case "batch-tasks":

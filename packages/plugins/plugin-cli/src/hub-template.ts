@@ -3,7 +3,7 @@ import { AGENTS_GUIDE_REVISION } from "./agents-template.js";
 /**
  * 能力市场仓库的骨架。
  *
- * 手写一个合规的 hub 成本不低：`.vetta/marketplace.json` 的必填字段、目录约定、以及那几条
+ * 手写一个合规的 hub 成本不低：`.origin/marketplace.json` 的必填字段、目录约定、以及那几条
  * 只在别人机器上复现的发布约束，都得先读一遍文档才知道。这里把它变成一条命令。
  *
  * 仓库级 `AGENTS.md` 是关键的一半：落在仓库根的 Agent 需要知道「能力目录才是开发单位、
@@ -20,14 +20,14 @@ Vetta 能力市场仓库。本仓库索引若干**能力**（plugin / mcp / skil
 ## 开发时站在能力目录里，不是站在这里
 
 > 仓库根没有 \`node_modules\`，所以在根上执行时用全名 \`@origin-org/plugin-cli\`；进了能力目录、
-> \`npm install\` 之后，裸命令 \`vetta-plugin-cli\` 才在 \`node_modules/.bin\` 里。
+> \`npm install\` 之后，裸命令 \`origin-plugin-cli\` 才在 \`node_modules/.bin\` 里。
 
 \`\`\`bash
 cd abilities/plugins/<slug>      # ← 开发单位是这个目录
 npm install
-npx vetta-plugin-cli docs --check-latest   # 手册（随该目录装的 SDK 版本；顺带查是否落后）
-npm run install:vetta            # 装进正在运行的 Vetta
-npx vetta-plugin-cli watch       # 热更新
+npx origin-plugin-cli docs --check-latest   # 手册（随该目录装的 SDK 版本；顺带查是否落后）
+npm run install:origin            # 装进正在运行的 Vetta
+npx origin-plugin-cli watch       # 热更新
 \`\`\`
 
 每个插件目录自带 \`AGENTS.md\`，里面有该读哪些手册、以及不可违反的几条。**先 \`cd\` 进去再动手**：
@@ -119,7 +119,7 @@ An Origin ability marketplace. Add it in Origin Desktop under **能力市场 →
 ${input.repository}
 \`\`\`
 
-Abilities live under \`abilities/\`. The index is \`.vetta/marketplace.json\`; its derived fields are
+Abilities live under \`abilities/\`. The index is \`.origin/marketplace.json\`; its derived fields are
 maintained by \`npx @origin-org/plugin-cli sync\`. See \`AGENTS.md\` for the working agreement.
 `;
 }

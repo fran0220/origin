@@ -4,7 +4,7 @@ export function createOfficialMcpApi(
 	assertOfficial: () => void,
 	capabilitySessionId: string,
 ): PluginOfficialApi["mcp"] {
-	const mcp = window.vetta.plugins.internalCapabilities.mcp;
+	const mcp = window.originApp.plugins.internalCapabilities.mcp;
 	return {
 		list: async () => {
 			assertOfficial();

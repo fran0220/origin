@@ -1,11 +1,11 @@
 /**
  * Desktop Electron batch-1 smoke: boot contract / config isolation / main-process mock probe.
  * Does not cover product UI. Requires dist/ artifacts, or release/*-unpacked when
- * VETTA_E2E_PACKAGED=1.
+ * ORIGIN_E2E_PACKAGED=1.
  */
 
-const EXPECTED_CONFIG_DIR = process.env.VETTA_CONFIG_DIR ?? ".vetta-e2e";
-const EXPECTED_VETTA_HOME = process.env.VETTA_HOME;
+const EXPECTED_CONFIG_DIR = process.env.ORIGIN_CONFIG_DIR ?? ".origin-e2e";
+const EXPECTED_ORIGIN_HOME = process.env.ORIGIN_HOME;
 
 function normalizePath(p: string): string {
 	return p.replaceAll("\\", "/").replace(/\/+$/, "").toLowerCase();
@@ -95,20 +95,20 @@ describe("Vetta Desktop smoke — config isolation", () => {
 	it("E2E env vars are injected into the main process", async () => {
 		const env = await browser.electron.execute(() => {
 			return {
-				vettaE2e: process.env.VETTA_E2E,
-				configDir: process.env.VETTA_CONFIG_DIR,
-				vettaHome: process.env.VETTA_HOME,
+				vettaE2e: process.env.ORIGIN_E2E,
+				configDir: process.env.ORIGIN_CONFIG_DIR,
+				originHome: process.env.ORIGIN_HOME,
 			};
 		});
 
-		expect(env.vettaE2e).toBe("1");
+		expect(env.originE2e).toBe("1");
 		expect(env.configDir).toBe(EXPECTED_CONFIG_DIR);
-		expect(env.vettaHome).toBeTruthy();
-		if (EXPECTED_VETTA_HOME) {
-			expect(normalizePath(env.vettaHome ?? "")).toBe(normalizePath(EXPECTED_VETTA_HOME));
+		expect(env.originHome).toBeTruthy();
+		if (EXPECTED_ORIGIN_HOME) {
+			expect(normalizePath(env.originHome ?? "")).toBe(normalizePath(EXPECTED_ORIGIN_HOME));
 		} else {
 			// Without an explicit override, home must still use the isolated config dir name.
-			expect(normalizePath(env.vettaHome ?? "")).toContain(normalizePath(EXPECTED_CONFIG_DIR));
+			expect(normalizePath(env.originHome ?? "")).toContain(normalizePath(EXPECTED_CONFIG_DIR));
 		}
 	});
 

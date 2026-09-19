@@ -26,7 +26,7 @@ afterEach(async () => {
 });
 
 async function createModelRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-speech-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-speech-test-"));
 	temporaryRoots.push(root);
 	return root;
 }

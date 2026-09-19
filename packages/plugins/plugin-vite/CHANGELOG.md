@@ -45,8 +45,8 @@ All notable changes to `@origin-org/plugin-vite` are documented in this file.
 
 - Added a build- and pack-time permission contract check that rejects plugin runtime capabilities whose required permissions are missing from `plugin.json`.
 - Included the Vite reload reason, affected path, and triggering module in development lifecycle events so Desktop can diagnose cache-affecting plugin reloads.
-- Added opt-in npm distribution packaging that validates `package.json#vetta` identity and writes a stable `release/vetta-plugin.zip` beside the existing versioned archive.
-- Added `vetta-plugin dev`, React Fast Refresh, development CSS scoping, and versioned lifecycle events for Desktop plugin hot reload without changing production package output.
+- Added opt-in npm distribution packaging that validates `package.json#vetta` identity and writes a stable `release/origin-plugin.zip` beside the existing versioned archive.
+- Added `origin-plugin dev`, React Fast Refresh, development CSS scoping, and versioned lifecycle events for Desktop plugin hot reload without changing production package output.
 - Added automatic injection of the public plugin-sdk Tailwind theme contract so plugins can use host semantic color utilities without importing Desktop CSS or repeating `@theme` mappings.
 
 ### Fixed
@@ -57,18 +57,18 @@ All notable changes to `@origin-org/plugin-vite` are documented in this file.
 - Raised production `assetsInlineLimit` so small plugin assets (for example package `icon.png`) stay data-URL inlined; absolute `/…` asset URLs resolve against the host origin and can pick up desktop `public/icon.png` by mistake.
 - Kept CSS resource-module requests such as `?raw`, `?url`, and `?inline` out of the development PostCSS scoping pipeline, while preserving scoping for normal, direct, and HMR stylesheet requests.
 - Made the development ready handshake transform the plugin-local module graph before publishing the source overlay, so entry dependency compilation failures retain the stable plugin instead of surfacing later in Renderer.
-- Exposed the project-local `vetta-plugin` CLI through the stable `@origin-org/plugin-vite/cli` subpath so ESM-only package exports can be resolved by Desktop without pretending the package has a CommonJS entry.
+- Exposed the project-local `origin-plugin` CLI through the stable `@origin-org/plugin-vite/cli` subpath so ESM-only package exports can be resolved by Desktop without pretending the package has a CommonJS entry.
 - Stopped the resource watcher's initial scan from blocking the development server ready handshake after Vite was already serving the plugin entry.
 - Preserved valid React bindings when transitive CommonJS dependencies are bundled against the host-provided React singleton.
 - Kept validated Iconify mask rules available outside plugin CSS scopes so icons render inside portalled UI components.
-- Wrapped those globally hoisted Iconify rules in a nested `vetta-plugin-icons` cascade layer so their `1em` fallback size no longer overrides the host's explicit `w-*` / `h-*` utilities, which had shrunk shared icons and misaligned neighbouring labels.
+- Wrapped those globally hoisted Iconify rules in a nested `origin-plugin-icons` cascade layer so their `1em` fallback size no longer overrides the host's explicit `w-*` / `h-*` utilities, which had shrunk shared icons and misaligned neighbouring labels.
 
 ## [0.0.5] — 2026-08-04
 
 ### Added
 
-- Added the `vetta-plugin validate` and `vetta-plugin pack` CLI so external projects and the plugin workbench use the same manifest parser and archive implementation as Vite builds.
-- **宿主共享 `@origin-org/ui`**：`vettaPluginFederation` 默认将 `@origin-org/ui` 设为 MF `singleton + import:false`，并 rollup external 到 `vetta-host://ui`，与 desktop 的 share scope / host shim 对齐；插件可选用宿主 primitives 而不打进 bundle。
+- Added the `origin-plugin validate` and `origin-plugin pack` CLI so external projects and the plugin workbench use the same manifest parser and archive implementation as Vite builds.
+- **宿主共享 `@origin-org/ui`**：`originPluginFederation` 默认将 `@origin-org/ui` 设为 MF `singleton + import:false`，并 rollup external 到 `origin-host://ui`，与 desktop 的 share scope / host shim 对齐；插件可选用宿主 primitives 而不打进 bundle。
 - **打包纳入能力详情**：根目录存在 `ability.json` 时随 zip 分发，并连带约定的 `presentation/` 展示资源目录；打包期校验 `schemaVersion` / `type` / `slug` / `version` 与 `plugin.json` 身份一致，不一致直接报错。`ability.json` 缺省时行为不变。
 
 ### Changed
@@ -80,7 +80,7 @@ All notable changes to `@origin-org/plugin-vite` are documented in this file.
 
 ### Fixed
 
-- **打包纳入 `plugin.json` 的包内图标**：`icon` 为包内相对路径（png/jpg/webp/gif/svg）时，图标文件此前不会进 zip，导致安装后宿主 `vetta-plugin://` 取图 404、上传能力市场被服务端以「压缩包内缺少 icon 文件」拒绝。判定与宿主 / 服务端一致：Iconify 名与 `http(s)://` 外链不落包；声明的图标文件缺失时打包直接报错。
+- **打包纳入 `plugin.json` 的包内图标**：`icon` 为包内相对路径（png/jpg/webp/gif/svg）时，图标文件此前不会进 zip，导致安装后宿主 `origin-plugin://` 取图 404、上传能力市场被服务端以「压缩包内缺少 icon 文件」拒绝。判定与宿主 / 服务端一致：Iconify 名与 `http(s)://` 外链不落包；声明的图标文件缺失时打包直接报错。
 
 ## [0.0.3] — 2026-07-23
 
@@ -92,7 +92,7 @@ All notable changes to `@origin-org/plugin-vite` are documented in this file.
 
 ### Added
 
-- **`VETTA_PLUGIN_DEV_WATCH=1` 跳过打包**：宿主 dev 热更新的 `vite build --watch` 只需要 dist，watch 模式下不再每轮增量构建都重打 zip。
+- **`ORIGIN_PLUGIN_DEV_WATCH=1` 跳过打包**：宿主 dev 热更新的 `vite build --watch` 只需要 dist，watch 模式下不再每轮增量构建都重打 zip。
 - **打包始终纳入 `scripts/` 与 `agent/docs/`**（若存在），便于工作台脚本与内嵌手册随 zip 分发；MCP 声明时仍额外纳入 `mcp/`。
 - **插件打包包含 MCP 资源**：声明 `agent.mcpServers` 时将配置文件（路径形式）及约定目录 `mcp/`、`scripts/` 打入 zip。
 

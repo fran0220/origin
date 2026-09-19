@@ -8,7 +8,7 @@ import { syncMarketplaceIndex } from "../src/sync.js";
 const created: string[] = [];
 
 function scratch(): string {
-	const root = mkdtempSync(join(tmpdir(), "vetta-sync-"));
+	const root = mkdtempSync(join(tmpdir(), "origin-sync-"));
 	created.push(root);
 	mkdirSync(join(root, ".git"), { recursive: true });
 	return root;
@@ -25,7 +25,7 @@ function writeIndex(
 	marketplaceVersion = "1.0.0",
 	indent: string | number = 0,
 ): string {
-	const manifestPath = join(root, ".vetta", "marketplace.json");
+	const manifestPath = join(root, ".origin", "marketplace.json");
 	write(
 		manifestPath,
 		JSON.stringify({
@@ -293,7 +293,7 @@ describe("sync command", () => {
 		);
 
 		expect(code).toBe(7);
-		expect(sink.out).toContain("vetta-plugin-cli sync");
+		expect(sink.out).toContain("origin-plugin-cli sync");
 	});
 
 	it("warns about index drift right after installing, when it is still on the author's mind", async () => {
@@ -311,7 +311,7 @@ describe("sync command", () => {
 
 		expect(code).toBe(0);
 		// 装完立刻说，而不是等他某天想起来跑 CI。
-		expect(sink.out).toContain("vetta-plugin-cli sync");
+		expect(sink.out).toContain("origin-plugin-cli sync");
 		expect(sink.out).toContain("1.0.0");
 	});
 

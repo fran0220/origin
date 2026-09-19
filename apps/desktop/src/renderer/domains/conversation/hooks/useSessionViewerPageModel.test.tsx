@@ -32,9 +32,9 @@ describe("useSessionViewerPageModel keep-alive identity", () => {
 
 		expect(result.current.path).toBe("/kept/session.jsonl");
 		await waitFor(() => {
-			expect(window.vetta.session.openViewer).toHaveBeenCalledWith("/kept/session.jsonl");
+			expect(window.originApp.session.openViewer).toHaveBeenCalledWith("/kept/session.jsonl");
 		});
-		expect(window.vetta.session.openViewer).not.toHaveBeenCalledWith("/route/session.jsonl");
+		expect(window.originApp.session.openViewer).not.toHaveBeenCalledWith("/route/session.jsonl");
 	});
 
 	it("未传入 path 时仍从路由 params 解码身份", async () => {
@@ -42,7 +42,7 @@ describe("useSessionViewerPageModel keep-alive identity", () => {
 
 		expect(result.current.path).toBe("/route/session.jsonl");
 		await waitFor(() => {
-			expect(window.vetta.session.openViewer).toHaveBeenCalledWith("/route/session.jsonl");
+			expect(window.originApp.session.openViewer).toHaveBeenCalledWith("/route/session.jsonl");
 		});
 	});
 });

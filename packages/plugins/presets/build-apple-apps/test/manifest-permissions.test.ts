@@ -60,6 +60,6 @@ describe("Build Apple Apps preset manifest", () => {
 
 	it("ships the agent skill", async () => {
 		const manifest = await readManifest();
-		expect(manifest.agent?.skillPaths).toEqual(["agent/skills/vetta-apple-app-dev-guide"]);
+		expect(manifest.agent?.skillPaths).toEqual(["agent/skills/origin-apple-app-dev-guide"]);
 	});
 });

@@ -5,7 +5,7 @@ export function createOfficialShortcutsApi(
 	assertOfficial: () => void,
 	capabilitySessionId: string,
 ): PluginOfficialApi["shortcuts"] {
-	const shortcuts = window.vetta.plugins.internalCapabilities.shortcuts;
+	const shortcuts = window.originApp.plugins.internalCapabilities.shortcuts;
 	return {
 		listAvailableActions: () => {
 			assertOfficial();

@@ -17,7 +17,7 @@ describe("createFilesystemEntry", () => {
 	let projectRoot = "";
 
 	beforeEach(async () => {
-		projectRoot = await mkdtemp(join(tmpdir(), "vetta-create-entry-"));
+		projectRoot = await mkdtemp(join(tmpdir(), "origin-create-entry-"));
 		allowProjectRoot(projectRoot);
 	});
 
@@ -60,7 +60,7 @@ describe("binary media files", () => {
 	let projectRoot = "";
 
 	beforeEach(async () => {
-		projectRoot = await mkdtemp(join(tmpdir(), "vetta-binary-media-"));
+		projectRoot = await mkdtemp(join(tmpdir(), "origin-binary-media-"));
 		allowProjectRoot(projectRoot);
 	});
 
@@ -83,7 +83,7 @@ describe("editable text files", () => {
 	let projectRoot = "";
 
 	beforeEach(async () => {
-		projectRoot = await mkdtemp(join(tmpdir(), "vetta-editable-text-"));
+		projectRoot = await mkdtemp(join(tmpdir(), "origin-editable-text-"));
 		allowProjectRoot(projectRoot);
 	});
 
@@ -154,7 +154,7 @@ describe("text preview fallback", () => {
 	let projectRoot = "";
 
 	beforeEach(async () => {
-		projectRoot = await mkdtemp(join(tmpdir(), "vetta-text-preview-"));
+		projectRoot = await mkdtemp(join(tmpdir(), "origin-text-preview-"));
 		allowProjectRoot(projectRoot);
 	});
 

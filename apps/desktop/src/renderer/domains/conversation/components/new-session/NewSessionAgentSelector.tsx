@@ -1,12 +1,12 @@
-import { useAgentAvatarResolver } from "@shared/agent-teams/agent-avatar";
-import { useLocalizedAgentTeamDocument } from "@shared/agent-teams/agent-team-localization";
+import { useAgentAvatarResolver } from "@shared/agent-profiles/agent-avatar";
+import { useLocalizedAgentProfileDocument } from "@shared/agent-profiles/agent-profile-localization";
 import { BotAvatar } from "@shared/components/BotAvatar";
-import { type AgentProfileDocument, listLibraryAgentProfiles } from "@origin/agent-team";
+import { type AgentProfileDocument, listLibraryAgentProfiles } from "@origin/agent-profile";
 import { NewSessionPicker, type NewSessionPickerRootProps } from "@origin-org/theme-ui/chat";
 import { AvatarStackView } from "@origin-org/theme-ui/shared";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { loadAgentTeamDocument } from "./agent-team-directory";
+import { loadAgentProfileDocument } from "./agent-profile-directory";
 import {
 	agentTargetKey,
 	filterTargetOptions,
@@ -33,7 +33,7 @@ export function NewSessionAgentSelector({
 }: NewSessionAgentSelectorProps): JSX.Element {
 	const { t } = useTranslation("chat");
 	const [loadedDocument, setDocument] = useState<AgentProfileDocument>();
-	const document = useLocalizedAgentTeamDocument(loadedDocument);
+	const document = useLocalizedAgentProfileDocument(loadedDocument);
 	const [open, setOpen] = useState(false);
 	const [query, setQuery] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export function NewSessionAgentSelector({
 		setLoading(true);
 		setError(null);
 		try {
-			setDocument(await loadAgentTeamDocument());
+			setDocument(await loadAgentProfileDocument());
 		} catch (cause) {
 			setError(cause instanceof Error ? cause.message : String(cause));
 		} finally {

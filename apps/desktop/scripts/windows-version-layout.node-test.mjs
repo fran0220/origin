@@ -6,7 +6,7 @@ import test from "node:test";
 import { createWindowsVersionLayout, validateLayoutVersion } from "./windows-version-layout.mjs";
 
 test("createWindowsVersionLayout keeps launcher, pointer, and NSIS compatibility directory at root", async () => {
-	const directory = await mkdtemp(join(tmpdir(), "vetta-version-layout-"));
+	const directory = await mkdtemp(join(tmpdir(), "origin-version-layout-"));
 	await mkdir(join(directory, "resources"), { recursive: true });
 	await writeFile(join(directory, "Origin.exe"), "electron");
 	await writeFile(join(directory, "resources", "app.asar"), "asar");

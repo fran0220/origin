@@ -32,26 +32,26 @@ export function readAgentsGuideRevision(content: string): number | undefined {
 /**
  * 渲染常用命令块。
  *
- * 只列工程真有的 script：模板写死 `npm run dev` / `install:vetta`，老工程和自定义工程未必有，
+ * 只列工程真有的 script：模板写死 `npm run dev` / `install:origin`，老工程和自定义工程未必有，
  * 照着跑就是一句 "Missing script"。读不到 package.json 时退回 CLI 直连命令——它们不依赖工程脚本。
  */
 function renderCommands(pluginId: string, scripts: readonly string[]): string {
 	const known: readonly (readonly [string, string])[] = [
 		["dev", "npm run dev            # 开发服务器"],
 		["build", "npm run build          # 产出 dist/"],
-		["install:vetta", "npm run install:vetta  # 打包并装进正在运行的 Vetta（需要 Vetta 已启动）"],
+		["install:origin", "npm run install:origin  # 打包并装进正在运行的 Vetta（需要 Vetta 已启动）"],
 	];
 	const lines = known.filter(([name]) => scripts.includes(name)).map(([, line]) => line);
-	if (!scripts.includes("install:vetta")) {
-		lines.push("npx vetta-plugin-cli add .       # 打包并装进正在运行的 Vetta");
+	if (!scripts.includes("install:origin")) {
+		lines.push("npx origin-plugin-cli add .       # 打包并装进正在运行的 Vetta");
 	}
 	return [
 		...lines,
 		"",
-		"npx vetta-plugin-cli watch       # 热更新：宿主改从本工程目录加载，改完即生效",
-		`npx vetta-plugin-cli reload ${pluginId}   # 装完提示有 pending 版本时用它`,
-		"npx vetta-plugin-cli uninstall   # 卸载（省略 id 即本工程对应的插件）",
-		"npx vetta-plugin-cli sync        # 在 hub 仓库根上跑：把索引与各能力目录对账",
+		"npx origin-plugin-cli watch       # 热更新：宿主改从本工程目录加载，改完即生效",
+		`npx origin-plugin-cli reload ${pluginId}   # 装完提示有 pending 版本时用它`,
+		"npx origin-plugin-cli uninstall   # 卸载（省略 id 即本工程对应的插件）",
+		"npx origin-plugin-cli sync        # 在 hub 仓库根上跑：把索引与各能力目录对账",
 	].join("\n");
 }
 
@@ -73,10 +73,10 @@ Vetta 桌面插件工程（插件 id：\`${input.pluginId}\`）。
 
 \`\`\`bash
 npm install
-npx vetta-plugin-cli docs --check-latest
+npx origin-plugin-cli docs --check-latest
 \`\`\`
 
-\`npm install\` 必须先跑：\`vetta-plugin-cli\` 是 \`@origin-org/plugin-cli\` 的命令名，装完才在
+\`npm install\` 必须先跑：\`origin-plugin-cli\` 是 \`@origin-org/plugin-cli\` 的命令名，装完才在
 \`node_modules/.bin\` 里。还没装就想跑，用全名 \`npx @origin-org/plugin-cli docs\`。
 
 它打印手册目录的**绝对路径**、手册对应的 SDK 版本，以及本工程与所属 hub 的位置。
@@ -99,7 +99,7 @@ npx vetta-plugin-cli docs --check-latest
 ## 常用命令
 
 \`\`\`bash
-${renderCommands(input.pluginId, input.scripts ?? ["dev", "build", "install:vetta"])}
+${renderCommands(input.pluginId, input.scripts ?? ["dev", "build", "install:origin"])}
 \`\`\`
 
 细节都在 \`getting-started.md\`。\`docs\` 打印了 \`Marketplace index:\` 就说明这个目录之上有能力

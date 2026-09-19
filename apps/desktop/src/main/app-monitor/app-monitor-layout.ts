@@ -1,10 +1,10 @@
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 
 const MONTH_KEY_PATTERN = /^\d{4}-\d{2}$/;
 
 export function appMonitorRootPath(): string {
-	return join(getVettaHomePath(), "app-monitor");
+	return join(getOriginHomePath(), "app-monitor");
 }
 
 export function appMonitorSummaryPath(): string {

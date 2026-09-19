@@ -133,11 +133,11 @@ describe("skill / scene", () => {
 	});
 });
 
-describe("vetta.json 与 payload.detail", () => {
+describe("origin.json 与 payload.detail", () => {
 	it("两者同时存在时提醒包内那份被整体忽略", () => {
 		const { warnings } = crossCheckPackage(pluginInput({}), pluginPkg({ vettaJson: { name: "包里的" } }));
 
-		expect(warnings.some((w) => w.includes("vetta.json 被整体忽略"))).toBe(true);
+		expect(warnings.some((w) => w.includes("origin.json 被整体忽略"))).toBe(true);
 	});
 });
 

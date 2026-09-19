@@ -4,8 +4,8 @@ export function createOfficialProjectsApi(
 	assertOfficial: () => void,
 	capabilitySessionId: string,
 ): PluginOfficialApi["projects"] {
-	const projects = window.vetta.plugins.internalCapabilities.projects;
-	const sessions = window.vetta.plugins.internalCapabilities.sessions;
+	const projects = window.originApp.plugins.internalCapabilities.projects;
+	const sessions = window.originApp.plugins.internalCapabilities.sessions;
 	return {
 		list: async () => {
 			assertOfficial();

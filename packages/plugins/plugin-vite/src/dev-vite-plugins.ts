@@ -3,15 +3,15 @@ import { readFileSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { HMRPayload, Plugin, PluginOption, ResolvedConfig } from "vite";
-import { emitVettaPluginDevEvent } from "./dev-events.js";
+import { emitOriginPluginDevEvent } from "./dev-events.js";
 
-export const VETTA_PLUGIN_DEV_ENTRY_ID = "virtual:vetta-plugin-dev-entry";
+export const ORIGIN_PLUGIN_DEV_ENTRY_ID = "virtual:origin-plugin-dev-entry";
 
-const RESOLVED_DEV_ENTRY_ID = `\0${VETTA_PLUGIN_DEV_ENTRY_ID}`;
-const DEV_PREAMBLE_PATH = "/@vetta-plugin-dev-preamble";
+const RESOLVED_DEV_ENTRY_ID = `\0${ORIGIN_PLUGIN_DEV_ENTRY_ID}`;
+const DEV_PREAMBLE_PATH = "/@origin-plugin-dev-preamble";
 
-export function isVettaPluginDevServer(): boolean {
-	return process.env.VETTA_PLUGIN_DEV_SERVER === "1";
+export function isOriginPluginDevServer(): boolean {
+	return process.env.ORIGIN_PLUGIN_DEV_SERVER === "1";
 }
 
 function readPluginId(config: ResolvedConfig): string {
@@ -23,21 +23,21 @@ function createDevEntryPlugin(entry: string): Plugin {
 	let pluginId = "";
 	let entryUrl = "";
 	return {
-		name: "vetta-plugin-dev-entry",
+		name: "origin-plugin-dev-entry",
 		apply: "serve",
 		configResolved(config) {
 			pluginId = readPluginId(config);
 			entryUrl = `/${relative(config.root, resolve(config.root, entry)).replaceAll("\\", "/")}`;
 		},
 		resolveId(id) {
-			return id === VETTA_PLUGIN_DEV_ENTRY_ID ? RESOLVED_DEV_ENTRY_ID : undefined;
+			return id === ORIGIN_PLUGIN_DEV_ENTRY_ID ? RESOLVED_DEV_ENTRY_ID : undefined;
 		},
 		load(id) {
 			if (id !== RESOLVED_DEV_ENTRY_ID) return;
 			return `
 import * as pluginModule from ${JSON.stringify(entryUrl)};
 
-const moduleStore = globalThis.__VETTA_PLUGIN_DEV_MODULES__ ??= new Map();
+const moduleStore = globalThis.__ORIGIN_PLUGIN_DEV_MODULES__ ??= new Map();
 moduleStore.set(${JSON.stringify(pluginId)}, pluginModule);
 
 export * from ${JSON.stringify(entryUrl)};
@@ -47,16 +47,16 @@ if (import.meta.hot) {
   import.meta.hot.accept(${JSON.stringify(entryUrl)}, (nextModule) => {
     if (!nextModule) return;
     moduleStore.set(${JSON.stringify(pluginId)}, nextModule);
-    import.meta.hot.send("vetta:plugin-lifecycle-reload", {
+    import.meta.hot.send("origin:plugin-lifecycle-reload", {
       pluginId: ${JSON.stringify(pluginId)},
       reason: "entry",
 	  path: ${JSON.stringify(entryUrl)},
     });
   });
-  import.meta.hot.on("vetta:plugin-full-reload", async (reload) => {
-    const nextModule = await import(${JSON.stringify(`${entryUrl}?vetta-reload=`)} + Date.now());
+  import.meta.hot.on("origin:plugin-full-reload", async (reload) => {
+    const nextModule = await import(${JSON.stringify(`${entryUrl}?origin-reload=`)} + Date.now());
     moduleStore.set(${JSON.stringify(pluginId)}, nextModule);
-    import.meta.hot.send("vetta:plugin-lifecycle-reload", {
+    import.meta.hot.send("origin:plugin-lifecycle-reload", {
       pluginId: ${JSON.stringify(pluginId)},
       reason: "full-reload",
 	  path: reload?.path,
@@ -72,7 +72,7 @@ if (import.meta.hot) {
 function createDevRuntimePlugin(): Plugin {
 	let pluginId = "";
 	return {
-		name: "vetta-plugin-dev-runtime",
+		name: "origin-plugin-dev-runtime",
 		apply: "serve",
 		configResolved(config) {
 			pluginId = readPluginId(config);
@@ -94,14 +94,14 @@ window.__vite_plugin_react_preamble_installed__ = true;
 `);
 			});
 
-			server.ws.on("vetta:plugin-lifecycle-reload", (data) => {
+			server.ws.on("origin:plugin-lifecycle-reload", (data) => {
 				const reason =
 					typeof data === "object" && data !== null && "reason" in data && data.reason === "full-reload"
 						? "full-reload"
 						: "entry";
 				const path = readOptionalString(data, "path");
 				const triggeredBy = readOptionalString(data, "triggeredBy");
-				emitVettaPluginDevEvent({
+				emitOriginPluginDevEvent({
 					type: "update",
 					pluginId,
 					reason,
@@ -116,7 +116,7 @@ window.__vite_plugin_react_preamble_installed__ = true;
 					if (payloadOrEvent.type === "full-reload") {
 						send({
 							type: "custom",
-							event: "vetta:plugin-full-reload",
+							event: "origin:plugin-full-reload",
 							data: {
 								path: readOptionalString(payloadOrEvent, "path"),
 								triggeredBy: readOptionalString(payloadOrEvent, "triggeredBy"),
@@ -130,7 +130,7 @@ window.__vite_plugin_react_preamble_installed__ = true;
 							typeof error === "object" && error !== null && "message" in error
 								? String(error.message)
 								: String(error);
-						emitVettaPluginDevEvent({ type: "error", pluginId, message });
+						emitOriginPluginDevEvent({ type: "error", pluginId, message });
 					}
 				}
 				if (typeof payloadOrEvent === "string") {
@@ -149,6 +149,6 @@ function readOptionalString(value: unknown, key: string): string | undefined {
 	return typeof candidate === "string" && candidate.length > 0 ? candidate : undefined;
 }
 
-export function createVettaPluginDevPlugins(entry: string): PluginOption[] {
+export function createOriginPluginDevPlugins(entry: string): PluginOption[] {
 	return [react(), createDevEntryPlugin(entry), createDevRuntimePlugin()];
 }

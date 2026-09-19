@@ -19,7 +19,7 @@ describe("copyUserMessageToClipboard", () => {
 		});
 		const fetchSpy = vi.spyOn(globalThis, "fetch");
 
-		await copyUserMessageToClipboard("hello", ["vetta-file://local/C:/attachments/attachment.png"]);
+		await copyUserMessageToClipboard("hello", ["origin-file://local/C:/attachments/attachment.png"]);
 
 		expect(writeUserMessage).toHaveBeenCalledWith({
 			text: "hello",

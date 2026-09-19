@@ -248,7 +248,7 @@ export const isConversationBusyAtom = atom<boolean>(
 	(get) => get(isStreamingAtom) || get(pendingSessionSendAtom) !== null,
 );
 function getStoredExecutionMode(): SessionExecutionMode {
-	return localStorage.getItem("vetta-session-execution-mode") === "sandbox" ? "sandbox" : "full-access";
+	return localStorage.getItem("origin-session-execution-mode") === "sandbox" ? "sandbox" : "full-access";
 }
 
 export const sessionExecutionModeAtom = atom<SessionExecutionMode>(getStoredExecutionMode());

@@ -180,7 +180,7 @@ export class SystemPluginCatalog {
 		const cacheVersion = this.dependencies.isPackaged
 			? version
 			: this.resourceCacheVersion(pluginId, normalized, version);
-		return `vetta-plugin://${pluginId}/${normalized}?v=${encodeURIComponent(cacheVersion)}`;
+		return `origin-plugin://${pluginId}/${normalized}?v=${encodeURIComponent(cacheVersion)}`;
 	}
 
 	private resourceCacheVersion(pluginId: string, relativePath: string, version: string): string {

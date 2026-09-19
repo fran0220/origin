@@ -76,7 +76,7 @@ export function ContentVideoGenerationSettings({
 			{open ? (
 				<PopoverContent
 					ref={contentRef}
-					data-vetta-plugin-root="content-creation"
+					data-origin-plugin-root="content-creation"
 					align="start"
 					side="top"
 					sideOffset={10}

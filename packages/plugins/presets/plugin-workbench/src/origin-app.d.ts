@@ -1,0 +1,73 @@
+/** Minimal host bridge types for trusted plugins (ADR-0023). */
+interface OriginPluginDevWatchState {
+	projectDir: string;
+	entryUrl?: string;
+	origin?: string;
+	status: "starting" | "running" | "error";
+	error?: string;
+}
+
+interface OriginPluginsChangedEvent {
+	pluginIds?: string[];
+	reload?: boolean;
+	reason?: "dev-ready" | "dev-update" | "dev-status";
+}
+
+interface OriginPluginsApi {
+	list(): Promise<
+		Array<{
+			id: string;
+			name: string;
+			version: string;
+			enabled: boolean;
+			source: string;
+			rootPath?: string;
+			permissions?: string[];
+			grantedPermissions?: string[];
+			devWatch?: OriginPluginDevWatchState;
+		}>
+	>;
+	installFromArchive(
+		buffer: ArrayBuffer,
+		options?: { grantedPermissions?: string[]; enable?: boolean; source?: "archive" | "remote" },
+	): Promise<{ id: string; name: string; version: string }>;
+	installFromPath(
+		path: string,
+		options?: { grantedPermissions?: string[]; enable?: boolean },
+	): Promise<{ id: string; name: string; version: string }>;
+	uninstall(id: string): Promise<void>;
+	reload(id: string): Promise<unknown>;
+	startDevWatch(id: string, projectDir: string): Promise<unknown>;
+	stopDevWatch(id: string): Promise<void>;
+	setEnabled(id: string, enabled: boolean): Promise<unknown>;
+	grantPermissions(id: string, permissions: string[]): Promise<unknown>;
+	onPluginsChanged(listener: (event?: OriginPluginsChangedEvent) => void): () => void;
+	registerModeGate(pluginId: string): Promise<void>;
+	setContributionMode(pluginId: string, active: boolean): Promise<void>;
+}
+
+interface OriginFsApi {
+	readDir(path: string): Promise<Array<{ name: string; isDirectory: boolean }>>;
+	readFile(path: string): Promise<{ content: string; encoding: string }>;
+	writeFile(path: string, content: string, encoding?: string): Promise<void>;
+	stat(path: string): Promise<{ size: number } | null>;
+}
+
+interface OriginDialogSaveCopyOptions {
+	defaultFileName?: string;
+	title?: string;
+	filters?: Array<{ name: string; extensions: string[] }>;
+}
+
+interface OriginDialogApi {
+	/** Native save dialog that copies an existing file; null if cancelled. */
+	saveCopy(sourcePath: string, options?: OriginDialogSaveCopyOptions): Promise<string | null>;
+}
+
+interface Window {
+	originApp: {
+		plugins: OriginPluginsApi;
+		fs: OriginFsApi;
+		dialog: OriginDialogApi;
+	};
+}

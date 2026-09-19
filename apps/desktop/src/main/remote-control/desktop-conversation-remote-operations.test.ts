@@ -6,7 +6,7 @@ describe("DesktopConversationRemoteOperations", () => {
 	it("creates an opaque remote session then translates a turn into protocol events", async () => {
 		const session = {
 			sessionId: "runtime-session-1",
-			sessionPath: "C:/work/.vetta/sessions/1.jsonl",
+			sessionPath: "C:/work/.origin/sessions/1.jsonl",
 			cwd: "C:/work",
 			listCwd: "C:/work",
 			source: "interactive" as const,
@@ -52,7 +52,7 @@ describe("DesktopConversationRemoteOperations", () => {
 	it("forwards runtime deltas and tool lifecycle events as they arrive", async () => {
 		const session = {
 			sessionId: "runtime-session-stream",
-			sessionPath: "C:/work/.vetta/sessions/stream.jsonl",
+			sessionPath: "C:/work/.origin/sessions/stream.jsonl",
 			cwd: "C:/work",
 			listCwd: "C:/work",
 			source: "interactive" as const,

@@ -7,7 +7,7 @@ interface ClipboardDataLike {
 }
 
 export interface VettaMessageClipboardImages {
-	kind: "vetta-message";
+	kind: "origin-message";
 	images: Base64Image[];
 	messageText: string;
 }
@@ -16,7 +16,7 @@ export type ClipboardImages = VettaMessageClipboardImages | { kind: "files"; fil
 
 export function readVettaMessageClipboardImages(html: string, text: string): VettaMessageClipboardImages | null {
 	const images = extractVettaUserMessageClipboardImages(html);
-	return images.length > 0 ? { kind: "vetta-message", images, messageText: text } : null;
+	return images.length > 0 ? { kind: "origin-message", images, messageText: text } : null;
 }
 
 export function readClipboardImageFiles(clipboardData: Pick<ClipboardDataLike, "items">): File[] {

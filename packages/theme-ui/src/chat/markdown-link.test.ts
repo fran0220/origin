@@ -57,14 +57,14 @@ describe("normalizeLocalFileLinksInMarkdown", () => {
 	});
 
 	test("rewrites backslash destinations to forward slashes", () => {
-		const input = "[index.html](C:\\Users\\flowerwine\\.vetta\\conversation\\afc54df9\\index.html)";
+		const input = "[index.html](C:\\Users\\flowerwine\\.origin\\conversation\\afc54df9\\index.html)";
 		const out = normalizeLocalFileLinksInMarkdown(input);
-		expect(out).toBe("[index.html](<C:/Users/flowerwine/.vetta/conversation/afc54df9/index.html>)");
+		expect(out).toBe("[index.html](<C:/Users/flowerwine/.origin/conversation/afc54df9/index.html>)");
 	});
 
 	test("rewrites angle-bracket destinations", () => {
-		const input = "[a](<C:\\Users\\x\\.vetta\\a.html>)";
-		expect(normalizeLocalFileLinksInMarkdown(input)).toBe("[a](<C:/Users/x/.vetta/a.html>)");
+		const input = "[a](<C:\\Users\\x\\.origin\\a.html>)";
+		expect(normalizeLocalFileLinksInMarkdown(input)).toBe("[a](<C:/Users/x/.origin/a.html>)");
 	});
 
 	test("standardizes absolute local links and leaves web links alone", () => {
@@ -126,9 +126,9 @@ describe("classifyMarkdownLink", () => {
 	});
 
 	test("rehype percent-encoded windows path", () => {
-		expect(classifyMarkdownLink("C:%5CUsers%5Cflowerwine%5C.vetta%5Cconversation%5Cafc54df9%5Cindex.html")).toEqual({
+		expect(classifyMarkdownLink("C:%5CUsers%5Cflowerwine%5C.origin%5Cconversation%5Cafc54df9%5Cindex.html")).toEqual({
 			type: "file",
-			path: "C:/Users/flowerwine/.vetta/conversation/afc54df9/index.html",
+			path: "C:/Users/flowerwine/.origin/conversation/afc54df9/index.html",
 		});
 	});
 
@@ -208,7 +208,7 @@ describe("end-to-end: remark parse + urlTransform for user example", () => {
 		});
 	});
 
-	test("backslash path survives and classifies as file with .vetta intact", () => {
+	test("backslash path survives and classifies as file with .origin intact", () => {
 		const r = createRequire(import.meta.url);
 		const rmPath = r.resolve("react-markdown");
 		const r2 = createRequire(rmPath);
@@ -218,9 +218,9 @@ describe("end-to-end: remark parse + urlTransform for user example", () => {
 		const { visit } = r2("unist-util-visit");
 
 		const BS = "\\";
-		const raw = `[index.html](C:${BS}Users${BS}flowerwine${BS}.vetta${BS}conversation${BS}afc54df9-bcf0-4ec0-9632-0c2a4dde88c7${BS}index.html)`;
+		const raw = `[index.html](C:${BS}Users${BS}flowerwine${BS}.origin${BS}conversation${BS}afc54df9-bcf0-4ec0-9632-0c2a4dde88c7${BS}index.html)`;
 		const source = normalizeLocalFileLinksInMarkdown(raw);
-		expect(source).toContain("flowerwine/.vetta/");
+		expect(source).toContain("flowerwine/.origin/");
 
 		const tree = unified().use(remarkParse).use(remarkRehype).runSync(unified().use(remarkParse).parse(source));
 		let href: string | undefined;
@@ -232,7 +232,7 @@ describe("end-to-end: remark parse + urlTransform for user example", () => {
 		expect(transformed).not.toBe("");
 		expect(classifyMarkdownLink(transformed)).toEqual({
 			type: "file",
-			path: "C:/Users/flowerwine/.vetta/conversation/afc54df9-bcf0-4ec0-9632-0c2a4dde88c7/index.html",
+			path: "C:/Users/flowerwine/.origin/conversation/afc54df9-bcf0-4ec0-9632-0c2a4dde88c7/index.html",
 		});
 	});
 });

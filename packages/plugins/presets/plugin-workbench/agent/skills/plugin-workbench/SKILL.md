@@ -26,7 +26,7 @@ workbenchRoot = listPlugins() 中 id === "plugin-workbench" 的 rootPath
 
 | 资源 | 绝对路径 |
 | --- | --- |
-| **插件 CLI（内置）** | `{workbenchRoot}/agent/cli/vetta-plugin-cli.js` |
+| **插件 CLI（内置）** | `{workbenchRoot}/agent/cli/origin-plugin-cli.js` |
 | 文档索引（本 skill 附件） | 本 skill 目录 `references/doc-index.md` |
 | 实现模板摘要 | 本 skill 目录 `references/templates.md` |
 | 标准脚本 | `{workbenchRoot}/scripts/*.mjs` |
@@ -36,7 +36,7 @@ workbenchRoot = listPlugins() 中 id === "plugin-workbench" 的 rootPath
 CLI 解析它的位置（工程 `npm install` 之后）：
 
 ```bash
-node "{workbenchRoot}/agent/cli/vetta-plugin-cli.js" docs --json
+node "{workbenchRoot}/agent/cli/origin-plugin-cli.js" docs --json
 ```
 
 返回 `manualDir`（手册目录绝对路径）、`entry`（README.md）、`sdkVersion`，以及当前命中的插件工程。
@@ -117,7 +117,7 @@ AskUserQuestion 收齐 §3；对照 README 能力矩阵选定扩展点 → 列�
 ### 4.2 Scaffold
 
 ```bash
-node "{workbenchRoot}/agent/cli/vetta-plugin-cli.js" init --id {id} --name "{name}" "{cwd}/{plugin-id}"
+node "{workbenchRoot}/agent/cli/origin-plugin-cli.js" init --id {id} --name "{name}" "{cwd}/{plugin-id}"
 cd "{cwd}/{plugin-id}" && npm install
 ```
 
@@ -179,7 +179,7 @@ node "{workbenchRoot}/scripts/build-and-pack.mjs" "{pluginRoot}"
 
 ### 4.6 改 name / guidingWords
 
-只改 **工程源码** `plugin.json`，再 4.4 → 4.5。禁止改 `~/.vetta/plugins/...` 已装目录当真相源。
+只改 **工程源码** `plugin.json`，再 4.4 → 4.5。禁止改 `~/.origin/plugins/...` 已装目录当真相源。
 
 ### 4.7 卸载 / 重载 / 重新安装
 
@@ -192,7 +192,7 @@ node "{workbenchRoot}/scripts/build-and-pack.mjs" "{pluginRoot}"
 
 Activity Tab「制作插件」（同样受 toggle 硬隔离）：扫描 cwd、构建、应用、卸载、重载、改 name/引导词。与对话同一规则与同一脚本。
 
-每张工程卡片有 **「热更新」开关（已安装后默认开）**：宿主把插件 dev 链接到工程目录并常驻 `vetta-plugin dev`；React / CSS 走 HMR，其余资源定向重载（无需 bump/重打 zip/手动 reload）。适合迭代调试。
+每张工程卡片有 **「热更新」开关（已安装后默认开）**：宿主把插件 dev 链接到工程目录并常驻 `origin-plugin dev`；React / CSS 走 HMR，其余资源定向重载（无需 bump/重打 zip/手动 reload）。适合迭代调试。
 
 已安装时还有 **「重新安装」**（与消息卡按钮同路径）：强制 build-and-pack → 把权限/命令**持久写入注册表** → **刷新整个 Origin 窗口**。日常改代码 / 改 plugin.json 靠热更新即可（dev 会话内权限声明自动放行）；重新安装用于落盘授权或热更新异常时兜底。首次安装仍用「应用到 Origin」。
 

@@ -3,7 +3,7 @@ import { basename, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const pluginRoot = resolve(import.meta.dirname, "..");
-const skillPath = "agent/skills/vetta-apple-app-dev-guide";
+const skillPath = "agent/skills/origin-apple-app-dev-guide";
 const skillDir = resolve(pluginRoot, skillPath);
 
 /** components-index.md 里「还没写、需要时新建」的占位条目，不是坏链。 */
@@ -21,7 +21,7 @@ async function listMarkdown(dir: string): Promise<string[]> {
 		.map((entry) => resolve(entry.parentPath, entry.name));
 }
 
-describe("vetta-apple-app-dev-guide skill", () => {
+describe("origin-apple-app-dev-guide skill", () => {
 	it("ships exactly one SKILL.md", async () => {
 		// 多个 skill 会各自把 frontmatter 常驻进上下文；本插件刻意只暴露一个入口，
 		// 所有指南都靠 references/ 渐进展开。
@@ -33,7 +33,7 @@ describe("vetta-apple-app-dev-guide skill", () => {
 		const source = await readFile(resolve(skillDir, "SKILL.md"), "utf8");
 		expect(source.startsWith("---\n")).toBe(true);
 		const frontmatter = source.slice(4, source.indexOf("\n---\n", 3));
-		expect(frontmatter).toContain("name: vetta-apple-app-dev-guide");
+		expect(frontmatter).toContain("name: origin-apple-app-dev-guide");
 		expect(frontmatter).toMatch(/^description: .+/m);
 	});
 

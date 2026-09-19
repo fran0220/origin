@@ -25,30 +25,37 @@ export function createPluginServiceApi(
 		return serviceId;
 	};
 	return {
-		getPlatform: () => invoke(() => window.vetta.plugins.getServicePlatform(capabilitySessionId)),
+		getPlatform: () => invoke(() => window.originApp.plugins.getServicePlatform(capabilitySessionId)),
 		getStatus: (serviceId) =>
-			invoke(() => window.vetta.plugins.getServiceStatus(capabilitySessionId, assertDeclared(serviceId))),
+			invoke(() => window.originApp.plugins.getServiceStatus(capabilitySessionId, assertDeclared(serviceId))),
 		install: (serviceId, artifacts) =>
-			invoke(() => window.vetta.plugins.installService(capabilitySessionId, assertDeclared(serviceId), artifacts)),
+			invoke(() =>
+				window.originApp.plugins.installService(capabilitySessionId, assertDeclared(serviceId), artifacts),
+			),
 		start: (serviceId) =>
-			invoke(() => window.vetta.plugins.startService(capabilitySessionId, assertDeclared(serviceId))),
+			invoke(() => window.originApp.plugins.startService(capabilitySessionId, assertDeclared(serviceId))),
 		stop: (serviceId) =>
-			invoke(() => window.vetta.plugins.stopService(capabilitySessionId, assertDeclared(serviceId))),
+			invoke(() => window.originApp.plugins.stopService(capabilitySessionId, assertDeclared(serviceId))),
 		restart: (serviceId) =>
-			invoke(() => window.vetta.plugins.restartService(capabilitySessionId, assertDeclared(serviceId))),
+			invoke(() => window.originApp.plugins.restartService(capabilitySessionId, assertDeclared(serviceId))),
 		connection: (serviceId, credentialId) =>
 			invoke(() =>
-				window.vetta.plugins.getServiceConnection(capabilitySessionId, assertDeclared(serviceId), credentialId),
+				window.originApp.plugins.getServiceConnection(capabilitySessionId, assertDeclared(serviceId), credentialId),
 			),
 		request: (serviceId, request) =>
-			invoke(() => window.vetta.plugins.requestService(capabilitySessionId, assertDeclared(serviceId), request)),
+			invoke(() => window.originApp.plugins.requestService(capabilitySessionId, assertDeclared(serviceId), request)),
 		readDataFile: (serviceId, path, encoding) =>
 			invoke(() =>
-				window.vetta.plugins.readServiceDataFile(capabilitySessionId, assertDeclared(serviceId), path, encoding),
+				window.originApp.plugins.readServiceDataFile(
+					capabilitySessionId,
+					assertDeclared(serviceId),
+					path,
+					encoding,
+				),
 			),
 		writeDataFile: (serviceId, path, data, encoding) =>
 			invoke(() =>
-				window.vetta.plugins.writeServiceDataFile(
+				window.originApp.plugins.writeServiceDataFile(
 					capabilitySessionId,
 					assertDeclared(serviceId),
 					path,
@@ -57,10 +64,12 @@ export function createPluginServiceApi(
 				),
 			),
 		reportReady: (serviceId, ready) =>
-			invoke(() => window.vetta.plugins.reportServiceReady(capabilitySessionId, assertDeclared(serviceId), ready)),
+			invoke(() =>
+				window.originApp.plugins.reportServiceReady(capabilitySessionId, assertDeclared(serviceId), ready),
+			),
 		onStatusChange: (listener): Disposable => {
 			assertActive();
-			const unsubscribe = window.vetta.plugins.onServiceStatusChanged((event) => {
+			const unsubscribe = window.originApp.plugins.onServiceStatusChanged((event) => {
 				if (event.pluginId === plugin.id) listener(event.status);
 			});
 			disposers.push(unsubscribe);

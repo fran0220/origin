@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { isSecretFieldName, storeMcpConfigSecrets } from "@origin/runtime-node/credentials";
 import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import type { McpServerDetail, McpServerSummary, McpServerUpsertData } from "@origin-org/capability-sdk";
@@ -21,7 +21,7 @@ export interface McpSettingsServiceOptions {
 	readonly writeConfig: (config: McpConfigData) => Promise<void>;
 }
 
-const MCP_CONFIG_PATH = join(getVettaHomePath(), "agent", "mcp.json");
+const MCP_CONFIG_PATH = join(getOriginHomePath(), "agent", "mcp.json");
 const DEFAULT_MCP_CONFIG: McpConfigData = { mcpServers: {} };
 
 export async function readMcpConfig(): Promise<McpConfigData> {

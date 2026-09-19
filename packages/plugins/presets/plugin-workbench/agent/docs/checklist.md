@@ -1,7 +1,7 @@
 # 极简速查（细节以全文手册为准）
 
 **完整开发手册**：随工程的 `@origin-org/plugin-sdk` 装在它自己的 `node_modules` 里。
-先拿路径：`node <workbenchRoot>/agent/cli/vetta-plugin-cli.js docs --json` → `manualDir`。
+先拿路径：`node <workbenchRoot>/agent/cli/origin-plugin-cli.js docs --json` → `manualDir`。
 
 创建/改插件前请按 skill 要求用 read 打开（相对 `manualDir`）：
 

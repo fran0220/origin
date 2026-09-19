@@ -48,7 +48,7 @@ export interface DesktopSessionSearchEvent {
 }
 
 export const SESSION_SEARCH_CHANNELS = {
-	start: "vetta:session:search-sessions",
-	cancel: "vetta:session:cancel-search",
-	event: "vetta:session:search-sessions-event",
+	start: "origin:session:search-sessions",
+	cancel: "origin:session:cancel-search",
+	event: "origin:session:search-sessions-event",
 } as const;

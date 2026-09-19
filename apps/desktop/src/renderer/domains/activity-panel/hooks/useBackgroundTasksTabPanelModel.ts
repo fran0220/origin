@@ -265,23 +265,23 @@ export function useBackgroundTasksTabPanelModel(): BackgroundTasksTabPanelModel 
 		// Host clears both bash finished tasks and terminal subagents, then emits
 		// Background-task + Subagent extension observations (or empty snapshots).
 		for (const runtimeId of runtimeIds) {
-			void window.vetta.session.clearFinishedBackgroundTasks(runtimeId);
-			void window.vetta.session.clearFinishedMcpTasks(runtimeId);
+			void window.originApp.session.clearFinishedBackgroundTasks(runtimeId);
+			void window.originApp.session.clearFinishedMcpTasks(runtimeId);
 		}
 	}, [runtimeIds]);
 
 	const handleStop = useCallback(
 		(id: string, kind: "bash" | "subagent" | "mcp") => {
 			if (kind === "mcp") {
-				void window.vetta.session.cancelMcpTask(id);
+				void window.originApp.session.cancelMcpTask(id);
 				return;
 			}
 			const runtimeId = runtimeIdByItemId.get(`${kind}:${id}`);
 			if (!runtimeId) return;
 			if (kind === "bash") {
-				void window.vetta.session.killBackgroundTask(runtimeId, id);
+				void window.originApp.session.killBackgroundTask(runtimeId, id);
 			} else {
-				void window.vetta.session.interruptSubagent?.(runtimeId, id);
+				void window.originApp.session.interruptSubagent?.(runtimeId, id);
 			}
 		},
 		[runtimeIdByItemId],

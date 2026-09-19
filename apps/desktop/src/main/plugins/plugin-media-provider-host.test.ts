@@ -14,7 +14,7 @@ function plugin(permissions: InstalledPlugin["permissions"] = ["media.provider.r
 		activeVersion: "1.0.0",
 		pluginApiVersion: "^2.0.0",
 		moduleFederation: { remoteName: "media_provider_test", expose: "./plugin" },
-		entryUrl: "vetta-plugin://demo/index.js",
+		entryUrl: "origin-plugin://demo/index.js",
 		styleUrls: [],
 		permissions,
 		grantedPermissions: permissions,

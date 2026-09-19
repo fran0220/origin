@@ -13,7 +13,7 @@ import { CommitMeta } from "./CommitMeta";
 
 type ViewMode = "tree" | "flat";
 // Shared with GitChanges so the tree/flat preference stays consistent across views.
-const VIEW_MODE_KEY = "vetta-git-view-mode";
+const VIEW_MODE_KEY = "origin-git-view-mode";
 
 function basename(path: string): string {
 	const i = path.lastIndexOf("/");

@@ -41,7 +41,7 @@ async function main() {
 
 	let validated;
 	try {
-		const pluginCliPath = join(root, "node_modules", "@vetta-org", "plugin-vite", "dist", "cli.js");
+		const pluginCliPath = join(root, "node_modules", "@origin-org", "plugin-vite", "dist", "cli.js");
 		const result = await run(
 			process.execPath,
 			[pluginCliPath, "validate", "--root", root],

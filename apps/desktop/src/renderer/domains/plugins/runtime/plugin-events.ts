@@ -1,4 +1,4 @@
-export const PLUGINS_CHANGED_EVENT = "vetta:plugins-changed";
+export const PLUGINS_CHANGED_EVENT = "origin:plugins-changed";
 
 let resolvePluginHostReady: (() => void) | undefined;
 let pluginHostReadyPromise = new Promise<void>((resolve) => {

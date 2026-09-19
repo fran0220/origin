@@ -236,7 +236,7 @@ describe("AbilityDetailBlocks", () => {
 		const { rerender } = render(
 			<AbilityDetailBlocks
 				abilityType="plugin"
-				abilityIcon="vetta-plugin://browser/icon.png"
+				abilityIcon="origin-plugin://browser/icon.png"
 				blocks={[{ type: "hero", title: "A useful agent", image: "icon.png", image_alt: "Plugin icon" }]}
 			/>,
 		);
@@ -245,7 +245,7 @@ describe("AbilityDetailBlocks", () => {
 		rerender(
 			<AbilityDetailBlocks
 				abilityType="plugin"
-				abilityIcon="vetta-plugin://browser/icon.png"
+				abilityIcon="origin-plugin://browser/icon.png"
 				blocks={[{ type: "hero", title: "A useful agent", image: "https://example.com/preview.webp", image_alt: "Workspace" }]}
 			/>,
 		);
@@ -258,8 +258,8 @@ describe("shouldShowHeroStill", () => {
 		expect(shouldShowHeroStill(undefined)).toBe(false);
 		expect(shouldShowHeroStill("icon.png")).toBe(false);
 		expect(shouldShowHeroStill("logo.svg")).toBe(false);
-		expect(shouldShowHeroStill("vetta-plugin://browser/icon.png", "vetta-plugin://browser/icon.png")).toBe(false);
+		expect(shouldShowHeroStill("origin-plugin://browser/icon.png", "origin-plugin://browser/icon.png")).toBe(false);
 		expect(shouldShowHeroStill("https://cdn.example/preview.webp")).toBe(true);
-		expect(shouldShowHeroStill("presentation/screenshot.png", "vetta-plugin://browser/icon.png")).toBe(true);
+		expect(shouldShowHeroStill("presentation/screenshot.png", "origin-plugin://browser/icon.png")).toBe(true);
 	});
 });

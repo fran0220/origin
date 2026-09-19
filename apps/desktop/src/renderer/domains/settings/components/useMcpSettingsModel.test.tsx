@@ -9,7 +9,7 @@ vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => k
 
 function installMcpWindow(get = vi.fn(async () => ({ mcpServers: {} }))) {
 	const set = vi.fn(async () => undefined);
-	(window as unknown as { vetta: unknown }).vetta = {
+	(window as unknown as { vetta: unknown }).origin = {
 		mcp: {
 			get,
 			set,
@@ -22,7 +22,7 @@ function installMcpWindow(get = vi.fn(async () => ({ mcpServers: {} }))) {
 describe("useMcpSettingsModel managed runtime parameters", () => {
 	it("preserves the managed connection identity and writes parameters to runtime env", async () => {
 		const set = vi.fn(async () => undefined);
-		(window as unknown as { vetta: unknown }).vetta = {
+		(window as unknown as { vetta: unknown }).origin = {
 			mcp: {
 				get: vi.fn(async () => ({
 					mcpServers: {
@@ -43,7 +43,7 @@ describe("useMcpSettingsModel managed runtime parameters", () => {
 			name: "xiaohongshu",
 			displayName: "Xiaohongshu",
 			description: "",
-			config: { type: "http", url: "${VETTA_MCP_URL}" },
+			config: { type: "http", url: "${ORIGIN_MCP_URL}" },
 			secrets: [{ envKey: "XHS_PROXY", required: false, secret: false }],
 		};
 		const { result } = renderHook(() => useMcpSettingsModel());

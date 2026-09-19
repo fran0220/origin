@@ -36,7 +36,7 @@ vi.mock("./skill-service.js", () => ({
 }));
 
 vi.mock("@origin/action-rpc", () => ({
-	getVettaHomePath: () => "C:/tmp/vetta-home",
+	getOriginHomePath: () => "C:/tmp/vetta-home",
 }));
 
 vi.mock("node:fs/promises", () => ({

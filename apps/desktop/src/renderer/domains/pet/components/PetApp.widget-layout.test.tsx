@@ -22,12 +22,12 @@ describe("PetApp widget layout", () => {
 
 	afterEach(() => {
 		vi.unstubAllGlobals();
-		delete window.vettaPet;
+		delete window.originAppPet;
 	});
 
 	function installPetBridge(): { dispatch: (command: PetCommand) => void } {
 		let handler: ((command: PetCommand) => void) | undefined;
-		window.vettaPet = {
+		window.originAppPet = {
 			onCommand: (listener) => {
 				handler = listener;
 				return () => {

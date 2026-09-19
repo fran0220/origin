@@ -260,5 +260,5 @@ export class PluginDevLinkService {
 
 function toDevPluginUrl(pluginId: string, relativePath: string, token: string): string {
 	const normalized = validatePluginRelativePath(relativePath, "path");
-	return `vetta-plugin://${pluginId}/${normalized}?v=dev&reload=${token}`;
+	return `origin-plugin://${pluginId}/${normalized}?v=dev&reload=${token}`;
 }

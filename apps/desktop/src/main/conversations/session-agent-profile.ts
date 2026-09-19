@@ -1,7 +1,7 @@
-import type { AgentProfileDocument } from "@origin/agent-team";
+import type { AgentProfileDocument } from "@origin/agent-profile";
 import type { AgentConfigurationSelection } from "@origin/coding-agent/profile";
-import { toAgentConfigurationOverrides } from "../agent-teams/agent-ability-overrides.js";
-import { pinnedAbilityContext, resolveAgentBlueprint } from "../agent-teams/agent-blueprint-registry.js";
+import { toAgentConfigurationOverrides } from "../agent-profiles/agent-ability-overrides.js";
+import { pinnedAbilityContext, resolveAgentBlueprint } from "../agent-profiles/agent-blueprint-registry.js";
 
 /** 会话绑定的 Agent 折算出的会话输入；能力裁剪始终在主进程完成，渲染层只传身份。 */
 export interface ResolvedSessionAgentProfile {

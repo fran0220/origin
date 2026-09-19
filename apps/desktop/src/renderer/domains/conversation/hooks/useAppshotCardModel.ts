@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import type { AppshotCardData } from "../components/AppshotCard";
 
 function mediaUrl(path: string): string {
-	return `vetta-media://local/stream?${new URLSearchParams({ path }).toString()}`;
+	return `origin-media://local/stream?${new URLSearchParams({ path }).toString()}`;
 }
 
 export interface AppshotCardModel {

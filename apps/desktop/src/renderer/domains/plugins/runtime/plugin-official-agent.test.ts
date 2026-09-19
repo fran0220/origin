@@ -7,7 +7,7 @@ afterEach(() => {
 
 describe("createOfficialAgentApi", () => {
 	it("routes experimental settings through the plugin capability session", async () => {
-		const settings = { vettaCli: true, promptPrediction: false, agentSkills: true };
+		const settings = { originCli: true, promptPrediction: false, agentSkills: true };
 		const agentSettings = {
 			getExperimental: vi.fn().mockResolvedValue(settings),
 			setExperimental: vi.fn().mockResolvedValue({ ...settings, promptPrediction: true }),

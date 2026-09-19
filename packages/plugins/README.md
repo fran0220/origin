@@ -38,7 +38,7 @@ bun run build:presets
 开发环境会先把 `development` profile 中当前租户的插件 staging 到
 `apps/desktop/.artifacts/system-plugins/`，再默认为它们建立内存 dev 链接并启动
 开发服务器；关闭 dev 链接时回落 staging。
-Preset 不会安装到 `~/.vetta/plugins`。
+Preset 不会安装到 `~/.origin/plugins`。
 
 ## 通过 npm 分发外置插件
 
@@ -47,20 +47,20 @@ Preset 不会安装到 `~/.vetta/plugins`。
 
 ```json
 {
-  "name": "@example/vetta-plugin-demo",
+  "name": "@example/origin-plugin-demo",
   "version": "1.0.0",
-  "files": ["release/vetta-plugin.zip"],
+  "files": ["release/origin-plugin.zip"],
   "vetta": {
     "schemaVersion": 1,
     "type": "desktop-plugin",
     "pluginId": "demo",
-    "archive": "release/vetta-plugin.zip"
+    "archive": "release/origin-plugin.zip"
   }
 }
 ```
 
 ```ts
-vettaPluginFederation({
+originPluginFederation({
   name: "demo",
   package: { npmArchive: true }
 });
@@ -69,7 +69,7 @@ vettaPluginFederation({
 发布 npm 包后，用户需要先启动 Vetta Desktop，再执行：
 
 ```bash
-npx @origin-org/plugin-cli add @example/vetta-plugin-demo
+npx @origin-org/plugin-cli add @example/origin-plugin-demo
 ```
 
 CLI 使用 `npm pack --ignore-scripts` 获取包，校验 npm 元数据后仅提取声明的 zip；

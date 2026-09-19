@@ -4,7 +4,7 @@ import { getDefaultStore } from "jotai";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { applyActiveTagFilterToNewConversation } from "./new-conversation-tagging";
 
-const SESSION_PATH = "/home/user/.vetta/desktop-app/conversation/new.jsonl";
+const SESSION_PATH = "/home/user/.origin/desktop-app/conversation/new.jsonl";
 
 const assign = vi.fn(async () => ({ tags: [], assignments: {} }));
 

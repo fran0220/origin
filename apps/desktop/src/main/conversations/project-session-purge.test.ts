@@ -33,14 +33,14 @@ describe("purgeProjectSessions", () => {
 			listSessions: async () => [{ path: "/shard/a.conversation.jsonl" }, { path: "/shard/b.conversation.jsonl" }],
 		});
 
-		const result = await purgeProjectSessions("/Users/me/.vetta/workspace/aaa", dependencies);
+		const result = await purgeProjectSessions("/Users/me/.origin/workspace/aaa", dependencies);
 
 		expect(result).toEqual({ deleted: 2, failed: [] });
 		expect(dependencies.deleteSession.mock.calls.map(([path]) => path)).toEqual([
 			"/shard/a.conversation.jsonl",
 			"/shard/b.conversation.jsonl",
 		]);
-		expect(dependencies.removeDirectory).toHaveBeenCalledWith("/shard//Users/me/.vetta/workspace/aaa");
+		expect(dependencies.removeDirectory).toHaveBeenCalledWith("/shard//Users/me/.origin/workspace/aaa");
 	});
 
 	it("单条删除失败不阻断其余会话，但保留会话目录", async () => {
@@ -56,7 +56,7 @@ describe("purgeProjectSessions", () => {
 			deleteSession,
 		});
 
-		const result = await purgeProjectSessions("/Users/me/.vetta/workspace/aaa", dependencies);
+		const result = await purgeProjectSessions("/Users/me/.origin/workspace/aaa", dependencies);
 
 		expect(result.deleted).toBe(2);
 		expect(result.failed).toEqual(["/shard/b.conversation.jsonl"]);
@@ -74,6 +74,6 @@ describe("purgeProjectSessions", () => {
 
 	it("内置 cwd 判定不受结尾斜杠影响", () => {
 		expect(isProtectedProjectCwd(`${DEFAULT_CONVERSATION_CWD}/`)).toBe(true);
-		expect(isProtectedProjectCwd("/Users/me/.vetta/workspace/aaa")).toBe(false);
+		expect(isProtectedProjectCwd("/Users/me/.origin/workspace/aaa")).toBe(false);
 	});
 });

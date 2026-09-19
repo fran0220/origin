@@ -143,14 +143,14 @@ const ANNOTATION_SELECT_TEXT_SETTLE_ATTEMPTS = 4
 const ANNOTATION_EDIT_TOOL_LABEL = '按标注修改'
 const ANNOTATION_HTML_TOOL_LABEL = '按标注生成 Html'
 /** Vetta Desktop image tools: new bitmap → generate_image; revise existing → edit_image. */
-const VETTA_IMAGE_TOOL_RULES = [
+const ORIGIN_IMAGE_TOOL_RULES = [
   '【Origin 图片工具约定 — 必须遵守】',
   '- 生成全新图片（新建画面、AI 图片框填图、从 HTML/文案/参考图新建位图）：必须调用工具 generate_image。',
   '- 修改已有图片（按标注改图、在原图或标注截图上修订）：必须调用工具 edit_image（以截图/原图为源）。',
   '- 禁止使用 imagegen skill 或其它未声明的生图入口；禁止用 bash/脚本另起生图。',
   '- 位图生成/修改完成后，用 Cowart MCP 的 insert_cowart_image 放到画布（替换 AI 图片框或放在锚点旁）。'
 ]
-const VETTA_NOT_IMAGE_TASK_RULES = [
+const ORIGIN_NOT_IMAGE_TASK_RULES = [
   '- 这不是图片生成/改图任务：不要调用 generate_image，不要调用 edit_image，不要调用 insert_cowart_image。'
 ]
 const ANNOTATION_EDIT_PROMPT = [
@@ -159,7 +159,7 @@ const ANNOTATION_EDIT_PROMPT = [
   '请根据这张 Cowart 截图里的标注修改当前选中的图片：',
   '- 截图包含当前图片，以及连到图片里或图片附近的标注箭头和标注文字。',
   '- 请把标注文字当作修改要求。',
-  ...VETTA_IMAGE_TOOL_RULES,
+  ...ORIGIN_IMAGE_TOOL_RULES,
   '- 本任务属于「修改已有图片」：必须用 edit_image，以标注截图（及原图）为源，产出干净修订图。',
   '- 不要把标注箭头、标注文字、蓝色选框或工具栏带进最终图片。',
   '- 保留原图和原标注不动，把新图放到原图旁边（insert_cowart_image placement: "right"）。'
@@ -176,7 +176,7 @@ const ANNOTATION_HTML_PROMPT = [
   '请根据这张 Cowart 截图里的当前图片和周围标注，生成一个新的单文件 HTML 草稿：',
   '- 截图包含当前选中的图片，以及连到图片里或图片附近的标注箭头和标注文字。',
   '- 请把当前图片作为主体、构图和视觉风格参考，把标注文字作为 HTML 的修改或生成要求。',
-  ...VETTA_NOT_IMAGE_TASK_RULES,
+  ...ORIGIN_NOT_IMAGE_TASK_RULES,
   '- 请生成完整可运行的 HTML 文档，CSS 和 JS 尽量内联，适合直接放进 iframe 预览。',
   ...AI_HTML_LOCAL_ASSET_PROMPT_LINES,
   '- 不要把标注箭头、标注文字、蓝色选框或工具栏写进 HTML。',
@@ -199,7 +199,7 @@ const HTML_DRAFT_ANNOTATION_EDIT_PROMPT = [
   '请根据这张 Cowart 截图里的标注修改当前选中的 HTML 草稿：',
   '- 截图包含当前 HTML 草稿，以及草稿周围的标注箭头和标注文字。',
   '- 请把标注文字当作修改要求，并以现有 HTML 源文件为基础修改。',
-  ...VETTA_NOT_IMAGE_TASK_RULES,
+  ...ORIGIN_NOT_IMAGE_TASK_RULES,
   ...AI_HTML_LOCAL_ASSET_PROMPT_LINES,
   '- 不要把标注箭头、标注文字、蓝色选框或工具栏写进 HTML。',
   '- 保留原 HTML 草稿和原标注不动，创建一个修改后的新 HTML 草稿并放到原草稿右侧。',
@@ -211,7 +211,7 @@ const HTML_DRAFT_ANNOTATION_IMAGE_PROMPT = [
   '请根据这张 Cowart 截图里的 HTML 草稿和标注生成一张新的干净位图：',
   '- 截图包含当前 HTML 草稿，以及草稿周围的标注箭头和标注文字。',
   '- 请把标注文字当作生成要求，并保留草稿的主体、构图和纵横比，除非标注明确要求改变。',
-  ...VETTA_IMAGE_TOOL_RULES,
+  ...ORIGIN_IMAGE_TOOL_RULES,
   '- 本任务属于「生成全新图片」：必须用 generate_image（不要用 edit_image）。',
   '- 不要修改 HTML，不要调用 insert_cowart_html_draft。',
   '- 不要把标注箭头、标注文字、蓝色选框或工具栏带进最终图片。',
@@ -221,7 +221,7 @@ const AI_IMAGE_GENERATION_PROMPT_PREFIX = [
   '@cowart-vetta 生成图片',
   '',
   '请根据下面的 prompt 生成图片，并替换当前选中的 Cowart AI 图片框；最终画布里应留下普通图片形状，不保留 AI 图片框容器。',
-  ...VETTA_IMAGE_TOOL_RULES,
+  ...ORIGIN_IMAGE_TOOL_RULES,
   '- 本任务属于「生成全新图片」：必须用 generate_image；若用户明确要求在已有参考图上「改图/修图」，再用 edit_image。',
   '默认生成一张；如果用户在 prompt 中明确要求多张图片，则用户要求的数量优先于上面的单数措辞。',
   '多张时必须分别 generate_image 对应数量的独立 bitmap，并作为多个普通图片形状从左到右平铺在画布上；第一张替换当前 AI 图片框，后续图片放在上一张图片右侧。',
@@ -237,7 +237,7 @@ const AI_DRAFT_GENERATION_PROMPT_PREFIX = [
   '默认生成一个 HTML；如果用户在 prompt 中明确要求多个 HTML、多个方案或多张页面，则用户要求的数量优先于上面的单数措辞。',
   '多个 HTML 必须分别生成为对应数量的完整、独立、可运行的单文件 HTML，并作为多个 HTML embed 从左到右平铺在画布上；第一个替换当前 AI HTML 框，后续 HTML 放在上一个 HTML 右侧。',
   '不要在一个 AI HTML 里制作多页、分页、选项卡、轮播或幻灯片来代替多个独立 HTML；只有用户明确要求 AI Slides 时才使用多页 Slides 语义。',
-  ...VETTA_NOT_IMAGE_TASK_RULES,
+  ...ORIGIN_NOT_IMAGE_TASK_RULES,
   '请生成完整可运行的 HTML 文档，CSS 和 JS 尽量内联，适合直接放进 iframe 预览。',
   ...AI_HTML_LOCAL_ASSET_PROMPT_LINES,
   '完成后调用 Cowart MCP 工具 insert_cowart_html_draft，把 htmlContent 写入当前 page 的 canvas/pages/<page-id>/assets/，并替换对应 AI HTML 框为 HTML embed。'
@@ -247,7 +247,7 @@ const AI_SLIDES_GENERATION_PROMPT_PREFIX = [
   '',
   '请根据下面的 prompt 生成一套视觉与叙事连贯的 AI Slides。',
   '每一页都必须是完整、独立、可运行的单文件 HTML；CSS 和 JS 尽量内联。',
-  ...VETTA_NOT_IMAGE_TASK_RULES,
+  ...ORIGIN_NOT_IMAGE_TASK_RULES,
   '每页画布固定为 1024 x 576（16:9）。',
   ...AI_HTML_LOCAL_ASSET_PROMPT_LINES
 ].join('\n')
@@ -257,7 +257,7 @@ const AI_SLIDES_ANNOTATION_EDIT_PROMPT = [
   '请根据 Cowart 截图中的原 AI Slides 和周围标注，生成一套修改后的新 Slides。',
   '原 AI Slides 和标注必须保持不动；新的目标 AI Slides 已经创建在原 Slides 下方，请只把修改后的页面加入新 Slides。',
   '每一页都必须是完整、独立、可运行的单文件 HTML；CSS 和 JS 尽量内联。',
-  ...VETTA_NOT_IMAGE_TASK_RULES,
+  ...ORIGIN_NOT_IMAGE_TASK_RULES,
   ...AI_HTML_LOCAL_ASSET_PROMPT_LINES,
   '每页画布固定为 1024 x 576（16:9）。'
 ].join('\n')
@@ -315,7 +315,7 @@ if (typeof window !== 'undefined') {
 
 /**
  * Vite emits absolute `/assets/*.woff2` paths. In the Desktop host those resolve
- * against the renderer origin (vite HTML), not the MF plugin (`vetta-plugin://…`).
+ * against the renderer origin (vite HTML), not the MF plugin (`origin-plugin://…`).
  * Rewrite to absolute URLs relative to this chunk so fonts/icons load from the plugin.
  */
 function resolveCowartBundledAssetUrl(url) {
@@ -323,7 +323,7 @@ function resolveCowartBundledAssetUrl(url) {
   if (
     url.startsWith('data:') ||
     url.startsWith('blob:') ||
-    url.startsWith('vetta-plugin:') ||
+    url.startsWith('origin-plugin:') ||
     /^https?:\/\//i.test(url)
   ) {
     return url

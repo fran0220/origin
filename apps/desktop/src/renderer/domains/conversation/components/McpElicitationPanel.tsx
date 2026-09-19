@@ -34,7 +34,7 @@ export function McpElicitationPanel({ request }: { request: DesktopMcpElicitatio
 	const respond = (action: "accept" | "decline" | "cancel", content?: Record<string, DesktopMcpElicitationValue>): void => {
 		if (submitting) return;
 		setSubmitting(true);
-		void window.vetta.session
+		void window.originApp.session
 			.respondToMcpElicitation(request.requestId, { action, ...(content ? { content } : {}) })
 			.then(remove)
 			.catch(() => setSubmitting(false));
@@ -45,12 +45,12 @@ export function McpElicitationPanel({ request }: { request: DesktopMcpElicitatio
 			setSubmitting(true);
 			void (async () => {
 				try {
-					await window.vetta.shell.openExternal(request.url);
-					await window.vetta.session.respondToMcpElicitation(request.requestId, { action: "accept" });
+					await window.originApp.shell.openExternal(request.url);
+					await window.originApp.session.respondToMcpElicitation(request.requestId, { action: "accept" });
 					remove();
 				} catch {
 					try {
-						await window.vetta.session.respondToMcpElicitation(request.requestId, { action: "cancel" });
+						await window.originApp.session.respondToMcpElicitation(request.requestId, { action: "cancel" });
 						remove();
 					} catch {
 						setSubmitting(false);

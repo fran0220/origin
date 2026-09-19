@@ -24,7 +24,7 @@ test("parses the range forms electron-updater uses", () => {
 });
 
 async function startServer(body) {
-	const root = await mkdtemp(join(tmpdir(), "vetta-local-updates-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-local-updates-"));
 	temporaryRoots.push(root);
 	await writeFile(join(root, "Origin-1.2.3-arm64-mac.zip"), body);
 	const server = createLocalUpdateServer(root);

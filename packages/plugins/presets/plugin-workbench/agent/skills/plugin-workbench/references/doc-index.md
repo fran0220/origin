@@ -6,7 +6,7 @@
 ## 先拿到手册路径
 
 ```bash
-node "<workbenchRoot>/agent/cli/vetta-plugin-cli.js" docs --json
+node "<workbenchRoot>/agent/cli/origin-plugin-cli.js" docs --json
 ```
 
 `workbenchRoot` = `listPlugins()` 中 `id === "plugin-workbench"` 的 `rootPath`。
@@ -61,7 +61,7 @@ node "<workbenchRoot>/agent/cli/vetta-plugin-cli.js" docs --json
 | `add .` | 装当前工程（**在 Origin 里优先走面板「应用到 Origin」**，见主 skill） |
 | `reload <id>` / `uninstall [id]` | 应用待生效版本 / 卸载 |
 | `watch [--stop]` | 热更新：宿主改从工程目录加载 |
-| `sync [--check]` | 能力市场仓库根：对账 `.vetta/marketplace.json` |
+| `sync [--check]` | 能力市场仓库根：对账 `.origin/marketplace.json` |
 
 ## 工作台脚本
 

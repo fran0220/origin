@@ -85,13 +85,13 @@ export function useAbilityData(): AbilityData {
 
 	const loadLocalState = useCallback(async () => {
 		return Promise.all([
-			window.vetta.abilities.getLedger(),
-			window.vetta.abilities.listLocalPresentations(),
-			window.vetta.skills.getMarketManifest(),
-			window.vetta.skills.list(),
+			window.originApp.abilities.getLedger(),
+			window.originApp.abilities.listLocalPresentations(),
+			window.originApp.skills.getMarketManifest(),
+			window.originApp.skills.list(),
 			// 能力市场不按工作模式过滤：另一模式下已装的插件仍要出现在「我的」。
-			window.vetta.plugins.listAll(),
-			window.vetta.abilities.getOpenMcpSetupStatus(),
+			window.originApp.plugins.listAll(),
+			window.originApp.abilities.getOpenMcpSetupStatus(),
 		]);
 	}, []);
 

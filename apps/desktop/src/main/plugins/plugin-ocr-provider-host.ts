@@ -145,7 +145,7 @@ export class PluginOcrProviderHost {
 		const path = await invocation.context.getInputPath(requireString(inputIdValue, "OCR input id"));
 		const token = createEphemeralMediaToken(path, "application/octet-stream");
 		invocation.tokens.add(token);
-		return `vetta-media://local/stream?token=${token}`;
+		return `origin-media://local/stream?token=${token}`;
 	}
 
 	async uploadInput(

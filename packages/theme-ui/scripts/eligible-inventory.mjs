@@ -183,7 +183,7 @@ function classify(abs, text, deferrals) {
 
 	const hasTheme = /@vetta\/theme-ui/.test(text);
 	const hasAtom = /useAtom|from ["']jotai|store\/atoms/.test(text);
-	const hasIpc = /window\.vetta/.test(text);
+	const hasIpc = /window\.origin/.test(text);
 	const hasRouter = /@tanstack\/react-router|useNavigate|useParams|useMatches\b/.test(text);
 	const hasI18n = /react-i18next|useTranslation/.test(text);
 	const hasHostUi = hasValueHostUi(text);
@@ -339,7 +339,7 @@ for (const [p, d] of Object.entries(deferrals)) {
 	if (d.kind === "permanent_desktop") {
 		const dataHeavy =
 			/useAtom|from ["']jotai|store\/atoms/.test(text) ||
-			/window\.vetta/.test(text) ||
+			/window\.origin/.test(text) ||
 			/@tanstack\/react-router|useNavigate|useParams|useMatches\b/.test(text);
 		const jsx = hasJsx(text);
 		const lines = text.split("\n").length;

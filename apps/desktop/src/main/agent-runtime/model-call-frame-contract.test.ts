@@ -171,7 +171,7 @@ describe("Desktop RuntimeHost model-call frame contract", () => {
 			});
 
 			await fixture.runtime.prompt(created.sessionId, { text: "Observe skills before creation" });
-			const skillDirectory = join(cwd, ".vetta", "skills", "phase-112-dynamic-skill");
+			const skillDirectory = join(cwd, ".origin", "skills", "phase-112-dynamic-skill");
 			const skillPath = join(skillDirectory, "SKILL.md");
 			await mkdir(skillDirectory, { recursive: true });
 			await writeFile(skillPath, skillDocument(PHASE_112_SKILL_V1), "utf8");

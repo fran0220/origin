@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import type {
 	ModelConfigSnapshot,
@@ -62,7 +62,7 @@ export interface ModelSettingsServiceOptions {
 	readonly onConfigChanged?: (providerIds: readonly string[]) => void;
 }
 
-const MODELS_CONFIG_PATH = join(getVettaHomePath(), "agent", "models.json");
+const MODELS_CONFIG_PATH = join(getOriginHomePath(), "agent", "models.json");
 const DEFAULT_MODELS_CONFIG: ModelsConfig = { providers: {} };
 export const MASKED_MODEL_API_KEY = "***";
 

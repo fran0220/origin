@@ -14,7 +14,7 @@ afterEach(async () => {
 
 describe("Desktop evolution ledger root", () => {
 	it("puts the ledger under logged-out until an account is selected, then isolates each account", async () => {
-		const agentDir = await mkdtemp(join(tmpdir(), "vetta-desktop-evolution-"));
+		const agentDir = await mkdtemp(join(tmpdir(), "origin-desktop-evolution-"));
 		roots.push(agentDir);
 		const directory = getAccountDirectoryService(agentDir);
 

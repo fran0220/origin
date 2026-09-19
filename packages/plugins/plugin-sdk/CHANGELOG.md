@@ -83,7 +83,7 @@ All notable changes to `@origin-org/plugin-sdk` are documented in this file.
   新增 `optional` 控制解析不到时是否照常发布团队（跨插件引用与角色槽位缺省为 `true`，少一名
   队员而不是少一支团队）。
   装机自带的 `master`/`developer`/`researcher`/`auditor`/`business`（`preset-agent`）与
-  `designer`（`vetta-ui-design`）已对外供货，词表见 `BUILTIN_PLUGIN_AGENT_ROLES`。
+  `designer`（`origin-ui-design`）已对外供货，词表见 `BUILTIN_PLUGIN_AGENT_ROLES`。
 
   队长仍限定为本插件自己的智能体：它是用户唯一的对话入口，落在别的插件上会让这支团队随那个
   插件一起变成打不开的壳。
@@ -97,7 +97,7 @@ All notable changes to `@origin-org/plugin-sdk` are documented in this file.
 
 - 手册（`docs/plugin`）随包发布，落在安装后的 `node_modules/@origin-org/plugin-sdk/docs/`。
   仓库外的 Agent 因此能读到与本工程实际编译版本一致的合同，不必依赖 Vetta 源码仓库或插件工作台；
-  路径用 `npx vetta-plugin-cli docs` 解析，不要硬编码。
+  路径用 `npx origin-plugin-cli docs` 解析，不要硬编码。
 
 ## [0.3.0] — 2026-09-14
 

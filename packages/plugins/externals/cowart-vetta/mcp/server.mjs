@@ -73,7 +73,7 @@ function loadPluginManifest() {
   return { name: "cowart-vetta", version: "0.1.0" };
 }
 const pluginManifest = loadPluginManifest();
-const COWART_VETTA_MODE =
+const COWART_ORIGIN_MODE =
   process.env.COWART_VETTA === "1" ||
   process.env.COWART_DISABLE_WIDGET === "1" ||
   pluginManifest.id === "cowart-vetta";
@@ -90,7 +90,7 @@ const server = new McpServer(
   },
 );
 
-if (COWART_VETTA_MODE) {
+if (COWART_ORIGIN_MODE) {
   registerCowartVettaOpenTool(server);
 } else {
   registerCowartWidget(server);

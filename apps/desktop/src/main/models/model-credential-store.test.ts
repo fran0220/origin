@@ -49,7 +49,7 @@ class UndecryptableCryptography implements CredentialCryptography {
 }
 
 function createTemporaryDirectory(): string {
-	const directory = mkdtempSync(join(tmpdir(), "vetta-model-credential-store-"));
+	const directory = mkdtempSync(join(tmpdir(), "origin-model-credential-store-"));
 	temporaryDirectories.push(directory);
 	return directory;
 }

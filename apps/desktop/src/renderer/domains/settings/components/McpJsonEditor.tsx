@@ -14,7 +14,7 @@ export function McpJsonEditor({ model }: { model: McpSettingsModel }): JSX.Eleme
 				model.clearJsonError();
 			}}
 			jsonError={model.jsonError}
-			configPathHint={`${t("configFilePath")}: ~/.vetta/agent/mcp.json`}
+			configPathHint={`${t("configFilePath")}: ~/.origin/agent/mcp.json`}
 			placeholder='{ "mcpServers": {} }'
 			saveLabel={model.saving ? t("saving") : t("save")}
 			saving={model.saving}

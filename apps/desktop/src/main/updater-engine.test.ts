@@ -292,7 +292,7 @@ describe("ElectronUpdaterEngine", () => {
 	});
 
 	it("promotes the differential cache baseline before running Inno Setup", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-updater-engine-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-updater-engine-"));
 		temporaryRoots.push(root);
 		const cacheDir = join(root, "cache");
 		const installerPath = join(cacheDir, "pending", "Origin-1.2.3-win-x64.exe");

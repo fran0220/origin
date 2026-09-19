@@ -12,7 +12,7 @@ afterEach(async () => {
 });
 
 async function stateDir(): Promise<string> {
-	const dir = await mkdtemp(join(tmpdir(), "vetta-relaunch-marker-"));
+	const dir = await mkdtemp(join(tmpdir(), "origin-relaunch-marker-"));
 	roots.push(dir);
 	return dir;
 }

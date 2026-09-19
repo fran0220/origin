@@ -18,7 +18,7 @@ function projectFile(cwd: string): string {
 }
 
 function legacyProjectFile(cwd: string): string {
-	return joinContentPath(cwd, ".vetta", "content-creation", "project.json");
+	return joinContentPath(cwd, ".origin", "content-creation", "project.json");
 }
 
 function runtimeStorageKey(projectId: string): string {

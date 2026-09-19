@@ -70,7 +70,7 @@ export class AgentBrowserEngine implements BrowserEngine {
 		fullPage: boolean,
 		signal?: AbortSignal,
 	): Promise<BrowserEnginePageResult & { dataUrl: string }> {
-		const directory = await mkdtemp(join(tmpdir(), "vetta-browser-shot-"));
+		const directory = await mkdtemp(join(tmpdir(), "origin-browser-shot-"));
 		const screenshotPath = join(directory, "page.png");
 		try {
 			await this.execute(session, ["screenshot", screenshotPath, ...(fullPage ? ["--full-page"] : [])], signal);

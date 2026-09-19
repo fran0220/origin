@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import type { McpTaskExecutionSnapshot, McpTaskExecutionStore } from "@origin/runtime-mcp";
 import { atomicWriteJSONAsync } from "@origin/toolkit/atomic-write";
 import type { DesktopMcpTask, DesktopMcpTasksChangedEvent } from "../../shared/mcp-task.js";
@@ -32,7 +32,7 @@ export class DesktopMcpTaskRegistry implements McpTaskExecutionStore {
 	private writeQueue = Promise.resolve();
 
 	constructor(options: DesktopMcpTaskRegistryOptions = {}) {
-		this.filePath = options.filePath ?? join(getVettaHomePath(), "desktop-app", "mcp-tasks.json");
+		this.filePath = options.filePath ?? join(getOriginHomePath(), "desktop-app", "mcp-tasks.json");
 		this.now = options.now ?? Date.now;
 		this.ready = this.load();
 	}

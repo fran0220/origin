@@ -20,7 +20,7 @@ export function readDeclaredSkillIconReference(content: string): string | undefi
 	if (!frontmatter) return undefined;
 	const parsed: unknown = parse(frontmatter);
 	if (!isRecord(parsed) || !isRecord(parsed.metadata)) return undefined;
-	const vetta = parsed.metadata.vetta;
+	const vetta = parsed.metadata.origin;
 	if (!isRecord(vetta) || !isRecord(vetta.presentation)) return undefined;
 	const icon = vetta.presentation.icon;
 	return typeof icon === "string" && icon.trim() ? icon.trim() : undefined;

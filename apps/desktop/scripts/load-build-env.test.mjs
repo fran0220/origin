@@ -12,36 +12,36 @@ test("defaults pure Node build scripts to the production env", () => {
 test("keeps an explicit build env such as the test release mode", () => {
 	assert.equal(
 		resolveBuildEnvMode({
-			VETTA_BUILD_ENV: "test",
+			ORIGIN_BUILD_ENV: "test",
 		}),
 		"test",
 	);
 });
 
 test("loads the production file before the generic fallback during packaging", async () => {
-	const cwd = await mkdtemp(join(tmpdir(), "vetta-build-env-"));
+	const cwd = await mkdtemp(join(tmpdir(), "origin-build-env-"));
 	try {
-		await writeFile(join(cwd, ".env.production"), "VETTA_SPEECH_INPUT_ENABLED=false\n");
-		await writeFile(join(cwd, ".env"), "VETTA_SPEECH_INPUT_ENABLED=true\n");
+		await writeFile(join(cwd, ".env.production"), "ORIGIN_SPEECH_INPUT_ENABLED=false\n");
+		await writeFile(join(cwd, ".env"), "ORIGIN_SPEECH_INPUT_ENABLED=true\n");
 		const env = {};
 
 		assert.equal(loadBuildEnv({ env, cwd }), "production");
-		assert.equal(env.VETTA_SPEECH_INPUT_ENABLED, "false");
+		assert.equal(env.ORIGIN_SPEECH_INPUT_ENABLED, "false");
 	} finally {
 		await rm(cwd, { recursive: true, force: true });
 	}
 });
 
 test("does not override a command-line value", async () => {
-	const cwd = await mkdtemp(join(tmpdir(), "vetta-build-env-"));
+	const cwd = await mkdtemp(join(tmpdir(), "origin-build-env-"));
 	try {
-		await writeFile(join(cwd, ".env.production"), "VETTA_SPEECH_INPUT_ENABLED=false\n");
+		await writeFile(join(cwd, ".env.production"), "ORIGIN_SPEECH_INPUT_ENABLED=false\n");
 		const env = {
-			VETTA_SPEECH_INPUT_ENABLED: "true",
+			ORIGIN_SPEECH_INPUT_ENABLED: "true",
 		};
 
 		loadBuildEnv({ env, cwd });
-		assert.equal(env.VETTA_SPEECH_INPUT_ENABLED, "true");
+		assert.equal(env.ORIGIN_SPEECH_INPUT_ENABLED, "true");
 	} finally {
 		await rm(cwd, { recursive: true, force: true });
 	}

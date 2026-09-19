@@ -1,4 +1,4 @@
-import { pathBasename, toVettaFileUrl } from "@shared/lib/utils";
+import { pathBasename, toOriginFileUrl } from "@shared/lib/utils";
 import type { InputBarContextMenuViewProps } from "@origin-org/theme-ui/chat";
 import { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -54,7 +54,7 @@ export const DefaultInputBarConnector = memo(function DefaultInputBarConnector(p
 		onSend: props.onSend,
 	});
 	const imageAttachments = useMemo(
-		() => draft.imagePaths.map((path, index) => ({ path, name: pathBasename(path), url: toVettaFileUrl(path), label: t("inputBar.capsule.imageBadge", { index: index + 1 }) })),
+		() => draft.imagePaths.map((path, index) => ({ path, name: pathBasename(path), url: toOriginFileUrl(path), label: t("inputBar.capsule.imageBadge", { index: index + 1 }) })),
 		[draft.imagePaths, t],
 	);
 	const attachments = useInputBarAttachmentModel({

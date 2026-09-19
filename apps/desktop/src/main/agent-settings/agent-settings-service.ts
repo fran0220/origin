@@ -20,7 +20,7 @@ export interface AgentSettingsServiceOptions {
 function normalizeAgentExperimentalSettings(value: unknown): AgentExperimentalSettings {
 	const settings = normalizeExperimental(value);
 	return {
-		vettaCli: settings.vettaCli ?? true,
+		originCli: settings.originCli ?? true,
 		promptPrediction: settings.promptPrediction ?? false,
 		agentSkills: settings.agentSkills ?? true,
 	};

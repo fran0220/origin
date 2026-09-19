@@ -63,7 +63,7 @@ function renderPanel(scenario: "conversation" | undefined): void {
 	render(
 		<Provider store={store}>
 			<ActivityPanel
-				workspace={createActivityWorkspace("agent-team:workspace", "/tmp/team-cwd", ["member-runtime"])}
+				workspace={createActivityWorkspace("agent-profile:workspace", "/tmp/team-cwd", ["member-runtime"])}
 				{...(scenario ? { pluginScenario: scenario } : {})}
 			/>
 		</Provider>,

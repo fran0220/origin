@@ -5,9 +5,9 @@ import { readConfigSync } from "../ipc/fs.js";
 import { getMainWindow, iconPath, showMainWindow } from "../window-manager.js";
 
 /** 渲染端→主进程：上报聊天页当前所在 session（离开聊天页传 null）。 */
-export const NOTIFICATION_SET_FOREGROUND_CHANNEL = "vetta:notification:set-foreground-session";
+export const NOTIFICATION_SET_FOREGROUND_CHANNEL = "origin:notification:set-foreground-session";
 /** 主进程→渲染端：用户点击系统通知后下发的路由意图。 */
-export const NOTIFICATION_NAVIGATE_CHANNEL = "vetta:notification:navigate";
+export const NOTIFICATION_NAVIGATE_CHANNEL = "origin:notification:navigate";
 
 /**
  * 系统通知的判别联合（见 CONTEXT.md「通知类型」）。横向扩充新类型时，

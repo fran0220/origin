@@ -7,7 +7,7 @@ import { useCallback } from "react";
 export function AbilityMarkdownBody({ content }: { content: string }): JSX.Element | null {
 	const theme = useAtomValue(resolvedThemeAtom);
 	const onOpenExternal = useCallback((href: string) => {
-		void window.vetta.shell.openExternal(href);
+		void window.originApp.shell.openExternal(href);
 	}, []);
 
 	if (!content.trim()) return null;

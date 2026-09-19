@@ -157,7 +157,7 @@ export function createConversationDebugDefinitions(service: DesktopConversationS
 				{
 					description: "Continue a persistent conversation",
 					input: {
-						sessionPath: "C:\\project\\.vetta\\sessions\\session.jsonl",
+						sessionPath: "C:\\project\\.origin\\sessions\\session.jsonl",
 						prompt: "Now run the verification.",
 					},
 				},
@@ -202,7 +202,7 @@ export function createConversationDebugDefinitions(service: DesktopConversationS
 			examples: [
 				{
 					description: "Compact an existing conversation",
-					input: { sessionPath: "C:\\project\\.vetta\\sessions\\session.jsonl" },
+					input: { sessionPath: "C:\\project\\.origin\\sessions\\session.jsonl" },
 				},
 			],
 			validateInput: (input) => validateInput(compactConversationInputSchema, input),

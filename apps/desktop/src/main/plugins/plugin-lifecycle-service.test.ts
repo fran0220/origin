@@ -10,7 +10,7 @@ function installedPlugin(overrides: Partial<InstalledPlugin> = {}): InstalledPlu
 		activeVersion: "1.0.0",
 		pluginApiVersion: "^2.0.0",
 		moduleFederation: { remoteName: "lifecycle_test", expose: "./plugin" },
-		entryUrl: "vetta-plugin://demo/index.js",
+		entryUrl: "origin-plugin://demo/index.js",
 		styleUrls: [],
 		permissions: [],
 		grantedPermissions: [],

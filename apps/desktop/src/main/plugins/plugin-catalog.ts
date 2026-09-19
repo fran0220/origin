@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { readFile, rm } from "node:fs/promises";
 import { isAbsolute, join, resolve } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import {
 	parsePluginCommandNames as parseCommands,
 	parsePluginManifest as parseManifest,
@@ -53,14 +53,14 @@ import { SystemPluginCatalog } from "./plugin-system-catalog.js";
  * 指向明确的错误。
  */
 export const PLUGIN_API_VERSION = "2.8.0";
-export const CORE_ACTION_PLUGIN_ID = "vetta-actions";
+export const CORE_ACTION_PLUGIN_ID = "origin-actions";
 
 const REQUIRED_SYSTEM_PLUGIN_IDS = new Set<string>([CORE_ACTION_PLUGIN_ID]);
-const pluginsBaseDir = join(getVettaHomePath(), "plugins");
-const manifestPath = join(getVettaHomePath(), "plugins-manifest.json");
-const tmpBaseDir = join(getVettaHomePath(), "tmp", "plugins");
+const pluginsBaseDir = join(getOriginHomePath(), "plugins");
+const manifestPath = join(getOriginHomePath(), "plugins-manifest.json");
+const tmpBaseDir = join(getOriginHomePath(), "tmp", "plugins");
 // 系统插件的用户态偏好（目前仅停用开关），与用户插件注册表分离（ADR-0024）。
-const systemPrefsPath = join(getVettaHomePath(), "system-plugin-prefs.json");
+const systemPrefsPath = join(getOriginHomePath(), "system-plugin-prefs.json");
 const pluginRegistry = new PluginRegistryStore(manifestPath, pluginsBaseDir);
 const systemPluginPreferences = new SystemPluginPreferenceStore(systemPrefsPath);
 

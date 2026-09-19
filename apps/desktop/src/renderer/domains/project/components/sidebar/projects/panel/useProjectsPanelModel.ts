@@ -379,7 +379,7 @@ export function useProjectsPanelModel({
 				confirmLabel: t("sidebar.dialogs.clearConfirm"),
 				variant: "danger",
 				onConfirm: async () => {
-					await window.vetta.session.clearDefaultConversation("conversation");
+					await window.originApp.session.clearDefaultConversation("conversation");
 					const removedPaths = new Set(allSessions.map((session) => session.path));
 					removePinnedSessions(removedPaths);
 					if (removedPaths.has(activeSessionPathValue) || (activeSessionCwd === cwd && !removedPaths.size)) {
@@ -415,7 +415,7 @@ export function useProjectsPanelModel({
 				confirmLabel: t("sidebar.dialogs.clearConfirm"),
 				variant: "danger",
 				onConfirm: async () => {
-					await window.vetta.session.clearDefaultConversation("claw");
+					await window.originApp.session.clearDefaultConversation("claw");
 					const removedPaths = new Set(imSessions.map((session) => session.path));
 					removePinnedSessions(removedPaths);
 					if (removedPaths.has(activeSessionPathValue)) {

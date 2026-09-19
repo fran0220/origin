@@ -32,7 +32,7 @@ export const loginPopoverOpenAtom = atom<boolean>(false);
  * 登出入口不渲染，本 atom 不可达。
  */
 export const cloudLogoutAtom = atom(null, (get, set) => {
-	void window.vetta.auth.signOut().catch((err) => console.warn("[cloudLogout] signOut failed:", err));
+	void window.originApp.auth.signOut().catch((err) => console.warn("[cloudLogout] signOut failed:", err));
 	set(authTokenAtom, null);
 	set(authUserAtom, null);
 	set(remoteProvidersAtom, {});

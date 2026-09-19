@@ -1,19 +1,19 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { VETTA_HOME_ENV } from "@origin/action-rpc";
+import { ORIGIN_HOME_ENV } from "@origin/action-rpc";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const temporaryRoots: string[] = [];
 let previousHome: string | undefined;
 
-/** desktop-config.json 的路径在模块加载时算好，所以每个用例重置模块并重设 VETTA_HOME。 */
+/** desktop-config.json 的路径在模块加载时算好，所以每个用例重置模块并重设 ORIGIN_HOME。 */
 async function loadStoreWithConfig(config: Record<string, unknown> | undefined): Promise<{
 	readDesktopConfig: () => Promise<{ defaultAgentMode?: string }>;
 }> {
-	const home = await mkdtemp(join(tmpdir(), "vetta-config-"));
+	const home = await mkdtemp(join(tmpdir(), "origin-config-"));
 	temporaryRoots.push(home);
-	process.env[VETTA_HOME_ENV] = home;
+	process.env[ORIGIN_HOME_ENV] = home;
 	if (config) {
 		await writeFile(join(home, "desktop-config.json"), JSON.stringify(config), "utf8");
 	}
@@ -22,12 +22,12 @@ async function loadStoreWithConfig(config: Record<string, unknown> | undefined):
 }
 
 beforeEach(() => {
-	previousHome = process.env[VETTA_HOME_ENV];
+	previousHome = process.env[ORIGIN_HOME_ENV];
 });
 
 afterEach(async () => {
-	if (previousHome === undefined) delete process.env[VETTA_HOME_ENV];
-	else process.env[VETTA_HOME_ENV] = previousHome;
+	if (previousHome === undefined) delete process.env[ORIGIN_HOME_ENV];
+	else process.env[ORIGIN_HOME_ENV] = previousHome;
 	await Promise.all(temporaryRoots.splice(0).map((root) => rm(root, { recursive: true, force: true })));
 });
 

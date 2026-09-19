@@ -88,15 +88,15 @@ describe("activity-tab command target cwd", () => {
 	// Addressing the write by cwd would land on a key the Team panel never reads.
 	it("writes to the workspace that owns the requested cwd", () => {
 		const store = getDefaultStore();
-		store.set(mountedActivityWorkspacesAtom, [{ id: "agent-team:ws-1", cwd: TOOL_SESSION_CWD }]);
+		store.set(mountedActivityWorkspacesAtom, [{ id: "agent-profile:ws-1", cwd: TOOL_SESSION_CWD }]);
 		const ui = createUi();
 
 		ui.setActivityTabVisible("canvas", true, { cwd: TOOL_SESSION_CWD });
 		ui.openActivityTab("canvas", { width: "max", cwd: TOOL_SESSION_CWD });
 
-		expect(store.get(attachedPluginTabsAtom).get("agent-team:ws-1")).toEqual(["demo-plugin:canvas"]);
+		expect(store.get(attachedPluginTabsAtom).get("agent-profile:ws-1")).toEqual(["demo-plugin:canvas"]);
 		expect(store.get(attachedPluginTabsAtom).has(TOOL_SESSION_CWD)).toBe(false);
-		expect(store.get(activityPanelTabByProjectAtom).get("agent-team:ws-1")).toBe("plugin:demo-plugin:canvas");
+		expect(store.get(activityPanelTabByProjectAtom).get("agent-profile:ws-1")).toBe("plugin:demo-plugin:canvas");
 	});
 
 	// Team never writes the active session, so a plugin that omits the cwd (activate-time
@@ -104,12 +104,12 @@ describe("activity-tab command target cwd", () => {
 	it("falls back to the mounted workspace when no cwd is given", () => {
 		const store = getDefaultStore();
 		store.set(activeSessionAtom, null);
-		store.set(mountedActivityWorkspacesAtom, [{ id: "agent-team:ws-1", cwd: TOOL_SESSION_CWD }]);
+		store.set(mountedActivityWorkspacesAtom, [{ id: "agent-profile:ws-1", cwd: TOOL_SESSION_CWD }]);
 		const ui = createUi();
 
 		ui.openActivityTab("canvas");
 
-		expect(store.get(attachedPluginTabsAtom).get("agent-team:ws-1")).toEqual(["demo-plugin:canvas"]);
+		expect(store.get(attachedPluginTabsAtom).get("agent-profile:ws-1")).toEqual(["demo-plugin:canvas"]);
 	});
 
 	it("rejects a relative cwd instead of creating an unreachable persistence key", () => {

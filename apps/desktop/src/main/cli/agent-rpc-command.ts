@@ -4,7 +4,7 @@ import { app } from "electron";
 // ---------------------------------------------------------------------------
 // Coding-agent RPC CLI mode
 // ---------------------------------------------------------------------------
-// When the parent process spawns Vetta.app with `--agent-rpc` (followed by
+// When the parent process spawns Origin.app with `--agent-rpc` (followed by
 // the coding-agent CLI args), main.ts short-circuits into this command:
 // we forward everything after `--agent-rpc` to `@origin/cli-host`'s runtime
 // host. The host owns one production Runtime; scenario flags only select
@@ -37,7 +37,7 @@ export function parseAgentRpcCommand(argv: string[]): string[] | null {
  * package.json). The agent's `getPackageDir()` walks up from `__dirname`
  * looking for a `package.json`, which inside an Electron asar bundle lands
  * on the host app's package.json — wrong tree, missing assets. We override
- * via `VETTA_PACKAGE_DIR` (the env var coding-agent's config.ts already
+ * via `ORIGIN_PACKAGE_DIR` (the env var coding-agent's config.ts already
  * honours) so theme + export-html lookups succeed.
  *
  * Layout matched by prepare-pack.js / extraResources:
@@ -94,8 +94,8 @@ async function loadRuntimeCredentialInjector(): Promise<
 
 export async function runAgentRpcCommand(args: string[]): Promise<number> {
 	try {
-		if (!process.env.VETTA_PACKAGE_DIR && !process.env.PI_PACKAGE_DIR) {
-			process.env.VETTA_PACKAGE_DIR = resolveCodingAgentPackageDir();
+		if (!process.env.ORIGIN_PACKAGE_DIR && !process.env.PI_PACKAGE_DIR) {
+			process.env.ORIGIN_PACKAGE_DIR = resolveCodingAgentPackageDir();
 		}
 		const { runAgentRuntimeCli } = await import("@origin/cli-host");
 		const injectRuntimeCredentials = await loadRuntimeCredentialInjector();

@@ -14,7 +14,7 @@ afterEach(async () => {
 });
 
 async function createFixture({ includeBlockmap = true, sha512 = undefined } = {}) {
-	const releaseDir = await mkdtemp(join(tmpdir(), "vetta-mac-update-test-"));
+	const releaseDir = await mkdtemp(join(tmpdir(), "origin-mac-update-test-"));
 	temporaryRoots.push(releaseDir);
 	const fileName = "Origin-1.2.3-mac.zip";
 	const content = Buffer.from("test update zip");

@@ -4,11 +4,14 @@ export function createPluginModelsApi(permissions: PluginPermissionApi, capabili
 	return {
 		replaceOwnedProviders: async (providers) => {
 			permissions.require("models.manage");
-			await window.vetta.plugins.internalCapabilities.models.replaceOwnedProviders(capabilitySessionId, providers);
+			await window.originApp.plugins.internalCapabilities.models.replaceOwnedProviders(
+				capabilitySessionId,
+				providers,
+			);
 		},
 		listOwnedProviders: async () => {
 			permissions.require("models.manage");
-			return window.vetta.plugins.internalCapabilities.models.listOwnedProviders(capabilitySessionId);
+			return window.originApp.plugins.internalCapabilities.models.listOwnedProviders(capabilitySessionId);
 		},
 	};
 }

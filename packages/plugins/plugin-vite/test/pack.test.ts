@@ -2,7 +2,7 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
-import { createVettaPluginPackage } from "../src/pack.js";
+import { createOriginPluginPackage } from "../src/pack.js";
 
 const temporaryDirectories: string[] = [];
 
@@ -41,13 +41,13 @@ async function createFederationFixture(options: FederationFixtureOptions): Promi
 	return rootDir;
 }
 
-describe("createVettaPluginPackage", () => {
+describe("createOriginPluginPackage", () => {
 	it("packages the federation manifest and remote entry", async () => {
 		const rootDir = await createFederationFixture({ id: "pack-test", version: "0.1.0" });
 		await mkdir(join(rootDir, "locales"), { recursive: true });
 		await writeFile(join(rootDir, "locales", "en.json"), JSON.stringify({ title: "Test" }));
 
-		const result = await createVettaPluginPackage({ rootDir });
+		const result = await createOriginPluginPackage({ rootDir });
 
 		expect(result.files.map((file) => file.archivePath)).toEqual([
 			"dist/mf-manifest.json",
@@ -73,7 +73,7 @@ describe("createVettaPluginPackage", () => {
 			}),
 		);
 
-		const result = await createVettaPluginPackage({ rootDir });
+		const result = await createOriginPluginPackage({ rootDir });
 
 		expect(result.files.map((file) => file.archivePath)).toEqual([
 			"ability.json",
@@ -89,20 +89,20 @@ describe("createVettaPluginPackage", () => {
 		await writeFile(
 			join(rootDir, "package.json"),
 			JSON.stringify({
-				name: "@example/vetta-plugin-npm-pack-test",
+				name: "@example/origin-plugin-npm-pack-test",
 				version: "0.2.0",
-				vetta: {
+				originApp: {
 					schemaVersion: 1,
 					type: "desktop-plugin",
 					pluginId: "npm-pack-test",
-					archive: "release/vetta-plugin.zip",
+					archive: "release/origin-plugin.zip",
 				},
 			}),
 		);
 
-		const result = await createVettaPluginPackage({ rootDir, npmArchive: true });
+		const result = await createOriginPluginPackage({ rootDir, npmArchive: true });
 
-		expect(result.npmOutputPath).toBe(join(rootDir, "release", "vetta-plugin.zip"));
+		expect(result.npmOutputPath).toBe(join(rootDir, "release", "origin-plugin.zip"));
 		expect(await readFile(result.npmOutputPath!)).toEqual(await readFile(result.outputPath));
 	});
 
@@ -113,16 +113,16 @@ describe("createVettaPluginPackage", () => {
 			JSON.stringify({
 				name: "@example/identity-test",
 				version: "1.0.1",
-				vetta: {
+				originApp: {
 					schemaVersion: 1,
 					type: "desktop-plugin",
 					pluginId: "identity-test",
-					archive: "release/vetta-plugin.zip",
+					archive: "release/origin-plugin.zip",
 				},
 			}),
 		);
 
-		await expect(createVettaPluginPackage({ rootDir, npmArchive: true })).rejects.toThrow(
+		await expect(createOriginPluginPackage({ rootDir, npmArchive: true })).rejects.toThrow(
 			"must match plugin version",
 		);
 	});
@@ -136,7 +136,7 @@ describe("createVettaPluginPackage", () => {
 				'export function activate(ctx) { ctx.agent.registerSystemPromptProvider({ handler: () => [{ type: "setToolEnabled", toolName: "write", enabled: false }] }); }\n',
 		});
 
-		await expect(createVettaPluginPackage({ rootDir })).rejects.toThrow('requires "agent.tools.control"');
+		await expect(createOriginPluginPackage({ rootDir })).rejects.toThrow('requires "agent.tools.control"');
 		await expect(readFile(join(rootDir, "release", "permission-test-1.0.0.zip"))).rejects.toThrow();
 	});
 });

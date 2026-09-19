@@ -9,22 +9,22 @@ import { ipcMain } from "electron";
 import { getKnowledgeService } from "./knowledge-service.js";
 
 const CHANNELS = {
-	SCAN_NOW: "vetta:kb:scan-now",
-	RETRY_FAILED: "vetta:kb:retry-failed",
-	RELOAD: "vetta:kb:reload",
-	IS_PROCESSING: "vetta:kb:is-processing",
-	LIST: "vetta:kb:list",
-	LIST_DIR: "vetta:kb:list-dir",
-	STATUSES: "vetta:kb:statuses",
-	ADD_FILES: "vetta:kb:add-files",
-	DELETE_ENTRY: "vetta:kb:delete-entry",
-	RENAME_ENTRY: "vetta:kb:rename-entry",
-	CREATE: "vetta:kb:create",
-	DELETE: "vetta:kb:delete",
-	RENAME: "vetta:kb:rename",
-	CLEAR_WIKI: "vetta:kb:clear-wiki",
-	CLEAR_RECORDS: "vetta:kb:clear-records",
-	DELETE_WIKI: "vetta:kb:delete-wiki",
+	SCAN_NOW: "origin:kb:scan-now",
+	RETRY_FAILED: "origin:kb:retry-failed",
+	RELOAD: "origin:kb:reload",
+	IS_PROCESSING: "origin:kb:is-processing",
+	LIST: "origin:kb:list",
+	LIST_DIR: "origin:kb:list-dir",
+	STATUSES: "origin:kb:statuses",
+	ADD_FILES: "origin:kb:add-files",
+	DELETE_ENTRY: "origin:kb:delete-entry",
+	RENAME_ENTRY: "origin:kb:rename-entry",
+	CREATE: "origin:kb:create",
+	DELETE: "origin:kb:delete",
+	RENAME: "origin:kb:rename",
+	CLEAR_WIKI: "origin:kb:clear-wiki",
+	CLEAR_RECORDS: "origin:kb:clear-records",
+	DELETE_WIKI: "origin:kb:delete-wiki",
 } as const;
 
 export function registerKnowledgeIpc(): void {

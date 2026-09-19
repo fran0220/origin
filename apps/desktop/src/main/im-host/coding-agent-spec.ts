@@ -49,7 +49,7 @@ function resolveCodingAgentPackageDir(): string {
  * production argv shape so the sidecar code path stays identical.
  *
  * `packageDir` is always populated so the sidecar forwards it as
- * `VETTA_PACKAGE_DIR` to the child — the only reliable way for the
+ * `ORIGIN_PACKAGE_DIR` to the child — the only reliable way for the
  * bundled agent to find its on-disk assets.
  */
 export interface BuildCodingAgentSpecOptions {
@@ -73,8 +73,8 @@ export function buildCodingAgentSpec(opts: BuildCodingAgentSpecOptions = {}): Co
 		: [];
 
 	// Inject the host's compile-time server URL into the subprocess env.
-	// coding-agent's main.ts reads `process.env.VETTA_SERVER_URL` ahead of
-	// `~/.vetta/agent/settings.json`, which avoids the prod failure where a
+	// coding-agent's main.ts reads `process.env.ORIGIN_SERVER_URL` ahead of
+	// `~/.origin/agent/settings.json`, which avoids the prod failure where a
 	// stale `serverUrl` (e.g. left over from a dev/LAN login) causes
 	// `loadRemoteModels` to 401 against the wrong gateway — remote providers
 	// (vetta-go et al.) disappear and the agent exits with

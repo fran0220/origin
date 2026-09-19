@@ -17,7 +17,7 @@ async function createFixture(version = "1.0.0"): Promise<{
 	snapshotRoot: string;
 	ability: OpenMarketplaceSkillManifest;
 }> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-open-installer-test-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-open-installer-test-"));
 	temporaryRoots.push(root);
 	const snapshotRoot = join(root, "snapshot");
 	const sourceDir = join(snapshotRoot, "abilities", "skills", "demo-skill");
@@ -29,9 +29,9 @@ async function createFixture(version = "1.0.0"): Promise<{
 	);
 	const manifest = parseMarketplaceManifest({
 		schemaVersion: 1,
-		name: "vetta-open-abilities",
+		name: "origin-open-abilities",
 		marketplaceVersion: "2026.07.1",
-		repository: "https://github.com/example/vetta-abilities",
+		repository: "https://github.com/example/origin-abilities",
 		minAppVersion: "0.5.11",
 		abilities: [
 			{
@@ -79,9 +79,9 @@ describe("installOpenMarketplaceAbility", () => {
 		const deps = dependencies(fixture.root, manifest);
 		const origin = {
 			kind: "github-marketplace" as const,
-			marketplace: "vetta-open-abilities",
+			marketplace: "origin-open-abilities",
 			marketplaceVersion: "2026.07.1",
-			repository: "https://github.com/example/vetta-abilities",
+			repository: "https://github.com/example/origin-abilities",
 		};
 
 		await installOpenMarketplaceAbility(fixture.snapshotRoot, fixture.ability, origin, deps);
@@ -93,7 +93,7 @@ describe("installOpenMarketplaceAbility", () => {
 		expect(deps.recordInstall).toHaveBeenCalledWith("skill", "demo-skill", "1.0.0", {
 			origin,
 			configVersion: 3,
-			catalogId: "github:https://github.com/example/vetta-abilities:skill:demo-skill",
+			catalogId: "github:https://github.com/example/origin-abilities:skill:demo-skill",
 			slug: "demo-skill",
 		});
 	});
@@ -124,9 +124,9 @@ describe("installOpenMarketplaceAbility", () => {
 				fixture.ability,
 				{
 					kind: "github-marketplace",
-					marketplace: "vetta-open-abilities",
+					marketplace: "origin-open-abilities",
 					marketplaceVersion: "2026.07.1",
-					repository: "https://github.com/example/vetta-abilities",
+					repository: "https://github.com/example/origin-abilities",
 				},
 				deps,
 			),

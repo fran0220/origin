@@ -26,8 +26,8 @@ describe("UI verification profiles", () => {
     const firstDebug = resolveProfileLayout({ ...shared, profile: "debug" });
     const nextDebug = resolveProfileLayout({ ...shared, profile: "debug" });
 
-    expect(firstFresh.vettaHome).not.toBe(nextFresh.vettaHome);
-    expect(firstDebug.vettaHome).toBe(nextDebug.vettaHome);
+    expect(firstFresh.originHome).not.toBe(nextFresh.originHome);
+    expect(firstDebug.originHome).toBe(nextDebug.originHome);
     expect(firstFresh.userDataDir).not.toBe(firstDebug.userDataDir);
   });
 
@@ -39,11 +39,11 @@ describe("UI verification profiles", () => {
       homeDirectory: root,
       runtimeRoot: join(root, "runtime"),
     });
-    const environment = createProfileEnvironment(layout, { VETTA_UI_VERIFICATION: "stale" });
+    const environment = createProfileEnvironment(layout, { ORIGIN_UI_VERIFICATION: "stale" });
 
     expect(layout.statePath).toBeNull();
-    expect(layout.vettaHome).toBe(join(root, ".vetta-dev"));
-    expect(environment.VETTA_UI_VERIFICATION).toBeUndefined();
+    expect(layout.originHome).toBe(join(root, ".origin-dev"));
+    expect(environment.ORIGIN_UI_VERIFICATION).toBeUndefined();
   });
 });
 
@@ -152,7 +152,7 @@ describe("debug profile seeding", () => {
 });
 
 function temporaryDirectory(name: string): string {
-  const path = join(tmpdir(), `vetta-ui-profile-${name}-${crypto.randomUUID()}`);
+  const path = join(tmpdir(), `origin-ui-profile-${name}-${crypto.randomUUID()}`);
   mkdirSync(path, { recursive: true });
   temporaryPaths.push(path);
   return path;

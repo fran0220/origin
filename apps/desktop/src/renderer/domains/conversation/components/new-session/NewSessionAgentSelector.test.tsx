@@ -2,7 +2,7 @@
 
 import { cleanup, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { type AgentProfile, createAgentProfileFixture } from "@origin/agent-team";
+import { type AgentProfile, createAgentProfileFixture } from "@origin/agent-profile";
 import { useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NewSessionAgentSelector } from "./NewSessionAgentSelector";
@@ -25,7 +25,7 @@ describe("NewSessionAgentSelector", () => {
 	function mockCatalog(next = document): void {
 		Object.defineProperty(window, "vetta", {
 			configurable: true,
-			value: { agentTeams: { list: vi.fn(async () => next) } },
+			value: { agentProfiles: { list: vi.fn(async () => next) } },
 		});
 	}
 
