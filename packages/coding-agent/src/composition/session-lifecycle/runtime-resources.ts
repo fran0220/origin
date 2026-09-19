@@ -64,6 +64,7 @@ export interface CodingAgentSessionRuntimeResourcesOptions {
 	readonly todoToolRegistration: CodingAgentRuntimeToolRegistration;
 	readonly todoEnabled: boolean;
 	readonly memoryRuntime?: CodingAgentMemoryRolloverRuntime;
+	readonly harnessRuntime?: import("../../features/harness/index.js").CodingAgentHarnessRuntime;
 	readonly mcpController?: McpDeferredToolController;
 	readonly activation: CodingAgentToolActivation;
 	readonly knowledgeAvailable: boolean;
@@ -170,6 +171,7 @@ function readSessionState(
 		),
 		...(options.todoEnabled ? [options.todoToolRegistration.tool.name] : []),
 		...(options.memoryRuntime ? [options.memoryRuntime.toolRegistration.tool.name] : []),
+		...(options.harnessRuntime ? options.harnessRuntime.toolRegistrations.map(({ tool }) => tool.name) : []),
 		...(options.subagentRuntime ? options.subagentRuntime.readTools().map(({ name }) => name) : []),
 		...(options.askUserQuestionRuntime.isEnabled() ? [CODING_AGENT_ASK_USER_QUESTION_TOOL_NAME] : []),
 		...(options.extensionToolRuntime?.readActiveToolNames(stateActivation, options.session.readSessionId()) ?? []),

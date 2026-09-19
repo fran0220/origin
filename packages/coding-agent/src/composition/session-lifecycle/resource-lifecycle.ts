@@ -76,6 +76,7 @@ export interface CodingAgentSessionResourceLifecycleOptions {
 	readonly modelRuntime: CodingAgentSessionModelRuntimePort;
 	readonly contextRuntime: CodingAgentContextRuntime;
 	readonly memoryRuntime?: CodingAgentMemoryRolloverRuntime;
+	readonly harnessRuntime?: import("../../features/harness/index.js").CodingAgentHarnessRuntime;
 	readonly memoryController?: CodingAgentMemoryController;
 	readonly sessionExtensions: SessionExtensionComposition;
 	readonly todoToolRegistration: CodingAgentRuntimeToolRegistration;
@@ -215,6 +216,7 @@ function createResources(
 		todoToolRegistration: options.todoToolRegistration,
 		todoEnabled: options.todoEnabled,
 		memoryRuntime: options.memoryRuntime,
+		harnessRuntime: options.harnessRuntime,
 		mcpController: options.mcpController,
 		activation: options.activation,
 		knowledgeAvailable: options.knowledgeAvailable,
@@ -262,6 +264,14 @@ function createSessionCleanup(
 			id: "memory-runtime",
 			phase: 0,
 			cleanup: () => memoryRuntime.dispose(),
+		});
+	}
+	if (options.harnessRuntime) {
+		const harnessRuntime = options.harnessRuntime;
+		cleanup.add({
+			id: "harness-runtime",
+			phase: 0,
+			cleanup: () => harnessRuntime.dispose(),
 		});
 	}
 	cleanup.add({

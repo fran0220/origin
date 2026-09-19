@@ -21,6 +21,10 @@ import {
 	type CodingAgentAskUserQuestionExtensionRuntime,
 	createCodingAgentAskUserQuestionSessionExtension,
 } from "../../features/ask-user-question/index.js";
+import {
+	type CodingAgentHarnessRuntime,
+	createCodingAgentHarnessRuntimeFeature,
+} from "../../features/harness/index.js";
 import { createCodingAgentSessionAssistanceExtension } from "../../features/session-assistance/session-assistance-session-extension.js";
 import type { CodingAgentTodoRuntime } from "../../features/todo/contracts.js";
 import {
@@ -80,6 +84,7 @@ export interface CodingAgentSessionPeripheralAssembly {
 	readonly mcpController?: McpDeferredToolController;
 	readonly executionRuntime: CodingAgentSessionExecutionRuntime;
 	readonly memoryRuntime?: CodingAgentMemoryRolloverRuntime;
+	readonly harnessRuntime?: CodingAgentHarnessRuntime;
 	readonly todoRuntime: CodingAgentTodoRuntime;
 	readonly todoRegistration: CodingAgentRuntimeToolRegistration;
 	readonly todoEnabled: boolean;
@@ -269,6 +274,13 @@ export async function createCodingAgentSessionPeripheralAssembly(
 			rollback: () => memoryRuntime.dispose(),
 		});
 	}
+	const harnessRuntime = profile.createHarnessRuntime?.(sessionOptions);
+	if (harnessRuntime) {
+		options.deferRollback({
+			id: "harness-runtime",
+			rollback: () => harnessRuntime.dispose(),
+		});
+	}
 	const features = [
 		...options.codingTools.capabilities.features,
 		executionRuntime.feature,
@@ -277,6 +289,7 @@ export async function createCodingAgentSessionPeripheralAssembly(
 			: []),
 		...sessionExtensions.features,
 		...(memoryRuntime ? [createCodingAgentMemoryRuntimeFeature(memoryRuntime.toolRegistration)] : []),
+		...(harnessRuntime ? [createCodingAgentHarnessRuntimeFeature(harnessRuntime.toolRegistrations)] : []),
 		...(mcpController ? [mcpController.createFeature({ includePromptInstruction: false })] : []),
 	];
 	const baseCapabilities: RuntimeCapabilityDefinition = {
@@ -295,6 +308,7 @@ export async function createCodingAgentSessionPeripheralAssembly(
 		mcpController,
 		executionRuntime,
 		memoryRuntime,
+		harnessRuntime,
 		todoRuntime,
 		todoRegistration,
 		todoEnabled,

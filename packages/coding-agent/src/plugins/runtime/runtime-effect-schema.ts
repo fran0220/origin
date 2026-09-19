@@ -23,6 +23,7 @@ const PromptBlockTypeSchema = Type.Union([
 	Type.Literal("append"),
 	Type.Literal("context"),
 	Type.Literal("memory"),
+	Type.Literal("harness"),
 	Type.Literal("skills"),
 	Type.Literal("mode"),
 	Type.Literal("personalization"),

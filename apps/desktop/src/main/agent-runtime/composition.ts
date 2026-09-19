@@ -7,6 +7,7 @@ import {
 	CODING_AGENT_SESSION_INITIALIZATION_OBSERVATION,
 	CODING_AGENT_SUBAGENT_ISSUE_OBSERVATION,
 	createCodingAgentCheckpointSessionExtension,
+	createCodingAgentHarnessRuntime,
 	createCodingAgentMemoryRolloverRuntime,
 	publishCodingAgentExecutionRuntimeDefinition,
 } from "@vetta/coding-agent/composition";
@@ -44,7 +45,9 @@ import {
 	logRuntimeSessionError,
 	PathFilteredRuntimeSessionCatalog,
 } from "@vetta/runtime-desktop";
+import { EvolutionLedger } from "@vetta/runtime-evolution";
 import { FileConversationRuntimeSessionFileHistoryReader } from "@vetta/runtime-node/conversation";
+import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
 import {
 	createLoopbackSessionAffinityStream,
 	createNodeKnowledgeRuntime,
@@ -61,6 +64,7 @@ import {
 import { DEFAULT_SERVER_URL } from "../constants.js";
 import { resolveDesktopRuntimeSessionRoots } from "../conversations/session-catalog-roots.js";
 import { resolveSessionListCwd } from "../conversations/session-paths.js";
+import { resolveDesktopHarnessSubjectId } from "../evolution/evolution-service.js";
 import { getKnowledgeRoot } from "../knowledge/knowledge-layout.js";
 import { getAppLogger } from "../logger.js";
 import { getDesktopMcpAppRegistry } from "../mcp/mcp-app-runtime.js";
@@ -114,6 +118,7 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 			CODING_AGENT_SUBAGENT_ISSUE_OBSERVATION.domain,
 		],
 	});
+	const evolutionLedger = new EvolutionLedger(createFileEvolutionLedgerStore(join(getAgentDir(), "evolution")));
 	const platformServices = createDesktopRuntimeHostPlatformServices();
 	const modelRuntime = getOrCreateSharedModelRuntime();
 	const mcpTaskCoordinator = getDesktopMcpTaskCoordinator();
@@ -180,6 +185,12 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 						memoryCharLimit: options.memoryCharLimit,
 						memoryStorage: new NodeTextFileStorage(memoryFile),
 						journalStorage: new NodeTextFileStorage(join(options.cwd, "JOURNAL.md")),
+					});
+				},
+				createHarnessRuntime: (sessionOptions) => {
+					return createCodingAgentHarnessRuntime({
+						ledger: evolutionLedger,
+						subjectId: resolveDesktopHarnessSubjectId(sessionOptions.cwd),
 					});
 				},
 				observationHub: {

@@ -164,6 +164,11 @@ export interface BuildSystemPromptOptions {
 	/** Pre-rendered persistent-memory block (memory-mode only, frozen snapshot). */
 	memory?: string;
 	/**
+	 * Pre-rendered continual-harness supplement captured at Turn admission.
+	 * Injected between memory and skills; current-Turn refine does not rewrite this snapshot.
+	 */
+	harness?: string;
+	/**
 	 * 个性化追加块（人设 + 自定义指令，调用方已按「人设在前、自定义在后」拼好）。
 	 * 拼在系统提示词末尾（date/cwd 页脚之前），recency 最高。
 	 */
@@ -372,6 +377,7 @@ export function buildSystemPromptDraft(options: BuildSystemPromptOptions = {}): 
 		skills: providedSkills,
 		mcpTools: providedMcpTools,
 		memory,
+		harness,
 		personalization,
 		modePrompt,
 		agentPlugins,
@@ -404,6 +410,7 @@ export function buildSystemPromptDraft(options: BuildSystemPromptOptions = {}): 
 	blocks.push(coreBlock("core.append", "append", appendSystemPrompt ?? "", 400));
 	blocks.push(coreBlock("core.context", "context", renderContextSection(workspaceFacts, contextFiles), 500));
 	blocks.push(coreBlock("core.memory", "memory", memory ?? "", 600));
+	blocks.push(coreBlock("core.harness", "harness", harness ?? "", 650));
 	blocks.push(coreBlock("core.skills", "skills", skillsSection, 700));
 	blocks.push(coreBlock("core.mode", "mode", modePrompt ?? "", 850));
 	blocks.push(coreBlock("core.personalization", "personalization", personalization ?? "", 900));

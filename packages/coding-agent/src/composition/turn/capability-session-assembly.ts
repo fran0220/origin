@@ -125,6 +125,7 @@ export interface CodingAgentTurnCapabilitySessionAssemblyOptions {
 	readonly todoRuntime: CodingAgentTodoRuntime;
 	readonly todoToolRegistration?: CodingAgentRuntimeToolRegistration;
 	readonly memoryRuntime?: CodingAgentMemoryRolloverRuntime;
+	readonly harnessRuntime?: import("../../features/harness/index.js").CodingAgentHarnessRuntime;
 	readonly subagentRuntime?: CodingAgentSubagentRuntime;
 	readonly contextRuntime: CodingAgentContextRuntime;
 	readonly conversationContextProjector: NonNullable<RuntimeCapabilityDefinition["conversationContextProjector"]>;
@@ -254,6 +255,7 @@ export async function createCodingAgentTurnCapabilitySessionAssembly(
 		context: Parameters<CodingAgentSystemPromptOptionsResolver>[0],
 		agentPlugins: AgentPluginRuntimeConfig | undefined,
 		memory: string | undefined,
+		harness: string | undefined,
 		configuration: AgentConfiguration,
 	) => {
 		const promptOptions = await resolver(context);
@@ -275,6 +277,7 @@ export async function createCodingAgentTurnCapabilitySessionAssembly(
 				options.session.systemPromptVolatileAddon,
 			),
 			...(memory ? { memory } : {}),
+			...(harness ? { harness } : {}),
 		};
 	};
 	const invokeSkillFeature = promptResourceSource
@@ -319,6 +322,9 @@ export async function createCodingAgentTurnCapabilitySessionAssembly(
 				: []),
 			...(options.memoryRuntime
 				? [[options.memoryRuntime.toolRegistration.tool.name, options.memoryRuntime.toolRegistration.tool] as const]
+				: []),
+			...(options.harnessRuntime
+				? options.harnessRuntime.toolRegistrations.map(({ tool }) => [tool.name, tool] as const)
 				: []),
 			...(options.subagentRuntime
 				? options.subagentRuntime.readTools().map((tool) => [tool.name, tool] as const)
@@ -401,20 +407,23 @@ export async function createCodingAgentTurnCapabilitySessionAssembly(
 		extensionToolRuntime: options.extensionToolRuntime,
 		resolveExtensionToolActivation: options.activation.resolve,
 		bindExtensionToolActivation: () => readBoundActivation(options.activation).resolve,
-		resolveSystemPromptOptions: (context) =>
+		resolveSystemPromptOptions: async (context) =>
 			enhanceSystemPromptOptions(
 				resolveSystemPromptOptions,
 				context,
 				options.activation.readAgentPlugins(),
 				options.memoryRuntime?.renderPromptMemory(),
+				await options.harnessRuntime?.renderPromptHarness(),
 				options.agentConfiguration.readAdmitted(),
 			),
 		bindSystemPromptOptions: async (context) => {
 			const resolver = (await promptRuntime?.bindForTurn(context.signal)) ?? resolveSystemPromptOptions;
 			const agentPlugins = options.activation.readAgentPlugins();
 			const memory = options.memoryRuntime?.renderPromptMemory();
+			const harness = await options.harnessRuntime?.renderPromptHarness();
 			const configuration = options.agentConfiguration.readAdmitted();
-			return (context) => enhanceSystemPromptOptions(resolver, context, agentPlugins, memory, configuration);
+			return (context) =>
+				enhanceSystemPromptOptions(resolver, context, agentPlugins, memory, harness, configuration);
 		},
 		reportActiveToolNames: options.reportActiveToolNames,
 	});

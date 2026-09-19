@@ -7,6 +7,7 @@ import {
 	type CodingAgentRuntimeCompositionOptions,
 	type CodingAgentRuntimeSessionOptions,
 	createCodingAgentCodingToolResultPolicy,
+	createCodingAgentHarnessRuntime,
 	createCodingAgentMemoryRolloverRuntime,
 	createCodingAgentRuntimeComposition,
 	createCodingAgentRuntimeHostSessionConfig,
@@ -36,6 +37,7 @@ import {
 	type RuntimeHostSession,
 	type RuntimeSessionCatalog,
 } from "@vetta/runtime-core";
+import { EvolutionLedger, HOME_SUBJECT_ID } from "@vetta/runtime-evolution";
 import { createMcpToolResultPolicy } from "@vetta/runtime-mcp";
 import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@vetta/runtime-node/coding";
 import {
@@ -46,6 +48,7 @@ import {
 	resolveConversationFilePath,
 	resolveSessionIdFromPath,
 } from "@vetta/runtime-node/conversation";
+import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
 import {
 	createLoopbackSessionAffinityStream,
 	createNodeKnowledgeRuntime,
@@ -155,6 +158,14 @@ export async function createCliSessionAssembly(options: CliSessionAssemblyOption
 			knowledgeRuntime:
 				process.env.VETTA_KNOWLEDGE_DISABLED === "1" ? undefined : createNodeKnowledgeRuntime(getKnowledgeDir()),
 			createMemoryRolloverRuntime: createCliMemoryRolloverRuntime,
+			createHarnessRuntime: (sessionOptions) => {
+				const ledger = new EvolutionLedger(createFileEvolutionLedgerStore(join(bootstrap.agentDir, "evolution")));
+				const cwd = sessionOptions.cwd ?? bootstrap.cwd;
+				return createCodingAgentHarnessRuntime({
+					ledger,
+					subjectId: cwd.trim() || HOME_SUBJECT_ID,
+				});
+			},
 			hookConfigLayers: buildDefaultHookConfigLayers({
 				cwd: bootstrap.cwd,
 				vettaHome: getVettaHomePath(),

@@ -5,8 +5,10 @@ import {
 	SessionExtensionFunctionRegistry,
 	type SessionExtensionFunctionSource,
 } from "@vetta/runtime-core/session-extensions";
+import { EvolutionLedger, HOME_SUBJECT_ID } from "@vetta/runtime-evolution";
 import { createMcpToolResultPolicy, EMPTY_MCP_CONFIG_SOURCE, type McpServerSupervisor } from "@vetta/runtime-mcp";
 import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@vetta/runtime-node/coding";
+import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
 import {
 	createLoopbackSessionAffinityStream,
 	createNodeHtmlExportFileAdapters,
@@ -24,6 +26,7 @@ import { createCodingAgentAuthRuntime } from "../../auth/index.js";
 import { createCodingAgentMemoryRolloverRuntime } from "../../composition/memory-runtime.js";
 import { createCodingAgentHtmlExportRuntime } from "../../export-html/index.js";
 import { CODING_AGENT_ASK_USER_QUESTION_FUNCTION } from "../../features/ask-user-question/contracts.js";
+import { createCodingAgentHarnessRuntime } from "../../features/harness/index.js";
 import { CONFIG_DIR_NAME, DEFAULT_SERVER_URL, ENV_SERVER_URL } from "../../identity.js";
 import { createCodingAgentMcpRuntimeToolSource } from "../../mcp/runtime/tool-source.js";
 import { detectWorkspaceFacts, probeWorkspaceSignals } from "../../model-context/workspace-facts.js";
@@ -259,6 +262,11 @@ async function createCodingAgentSdkSessionComposition(
 					journalStorage: new NodeTextFileStorage(join(memoryOptions.cwd, "JOURNAL.md")),
 				});
 			},
+			createHarnessRuntime: (sessionOptions) =>
+				createCodingAgentHarnessRuntime({
+					ledger: new EvolutionLedger(createFileEvolutionLedgerStore(join(agentDir, "evolution"))),
+					subjectId: (sessionOptions.cwd ?? cwd).trim() || HOME_SUBJECT_ID,
+				}),
 			modelRegistry,
 			modelInputImageProcessor: nodeModelInputImageProcessor,
 			initialModel: initial.model,

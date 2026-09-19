@@ -227,6 +227,13 @@ export interface CodingAgentRuntimeContextOptions {
 		options: CodingAgentMemoryRuntimeFactoryOptions,
 		sessionOptions: CodingAgentRuntimeSessionOptions,
 	) => CodingAgentMemoryRolloverRuntime;
+	/**
+	 * 为每个 Session 创建 continual-harness Runtime。宿主注入 ledger 与 subjectId
+	 * （Project id 或 `"home"`）。缺省时不注册 harness 工具、不注入 `<continual_harness>`。
+	 */
+	readonly createHarnessRuntime?: (
+		sessionOptions: CodingAgentRuntimeSessionOptions,
+	) => import("../../features/harness/index.js").CodingAgentHarnessRuntime | undefined;
 }
 
 export interface CodingAgentRuntimeObservabilityOptions {

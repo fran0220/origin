@@ -8,6 +8,7 @@ export type SystemPromptBlockType =
 	| "append"
 	| "context"
 	| "memory"
+	| "harness"
 	| "skills"
 	| "mode"
 	| "personalization"
