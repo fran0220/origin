@@ -4,4 +4,4 @@
 
 - 清单：`plugin.json`（id `origin-game-studio`，Plugin API `^2.0.0`）
 - 用户指南：[docs/game-studio/user-guide.md](../../../../docs/game-studio/user-guide.md)
-- ADR：[docs/adr/0119-origin-game-studio-preset-plugin.md](../../../../docs/adr/0119-origin-game-studio-preset-plugin.md)
+- ADR：[docs/adr/0121-origin-game-studio-preset-plugin.md](../../../../docs/adr/0121-origin-game-studio-preset-plugin.md)

@@ -1,4 +1,4 @@
-# ADR-0119：Game Studio 以系统预置插件 `origin-game-studio` 进入 Origin
+# ADR-0121：Game Studio 以系统预置插件 `origin-game-studio` 进入 Origin
 
 ## 状态
 

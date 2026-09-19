@@ -1,6 +1,6 @@
 # Origin Game Studio 用户指南
 
-Origin Game Studio 是随桌面端发布的系统预置插件（`origin-game-studio`）。它把 Sophon 的 Game Studio 迁到 Origin：一行想法、一张类型卡片、一份设计图、一个正在运行的舞台。
+Origin Game Studio 是随桌面端发布的系统预置插件（`origin-game-studio`，ADR-0121）。它把 Sophon 的 Game Studio 迁到 Origin：一行想法、一张类型卡片、一份设计图、一个正在运行的舞台。
 
 ## 创建游戏项目
 
