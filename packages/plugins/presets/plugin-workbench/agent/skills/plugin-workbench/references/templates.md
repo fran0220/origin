@@ -150,23 +150,15 @@ export default definePlugin({
       "systemPromptPath": "agent/agents/designer.md",
       "abilities": "all"
     }
-  ],
-  "teams": [
-    {
-      "id": "design-team",
-      "name": "%team.design.name%",
-      "members": [{ "agent": "designer", "responsibility": "Owns the visual result end to end." }],
-      "workflowPath": "agent/workflows/design-team.md"
-    }
   ]
 }
 ```
 
-- 团队成员 **只能**写本插件 `agents[]` 里的 id；引用别的插件或宿主角色会让整支团队被跳过。
 - 头像单张 ≤ 512 KB；提示词优先用 `systemPromptPath` 指向 Markdown。
 - 迁移已有人设时用 `legacyIds` 认领用户已有档案，别铺重复的一份。
+- 不要写 `agent.teams`：智能体是 Thread 人格，不能组队。
 
-见 `manifest.md` → 贡献智能体与团队。
+见 `manifest.md` → 贡献智能体。
 
 ## H. 新会话上下文区（落地区素材）
 

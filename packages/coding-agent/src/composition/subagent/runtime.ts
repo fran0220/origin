@@ -28,7 +28,7 @@ import type {
 	CodingAgentWorkflowDispatchRequest,
 } from "../../runtime-contracts/index.js";
 import type { CodingAgentSubagentProfile } from "../contracts/index.js";
-import { CODING_AGENT_SUBAGENT_TYPE_WORKFLOW, createDefaultCodingAgentSubagentTypeRegistry } from "./profiles.js";
+import { createDefaultCodingAgentSubagentTypeRegistry } from "./profiles.js";
 import { CodingAgentSubagentStatePersistence } from "./state-persistence.js";
 import { CodingAgentSubagentTodoProjection, toSubagentSnapshot } from "./todo-progress-projection.js";
 import { createCodingAgentSubagentRuntimeToolRegistrations } from "./tool-registrations.js";
@@ -37,7 +37,6 @@ export type { CodingAgentSubagentProfile } from "../contracts/index.js";
 export {
 	CODING_AGENT_SUBAGENT_TYPE_EXPLORER,
 	CODING_AGENT_SUBAGENT_TYPE_GENERAL,
-	CODING_AGENT_SUBAGENT_TYPE_WORKFLOW,
 	createDefaultCodingAgentSubagentTypeRegistry,
 } from "./profiles.js";
 
@@ -144,11 +143,7 @@ export class CodingAgentSubagentRuntime
 			onRecoveryIssue: options.onRecoveryIssue,
 			createEntryId: options.createEntryId,
 		});
-		this.tools = createCodingAgentSubagentRuntimeToolRegistrations(
-			() => this.coordinator,
-			() => this,
-			CODING_AGENT_SUBAGENT_TYPE_WORKFLOW,
-		).map(({ tool }) => tool);
+		this.tools = createCodingAgentSubagentRuntimeToolRegistrations(() => this.coordinator).map(({ tool }) => tool);
 		this.feature = {
 			id: "coding-agent-subagents",
 			prepare: async (): Promise<AgentFeature> => ({

@@ -7,30 +7,22 @@ import type {
 } from "@vetta/runtime-subagents";
 import { describe, expect, it, vi } from "vitest";
 import {
-	createDispatchWorkflowsToolRegistration,
 	createFollowupTaskToolRegistration,
 	createInterruptAgentToolRegistration,
 	createListAgentsToolRegistration,
 	createSendMessageToolRegistration,
 	createSpawnAgentToolRegistration,
 	createWaitAgentToolRegistration,
-	DISPATCH_WORKFLOWS_MAX_BATCH,
 	renderSubagentTaskContract,
-	WORKFLOW_NO_WAIT_TEXT,
 } from "../../src/composition/subagent/tools/index.js";
-import type {
-	CodingAgentSubagentSnapshot,
-	CodingAgentWorkflowDispatchRequest,
-} from "../../src/runtime-contracts/index.js";
 
 describe("subagent control runtime tools", () => {
-	it("preserves the seven tool names, scopes, categories, schemas and stable order", () => {
+	it("preserves the six in-thread specialist tool names, scopes, categories, schemas and stable order", () => {
 		const fixture = createCoordinatorFixture();
-		const registrations = createRegistrations(fixture.port, fixture.dispatchWorkflows);
+		const registrations = createRegistrations(fixture.port);
 
 		expect(registrations.map(({ tool }) => tool.name)).toEqual([
 			"spawn_agent",
-			"dispatch_workflows",
 			"wait_agent",
 			"list_agents",
 			"interrupt_agent",
@@ -38,7 +30,7 @@ describe("subagent control runtime tools", () => {
 			"followup_task",
 		]);
 		expect(registrations.map(({ tool }) => tool.label)).toEqual(registrations.map(({ tool }) => tool.name));
-		expect(registrations.map(({ modelOrder }) => modelOrder)).toEqual([2500, 2600, 2700, 2800, 2900, 3000, 3100]);
+		expect(registrations.map(({ modelOrder }) => modelOrder)).toEqual([2500, 2600, 2700, 2800, 2900, 3000]);
 		for (const registration of registrations) {
 			expect(registration.scopeUse).toEqual(["conversation", "project", "cli"]);
 			expect(registration.category).toBe("agent-control");
@@ -46,11 +38,6 @@ describe("subagent control runtime tools", () => {
 			expect(registration.tool.inputSchema).toMatchObject({ type: "object" });
 			expect(registration.tool.modelOrder).toBe(registration.modelOrder);
 		}
-		expect(registrations[1].tool.inputSchema).toMatchObject({
-			properties: {
-				workflows: { minItems: 1, maxItems: DISPATCH_WORKFLOWS_MAX_BATCH },
-			},
-		});
 		expect(registrations[0].tool.inputSchema).toMatchObject({
 			properties: { task: { type: "object" }, message: { type: "string" } },
 		});
@@ -70,9 +57,9 @@ describe("subagent control runtime tools", () => {
 		).rejects.toThrow("Subagents are not enabled for this session.");
 	});
 
-	it("spawns and dispatches through the coordinator port without changing results", async () => {
+	it("spawns through the coordinator port without changing results", async () => {
 		const fixture = createCoordinatorFixture();
-		const [spawn, dispatch] = createRegistrations(fixture.port, fixture.dispatchWorkflows);
+		const [spawn] = createRegistrations(fixture.port);
 		const task = detailedTask("Inspect the runtime contracts.");
 
 		const spawnResult = await execute(spawn.tool, {
@@ -98,67 +85,35 @@ describe("subagent control runtime tools", () => {
 				].join("\n"),
 			},
 		]);
-
-		const dispatchResult = await execute(dispatch.tool, {
-			workflows: [
-				{
-					task_name: "refactor_api",
-					title: "Refactor API",
-					task: detailedTask("Refactor the API behavior."),
-					todos: ["inspect", "change"],
-				},
-			],
-		});
-		expect(fixture.dispatchWorkflows).toHaveBeenCalledWith([
-			{
-				taskName: "refactor_api",
-				title: "Refactor API",
-				message: renderSubagentTaskContract(detailedTask("Refactor the API behavior.")),
-				agentType: "workflow",
-				todos: ["inspect", "change"],
-				deliveryMode: "batch",
-				batchId: "workflow-batch-1",
-			},
-		]);
-		expect(dispatchResult.content).toEqual([
-			{
-				type: "text",
-				text: [
-					"Dispatched 1 workflow(s):",
-					"- refactor_api [queued] id: workflow-1 todos: 0/2",
-					"You will receive one <subagent_notification> after every workflow in this batch reaches a terminal state. Do NOT call wait_agent — end your turn (or continue other work) and handle the batch result passively.",
-				].join("\n"),
-			},
-		]);
 	});
 
 	it("lists, interrupts, messages and follows up through the coordinator port", async () => {
 		const fixture = createCoordinatorFixture();
-		const registrations = createRegistrations(fixture.port, fixture.dispatchWorkflows);
+		const registrations = createRegistrations(fixture.port);
 		fixture.listed = [snapshot("inspect", "explorer", "running")];
 
-		const listResult = await execute(registrations[3].tool, {});
+		const listResult = await execute(registrations[2].tool, {});
 		expect(listResult.content).toEqual([
 			{
 				type: "text",
-				text: 'Registered types: explorer, workflow\nAgents:\n- /root/inspect id=child-1 type=explorer status=running task="task inspect"',
+				text: 'Registered types: explorer, general\nAgents:\n- /root/inspect id=child-1 type=explorer status=running task="task inspect"',
 			},
 		]);
 
-		const interruptResult = await execute(registrations[4].tool, { target: "inspect" });
+		const interruptResult = await execute(registrations[3].tool, { target: "inspect" });
 		expect(fixture.interrupt).toHaveBeenCalledWith("inspect");
 		expect(interruptResult.content).toEqual([
 			{ type: "text", text: "Subagent child-1 (/root/inspect) status=interrupted" },
 		]);
 
-		const messageResult = await execute(registrations[5].tool, {
+		const messageResult = await execute(registrations[4].tool, {
 			target: "inspect",
 			message: "focus on contracts",
 		});
 		expect(fixture.sendMessage).toHaveBeenCalledWith("inspect", "focus on contracts");
 		expect(messageResult.content).toEqual([{ type: "text", text: "Message queued for child-1 (/root/inspect)." }]);
 
-		const followupResult = await execute(registrations[6].tool, {
+		const followupResult = await execute(registrations[5].tool, {
 			target: "inspect",
 			message: "continue",
 		});
@@ -168,19 +123,9 @@ describe("subagent control runtime tools", () => {
 		]);
 	});
 
-	it("caps workflow-only waits and preserves terminal result formatting", async () => {
+	it("preserves terminal wait_agent result formatting", async () => {
 		const fixture = createCoordinatorFixture();
-		const wait = createRegistrations(fixture.port, fixture.dispatchWorkflows)[2];
-		fixture.listed = [snapshot("flow", "workflow", "running")];
-		fixture.waitResult = { timedOut: true, agents: [] };
-
-		const guardedResult = await execute(wait.tool, { timeout_ms: 99_000 });
-		expect(fixture.wait).toHaveBeenCalledWith({ targets: undefined, timeoutMs: 1000 });
-		expect(guardedResult).toEqual({
-			content: [{ type: "text", text: WORKFLOW_NO_WAIT_TEXT }],
-			details: { timedOut: true, agents: [], workflowNoWait: true },
-		});
-
+		const wait = createRegistrations(fixture.port)[1];
 		fixture.listed = [snapshot("inspect", "explorer", "running")];
 		fixture.waitResult = {
 			timedOut: false,
@@ -197,25 +142,15 @@ describe("subagent control runtime tools", () => {
 	});
 });
 
-function createRegistrations(
-	port: SubagentCoordinatorPort,
-	dispatchWorkflows: (
-		requests: readonly CodingAgentWorkflowDispatchRequest[],
-	) => readonly CodingAgentSubagentSnapshot[],
-) {
+function createRegistrations(port: SubagentCoordinatorPort) {
 	const getCoordinator = () => port;
 	return [
 		createSpawnAgentToolRegistration({ getCoordinator, modelOrder: 2500 }),
-		createDispatchWorkflowsToolRegistration({
-			getWorkflowDispatcher: () => ({ dispatchWorkflows }),
-			workflowTypeId: "workflow",
-			modelOrder: 2600,
-		}),
-		createWaitAgentToolRegistration({ getCoordinator, workflowTypeId: "workflow", modelOrder: 2700 }),
-		createListAgentsToolRegistration({ getCoordinator, modelOrder: 2800 }),
-		createInterruptAgentToolRegistration({ getCoordinator, modelOrder: 2900 }),
-		createSendMessageToolRegistration({ getCoordinator, modelOrder: 3000 }),
-		createFollowupTaskToolRegistration({ getCoordinator, modelOrder: 3100 }),
+		createWaitAgentToolRegistration({ getCoordinator, modelOrder: 2600 }),
+		createListAgentsToolRegistration({ getCoordinator, modelOrder: 2700 }),
+		createInterruptAgentToolRegistration({ getCoordinator, modelOrder: 2800 }),
+		createSendMessageToolRegistration({ getCoordinator, modelOrder: 2900 }),
+		createFollowupTaskToolRegistration({ getCoordinator, modelOrder: 3000 }),
 	] as const;
 }
 
@@ -224,14 +159,7 @@ function createCoordinatorFixture() {
 		snapshot(request.taskName, request.agentType, "running"),
 	);
 	const spawnMany = vi.fn((requests: readonly SubagentSpawnRequest[]) =>
-		requests.map((request) => ({ ...snapshot(request.taskName, request.agentType, "queued"), id: "workflow-1" })),
-	);
-	const dispatchWorkflows = vi.fn((requests: readonly CodingAgentWorkflowDispatchRequest[]) =>
-		requests.map((request) => ({
-			...snapshot(request.taskName, request.agentType, "queued"),
-			id: "workflow-1",
-			todoProgress: { done: 0, total: request.todos.length },
-		})),
+		requests.map((request) => snapshot(request.taskName, request.agentType, "queued")),
 	);
 	const interrupt = vi.fn((target: string) => ({ ...snapshot(target, "explorer", "interrupted") }));
 	const interruptAll = vi.fn((): readonly SubagentSnapshot[] => []);
@@ -243,7 +171,6 @@ function createCoordinatorFixture() {
 		waitResult: SubagentWaitResult;
 		readonly spawn: typeof spawn;
 		readonly spawnMany: typeof spawnMany;
-		readonly dispatchWorkflows: typeof dispatchWorkflows;
 		readonly interrupt: typeof interrupt;
 		readonly interruptAll: typeof interruptAll;
 		readonly sendMessage: typeof sendMessage;
@@ -255,7 +182,6 @@ function createCoordinatorFixture() {
 		waitResult: { timedOut: false, agents: [] },
 		spawn,
 		spawnMany,
-		dispatchWorkflows,
 		interrupt,
 		interruptAll,
 		sendMessage,
@@ -265,7 +191,7 @@ function createCoordinatorFixture() {
 			list: () => fixture.listed,
 			get: (target) => fixture.listed.find((entry) => entry.id === target || entry.taskName === target),
 			clearFinished: () => 0,
-			registeredTypeIds: () => ["explorer", "workflow"],
+			registeredTypeIds: () => ["explorer", "general"],
 			spawn,
 			spawnMany,
 			sendMessage,

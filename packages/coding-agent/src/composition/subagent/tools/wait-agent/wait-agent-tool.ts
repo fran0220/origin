@@ -2,7 +2,7 @@ import { type Static, Type } from "@sinclair/typebox";
 import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
 import type { SubagentCoordinatorPort } from "@vetta/runtime-subagents";
 import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
-import { WAIT_AGENT_TOOL_DESCRIPTION, WORKFLOW_NO_WAIT_TEXT } from "./description.js";
+import { WAIT_AGENT_TOOL_DESCRIPTION } from "./description.js";
 
 export const WaitAgentToolInputSchema = Type.Object({
 	description: ToolCallDescriptionSchema,
@@ -23,7 +23,6 @@ export type WaitAgentToolInput = Static<typeof WaitAgentToolInputSchema>;
 
 export interface WaitAgentToolOptions {
 	readonly getCoordinator: () => SubagentCoordinatorPort | undefined;
-	readonly workflowTypeId: string;
 }
 
 export function createWaitAgentTool(options: WaitAgentToolOptions): RuntimeToolDefinition<WaitAgentToolInput> {
@@ -34,23 +33,10 @@ export function createWaitAgentTool(options: WaitAgentToolOptions): RuntimeToolD
 		inputSchema: WaitAgentToolInputSchema,
 		async execute({ input }) {
 			const coordinator = requireCoordinator(options);
-			const targets = resolveTargets(coordinator, input.targets);
-			const inFlight = targets.filter(
-				(snapshot) =>
-					snapshot.status === "queued" || snapshot.status === "pending" || snapshot.status === "running",
-			);
-			const workflowOnlyWait =
-				inFlight.length > 0 && inFlight.every((snapshot) => snapshot.agentType === options.workflowTypeId);
 			const result = await coordinator.wait({
 				targets: input.targets,
-				timeoutMs: workflowOnlyWait ? 1000 : input.timeout_ms,
+				timeoutMs: input.timeout_ms,
 			});
-			if (workflowOnlyWait && result.timedOut && result.agents.length === 0) {
-				return {
-					content: [{ type: "text", text: WORKFLOW_NO_WAIT_TEXT }],
-					details: { timedOut: true, agents: [], workflowNoWait: true },
-				};
-			}
 			if (result.agents.length === 0) {
 				const text = result.timedOut
 					? "wait_agent timed out with no terminal subagent results."
@@ -81,13 +67,6 @@ export function createWaitAgentTool(options: WaitAgentToolOptions): RuntimeToolD
 			};
 		},
 	};
-}
-
-function resolveTargets(coordinator: SubagentCoordinatorPort, targets: readonly string[] | undefined) {
-	if (targets && targets.length > 0) {
-		return targets.map((target) => coordinator.get(target)).filter((snapshot) => snapshot !== undefined);
-	}
-	return coordinator.list();
 }
 
 function requireCoordinator(options: WaitAgentToolOptions): SubagentCoordinatorPort {

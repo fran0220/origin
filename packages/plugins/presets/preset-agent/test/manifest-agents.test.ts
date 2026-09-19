@@ -14,13 +14,7 @@ interface Manifest {
 			systemPromptPath?: string;
 			legacyIds?: string[];
 		}[];
-		readonly teams?: {
-			id: string;
-			name: string;
-			description?: string;
-			members: { agent: string; responsibility: string }[];
-			workflowPath?: string;
-		}[];
+
 	};
 }
 
@@ -61,19 +55,9 @@ describe("Preset agent manifest", () => {
 		}
 	});
 
-	it("builds both teams out of its own agents, led by the master", async () => {
+	it("does not ship persistent teams; collaboration belongs to Threads", async () => {
 		const manifest = await readManifest();
-		const agentIds = new Set((manifest.agent?.agents ?? []).map((agent) => agent.id));
-		expect(manifest.agent?.teams?.map((team) => team.id)).toEqual(["dev-team", "planning-team"]);
-		for (const team of manifest.agent?.teams ?? []) {
-			// 第一个成员即队长，也是用户在会话里唯一的对话入口。
-			expect(team.members[0]?.agent).toBe("master");
-			// 刻意不引用别的提供方：那会让这支团队能不能用取决于另一个插件装没装。
-			expect(team.members.every((member) => agentIds.has(member.agent))).toBe(true);
-			expect(team.members.every((member) => member.responsibility.trim().length > 0)).toBe(true);
-			const workflow = await readFile(resolve(import.meta.dirname, "..", team.workflowPath!), "utf8");
-			expect(workflow.trim().length).toBeGreaterThan(0);
-		}
+		expect(manifest.agent?.teams).toBeUndefined();
 	});
 
 	it("claims the ids the host used to ship, so existing profiles are upgraded in place", async () => {
@@ -88,10 +72,7 @@ describe("Preset agent manifest", () => {
 
 	it("resolves every %key% placeholder in both locales", async () => {
 		const manifest = await readManifest();
-		const placeholders = [
-			...(manifest.agent?.agents ?? []).flatMap((agent) => [agent.name, agent.description ?? ""]),
-			...(manifest.agent?.teams ?? []).flatMap((team) => [team.name, team.description ?? ""]),
-		];
+		const placeholders = (manifest.agent?.agents ?? []).flatMap((agent) => [agent.name, agent.description ?? ""]);
 		for (const locale of ["zh", "en"]) {
 			const messages = await readLocale(locale);
 			for (const raw of placeholders) {

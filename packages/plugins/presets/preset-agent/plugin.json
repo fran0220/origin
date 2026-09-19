@@ -82,56 +82,6 @@
 					"business"
 				]
 			}
-		],
-		"teams": [
-			{
-				"id": "dev-team",
-				"name": "%team.dev.name%",
-				"description": "%team.dev.description%",
-				"members": [
-					{
-						"agent": "master",
-						"responsibility": "Turns the request into a plan, drives the loop, and delivers the result."
-					},
-					{
-						"agent": "developer",
-						"responsibility": "Implements the plan and verifies that it works."
-					},
-					{
-						"agent": "researcher",
-						"responsibility": "Establishes the facts and prior art the implementation depends on."
-					},
-					{
-						"agent": "auditor",
-						"responsibility": "Reviews the result for defects, risk, and missing verification."
-					}
-				],
-				"workflowPath": "agent/workflows/dev-team.md"
-			},
-			{
-				"id": "planning-team",
-				"name": "%team.planning.name%",
-				"description": "%team.planning.description%",
-				"members": [
-					{
-						"agent": "master",
-						"responsibility": "Frames the goal and owns the delivered plan."
-					},
-					{
-						"agent": "researcher",
-						"responsibility": "Gathers the market, user, and prior-art evidence."
-					},
-					{
-						"agent": "auditor",
-						"responsibility": "Hunts for fatal flaws in the case before it ships."
-					},
-					{
-						"agent": "business",
-						"responsibility": "Turns the evidence into requirements, scope, and a business model."
-					}
-				],
-				"workflowPath": "agent/workflows/planning-team.md"
-			}
 		]
 	},
 	"description": "%plugin.description%",

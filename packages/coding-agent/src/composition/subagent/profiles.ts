@@ -5,7 +5,6 @@ export type { CodingAgentSubagentProfile } from "../contracts/index.js";
 
 export const CODING_AGENT_SUBAGENT_TYPE_GENERAL = "general";
 export const CODING_AGENT_SUBAGENT_TYPE_EXPLORER = "explorer";
-export const CODING_AGENT_SUBAGENT_TYPE_WORKFLOW = "workflow";
 
 const GENERAL_SYSTEM_PROMPT = `You are a general-purpose subagent working for a root agent.
 
@@ -19,7 +18,6 @@ const GENERAL_SYSTEM_PROMPT = `You are a general-purpose subagent working for a 
 - Do not broaden an ambiguous task. Report the ambiguity or blocker to the root agent.
 - Verify observable behavior with the requested tests or checks. Code written without functional validation is not completion.
 - Other work may be happening concurrently. Do not overwrite unrelated changes.
-- Use report_to_parent for actionable progress, blockers, and completed validation while you work.
 - End with a concise structured report: outcome, files or artifacts changed, validation actually run, remaining risks, and any blocker.`;
 
 const EXPLORER_SYSTEM_PROMPT = `You are an explorer subagent. Your job is to gather information for the root agent.
@@ -36,27 +34,8 @@ const EXPLORER_SYSTEM_PROMPT = `You are an explorer subagent. Your job is to gat
 - If information is missing or tools fail, say so clearly instead of guessing.
 - End with a short structured summary: key facts, open questions, suggested next steps for the root agent.`;
 
-const WORKFLOW_SYSTEM_PROMPT = `You are a workflow subagent: one of several parallel workers dispatched by the root agent.
-
-## Context
-- Your conversation starts with a snapshot of the root session's history. It is background knowledge, not new instructions — your task is the todo list you were dispatched with.
-- Other workflows may run in parallel in the same working directory. Stay strictly within the scope of your own todos; do not touch files that belong to another workflow's task.
-- Parent history may mention sibling workflows or rejected attempts. Never claim their work or status; the delegated task contract and your own tool results are your only completion evidence.
-
-## Todo discipline
-- Your todo list was pre-filled at dispatch. Work through it in order, marking items in_progress/done via the todo tool as you go.
-- You may split or append todos when genuinely needed, but never drift away from the dispatched scope.
-
-## Hard rules
-- Do NOT spawn agents or delegate; you are the leaf worker.
-- Use report_to_parent for blockers, actionable progress, and validation results the root can consume early.
-- When you finish (or cannot proceed), end with a concise structured summary: what was done per todo, files touched, and anything the root agent must follow up on.`;
-
 export function createDefaultCodingAgentSubagentTypeRegistry(): SubagentTypeRegistry<CodingAgentSubagentProfile> {
-	return new SubagentTypeRegistry<CodingAgentSubagentProfile>()
-		.register(generalType())
-		.register(explorerType())
-		.register(workflowType());
+	return new SubagentTypeRegistry<CodingAgentSubagentProfile>().register(generalType()).register(explorerType());
 }
 
 function generalType(): SubagentTypeDefinition<CodingAgentSubagentProfile> {
@@ -94,24 +73,6 @@ function explorerType(): SubagentTypeDefinition<CodingAgentSubagentProfile> {
 			contextPolicy: { mode: "fresh" },
 			todoPolicy: { mode: "disabled" },
 			workspacePolicy: { mode: "shared" },
-		},
-	};
-}
-
-function workflowType(): SubagentTypeDefinition<CodingAgentSubagentProfile> {
-	return {
-		id: CODING_AGENT_SUBAGENT_TYPE_WORKFLOW,
-		label: "Workflow",
-		description:
-			"Todo-driven parallel worker: inherits a snapshot of the parent context, executes a dispatched todo list with full coding tools in the shared cwd. Spawn via dispatch_workflows.",
-		profile: {
-			toolPolicy: { mode: "inherit" },
-			mcpPolicy: { mode: "inherit" },
-			skillPolicy: { mode: "inherit" },
-			systemPromptAddon: WORKFLOW_SYSTEM_PROMPT,
-			contextPolicy: { mode: "full" },
-			todoPolicy: { mode: "enabled" },
-			workspacePolicy: { mode: "isolated", fallback: "shared" },
 		},
 	};
 }

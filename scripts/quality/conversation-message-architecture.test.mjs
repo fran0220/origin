@@ -72,7 +72,7 @@ describe("Conversation message architecture guard", () => {
 			]),
 		).toEqual([
 			"apps/desktop/src/renderer/shared/components/message-feed/example.ts: product-neutral MessageFeed imports a product or message domain",
-			"packages/agent-team/src/example.ts: Agent Team must not depend on the private subagent runtime",
+			"packages/agent-team/src/example.ts: Agent Profile package must not depend on the private subagent runtime",
 		]);
 	});
 

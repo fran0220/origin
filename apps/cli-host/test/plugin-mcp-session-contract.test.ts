@@ -118,7 +118,7 @@ describe("Session-local Plugin MCP contract", { timeout: INTEGRATION_TEST_TIMEOU
 		await session.dispose();
 	});
 
-	it("projects parent plugin MCP bindings into workflow children without creating another plugin runtime", async () => {
+	it("projects parent plugin MCP bindings into general children without creating another plugin runtime", async () => {
 		const conversationDir = await temporaryDirectory("runtime-plugin-mcp-subagent-");
 		const clients = new FakeClientFactory();
 		const createPluginMcpRuntime = vi.fn(() => createTestPluginMcpRuntime(clients));
@@ -140,16 +140,10 @@ describe("Session-local Plugin MCP contract", { timeout: INTEGRATION_TEST_TIMEOU
 					if (rootCalls === 0) {
 						rootCalls += 1;
 						return new RecordedAssistantStream(
-							assistantToolCall("dispatch_workflows", {
-								description: "Inspect inherited MCP tools",
-								workflows: [
-									{
-										task_name: "inspect_mcp",
-										title: "Inspect MCP",
-										message: "Report the available MCP tools.",
-										todos: ["Inspect inherited MCP tools"],
-									},
-								],
+							assistantToolCall("spawn_agent", {
+								task_name: "inspect_mcp",
+								message: "Report the available MCP tools.",
+								agent_type: "general",
 							}),
 						);
 					}

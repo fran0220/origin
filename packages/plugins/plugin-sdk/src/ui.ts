@@ -503,8 +503,6 @@ export interface PluginNotifyOptions {
 export interface PluginNewSessionContextActivation {
 	/** 本插件在 manifest 里声明的智能体 id（不带 `plugin:` 前缀）。 */
 	agents?: readonly string[];
-	/** 本插件在 manifest 里声明的团队 id。省略则任意「含本插件成员的团队」都算命中。 */
-	teams?: readonly string[];
 	/** 本插件提供的 skill 名；用户在输入框里提到时命中。 */
 	skills?: readonly string[];
 	/** 本插件提供的 MCP server 名。 */
@@ -513,8 +511,8 @@ export interface PluginNewSessionContextActivation {
 
 /** 用户在新会话页当前选中的对话目标。 */
 export interface PluginNewSessionTarget {
-	readonly kind: "agent" | "team";
-	/** Agent 档案 id 或团队 id。 */
+	readonly kind: "agent";
+	/** Agent 档案 id。 */
 	readonly id: string;
 	/** 目标若由本插件贡献，这里给出 manifest 里的那个 id。 */
 	readonly contributedId?: string;

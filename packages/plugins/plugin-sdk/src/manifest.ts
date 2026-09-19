@@ -15,8 +15,6 @@ import {
 	PluginVersionSchema,
 	type PluginAgentManifest,
 	type PluginAgentProfileManifest,
-	type PluginAgentTeamManifest,
-	type PluginAgentTeamMemberManifest,
 	type PluginBrowserManifest,
 	type PluginCliProviderManifest,
 	type PluginServiceProviderManifest,
@@ -33,8 +31,6 @@ import { PLUGIN_PERMISSIONS, type PluginPermission } from "./permissions.js";
 export {
 	PluginAgentManifestSchema,
 	PluginAgentProfileManifestSchema,
-	PluginAgentTeamManifestSchema,
-	PluginAgentTeamMemberManifestSchema,
 	PluginAgentRoleSchema,
 	BUILTIN_PLUGIN_AGENT_ROLES,
 	PluginBrowserManifestSchema,
@@ -61,8 +57,6 @@ export {
 export type {
 	PluginAgentManifest,
 	PluginAgentProfileManifest,
-	PluginAgentTeamManifest,
-	PluginAgentTeamMemberManifest,
 	BuiltinPluginAgentRole,
 	PluginBrowserManifest,
 	PluginCliProviderManifest,
@@ -227,59 +221,12 @@ function normalizeAgentManifest(agent: PluginAgentManifest | undefined): PluginA
 				: undefined,
 			roles: normalizeAgentRoles(profile.roles),
 		})),
-		teams: agent.teams?.map((team) => ({
-			...team,
-			workflowPath: team.workflowPath
-				? validatePluginRelativePath(team.workflowPath, "agent.teams.workflowPath")
-				: undefined,
-			members: team.members.map((member, index) => normalizeTeamMember(member, index, team.id)),
-		})),
 	};
 }
 
 function normalizeAgentRoles(roles: readonly string[] | undefined): string[] | undefined {
 	if (!roles || roles.length === 0) return undefined;
 	return [...new Set(roles.map((role) => role.trim()))];
-}
-
-/** `<pluginId>/<agentId>` 的跨插件实体引用；本插件的引用不带斜杠。 */
-const CROSS_PLUGIN_AGENT_REF = /^([a-z0-9][a-z0-9-]{0,63})\/([a-z0-9][a-z0-9-]{0,63})$/;
-const OWN_PLUGIN_AGENT_REF = /^[a-z0-9][a-z0-9-]{0,63}$/;
-
-function normalizeTeamMember(
-	member: PluginAgentTeamMemberManifest,
-	index: number,
-	teamId: string,
-): PluginAgentTeamMemberManifest {
-	const where = `agent.teams[${teamId}].members[${index}]`;
-	const agent = member.agent?.trim();
-	const role = member.role?.trim();
-	if ((agent ? 1 : 0) + (role ? 1 : 0) !== 1) {
-		throw new Error(`Invalid ${where}: write exactly one of "agent" or "role"`);
-	}
-	if (member.instructions !== undefined && member.instructionsPath !== undefined) {
-		throw new Error(`Invalid ${where}: write at most one of "instructions" or "instructionsPath"`);
-	}
-	if (index === 0 && (member.instructions !== undefined || member.instructionsPath !== undefined)) {
-		// 队长的任务书是团队级的流水线，写在 teams[].workflow 上。两处都写就没人说得清哪份生效。
-		throw new Error(`Invalid ${where}: the leader's brief belongs in the team's "workflow"`);
-	}
-	if (agent && !CROSS_PLUGIN_AGENT_REF.test(agent) && !OWN_PLUGIN_AGENT_REF.test(agent)) {
-		throw new Error(`Invalid ${where}.agent: expected "<agentId>" or "<pluginId>/<agentId>", got "${agent}"`);
-	}
-	if (index === 0 && (!agent || !OWN_PLUGIN_AGENT_REF.test(agent))) {
-		// 队长是用户在团队会话里唯一的对话入口。允许它落在别的插件上，那个插件一卸载，这支
-		// 团队就成了打不开的壳——比少一名队员严重得多，所以队长只能是本插件自己的智能体。
-		throw new Error(`Invalid ${where}: the team leader must be one of this plugin's own agents`);
-	}
-	return {
-		...member,
-		...(agent ? { agent } : {}),
-		...(role ? { role } : {}),
-		...(member.instructionsPath
-			? { instructionsPath: validatePluginRelativePath(member.instructionsPath, `${where}.instructionsPath`) }
-			: {}),
-	};
 }
 
 function normalizeSkillPresentation(
@@ -586,22 +533,6 @@ export function listPluginManifestResources(
 		if (agent.avatar) resources.push({ field: "agent.agents.avatar", path: agent.avatar, kind: "file" });
 		if (agent.systemPromptPath) {
 			resources.push({ field: "agent.agents.systemPromptPath", path: agent.systemPromptPath, kind: "file" });
-		}
-	}
-	for (const team of manifest.agent?.teams ?? []) {
-		if (team.workflowPath) {
-			resources.push({ field: "agent.teams.workflowPath", path: team.workflowPath, kind: "file" });
-		}
-		for (const member of team.members) {
-			// 任务书也是插件包里的真实文件：不登记就不会被打进包，装到用户机器上时这名成员会
-			// 悄悄退化成「只有职责摘要」。
-			if (member.instructionsPath) {
-				resources.push({
-					field: "agent.teams.members.instructionsPath",
-					path: member.instructionsPath,
-					kind: "file",
-				});
-			}
 		}
 	}
 	if (typeof manifest.agent?.mcpServers === "string") {

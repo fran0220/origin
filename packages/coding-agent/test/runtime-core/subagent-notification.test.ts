@@ -31,7 +31,7 @@ describe("subagent notification projection", () => {
 				"task_name: inspect",
 				"title: Inspect repository",
 				"status: interrupted",
-				"hint: resumable — use followup_task to continue this child with its context and todo progress intact; do NOT re-dispatch it as a new workflow",
+				"hint: resumable — use followup_task to continue this child with its context and todo progress intact; do NOT spawn it again as a new child",
 				"summary:",
 				"partial result",
 				"session_file: .subagents/child-1.conversation.jsonl",

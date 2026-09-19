@@ -42,7 +42,7 @@ describe("CLI print session extension event adapter", () => {
 				id: "child-1",
 				taskName: "inspect_repo",
 				path: "/root/inspect_repo",
-				agentType: "workflow",
+				agentType: "explorer",
 				status: "running",
 				task: "Inspect repository",
 				parentSessionId: "parent",

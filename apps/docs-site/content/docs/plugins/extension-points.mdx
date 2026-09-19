@@ -72,7 +72,7 @@ description: 按产品目标选择界面、文件、Agent、Provider 或 App Act
 | 追加系统提示词文件 | `agent.systemPrompt.promptPaths` | `agent.systemPrompt.write` |
 | 工具策略 | `agent.toolPolicy` | `agent.tools.control` |
 | 插件内聚 MCP Server | `agent.mcpServers` | `agent.mcp.control` |
-| 贡献智能体与团队 | `agent.agents`、`agent.teams` | 无需权限 |
+| 贡献智能体 | `agent.agents` | 无需权限 |
 | 新会话引导词 | `guidingWords` | 无需权限 |
 
 工具输入使用结构化 schema，并把外部 I/O 错误映射为稳定结果。需要宿主文件、网络或模型能力时，先在清单中声明最小权限。

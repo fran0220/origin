@@ -1,4 +1,4 @@
-export { WAIT_AGENT_TOOL_DESCRIPTION, WORKFLOW_NO_WAIT_TEXT } from "./description.js";
+export { WAIT_AGENT_TOOL_DESCRIPTION } from "./description.js";
 export {
 	createWaitAgentToolRegistration,
 	WAIT_AGENT_TOOL_CATEGORY,

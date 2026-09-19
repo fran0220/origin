@@ -90,7 +90,7 @@ npx vetta-plugin-cli docs --check-latest
 | --- | --- | --- |
 | 1 | \`README.md\` | **总是先读**：能力矩阵、信任模型、**不可违反的红线**、导航 |
 | 2 | \`getting-started.md\` | 首次写代码、构建、安装调试 |
-| 3 | \`manifest.md\` | 写/改 \`plugin.json\`、贡献智能体与团队 |
+| 3 | \`manifest.md\` | 写/改 \`plugin.json\`、贡献智能体 |
 | 4 | \`permissions.md\` | 选定权限列表之前 |
 | 5 | 按扩展点选读 | \`ui-slots.md\` / \`conversation-and-agent.md\` / \`message-cards.md\` / \`mcp.md\` / \`ai.md\` / \`browser.md\` / \`app-actions.md\` / \`styling-and-pitfalls.md\` |
 

@@ -29,7 +29,7 @@ describe("Subagent Runtime composition contract", () => {
 		}
 	});
 
-	it("keeps the seven control tools compatible and closes the child notification loop", async () => {
+	it("keeps the six in-thread specialist tools compatible and closes the child notification loop", async () => {
 		const conversationDir = await temporaryDirectory("runtime-subagents-conversations-");
 		const workspace = await temporaryDirectory("runtime-subagents-workspace-");
 		const rootToolSurfaces: string[][] = [];
@@ -108,7 +108,6 @@ describe("Subagent Runtime composition contract", () => {
 		expect(rootToolSurfaces[0]).toEqual(
 			expect.arrayContaining([
 				"spawn_agent",
-				"dispatch_workflows",
 				"wait_agent",
 				"list_agents",
 				"interrupt_agent",
@@ -116,6 +115,7 @@ describe("Subagent Runtime composition contract", () => {
 				"followup_task",
 			]),
 		);
+		expect(rootToolSurfaces[0]).not.toEqual(expect.arrayContaining(["dispatch_workflows"]));
 		expect(childToolSurfaces[0]).toEqual(expect.arrayContaining(["read", "grep", "glob", "find", "ls", "dir_tree"]));
 		expect(childToolSurfaces[0]).not.toEqual(
 			expect.arrayContaining(["spawn_agent", "dispatch_workflows", "bash", "write", "edit"]),
@@ -128,12 +128,10 @@ describe("Subagent Runtime composition contract", () => {
 		await session.dispose();
 	}, 30_000);
 
-	it("forks parent context and coding tools into workflow children without recursive delegation", async () => {
-		const conversationDir = await temporaryDirectory("runtime-workflow-conversations-");
-		const workspace = await temporaryDirectory("runtime-workflow-workspace-");
-		const childInputs: string[][] = [];
-		const childToolSurfaces: string[][] = [];
-		let rootCall = 0;
+	it("does not expose dispatch_workflows or a workflow subagent type", async () => {
+		const conversationDir = await temporaryDirectory("runtime-no-workflow-conversations-");
+		const workspace = await temporaryDirectory("runtime-no-workflow-workspace-");
+		let rootTools: string[] = [];
 		const composition = await createCodingAgentRuntimeComposition({
 			conversationDir,
 			cwd: workspace,
@@ -141,70 +139,19 @@ describe("Subagent Runtime composition contract", () => {
 			modelRegistry: modelRegistry(),
 			initialModel: MODEL,
 			initialThinkingLevel: "off",
-			streamFn: (_model, context, options) => {
-				if (options?.sessionId !== "workflow-root") {
-					childInputs.push(context.messages.map(messageText));
-					childToolSurfaces.push((context.tools ?? []).map(({ name }) => name));
-					return new RecordedAssistantStream(assistantMessage([{ type: "text", text: "workflow completed" }]));
-				}
-				rootCall += 1;
-				if (rootCall === 1) {
-					return new RecordedAssistantStream(
-						assistantMessage(
-							[
-								{
-									type: "toolCall",
-									id: "dispatch-1",
-									name: "dispatch_workflows",
-									arguments: {
-										workflows: [
-											{
-												task_name: "implement_scope",
-												title: "Implement isolated scope",
-												message: "Change the assigned files.",
-												todos: ["Inspect files", "Implement change"],
-											},
-										],
-									},
-								},
-							],
-							"toolUse",
-						),
-					);
-				}
-				return new RecordedAssistantStream(
-					assistantMessage([{ type: "text", text: rootCall === 2 ? "dispatched" : "handled" }]),
-				);
+			streamFn: (_model, context) => {
+				rootTools = (context.tools ?? []).map(({ name }) => name);
+				return new RecordedAssistantStream(assistantMessage([{ type: "text", text: "done" }]));
 			},
 		});
 		compositions.push(composition);
-		const session = await composition.createSession({ sessionId: "workflow-root" });
+		const session = await composition.createSession({ sessionId: "no-workflow-root" });
 
-		await session.prompt({ text: "Implement this feature in parallel." });
-		await waitUntil(
-			() => rootCall >= 3 && childInputs.length >= 1,
-			() => {
-				return JSON.stringify({
-					rootCall,
-					childInputs,
-					subagents: readSubagents(session),
-				});
-			},
-		);
+		await session.prompt({ text: "Check the tool surface." });
 
-		expect(childInputs[0]?.join("\n")).toContain("Implement this feature in parallel.");
-		expect(childInputs[0]?.join("\n")).toContain("Change the assigned files.");
-		const commandToolName = process.platform === "win32" ? "shell" : "bash";
-		expect(childToolSurfaces[0]).toEqual(expect.arrayContaining([commandToolName, "read", "edit", "write", "todo"]));
-		expect(childToolSurfaces[0]).not.toEqual(
-			expect.arrayContaining(["spawn_agent", "dispatch_workflows", "wait_agent"]),
-		);
-		expect(readSubagents(session)[0]).toMatchObject({
-			taskName: "implement_scope",
-			agentType: "workflow",
-			status: "completed",
-			todoProgress: { done: 0, total: 2 },
-		});
+		expect(rootTools).toEqual(expect.arrayContaining(["spawn_agent", "wait_agent"]));
+		expect(rootTools).not.toEqual(expect.arrayContaining(["dispatch_workflows"]));
+		expect(rootTools).not.toContain("create_thread");
 		await session.dispose();
 	}, 30_000);
 

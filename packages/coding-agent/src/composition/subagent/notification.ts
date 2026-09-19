@@ -16,7 +16,7 @@ export function buildSubagentNotification(agents: readonly SubagentSnapshot[]): 
 		lines.push(`status: ${agent.status}`);
 		if (agent.status === "interrupted") {
 			lines.push(
-				"hint: resumable — use followup_task to continue this child with its context and todo progress intact; do NOT re-dispatch it as a new workflow",
+				"hint: resumable — use followup_task to continue this child with its context and todo progress intact; do NOT spawn it again as a new child",
 			);
 		}
 		if (agent.errorMessage) lines.push(`error: ${agent.errorMessage}`);

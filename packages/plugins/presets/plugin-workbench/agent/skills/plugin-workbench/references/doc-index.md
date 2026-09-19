@@ -32,7 +32,7 @@ node "<workbenchRoot>/agent/cli/vetta-plugin-cli.js" docs --json
 | --- | --- | --- |
 | 1 | `README.md` | **总是先读**：能力矩阵、信任模型、导航 |
 | 2 | `getting-started.md` | 首次写代码 / 构建安装调试 |
-| 3 | `manifest.md` | 写/改 `plugin.json`、贡献智能体与团队、settings、版本 |
+| 3 | `manifest.md` | 写/改 `plugin.json`、贡献智能体、settings、版本 |
 | 4 | `permissions.md` | 选定权限列表、向用户确认授权前 |
 | 5 | 按扩展点选读下方「按需」 | 只读相关章节，避免盲写 |
 

@@ -7,10 +7,9 @@ packages/runtime-subagents/
   contracts / coordinator / dispatcher / run / pool / delivery / recovery
 
 packages/coding-agent/src/composition/subagent/
-  profiles.ts                    内置 Definition
+  profiles.ts                    内置 Definition（general / explorer）
   profile-policy.ts              新策略与旧 profile 的单一兼容边界
   task-contract.ts               结构化委派合同
-  report-to-parent-tool.ts       child -> root 报告
   subagent-session-extension.ts  Session 生命周期所有权
   session-assembly.ts            宿主端口与 child Runtime 装配
   child-composition-policy.ts    单层、工具、MCP、Skill 投影
@@ -34,7 +33,7 @@ packages/coding-agent/src/composition/subagent/
 
 ## 交付语义
 
-普通 `spawn_agent` 使用 terminal delivery。`dispatch_workflows` 为每次调用生成 batch id，所有成员持久化 `deliveryMode=batch` 与 `batchId`。Delivery 仍负责 generation claim；Coordinator 只在批次全部终态时把全部成员排入一次通知，因此 wait 和自动通知仍然互斥消费同一 generation。
+普通 `spawn_agent` 使用 terminal delivery。跨任务并行走 `create_thread`，不再有 `dispatch_workflows` 批次工人。Delivery 仍负责 generation claim；wait 和自动通知仍然互斥消费同一 generation。
 
 `subagent_state_v1` 的快照 Schema 同步接受可选 `deliveryMode`/`batchId`。字段保持可选，因此旧记录继续可读；新记录在进程重启后能够恢复批次身份并回放到 Desktop。
 

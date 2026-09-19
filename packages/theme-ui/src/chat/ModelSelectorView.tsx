@@ -85,6 +85,8 @@ export interface ModelSelectorViewProps {
 	onReasoningSelect: (value: string) => void;
 	/** 菜单开合回调，宿主可借此在打开时刷新模型目录 */
 	onOpenChange?: (open: boolean) => void;
+	/** 首条用户消息后冻结 Dial：模型与推理档不可改。 */
+	disabled?: boolean;
 }
 
 const MODEL_ITEM_SELECTOR = "[data-model-key]";
@@ -110,6 +112,7 @@ export function ModelSelectorView({
 	onModelSelect,
 	onReasoningSelect,
 	onOpenChange,
+	disabled = false,
 }: ModelSelectorViewProps): JSX.Element {
 	const [open, setOpen] = useState(false);
 	const [reasoningOpen, setReasoningOpen] = useState(false);
@@ -194,10 +197,11 @@ export function ModelSelectorView({
 	};
 
 	return (
-		<DropdownMenu open={open} onOpenChange={handleOpenChange}>
-			<DropdownMenuTrigger asChild>
+		<DropdownMenu open={disabled ? false : open} onOpenChange={disabled ? undefined : handleOpenChange}>
+			<DropdownMenuTrigger asChild disabled={disabled}>
 				<button
 					type="button"
+					disabled={disabled}
 					title={selectedOption?.displayName ?? labels.placeholder}
 					className={cn(
 						// 输入卡 @container：窄宽缩短模型名、藏推理档，避免工具栏换行

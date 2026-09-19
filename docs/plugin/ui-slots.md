@@ -535,7 +535,6 @@ ctx.ui.registerNewSessionContext({
 | 字段 | 含义 |
 | --- | --- |
 | `agents` | 本插件在 manifest `agent.agents` 里声明的智能体 id（**不带 `plugin:` 前缀**）。省略表示「本插件的任意智能体」。 |
-| `teams` | 把团队命中收窄到指定团队。团队本身按**成员**推导：队里有本插件贡献的角色就算相关，通常省略即可。 |
 | `skills` | 本插件提供的 skill 名；用户在输入框里提到时命中。 |
 | `mcpServers` | 本插件提供的 MCP server 名。 |
 
@@ -543,15 +542,13 @@ ctx.ui.registerNewSessionContext({
 - **至少要声明一条**：全空等于「任何新会话都上屏」，那不是上下文区该有的行为，宿主直接抛错。
 - 上屏顺序：选中目标（`target`）排在提及能力（`mention`）之前——选了设计师，设计资源就该是第一个 tab，而不是因为另一个插件装得早就抢到首位；同强度按插件 id 与注册顺序稳定排序。
 
-> ⚠️ `teams` 当前按**宿主团队 id** 比对，而插件贡献的团队在宿主侧用的是推导 id，写 manifest 里的团队 id 匹配不上。要按团队激活，先靠成员推导（省略 `teams`）。
-
 ### 渲染上下文
 
 `render` 拿到的对象是一个**会继续生长**的结构：按需解构，不要假定它只有这些键。
 
 ```ts
 interface PluginNewSessionContext {
-  target: { kind: "agent" | "team"; id: string; contributedId?: string } | null;
+  target: { kind: "agent"; id: string; contributedId?: string } | null;
   mentionedAbilities: { skills: readonly string[]; mcpServers: readonly string[] };
   draft: string;          // 需 conversation.draft.read，未授予时恒为空串
   cwd: string | null;     // 未选择项目时 null
@@ -573,10 +570,6 @@ interface PluginNewSessionContext {
 - `width: "wide"` 铺满页面可用宽度（窄窗口铺满、宽屏取八成），留给画廊、素材墙这类「内容本身就是主角」的东西。
 - 该区在输入栏**下方**独立成块，跟着内容长高；命令面板展开时整块让位——那是打断式交互。
 - 没有贡献上屏时连槽位都不给，页面不会留一块空白。
-
-### 团队会话
-
-团队会话与单智能体会话一样会把**工作区**与**轮次开始**报给插件，因此本区里挂的东西（附件、插入的文本）在团队会话里同样有去处。
 
 ## 工具行内渲染 registerToolCallSlot
 

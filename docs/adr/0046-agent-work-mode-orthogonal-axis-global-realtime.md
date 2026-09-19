@@ -137,7 +137,7 @@ session overlay 接受并在后续 Turn 发布」的 pending 分支因为不再�
 - **迁移影响（runtime-core）**：`setGlobalAgentMode()` / `applyPendingAgentMode()` 及 `SessionHandle` 的
   mode pending 通道删除，属 Breaking Change，已记入 `packages/runtime-core/CHANGELOG.md`。
 - **历史会话**：desktop 侧以会话文件同目录的 `agent-modes.json` 轻量索引记录 sessionId → mode
-  （`apps/desktop/src/main/conversations/session-agent-mode-store.ts`），已有记录不覆盖。缺记录的
-  历史会话回落到常量 `"work"`，**不回落当前默认值**——否则改默认值会改写老会话的表现。
+  （`apps/desktop/src/main/conversations/session-agent-mode-store.ts`），已有记录不覆盖。缺记录回落
+  出厂默认 `"coding"`，**不回落当前默认值**——否则改默认值会改写未落盘会话的表现。
 - **CLI / headless 不变**：不传 mode 即无偏好，行为与原决策一致。
 - **ADR-0041 不受影响**：见该 ADR 的补充说明，`contributionMode.hardIsolation` 是另一条独立机制。

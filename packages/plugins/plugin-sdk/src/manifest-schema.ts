@@ -309,65 +309,9 @@ export const PluginAgentProfileManifestSchema = Type.Object(
 		/**
 		 * 本智能体能顶的角色 slug（≤ 8 个）。
 		 *
-		 * 声明了角色，别的插件就能用 `teams[].members[].role` 槽位引用到它，而不必知道它属于
-		 * 哪个插件。这是提供方唯一要做的事——被谁引用、引用几次，提供方都不需要知道。
+		 * 声明了角色，别的插件就能按角色引用它，而不必知道它属于哪个插件。
 		 */
 		roles: Type.Optional(Type.Array(PluginAgentRoleSchema, { maxItems: 8 })),
-	},
-	{ additionalProperties: false },
-);
-
-/**
- * 插件贡献的团队成员。`agent` 与 `role` 二选一，必须恰好写一个。
- *
- * - `agent`：**实体引用**。`<agentId>` 指本插件的智能体，`<pluginId>/<agentId>` 指别的插件的。
- * - `role`：**角色槽位**。只声明「这里需要一个什么角色」，由宿主在全部已启用插件里解析。
- *
- * 推荐用角色槽位：消费方只耦合到一个角色名，提供方换人、换插件、被第三方取代都不影响它，
- * 用户还能把槽位改绑到自己调教过的智能体。实体引用留给「就是要那个人」的场合。
- *
- * 跨插件引用不再被拒，但它带来的「提供方可能不在」由 `optional` 兜底，而不是让整支团队消失。
- */
-export const PluginAgentTeamMemberManifestSchema = Type.Object(
-	{
-		agent: Type.Optional(NonWhitespaceStringSchema),
-		role: Type.Optional(PluginAgentRoleSchema),
-		responsibility: Type.String({ maxLength: 2_000 }),
-		/**
-		 * 解析不到这名成员时，是否照常发布这支团队。
-		 *
-		 * 缺省值按引用方式走：本插件的实体引用为 `false`（自己的东西缺了就是配置错误），跨插件
-		 * 实体引用与角色槽位为 `true`（提供方本来就可能不在场）。
-		 */
-		optional: Type.Optional(Type.Boolean()),
-		/**
-		 * 这名成员在本团队里的任务书：追加在它本体人格之后的交待。
-		 *
-		 * 与 `responsibility` 分工不同：后者是一句全队可见的职责摘要（进共享名册），这里是只给
-		 * 这名成员看的做事方式。**跨插件引用时尤其有用**——任务书挂在你的团队上，不碰对方的
-		 * 人设，所以你可以把别的插件的设计师拉进来并交待清楚本团队怎么干，而它在别处照旧。
-		 *
-		 * 与 `instructionsPath` 二选一。队长的任务书写在团队的 `workflow` 里，不要在这里重复。
-		 */
-		instructions: Type.Optional(Type.String({ maxLength: 64_000 })),
-		/** 插件包内的相对路径，指向任务书 Markdown。与 `instructions` 二选一。 */
-		instructionsPath: Type.Optional(NonWhitespaceStringSchema),
-	},
-	{ additionalProperties: false },
-);
-
-/** 插件贡献的团队。第一个成员即队长，也是用户在会话里唯一的对话入口。 */
-export const PluginAgentTeamManifestSchema = Type.Object(
-	{
-		id: Type.String({ pattern: "^[a-z0-9][a-z0-9-]{0,63}$" }),
-		name: NonWhitespaceStringSchema,
-		description: Type.Optional(Type.String({ maxLength: 2_000 })),
-		members: Type.Array(PluginAgentTeamMemberManifestSchema, { minItems: 1, maxItems: 32 }),
-		/** 队长的团队任务书：把这支团队的固定流水线写死。与 `workflowPath` 二选一。 */
-		workflow: Type.Optional(Type.String({ maxLength: 64_000 })),
-		workflowPath: Type.Optional(NonWhitespaceStringSchema),
-		/** 本团队接管的历史团队 id，语义同 `agents[].legacyIds`。 */
-		legacyIds: Type.Optional(Type.Array(NonWhitespaceStringSchema, { maxItems: 16 })),
 	},
 	{ additionalProperties: false },
 );
@@ -385,7 +329,6 @@ export const PluginAgentManifestSchema = Type.Object(
 		skillPaths: Type.Optional(Type.Array(NonWhitespaceStringSchema)),
 		skillPresentation: Type.Optional(PluginSkillPresentationSchema),
 		agents: Type.Optional(Type.Array(PluginAgentProfileManifestSchema, { maxItems: 32 })),
-		teams: Type.Optional(Type.Array(PluginAgentTeamManifestSchema, { maxItems: 32 })),
 		mcpServers: Type.Optional(Type.Union([NonWhitespaceStringSchema, PluginMcpServerMapSchema])),
 		toolPolicy: Type.Optional(
 			Type.Object(
@@ -397,7 +340,7 @@ export const PluginAgentManifestSchema = Type.Object(
 			),
 		),
 	},
-	{ additionalProperties: true },
+	{ additionalProperties: false },
 );
 
 export const PluginModuleFederationManifestSchema = Type.Object(
@@ -450,8 +393,6 @@ export const PluginManifestSchema = Type.Object(
 export type PluginMcpServerConfig = Static<typeof PluginMcpServerConfigSchema>;
 export type PluginAgentManifest = Static<typeof PluginAgentManifestSchema>;
 export type PluginAgentProfileManifest = Static<typeof PluginAgentProfileManifestSchema>;
-export type PluginAgentTeamManifest = Static<typeof PluginAgentTeamManifestSchema>;
-export type PluginAgentTeamMemberManifest = Static<typeof PluginAgentTeamMemberManifestSchema>;
 export type PluginSkillPresentation = Static<typeof PluginSkillPresentationSchema>;
 export type PluginSkillPresentationRule = Static<typeof PluginSkillPresentationRuleSchema>;
 export type PluginCliProviderManifest = Static<typeof PluginCliProviderManifestSchema>;

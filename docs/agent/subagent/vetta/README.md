@@ -1,6 +1,6 @@
 # Origin Subagent
 
-本目录最初记录了 2026-07-17 时的首版落地方案。当前实现已经越过“只注册 Explorer”的 MVP：调度内核、持久化、恢复、Workflow、Desktop 面板都已存在；V2 在这些基础上把子代理收敛为可配置、默认谨慎启用的通用能力。
+本目录最初记录了 2026-07-17 时的首版落地方案。当前实现已经越过“只注册 Explorer”的 MVP：调度内核、持久化、恢复和 Desktop 面板都已存在；跨任务并行改走 Thread 协作，子代理只保留 in-thread specialist。
 
 ## 当前结论
 
@@ -10,7 +10,7 @@ Origin 的子代理采用以下边界：
 2. `@vetta/coding-agent` 通过 `coding-agent.subagents` Session Extension 拥有定义、能力/上下文/技能/工作区策略、结构化委派合同、父子报告、Todo 投影、持久化和控制工具。
 3. 子代理是独立 Runtime Session 和独立 JSONL transcript，默认单层；child 不再获得创建 child 的工具。
 4. Desktop 只消费稳定快照：状态、Todo、usage/cost、objective、分类错误和 transcript，不拥有调度规则。
-5. 子代理是高启动与 token 成本能力。只有一个极复杂请求包含多个彼此无关、互不重叠且各自足够复杂的工作流时，才应批量派生；简单、模糊或顺序任务由 root 直接完成。
+5. 子代理是高启动与 token 成本能力。独立实现工作应走 `create_thread`；`spawn_agent(explorer)` 只做便宜的只读侦察。简单、模糊或顺序任务由 root 直接完成。
 
 ## 内置定义
 
@@ -18,7 +18,6 @@ Origin 的子代理采用以下边界：
 | --- | --- | --- | --- | --- |
 | `general` | 继承父工具、MCP 和 Skill | 完整快照 | 开启 | 共享 |
 | `explorer` | 显式只读本地工具；MCP fail-closed | fresh | 关闭 | 共享 |
-| `workflow` | 继承父工具、MCP 和 Skill | 完整快照 | 开启 | 优先隔离、旧宿主兼容回退 |
 
 内置定义不是 coordinator 分支。Composition Root 可通过内部 `RuntimeCompositionOptions` 注入 `subagentTypeRegistry` 注册其它定义，并用策略组合工具激活、MCP、Skill、上下文、Todo 和工作区；这两个扩展点没有进入稳定公共 SDK。`subagentWorkspacePort` 由宿主提供租约；严格隔离定义可以在端口缺失时 fail-closed。
 
@@ -39,9 +38,9 @@ Origin 的子代理采用以下边界：
 
 ## 控制与通信
 
-Root 保持七个控制 Tool：`spawn_agent`、`dispatch_workflows`、`wait_agent`、`list_agents`、`interrupt_agent`、`send_message`、`followup_task`。
+Root 保持六个 in-thread 控制 Tool：`spawn_agent`、`wait_agent`、`list_agents`、`interrupt_agent`、`send_message`、`followup_task`。跨会话协作走 `create_thread` / `send_thread_message` / `wait_for_threads` / `find_thread` / `read_thread`，不在本包。
 
-Child 额外得到 `report_to_parent`，可发送 `progress`、`blocked` 或 `validation` 报告，包含产物和验证结果。Workflow 批次采用屏障交付：单个完成不反复唤醒 root，整批进入终态后一次通知；可操作的中间信息仍可通过结构化报告提前送达。
+Child 不再得到 `report_to_parent`。完成时由 `<subagent_notification>` 一次交付；可操作的中间信息写进最终摘要。
 
 ## 生命周期与观察
 

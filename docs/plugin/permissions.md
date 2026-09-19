@@ -94,7 +94,7 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 | `ai.ocr.provider.register` | `ctx.ocr.registerProvider()`（注册 OCR Provider） | [下方](#尚无专章的能力) |
 | `shell.openExternal` | `ctx.ui.openExternal()`（交给系统默认浏览器） | [下方](#尚无专章的能力) |
 
-> 清单 `agent.agents` / `agent.teams`（插件贡献的智能体与团队）**不需要权限**——那是声明面而非运行时 API，见 [manifest](./manifest.md#贡献智能体与团队)。
+> 清单 `agent.agents`（插件贡献的智能体）**不需要权限**——那是声明面而非运行时 API，见 [manifest](./manifest.md#贡献智能体)。
 >
 > `ctx.i18n` / **`ctx.ui.notify`** **不需要权限**——分别读本插件 catalog、以及向宿主右下角推送 Toast（含错误堆栈复制）。错误上报规范见 [ui-slots → notify](./ui-slots.md#全局通知-notify)。
 

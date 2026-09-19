@@ -20,7 +20,7 @@
 | [logging.md](./logging.md) | **插件持久化日志**：自动绑定插件身份、子作用域、结构化字段、隐私与版本要求 |
 | [ability-details.md](./ability-details.md) | **能力详情页**：`ability.json`、结构化区块、Markdown 文件引用、多语言、资源打包与限制 |
 | [guiding-the-agent.md](./guiding-the-agent.md) | **引导模型用好你的扩展**：三层心智模型、name/description 正反触发段、返回值引导、skill 渐进披露、执行边界、反模式与自检清单 |
-| [manifest.md](./manifest.md) | `plugin.json` 全字段、`commands`、`contributionMode`、`agent_mode`（已废弃）、`defaultLocale` / i18n、settings、guidingWords、agent 贡献、**贡献智能体与团队** |
+| [manifest.md](./manifest.md) | `plugin.json` 全字段、`commands`、`contributionMode`、`agent_mode`（已废弃）、`defaultLocale` / i18n、settings、guidingWords、agent 贡献、**贡献智能体** |
 | [mcp.md](./mcp.md) | **MCP 三源聚合**、插件内聚 MCP（`agent.mcpServers`）、命名、生命周期、打包 |
 | [permissions.md](./permissions.md) | 权限完整清单、门控点、声明/授权流程 |
 | [evaluation.md](./evaluation.md) | **评估 API**：`ctx.evaluation.run` / `upsertDefinition` / `registerEvidenceProvider`，权限 `evaluation:run` / `evaluation:read` / `evaluation:write` |
@@ -92,7 +92,7 @@
 | 插件 i18n | `ctx.i18n` / `useTranslation` + `locales/` | 无（catalog 随包） | [conversation-and-agent](./conversation-and-agent.md#插件-i18n) / [manifest](./manifest.md#i18n) |
 | 新会话引导词 | `plugin.json` `guidingWords` | 无 | [manifest](./manifest.md#guidingwords引导词) |
 | 打包 skill | `agent.skillPaths` | `agent.skills.control` | [manifest](./manifest.md#agent-agent-侧贡献) |
-| **贡献智能体 / 团队** | `plugin.json` `agent.agents` / `agent.teams` | 无 | [manifest](./manifest.md#贡献智能体与团队) |
+| **贡献智能体** | `plugin.json` `agent.agents` | 无 | [manifest](./manifest.md#贡献智能体) |
 | **插件内聚 MCP（三源聚合之一）** | `agent.mcpServers` | `agent.mcp.control` | [mcp](./mcp.md) |
 | 动态 system prompt | `registerSystemPromptProvider` | `agent.systemPrompt.*` | [conversation-and-agent](./conversation-and-agent.md#注册动态系统提示词-provider) |
 | 自动续跑 | `registerContinuationProvider` | `agent.continuation.register` | [conversation-and-agent](./conversation-and-agent.md#注册-agent-自动续跑策略) |

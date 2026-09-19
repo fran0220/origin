@@ -58,8 +58,8 @@ describe("picked design system", () => {
 	it("still installs when the workspace only appears after the send", async () => {
 		const emit = await mountWatcher();
 		rememberPickedSystem(SYSTEM);
-		// 团队会话就是这个次序：先发送，再建会话，工作目录最后才出现。按「turn-start 时
-		// 读 cwd」写的话，团队的第一轮永远落不了盘。
+		// 有的会话就是这个次序：先发送，再建会话，工作目录最后才出现。按「turn-start 时
+		// 读 cwd」写的话，发出去的第一轮永远落不了盘。
 		emit({ type: "turn-start" });
 		expect(installSystemResources).not.toHaveBeenCalled();
 

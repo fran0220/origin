@@ -36,7 +36,6 @@ import { createCodingAgentSubagentChildHandle } from "./child-handle.js";
 import { createLocalSubagentId } from "./local-id.js";
 import { buildSubagentNotification } from "./notification.js";
 import { resolveCodingAgentSubagentProfile } from "./profile-policy.js";
-import { createSubagentReportToParentToolRegistration, formatSubagentReport } from "./report-to-parent-tool.js";
 import type { CodingAgentSubagentChildTodoBinding } from "./runtime.js";
 import { CodingAgentSubagentRuntime } from "./runtime.js";
 import { CODING_AGENT_SUBAGENTS_OBSERVATION } from "./subagent-session-extension-contract.js";
@@ -254,27 +253,8 @@ async function openChild(
 		resolvedProfile.mcpPolicy.mode === "inherit"
 			? filterDeniedMcpTools(await options.readInheritedMcpView(), resolvedProfile.mcpPolicy.denyNamePrefixes)
 			: EMPTY_MCP_TOOL_VIEW;
-	const reportTool = createSubagentReportToParentToolRegistration({
-		id: childSessionId,
-		taskName: requestOrSnapshot.taskName,
-		// 父会话常阻塞在 wait_agent 里等本子代理；续跑要等父 Turn 结束才消费，等待它会互相死锁。
-		onReport: async (envelope) => {
-			void options.resourceContext
-				.deliverAsyncContext([
-					{
-						type: "subagent-report",
-						content: [{ type: "text", text: formatSubagentReport(envelope) }],
-						modelVisible: true,
-						display: true,
-					},
-				])
-				.catch((error: unknown) => {
-					observeSubagentIssue(options, "report-delivery", runtimeObservationFailure(error));
-				});
-		},
-	});
 	const sessionRuntimeTools = filterDeniedRuntimeTools(
-		[...(type.profile.createRuntimeTools?.(childCwd) ?? []), reportTool],
+		[...(type.profile.createRuntimeTools?.(childCwd) ?? [])],
 		resolvedProfile.mcpPolicy.mode === "inherit" ? resolvedProfile.mcpPolicy.denyNamePrefixes : undefined,
 	);
 	const additionallyEnabledToolNames = [

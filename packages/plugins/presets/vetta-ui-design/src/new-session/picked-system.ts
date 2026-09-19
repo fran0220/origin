@@ -5,9 +5,8 @@
  * 资料。真正的落盘要等两个条件同时成立：用户确实发出去了（`turn-start`），以及知道往哪
  * 落（会话的 cwd）。
  *
- * 两个条件谁先到都有可能，所以不写成「turn-start 时读 cwd」：团队会话是先发送、再创建
- * 会话、最后才有工作目录，按那种写法发出去的第一轮永远落不了盘。这里改成两边各自记账，
- * 齐了就落。
+ * 两个条件谁先到都有可能，所以不写成「turn-start 时读 cwd」：有的会话是先发送、再创建、
+ * 最后才有工作目录，按那种写法发出去的第一轮永远落不了盘。这里改成两边各自记账，齐了就落。
  */
 import type { PluginContext } from "@vetta-org/plugin-sdk";
 import type { DesignSystem } from "../design-systems/types";
@@ -37,7 +36,7 @@ function installWhenReady(): void {
 /**
  * 订阅会话事件：发送过、且知道工作目录，就把风格资料写进去。
  *
- * 没有工作目录的会话不会落盘，但待办留着——团队会话的工作目录要等会话建出来才知道，
+ * 没有工作目录的会话不会落盘，但待办留着——工作目录要等会话建出来才知道，
  * 这时丢掉就等于永远不落。
  */
 export function watchPickedSystem(ctx: PluginContext): void {

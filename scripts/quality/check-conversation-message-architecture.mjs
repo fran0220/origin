@@ -1,4 +1,4 @@
-/** Keep Chat and Agent Team on the shared ordinary Conversation message contract. */
+/** Keep Chat on the shared ordinary Conversation message contract. */
 
 import { join } from "node:path";
 import { fail, isDirectRun, ok, readText, rel, repoRoot, walkFiles } from "./lib.mjs";
@@ -48,7 +48,7 @@ export function findConversationMessageArchitectureViolations(files) {
 			violations.push(`${file.path}: product-neutral MessageFeed imports a product or message domain`);
 		}
 		if (file.path.startsWith("packages/agent-team/") && /@vetta\/runtime-subagents/u.test(file.text)) {
-			violations.push(`${file.path}: Agent Team must not depend on the private subagent runtime`);
+			violations.push(`${file.path}: Agent Profile package must not depend on the private subagent runtime`);
 		}
 		for (const [index, line] of file.text.split(/\r?\n/u).entries()) {
 			for (const identifier of RETIRED_IDENTIFIERS) {

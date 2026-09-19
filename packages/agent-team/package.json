@@ -17,8 +17,7 @@
 		"test": "bun ../../scripts/quality/run-vitest.mjs --run --config vitest.config.ts"
 	},
 	"dependencies": {
-		"@sinclair/typebox": "^0.34.41",
-		"@vetta/runtime-core": "workspace:*"
+		"@sinclair/typebox": "^0.34.41"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.5",

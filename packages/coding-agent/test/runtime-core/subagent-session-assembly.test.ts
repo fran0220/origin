@@ -17,10 +17,10 @@ import type { CodingAgentSubagentProfile } from "../../src/composition/subagent/
 import {
 	type CodingAgentSubagentChildCompositionRequest,
 	type CodingAgentSubagentChildFactory,
+	type CodingAgentSubagentChildSessionOptions,
 	createCodingAgentSubagentSessionAssembly,
 } from "../../src/composition/subagent/session-assembly.js";
 import { CODING_AGENT_SUBAGENTS_OBSERVATION } from "../../src/composition/subagent/subagent-session-extension-contract.js";
-import type { CodingAgentRuntimeToolRegistration } from "../../src/runtime-contracts/index.js";
 import { CODING_AGENT_SUBAGENT_ISSUE_OBSERVATION } from "../../src/runtime-contracts/subagent-observability.js";
 
 describe("Coding Agent Subagent session assembly", () => {
@@ -122,7 +122,7 @@ describe("Coding Agent Subagent session assembly", () => {
 			initialThinkingLevel: "off",
 			activation: {
 				mode: "explicit",
-				toolNames: expect.arrayContaining(["read", "write", "todo", "mcp_parent_search", "report_to_parent"]),
+				toolNames: expect.arrayContaining(["read", "write", "todo", "mcp_parent_search"]),
 			},
 			inheritedMcpView,
 		});
@@ -243,33 +243,13 @@ describe("Coding Agent Subagent session assembly", () => {
 		await runtime.dispose();
 	});
 
-	it("returns report_to_parent without waiting for the busy parent to consume the report", async () => {
-		const records: RuntimeObservationRecord[] = [];
-		const delivered: SessionContextRecord[] = [];
-		let rejectDelivery: ((error: Error) => void) | undefined;
-		const reportTools: CodingAgentRuntimeToolRegistration[] = [];
+	it("does not register report_to_parent on in-thread specialists", async () => {
+		const childOptions: CodingAgentSubagentChildSessionOptions[] = [];
 		const runtime = createCodingAgentSubagentSessionAssembly({
 			...baseOptions(),
-			observationPublisher: createRuntimeObservationPublisher({
-				port: {
-					record: (record) => {
-						records.push(record);
-					},
-				},
-			}),
-			resourceContext: {
-				// 父会话正阻塞在 wait_agent：续跑要等它的当前 Turn 结束才会被消费。
-				deliverAsyncContext(context) {
-					delivered.push(...context);
-					return new Promise<void>((_resolve, reject) => {
-						rejectDelivery = reject;
-					});
-				},
-				async reportObservation() {},
-			},
 			createChildComposition: async () => ({
 				createSession: async (options) => {
-					reportTools.push(...(options.sessionRuntimeTools ?? []));
+					childOptions.push(options);
 					return childSession(options.sessionId, []);
 				},
 				resumeSession: async (options) => childSession(options.sessionId, []),
@@ -286,36 +266,13 @@ describe("Coding Agent Subagent session assembly", () => {
 			turnId: "turn-1",
 			toolCallId: "spawn-1",
 			signal: new AbortController().signal,
-			input: { task_name: "report_progress", message: "Report progress.", agent_type: "general" },
+			input: { task_name: "inspect", message: "Inspect.", agent_type: "general" },
 		});
-		const reportTool = reportTools.find(({ tool }) => tool.name === "report_to_parent")?.tool;
-		if (!reportTool) throw new Error("Expected report_to_parent tool");
-
-		const result = await Promise.race([
-			reportTool.execute({
-				sessionId: "child",
-				turnId: "child-turn",
-				toolCallId: "report-1",
-				signal: new AbortController().signal,
-				input: { status: "progress", summary: "halfway" },
-			}),
-			new Promise<"blocked">((resolve) => setTimeout(() => resolve("blocked"), 50)),
-		]);
-
-		expect(result).not.toBe("blocked");
-		expect(delivered).toEqual([expect.objectContaining({ type: "subagent-report" })]);
-		rejectDelivery?.(new Error("secret report content"));
-		await vi.waitFor(() =>
-			expect(records).toEqual(
-				expect.arrayContaining([
-					expect.objectContaining({
-						token: CODING_AGENT_SUBAGENT_ISSUE_OBSERVATION,
-						payload: { operation: "report-delivery", failure: { category: "error", errorName: "Error" } },
-					}),
-				]),
-			),
+		expect(childOptions[0]?.sessionRuntimeTools ?? []).not.toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ tool: expect.objectContaining({ name: "report_to_parent" }) }),
+			]),
 		);
-		expect(JSON.stringify(records)).not.toContain("secret report content");
 		await runtime.dispose();
 	});
 
@@ -450,7 +407,7 @@ describe("Coding Agent Subagent session assembly", () => {
 			},
 		});
 		const compositionRequests: CodingAgentSubagentChildCompositionRequest[] = [];
-		const childOptions: unknown[] = [];
+		const childOptions: CodingAgentSubagentChildSessionOptions[] = [];
 		const runtime = createCodingAgentSubagentSessionAssembly({
 			...baseOptions(),
 			typeRegistry: registry,
@@ -486,14 +443,18 @@ describe("Coding Agent Subagent session assembly", () => {
 		});
 		expect(compositionRequests[0]?.activation).toEqual({
 			mode: "explicit",
-			toolNames: ["review_code", "report_to_parent"],
+			toolNames: ["review_code"],
 		});
 		expect(childOptions[0]).toMatchObject({
 			sessionRuntimeTools: expect.arrayContaining([
 				expect.objectContaining({ tool: expect.objectContaining({ name: "review_code" }) }),
-				expect.objectContaining({ tool: expect.objectContaining({ name: "report_to_parent" }) }),
 			]),
 		});
+		expect(childOptions[0]?.sessionRuntimeTools ?? []).not.toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ tool: expect.objectContaining({ name: "report_to_parent" }) }),
+			]),
+		);
 
 		await runtime.dispose();
 	});

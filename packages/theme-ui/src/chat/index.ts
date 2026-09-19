@@ -517,7 +517,5 @@ export type {
 	UseHorizontalDragScrollResult,
 } from "./useHorizontalDragScroll";
 export { useHorizontalDragScroll } from "./useHorizontalDragScroll";
-export type { WorkflowFooterItem, WorkflowFooterItemsViewProps } from "./WorkflowFooterItemsView";
-export { WorkflowFooterItemsView } from "./WorkflowFooterItemsView";
 export type { WriteContentViewProps } from "./WriteContentView";
 export { WriteContentView } from "./WriteContentView";

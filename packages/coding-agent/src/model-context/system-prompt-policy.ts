@@ -286,9 +286,9 @@ function buildGuidelines(tools: string[], scenario?: ConversationScenario): stri
 		);
 	}
 
-	if (tools.includes("dispatch_workflows")) {
+	if (tools.includes("create_thread")) {
 		guidelinesList.push(
-			"PARALLEL WORKFLOWS ARE EXPENSIVE: use dispatch_workflows only for an extremely complex request with multiple unrelated, non-overlapping workflows that are each independently complex. Never use subagents for a simple task, an ambiguous request, sequential steps, or work the root can complete directly with a small number of tool calls. Before dispatch, account for child startup and token cost, close ambiguities yourself, and give every child a detailed structured task contract covering relevant history, verified current state, one objective, exact scope, constraints, context, deliverables, and functional validation. Completion means those validations pass, not merely that code was written. Children inherit parent capabilities by default but remain leaf workers. After dispatching, do not sit in wait_agent: end your turn or continue useful root work and react to notifications passively. Resume interrupted work with followup_task instead of duplicating it.",
+			"THREAD COLLABORATION: use create_thread for independent work that can proceed without constantly editing the same files. It returns immediately. If you asked the child to reply here, do not wait_for_threads on it — continue and handle <thread_message>. Use spawn_agent(explorer) only for cheap read-only reconnaissance. Do not invent a team or persistent roster.",
 		);
 	}
 

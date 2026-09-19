@@ -3,7 +3,6 @@ import { resolveCodingAgentSubagentProfile } from "../../src/composition/subagen
 import {
 	CODING_AGENT_SUBAGENT_TYPE_EXPLORER,
 	CODING_AGENT_SUBAGENT_TYPE_GENERAL,
-	CODING_AGENT_SUBAGENT_TYPE_WORKFLOW,
 	createDefaultCodingAgentSubagentTypeRegistry,
 } from "../../src/composition/subagent/profiles.js";
 
@@ -14,7 +13,6 @@ describe("Coding Agent Subagent profile policy", () => {
 		expect(registry.list().map(({ id }) => id)).toEqual([
 			CODING_AGENT_SUBAGENT_TYPE_GENERAL,
 			CODING_AGENT_SUBAGENT_TYPE_EXPLORER,
-			CODING_AGENT_SUBAGENT_TYPE_WORKFLOW,
 		]);
 		const general = registry.get(CODING_AGENT_SUBAGENT_TYPE_GENERAL);
 		expect(general?.profile).toMatchObject({
@@ -25,9 +23,6 @@ describe("Coding Agent Subagent profile policy", () => {
 			todoPolicy: { mode: "enabled" },
 		});
 		expect(general?.profile.systemPromptAddon).toContain("report only work and evidence you personally performed");
-		expect(registry.get(CODING_AGENT_SUBAGENT_TYPE_WORKFLOW)?.profile.systemPromptAddon).toContain(
-			"Never claim their work or status",
-		);
 	});
 
 	it("inherits the exact parent activation and keeps explorer MCP fail-closed", () => {
