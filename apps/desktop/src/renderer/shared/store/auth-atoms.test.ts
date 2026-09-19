@@ -3,18 +3,10 @@
 import { createStore } from "jotai";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const api = vi.hoisted(() => ({
-	logoutOnServer: vi.fn(async (_refresh?: string) => undefined),
-}));
-
 const sse = vi.hoisted(() => ({
 	disconnect: vi.fn(),
 	connect: vi.fn(),
 	onStateChange: vi.fn(() => () => undefined),
-}));
-
-vi.mock("@shared/lib/api", () => ({
-	logoutOnServer: api.logoutOnServer,
 }));
 
 vi.mock("@shared/lib/sse-client", () => ({
@@ -29,10 +21,8 @@ describe("cloudLogoutAtom", () => {
 		Object.defineProperty(window, "vetta", {
 			configurable: true,
 			value: {
-				settings: {
-					getServerRefreshToken: vi.fn(async () => "stored-refresh"),
-					setServerRefreshToken: vi.fn(async () => undefined),
-					setServerToken: vi.fn(async () => undefined),
+				auth: {
+					signOut: vi.fn(async () => ({ revoked: true })),
 				},
 			},
 		});
@@ -55,25 +45,21 @@ describe("cloudLogoutAtom", () => {
 		expect(store.get(authUserAtom)).toBeNull();
 		expect(store.get(remoteProvidersAtom)).toEqual({});
 		expect(sse.disconnect).toHaveBeenCalledOnce();
-		expect(window.vetta.settings.setServerToken).toHaveBeenCalledWith(undefined);
-
-		// 服务端登出走"读出存量 refresh → 上报 → 清除"的异步链
 		await vi.waitFor(() => {
-			expect(api.logoutOnServer).toHaveBeenCalledWith("stored-refresh");
-			expect(window.vetta.settings.setServerRefreshToken).toHaveBeenCalledWith(undefined);
+			expect(window.vetta.auth.signOut).toHaveBeenCalledOnce();
 		});
 	});
 
-	it("服务端登出失败时仍然清除本地 refresh token", async () => {
-		api.logoutOnServer.mockRejectedValueOnce(new Error("network down"));
+	it("主进程登出失败时仍然清除本地登录态", async () => {
+		vi.mocked(window.vetta.auth.signOut).mockRejectedValueOnce(new Error("network down"));
 		const store = createStore();
-		store.set(authTokenAtom, "access-token");
+		store.set(authTokenAtom, "signed-in");
 
 		store.set(cloudLogoutAtom);
 
-		await vi.waitFor(() => {
-			expect(window.vetta.settings.setServerRefreshToken).toHaveBeenCalledWith(undefined);
-		});
 		expect(store.get(authTokenAtom)).toBeNull();
+		await vi.waitFor(() => {
+			expect(window.vetta.auth.signOut).toHaveBeenCalledOnce();
+		});
 	});
 });

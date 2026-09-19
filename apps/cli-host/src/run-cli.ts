@@ -1,4 +1,6 @@
 import { parseActionCommand, runActionCommand } from "./action-command.js";
+import { parseAuthCommand, runAuthCommand } from "./auth-command.js";
+import { parseConnectionsCommand, runConnectionsCommand } from "./connections-command.js";
 import { parseDebugCommand, runDebugCommand } from "./debug-command.js";
 import { type RunAgentCliOptions, runAgentCli } from "./run-agent-cli.js";
 
@@ -6,6 +8,8 @@ const HELP_TEXT = `Usage:
   vetta [options] [@files...] [messages...]
   vetta action <subcommand> [options]
   vetta debug <subcommand> [options]
+  vetta auth <subcommand> [options]
+  vetta connections <subcommand> [options]
   vetta agent [options] [@files...] [messages...]
 
 Options:
@@ -19,6 +23,11 @@ Commands:
   debug search          Search development-only Debug capabilities.
   debug describe        Describe a Debug capability.
   debug run             Run a Debug capability.
+  auth login            Sign in with PKCE loopback.
+  auth logout           Revoke the remote session and clear the vault.
+  connections list      List secret-free Connection descriptors.
+  connections add       Add a BYOK Connection.
+  connections remove    Remove a provided Connection.
   agent                 Run the coding agent explicitly.
 
 Run "vetta agent --help" for coding-agent options.
@@ -45,6 +54,18 @@ export async function runCli(argv: string[], options: RunAgentCliOptions = {}): 
 	const debugCommand = parseDebugCommand(argv);
 	if (debugCommand) {
 		process.exitCode = await runDebugCommand(debugCommand);
+		return;
+	}
+
+	const authCommand = parseAuthCommand(argv);
+	if (authCommand) {
+		process.exitCode = await runAuthCommand(authCommand);
+		return;
+	}
+
+	const connectionsCommand = parseConnectionsCommand(argv);
+	if (connectionsCommand) {
+		process.exitCode = await runConnectionsCommand(connectionsCommand);
 		return;
 	}
 

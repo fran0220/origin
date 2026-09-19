@@ -1,5 +1,4 @@
 import type { SubscriptionStatus } from "@preload/api.js";
-import { logoutOnServer } from "@shared/lib/api";
 import { atom } from "jotai";
 import { remoteProvidersAtom } from "./model-catalog-atoms";
 import { sseClientAtom } from "./sse-atoms";
@@ -17,6 +16,7 @@ export interface AuthUser {
 localStorage.removeItem("vetta-auth-token");
 localStorage.removeItem("vetta-refresh-token");
 
+/** Signed-in flag only. Never holds an access token. */
 export const authTokenAtom = atom<string | null>(null);
 export const authUserAtom = atom<AuthUser | null>(null);
 export const loginPopoverOpenAtom = atom<boolean>(false);
@@ -32,15 +32,9 @@ export const loginPopoverOpenAtom = atom<boolean>(false);
  * 登出入口不渲染，本 atom 不可达。
  */
 export const cloudLogoutAtom = atom(null, (get, set) => {
-	void window.vetta.settings
-		.getServerRefreshToken()
-		.then((storedRefresh) => logoutOnServer(storedRefresh))
-		// 服务端登出失败（网络等）不阻塞本地登出，只留痕
-		.catch((err) => console.warn("[cloudLogout] logoutOnServer failed:", err))
-		.finally(() => window.vetta.settings.setServerRefreshToken(undefined));
+	void window.vetta.auth.signOut().catch((err) => console.warn("[cloudLogout] signOut failed:", err));
 	set(authTokenAtom, null);
 	set(authUserAtom, null);
-	void window.vetta.settings.setServerToken(undefined);
 	set(remoteProvidersAtom, {});
 	get(sseClientAtom).disconnect();
 });

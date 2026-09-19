@@ -53,6 +53,7 @@ export type SettingsTab =
 	| "appearance"
 	| "account"
 	| "models"
+	| "connections"
 	| "mcp"
 	| "environment"
 	| "extensions"

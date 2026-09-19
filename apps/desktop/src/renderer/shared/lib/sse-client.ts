@@ -69,7 +69,9 @@ export function createSSEClient(): SSEClient {
 
 		setState("connecting");
 
-		const url = `${currentBaseUrl}/events/stream?token=${encodeURIComponent(currentToken)}`;
+		const url = currentToken
+			? `${currentBaseUrl}/events/stream?token=${encodeURIComponent(currentToken)}`
+			: currentBaseUrl;
 		const es = new HostEventSource(url);
 		eventSource = es;
 

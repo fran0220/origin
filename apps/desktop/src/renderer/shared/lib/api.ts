@@ -4,12 +4,26 @@ import type { SkillPresentation } from "@vetta-org/capability-sdk";
 
 let cachedBaseUrl: string | undefined;
 const hostFetch = globalThis.fetch.bind(globalThis);
-const HostHeaders = globalThis.Headers;
 
 async function getApiBase(): Promise<string> {
 	if (cachedBaseUrl) return cachedBaseUrl;
 	cachedBaseUrl = await window.vetta.settings.getServerUrl();
 	return cachedBaseUrl;
+}
+
+async function cloudRequest<T>(
+	path: string,
+	options?: { method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"; body?: unknown },
+): Promise<T> {
+	const result = await window.vetta.cloud.request<T>(path.replace(/^\//, ""), options);
+	if (result.status === 401) {
+		notifyUnauthorized();
+		throw new Error("登录已过期，请重新登录");
+	}
+	if (!result.ok) {
+		throw new Error(result.message || `HTTP ${result.status}`);
+	}
+	return result.data as T;
 }
 
 /** Listeners notified when server responds with 401 and refresh fails. */
@@ -30,7 +44,7 @@ function notifyUnauthorized(): void {
 /**
  * Listeners notified after a successful refresh so renderer atoms update in one place.
  */
-type TokenRefreshedListener = (next: { accessToken: string; refreshToken: string }) => void;
+type TokenRefreshedListener = (next: { signedIn: true }) => void;
 const tokenRefreshedListeners = new Set<TokenRefreshedListener>();
 
 export function onTokenRefreshed(listener: TokenRefreshedListener): () => void {
@@ -38,16 +52,10 @@ export function onTokenRefreshed(listener: TokenRefreshedListener): () => void {
 	return () => tokenRefreshedListeners.delete(listener);
 }
 
-function notifyTokenRefreshed(next: { accessToken: string; refreshToken: string }): void {
+function notifyTokenRefreshed(next: { signedIn: true }): void {
 	for (const listener of tokenRefreshedListeners) {
 		listener(next);
 	}
-}
-
-interface ApiResponse<T> {
-	code: number;
-	message: string;
-	data?: T;
 }
 
 /**
@@ -83,52 +91,32 @@ window.vetta?.auth?.onTokenRefreshed?.((next) => {
 	notifyTokenRefreshed(next);
 });
 
-/**
- * 若 options.headers 含 Authorization，则用新 token 替换；否则保持原样。
- */
-function withNewAuth(options: RequestInit | undefined, accessToken: string): RequestInit | undefined {
-	if (!options?.headers) return options;
-	const headers = new HostHeaders(options.headers as HeadersInit);
-	if (headers.has("Authorization")) {
-		headers.set("Authorization", `Bearer ${accessToken}`);
-		return { ...options, headers };
+async function request<T>(path: string, _options?: RequestInit): Promise<T> {
+	const method =
+		_options?.method === "POST" ||
+		_options?.method === "PUT" ||
+		_options?.method === "PATCH" ||
+		_options?.method === "DELETE"
+			? _options.method
+			: undefined;
+	let body: unknown;
+	if (typeof _options?.body === "string") {
+		try {
+			body = JSON.parse(_options.body) as unknown;
+		} catch {
+			body = undefined;
+		}
 	}
-	return options;
+	return cloudRequest<T>(
+		path,
+		method || body !== undefined
+			? { ...(method ? { method } : {}), ...(body !== undefined ? { body } : {}) }
+			: undefined,
+	);
 }
 
-async function request<T>(path: string, options?: RequestInit): Promise<T> {
-	const base = await getApiBase();
-	let res = await hostFetch(base + path, options);
-	if (res.status === 401) {
-		// 不要给 /auth/refresh 自身做 refresh-retry，避免死循环
-		if (path === "/auth/refresh") {
-			notifyUnauthorized();
-			throw new Error("登录已过期，请重新登录");
-		}
-		const outcome = await tryRefreshAccessToken();
-		if (outcome.status === "transient") {
-			// 暂时性失败（网络/超时/5xx）：不登出，抛普通错误让上层重试/提示。
-			throw new Error("网络异常，请稍后重试");
-		}
-		if (outcome.status === "unauthorized") {
-			notifyUnauthorized();
-			throw new Error("登录已过期，请重新登录");
-		}
-		res = await hostFetch(base + path, withNewAuth(options, outcome.accessToken));
-		if (res.status === 401) {
-			notifyUnauthorized();
-			throw new Error("登录已过期，请重新登录");
-		}
-	}
-	const json = (await res.json()) as ApiResponse<T>;
-	if (json.code !== 0) {
-		throw new Error(json.message);
-	}
-	return json.data as T;
-}
-
-function authHeaders(token: string): HeadersInit {
-	return { Authorization: `Bearer ${token}` };
+function authHeaders(_token: string): HeadersInit {
+	return {};
 }
 
 // ─── Server Info ───
@@ -231,18 +219,8 @@ export interface UserInfo {
 }
 
 /** 主动注销 refresh token（登出时调用，失败不阻塞本地清理） */
-export async function logoutOnServer(refreshToken: string | undefined): Promise<void> {
-	if (!refreshToken) return;
-	try {
-		const base = await getApiBase();
-		await hostFetch(`${base}/auth/logout`, {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ refresh_token: refreshToken }),
-		});
-	} catch {
-		// 网络失败也不阻断本地登出
-	}
+export async function logoutOnServer(_refreshToken?: string): Promise<void> {
+	await window.vetta.auth.signOut();
 }
 
 export async function fetchOAuthProviders(): Promise<string[]> {

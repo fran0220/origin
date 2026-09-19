@@ -29,8 +29,10 @@ describe("useOAuthLogin", () => {
 			startOAuth: vi.fn(async () => undefined),
 			reopenOAuth: vi.fn(async () => undefined),
 			refreshToken: vi.fn(async () => ({ status: "transient" as const })),
+			signOut: vi.fn(async () => ({ revoked: true })),
+			sseUrl: vi.fn(async () => undefined),
 			onOAuthCallback: vi.fn((handler) => {
-				emitCallback = () => handler({ token: "token" });
+				emitCallback = () => handler({ signedIn: true });
 				return unsubscribeCallback;
 			}),
 			onOAuthRejected: vi.fn((handler) => {

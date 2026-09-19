@@ -6,6 +6,7 @@ export type SettingsTabLabelKey =
 	| "tabAppearance"
 	| "tabContext"
 	| "tabModels"
+	| "tabConnections"
 	| "tabIm"
 	| "tabWebhook"
 	| "tabArchive"
@@ -51,6 +52,7 @@ export const SETTINGS_TABS: readonly SettingsTabRegistration[] = [
 	{ key: "appearance", label: "外观", labelKey: "tabAppearance", icon: "icon-[mdi--palette-outline]" },
 	{ key: "context", label: "Agent配置", labelKey: "tabContext", icon: "icon-[mdi--robot-outline]" },
 	{ key: "models", label: "模型配置", labelKey: "tabModels", icon: "icon-[mdi--brain]" },
+	{ key: "connections", label: "连接", labelKey: "tabConnections", icon: "icon-[mdi--lan-connect]" },
 	// MCP 管理已迁至侧栏「扩展 → 连接器」
 	{ key: "im", label: "Claw", labelKey: "tabIm", icon: "icon-[mdi--message-text-outline]" },
 	{ key: "webhook", label: "消息推送", labelKey: "tabWebhook", icon: "icon-[mdi--webhook]" },
@@ -101,6 +103,7 @@ export const SETTINGS_SECTIONS = [
 	{ tab: "team", id: "team-my-teams", title: "我的团队", titleKey: "section_team-my-teams" },
 	{ tab: "team", id: "team-detail-info", title: "团队详情", titleKey: "section_team-detail-info" },
 	{ tab: "team", id: "team-members", title: "成员列表", titleKey: "section_team-members" },
+	{ tab: "connections", id: "connections-list", title: "连接", titleKey: "section_connections-list" },
 	{ tab: "models", id: "models-thinking", title: "思考模式", titleKey: "section_models-thinking" },
 	{ tab: "models", id: "models-preset-providers", title: "预设服务商", titleKey: "section_models-preset-providers" },
 	{ tab: "models", id: "models-providers", title: "服务商", titleKey: "section_models-providers" },

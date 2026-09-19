@@ -84,6 +84,14 @@ export default defineConfig({
 				replacement: fileURLToPath(new URL("../../packages/coding-agent/src/config.ts", import.meta.url)),
 			},
 			{
+				find: "@vetta/coding-agent/connections",
+				replacement: fileURLToPath(new URL("../../packages/coding-agent/src/public-api/connections.ts", import.meta.url)),
+			},
+			{
+				find: "@vetta/runtime-node/credentials",
+				replacement: fileURLToPath(new URL("../../packages/runtime-node/src/credentials/index.ts", import.meta.url)),
+			},
+			{
 				find: "@vetta/coding-agent/hooks",
 				replacement: fileURLToPath(new URL("../../packages/coding-agent/src/public-api/hooks.ts", import.meta.url)),
 			},

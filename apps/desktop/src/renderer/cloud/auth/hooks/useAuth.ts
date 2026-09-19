@@ -41,8 +41,8 @@ export function useAuth() {
 		bootstrappedRef.current = true;
 		if (token) return;
 		void window.vetta.settings.getServerToken().then((stored) => {
-			if (!stored) return;
-			setToken(stored);
+			if (!stored?.signedIn) return;
+			setToken("signed-in");
 		});
 	}, [token, setToken]);
 
@@ -74,41 +74,28 @@ export function useAuth() {
 		});
 	}, [logout]);
 
-	// refresh 成功后，把新 token 同步到 atom，保证 React 树立刻拿到新值
 	useEffect(() => {
-		return onTokenRefreshed(({ accessToken }) => {
-			setToken(accessToken);
+		return onTokenRefreshed(() => {
+			setToken("signed-in");
 		});
 	}, [setToken]);
 
-	// 主动刷新：每次 token 变化（含初次挂载、登录、refresh 成功）都重排到下次到期前
 	useEffect(() => {
 		if (!token) {
 			cancelProactiveRefresh();
 			return;
 		}
-		scheduleProactiveRefresh(token);
+		scheduleProactiveRefresh();
 		return () => cancelProactiveRefresh();
 	}, [token]);
 
-	// Listen for OAuth callback from main process
 	useEffect(() => {
-		const cleanup = window.vetta.auth.onOAuthCallback((data) => {
-			setToken(data.token);
-			if (data.refreshToken) {
-				void window.vetta.settings.setServerRefreshToken(data.refreshToken);
-			} else {
-				// 本次登录没带 refresh 时，绝不能留着上一次登录的旧值：它多半已被轮换
-				// 作废，下次刷新出示它会被服务端按重放处理，直接撤掉整条链。
-				// 宁可没有 refresh（access 到期后重新登录一次），也不要一个会踢人的旧值。
-				void window.vetta.settings.setServerRefreshToken(undefined);
-			}
+		const cleanup = window.vetta.auth.onOAuthCallback(() => {
+			setToken("signed-in");
 			setLoginOpen(false);
-			void window.vetta.settings.setServerToken(data.token);
-			void fetchCurrentUser(data.token)
+			void fetchCurrentUser("signed-in")
 				.then((u) => setUser(u))
 				.catch(console.error);
-			// 远程模型拉取由下面的 token effect 统一负责
 		});
 		return cleanup;
 	}, [setToken, setUser, setLoginOpen]);
@@ -138,8 +125,9 @@ export function useAuth() {
 	// SSE: connect when token is available, disconnect on logout
 	useEffect(() => {
 		if (!token) return;
-		void window.vetta.settings.getServerUrl().then((baseUrl) => {
-			sseClient.connect(baseUrl, token);
+		void window.vetta.auth.sseUrl().then((issued) => {
+			if (!issued?.url) return;
+			sseClient.connect(issued.url, "");
 		});
 		const unsubState = sseClient.onStateChange(setSseState);
 		return () => {
