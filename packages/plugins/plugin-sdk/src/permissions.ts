@@ -20,6 +20,7 @@ export const PLUGIN_PERMISSIONS = [
 	"agent.command.run",
 	"agent.command.spawn",
 	"capture.offscreen",
+	"recording:capture",
 	"browser.read",
 	"browser.open",
 	"browser.interact",

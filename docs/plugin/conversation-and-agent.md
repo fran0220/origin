@@ -456,6 +456,47 @@ interface PluginCaptureApi {
 
 示例：`packages/plugins/presets/vetta-ui-design` 的画布位图队列（`src/canvas/offscreen-raster.ts`）：一个引擎 dev server 复用一个会话，`prepareScript` 发 `show-frame` 切帧，`readyExpression` 轮询引擎写入的 `window.__vetdPainted`。
 
+## 网页录制 recording
+
+`ctx.recording` 让宿主用主进程隐藏 OSR 窗口录制一个 http(s) 或项目 `file:` 页面（权限 `recording:capture`）。产出 H.264 + AAC MP4（`-movflags +faststart`）、`telemetry.jsonl` 与 `input.jsonl`，保留期默认 2 小时。旧宿主上 `ctx.recording` 为 `undefined`，使用前判空。需要 Plugin API `^2.7.0`。
+
+```ts
+interface PluginRecordingApi {
+  start(request: {
+    projectKey: string;
+    sessionId: string;
+    url: string; // http(s)，或项目 cwd 内的 file:
+    width?: number;
+    height?: number;
+    fps?: number;
+    codec?: "h264" | "av1";
+    retention?: "30m" | "2h" | "until-cleared";
+    cwd?: string;
+  }): Promise<PluginRecordingRecord>;
+  stop(recordingId: string): Promise<PluginRecordingRecord>;
+  cancel(recordingId: string): Promise<PluginRecordingRecord>;
+  list(query?: { projectKey?: string; sessionId?: string; includeExpired?: boolean }): Promise<readonly PluginRecordingRecord[]>;
+  read(recordingId: string): Promise<PluginRecordingRecord>;
+  sample(request: {
+    recordingId: string;
+    atMs?: readonly number[];
+    everyMs?: number;
+    contactSheet?: { columns: number };
+  }): Promise<{ recordingId: string; frames: readonly { atMs: number; path: string }[]; contactSheetPath?: string }>;
+  clear(recordingId: string): Promise<void>;
+  probe(
+    recordingId: string,
+    kind: "tick" | "state" | "advance" | "input" | "pick" | "read_entity" | "patch_entity",
+    payload?: unknown,
+  ): Promise<unknown>;
+}
+```
+
+- 视频走 Electron `paint` 帧流 + 托管 ffmpeg；无页面音频源时产出无声 MP4 并标 `audio: "none"`。
+- `file:` URL 必须落在当前项目 cwd 内；其余仍只允许 http(s)。
+- 录制落在账号分区 `<agentDir>/accounts/<hash>/recordings/`（未登录为 `logged-out/recordings`）。`until-cleared` 需要显式 `clear`。
+- `probe` 通过页面 iframe/postMessage RPC 读写 tick/state/input；事件写 telemetry，注入输入写 input.jsonl，共用捕获起始单调时钟。
+
 ## 文件 API
 
 `ctx.fs` 受权限门控读写文件（`fs.read` / `fs.write`，缺权限**抛错**）。

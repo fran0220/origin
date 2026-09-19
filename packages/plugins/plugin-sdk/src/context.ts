@@ -5,6 +5,7 @@ import type { PluginArtifactsApi } from "./artifacts.js";
 import type { PluginBrowserApi } from "./browser.js";
 import type { PluginCaptureApi } from "./capture.js";
 import type { PluginCheckpointsApi } from "./checkpoints.js";
+import type { PluginRecordingApi } from "./recording.js";
 import type { PluginCommandApi } from "./command.js";
 import type { PluginCliProviderApi } from "./cli-provider.js";
 import type { PluginConversationApi } from "./conversation.js";
@@ -70,6 +71,8 @@ export interface PluginContext {
 	artifacts: PluginArtifactsApi;
 	/** 主进程离屏窗口截图（`capture.offscreen` 权限）。旧宿主上为 `undefined`，使用前判空。 */
 	capture?: PluginCaptureApi;
+	/** 网页录制（`recording:capture` 权限）。旧宿主上为 `undefined`，使用前判空。 */
+	recording?: PluginRecordingApi;
 	/** 宿主管理的浏览器能力；各具体方法会根据插件权限单独校验。 */
 	browser: PluginBrowserApi;
 	network: PluginNetworkApi;

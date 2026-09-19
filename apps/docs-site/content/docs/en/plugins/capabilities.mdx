@@ -20,6 +20,7 @@ The `ctx` passed to `activate(ctx)` is the single outlet for every capability. O
 | Shape system prompts and continuation | `registerSystemPromptProvider`, `registerContinuationProvider` | `agent.systemPrompt.write`, `agent.continuation.register` | A provider is evaluated once per Turn and does not re-run when plugin state changes mid-Turn |
 | Run host commands | `ctx.command.run`, `ctx.command.spawn` | `agent.command.run` / `agent.command.spawn` | The manifest must declare `commands`; keep secrets out of arguments |
 | Capture an offscreen render | `ctx.capture.offscreen` | `capture.offscreen` | `undefined` on older hosts, so check before use |
+| Record a webpage to MP4 | `ctx.recording` | `recording:capture` | `undefined` on older hosts; requires Plugin API `^2.7.0` |
 | Read and write files | `ctx.fs.*` | `fs.read` / `fs.write` | `stat` large files before deciding how to read them |
 | Call external networks | `ctx.network.request` | `network.fetch` | Declare the smallest `network.allowedHosts` |
 | Browser automation | `ctx.browser.*` | `browser.open` / `read` / `interact` and others | Use logical profiles; no cookies, tokens, or arbitrary JS execution |
@@ -38,7 +39,7 @@ The `ctx` passed to `activate(ctx)` is the single outlet for every capability. O
 | Add localized copy | `ctx.i18n` and package `locales/` | none | Keep keys and `defaultLocale` aligned |
 
 <Callout title="Two fields must be null-checked" type="warn">
-  `ctx.capture` is `undefined` on hosts without offscreen capture, and `ctx.gateway` is available only to built-in official plugins, so third-party plugins always read `undefined`. Check before use rather than assuming they exist.
+  `ctx.capture` and `ctx.recording` are `undefined` on hosts without offscreen capture or recording, and `ctx.gateway` is available only to built-in official plugins, so third-party plugins always read `undefined`. Check before use rather than assuming they exist.
 </Callout>
 
 ## What the network API actually enforces

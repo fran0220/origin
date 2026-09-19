@@ -6,6 +6,7 @@ import type {
 	PluginCodingAgentHookResult,
 	PluginContext,
 	PluginEvaluationApi,
+	PluginRecordingApi,
 } from "../src/index.js";
 import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES, PLUGIN_PERMISSIONS } from "../src/index.js";
 
@@ -20,6 +21,7 @@ describe("plugin-sdk public API", () => {
 		expect(PLUGIN_PERMISSIONS).toContain("evaluation:read");
 		expect(PLUGIN_PERMISSIONS).toContain("checkpoints:read");
 		expect(PLUGIN_PERMISSIONS).toContain("checkpoints:revert");
+		expect(PLUGIN_PERMISSIONS).toContain("recording:capture");
 	});
 
 	it("exposes browser as a required facade with a display-only open method", () => {
@@ -29,6 +31,10 @@ describe("plugin-sdk public API", () => {
 
 	it("exposes evaluation as a required facade", () => {
 		expectTypeOf<PluginContext["evaluation"]>().toEqualTypeOf<PluginEvaluationApi>();
+	});
+
+	it("exposes recording as an optional facade gated by recording:capture", () => {
+		expectTypeOf<PluginContext["recording"]>().toEqualTypeOf<PluginRecordingApi | undefined>();
 	});
 
 	it("exports the canonical Coding Agent Hook event catalog and event-specific types", () => {

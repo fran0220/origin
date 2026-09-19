@@ -20,6 +20,7 @@ description: 按目标查找 ctx 上的界面、对话、Agent、文件、网络
 | 干预系统提示词与续跑 | `registerSystemPromptProvider`、`registerContinuationProvider` | `agent.systemPrompt.write`、`agent.continuation.register` | Provider 每个 Turn 开始时求值一次，本 Turn 内不会因插件状态变化重跑 |
 | 执行宿主命令 | `ctx.command.run`、`ctx.command.spawn` | `agent.command.run` / `agent.command.spawn` | 清单必须声明 `commands`，不要把密钥放进参数 |
 | 离屏渲染截图 | `ctx.capture.offscreen` | `capture.offscreen` | 旧宿主上为 `undefined`，使用前判空 |
+| 网页录制 | `ctx.recording` | `recording:capture` | 旧宿主上为 `undefined`，使用前判空；需要 Plugin API `^2.7.0` |
 | 读写文件 | `ctx.fs.*` | `fs.read` / `fs.write` | 大文件先 `stat` 再决定读取方式 |
 | 调用外部网络 | `ctx.network.request` | `network.fetch` | 清单声明最小 `network.allowedHosts` |
 | 浏览器自动化 | `ctx.browser.*` | `browser.open` / `read` / `interact` 等 | 使用逻辑 profile；不获得 Cookie、Token 或任意 JS 执行权 |
@@ -38,7 +39,7 @@ description: 按目标查找 ctx 上的界面、对话、Agent、文件、网络
 | 提供多语言文案 | `ctx.i18n` 与包内 `locales/` | 无 | 文案 key 和 `defaultLocale` 要与清单一致 |
 
 <Callout title="有两个字段必须判空" type="warn">
-  `ctx.capture` 在不支持离屏截图的旧宿主上是 `undefined`；`ctx.gateway` 只对内置官方插件可用，第三方插件一律读到 `undefined`。使用前先判空，不要假设它们存在。
+  `ctx.capture` 与 `ctx.recording` 在不支持离屏截图/录制的旧宿主上是 `undefined`；`ctx.gateway` 只对内置官方插件可用，第三方插件一律读到 `undefined`。使用前先判空，不要假设它们存在。
 </Callout>
 
 ## 网络请求的实际边界

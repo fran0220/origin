@@ -4,6 +4,7 @@ All notable changes to `@vetta-org/plugin-sdk` are documented in this file.
 
 ## [Unreleased]
 
+- Plugin API 2.7.0 新增 `ctx.recording`（权限 `recording:capture`）。宿主用离屏 OSR 窗口录制 http(s) 或项目内 `file:` 页面，产出 H.264 + AAC MP4、抽帧、遥测与输入脚本。旧宿主上该字段为 `undefined`，使用前判空；用到它的插件请把 `pluginApiVersion` 写成 `^2.7.0`。
 - Plugin API 2.6.0 adds `ctx.evaluation` with `evaluation:run` / `evaluation:read`. Plugins can run definitions, read attempts, and register evidence providers. Manifests that declare these permissions must use `pluginApiVersion: "^2.6.0"` so older hosts fail closed with an unsupported-version error instead of silently dropping the catalog entries.
 - `ctx.checkpoints` 提供只读时间线与显式文件回退请求，权限为 `checkpoints:read` / `checkpoints:revert`。使用该入口的插件要求 Plugin API `^2.6.0`。
 

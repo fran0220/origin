@@ -277,6 +277,14 @@ export type {
 	PluginOffscreenCaptureOptions,
 	PluginOffscreenCaptureResult,
 } from "./capture.js";
+export type {
+	PluginRecordingApi,
+	PluginRecordingListQuery,
+	PluginRecordingRecord,
+	PluginRecordingSampleRequest,
+	PluginRecordingSampleResult,
+	PluginRecordingStartRequest,
+} from "./recording.js";
 export type { PluginImageRef } from "./images.js";
 export type {
 	PluginArtifactDestination,
