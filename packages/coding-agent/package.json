@@ -130,6 +130,7 @@
 		"@vetta/ai": "workspace:*",
 		"@vetta/ecosystem-adapter": "workspace:*",
 		"@vetta/runtime-core": "workspace:*",
+		"@vetta/runtime-evaluation": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",
 		"@vetta/runtime-node": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",

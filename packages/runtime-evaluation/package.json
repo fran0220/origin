@@ -1,0 +1,27 @@
+{
+	"name": "@vetta/runtime-evaluation",
+	"version": "0.0.1",
+	"description": "Platform-neutral Evaluation records, aggregation, and ports for Vetta runtimes",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": ["dist"],
+	"scripts": {
+		"clean": "rm -rf dist",
+		"build": "tsgo -p tsconfig.build.json",
+		"test": "bun ../../scripts/quality/run-vitest.mjs --run --config vitest.config.ts"
+	},
+	"dependencies": {
+		"@sinclair/typebox": "^0.34.41"
+	},
+	"devDependencies": {
+		"typescript": "^5.9.2",
+		"@types/node": "^22.10.5"
+	}
+}

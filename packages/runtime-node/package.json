@@ -37,6 +37,10 @@
 		"./sandbox": {
 			"types": "./dist/sandbox/index.d.ts",
 			"import": "./dist/sandbox/index.js"
+		},
+		"./evaluation": {
+			"types": "./dist/evaluation/index.d.ts",
+			"import": "./dist/evaluation/index.js"
 		}
 	},
 	"files": [
@@ -57,6 +61,7 @@
 		"@vetta/action-rpc": "workspace:*",
 		"@vetta/ai": "workspace:*",
 		"@vetta/runtime-core": "workspace:*",
+		"@vetta/runtime-evaluation": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",

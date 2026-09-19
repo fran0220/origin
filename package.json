@@ -32,6 +32,7 @@
 		"packages/runtime-storage",
 		"packages/runtime-node",
 		"packages/runtime-telemetry",
+		"packages/runtime-evaluation",
 		"packages/runtime-desktop",
 		"packages/toolkit",
 		"packages/skill-presets",

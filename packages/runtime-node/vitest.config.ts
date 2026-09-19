@@ -41,6 +41,9 @@ export default defineConfig({
 			"@vetta/runtime-knowledge": fileURLToPath(
 				new URL("../runtime-knowledge/src/index.ts", import.meta.url),
 			),
+			"@vetta/runtime-evaluation": fileURLToPath(
+				new URL("../runtime-evaluation/src/index.ts", import.meta.url),
+			),
 			"@vetta/runtime-subagents": fileURLToPath(
 				new URL("../runtime-subagents/src/index.ts", import.meta.url),
 			),

@@ -182,6 +182,14 @@ export default defineConfig({
 				replacement: resolve(__dirname, "../../packages/runtime-node/src/mcp/index.ts"),
 			},
 			{
+				find: "@vetta/runtime-node/evaluation",
+				replacement: resolve(__dirname, "../../packages/runtime-node/src/evaluation/index.ts"),
+			},
+			{
+				find: "@vetta/runtime-evaluation",
+				replacement: resolve(__dirname, "../../packages/runtime-evaluation/src/index.ts"),
+			},
+			{
 				find: "@vetta/runtime-subagents",
 				replacement: resolve(__dirname, "../../packages/runtime-subagents/src/index.ts"),
 			},
