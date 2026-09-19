@@ -16,8 +16,12 @@ export default defineConfig({
 			"@vetta/runtime-evaluation": fileURLToPath(new URL("../runtime-evaluation/src/index.ts", import.meta.url)),
 			"@vetta/runtime-knowledge": fileURLToPath(new URL("../runtime-knowledge/src/index.ts", import.meta.url)),
 			"@vetta/runtime-subagents": fileURLToPath(new URL("../runtime-subagents/src/index.ts", import.meta.url)),
+			"@vetta/runtime-evolution": fileURLToPath(new URL("../runtime-evolution/src/index.ts", import.meta.url)),
 			"@vetta/runtime-storage/conversation": fileURLToPath(
 				new URL("../runtime-storage/src/conversation/index.ts", import.meta.url),
+			),
+			"@vetta/runtime-node/evolution": fileURLToPath(
+				new URL("../runtime-node/src/evolution/index.ts", import.meta.url),
 			),
 			"@vetta/runtime-node/sandbox": fileURLToPath(
 				new URL("../runtime-node/src/sandbox/index.ts", import.meta.url),

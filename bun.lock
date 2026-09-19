@@ -45,6 +45,7 @@
         "@vetta/coding-agent": "workspace:*",
         "@vetta/ecosystem-adapter": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
+        "@vetta/runtime-evolution": "workspace:*",
         "@vetta/runtime-mcp": "workspace:*",
         "@vetta/runtime-node": "workspace:*",
         "@vetta/runtime-storage": "workspace:*",
@@ -93,6 +94,7 @@
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-desktop": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
+        "@vetta/runtime-evolution": "workspace:*",
         "@vetta/runtime-knowledge": "workspace:*",
         "@vetta/runtime-mcp": "workspace:*",
         "@vetta/runtime-node": "workspace:*",
@@ -335,6 +337,7 @@
         "@vetta/runtime-checkpoints": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
+        "@vetta/runtime-evolution": "workspace:*",
         "@vetta/runtime-knowledge": "workspace:*",
         "@vetta/runtime-mcp": "workspace:*",
         "@vetta/runtime-node": "workspace:*",
@@ -1009,6 +1012,17 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/runtime-evolution": {
+      "name": "@vetta/runtime-evolution",
+      "version": "0.0.1",
+      "dependencies": {
+        "@sinclair/typebox": "^0.34.41",
+      },
+      "devDependencies": {
+        "@types/node": "^22.10.5",
+        "typescript": "^5.9.2",
+      },
+    },
     "packages/runtime-knowledge": {
       "name": "@vetta/runtime-knowledge",
       "version": "0.55.3",
@@ -1046,6 +1060,7 @@
         "@vetta/runtime-checkpoints": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
+        "@vetta/runtime-evolution": "workspace:*",
         "@vetta/runtime-knowledge": "workspace:*",
         "@vetta/runtime-mcp": "workspace:*",
         "@vetta/runtime-storage": "workspace:*",
@@ -2808,6 +2823,8 @@
     "@vetta/runtime-desktop": ["@vetta/runtime-desktop@workspace:packages/runtime-desktop"],
 
     "@vetta/runtime-evaluation": ["@vetta/runtime-evaluation@workspace:packages/runtime-evaluation"],
+
+    "@vetta/runtime-evolution": ["@vetta/runtime-evolution@workspace:packages/runtime-evolution"],
 
     "@vetta/runtime-knowledge": ["@vetta/runtime-knowledge@workspace:packages/runtime-knowledge"],
 

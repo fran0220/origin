@@ -92,4 +92,40 @@ describe("FileEvolutionLedgerStore", () => {
 		expect((await ledger.state(subjectScope("home"))).entries.h).toBeDefined();
 		expect((await ledger.state(globalScope())).entries.h).toBeUndefined();
 	});
+
+	it("keeps project path subjects in distinct files", async () => {
+		const root = await mkdtemp(join(tmpdir(), "vetta-evolution-"));
+		const ledger = new EvolutionLedger(createFileEvolutionLedgerStore(root));
+		const alpha = subjectScope("/tmp/game");
+		const beta = subjectScope("/tmp/game-two");
+		await ledger.record(
+			alpha,
+			{
+				summary: "alpha",
+				rationale: "first project",
+				expectedOutcome: "alpha only",
+				edits: [{ action: "create", entry: { id: "a", kind: "prompt", title: "A", content: "alpha" } }],
+			},
+			REFINEMENT_SOURCE,
+			HOST_ORIGIN,
+			NOW,
+		);
+		await ledger.record(
+			beta,
+			{
+				summary: "beta",
+				rationale: "second project",
+				expectedOutcome: "beta only",
+				edits: [{ action: "create", entry: { id: "b", kind: "prompt", title: "B", content: "beta" } }],
+			},
+			REFINEMENT_SOURCE,
+			HOST_ORIGIN,
+			NOW,
+		);
+		expect((await ledger.state(alpha)).entries.a?.content).toBe("alpha");
+		expect((await ledger.state(beta)).entries.b?.content).toBe("beta");
+		expect((await ledger.state(alpha)).entries.b).toBeUndefined();
+		const alphaFile = await readFile(join(root, "subjects", `${encodeURIComponent("/tmp/game")}.jsonl`), "utf8");
+		expect(alphaFile).toContain('"id":"a"');
+	});
 });

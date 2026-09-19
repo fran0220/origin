@@ -19,6 +19,14 @@ export default defineConfig({
 				),
 			},
 			{
+				find: "@vetta/runtime-evolution",
+				replacement: fileURLToPath(new URL("../../packages/runtime-evolution/src/index.ts", import.meta.url)),
+			},
+			{
+				find: "@vetta/runtime-node/evolution",
+				replacement: fileURLToPath(new URL("../../packages/runtime-node/src/evolution/index.ts", import.meta.url)),
+			},
+			{
 				find: "@vetta/runtime-node/conversation/legacy",
 				replacement: fileURLToPath(new URL("../../packages/runtime-node/src/conversation/legacy.ts", import.meta.url)),
 			},

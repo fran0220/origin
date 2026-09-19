@@ -7,8 +7,10 @@ export {
 	type AccountSelection,
 	accountScopeDirectoryName,
 	accountScopeKey,
+	accountSelectionFilePath,
 	defaultLoggedOutSelection,
 	LOGGED_OUT_PARTITION,
+	parseAccountSelection,
 	resolveAccountPartition,
 	resolveAccountScopedDir,
 } from "./account-scope.js";

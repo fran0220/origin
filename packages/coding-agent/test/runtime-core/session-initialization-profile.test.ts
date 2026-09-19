@@ -43,6 +43,7 @@ describe("Coding Agent session initialization profile", () => {
 			"agentDir",
 			"createCompactionExtensionRuntime",
 			"createContextRuntime",
+			"createHarnessRuntime",
 			"createMemoryRolloverRuntime",
 			"createPluginMcpRuntime",
 			"createPluginRuntime",

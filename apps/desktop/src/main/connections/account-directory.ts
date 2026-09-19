@@ -44,6 +44,10 @@ export function resolveAccountScopedDirForHost(kind: AccountScopeKind, agentDir 
 	return getAccountDirectoryService(agentDir).resolve(kind);
 }
 
+export function resetAccountDirectoryServiceForTests(): void {
+	current = undefined;
+}
+
 class LiveAccountDirectory implements AccountDirectoryService {
 	private currentSelection: AccountSelection;
 

@@ -155,8 +155,16 @@ export default defineConfig({
 				replacement: resolve(__dirname, "../../packages/runtime-knowledge/src/index.ts"),
 			},
 			{
+				find: "@vetta/runtime-evolution",
+				replacement: resolve(__dirname, "../../packages/runtime-evolution/src/index.ts"),
+			},
+			{
 				find: "@vetta/runtime-storage/conversation",
 				replacement: resolve(__dirname, "../../packages/runtime-storage/src/conversation/index.ts"),
+			},
+			{
+				find: "@vetta/runtime-node/evolution",
+				replacement: resolve(__dirname, "../../packages/runtime-node/src/evolution/index.ts"),
 			},
 			{
 				find: "@vetta/runtime-node/conversation",

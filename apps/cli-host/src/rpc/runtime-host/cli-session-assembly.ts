@@ -13,7 +13,7 @@ import {
 	createCodingAgentRuntimeHostSessionConfig,
 	createCodingAgentSessionSetupSeedInitializer,
 } from "@vetta/coding-agent/composition";
-import { getKnowledgeDir, getVettaHomePath } from "@vetta/coding-agent/config";
+import { getKnowledgeDir, getVettaHomePath, resolveNodeAccountScopedDir } from "@vetta/coding-agent/config";
 import {
 	createCodingAgentMcpRuntimeToolSource,
 	createCodingAgentPluginMcpRuntime,
@@ -159,7 +159,9 @@ export async function createCliSessionAssembly(options: CliSessionAssemblyOption
 				process.env.VETTA_KNOWLEDGE_DISABLED === "1" ? undefined : createNodeKnowledgeRuntime(getKnowledgeDir()),
 			createMemoryRolloverRuntime: createCliMemoryRolloverRuntime,
 			createHarnessRuntime: (sessionOptions) => {
-				const ledger = new EvolutionLedger(createFileEvolutionLedgerStore(join(bootstrap.agentDir, "evolution")));
+				const ledger = new EvolutionLedger(
+					createFileEvolutionLedgerStore(resolveNodeAccountScopedDir(bootstrap.agentDir, "evolution")),
+				);
 				const cwd = sessionOptions.cwd ?? bootstrap.cwd;
 				return createCodingAgentHarnessRuntime({
 					ledger,

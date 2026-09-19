@@ -8,7 +8,6 @@ import {
 	emptyEvolutionState,
 	formatScope,
 	HISTORY_DEPTH,
-	isGlobalScope,
 	parseRefinementEventRecord,
 	type RefinementEvent,
 	replayEvents,
@@ -18,9 +17,8 @@ import {
 import lockfile from "proper-lockfile";
 
 function scopeFileName(scope: EvolutionScope): string {
-	if (isGlobalScope(scope)) return "global.jsonl";
-	const subjectId = scope.subjectId.replace(/[^A-Za-z0-9._-]+/g, "_");
-	return join("subjects", `${subjectId}.jsonl`);
+	if (scope.kind === "global") return "global.jsonl";
+	return join("subjects", `${encodeURIComponent(scope.subjectId)}.jsonl`);
 }
 
 function serializeLine(event: RefinementEvent): string {
@@ -52,7 +50,8 @@ export interface FileEvolutionLedgerStoreOptions {
 }
 
 /**
- * Append-only JSONL ledger under `<agentDir>/evolution/`.
+ * Append-only JSONL ledger under an account-scoped `evolution/` root
+ * (`logged-out/evolution` or `accounts/<hash>/evolution`).
  * CAS is enforced with a per-file lock plus expectedRevision.
  */
 export class FileEvolutionLedgerStore implements EvolutionLedgerStore {

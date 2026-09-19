@@ -10,8 +10,8 @@ export function globalScope(): EvolutionScope {
 export function subjectScope(subjectId: string): EvolutionScope {
 	const id = subjectId.trim();
 	validateText(id, MAX_SUBJECT_ID_BYTES, "subject id", true);
-	if (id.includes("/") || id.includes("\\") || id.includes("..")) {
-		throw invalidEvolution("subject id must not contain path separators");
+	if (id.includes("\0") || id === "." || id === "..") {
+		throw invalidEvolution("subject id is not a valid harness scope");
 	}
 	return { kind: "subject", subjectId: id };
 }
@@ -25,8 +25,10 @@ export function isGlobalScope(scope: EvolutionScope): boolean {
 }
 
 export function scopesEqual(left: EvolutionScope, right: EvolutionScope): boolean {
-	if (left.kind !== right.kind) return false;
-	return left.kind === "global" || left.subjectId === right.subjectId;
+	if (left.kind === "global" || right.kind === "global") {
+		return left.kind === "global" && right.kind === "global";
+	}
+	return left.subjectId === right.subjectId;
 }
 
 export function formatScope(scope: EvolutionScope): string {

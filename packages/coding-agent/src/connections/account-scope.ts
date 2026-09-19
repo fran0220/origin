@@ -65,6 +65,22 @@ export function defaultLoggedOutSelection(): AccountSelection {
 	return { scope: null, providerEndpoint: null };
 }
 
+export function parseAccountSelection(value: unknown): AccountSelection {
+	if (!value || typeof value !== "object") return defaultLoggedOutSelection();
+	const record = value as { scope?: unknown; providerEndpoint?: unknown };
+	return {
+		scope: typeof record.scope === "string" && record.scope.length > 0 ? record.scope : null,
+		providerEndpoint:
+			typeof record.providerEndpoint === "string" && record.providerEndpoint.length > 0
+				? record.providerEndpoint
+				: null,
+	};
+}
+
+export function accountSelectionFilePath(agentDir: string): string {
+	return joinPosix(agentDir, ACCOUNT_SELECTION_FILE);
+}
+
 function joinPosix(...parts: string[]): string {
 	return parts
 		.filter((part) => part.length > 0)

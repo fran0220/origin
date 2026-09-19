@@ -4,7 +4,6 @@ import {
 	type EvolutionLedger,
 	type EvolutionScope,
 	HOME_SUBJECT_ID,
-	HOST_ORIGIN,
 	isLedgerRefusal,
 	listEntries,
 	REFINEMENT_SOURCE,
@@ -295,5 +294,3 @@ export function createHarnessPromoteTool(host: HarnessToolHost): RuntimeToolDefi
 export function resolveHarnessSubject(subjectId: string): EvolutionScope {
 	return subjectScope(subjectId);
 }
-
-export { type RefinementProposalSchema, HOST_ORIGIN };

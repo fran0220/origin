@@ -1,4 +1,3 @@
-import { join } from "node:path";
 import { getAgentDir } from "@vetta/coding-agent/config";
 import {
 	EvolutionLedger,
@@ -19,7 +18,8 @@ import {
 	subjectScope,
 } from "@vetta/runtime-evolution";
 import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
-import { DEFAULT_CONVERSATION_CWD, readDesktopConfig } from "../config/desktop-config-store.js";
+import { DEFAULT_CONVERSATION_CWD, readConfigSync } from "../config/desktop-config-store.js";
+import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { sameProjectPath } from "../projects/project-path.js";
 
 export type EvolutionScopeInput =
@@ -39,20 +39,25 @@ export interface EvolutionReadResult {
 	};
 }
 
-function ledgerRoot(): string {
-	return join(getAgentDir(), "evolution");
+export function resolveDesktopEvolutionLedgerRoot(agentDir = getAgentDir()): string {
+	return resolveAccountScopedDirForHost("evolution", agentDir);
 }
 
 let sharedLedger: EvolutionLedger | undefined;
+let sharedLedgerRoot: string | undefined;
 
 export function getDesktopEvolutionLedger(): EvolutionLedger {
-	sharedLedger ??= new EvolutionLedger(createFileEvolutionLedgerStore(ledgerRoot()));
+	const root = resolveDesktopEvolutionLedgerRoot();
+	if (!sharedLedger || sharedLedgerRoot !== root) {
+		sharedLedger = new EvolutionLedger(createFileEvolutionLedgerStore(root));
+		sharedLedgerRoot = root;
+	}
 	return sharedLedger;
 }
 
 export function resolveDesktopHarnessSubjectId(cwd?: string): string {
 	const path = cwd?.trim() || DEFAULT_CONVERSATION_CWD;
-	const config = readDesktopConfig();
+	const config = readConfigSync();
 	const project = config.projects.find((entry) => sameProjectPath(entry.path, path));
 	if (project) return project.path;
 	if (sameProjectPath(path, DEFAULT_CONVERSATION_CWD)) return HOME_SUBJECT_ID;

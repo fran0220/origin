@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
 	accountScopeDirectoryName,
 	accountScopeKey,
+	accountSelectionFilePath,
 	defaultLoggedOutSelection,
+	parseAccountSelection,
 	resolveAccountPartition,
 	resolveAccountScopedDir,
 } from "./account-scope.js";
@@ -26,6 +28,37 @@ describe("account-scoped directories", () => {
 		expect(resolveAccountScopedDir("/home/u/.vetta/agent", "evaluation", defaultLoggedOutSelection())).toBe(
 			"/home/u/.vetta/agent/logged-out/evaluation",
 		);
+	});
+
+	it("puts evolution under logged-out until an account is selected, then isolates each account", () => {
+		const agentDir = "/home/u/.vetta/agent";
+		expect(resolveAccountScopedDir(agentDir, "evolution", defaultLoggedOutSelection())).toBe(
+			"/home/u/.vetta/agent/logged-out/evolution",
+		);
+		const alice = {
+			scope: accountScopeKey("https://api.example.com", "alice"),
+			providerEndpoint: "https://api.example.com",
+		};
+		const bob = {
+			scope: accountScopeKey("https://api.example.com", "bob"),
+			providerEndpoint: "https://api.example.com",
+		};
+		const aliceDir = resolveAccountScopedDir(agentDir, "evolution", alice);
+		const bobDir = resolveAccountScopedDir(agentDir, "evolution", bob);
+		expect(aliceDir).toContain("/accounts/");
+		expect(aliceDir.endsWith("/evolution")).toBe(true);
+		expect(aliceDir).not.toBe(bobDir);
+		expect(aliceDir).not.toBe(resolveAccountScopedDir(agentDir, "evolution", defaultLoggedOutSelection()));
+	});
+
+	it("parses account-selection.json and treats missing or empty fields as logged-out", () => {
+		expect(parseAccountSelection(undefined)).toEqual(defaultLoggedOutSelection());
+		expect(parseAccountSelection({ scope: "", providerEndpoint: "" })).toEqual(defaultLoggedOutSelection());
+		expect(parseAccountSelection({ scope: "s", providerEndpoint: "https://api.example.com" })).toEqual({
+			scope: "s",
+			providerEndpoint: "https://api.example.com",
+		});
+		expect(accountSelectionFilePath("/home/u/.vetta/agent")).toBe("/home/u/.vetta/agent/account-selection.json");
 	});
 
 	it("isolates signed-in accounts from each other and from logged-out data", () => {

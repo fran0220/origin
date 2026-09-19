@@ -35,6 +35,7 @@ import { createCodingAgentPluginMcpRuntime } from "../../plugins/runtime/mcp-run
 import type { CodingAgentSessionStorageTarget, CreateCodingAgentSessionOptions } from "../../public-api/sdk/index.js";
 import { parseCodingAgentLegacySessionDocument } from "../../sessions/legacy/document.js";
 import { createCodingAgentCodingToolResultPolicy } from "../../tool-results/result-policy.js";
+import { resolveNodeAccountScopedDir } from "../account-scoped-dir.js";
 import { CodingAgentSdkExtensionTransitionAdapter } from "../coding-agent-sdk-extension-transition-adapter.js";
 import { CodingAgentSdkResourceSourceAdapter } from "../coding-agent-sdk-resource-source-adapter.js";
 import { resolveCodingAgentSessionDir } from "../coding-agent-session-storage.js";
@@ -264,7 +265,9 @@ async function createCodingAgentSdkSessionComposition(
 			},
 			createHarnessRuntime: (sessionOptions) =>
 				createCodingAgentHarnessRuntime({
-					ledger: new EvolutionLedger(createFileEvolutionLedgerStore(join(agentDir, "evolution"))),
+					ledger: new EvolutionLedger(
+						createFileEvolutionLedgerStore(resolveNodeAccountScopedDir(agentDir, "evolution")),
+					),
 					subjectId: (sessionOptions.cwd ?? cwd).trim() || HOME_SUBJECT_ID,
 				}),
 			modelRegistry,

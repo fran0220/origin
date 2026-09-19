@@ -1,11 +1,4 @@
 export {
-	type CodingAgentHarnessRuntime,
-	type CodingAgentHarnessRuntimeOptions,
-	createCodingAgentHarnessRuntime,
-	createCodingAgentHarnessRuntimeFromLedger,
-	resolveHarnessSubjectId,
-} from "../features/harness/index.js";
-export {
 	type CodingAgentSessionSetup,
 	createCodingAgentSessionSetupSeedInitializer,
 } from "../sessions/setup/session-setup-seed-initializer.js";
@@ -70,6 +63,13 @@ export type {
 	CodingAgentToolEnvironmentContext,
 	CodingAgentToolEnvironmentFactory,
 } from "./contracts/tool-environment.js";
+export {
+	type CodingAgentHarnessRuntime,
+	type CodingAgentHarnessRuntimeOptions,
+	createCodingAgentHarnessRuntime,
+	createCodingAgentHarnessRuntimeFromLedger,
+	resolveHarnessSubjectId,
+} from "./harness-runtime.js";
 export type {
 	KnowledgeProcessingPageWriter,
 	KnowledgeProcessingSession,
