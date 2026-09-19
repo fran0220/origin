@@ -89,6 +89,7 @@
         "@vetta/coding-agent": "workspace:*",
         "@vetta/remote-control": "workspace:*",
         "@vetta/remote-desktop": "workspace:*",
+        "@vetta/runtime-checkpoints": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-desktop": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
@@ -331,6 +332,7 @@
         "@vetta/agent-core": "workspace:*",
         "@vetta/ai": "workspace:*",
         "@vetta/ecosystem-adapter": "workspace:*",
+        "@vetta/runtime-checkpoints": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
         "@vetta/runtime-knowledge": "workspace:*",
@@ -955,6 +957,17 @@
         "typescript": "^5.9.2",
       },
     },
+    "packages/runtime-checkpoints": {
+      "name": "@vetta/runtime-checkpoints",
+      "version": "0.0.1",
+      "dependencies": {
+        "@sinclair/typebox": "^0.34.41",
+      },
+      "devDependencies": {
+        "@types/node": "^22.10.5",
+        "typescript": "^5.9.2",
+      },
+    },
     "packages/runtime-core": {
       "name": "@vetta/runtime-core",
       "version": "0.0.1",
@@ -1030,6 +1043,7 @@
         "@sinclair/typebox": "^0.34.41",
         "@vetta/action-rpc": "workspace:*",
         "@vetta/ai": "workspace:*",
+        "@vetta/runtime-checkpoints": "workspace:*",
         "@vetta/runtime-core": "workspace:*",
         "@vetta/runtime-evaluation": "workspace:*",
         "@vetta/runtime-knowledge": "workspace:*",
@@ -2786,6 +2800,8 @@
     "@vetta/remote-desktop": ["@vetta/remote-desktop@workspace:packages/remote-desktop"],
 
     "@vetta/remote-relay": ["@vetta/remote-relay@workspace:apps/remote-relay"],
+
+    "@vetta/runtime-checkpoints": ["@vetta/runtime-checkpoints@workspace:packages/runtime-checkpoints"],
 
     "@vetta/runtime-core": ["@vetta/runtime-core@workspace:packages/runtime-core"],
 

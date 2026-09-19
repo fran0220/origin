@@ -28,6 +28,7 @@ const LIB_PREFIXES = [
 	"packages/runtime-knowledge/",
 	"packages/runtime-tools/",
 	"packages/runtime-storage/",
+	"packages/runtime-checkpoints/",
 	"packages/runtime-node/",
 	"packages/runtime-mcp/",
 	"packages/runtime-telemetry/",
