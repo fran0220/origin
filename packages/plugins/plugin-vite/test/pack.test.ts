@@ -91,7 +91,7 @@ describe("createOriginPluginPackage", () => {
 			JSON.stringify({
 				name: "@example/origin-plugin-npm-pack-test",
 				version: "0.2.0",
-				originApp: {
+				origin: {
 					schemaVersion: 1,
 					type: "desktop-plugin",
 					pluginId: "npm-pack-test",
@@ -113,7 +113,7 @@ describe("createOriginPluginPackage", () => {
 			JSON.stringify({
 				name: "@example/identity-test",
 				version: "1.0.1",
-				originApp: {
+				origin: {
 					schemaVersion: 1,
 					type: "desktop-plugin",
 					pluginId: "identity-test",

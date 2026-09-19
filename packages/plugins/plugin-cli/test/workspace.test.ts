@@ -371,7 +371,7 @@ describe("docs command", () => {
 		const root = scratch();
 		installManual(root, "0.3.2");
 		write(join(root, "plugin.json"), JSON.stringify({ id: "demo", version: "1.0.0" }));
-		write(join(root, "AGENTS.md"), "<!-- vetta-guide-revision: 1 -->\n# demo\n");
+		write(join(root, "AGENTS.md"), "<!-- origin-guide-revision: 1 -->\n# demo\n");
 		let stdout = "";
 
 		const code = await runPluginCommand(

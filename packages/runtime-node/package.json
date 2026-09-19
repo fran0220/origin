@@ -1,7 +1,7 @@
 {
 	"name": "@origin/runtime-node",
 	"version": "0.0.1",
-	"description": "Shared Node.js runtime adapters for Vetta agents",
+	"description": "Shared Node.js runtime adapters for Origin agents",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

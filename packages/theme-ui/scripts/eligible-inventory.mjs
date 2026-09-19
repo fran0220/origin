@@ -181,9 +181,9 @@ function classify(abs, text, deferrals) {
 		};
 	}
 
-	const hasTheme = /@vetta\/theme-ui/.test(text);
+	const hasTheme = /@origin-org\/theme-ui/.test(text);
 	const hasAtom = /useAtom|from ["']jotai|store\/atoms/.test(text);
-	const hasIpc = /window\.origin/.test(text);
+	const hasIpc = /window\.originApp/.test(text);
 	const hasRouter = /@tanstack\/react-router|useNavigate|useParams|useMatches\b/.test(text);
 	const hasI18n = /react-i18next|useTranslation/.test(text);
 	const hasHostUi = hasValueHostUi(text);
@@ -211,7 +211,7 @@ function classify(abs, text, deferrals) {
 	}
 
 	const isThinReexport =
-		hasTheme && lines <= 45 && !dataHeavy && (/^export \{/.test(text.trim()) || /from ["']@vetta\/theme-ui/.test(text));
+		hasTheme && lines <= 45 && !dataHeavy && (/^export \{/.test(text.trim()) || /from ["']@origin-org\/theme-ui/.test(text));
 	const isAdapter =
 		hasTheme &&
 		lines <= 70 &&

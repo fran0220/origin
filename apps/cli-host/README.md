@@ -5,7 +5,7 @@ CLI and process composition roots around `@origin/coding-agent`.
 ## What It Owns
 
 - process entrypoint for the CLI app
-- the `vetta`, `origin-agent`, and `origin-agent-rpc` executable entrypoints
+- the `origin`, `origin-agent`, and `origin-agent-rpc` executable entrypoints
 - host-profile selection for Print, RPC, and IM RPC execution
 - dedicated JSONL RPC sidecar entrypoint
 - Node RPC Client and child-process lifecycle

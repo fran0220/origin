@@ -284,7 +284,7 @@ describe("refreshing the agent brief in an existing directory", () => {
 		writeFileSync(join(root, "AGENTS.md"), "# hand written\n", "utf8");
 
 		expect(refreshAgentsGuide(root, { force: true }).written).toBe(true);
-		expect(readFileSync(join(root, "AGENTS.md"), "utf8")).toContain("vetta-guide-revision");
+		expect(readFileSync(join(root, "AGENTS.md"), "utf8")).toContain("origin-guide-revision");
 	});
 
 	it("dry-run returns the new brief without touching the file", () => {
@@ -297,7 +297,7 @@ describe("refreshing the agent brief in an existing directory", () => {
 
 		// dry-run 要在「拒绝覆盖」的目录上也能用——它正是人工合并的入口。
 		expect(result.written).toBe(false);
-		expect(result.content).toContain("vetta-guide-revision");
+		expect(result.content).toContain("origin-guide-revision");
 		expect(readFileSync(join(root, "AGENTS.md"), "utf8")).toBe(handWritten);
 	});
 

@@ -169,7 +169,7 @@ $apk = "C:\develop\yiyun\vetta\open-vetta\apps\mobile\androidApp\build\outputs\a
 使用临时目录，避免把真实桌面内容留在仓库：
 
 ```powershell
-$probeDir = Join-Path $env:TEMP "vetta-mobile-probe"
+$probeDir = Join-Path $env:TEMP "origin-mobile-probe"
 New-Item -ItemType Directory -Force $probeDir | Out-Null
 
 & $adb exec-out screencap -p > (Join-Path $probeDir "device-detail.png")

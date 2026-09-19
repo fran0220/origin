@@ -187,7 +187,7 @@ cap.<layer>.<publisher>.<domain>.<operation>
 ```
 
 - `layer`：`foundation` 或 `domain`。
-- `publisher`：能力发布者，例如 `vetta`、`acme`。
+- `publisher`：能力发布者，例如 `origin`、`acme`。
 - `domain`：能力领域，可以包含多级资源段。
 - `operation`：具体操作，使用小写 kebab-case。
 
@@ -303,7 +303,7 @@ const registration = registry.registerModule(module, bindings, {
 
 注册规则：
 
-- `vetta` namespace 只允许宿主内置或经过宿主签名确认的模块注册。
+- `origin` namespace 只允许宿主内置或经过宿主签名确认的模块注册。
 - 外部模块必须使用自己的 publisher namespace。
 - 不同 owner 注册相同 Capability ID 时直接拒绝，不使用静默覆盖。
 - 同一模块升级使用 `stage -> validate -> commit/abort` 原子替换。
@@ -313,7 +313,7 @@ const registration = registry.registerModule(module, bindings, {
 - 新注册能力默认没有任何 Grant。
 
 `registerModule()` 会在修改 Registry 前一次性校验模块元数据、publisher、layer、声明的 Token
-与 Provider binding。`vetta` publisher 只接受宿主明确标记为 `built-in` 的模块。宿主自身按资源聚合的
+与 Provider binding。`origin` publisher 只接受宿主明确标记为 `built-in` 的模块。宿主自身按资源聚合的
 Provider 可以使用低层 `registerOwner()`；外部 Capability Module 必须使用 `registerModule()`。
 
 普通 Plugin、Theme 不因使用扩展系统而自动获得注册底层 Provider 的资格。是否允许某个系统贡献 Capability Module，由对应系统适配层单独决定。

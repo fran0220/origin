@@ -89,12 +89,12 @@ async function createDirectiveFixture(): Promise<string> {
 	await Promise.all([
 		mkdir(join(rootDir, "src"), { recursive: true }),
 		mkdir(join(rootDir, "node_modules", "framer-motion", "dist", "es"), { recursive: true }),
-		mkdir(join(rootDir, "node_modules", "@vetta"), { recursive: true }),
+		mkdir(join(rootDir, "node_modules", "@origin-org"), { recursive: true }),
 	]);
 	await Promise.all([
 		symlinkPackage(mediaViewerRequire.resolve("react/package.json"), join(rootDir, "node_modules", "react")),
 		symlinkPackage(mediaViewerRequire.resolve("react-dom/package.json"), join(rootDir, "node_modules", "react-dom")),
-		symlink(originUiRoot, join(rootDir, "node_modules", "@vetta", "ui"), "junction"),
+		symlink(originUiRoot, join(rootDir, "node_modules", "@origin-org", "ui"), "junction"),
 		writeFile(join(rootDir, "package.json"), JSON.stringify({ private: true, type: "module" })),
 		writeFile(
 			join(rootDir, "plugin.json"),

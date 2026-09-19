@@ -130,10 +130,10 @@ desktop/
 | **旧版** blockmap | 把新版 URL 里的版本号替换成旧版号推出来（`Provider.getBlockMapFiles`），因此**旧版本的 blockmap 不能从 R2 删掉** |
 | 本地基线 `update.zip` | electron-updater 每次下载完成后复制一份 |
 
-缓存目录由 `app-update.yml` 的 `updaterCacheDirName` 决定，当前是 `vetta-updater`，与 Windows 的 `%LOCALAPPDATA%\vetta-updater\` 同名：
+缓存目录由 `app-update.yml` 的 `updaterCacheDirName` 决定，当前是 `origin-updater`，与 Windows 的 `%LOCALAPPDATA%\origin-updater\` 同名：
 
 ```text
-~/Library/Caches/vetta-updater/
+~/Library/Caches/origin-updater/
   update.zip                                  # 差分基线
   pending/                                    # 下载中的新版本
 ~/Library/Caches/com.origin.desktop.ShipIt/    # Squirrel 暂存区
@@ -144,10 +144,10 @@ desktop/
 测试时可以手工播种，跳过那一轮全量（ZIP 必须正是当前已安装版本的那一份）：
 
 ```bash
-mkdir -p ~/Library/Caches/vetta-updater
-cp release/Origin-<installed-version>-arm64-mac.zip ~/Library/Caches/vetta-updater/update.zip
+mkdir -p ~/Library/Caches/origin-updater
+cp release/Origin-<installed-version>-arm64-mac.zip ~/Library/Caches/origin-updater/update.zip
 # 核对与线上清单一致
-shasum -a 512 -b ~/Library/Caches/vetta-updater/update.zip | awk '{print $1}' | xxd -r -p | base64
+shasum -a 512 -b ~/Library/Caches/origin-updater/update.zip | awk '{print $1}' | xxd -r -p | base64
 ```
 
 反过来要复现全量下载，删掉 `update.zip` 即可。
@@ -204,7 +204,7 @@ scripts/release-mac.sh local --version 0.5.62
 bun run --cwd apps/desktop serve:updates:local
 
 # 3. 播种差分基线（第一次需要，之后 electron-updater 会自动维护）
-cp apps/desktop/release/Origin-0.5.62-arm64-mac.zip ~/Library/Caches/vetta-updater/update.zip
+cp apps/desktop/release/Origin-0.5.62-arm64-mac.zip ~/Library/Caches/origin-updater/update.zip
 
 # 4. 改点东西，出下一版
 scripts/release-mac.sh local --version 0.5.63
@@ -225,7 +225,7 @@ scripts/release-mac.sh local --version 0.5.63
 macOS 的本地闭环**必须有 Developer ID 证书**，未签名包走不到暂存阶段（原生 `autoUpdater` 报 `Could not get code signature for running application`）。
 
 ```bash
-source ~/.config/vetta/mac-signing.env
+source ~/.config/origin/mac-signing.env
 security find-identity -v -p codesigning        # 期望 1 valid identity
 ```
 

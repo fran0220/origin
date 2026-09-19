@@ -38,7 +38,7 @@ class KtorWebSocketRemoteTransport(
 				target.pairingToken?.let {
                     headers.append(
                         HttpHeaders.SecWebSocketProtocol,
-						listOfNotNull("vetta.remote.v1", "origin.pairing.$it", target.resumeToken?.let { token -> "vetta.resume.$token" }).joinToString(", "),
+						listOfNotNull("origin.remote.v1", "origin.pairing.$it", target.resumeToken?.let { token -> "origin.resume.$token" }).joinToString(", "),
                     )
                 }
             }

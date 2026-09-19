@@ -18,10 +18,10 @@ import type { McpHttpServerConfig } from "../protocol/index.js";
 import { loadOriginCredentials, originApiUrl } from "./origin-credentials.js";
 
 /**
- * 内置 vetta server 的运行时名。
+ * 内置 origin server 的运行时名。
  * 不能含下划线——工具适配器按 `mcp_${serverName}_${toolName}` 命名并按第一个 `_` 切分。
  */
-export const ORIGIN_BUILTIN_MCP_NAME = "vetta";
+export const ORIGIN_BUILTIN_MCP_NAME = "origin";
 
 /** 服务端 MCP endpoint 的路径（挂在 API 前缀下）。 */
 export const ORIGIN_BUILTIN_MCP_PATH = "/mcp";

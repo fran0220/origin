@@ -34,7 +34,7 @@ describe("plugin add command", () => {
 					packageManifest: {
 						name: "@example/demo",
 						version: "1.2.0",
-						originApp: {
+						origin: {
 							schemaVersion: 1,
 							type: "desktop-plugin",
 							pluginId: "demo",

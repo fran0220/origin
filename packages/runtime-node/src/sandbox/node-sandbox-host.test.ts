@@ -65,7 +65,7 @@ describe("Node sandbox host", () => {
 		expect(policy.allowNetwork).toBe(false);
 		expect(policy.allowReadRoots).toEqual(expect.arrayContaining([cwd, tempRoot, grantRoot]));
 		expect(policy.allowWriteRoots).toEqual(expect.arrayContaining([cwd, tempRoot, grantRoot]));
-		expect(policy.denyReadRoots).toContain(resolve("C:/Users/test/AppData/Roaming/Vetta"));
+		expect(policy.denyReadRoots).toContain(resolve("C:/Users/test/AppData/Roaming/Origin"));
 		expect(policy.denyWriteRoots).toEqual(policy.denyReadRoots);
 		expect(policy.allowReadRoots).toContain(
 			dirname(resolve("C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe")),

@@ -75,7 +75,7 @@ export interface ConnectionReadState {
 	readonly quota?: LiveQuota;
 }
 
-export const SIGNED_IN_CONNECTION_ID = "vetta";
+export const SIGNED_IN_CONNECTION_ID = "origin";
 export const DEFAULT_RELAY_PREFIXES = ["/v1"] as const;
 
 export function isCredentialOrigin(value: unknown): value is CredentialOrigin {

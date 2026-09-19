@@ -32,7 +32,7 @@ apps/desktop/
 │   ├── types.ts          # 对外状态 + 本地 registry 形状
 │   └── manager.ts        # RuntimeManager:探测/seed/下载/applyEnv/status
 ├── src/main/main.ts      # 启动接线:initialize() + applyEnv()(早于 IM bootstrap)
-├── src/main/ipc/runtimes.ts        # vetta:runtimes:get-status / reinstall / redetect
+├── src/main/ipc/runtimes.ts        # origin:runtimes:get-status / reinstall / redetect
 ├── src/preload/{index,api}.ts      # window.originApp.runtimes 桥接 + 类型
 ├── src/renderer/domains/settings/components/EnvironmentSettings.tsx  # 「环境管理」面板
 └── scripts/prepare-pack.js         # 打包时 stageVendorRuntimes() + extraResources
@@ -74,7 +74,7 @@ PIP_TRUSTED_HOST    = pypi.tuna.tsinghua.edu.cn
 
 ## 6. 构建管线(打包时远程拉,不预存源)
 
-与 im-gateway(仓库存 Go 源码、本地交叉编译)不同:**仓库不存 node/python 任何东西**,`prepare-pack.js` 的 `stageVendorRuntimes()` 在**打包时从远程下载预编译包**(Node←npmmirror、Python←GitHub),解压进 `tmpdir/vetta-desktop-build/vendor/`,再由 electron-builder `extraResources` 收进 `Resources/vendor/`。
+与 im-gateway(仓库存 Go 源码、本地交叉编译)不同:**仓库不存 node/python 任何东西**,`prepare-pack.js` 的 `stageVendorRuntimes()` 在**打包时从远程下载预编译包**(Node←npmmirror、Python←GitHub),解压进 `tmpdir/origin-desktop-build/vendor/`,再由 electron-builder `extraResources` 收进 `Resources/vendor/`。
 
 - 缓存:`.vendor-version` 标记,同机重复打包版本未变则跳过下载(tmpdir 清掉则重下,非持久缓存)。
 - 解压:统一用系统 `tar`(Win10 1803+ 自带 bsdtar,zip/tar.gz 通吃)。

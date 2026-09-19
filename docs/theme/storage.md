@@ -53,7 +53,7 @@ function SanctumPage() {
 | `@origin-org/theme-sdk/storage` | 类型与 facade hook |
 | desktop `ThemeHost.storage` | 绑定 active themeId、内存缓存、乐观更新 |
 | main `theme-data-store` | 校验、配额、原子写文件 |
-| preload `vetta.themes.storage` | IPC 桥（仅 host 使用） |
+| preload `originApp.themes.storage` | IPC 桥（仅 host 使用） |
 
 磁盘路径：
 

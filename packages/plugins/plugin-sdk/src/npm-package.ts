@@ -20,7 +20,7 @@ export type OriginNpmPluginMetadata = Static<typeof OriginNpmPluginMetadataSchem
 export interface OriginNpmPluginPackage {
 	name: string;
 	version: string;
-	vetta: OriginNpmPluginMetadata;
+	origin: OriginNpmPluginMetadata;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -37,14 +37,14 @@ export function parseOriginNpmPluginPackage(value: unknown): OriginNpmPluginPack
 		throw new Error("Invalid npm plugin package: version must be a semantic version");
 	}
 	if (!Value.Check(OriginNpmPluginMetadataSchema, value.origin)) {
-		throw new Error("Invalid npm plugin package: package.json#vetta does not match schema version 1");
+		throw new Error("Invalid npm plugin package: package.json#origin does not match schema version 1");
 	}
 
 	const metadata = value.origin as OriginNpmPluginMetadata;
 	return {
 		name: value.name.trim(),
 		version: value.version,
-		originApp: {
+		origin: {
 			...metadata,
 			archive: validatePluginRelativePath(metadata.archive.trim(), "npm archive"),
 		},

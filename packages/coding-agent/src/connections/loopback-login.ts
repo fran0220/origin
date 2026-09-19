@@ -250,8 +250,8 @@ function defaultDeviceName(): string {
 
 function defaultPages(): PkceLoginPages {
 	return {
-		successHtml: `<!doctype html><meta charset="utf-8"><title>Vetta</title><body style="font:16px system-ui;padding:48px">Authorized. You can close this window.</body>`,
-		failureHtml: `<!doctype html><meta charset="utf-8"><title>Vetta</title><body style="font:16px system-ui;padding:48px">Authorization failed. You can close this window and retry in the app.</body>`,
+		successHtml: `<!doctype html><meta charset="utf-8"><title>Origin</title><body style="font:16px system-ui;padding:48px">Authorized. You can close this window.</body>`,
+		failureHtml: `<!doctype html><meta charset="utf-8"><title>Origin</title><body style="font:16px system-ui;padding:48px">Authorization failed. You can close this window and retry in the app.</body>`,
 	};
 }
 

@@ -4,7 +4,7 @@
 	"description": "Coding Agent features, policies, and stable API semantics",
 	"type": "module",
 	"piConfig": {
-		"name": "vetta"
+		"name": "origin"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

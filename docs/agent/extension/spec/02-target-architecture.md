@@ -75,7 +75,7 @@ interface ContributionIdentity {
 
 IR 不出现 Pi `ExtensionAPI`、`pi-tui`、Pi `ModelRegistry`、TypeBox 1 `TSchema` 或具体 loader 对象。结构化交互是 context action port，不是可注册 UI contribution。
 
-为了保持 Origin native Extension 的既有行为，`ShortcutContribution` 和 `HostPresentationContribution` 可以承载当前 Origin host 的 shortcut/message renderer/tool renderer binding，但它们明确标记 `origin: "vetta-native"`，只由 native registration adapter 生成，不进入 Runtime Core。Pi compatibility compiler 没有生成这两种 contribution 的权限；Pi renderer 仍被剥离或拒绝。
+为了保持 Origin native Extension 的既有行为，`ShortcutContribution` 和 `HostPresentationContribution` 可以承载当前 Origin host 的 shortcut/message renderer/tool renderer binding，但它们明确标记 `origin: "origin-native"`，只由 native registration adapter 生成，不进入 Runtime Core。Pi compatibility compiler 没有生成这两种 contribution 的权限；Pi renderer 仍被剥离或拒绝。
 
 `ContributionSet` 必须是不可变快照；动态注册通过新 transaction 生成新 revision，而不是原地修改已发布对象。执行中的 Turn 继续持有本次需要的稳定 binding，下一 model call 观察新 revision。
 

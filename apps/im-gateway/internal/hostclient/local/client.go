@@ -16,7 +16,7 @@ import (
 // defaults from internal/config.
 type Options struct {
 	// Bin is the path to the coding-agent binary. If empty, defaults to
-	// "vetta" (the published binary name) and PATH lookup is used.
+	// "origin" (the published binary name) and PATH lookup is used.
 	Bin string
 
 	// HandshakeTimeout bounds OpenSession.
@@ -66,7 +66,7 @@ type Options struct {
 }
 
 const (
-	defaultBin = "vetta"
+	defaultBin = "origin"
 	// Cold-start budget: the desktop host's agent binary is Vetta.app itself,
 	// whose first spawn after launch/update takes ~10s (Electron + asar) vs
 	// ~1s warm. Keep in sync with config.DefaultHandshakeTimeout.

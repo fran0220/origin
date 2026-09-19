@@ -609,7 +609,7 @@ desktop 一个**全局快捷键唤出的独立悬浮窗**（frameless、alwaysOn
 
 面板由上到下两块：一个**纯文本输入框**（v1 不支持 [[mentionedFile]] / [[attachedImage]] / `/skill`，复杂带附件任务回主窗做）+ 一个[[最近会话面板]]列表。输入框打字 + Enter 在「对话」scope（[[conversation cwd]]）**新建一个 session 并运行**，复用「对话」默认模型与 `defaultExecutionMode`（面板无模型选择器）。
 
-默认**不启用**：触发选择与发送后行为都在设置页「快捷键设置」里，配置写 main 进程 desktop config（`~/.origin/config.json`，与 `notificationsEnabled`/`experimental` 同处），**不**走既有 `vetta-shortcuts` localStorage——因触发监听在 main 进程、读不到 renderer localStorage。见 [[快捷面板触发器]]。
+默认**不启用**：触发选择与发送后行为都在设置页「快捷键设置」里，配置写 main 进程 desktop config（`~/.origin/config.json`，与 `notificationsEnabled`/`experimental` 同处），**不**走既有 `origin-shortcuts` localStorage——因触发监听在 main 进程、读不到 renderer localStorage。见 [[快捷面板触发器]]。
 
 ### 快捷面板触发器（Quick Panel trigger）
 

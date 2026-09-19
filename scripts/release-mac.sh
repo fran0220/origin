@@ -19,8 +19,8 @@
 # `stapler validate` 挡住它们。
 #
 # 凭据来自两个文件，都不进仓库：
-#   ~/.config/vetta/mac-signing.env    签名与公证（通道无关）
-#   ~/.config/vetta/r2-<channel>.env   R2 凭据与通道配置（local 通道不需要）
+#   ~/.config/origin/mac-signing.env    签名与公证（通道无关）
+#   ~/.config/origin/r2-<channel>.env   R2 凭据与通道配置（local 通道不需要）
 #
 # 构建期的 ORIGIN_UPDATE_PROVIDER / ORIGIN_UPDATE_URL 由本脚本直接注入，
 # 因此不依赖 apps/desktop/.env.development 里有没有配这两项。
@@ -29,7 +29,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DESKTOP_DIR="${REPO_ROOT}/apps/desktop"
-SIGNING_ENV="${HOME}/.config/vetta/mac-signing.env"
+SIGNING_ENV="${HOME}/.config/origin/mac-signing.env"
 # 一切都以脚本自身位置为准，不依赖调用者的 cwd。
 cd "${REPO_ROOT}"
 
@@ -110,7 +110,7 @@ if [[ "${CHANNEL}" == "local" ]]; then
 	export ORIGIN_UPDATE_URL="http://127.0.0.1:${LOCAL_UPDATE_PORT}"
 	unset ORIGIN_REQUIRE_MAC_SIGNATURE
 else
-	CHANNEL_ENV="${HOME}/.config/vetta/r2-${CHANNEL}.env"
+	CHANNEL_ENV="${HOME}/.config/origin/r2-${CHANNEL}.env"
 	[[ -f "${CHANNEL_ENV}" ]] || die "找不到通道配置 ${CHANNEL_ENV}"
 	# shellcheck source=/dev/null
 	source "${CHANNEL_ENV}"
@@ -262,7 +262,7 @@ if [[ "${CHANNEL}" == "local" ]]; then
 	echo "  1. 起分发服务（另开一个终端，必须保持运行）："
 	echo "       bun run --cwd apps/desktop serve:updates:local"
 	echo "  2. 首次：装 release/ 里的 DMG 到 /Applications，然后播种差分基线："
-	echo "       cp release/Vetta-${VERSION}-arm64-mac.zip ~/Library/Caches/vetta-updater/update.zip"
+	echo "       cp release/Vetta-${VERSION}-arm64-mac.zip ~/Library/Caches/origin-updater/update.zip"
 	echo "  3. 再构建一个更高版本，从终端启动旧版验证更新："
 	echo "       /Applications/Vetta.app/Contents/MacOS/Vetta"
 	echo "  详见 docs/desktop/macos-auto-update.md 第 7 节"

@@ -25,7 +25,7 @@ export interface ResolvedNpmPluginArchive {
 export interface NpmPluginPackageManifest {
 	name: string;
 	version: string;
-	originApp: {
+	origin: {
 		schemaVersion: 1;
 		type: "desktop-plugin";
 		pluginId: string;
@@ -193,7 +193,7 @@ export async function resolveNpmPluginArchive(
 		const archivePath = await extractRegularFile(tarballPath, temporaryRoot, packageManifest.origin.archive);
 		const archive = await readFile(archivePath);
 		if (archive.length > MAX_PLUGIN_ARCHIVE_BYTES) {
-			throw new Error("Vetta plugin archive exceeds the 512 MB limit");
+			throw new Error("Origin plugin archive exceeds the 512 MB limit");
 		}
 
 		return {

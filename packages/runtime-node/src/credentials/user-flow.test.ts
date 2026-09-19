@@ -10,7 +10,7 @@ import { CredentialVault } from "./vault.js";
 
 const ACCOUNT_TOKEN = "account-access-token-value";
 const BYOK_KEY = "sk-test-byok-secret-value";
-const SIGNED_IN = "vetta";
+const SIGNED_IN = "origin";
 
 describe("Connection user flow", () => {
 	const servers: Array<{ close: () => Promise<void> }> = [];
@@ -19,7 +19,7 @@ describe("Connection user flow", () => {
 		await Promise.all(servers.splice(0).map((server) => server.close()));
 	});
 
-	it("登录出现 Vetta Connection，粘 BYOK Key 后可转发，登出后仅 Vetta 不可用", async () => {
+	it("登录出现 Origin Connection，粘 BYOK Key 后可转发，登出后仅 Origin 不可用", async () => {
 		const root = mkdtempSync(join(tmpdir(), "origin-flow-"));
 		const vault = new CredentialVault(root, new OwnerOnlyFileCryptography(ownerOnlyKeyDirectory(root)));
 		vault.put(connectionSecretRef(SIGNED_IN), ACCOUNT_TOKEN, { kind: "connection-secret", consumer: SIGNED_IN });

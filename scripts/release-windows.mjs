@@ -35,8 +35,8 @@ function usage(exitCode = 1) {
   --skip-publish  构建并校验产物，但不上传 R2
   --yes           跳过 stable 发布前的版本号确认
 
-配置优先级：当前 Shell > ~/.config/vetta/r2-<channel>.env
-            > ~/.config/vetta/r2.env > desktop-app 对应环境文件
+配置优先级：当前 Shell > ~/.config/origin/r2-<channel>.env
+            > ~/.config/origin/r2.env > desktop-app 对应环境文件
 
 test 读取 apps/desktop/.env.development，且必须显式指定版本；
 stable 的服务器、站点和发布目标强制读取 .env.production，版本只取 package.json。`);
@@ -93,8 +93,8 @@ function loadEnvironment(channel) {
 	const inheritedEnvironment = { ...process.env };
 	const environmentFiles = [
 		join(desktopDir, channel === "stable" ? ".env.production" : ".env.development"),
-		join(homedir(), ".config", "vetta", "r2.env"),
-		join(homedir(), ".config", "vetta", `r2-${channel}.env`),
+		join(homedir(), ".config", "origin", "r2.env"),
+		join(homedir(), ".config", "origin", `r2-${channel}.env`),
 	];
 	const loadedFiles = [];
 	for (const filePath of environmentFiles) {

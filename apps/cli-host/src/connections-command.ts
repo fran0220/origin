@@ -11,10 +11,10 @@ import { z } from "zod";
 import { connectionSecretRef, createCliCredentialVault } from "./cli-credential-host.js";
 
 const HELP_TEXT = `Usage:
-  vetta connections list
-  vetta connections add --name <name> --endpoint <origin> [--protocol openai] [--secret-env VAR]
-  vetta connections remove <id>
-  vetta connections -h
+  origin connections list
+  origin connections add --name <name> --endpoint <origin> [--protocol openai] [--secret-env VAR]
+  origin connections remove <id>
+  origin connections -h
 
 Connection descriptors never include secrets. Keys are stored in the CLI vault.
 `;
@@ -77,7 +77,7 @@ export async function runConnectionsCommand(command: ConnectionsCommand): Promis
 	}
 	if (command.type === "remove") {
 		if (command.id === SIGNED_IN_CONNECTION_ID) {
-			writeSync(2, "Use `vetta auth logout` to leave a signed-in Connection.\n");
+			writeSync(2, "Use `origin auth logout` to leave a signed-in Connection.\n");
 			return 2;
 		}
 		const vault = createCliCredentialVault();

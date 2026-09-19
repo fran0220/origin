@@ -1,7 +1,7 @@
-export const REMOTE_WEBSOCKET_PROTOCOL = "vetta.remote.v1";
+export const REMOTE_WEBSOCKET_PROTOCOL = "origin.remote.v1";
 export const PAIRING_PROTOCOL_PREFIX = "origin.pairing.";
-export const BOOTSTRAP_PROTOCOL_PREFIX = "vetta.bootstrap.";
-export const RESUME_PROTOCOL_PREFIX = "vetta.resume.";
+export const BOOTSTRAP_PROTOCOL_PREFIX = "origin.bootstrap.";
+export const RESUME_PROTOCOL_PREFIX = "origin.resume.";
 
 const pairingIdPattern = /^[A-Za-z0-9_-]{24,128}$/;
 const pairingSecretPattern = /^[A-Za-z0-9_-]{32,256}$/;

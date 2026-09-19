@@ -32,12 +32,12 @@ export interface CredentialVaultWarning {
 
 export const ACCOUNT_ACCESS_TOKEN_REF: CredentialRef = {
 	namespace: "account",
-	ownerId: "vetta",
+	ownerId: "origin",
 	name: "access-token",
 };
 export const ACCOUNT_REFRESH_TOKEN_REF: CredentialRef = {
 	namespace: "account",
-	ownerId: "vetta",
+	ownerId: "origin",
 	name: "refresh-token",
 };
 

@@ -30,8 +30,8 @@ const LINUX_ENV_WHITELIST = [
 	"ORIGIN_DESKTOP_EXE",
 	"ORIGIN_CLI_APP_PATH",
 ] as const;
-const SANDBOX_HOME = "/tmp/vetta-home";
-const SANDBOX_BIN_DIR = "/vetta-bin";
+const SANDBOX_HOME = "/tmp/origin-home";
+const SANDBOX_BIN_DIR = "/origin-bin";
 const STANDARD_READ_ONLY_ROOTS = ["/usr", "/bin", "/sbin", "/lib", "/lib64", "/etc"] as const;
 
 export interface LinuxBubblewrapCommandOptions {
@@ -171,7 +171,7 @@ function collectEnvReadOnlyMounts(env: NodeSandboxEnvironment | undefined): {
 	return { dirs, files };
 }
 
-function readConfiguredVettaPaths(env: NodeSandboxEnvironment | undefined): {
+function readConfiguredOriginPaths(env: NodeSandboxEnvironment | undefined): {
 	readonly originAppPath?: string;
 	readonly originCliAppPath?: string;
 } {
@@ -192,13 +192,13 @@ function readConfiguredVettaPaths(env: NodeSandboxEnvironment | undefined): {
 
 function resolveOriginDesktopExe(env: NodeSandboxEnvironment | undefined): string | undefined {
 	return existingFile(
-		env?.ORIGIN_DESKTOP_EXE ?? process.env.ORIGIN_DESKTOP_EXE ?? readConfiguredVettaPaths(env).originAppPath,
+		env?.ORIGIN_DESKTOP_EXE ?? process.env.ORIGIN_DESKTOP_EXE ?? readConfiguredOriginPaths(env).originAppPath,
 	);
 }
 
 function resolveOriginCliAppPath(env: NodeSandboxEnvironment | undefined): string | undefined {
 	return existingFile(
-		env?.ORIGIN_CLI_APP_PATH ?? process.env.ORIGIN_CLI_APP_PATH ?? readConfiguredVettaPaths(env).originCliAppPath,
+		env?.ORIGIN_CLI_APP_PATH ?? process.env.ORIGIN_CLI_APP_PATH ?? readConfiguredOriginPaths(env).originCliAppPath,
 	);
 }
 
@@ -208,7 +208,7 @@ function createOriginCliShim(
 	const originCliAppPath = resolveOriginCliAppPath(env);
 	if (!originCliAppPath) return undefined;
 	const hostDir = mkdtempSync(join(tmpdir(), "origin-linux-sandbox-bin-"));
-	const hostPath = join(hostDir, "vetta");
+	const hostPath = join(hostDir, "origin");
 	writeFileSync(hostPath, ["#!/usr/bin/env sh", `exec "${originCliAppPath}" "$@"`, ""].join("\n"), "utf8");
 	chmodSync(hostPath, 0o755);
 	return { hostDir, hostPath };
@@ -258,7 +258,7 @@ export function buildLinuxSandboxArgs(
 		mountedRoots.add(root);
 	}
 	if (originCliShimPath)
-		args.push("--dir", SANDBOX_BIN_DIR, "--ro-bind", originCliShimPath, `${SANDBOX_BIN_DIR}/vetta`);
+		args.push("--dir", SANDBOX_BIN_DIR, "--ro-bind", originCliShimPath, `${SANDBOX_BIN_DIR}/origin`);
 	for (const root of grant?.allowWriteRoots ?? []) {
 		const normalizedRoot = resolvePath(root);
 		if (!existsSync(normalizedRoot) || mountedRoots.has(normalizedRoot)) continue;

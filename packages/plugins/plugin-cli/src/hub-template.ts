@@ -11,7 +11,7 @@ import { AGENTS_GUIDE_REVISION } from "./agents-template.js";
  */
 
 export function renderHubAgentsGuide(input: { name: string }): string {
-	return `<!-- vetta-guide-revision: ${AGENTS_GUIDE_REVISION} -->
+	return `<!-- origin-guide-revision: ${AGENTS_GUIDE_REVISION} -->
 # ${input.name}
 
 Vetta 能力市场仓库。本仓库索引若干**能力**（plugin / mcp / skill / scene / bundle），

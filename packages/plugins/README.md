@@ -50,7 +50,7 @@ Preset 不会安装到 `~/.origin/plugins`。
   "name": "@example/origin-plugin-demo",
   "version": "1.0.0",
   "files": ["release/origin-plugin.zip"],
-  "vetta": {
+  "origin": {
     "schemaVersion": 1,
     "type": "desktop-plugin",
     "pluginId": "demo",

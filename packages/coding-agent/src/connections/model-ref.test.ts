@@ -20,7 +20,7 @@ describe("Connection model naming", () => {
 		expect(parseBoundModelRef("openai:gpt-4o")).toEqual({ connectionId: "openai", upstreamModelId: "gpt-4o" });
 		expect(parseBoundModelRef("openai/gpt-4o")).toEqual({ connectionId: "openai", upstreamModelId: "gpt-4o" });
 		expect(parseBoundModelRef("origin:origin/fast")).toEqual({
-			connectionId: "vetta",
+			connectionId: "origin",
 			upstreamModelId: "origin/fast",
 		});
 	});

@@ -18,7 +18,7 @@ describe("canonical executable ownership", () => {
 		const codingAgent = readPackageManifest("../../../packages/coding-agent/package.json");
 
 		expect(cliApp.bin).toEqual({
-			vetta: "dist/cli.js",
+			origin: "dist/cli.js",
 			"origin-agent": "dist/agent-cli.js",
 			"origin-cli-app": "dist/cli.js",
 			"origin-agent-rpc": "dist/agent-rpc-cli.js",

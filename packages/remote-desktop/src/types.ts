@@ -1,5 +1,5 @@
 export const REMOTE_DESKTOP_PROTOCOL_VERSION = 1 as const;
-export const REMOTE_DESKTOP_WEBSOCKET_PROTOCOL = "vetta.desktop.v1";
+export const REMOTE_DESKTOP_WEBSOCKET_PROTOCOL = "origin.desktop.v1";
 
 export type RemoteDesktopRole = "viewer" | "host";
 

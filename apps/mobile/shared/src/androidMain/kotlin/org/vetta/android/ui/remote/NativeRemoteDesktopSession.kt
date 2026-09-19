@@ -139,7 +139,7 @@ class NativeRemoteDesktopSession(private val context: Context, private val targe
             val (socketUrl, token) = splitTarget(target)
             val socket = client.webSocketSession {
                 url.takeFrom(socketUrl)
-                headers.append(HttpHeaders.SecWebSocketProtocol, listOf("vetta.desktop.v1", "origin.pairing.$token").joinToString(", "))
+                headers.append(HttpHeaders.SecWebSocketProtocol, listOf("origin.desktop.v1", "origin.pairing.$token").joinToString(", "))
             }
             signaling = socket
             PlatformRemoteLogger.info("native WebRTC signaling connected")

@@ -6,7 +6,7 @@ import { isSessionPathInDirectory, PathFilteredRuntimeSessionCatalog } from "./s
 describe("PathFilteredRuntimeSessionCatalog", () => {
 	it("keeps IM ownership separate from Desktop Runtime ownership", async () => {
 		const catalog = alwaysOwnedCatalog();
-		const sessionDir = join(process.cwd(), "vetta", "im", ".origin", "sessions");
+		const sessionDir = join(process.cwd(), "origin", "im", ".origin", "sessions");
 		const imCatalog = new PathFilteredRuntimeSessionCatalog(catalog, (path) =>
 			isSessionPathInDirectory(path, sessionDir),
 		);

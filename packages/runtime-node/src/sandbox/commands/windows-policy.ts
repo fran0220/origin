@@ -51,7 +51,7 @@ export function getWindowsSensitiveDenyRoots(env: HostEnvironment | undefined = 
 			join(homeDir, ".kube"),
 			join(homeDir, ".docker"),
 			appData ? join(appData, "gcloud") : undefined,
-			appData ? join(appData, "Vetta") : undefined,
+			appData ? join(appData, "Origin") : undefined,
 			join(homeDir, getOriginConfigDirName(), "agent"),
 			join(homeDir, ".pi"),
 		]),

@@ -11,8 +11,8 @@ import type {
 } from "@origin/runtime-checkpoints";
 import { checkpointShadowGitDir } from "./layout.js";
 
-const CHECKPOINT_TRAILER = "Vetta-Checkpoint";
-const REVERT_TRAILER = "Vetta-Revert";
+const CHECKPOINT_TRAILER = "Origin-Checkpoint";
+const REVERT_TRAILER = "Origin-Revert";
 const EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
 const EXCLUDE_PATHS = [".origin/", "node_modules/"];
 
@@ -132,12 +132,12 @@ async function gitEnv(
 		await git(gitCommand, { cwd, env: { GIT_DIR: gitDir, GIT_WORK_TREE: cwd } }, [
 			"config",
 			"user.email",
-			"checkpoints@vetta.local",
+			"checkpoints@origin.local",
 		]);
 		await git(gitCommand, { cwd, env: { GIT_DIR: gitDir, GIT_WORK_TREE: cwd } }, [
 			"config",
 			"user.name",
-			"Vetta Checkpoints",
+			"Origin Checkpoints",
 		]);
 		await git(gitCommand, { cwd, env: { GIT_DIR: gitDir, GIT_WORK_TREE: cwd } }, [
 			"config",

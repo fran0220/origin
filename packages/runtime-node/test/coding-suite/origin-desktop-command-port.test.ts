@@ -4,16 +4,16 @@ import { NodeCommandProcessAbortedError } from "../../src/coding/host/command-pr
 import { createNodeOriginDesktopCommandPort } from "../../src/coding/host/origin-desktop-command-port.js";
 import { type CommandProcessPort, DesktopCommandAbortedError } from "../../src/coding/shared/desktop-command.js";
 
-describe("Node Vetta Desktop command port", () => {
+describe("Node Origin Desktop command port", () => {
 	it("prefers the explicit environment executable without reading configuration", async () => {
 		const readTextFile = vi.fn<() => Promise<string>>();
 		const port = createNodeOriginDesktopCommandPort({
-			environment: { ORIGIN_DESKTOP_EXE: "C:\\tools\\Vetta.exe" },
-			fileExists: async (filePath) => filePath === "C:\\tools\\Vetta.exe",
+			environment: { ORIGIN_DESKTOP_EXE: "C:\\tools\\Origin.exe" },
+			fileExists: async (filePath) => filePath === "C:\\tools\\Origin.exe",
 			readTextFile,
 		});
 
-		await expect(port.locate()).resolves.toEqual({ path: "C:\\tools\\Vetta.exe" });
+		await expect(port.locate()).resolves.toEqual({ path: "C:\\tools\\Origin.exe" });
 		expect(readTextFile).not.toHaveBeenCalled();
 	});
 
@@ -23,14 +23,14 @@ describe("Node Vetta Desktop command port", () => {
 			platform: "linux",
 			environment: {},
 			originHomePath: "/home/test/.origin",
-			fileExists: async (filePath) => filePath === "/opt/vetta/Vetta",
+			fileExists: async (filePath) => filePath === "/opt/Origin/Origin",
 			readTextFile: async (filePath) => {
 				requestedFiles.push(filePath);
-				return JSON.stringify({ originAppPath: "/opt/vetta/Vetta", ignored: true });
+				return JSON.stringify({ originAppPath: "/opt/Origin/Origin", ignored: true });
 			},
 		});
 
-		await expect(port.locate()).resolves.toEqual({ path: "/opt/vetta/Vetta" });
+		await expect(port.locate()).resolves.toEqual({ path: "/opt/Origin/Origin" });
 		expect(requestedFiles).toEqual([nodePath.join("/home/test/.origin", "desktop-config.json")]);
 	});
 
@@ -39,13 +39,13 @@ describe("Node Vetta Desktop command port", () => {
 			platform: "darwin",
 			environment: {},
 			originHomePath: "/home/test/.origin",
-			fileExists: async (filePath) => filePath === "/Applications/Vetta.app/Contents/MacOS/Vetta",
-			readTextFile: async () => JSON.stringify({ originAppPath: "/old/Vetta" }),
+			fileExists: async (filePath) => filePath === "/Applications/Origin.app/Contents/MacOS/Origin",
+			readTextFile: async () => JSON.stringify({ originAppPath: "/old/Origin" }),
 		});
 
 		await expect(port.locate()).resolves.toEqual({
-			path: "/Applications/Vetta.app/Contents/MacOS/Vetta",
-			staleConfiguredPath: "/old/Vetta",
+			path: "/Applications/Origin.app/Contents/MacOS/Origin",
+			staleConfiguredPath: "/old/Origin",
 		});
 	});
 
@@ -55,10 +55,10 @@ describe("Node Vetta Desktop command port", () => {
 			environment: {},
 			originHomePath: "/home/test/.origin",
 			fileExists: async () => false,
-			readTextFile: async () => JSON.stringify({ originAppPath: "/old/Vetta" }),
+			readTextFile: async () => JSON.stringify({ originAppPath: "/old/Origin" }),
 		});
 
-		await expect(port.locate()).rejects.toThrow("Configured originAppPath is stale: /old/Vetta");
+		await expect(port.locate()).rejects.toThrow("Configured originAppPath is stale: /old/Origin");
 	});
 
 	it("maps Node process cancellation to the platform-neutral command error", async () => {
@@ -69,6 +69,6 @@ describe("Node Vetta Desktop command port", () => {
 		};
 		const port = createNodeOriginDesktopCommandPort({ commandProcess });
 
-		await expect(port.run("Vetta", [], { timeoutMs: 1 })).rejects.toBeInstanceOf(DesktopCommandAbortedError);
+		await expect(port.run("Origin", [], { timeoutMs: 1 })).rejects.toBeInstanceOf(DesktopCommandAbortedError);
 	});
 });

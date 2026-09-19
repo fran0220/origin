@@ -41,12 +41,12 @@ if [[ -z "$BUN_GLOBAL_BIN" ]]; then
 fi
 
 mkdir -p "$BUN_GLOBAL_BIN"
-ln -sf "$CLI_APP_DIR/dist/cli.js" "$BUN_GLOBAL_BIN/vetta"
+ln -sf "$CLI_APP_DIR/dist/cli.js" "$BUN_GLOBAL_BIN/origin"
 ln -sf "$CLI_APP_DIR/dist/agent-cli.js" "$BUN_GLOBAL_BIN/origin-agent"
 ln -sf "$CLI_APP_DIR/dist/agent-rpc-cli.js" "$BUN_GLOBAL_BIN/origin-agent-rpc"
 
 echo "Bun global bin: $BUN_GLOBAL_BIN"
 
 echo ""
-echo "Done. You can now run 'vetta', 'origin-agent', or 'origin-agent-rpc' from any directory."
-echo "Check: vetta --help"
+echo "Done. You can now run 'origin', 'origin-agent', or 'origin-agent-rpc' from any directory."
+echo "Check: origin --help"

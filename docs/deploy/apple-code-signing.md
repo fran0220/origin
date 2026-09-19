@@ -170,7 +170,7 @@ CI 上 `CSC_LINK` 可以直接放 base64：`export CSC_LINK="$(base64 -i develop
 |---|---|
 | `developer-id.p12` | 签名私钥 |
 | `AuthKey_<KeyID>.p8` | 公证密钥 |
-| `~/.config/vetta/mac-signing.env` | 复制过去，`ORIGIN_SIGNING_DIR` 改成新机器上的实际目录 |
+| `~/.config/origin/mac-signing.env` | 复制过去，`ORIGIN_SIGNING_DIR` 改成新机器上的实际目录 |
 
 凭据放在移动硬盘、且挂载点相同的话，env 文件一个字都不用改。
 
@@ -179,7 +179,7 @@ CI 上 `CSC_LINK` 可以直接放 base64：`export CSC_LINK="$(base64 -i develop
 就绪自检：
 
 ```bash
-source ~/.config/vetta/mac-signing.env      # 不报「找不到 ...」= 路径对
+source ~/.config/origin/mac-signing.env      # 不报「找不到 ...」= 路径对
 security find-identity -v -p codesigning    # 1 valid identity
 xcrun notarytool history --key "$APPLE_API_KEY" --key-id "$APPLE_API_KEY_ID" --issuer "$APPLE_API_ISSUER"
 ```

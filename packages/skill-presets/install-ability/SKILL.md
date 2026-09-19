@@ -45,7 +45,7 @@ npx 不可用或离线时，用系统插件「制作插件」内置的同一份 
 node "{workbenchRoot}/agent/cli/origin-plugin-cli.js" add <source> --json
 ```
 
-CLI 不直接写插件目录，它把请求交给正在运行的宿主校验、审批、安装。npm 包会以关闭生命周期脚本的方式下载，只解出 `package.json#vetta.archive` 声明的那个归档。
+CLI 不直接写插件目录，它把请求交给正在运行的宿主校验、审批、安装。npm 包会以关闭生命周期脚本的方式下载，只解出 `package.json#origin.archive` 声明的那个归档。
 
 ### 2.2 安装后必须重载（本 skill 的核心）
 

@@ -331,7 +331,7 @@ describe("Coding Agent architecture gate", () => {
 		const identityProcessRead = createState([
 			{
 				path: `${SOURCE_ROOT}/identity.ts`,
-				text: 'export const APP_NAME = process.env.APP_NAME ?? "vetta";',
+				text: 'export const APP_NAME = process.env.APP_NAME ?? "origin";',
 			},
 		]);
 		const mixedFacade = createState([

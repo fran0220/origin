@@ -127,8 +127,8 @@ describe("source ownership filters", () => {
 
 describe("vetta-nested path discovery", () => {
 	it("loads Codex handlers from .origin/.codex and ignores top-level official + Claude", async () => {
-		const home = await makeTempDir("vetta-codex-home-");
-		const project = await makeTempDir("vetta-codex-proj-");
+		const home = await makeTempDir("origin-codex-home-");
+		const project = await makeTempDir("origin-codex-proj-");
 		const originHome = join(home, ".origin");
 
 		await mkdir(join(originHome, ".codex"), { recursive: true });
@@ -163,8 +163,8 @@ describe("vetta-nested path discovery", () => {
 	});
 
 	it("loads Claude handlers from .origin/.claude settings including extra keys", async () => {
-		const home = await makeTempDir("vetta-claude-home-");
-		const project = await makeTempDir("vetta-claude-proj-");
+		const home = await makeTempDir("origin-claude-home-");
+		const project = await makeTempDir("origin-claude-proj-");
 		const originHome = join(home, ".origin");
 
 		await mkdir(join(originHome, ".claude"), { recursive: true });

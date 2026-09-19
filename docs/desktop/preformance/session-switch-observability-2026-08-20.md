@@ -40,14 +40,14 @@
 在 Desktop Renderer DevTools Console 执行：
 
 ```js
-localStorage.setItem("vetta-perf-session-switch", "1");
+localStorage.setItem("origin-perf-session-switch", "1");
 location.reload();
 ```
 
 完成复现后关闭，避免持续采集浏览器 long task：
 
 ```js
-localStorage.removeItem("vetta-perf-session-switch");
+localStorage.removeItem("origin-perf-session-switch");
 location.reload();
 ```
 

@@ -10,7 +10,7 @@
 
 承载三类入口：
 
-- **命令分发** — `vetta` 顶层命令下的 `action` / `debug` / `agent` 子命令
+- **命令分发** — `origin` 顶层命令下的 `action` / `debug` / `agent` 子命令
 - **Agent 运行时包装** — 把参数与宿主能力交给 `@origin/coding-agent`，含 print 模式与 Runtime 选择
 - **RPC sidecar** — `origin-agent-rpc`，由 `apps/desktop` 与 `apps/im-gateway` spawn 的 headless 进程
 
@@ -24,7 +24,7 @@
 
 ## 注意事项
 
-- bin 名 `vetta` / `origin-agent` / `origin-cli-app` / `origin-agent-rpc` 与包名解耦，改包名不要跟着改 bin
+- bin 名 `origin` / `origin-agent` / `origin-cli-app` / `origin-agent-rpc` 与包名解耦，改包名不要跟着改 bin
 - 打包后 sidecar 落在 `<Resources>/cli-app/`，该目录名是打包布局约定，与本包目录名无关
 - 依赖 `@origin/coding-agent`、`@origin/runtime-*`；不得反向依赖 `@origin/desktop`
 

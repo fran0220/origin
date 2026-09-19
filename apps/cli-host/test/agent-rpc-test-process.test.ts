@@ -18,7 +18,7 @@ describe("Agent RPC process test fixture", () => {
 					HOME: "C:\\contaminated-home",
 					PATH: "C:\\tools",
 					SECRET_FROM_PARENT: "must-not-pass-through",
-					ORIGIN_HOME: "C:\\contaminated-vetta-home",
+					ORIGIN_HOME: "C:\\contaminated-origin-home",
 				},
 				overrides: { TEST_OVERRIDE: "enabled" },
 			});

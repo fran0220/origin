@@ -214,7 +214,7 @@ function assertSafeToOverwrite(file: string, force: boolean): void {
 	if (force || !existsSync(file)) return;
 	if (readAgentsGuideRevision(readFileSync(file, "utf8")) !== undefined) return;
 	throw new Error(
-		`${file} has no vetta-guide-revision marker, so it looks hand-written rather than scaffolded. ` +
+		`${file} has no origin-guide-revision marker, so it looks hand-written rather than scaffolded. ` +
 			"Refusing to overwrite it. Review the new template with `--dry-run`, merge what you want by hand, " +
 			"or pass `--force` to replace the file.",
 	);

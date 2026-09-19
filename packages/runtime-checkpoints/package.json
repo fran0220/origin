@@ -1,7 +1,7 @@
 {
 	"name": "@origin/runtime-checkpoints",
 	"version": "0.0.1",
-	"description": "Platform-neutral checkpoint domain, schemas, and reactor for Vetta runtimes",
+	"description": "Platform-neutral checkpoint domain, schemas, and reactor for Origin runtimes",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

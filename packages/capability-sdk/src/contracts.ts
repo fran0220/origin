@@ -20,7 +20,7 @@ export const CAPABILITY_PREFIXES = {
 } as const;
 
 export const CAPABILITY_PUBLISHERS = {
-	VETTA: "vetta",
+	ORIGIN: "origin",
 } as const;
 
 export const CAPABILITY_ERROR_CODES = {

@@ -135,7 +135,7 @@ export default defineConfig({
 			},
 			// Deep imports use ESM ".js" suffix; map to monorepo TypeScript sources
 			{
-				find: /^@vetta\/coding-agent\/(.+)\.js$/,
+				find: /^@origin\/coding-agent\/(.+)\.js$/,
 				replacement: `${codingAgentSrc}/$1.ts`,
 			},
 			{

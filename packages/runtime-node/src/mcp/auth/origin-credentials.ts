@@ -1,5 +1,5 @@
 /**
- * 读取 Vetta 客户端下沉的登录态。
+ * 读取 Origin 客户端下沉的登录态。
  *
  * 桌面端登录、刷新、登出时都会把当前 access token 写进 `~/.origin/auth.json`
  * （见 desktop-app 的 credential-store），这是宿主与外部进程之间唯一的凭据契约：

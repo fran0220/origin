@@ -8,9 +8,9 @@ import {
 } from "./cli-credential-host.js";
 
 const HELP_TEXT = `Usage:
-  vetta auth login [--server <url>]
-  vetta auth logout [--server <url>]
-  vetta auth -h
+  origin auth login [--server <url>]
+  origin auth logout [--server <url>]
+  origin auth -h
 
 Sign in with Authorization Code + PKCE on a loopback redirect.
 Secrets are stored in the CLI credential vault, never printed.

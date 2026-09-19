@@ -3,7 +3,7 @@ import type {
 	RuntimeConfigurationJsonObject,
 } from "@origin/runtime-core/configuration";
 
-export const ORIGIN_OCR_CONFIGURATION_ID = "vetta.ocr";
+export const ORIGIN_OCR_CONFIGURATION_ID = "origin.ocr";
 export const DEFAULT_OCR_PROVIDER_ID = "desktop-app:ppocrv5";
 
 export type OcrRemoteProviderPolicy = "never" | "ask" | "allowed";

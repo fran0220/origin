@@ -20,7 +20,7 @@ import type {
 type CodingSessionEntry = CodingAgentSessionEntry;
 type FileEntry = CodingAgentSessionHeader | CodingAgentSessionEntry;
 
-export const ASSISTANT_TURN_TIMING_TYPE = "vetta.assistant_turn_timing";
+export const ASSISTANT_TURN_TIMING_TYPE = "origin.assistant_turn_timing";
 
 /**
  * Reconstruct the leaf→root branch from a flat list of FileEntries (as

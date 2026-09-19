@@ -31,11 +31,11 @@ type DebugErrorCommand = z.infer<typeof debugErrorCommandSchema>;
 const HELP_TEXT = `Origin Debug command line interface
 
 Usage:
-  vetta debug search [query] [--category <category>]
-  vetta debug describe <debug-id>
-  vetta debug run <debug-id> [json-input]
-  vetta debug -h
-  vetta debug --help
+  origin debug search [query] [--category <category>]
+  origin debug describe <debug-id>
+  origin debug run <debug-id> [json-input]
+  origin debug -h
+  origin debug --help
 
 Description:
   Operate development-only Origin Debug capabilities through the same local
@@ -49,9 +49,9 @@ Progressive discovery:
   4. run <debug-id> [json-input]  execute the capability
 
 Examples:
-  vetta debug search ""
-  vetta debug describe debug.info
-  vetta debug run debug.info '{}'
+  origin debug search ""
+  origin debug describe debug.info
+  origin debug run debug.info '{}'
 
 Output:
   stdout contains one JSON object:

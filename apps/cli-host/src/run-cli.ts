@@ -5,12 +5,12 @@ import { parseDebugCommand, runDebugCommand } from "./debug-command.js";
 import { type RunAgentCliOptions, runAgentCli } from "./run-agent-cli.js";
 
 const HELP_TEXT = `Usage:
-  vetta [options] [@files...] [messages...]
-  vetta action <subcommand> [options]
-  vetta debug <subcommand> [options]
-  vetta auth <subcommand> [options]
-  vetta connections <subcommand> [options]
-  vetta agent [options] [@files...] [messages...]
+  origin [options] [@files...] [messages...]
+  origin action <subcommand> [options]
+  origin debug <subcommand> [options]
+  origin auth <subcommand> [options]
+  origin connections <subcommand> [options]
+  origin agent [options] [@files...] [messages...]
 
 Options:
   -h, --help            Show this help text.
@@ -30,9 +30,9 @@ Commands:
   connections remove    Remove a provided Connection.
   agent                 Run the coding agent explicitly.
 
-Run "vetta agent --help" for coding-agent options.
-Run "vetta action --help" for GUI action options.
-Run "vetta debug --help" for development Debug options.
+Run "origin agent --help" for coding-agent options.
+Run "origin action --help" for GUI action options.
+Run "origin debug --help" for development Debug options.
 `;
 
 function isTopLevelHelp(argv: string[]): boolean {

@@ -34,8 +34,8 @@ describe("CredentialVault", () => {
 			message: "OS-protected storage is unavailable; secrets are in an owner-only file.",
 		});
 
-		vault.put({ namespace: "account", ownerId: "vetta", name: "access-token" }, "access-secret");
-		expect(vault.get({ namespace: "account", ownerId: "vetta", name: "access-token" })).toBe("access-secret");
+		vault.put({ namespace: "account", ownerId: "origin", name: "access-token" }, "access-secret");
+		expect(vault.get({ namespace: "account", ownerId: "origin", name: "access-token" })).toBe("access-secret");
 		expect(vault.visibleWarning()?.code).toBe("owner-only-file-fallback");
 		expect(vault.custody()).toBe("owner-only-file");
 		expect(statSync(join(directory, "key", "vault.key")).mode & 0o777).toBe(0o600);

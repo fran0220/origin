@@ -37,7 +37,7 @@ export function createNodeOriginDesktopCommandPort(
 		readTextFile: options.readTextFile ?? defaultReadTextFile,
 	};
 	return {
-		locate: () => findVettaExecutable(locationOptions),
+		locate: () => findOriginExecutable(locationOptions),
 		async run(executable, args, options) {
 			try {
 				return await commandProcess.run(executable, args, options);
@@ -57,20 +57,20 @@ interface OriginExecutableLocationOptions {
 	readonly readTextFile: (filePath: string) => Promise<string>;
 }
 
-async function findVettaExecutable(
+async function findOriginExecutable(
 	options: OriginExecutableLocationOptions,
 ): Promise<{ path: string; staleConfiguredPath?: string }> {
 	const environmentPath = options.environment.ORIGIN_DESKTOP_EXE;
 	if (environmentPath && (await options.fileExists(environmentPath))) return { path: environmentPath };
-	const configuredPath = await readConfiguredVettaAppPath(options);
+	const configuredPath = await readConfiguredOriginAppPath(options);
 	if (configuredPath && (await options.fileExists(configuredPath))) return { path: configuredPath };
 	const candidates =
 		options.platform === "win32"
 			? [
-					nodePath.join(options.environment.LOCALAPPDATA ?? "", "Programs", "Vetta", "Vetta.exe"),
-					nodePath.join(options.environment.ProgramFiles ?? "C:\\Program Files", "Vetta", "Vetta.exe"),
+					nodePath.join(options.environment.LOCALAPPDATA ?? "", "Programs", "Origin", "Origin.exe"),
+					nodePath.join(options.environment.ProgramFiles ?? "C:\\Program Files", "Origin", "Origin.exe"),
 				]
-			: ["/Applications/Vetta.app/Contents/MacOS/Vetta", "/usr/local/bin/vetta-desktop"];
+			: ["/Applications/Origin.app/Contents/MacOS/Origin", "/usr/local/bin/origin-desktop"];
 	for (const candidate of candidates) {
 		if (candidate && (await options.fileExists(candidate))) {
 			return { path: candidate, staleConfiguredPath: configuredPath };
@@ -82,7 +82,7 @@ async function findVettaExecutable(
 	);
 }
 
-async function readConfiguredVettaAppPath(options: OriginExecutableLocationOptions): Promise<string | undefined> {
+async function readConfiguredOriginAppPath(options: OriginExecutableLocationOptions): Promise<string | undefined> {
 	try {
 		const raw = await options.readTextFile(
 			nodePath.join(options.originHomePath ?? getOriginHomePath(), "desktop-config.json"),

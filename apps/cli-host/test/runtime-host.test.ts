@@ -30,7 +30,7 @@ afterEach(async () => {
 	for (const directory of temporaryDirectories.splice(0).reverse()) {
 		await rm(directory, { force: true, recursive: true });
 	}
-	delete extensionLifecycleGlobal().__vettaGreenfieldExtensionLifecycle;
+	delete extensionLifecycleGlobal().__originGreenfieldExtensionLifecycle;
 });
 
 describe("IM Runtime Host", () => {
@@ -168,14 +168,14 @@ describe("IM Runtime Host", () => {
 
 	it("runs Flag and Command Extensions after resolving their Runtime capabilities", async () => {
 		const lifecycle = extensionLifecycleGlobal();
-		lifecycle.__vettaGreenfieldExtensionLifecycle = [];
+		lifecycle.__originGreenfieldExtensionLifecycle = [];
 		const fixture = await createFixture(
 			[],
 			`
 				export default function(pi) {
 					pi.registerFlag("audit-mode", { type: "boolean" });
 					pi.registerCommand("audit", {
-						handler: async () => globalThis.__vettaGreenfieldExtensionLifecycle.push("audit"),
+						handler: async () => globalThis.__originGreenfieldExtensionLifecycle.push("audit"),
 					});
 				}
 			`,
@@ -199,7 +199,7 @@ describe("IM Runtime Host", () => {
 
 		await result.capabilities.turn?.prompt("/audit", { source: "rpc" });
 
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual(["audit"]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual(["audit"]);
 	});
 
 	it("runs Provider/Flag-only Extensions on the production Runtime and binds their retained actions", async () => {
@@ -351,7 +351,7 @@ describe("IM Runtime Host", () => {
 
 	it("emits model_select when an Extension changes the Runtime model", async () => {
 		const lifecycle = extensionLifecycleGlobal();
-		lifecycle.__vettaGreenfieldExtensionLifecycle = [];
+		lifecycle.__originGreenfieldExtensionLifecycle = [];
 		const fixture = await createFixture(
 			[],
 			`const nextModel = {
@@ -368,7 +368,7 @@ describe("IM Runtime Host", () => {
 			};
 			export default function(pi) {
 				pi.on("model_select", async (event) => {
-					globalThis.__vettaGreenfieldExtensionLifecycle.push(
+					globalThis.__originGreenfieldExtensionLifecycle.push(
 						(event.previousModel?.id ?? "none") + "->" + event.model.id + ":" + event.source,
 					);
 				});
@@ -393,17 +393,17 @@ describe("IM Runtime Host", () => {
 		await result.capabilities.turn?.prompt("/switch-model", { source: "rpc" });
 
 		expect(result.session.readState().model?.id).toBe("second-model");
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual(["test-model->second-model:set"]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual(["test-model->second-model:set"]);
 	});
 
 	it("routes manual compaction through the active Extension runner", async () => {
 		const lifecycle = extensionLifecycleGlobal();
-		lifecycle.__vettaGreenfieldExtensionLifecycle = [];
+		lifecycle.__originGreenfieldExtensionLifecycle = [];
 		const fixture = await createFixture(
 			[],
 			`export default function(pi) {
 				pi.on("session_before_compact", async () => {
-					globalThis.__vettaGreenfieldExtensionLifecycle.push("before-compact");
+					globalThis.__originGreenfieldExtensionLifecycle.push("before-compact");
 					return { cancel: true };
 				});
 			}`,
@@ -420,7 +420,7 @@ describe("IM Runtime Host", () => {
 		await initialize(result);
 		await result.session.appendMetadataEntry("compaction-seed", { value: "seed" });
 		await expect(result.session.compact()).rejects.toThrow("Compaction cancelled");
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual(["before-compact"]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual(["before-compact"]);
 	});
 
 	it("exposes both resource and Extension command discovery", async () => {
@@ -465,12 +465,12 @@ describe("IM Runtime Host", () => {
 
 	it("atomically reloads Extension events, commands and definitions", async () => {
 		const lifecycle = extensionLifecycleGlobal();
-		lifecycle.__vettaGreenfieldExtensionLifecycle = [];
+		lifecycle.__originGreenfieldExtensionLifecycle = [];
 		const fixture = await createFixture(
 			[],
 			`export default function(pi) {
 				pi.on("session_shutdown", async () => {
-					globalThis.__vettaGreenfieldExtensionLifecycle.push("old-shutdown");
+					globalThis.__originGreenfieldExtensionLifecycle.push("old-shutdown");
 				});
 				pi.registerCommand("reload-fixture", { handler: async (_args, ctx) => ctx.reload() });
 			}`,
@@ -490,10 +490,10 @@ describe("IM Runtime Host", () => {
 			join(fixture.root, "legacy-extension.ts"),
 			`export default function(pi) {
 				pi.on("session_start", async () => {
-					globalThis.__vettaGreenfieldExtensionLifecycle.push("new-start");
+					globalThis.__originGreenfieldExtensionLifecycle.push("new-start");
 				});
 				pi.registerCommand("after-reload", {
-					handler: async () => globalThis.__vettaGreenfieldExtensionLifecycle.push("after-command"),
+					handler: async () => globalThis.__originGreenfieldExtensionLifecycle.push("after-command"),
 				});
 				pi.on("resources_discover", async (event) => {
 					if (event.reason !== "reload") throw new Error("unexpected discovery reason");
@@ -515,7 +515,7 @@ describe("IM Runtime Host", () => {
 		);
 		await result.capabilities.turn?.prompt("/after-reload", { source: "rpc" });
 
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual(["old-shutdown", "new-start", "after-command"]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual(["old-shutdown", "new-start", "after-command"]);
 	});
 
 	it("runs supported input events with a real Runtime session context", async () => {
@@ -563,16 +563,16 @@ describe("IM Runtime Host", () => {
 
 	it("emits supported session lifecycle events exactly once through the real Runtime Host", async () => {
 		const lifecycle = extensionLifecycleGlobal();
-		lifecycle.__vettaGreenfieldExtensionLifecycle = [];
+		lifecycle.__originGreenfieldExtensionLifecycle = [];
 		const fixture = await createFixture(
 			[],
 			`
 				export default function(pi) {
 					pi.on("session_start", async () => {
-						globalThis.__vettaGreenfieldExtensionLifecycle.push("start");
+						globalThis.__originGreenfieldExtensionLifecycle.push("start");
 					});
 					pi.on("session_shutdown", async () => {
-						globalThis.__vettaGreenfieldExtensionLifecycle.push("shutdown");
+						globalThis.__originGreenfieldExtensionLifecycle.push("shutdown");
 					});
 				}
 			`,
@@ -589,7 +589,7 @@ describe("IM Runtime Host", () => {
 		if (result.kind !== "rpc") throw new Error("Expected RPC runtime");
 		preparedHosts.push(result);
 
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual([]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual([]);
 		await result.capabilities.initialize({
 			uiContext: {} as RpcSessionInitialization["uiContext"],
 			hostBridge: { sendAttachment: vi.fn(async () => ({})) },
@@ -602,12 +602,12 @@ describe("IM Runtime Host", () => {
 		await result.capabilities.shutdown();
 		await result.capabilities.shutdown();
 
-		expect(lifecycle.__vettaGreenfieldExtensionLifecycle).toEqual(["start", "shutdown"]);
+		expect(lifecycle.__originGreenfieldExtensionLifecycle).toEqual(["start", "shutdown"]);
 	});
 });
 
 function extensionLifecycleGlobal(): typeof globalThis & {
-	__vettaGreenfieldExtensionLifecycle?: string[];
+	__originGreenfieldExtensionLifecycle?: string[];
 } {
 	return globalThis;
 }

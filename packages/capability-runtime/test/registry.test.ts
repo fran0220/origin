@@ -141,7 +141,7 @@ describe("CapabilityRegistry", () => {
 		const registry = new CapabilityRegistry(CAPABILITY_LAYERS.FOUNDATION);
 		const module = defineCapabilityModule({
 			id: "filesystem",
-			publisher: "vetta",
+			publisher: "origin",
 			version: "1.0.0",
 			capabilities: [TEST_CAPABILITY],
 		});

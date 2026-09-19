@@ -14,7 +14,7 @@ import type {
 	ConversationDocumentEntry,
 } from "./document.js";
 
-const ASSISTANT_TURN_TIMING_TYPE = "vetta.assistant_turn_timing";
+const ASSISTANT_TURN_TIMING_TYPE = "origin.assistant_turn_timing";
 const PROMPT_RESOURCE_REFERENCE_TYPE = "prompt_resource_reference";
 const PROMPT_ATTACHMENT_CONTEXT_TYPE = "prompt_attachment_context";
 const PROMPT_ATTACHMENT_REFERENCE_TYPE = "prompt_attachment_reference";

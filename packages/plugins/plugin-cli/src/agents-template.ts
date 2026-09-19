@@ -24,7 +24,7 @@ export const AGENTS_GUIDE_REVISION = 3;
 
 /** 从一份 AGENTS.md 正文里读出版本戳；不是本模板生成的（或早于版本戳）时返回 undefined。 */
 export function readAgentsGuideRevision(content: string): number | undefined {
-	const match = /<!--\s*vetta-guide-revision:\s*(\d+)\s*-->/.exec(content);
+	const match = /<!--\s*origin-guide-revision:\s*(\d+)\s*-->/.exec(content);
 	if (!match) return undefined;
 	return Number(match[1]);
 }
@@ -61,7 +61,7 @@ export function renderAgentsGuide(input: {
 	/** 工程 package.json 里实际存在的 script 名；缺省按脚手架的那套算。 */
 	scripts?: readonly string[];
 }): string {
-	return `<!-- vetta-guide-revision: ${AGENTS_GUIDE_REVISION} -->
+	return `<!-- origin-guide-revision: ${AGENTS_GUIDE_REVISION} -->
 # ${input.displayName}
 
 Vetta 桌面插件工程（插件 id：\`${input.pluginId}\`）。

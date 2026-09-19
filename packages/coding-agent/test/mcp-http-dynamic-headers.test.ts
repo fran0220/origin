@@ -53,7 +53,7 @@ describe("HttpMcpClient dynamic headers", () => {
 						? {
 								protocolVersion: "2024-11-05",
 								capabilities: { tools: { listChanged: false } },
-								serverInfo: { name: "vetta", version: "1.0.0" },
+								serverInfo: { name: "origin", version: "1.0.0" },
 							}
 						: message.method === "tools/list"
 							? { tools: [] }
@@ -81,7 +81,7 @@ describe("HttpMcpClient dynamic headers", () => {
 			url: baseUrl,
 			resolveHeaders: () => ({ Authorization: `Bearer ${token}` }),
 		};
-		const client = new HttpMcpClient({ name: "vetta", config });
+		const client = new HttpMcpClient({ name: "origin", config });
 
 		await client.initialize(INIT_PARAMS);
 		expect(requests.at(-1)?.authorization).toBe("Bearer token-old");
@@ -101,7 +101,7 @@ describe("HttpMcpClient dynamic headers", () => {
 			headers: { "X-Origin-Client-Version": "9.9.9" },
 			resolveHeaders: () => ({ Authorization: "Bearer t" }),
 		};
-		const client = new HttpMcpClient({ name: "vetta", config });
+		const client = new HttpMcpClient({ name: "origin", config });
 
 		await client.initialize(INIT_PARAMS);
 
@@ -120,7 +120,7 @@ describe("HttpMcpClient dynamic headers", () => {
 				throw new Error("credential file busy");
 			},
 		};
-		const client = new HttpMcpClient({ name: "vetta", config });
+		const client = new HttpMcpClient({ name: "origin", config });
 
 		await expect(client.initialize(INIT_PARAMS)).resolves.toBeDefined();
 		expect(requests.at(-1)?.authorization).toBeUndefined();
@@ -129,7 +129,7 @@ describe("HttpMcpClient dynamic headers", () => {
 
 	it("没有解析器时走 SDK 默认 fetch", async () => {
 		const config: McpHttpServerConfig = { type: "http", url: baseUrl };
-		const client = new HttpMcpClient({ name: "vetta", config });
+		const client = new HttpMcpClient({ name: "origin", config });
 
 		await expect(client.initialize(INIT_PARAMS)).resolves.toBeDefined();
 		await client.close();

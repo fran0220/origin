@@ -4,7 +4,7 @@ import { parseOriginNpmPluginPackage } from "../src/npm-package.js";
 const validPackage = {
 	name: "@example/origin-plugin-demo",
 	version: "1.2.3",
-	originApp: {
+	origin: {
 		schemaVersion: 1,
 		type: "desktop-plugin",
 		pluginId: "demo",
@@ -21,7 +21,7 @@ describe("parseOriginNpmPluginPackage", () => {
 		expect(() =>
 			parseOriginNpmPluginPackage({
 				...validPackage,
-				originApp: { ...validPackage.origin, archive: "../plugin.zip" },
+				origin: { ...validPackage.origin, archive: "../plugin.zip" },
 			}),
 		).toThrow("npm archive");
 	});
@@ -30,13 +30,13 @@ describe("parseOriginNpmPluginPackage", () => {
 		expect(() =>
 			parseOriginNpmPluginPackage({
 				...validPackage,
-				originApp: { ...validPackage.origin, schemaVersion: 2 },
+				origin: { ...validPackage.origin, schemaVersion: 2 },
 			}),
 		).toThrow("schema version 1");
 		expect(() =>
 			parseOriginNpmPluginPackage({
 				...validPackage,
-				originApp: { ...validPackage.origin, unexpected: true },
+				origin: { ...validPackage.origin, unexpected: true },
 			}),
 		).toThrow("schema version 1");
 	});

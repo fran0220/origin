@@ -28,7 +28,7 @@ is purely derived and holds no user content — leaving source, manifest and con
 the id and display name from the `plugin.json` already on disk. At a marketplace root it rewrites the
 hub brief instead.
 
-It refuses to overwrite a brief that carries no `vetta-guide-revision` marker — that file is
+It refuses to overwrite a brief that carries no `origin-guide-revision` marker — that file is
 indistinguishable from a hand-written one, and a marketplace root often holds a hand-written spec.
 Use `--dry-run` to print the current template for manual merging, or `--force` to replace the file
 outright.
@@ -95,7 +95,7 @@ npx @origin-org/plugin-cli add @example/origin-plugin-demo
 ```
 
 The npm package is fetched with lifecycle scripts disabled. The CLI extracts only the archive declared by
-`package.json#vetta`, then asks the running Desktop host to validate, approve, and install it. It never writes
+`package.json#origin`, then asks the running Desktop host to validate, approve, and install it. It never writes
 `~/.origin/plugins` directly.
 
 Local archives and HTTP(S) archives use the same command:
@@ -126,7 +126,7 @@ The published plugin package must include a standard Desktop plugin archive and 
   "name": "@example/origin-plugin-demo",
   "version": "1.0.0",
   "files": ["release/origin-plugin.zip"],
-  "vetta": {
+  "origin": {
     "schemaVersion": 1,
     "type": "desktop-plugin",
     "pluginId": "demo",

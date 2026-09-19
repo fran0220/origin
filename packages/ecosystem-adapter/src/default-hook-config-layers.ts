@@ -67,25 +67,25 @@ export function buildDefaultHookConfigLayers(options: BuildDefaultHookConfigLaye
 		{
 			directory: userCodexDir,
 			enabled: true,
-			label: "vetta-user-codex",
+			label: "origin-user-codex",
 			sources: [codexSource(join(userCodexDir, "hooks.json"))],
 		},
 		{
 			directory: userClaudeDir,
 			enabled: true,
-			label: "vetta-user-claude",
+			label: "origin-user-claude",
 			sources: [claudeSource(join(userClaudeDir, "settings.json"))],
 		},
 		{
 			directory: projectCodexDir,
 			enabled: true,
-			label: "vetta-project-codex",
+			label: "origin-project-codex",
 			sources: [codexSource(join(projectCodexDir, "hooks.json"))],
 		},
 		{
 			directory: projectClaudeDir,
 			enabled: true,
-			label: "vetta-project-claude",
+			label: "origin-project-claude",
 			sources: [
 				claudeSource(join(projectClaudeDir, "settings.json")),
 				claudeSource(join(projectClaudeDir, "settings.local.json")),

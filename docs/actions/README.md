@@ -1,6 +1,6 @@
 # App Action 测试
 
-本文记录 Origin Desktop App Action（`vetta action` / 本地 Action RPC）的验收约定。
+本文记录 Origin Desktop App Action（`origin action` / 本地 Action RPC）的验收约定。
 
 UI 验证入口见 [Origin Desktop UI 验证](../dev/README.md)。
 

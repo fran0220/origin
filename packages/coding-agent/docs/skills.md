@@ -37,7 +37,7 @@ Desktop 产品界面允许 Skill 在 namespaced metadata 中显式声明图标�
 
 ```yaml
 metadata:
-  vetta:
+  origin:
     presentation:
       icon: assets/icon.svg
 ```
