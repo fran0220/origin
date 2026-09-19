@@ -14,7 +14,7 @@ export function registerRuntimesIpc(): () => void {
 	});
 
 	ipcMain.handle(RUNTIMES_CHANNELS.REINSTALL, async (_event, type: unknown) => {
-		if (type !== "node" && type !== "python") {
+		if (type !== "node" && type !== "python" && type !== "ffmpeg") {
 			throw new Error(`invalid runtime type: ${String(type)}`);
 		}
 		return getRuntimeManager().reinstall(type as RuntimeType);

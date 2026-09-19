@@ -41,6 +41,7 @@ import {
 	normalizeImageGeneration,
 	normalizeKnowledgeBase,
 	normalizeQuickPanel,
+	normalizeRecording,
 	normalizeShortcuts,
 	type ProjectEntry,
 	persistVettaCliPaths,
@@ -437,6 +438,10 @@ export function registerFsIpc(): () => void {
 					: current.quickPanel,
 			appshot:
 				patch.appshot !== undefined ? normalizeAppshot({ ...current.appshot, ...patch.appshot }) : current.appshot,
+			recording:
+				patch.recording !== undefined
+					? normalizeRecording({ ...current.recording, ...patch.recording })
+					: current.recording,
 		};
 		// Allow all known roots for file operations
 		for (const p of next.projects) allowProjectRoot(p.path);

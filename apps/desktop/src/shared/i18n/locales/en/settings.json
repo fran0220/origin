@@ -2122,5 +2122,12 @@
   "harnessEntryTitle": "Title",
   "harnessTitlePlaceholder": "One-line summary of this rule",
   "harnessVersion": "v{{version}}",
-  "harnessTitleContentRequired": "Title and content are both required"
+  "harnessTitleContentRequired": "Title and content are both required",
+  "environmentFfmpegDesc": "Managed ffmpeg for webpage recording encode and frame sampling",
+  "section_environment-recording": "Webpage recording",
+  "recordingRetentionTitle": "Default retention",
+  "recordingRetentionDesc": "How long new recordings stay on disk. until-cleared needs an explicit clear.",
+  "recordingRetention30m": "30 minutes",
+  "recordingRetention2h": "2 hours",
+  "recordingRetentionUntilCleared": "Until cleared"
 }

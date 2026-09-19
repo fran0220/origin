@@ -30,6 +30,7 @@ import { registerPluginOcrProvidersIpc } from "./plugin-ocr-providers.js";
 import { registerPluginsIpc } from "./plugins.js";
 import { registerProjectExportIpc } from "./project-export.js";
 import { registerQuickPanelIpc } from "./quickpanel.js";
+import { registerRecordingIpc } from "./recording.js";
 import { registerRemotePairingIpc } from "./remote-pairing.js";
 import { registerRuntimeConfigurationIpc } from "./runtime-configuration.js";
 import { registerRuntimesIpc } from "./runtimes.js";
@@ -81,6 +82,7 @@ interface IpcTeardown {
 	teardownDiagnostics: () => void;
 	teardownOnboarding: () => void;
 	teardownRemotePairing: () => void;
+	teardownRecording: () => void;
 }
 
 export function registerAllIpc(
@@ -131,6 +133,7 @@ export function registerAllIpc(
 		teardownDiagnostics: registerDiagnosticsIpc(),
 		teardownOnboarding: registerOnboardingIpc(),
 		teardownRemotePairing: registerRemotePairingIpc(options.remotePairingService),
+		teardownRecording: registerRecordingIpc(),
 	};
 }
 
@@ -174,6 +177,7 @@ export function teardownAllIpc(teardown: IpcTeardown): void {
 	teardown.teardownDiagnostics();
 	teardown.teardownOnboarding();
 	teardown.teardownRemotePairing();
+	teardown.teardownRecording();
 }
 
 export { registerBatchTasksIpc } from "./batch-tasks.js";

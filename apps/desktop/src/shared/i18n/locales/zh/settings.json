@@ -2122,5 +2122,12 @@
   "harnessEntryTitle": "标题",
   "harnessTitlePlaceholder": "一句话概括这条规则",
   "harnessVersion": "v{{version}}",
-  "harnessTitleContentRequired": "标题和内容都不能为空"
+  "harnessTitleContentRequired": "标题和内容都不能为空",
+  "environmentFfmpegDesc": "网页录制编码与抽帧使用的托管 ffmpeg",
+  "section_environment-recording": "网页录制",
+  "recordingRetentionTitle": "默认保留期",
+  "recordingRetentionDesc": "新建录制在磁盘上保留多久。until-cleared 需要显式清除。",
+  "recordingRetention30m": "30 分钟",
+  "recordingRetention2h": "2 小时",
+  "recordingRetentionUntilCleared": "直到清除"
 }

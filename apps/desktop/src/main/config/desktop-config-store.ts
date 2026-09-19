@@ -54,6 +54,12 @@ export interface DesktopConfig {
 		pairingId?: string;
 		inputEnabled?: boolean;
 	};
+	recording?: RecordingConfig;
+}
+
+export interface RecordingConfig {
+	/** Default retention for new recordings. */
+	defaultRetention?: "30m" | "2h" | "until-cleared";
 }
 
 export type AppshotGesture = "both-shift" | "both-mod" | "both-alt";
@@ -100,6 +106,7 @@ const DEFAULT_CONFIG: DesktopConfig = {
 	shortcuts: { bindings: {} },
 	quickPanel: { trigger: "none", postSendBehavior: "foreground" },
 	appshot: { enabled: false, gesture: "both-shift" },
+	recording: { defaultRetention: "2h" },
 };
 
 function migrateProjectEntries(entries: unknown): ProjectEntry[] {
@@ -252,7 +259,18 @@ function parseDesktopConfig(parsed: Record<string, unknown>): DesktopConfig {
 		quickPanel: normalizeQuickPanel(parsed.quickPanel),
 		appshot: normalizeAppshot(parsed.appshot),
 		remoteControl: normalizeRemoteControl(parsed.remoteControl),
+		recording: normalizeRecording(parsed.recording),
 	};
+}
+
+export function normalizeRecording(value: unknown): RecordingConfig {
+	if (typeof value !== "object" || value === null) return { defaultRetention: "2h" };
+	const input = value as Record<string, unknown>;
+	const retention = input.defaultRetention;
+	if (retention === "30m" || retention === "2h" || retention === "until-cleared") {
+		return { defaultRetention: retention };
+	}
+	return { defaultRetention: "2h" };
 }
 
 function normalizeRemoteControl(value: unknown): DesktopConfig["remoteControl"] {

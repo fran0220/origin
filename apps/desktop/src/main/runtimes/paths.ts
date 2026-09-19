@@ -2,7 +2,7 @@ import { dirname, join } from "node:path";
 import { getAgentDir } from "@vetta/coding-agent/config";
 import manifest from "./manifest.json";
 
-export type RuntimeType = "node" | "python";
+export type RuntimeType = "node" | "python" | "ffmpeg";
 
 export interface PlatformEntry {
 	filename: string;
@@ -10,9 +10,28 @@ export interface PlatformEntry {
 	archive: "tar.gz" | "zip";
 }
 
+export interface FfmpegBinaryEntry {
+	filename: string;
+	sha256: string;
+	bin: string;
+}
+
+export interface FfmpegPlatformEntry {
+	archive: "gz";
+	dir: string;
+	ffmpeg: FfmpegBinaryEntry;
+	ffprobe: FfmpegBinaryEntry;
+}
+
 export interface RuntimeManifest {
 	node: { version: string; sources: string[]; platforms: Record<string, PlatformEntry> };
 	python: { version: string; release: string; sources: string[]; platforms: Record<string, PlatformEntry> };
+	ffmpeg: {
+		version: string;
+		release: string;
+		sources: string[];
+		platforms: Record<string, FfmpegPlatformEntry>;
+	};
 	mirrors: { npmRegistry: string; pipIndexUrl: string; pipTrustedHost: string };
 }
 
@@ -26,12 +45,17 @@ export function currentPlatformTag(): string {
 	return `${process.platform}-${process.arch}`;
 }
 
-/** 取当前平台的某运行时条目；平台不支持时返回 undefined。 */
-export function platformEntry(type: RuntimeType): PlatformEntry | undefined {
+/** 取当前平台的 Node/Python 运行时条目；平台不支持时返回 undefined。 */
+export function platformEntry(type: "node" | "python"): PlatformEntry | undefined {
 	return RUNTIME_MANIFEST[type].platforms[currentPlatformTag()];
 }
 
+export function ffmpegPlatformEntry(): FfmpegPlatformEntry | undefined {
+	return RUNTIME_MANIFEST.ffmpeg.platforms[currentPlatformTag()];
+}
+
 export function runtimeVersion(type: RuntimeType): string {
+	if (type === "ffmpeg") return RUNTIME_MANIFEST.ffmpeg.version;
 	return RUNTIME_MANIFEST[type].version;
 }
 
@@ -58,7 +82,8 @@ export function installDir(type: RuntimeType, version: string = runtimeVersion(t
 export function binDirsFor(type: RuntimeType, version: string = runtimeVersion(type)): string[] {
 	const root = installDir(type, version);
 	if (process.platform === "win32") {
-		return type === "python" ? [root, join(root, "Scripts")] : [root];
+		if (type === "python") return [root, join(root, "Scripts")];
+		return [root];
 	}
 	return [join(root, "bin")];
 }
@@ -67,9 +92,18 @@ export function binDirsFor(type: RuntimeType, version: string = runtimeVersion(t
 export function executablePathFor(type: RuntimeType, version: string = runtimeVersion(type)): string {
 	const root = installDir(type, version);
 	if (process.platform === "win32") {
-		return type === "python" ? join(root, "python.exe") : join(root, "node.exe");
+		if (type === "python") return join(root, "python.exe");
+		if (type === "ffmpeg") return join(root, "ffmpeg.exe");
+		return join(root, "node.exe");
 	}
-	return type === "python" ? join(root, "bin", "python3") : join(root, "bin", "node");
+	if (type === "python") return join(root, "bin", "python3");
+	if (type === "ffmpeg") return join(root, "bin", "ffmpeg");
+	return join(root, "bin", "node");
+}
+
+export function ffprobePathFor(version: string = runtimeVersion("ffmpeg")): string {
+	const root = installDir("ffmpeg", version);
+	return process.platform === "win32" ? join(root, "ffprobe.exe") : join(root, "bin", "ffprobe");
 }
 
 /** npm 全局安装前缀(私有目录,与运行时版本解耦、不污染系统)。 */
@@ -104,10 +138,16 @@ export function vendorDir(): string {
 }
 
 /** 内置 vendor 中某运行时的原始发布归档。 */
-export function vendorRuntimeArchivePath(type: RuntimeType): string {
+export function vendorRuntimeArchivePath(type: "node" | "python"): string {
 	const entry = platformEntry(type);
 	if (!entry) return join(vendorDir(), type, "missing");
 	return join(vendorDir(), type, entry.filename);
+}
+
+export function vendorFfmpegArchivePath(kind: "ffmpeg" | "ffprobe"): string {
+	const entry = ffmpegPlatformEntry();
+	if (!entry) return join(vendorDir(), "ffmpeg", "missing");
+	return join(vendorDir(), "ffmpeg", entry[kind].filename);
 }
 
 /**
@@ -117,6 +157,11 @@ export function vendorRuntimeArchivePath(type: RuntimeType): string {
  * 该目录不存在。
  */
 export function vendorRuntimeDir(type: RuntimeType): string {
+	if (type === "ffmpeg") {
+		const entry = ffmpegPlatformEntry();
+		if (!entry) return join(vendorDir(), type, "missing");
+		return join(vendorDir(), type, entry.dir);
+	}
 	const entry = platformEntry(type);
 	if (!entry) return join(vendorDir(), type, "missing");
 	return join(vendorDir(), type, entry.dir);

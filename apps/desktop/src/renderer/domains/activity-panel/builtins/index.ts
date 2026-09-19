@@ -5,6 +5,7 @@ import { browserTabDefinition } from "./browser-tab";
 import { debugTabDefinition } from "./debug-tab";
 import { fileTabDefinition } from "./file-tab";
 import { knowledgeHistoryTabDefinition } from "./knowledge-history-tab";
+import { recordingTabDefinition } from "./recording-tab";
 import { todoTabDefinition } from "./todo-tab";
 import { workflowTabDefinition } from "./workflow-tab";
 
@@ -16,6 +17,7 @@ export const BUILTIN_ACTIVITY_TABS: readonly ActivityTabDefinition[] = [
 	fileTabDefinition,
 	batchProgressTabDefinition,
 	browserTabDefinition,
+	recordingTabDefinition,
 	todoTabDefinition,
 	backgroundTasksTabDefinition,
 	workflowTabDefinition,

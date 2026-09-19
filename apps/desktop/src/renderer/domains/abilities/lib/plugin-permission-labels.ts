@@ -26,6 +26,7 @@ export const PLUGIN_PERMISSION_LABEL_KEYS = {
 	"agent.command.run": "permission.agentCommandRun",
 	"agent.command.spawn": "permission.agentCommandSpawn",
 	"capture.offscreen": "permission.captureOffscreen",
+	"recording:capture": "permission.recordingCapture",
 	"browser.read": "permission.browserRead",
 	"browser.open": "permission.browserOpen",
 	"browser.interact": "permission.browserInteract",
@@ -368,6 +369,12 @@ export const PLUGIN_PERMISSION_PRESENTATIONS = {
 		descriptionKey: "permission.description.captureOffscreen",
 		group: "execution",
 		risk: "medium",
+		visual: "execution",
+	},
+	"recording:capture": {
+		descriptionKey: "permission.description.recordingCapture",
+		group: "execution",
+		risk: "high",
 		visual: "execution",
 	},
 	"browser.read": {

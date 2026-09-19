@@ -20,6 +20,7 @@ import {
 	createJobsApi,
 	createMediaApi,
 	createOcrApi,
+	createRecordingApi,
 	createStorageApi,
 } from "./plugin-host-apis";
 import type { PluginLocalContributions } from "./plugin-local-contributions";
@@ -101,6 +102,7 @@ export function createPluginContext({
 		jobs: createJobsApi(plugin, capabilitySessionId),
 		artifacts: createArtifactsApi(plugin, capabilitySessionId),
 		capture: createCaptureApi(plugin, disposers),
+		recording: createRecordingApi(plugin),
 		browser: createBrowserApi(plugin, capabilitySessionId),
 		agent: agentContributions.api,
 		appActions: createPluginAppActionsApi({

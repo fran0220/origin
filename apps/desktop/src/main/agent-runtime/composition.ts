@@ -70,6 +70,9 @@ import { getDesktopMcpTaskCoordinator } from "../mcp/mcp-task-runtime.js";
 import { createDesktopPluginHookAdapterFactory } from "../plugins/coding-agent-hook-adapter.js";
 import { pluginAgentContributionService } from "../plugins/plugin-catalog.js";
 import { getDesktopCodingAgentPluginRuntimeSource } from "../plugins/plugin-runtime-service.js";
+import { getDesktopRecordingEngine, recordingsRoot } from "../recording/recording-engine.js";
+import { resolveDesktopRecordingVideoModel } from "../recording/video-model.js";
+import { getRuntimeManager } from "../runtimes/manager.js";
 import { getAvailableLinuxBubblewrapPath, getAvailableMacosSandboxExecPath } from "../sandbox/capability.js";
 import { resolveWindowsSandboxHostBinary } from "../sandbox/windows-binary-resolver.js";
 import { createCodingAgentObservationLogPort } from "./coding-agent-observation-log-port.js";
@@ -210,6 +213,21 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 						appHost: mcpAppHost,
 					});
 				},
+				recordingEngine: getDesktopRecordingEngine(),
+				recordingSession: () => ({
+					sessionId: "desktop",
+					projectKey: "home",
+					cwd: DEFAULT_CONVERSATION_CWD,
+				}),
+				resolveRecordingVideoModel: async (requested) => resolveDesktopRecordingVideoModel(requested),
+				recordingDirectoryFor: (record) => join(recordingsRoot(), record.projectKey, record.id),
+				recordingFfmpegPath: (() => {
+					try {
+						return getRuntimeManager().getExecutable("ffmpeg");
+					} catch {
+						return "ffmpeg";
+					}
+				})(),
 			},
 			createSessionHookAdapterFactories: ({ scenario }, { isPluginEnabled }) => [
 				createDesktopPluginHookAdapterFactory({

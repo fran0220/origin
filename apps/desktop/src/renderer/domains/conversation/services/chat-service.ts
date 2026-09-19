@@ -15,6 +15,7 @@ import type {
 	ToolCallBlock,
 	ToolCallUiDetails,
 	ToolImagePreview,
+	ToolVideoPreview,
 } from "@shared/store/atoms";
 import type { Usage } from "@vetta/ai";
 import type { HistoryEntry, PromptAttachmentRef, PromptResourceRef } from "@vetta/runtime-core";
@@ -206,6 +207,27 @@ export function extractToolImagePreviews(result: unknown, details: unknown): Too
 		processedHeight: asFiniteNumber(imageDetails?.processedHeight),
 		wasResized: typeof imageDetails?.wasResized === "boolean" ? imageDetails.wasResized : undefined,
 	}));
+}
+
+export function extractToolVideoPreviews(result: unknown, details: unknown): ToolVideoPreview[] {
+	const resultRecord = asRecord(result);
+	const detailsRecord = asRecord(details) ?? asRecord(resultRecord?.details);
+	const sources = [
+		Array.isArray(resultRecord?.content) ? resultRecord.content : Array.isArray(result) ? result : [],
+		Array.isArray(detailsRecord?.content) ? detailsRecord.content : [],
+	].flat();
+	return sources.flatMap((part) => {
+		const record = asRecord(part);
+		if (record?.type !== "video" || typeof record.mimeType !== "string") return [];
+		return [
+			{
+				mimeType: record.mimeType,
+				data: typeof record.data === "string" ? record.data : undefined,
+				uri: typeof record.uri === "string" ? record.uri : undefined,
+				durationMs: asFiniteNumber(record.durationMs),
+			},
+		];
+	});
 }
 
 export function extractToolAudioPreviews(result: unknown, details: unknown): ToolAudioPreview[] {
@@ -526,6 +548,7 @@ export function historyToChat(
 				block.imagePreviews = extractToolImagePreviews(m.content, m.details);
 				block.imagePreview = block.imagePreviews[0];
 				block.audioPreviews = extractToolAudioPreviews(m.content, m.details);
+				block.videoPreviews = extractToolVideoPreviews(m.content, m.details);
 				block.mcpApp = extractToolMcpApp(m.content, m.details);
 				block.uiDetails = extractToolUiDetails(m.content, m.details);
 				block.cards = extractToolCards(m.content, m.details);
@@ -748,6 +771,7 @@ export function fullHistoryToChat(entries: HistoryEntry[]): ChatConversationItem
 				block.imagePreviews = extractToolImagePreviews(m.content, m.details);
 				block.imagePreview = block.imagePreviews[0];
 				block.audioPreviews = extractToolAudioPreviews(m.content, m.details);
+				block.videoPreviews = extractToolVideoPreviews(m.content, m.details);
 				block.mcpApp = extractToolMcpApp(m.content, m.details);
 				block.uiDetails = extractToolUiDetails(m.content, m.details);
 				block.cards = extractToolCards(m.content, m.details);
@@ -1163,6 +1187,7 @@ export function handleToolEnd(
 	const imagePreviews = extractToolImagePreviews(result, undefined);
 	const imagePreview = imagePreviews[0];
 	const audioPreviews = extractToolAudioPreviews(result, undefined);
+	const videoPreviews = extractToolVideoPreviews(result, undefined);
 	const mcpApp = extractToolMcpApp(result, undefined);
 	const uiDetails = extractToolUiDetails(result, undefined);
 	const cards = extractToolCards(result, undefined);
@@ -1185,6 +1210,7 @@ export function handleToolEnd(
 			imagePreview,
 			imagePreviews,
 			audioPreviews,
+			videoPreviews,
 			mcpApp,
 			uiDetails,
 			cards,

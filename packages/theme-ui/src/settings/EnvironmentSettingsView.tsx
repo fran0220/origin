@@ -1,7 +1,7 @@
 import type { JSX, ReactNode } from "react";
 import { SettingRow, SettingSection, type SettingSectionMeta } from "./SettingChrome";
 
-export type EnvironmentRuntimeKindView = "node" | "python";
+export type EnvironmentRuntimeKindView = "node" | "python" | "ffmpeg";
 
 export interface EnvironmentRuntimeStatusView {
 	readonly managedVersion?: string;
@@ -26,6 +26,12 @@ export interface EnvironmentSettingsViewLabels {
 	readonly sections: {
 		readonly mirrors: string;
 		readonly runtime: string;
+		readonly recording?: string;
+	};
+	readonly recordingRetention?: {
+		readonly title: string;
+		readonly description: string;
+		readonly options: readonly { readonly value: "30m" | "2h" | "until-cleared"; readonly label: string }[];
 	};
 	readonly title: string;
 }
@@ -40,17 +46,22 @@ export interface EnvironmentSettingsViewProps {
 		readonly pipIndexUrl: string;
 	} | null;
 	readonly onReinstall: (kind: EnvironmentRuntimeKindView) => void;
+	readonly onRecordingRetentionChange?: (value: "30m" | "2h" | "until-cleared") => void;
+	readonly recordingRetention?: "30m" | "2h" | "until-cleared";
 	readonly runtimeSection: SettingSectionMeta;
 	readonly mirrorsSection: SettingSectionMeta;
+	readonly recordingSection?: SettingSectionMeta;
 	readonly status: {
 		readonly node: EnvironmentRuntimeStatusView;
 		readonly python: EnvironmentRuntimeStatusView;
+		readonly ffmpeg?: EnvironmentRuntimeStatusView;
 	} | null;
 }
 
 const RUNTIME_META: Record<EnvironmentRuntimeKindView, { icon: string; name: string }> = {
 	node: { icon: "icon-[mdi--nodejs]", name: "Node.js" },
 	python: { icon: "icon-[mdi--language-python]", name: "Python" },
+	ffmpeg: { icon: "icon-[mdi--movie-open-outline]", name: "ffmpeg" },
 };
 
 function RuntimeCard({
@@ -81,7 +92,7 @@ function RuntimeCard({
 			: "text-muted-foreground";
 
 	return (
-		<SettingRow title={meta.name} description={labels.runtimeDescriptions[kind]} border={kind === "node"}>
+		<SettingRow title={meta.name} description={labels.runtimeDescriptions[kind]} border={kind !== "ffmpeg"}>
 			<div className="flex items-center gap-3">
 				<div className="flex items-center gap-1.5">
 					<span
@@ -121,6 +132,9 @@ export function EnvironmentSettingsView({
 	mirrors,
 	mirrorsSection,
 	onReinstall,
+	onRecordingRetentionChange,
+	recordingRetention,
+	recordingSection,
 	runtimeSection,
 	status,
 }: EnvironmentSettingsViewProps): JSX.Element {
@@ -157,11 +171,47 @@ export function EnvironmentSettingsView({
 							labels={labels}
 							onReinstall={() => onReinstall("python")}
 						/>
+						{status.ffmpeg ? (
+							<RuntimeCard
+								kind="ffmpeg"
+								status={status.ffmpeg}
+								busy={busy === "ffmpeg"}
+								labels={labels}
+								onReinstall={() => onReinstall("ffmpeg")}
+							/>
+						) : null}
 					</>
 				) : (
 					<div className="px-5 py-4 text-[12px] text-muted-foreground">{labels.loading}</div>
 				)}
 			</SettingSection>
+
+			{labels.recordingRetention && recordingSection ? (
+				<SettingSection title={labels.sections.recording ?? labels.recordingRetention.title} section={recordingSection}>
+					<SettingRow
+						title={labels.recordingRetention.title}
+						description={labels.recordingRetention.description}
+						border={false}
+					>
+						<select
+							className="rounded-lg border border-input bg-secondary px-3 py-1.5 text-[12px] text-foreground"
+							value={recordingRetention ?? "2h"}
+							onChange={(event) => {
+								const value = event.target.value;
+								if (value === "30m" || value === "2h" || value === "until-cleared") {
+									onRecordingRetentionChange?.(value);
+								}
+							}}
+						>
+							{labels.recordingRetention.options.map((option) => (
+								<option key={option.value} value={option.value}>
+									{option.label}
+								</option>
+							))}
+						</select>
+					</SettingRow>
+				</SettingSection>
+			) : null}
 
 			<SettingSection title={labels.sections.mirrors} section={mirrorsSection}>
 				<SettingRow title={labels.npmRegistry} description={labels.npmRegistryDescription} border>

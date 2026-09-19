@@ -140,6 +140,23 @@ function ToolCallContent({
 					))}
 				</div>
 			) : null}
+			{projection.videoPreviews.length > 0 ? (
+				<div className="mt-2 grid gap-2">
+					{projection.videoPreviews.map((video, index) =>
+						video.data ? (
+							<video
+								key={`${video.mimeType}-${index}`}
+								controls
+								preload="metadata"
+								className="max-h-48 w-full rounded-md bg-black"
+								src={`data:${video.mimeType};base64,${video.data}`}
+							>
+								<track kind="captions" />
+							</video>
+						) : null,
+					)}
+				</div>
+			) : null}
 			{block.isError ? (
 				<div className="mt-1 text-[11px] font-medium text-destructive/70">{t("toolCall.error")}</div>
 			) : null}

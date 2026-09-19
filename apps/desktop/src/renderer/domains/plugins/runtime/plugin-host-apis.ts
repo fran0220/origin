@@ -20,6 +20,7 @@ import type {
 	PluginJob,
 	PluginJobsApi,
 	PluginMediaApi,
+	PluginRecordingApi,
 	PluginSecretsApi,
 } from "@vetta-org/plugin-sdk";
 import { resolveCatalogKey, resolvePluginText } from "@vetta-org/plugin-sdk";
@@ -745,5 +746,24 @@ export function createCaptureApi(plugin: InstalledPlugin, disposers: Array<() =>
 			sessionKeys.delete(sessionKey);
 			return window.vetta.plugins.offscreenRelease(plugin.id, sessionKey);
 		},
+	};
+}
+
+export function createRecordingApi(plugin: InstalledPlugin): PluginRecordingApi {
+	const permissions = createPermissionApi(plugin);
+	const requireCapture = <T>(run: () => T): T => {
+		permissions.require("recording:capture");
+		return run();
+	};
+	return {
+		start: (request) => requireCapture(() => window.vetta.recording.start(request)),
+		stop: (recordingId) => requireCapture(() => window.vetta.recording.stop(recordingId)),
+		cancel: (recordingId) => requireCapture(() => window.vetta.recording.cancel(recordingId)),
+		list: (query) => requireCapture(() => window.vetta.recording.list(query)),
+		read: (recordingId) => requireCapture(() => window.vetta.recording.read(recordingId)),
+		sample: (request) => requireCapture(() => window.vetta.recording.sample(request)),
+		clear: (recordingId) => requireCapture(() => window.vetta.recording.clear(recordingId)),
+		probe: (recordingId, kind, payload) =>
+			requireCapture(() => window.vetta.recording.probe(recordingId, kind, payload)),
 	};
 }

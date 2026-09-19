@@ -1,10 +1,10 @@
 # 托管运行时与 bash 源重定向 — 实现策略
 
-> 面向普通用户的「下载下来就有 Node / Python 环境」。本文是**实现/运维指南**;**为什么这么设计**见 [ADR-0011](./adr/0011-bundled-portable-runtimes-and-source-redirection.md),术语见 [CONTEXT.md](../CONTEXT.md)（托管运行时 / 运行时来源三层 / 源重定向 / 环境管理）。
+> 面向普通用户的「下载下来就有 Node / Python / ffmpeg 环境」。本文是**实现/运维指南**;**为什么这么设计**见 [ADR-0011](./adr/0011-bundled-portable-runtimes-and-source-redirection.md) 与 [ADR-0119](./adr/0119-platform-webpage-recording.md),术语见 [CONTEXT.md](../CONTEXT.md)（托管运行时 / 运行时来源三层 / 源重定向 / 环境管理）。
 
 ## 1. 解决的问题
 
-agent 能力大量依赖 Node / Python 与 npm / pip 包,但目标用户**没有开发环境**:机器上没装 node/python,网络只能直连国内公共镜像,**官方源(nodejs.org / pypi.org / registry.npmjs.org / github.com)不可达、也没有代理**。
+agent 能力大量依赖 Node / Python 与 npm / pip 包,网页录制还依赖 ffmpeg,但目标用户**没有开发环境**:机器上没装 node/python/ffmpeg,网络只能直连国内公共镜像,**官方源(nodejs.org / pypi.org / registry.npmjs.org / github.com)不可达、也没有代理**。
 
 策略两条:
 1. **内置可移植运行时**,随安装包发,首启拷到用户目录,PATH 永远优先。
@@ -18,7 +18,7 @@ agent 能力大量依赖 Node / Python 与 npm / pip 包,但目标用户**没有
 |---|---|---|
 | ① 内置 vendor | 首启 / 当前平台 / 推荐版本 | 随安装包打入 `Resources/vendor/`,首启**零网络本地拷贝**到 `~/.vetta/runtimes/`,秒级可用——普通用户主路径 |
 | ② 下载源列表 | 升级 / 装非内置版本 / 无 vendor 兜底 | `urlTemplate + priority` 有序回退;源是配置项,将来插自建 CDN 只是加一行 |
-| ③ 系统探测 | 展示 / 兜底 | 扫已有 node/python,**仅供面板展示**,不参与 PATH 优先级(永远优先托管版) |
+| ③ 系统探测 | 展示 / 兜底 | 扫已有 node/python/ffmpeg,**仅供面板展示**,不参与 PATH 优先级(永远优先托管版) |
 
 Node 有 npmmirror(稳定);Python 用 python-build-standalone,**仅 GitHub 发布、国内无稳定公共镜像**——所以 Python 几乎只能靠①内置(实测清华 `/python/` 只有源码要编译、`.pkg` 要 root 不可重定位,详见 ADR-0011)。
 

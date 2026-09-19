@@ -1,0 +1,11 @@
+{
+	"tab": "录制",
+	"title": "网页录制",
+	"refresh": "刷新",
+	"empty": "还没有录制。Agent 可用 recording_start 开始，或在此面板手动开始。",
+	"start": "开始",
+	"stop": "停止",
+	"sample": "抽帧",
+	"clear": "清除",
+	"framePreview": "抽帧预览"
+}

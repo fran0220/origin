@@ -13,6 +13,7 @@ import enMain from "./locales/en/main.json";
 import enMessage from "./locales/en/message.json";
 import enPet from "./locales/en/pet.json";
 import enProject from "./locales/en/project.json";
+import enRecording from "./locales/en/recording.json";
 import enSettings from "./locales/en/settings.json";
 import enSkills from "./locales/en/skills.json";
 import enTimeline from "./locales/en/timeline.json";
@@ -27,6 +28,7 @@ import zhMain from "./locales/zh/main.json";
 import zhMessage from "./locales/zh/message.json";
 import zhPet from "./locales/zh/pet.json";
 import zhProject from "./locales/zh/project.json";
+import zhRecording from "./locales/zh/recording.json";
 import zhSettings from "./locales/zh/settings.json";
 import zhSkills from "./locales/zh/skills.json";
 import zhTimeline from "./locales/zh/timeline.json";
@@ -39,6 +41,7 @@ export const resources = {
 		project: zhProject,
 		pet: zhPet,
 		settings: zhSettings,
+		recording: zhRecording,
 		message: zhMessage,
 		skills: zhSkills,
 		abilities: zhAbilities,
@@ -55,6 +58,7 @@ export const resources = {
 		project: enProject,
 		pet: enPet,
 		settings: enSettings,
+		recording: enRecording,
 		message: enMessage,
 		skills: enSkills,
 		abilities: enAbilities,

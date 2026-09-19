@@ -27,6 +27,7 @@ export interface RuntimeStatus {
 export interface RuntimesStatus {
 	node: RuntimeStatus;
 	python: RuntimeStatus;
+	ffmpeg: RuntimeStatus;
 	/** 注入到 bash 子进程的镜像源(展示用)。 */
 	mirrors: { npmRegistry: string; pipIndexUrl: string };
 }

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { chmodSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -618,6 +619,62 @@ async function stageVendorRuntimes() {
 		const stagedArchivePath = join(destTypeDir, entry.filename);
 		cpSync(archivePath, stagedArchivePath);
 		console.log(`[prepare-pack] vendor ${type} ${def.version} archive staged -> ${stagedArchivePath}`);
+	}
+
+	await stageVendorFfmpeg(manifest, platformTag, stagedVendorDir);
+}
+
+async function stageVendorFfmpeg(manifest, platformTag, stagedVendorDir) {
+	const def = manifest.ffmpeg;
+	if (!def) return;
+	const entry = def.platforms[platformTag];
+	if (!entry) {
+		throw new Error(
+			`[prepare-pack] manifest 缺少 ffmpeg 平台 ${platformTag};跨平台打包请设 VETTA_VENDOR_PLATFORM`,
+		);
+	}
+	const destTypeDir = join(stagedVendorDir, "ffmpeg");
+	rmSync(destTypeDir, { recursive: true, force: true });
+	mkdirSync(destTypeDir, { recursive: true });
+	for (const kind of ["ffmpeg", "ffprobe"]) {
+		const binary = entry[kind];
+		const urls = def.sources.map((tpl) =>
+			tpl.replace("{version}", def.version).replace("{release}", def.release ?? "").replace("{filename}", binary.filename),
+		);
+		const cacheTypeDir = join(vendorCacheDir, platformTag, "ffmpeg");
+		const archivePath = join(cacheTypeDir, binary.filename);
+		mkdirSync(cacheTypeDir, { recursive: true });
+		let readyArchive = existsSync(archivePath);
+		if (readyArchive) {
+			console.log(`[prepare-pack] using cached vendor ffmpeg ${kind} -> ${archivePath}`);
+		}
+		for (const url of urls) {
+			if (readyArchive) break;
+			try {
+				console.log(`[prepare-pack] downloading vendor ffmpeg ${kind} <- ${url}`);
+				const res = await fetch(url, { redirect: "follow" });
+				if (!res.ok) throw new Error(`HTTP ${res.status}`);
+				writeFileSync(archivePath, Buffer.from(await res.arrayBuffer()));
+				readyArchive = true;
+				break;
+			} catch (err) {
+				console.warn(`[prepare-pack] download failed (${url}): ${err.message}`);
+			}
+		}
+		if (!readyArchive) {
+			throw new Error(
+				`[prepare-pack] 无法下载 vendor ffmpeg ${kind}(${platformTag});检查构建机网络或设 VETTA_SKIP_VENDOR=1`,
+			);
+		}
+		const digest = createHash("sha256").update(readFileSync(archivePath)).digest("hex");
+		if (digest !== binary.sha256) {
+			throw new Error(
+				`[prepare-pack] ffmpeg ${kind} sha256 mismatch: expected ${binary.sha256}, got ${digest}`,
+			);
+		}
+		const stagedArchivePath = join(destTypeDir, binary.filename);
+		cpSync(archivePath, stagedArchivePath);
+		console.log(`[prepare-pack] vendor ffmpeg ${kind} ${def.version} archive staged -> ${stagedArchivePath}`);
 	}
 }
 

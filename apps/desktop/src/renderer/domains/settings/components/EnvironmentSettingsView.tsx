@@ -17,8 +17,11 @@ export function EnvironmentSettingsView({ model }: EnvironmentSettingsViewProps)
 			mirrors={model.status?.mirrors ?? null}
 			mirrorsSection={SETTINGS_SECTION["environment-mirrors"]}
 			runtimeSection={SETTINGS_SECTION["environment-runtime"]}
+			recordingSection={SETTINGS_SECTION["environment-recording"]}
+			recordingRetention={model.recordingRetention}
 			status={model.status}
 			onReinstall={(kind) => void model.actions.reinstall(kind)}
+			onRecordingRetentionChange={(value) => void model.actions.setRecordingRetention(value)}
 		/>
 	);
 }

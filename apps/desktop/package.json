@@ -160,6 +160,7 @@
 		"@vetta/runtime-mcp": "workspace:*",
 		"@vetta/runtime-telemetry": "workspace:*",
 		"@vetta/runtime-evaluation": "workspace:*",
+		"@vetta/runtime-recording": "workspace:*",
 		"@vetta/runtime-node": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",
 		"@vetta/runtime-checkpoints": "workspace:*",

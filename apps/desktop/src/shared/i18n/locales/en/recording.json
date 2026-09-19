@@ -1,0 +1,11 @@
+{
+	"tab": "Recording",
+	"title": "Webpage recording",
+	"refresh": "Refresh",
+	"empty": "No recordings yet. The agent can call recording_start, or start one from this panel.",
+	"start": "Start",
+	"stop": "Stop",
+	"sample": "Sample",
+	"clear": "Clear",
+	"framePreview": "Sampled frame"
+}

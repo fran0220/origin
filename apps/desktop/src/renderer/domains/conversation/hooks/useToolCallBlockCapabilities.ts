@@ -53,6 +53,7 @@ export function projectToolCallBlock(block: ToolCallBlock, exportMode = false) {
 		imagePreviews,
 		showImagePreview: imagePreviews.length > 0 && (block.toolName === "read" || mcp !== null),
 		audioPreviews: block.audioPreviews ?? [],
+		videoPreviews: block.videoPreviews ?? [],
 		mdIntro: typeof block.args.md_intro === "string" ? block.args.md_intro.trim() : "",
 	};
 }

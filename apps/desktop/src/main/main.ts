@@ -687,6 +687,13 @@ if (!gotSingleLock) {
 			}
 
 			try {
+				const { initializeDesktopRecording } = await import("./recording/recording-engine.js");
+				await initializeDesktopRecording();
+			} catch (err) {
+				mainLog.error("recording startup initialization failed", err);
+			}
+
+			try {
 				let vettaAppPath: string;
 				let vettaCliPath: string;
 				if (app.isPackaged) {

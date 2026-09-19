@@ -203,6 +203,14 @@ export default defineConfig({
 				replacement: resolve(__dirname, "../../packages/runtime-node/src/checkpoints/index.ts"),
 			},
 			{
+				find: "@vetta/runtime-node/recording",
+				replacement: resolve(__dirname, "../../packages/runtime-node/src/recording/index.ts"),
+			},
+			{
+				find: "@vetta/runtime-recording",
+				replacement: resolve(__dirname, "../../packages/runtime-recording/src/index.ts"),
+			},
+			{
 				find: "@vetta/runtime-subagents",
 				replacement: resolve(__dirname, "../../packages/runtime-subagents/src/index.ts"),
 			},

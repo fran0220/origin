@@ -34,6 +34,7 @@ export function createSystemApi(
 	| "debug"
 	| "diagnostics"
 	| "project"
+	| "recording"
 	| "permissions"
 > {
 	return {
@@ -237,6 +238,16 @@ export function createSystemApi(
 			getStatus: () => ipc.invoke("vetta:runtimes:get-status"),
 			reinstall: (type) => ipc.invoke("vetta:runtimes:reinstall", type),
 			redetect: () => ipc.invoke("vetta:runtimes:redetect"),
+		},
+		recording: {
+			start: (request) => ipc.invoke("vetta:recording:start", request),
+			stop: (recordingId) => ipc.invoke("vetta:recording:stop", recordingId),
+			cancel: (recordingId) => ipc.invoke("vetta:recording:cancel", recordingId),
+			list: (query) => ipc.invoke("vetta:recording:list", query),
+			read: (recordingId) => ipc.invoke("vetta:recording:read", recordingId),
+			sample: (request) => ipc.invoke("vetta:recording:sample", request),
+			clear: (recordingId) => ipc.invoke("vetta:recording:clear", recordingId),
+			probe: (recordingId, kind, payload) => ipc.invoke("vetta:recording:probe", recordingId, kind, payload),
 		},
 		settings: {
 			getServerUrl: () => ipc.invoke("vetta:settings:get-server-url"),

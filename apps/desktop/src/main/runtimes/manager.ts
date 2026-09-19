@@ -7,6 +7,8 @@ import { getAppLogger } from "../logger.js";
 import {
 	binDirsFor,
 	executablePathFor,
+	ffmpegPlatformEntry,
+	ffprobePathFor,
 	installDir,
 	npmCacheDir,
 	npmGlobalBinDir,
@@ -19,10 +21,13 @@ import {
 	registryPath,
 	runtimesDir,
 	runtimeVersion,
+	vendorFfmpegArchivePath,
 	vendorRuntimeArchivePath,
 	vendorRuntimeDir,
 } from "./paths.js";
 import { installRuntimeArchive, installRuntimeDirectory } from "./runtime-archive-installer.js";
+import { downloadVerifiedFile } from "./runtime-download.js";
+import { ffmpegSystemCandidates, installFfmpegBinaries, probeFfmpegVersion } from "./runtime-ffmpeg-installer.js";
 import type { RuntimeRegistryData, RuntimeStatus, RuntimesStatus } from "./types.js";
 
 const log = getAppLogger("runtimes");
@@ -31,7 +36,7 @@ const log = getAppLogger("runtimes");
 // 否则 applyEnv() 之后再探测会把我们自己注入的托管版当成系统版。
 const SYSTEM_PATH_SNAPSHOT = process.env.PATH ?? process.env.Path ?? "";
 
-const RUNTIME_TYPES: RuntimeType[] = ["node", "python"];
+const RUNTIME_TYPES: RuntimeType[] = ["node", "python", "ffmpeg"];
 
 function emptyRegistry(): RuntimeRegistryData {
 	return { version: 1, binaries: {}, systemDetection: {} };
@@ -74,6 +79,10 @@ export class RuntimeManager {
 
 	/** 探测系统已安装的同名运行时(用系统 PATH 快照,不含我们的注入)。 */
 	private detectSystem(type: RuntimeType): void {
+		if (type === "ffmpeg") {
+			this.detectSystemFfmpeg();
+			return;
+		}
 		const candidates = type === "python" ? ["python3", "python"] : ["node"];
 		const env = { ...process.env, PATH: SYSTEM_PATH_SNAPSHOT, Path: SYSTEM_PATH_SNAPSHOT };
 		for (const cmd of candidates) {
@@ -99,8 +108,32 @@ export class RuntimeManager {
 		delete this.data.systemDetection[type];
 	}
 
+	private detectSystemFfmpeg(): void {
+		const env = { ...process.env, PATH: SYSTEM_PATH_SNAPSHOT, Path: SYSTEM_PATH_SNAPSHOT };
+		for (const cmd of ffmpegSystemCandidates()) {
+			try {
+				const whichRes = spawnSync(process.platform === "win32" ? "where" : "which", [cmd], {
+					encoding: "utf-8",
+					timeout: 5000,
+					env,
+				});
+				const path = whichRes.stdout?.trim().split(/\r?\n/)[0];
+				if (!path || !existsSync(path)) continue;
+				const version = probeFfmpegVersion(path) ?? parseVersion(path);
+				if (version) {
+					this.data.systemDetection.ffmpeg = { path, version, detectedAt: Date.now() };
+					return;
+				}
+			} catch {
+				// 继续尝试下一个候选名
+			}
+		}
+		delete this.data.systemDetection.ffmpeg;
+	}
+
 	/** 内置 vendor → ~/.vetta/runtimes 首启安装。返回是否完成 seed。 */
 	private async seedFromVendor(type: RuntimeType): Promise<boolean> {
+		if (type === "ffmpeg") return this.seedFfmpegFromVendor();
 		const entry = platformEntry(type);
 		if (!entry) return false;
 		const version = runtimeVersion(type);
@@ -123,6 +156,35 @@ export class RuntimeManager {
 
 		log.info(`seeding ${type} ${version} from vendor archive`, { source: archiveSource, target });
 		await this.installArchive(type, archiveSource, entry, version);
+		return true;
+	}
+
+	private async seedFfmpegFromVendor(): Promise<boolean> {
+		const entry = ffmpegPlatformEntry();
+		if (!entry) return false;
+		const version = runtimeVersion("ffmpeg");
+		const marker = join(installDir("ffmpeg", version), ".vendor-version");
+		if (this.isReady("ffmpeg") && this.readMarker(marker) === version) return true;
+
+		const directorySource = vendorRuntimeDir("ffmpeg");
+		if (existsSync(directorySource)) {
+			log.info(`seeding ffmpeg ${version} from vendor directory`, { source: directorySource });
+			await this.installDirectory("ffmpeg", directorySource, version);
+			return true;
+		}
+
+		const ffmpegArchive = vendorFfmpegArchivePath("ffmpeg");
+		const ffprobeArchive = vendorFfmpegArchivePath("ffprobe");
+		if (!existsSync(ffmpegArchive) || !existsSync(ffprobeArchive)) return false;
+		log.info(`seeding ffmpeg ${version} from vendor archives`);
+		await installFfmpegBinaries({
+			targetDirectory: installDir("ffmpeg", version),
+			binaries: [
+				{ archivePath: ffmpegArchive, sha256: entry.ffmpeg.sha256, outputName: entry.ffmpeg.bin },
+				{ archivePath: ffprobeArchive, sha256: entry.ffprobe.sha256, outputName: entry.ffprobe.bin },
+			],
+		});
+		await this.finishInstall("ffmpeg", version);
 		return true;
 	}
 
@@ -162,11 +224,14 @@ export class RuntimeManager {
 
 	private async makeExecutable(type: RuntimeType, version: string): Promise<void> {
 		if (process.platform === "win32") return;
-		const exe = executablePathFor(type, version);
-		try {
-			if (existsSync(exe)) await chmod(exe, 0o755);
-		} catch {
-			// best-effort
+		const paths = [executablePathFor(type, version)];
+		if (type === "ffmpeg") paths.push(ffprobePathFor(version));
+		for (const exe of paths) {
+			try {
+				if (existsSync(exe)) await chmod(exe, 0o755);
+			} catch {
+				// best-effort
+			}
 		}
 	}
 
@@ -175,6 +240,7 @@ export class RuntimeManager {
 	 * 这是次要路径——首启主路径是 seedFromVendor。无网络时会失败,由调用方容错。
 	 */
 	private async download(type: RuntimeType): Promise<boolean> {
+		if (type === "ffmpeg") return this.downloadFfmpeg();
 		const entry = platformEntry(type);
 		if (!entry) return false;
 		const def = RUNTIME_MANIFEST[type];
@@ -200,6 +266,49 @@ export class RuntimeManager {
 		return false;
 	}
 
+	private async downloadFfmpeg(): Promise<boolean> {
+		const entry = ffmpegPlatformEntry();
+		if (!entry) return false;
+		const version = RUNTIME_MANIFEST.ffmpeg.version;
+		const release = RUNTIME_MANIFEST.ffmpeg.release;
+		const cacheDir = join(runtimesDir(), ".cache");
+		mkdirSync(cacheDir, { recursive: true });
+		const downloaded: { archivePath: string; sha256: string; outputName: string }[] = [];
+		for (const kind of ["ffmpeg", "ffprobe"] as const) {
+			const binary = entry[kind];
+			const urls = RUNTIME_MANIFEST.ffmpeg.sources.map((tpl) =>
+				tpl.replace("{version}", version).replace("{release}", release).replace("{filename}", binary.filename),
+			);
+			const tmpFile = join(cacheDir, `${kind}-${version}-${binary.filename}`);
+			let got = false;
+			for (const url of urls) {
+				try {
+					log.info(`downloading ${kind} from ${url}`);
+					await downloadVerifiedFile({ url, dest: tmpFile, sha256: binary.sha256 });
+					downloaded.push({ archivePath: tmpFile, sha256: binary.sha256, outputName: binary.bin });
+					got = true;
+					break;
+				} catch (err) {
+					log.warn(`download from ${url} failed`, err);
+				}
+			}
+			if (!got) {
+				for (const item of downloaded) rmSync(item.archivePath, { force: true });
+				return false;
+			}
+		}
+		try {
+			await installFfmpegBinaries({
+				targetDirectory: installDir("ffmpeg", version),
+				binaries: downloaded,
+			});
+			await this.finishInstall("ffmpeg", version);
+			return true;
+		} finally {
+			for (const item of downloaded) rmSync(item.archivePath, { force: true });
+		}
+	}
+
 	private async fetchToFile(url: string, dest: string): Promise<void> {
 		const controller = new AbortController();
 		const timer = setTimeout(() => controller.abort(), 180_000);
@@ -213,7 +322,15 @@ export class RuntimeManager {
 	}
 
 	private isReady(type: RuntimeType): boolean {
+		if (type === "ffmpeg") {
+			return existsSync(executablePathFor("ffmpeg")) && existsSync(ffprobePathFor());
+		}
 		return existsSync(executablePathFor(type));
+	}
+
+	getFfprobeExecutable(): string {
+		if (!this.isReady("ffmpeg")) throw new Error("Managed ffmpeg runtime is not ready");
+		return ffprobePathFor();
 	}
 
 	/** 返回已就绪的托管运行时可执行文件，供插件服务等宿主子进程使用。 */
@@ -611,12 +728,13 @@ export class RuntimeManager {
 		log.info("runtime env applied", {
 			node: this.isReady("node"),
 			python: this.isReady("python"),
+			ffmpeg: this.isReady("ffmpeg"),
 			npmRegistry: RUNTIME_MANIFEST.mirrors.npmRegistry,
 		});
 	}
 
 	private statusFor(type: RuntimeType): RuntimeStatus {
-		const entry = platformEntry(type);
+		const entry = type === "ffmpeg" ? ffmpegPlatformEntry() : platformEntry(type);
 		const ready = this.isReady(type);
 		const system = this.data.systemDetection[type];
 		return {
@@ -635,6 +753,7 @@ export class RuntimeManager {
 		return {
 			node: this.statusFor("node"),
 			python: this.statusFor("python"),
+			ffmpeg: this.statusFor("ffmpeg"),
 			mirrors: {
 				npmRegistry: RUNTIME_MANIFEST.mirrors.npmRegistry,
 				pipIndexUrl: RUNTIME_MANIFEST.mirrors.pipIndexUrl,

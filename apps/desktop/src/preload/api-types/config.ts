@@ -76,6 +76,9 @@ export interface DesktopConfigData {
 	/** 知识库加工特殊项目的绝对路径（~/.vetta/knowledges/processing_records）。 */
 	knowledgeProcessingCwd?: string;
 	/** Appshot（全局手势捕获前台应用窗口为附件）设置。缺省不启用。 */
+	recording?: {
+		defaultRetention?: "30m" | "2h" | "until-cleared";
+	};
 	appshot?: {
 		/** 功能总开关。缺省 false。 */
 		enabled?: boolean;

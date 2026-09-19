@@ -5,14 +5,17 @@ import { recordSettingsUsage } from "./recordSettingsUsage";
 
 type RuntimesStatus = Awaited<ReturnType<typeof window.vetta.runtimes.getStatus>>;
 export type EnvironmentRuntimeStatus = RuntimesStatus["node"];
-export type EnvironmentRuntimeKind = "node" | "python";
+export type EnvironmentRuntimeKind = "node" | "python" | "ffmpeg";
+export type EnvironmentRecordingRetention = "30m" | "2h" | "until-cleared";
 
 export interface EnvironmentSettingsModel {
 	actions: {
 		reinstall: (kind: EnvironmentRuntimeKind) => Promise<void>;
+		setRecordingRetention: (value: EnvironmentRecordingRetention) => Promise<void>;
 	};
 	busy: EnvironmentRuntimeKind | null;
 	error: string | null;
+	recordingRetention: EnvironmentRecordingRetention;
 	labels: {
 		description: string;
 		fetch: string;
@@ -30,6 +33,12 @@ export interface EnvironmentSettingsModel {
 		sections: {
 			mirrors: string;
 			runtime: string;
+			recording?: string;
+		};
+		recordingRetention?: {
+			title: string;
+			description: string;
+			options: readonly { value: EnvironmentRecordingRetention; label: string }[];
 		};
 		title: string;
 	};
@@ -41,6 +50,7 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 	const [status, setStatus] = useState<RuntimesStatus | null>(null);
 	const [busy, setBusy] = useState<EnvironmentRuntimeKind | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [recordingRetention, setRecordingRetention] = useState<EnvironmentRecordingRetention>("2h");
 
 	const refresh = useCallback(async () => {
 		try {
@@ -52,6 +62,12 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 
 	useEffect(() => {
 		void refresh();
+		void window.vetta.config.get().then((config) => {
+			const retention = config.recording?.defaultRetention;
+			if (retention === "30m" || retention === "2h" || retention === "until-cleared") {
+				setRecordingRetention(retention);
+			}
+		});
 	}, [refresh]);
 
 	const reinstall = useCallback(
@@ -71,6 +87,12 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 		[refresh],
 	);
 
+	const setRetention = useCallback(async (value: EnvironmentRecordingRetention) => {
+		setRecordingRetention(value);
+		await window.vetta.config.set({ recording: { defaultRetention: value } });
+		recordSettingsUsage({ tab: "environment", action: "changed", target: "recordingRetention", value });
+	}, []);
+
 	const labels = useMemo<EnvironmentSettingsModel["labels"]>(
 		() => ({
 			description: t("environmentDescription"),
@@ -88,10 +110,21 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 			runtimeDescriptions: {
 				node: t("environmentNodeDesc"),
 				python: t("environmentPythonDesc"),
+				ffmpeg: t("environmentFfmpegDesc"),
 			},
 			sections: {
 				mirrors: t(SETTINGS_SECTION["environment-mirrors"].titleKey),
 				runtime: t(SETTINGS_SECTION["environment-runtime"].titleKey),
+				recording: t(SETTINGS_SECTION["environment-recording"].titleKey),
+			},
+			recordingRetention: {
+				title: t("recordingRetentionTitle"),
+				description: t("recordingRetentionDesc"),
+				options: [
+					{ value: "30m", label: t("recordingRetention30m") },
+					{ value: "2h", label: t("recordingRetention2h") },
+					{ value: "until-cleared", label: t("recordingRetentionUntilCleared") },
+				],
 			},
 			title: t("environment"),
 		}),
@@ -99,9 +132,10 @@ export function useEnvironmentSettingsModel(): EnvironmentSettingsModel {
 	);
 
 	return {
-		actions: { reinstall },
+		actions: { reinstall, setRecordingRetention: setRetention },
 		busy,
 		error,
+		recordingRetention,
 		labels,
 		status,
 	};

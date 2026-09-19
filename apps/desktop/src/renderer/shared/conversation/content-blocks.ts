@@ -39,6 +39,13 @@ export interface ToolAudioPreview {
 	mimeType: string;
 }
 
+export interface ToolVideoPreview {
+	data?: string;
+	uri?: string;
+	mimeType: string;
+	durationMs?: number;
+}
+
 export interface ToolCallUiDetails {
 	diff?: string;
 	firstChangedLine?: number;
@@ -94,6 +101,7 @@ export interface ToolCallBlock {
 	imagePreview?: ToolImagePreview;
 	imagePreviews?: ToolImagePreview[];
 	audioPreviews?: ToolAudioPreview[];
+	videoPreviews?: ToolVideoPreview[];
 	mcpApp?: DesktopMcpAppAttachment;
 	uiDetails?: ToolCallUiDetails;
 	cards?: CardDescriptor[];
