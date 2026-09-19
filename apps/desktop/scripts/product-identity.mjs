@@ -1,11 +1,10 @@
 /**
  * Desktop 打包与安装包的用户可见产品身份。
  *
- * `APP_RUNTIME_NAME`（asar 内 package.json#name / Electron app.getName）仍是 `vetta`，
- * 因为 safeStorage 主密钥按该名字派生，第一阶段不得改。本文件只覆盖安装包显示名、
- * 可执行文件名、bundle id、深链 scheme 和产物文件名。
+ * `APP_RUNTIME_NAME`（asar 内 package.json#name / Electron app.getName）是 `origin`。
+ * safeStorage 主密钥按该名字派生；本仓库没有旧凭证需要解密兼容。
  */
-export const APP_RUNTIME_NAME = "vetta";
+export const APP_RUNTIME_NAME = "origin";
 export const PRODUCT_NAME = "Origin";
 export const EXECUTABLE_NAME = "Origin";
 export const APP_ID = "com.origin.desktop";

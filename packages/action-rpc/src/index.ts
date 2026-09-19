@@ -3,11 +3,11 @@ export {
 	ACTION_RPC_ENDPOINT_FILE_ENV,
 	DEFAULT_CONFIG_DIR_NAME,
 	getActionRpcEndpointFilePath,
-	getVettaConfigDirName,
-	getVettaHomePath,
+	getOriginConfigDirName,
+	getOriginHomePath,
+	ORIGIN_CONFIG_DIR_ENV,
+	ORIGIN_HOME_ENV,
 	readActionRpcEndpoint,
-	VETTA_CONFIG_DIR_ENV,
-	VETTA_HOME_ENV,
 } from "./endpoint-file.js";
 export { ActionRpcError } from "./errors.js";
 export { parseActionRpcRequest, parseDebugRpcRequest, parseLocalRpcRequest } from "./protocol.js";

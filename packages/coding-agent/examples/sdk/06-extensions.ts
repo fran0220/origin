@@ -5,8 +5,8 @@
  * They provide a unified system for extensions, custom tools, commands, and more.
  *
  * By default, extension files are discovered from:
- * - ~/.vetta/agent/extensions/
- * - <cwd>/.vetta/extensions/
+ * - ~/.origin/agent/extensions/
+ * - <cwd>/.origin/extensions/
  * - Paths specified in settings.json "extensions" array
  *
  * An extension is a TypeScript file that exports a default function:

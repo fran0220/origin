@@ -152,7 +152,7 @@ describe("read runtime boundaries", () => {
 	it(
 		"resizes a real 3840x2160 JPEG through the production read path",
 		async () => {
-			const directory = await mkdtemp(join(tmpdir(), "vetta-read-large-image-"));
+			const directory = await mkdtemp(join(tmpdir(), "origin-read-large-image-"));
 			const imagePath = join(directory, "large.jpg");
 			const source = PhotonImage.new_from_byteslice(
 				Buffer.from(

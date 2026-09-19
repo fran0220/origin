@@ -282,7 +282,7 @@ describe("MCP Runtime Tool result policy", () => {
 			details: {
 				content: [{ type: "text", text: "app result" }],
 				_meta: {
-					"io.vetta/mcpApp": {
+					"io.origin/mcpApp": {
 						id: "surface-call",
 						resourceUri: "ui://dashboard",
 						mimeType: "text/html;profile=mcp-app",

@@ -11,18 +11,18 @@ import {
 describe("knowledge domain capabilities", () => {
 	it("uses one stable id per knowledge operation", () => {
 		expect(Object.values(DOMAIN_KNOWLEDGE_CAPABILITIES).map((capability) => capability.id)).toEqual([
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.base.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.file-status.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.processing.status.get`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.processing.settings.get`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.base.create`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.base.rename`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.base.delete`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.entry.add-files`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.entry.delete`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.processing.scan`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.processing.retry-failed`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}knowledge.processing.settings.set`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.base.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.file-status.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.processing.status.get`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.processing.settings.get`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.base.create`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.base.rename`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.base.delete`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.entry.add-files`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.entry.delete`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.processing.scan`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.processing.retry-failed`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}knowledge.processing.settings.set`,
 		]);
 	});
 

@@ -54,19 +54,19 @@ const TEXT_EXTENSIONS = new Set([
 const STEPS = {
 	"npm-scope": {
 		title: "npm scope (@origin/* → @origin/*, @origin-org/* → @origin-org/*)",
-		patterns: [/@vetta\//g, /@vetta-org\//g],
+		patterns: [/@vetta\//g, /@origin-org\//g],
 	},
 	"data-dir": {
-		title: "data dir ~/.vetta and VETTA_* env vars",
-		patterns: [/~\/\.vetta\b/g, /"\.vetta"/g, /'\.vetta'/g, /\bVETTA_HOME\b/g, /\bVETTA_CONFIG_DIR\b/g, /\bVETTA_CODING_AGENT_DIR\b/g, /\bVETTA_API_TOKEN\b/g],
+		title: "data dir ~/.origin and ORIGIN_* env vars",
+		patterns: [/~\/\.origin\b/g, /"\.origin"/g, /'\.origin'/g, /\bORIGIN_HOME\b/g, /\bORIGIN_CONFIG_DIR\b/g, /\bORIGIN_CODING_AGENT_DIR\b/g, /\bORIGIN_API_TOKEN\b/g],
 	},
 	ipc: {
-		title: "IPC prefix vetta: and window.vetta",
-		patterns: [/vetta:[a-z]/g, /window\.vetta\b/g],
+		title: "IPC prefix vetta: and window.originApp",
+		patterns: [/vetta:[a-z]/g, /window\.origin\b/g],
 	},
 	"ci-sdk": {
 		title: "CI artifacts, plugin SDK, skills-lock, remaining Vetta literals",
-		patterns: [/skills-lock\.json/g, /pluginApiVersion/g, /@vetta-org\/plugin-sdk/g],
+		patterns: [/skills-lock\.json/g, /pluginApiVersion/g, /@origin-org\/plugin-sdk/g],
 	},
 };
 
@@ -77,7 +77,7 @@ function parseArgs(argv) {
 		step: "all",
 		fromScope: "@vetta",
 		toScope: "@origin",
-		fromOrgScope: "@vetta-org",
+		fromOrgScope: "@origin-org",
 		toOrgScope: "@origin-org",
 	};
 	for (let i = 0; i < argv.length; i += 1) {

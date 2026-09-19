@@ -3,21 +3,21 @@ import type {
 	RuntimeConfigurationJsonObject,
 } from "@origin/runtime-core/configuration";
 
-export const VETTA_OCR_CONFIGURATION_ID = "vetta.ocr";
+export const ORIGIN_OCR_CONFIGURATION_ID = "vetta.ocr";
 export const DEFAULT_OCR_PROVIDER_ID = "desktop-app:ppocrv5";
 
 export type OcrRemoteProviderPolicy = "never" | "ask" | "allowed";
 export type OcrDefaultOutput = "text" | "line" | "word" | "document-tree";
 
-export interface VettaOcrConfiguration extends RuntimeConfigurationJsonObject {
+export interface OriginOcrConfiguration extends RuntimeConfigurationJsonObject {
 	readonly defaultProviderId: string;
 	readonly remoteProviderPolicy: OcrRemoteProviderPolicy;
 	readonly cacheResults: boolean;
 	readonly defaultOutput: OcrDefaultOutput;
 }
 
-export const VETTA_OCR_CONFIGURATION = Object.freeze({
-	id: VETTA_OCR_CONFIGURATION_ID,
+export const ORIGIN_OCR_CONFIGURATION = Object.freeze({
+	id: ORIGIN_OCR_CONFIGURATION_ID,
 	schemaVersion: 1,
 	descriptor: {
 		title: "Text recognition (OCR)",
@@ -39,7 +39,7 @@ export const VETTA_OCR_CONFIGURATION = Object.freeze({
 			controls: { defaultProviderId: { kind: "ocr-provider-select" } },
 		},
 	},
-	codec: { decode: decodeVettaOcrConfiguration },
+	codec: { decode: decodeOriginOcrConfiguration },
 	defaultValue: {
 		defaultProviderId: DEFAULT_OCR_PROVIDER_ID,
 		remoteProviderPolicy: "ask",
@@ -47,9 +47,9 @@ export const VETTA_OCR_CONFIGURATION = Object.freeze({
 		defaultOutput: "text",
 	},
 	apply: "next-turn",
-} satisfies RuntimeConfigurationDefinition<VettaOcrConfiguration>);
+} satisfies RuntimeConfigurationDefinition<OriginOcrConfiguration>);
 
-function decodeVettaOcrConfiguration(value: unknown): VettaOcrConfiguration {
+function decodeOriginOcrConfiguration(value: unknown): OriginOcrConfiguration {
 	if (!isRecord(value)) throw new TypeError("Invalid OCR configuration");
 	const defaultProviderId = nonEmptyString(value.defaultProviderId, "defaultProviderId");
 	if (!isRemotePolicy(value.remoteProviderPolicy)) throw new TypeError("Invalid OCR remote provider policy");

@@ -82,7 +82,7 @@ export function createHtmlToPdfTool(
 			}
 			if (!response.output) throw new Error("Origin Desktop did not return an output path");
 			const staleNote = desktop.staleConfiguredPath
-				? `\nNote: configured vettaAppPath was stale and fallback path was used: ${desktop.staleConfiguredPath}`
+				? `\nNote: configured originAppPath was stale and fallback path was used: ${desktop.staleConfiguredPath}`
 				: "";
 			return {
 				content: [

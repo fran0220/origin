@@ -143,7 +143,7 @@ All notable changes to `@origin/runtime-node` are documented in this file.
 
 - `@origin/runtime-node/coding` 新增 `createNodeDocToPdfOperations()`，统一拥有 Office/WPS 探测、
   平台命令构造、文件存在性检查和进程错误映射；Coding Agent 只负责工具注册与模型顺序策略。
-- `@origin/runtime-node/coding` 新增 `createNodeVettaDesktopCommandPort()`，统一拥有 Desktop 可执行文件定位、
+- `@origin/runtime-node/coding` 新增 `createNodeOriginDesktopCommandPort()`，统一拥有 Desktop 可执行文件定位、
   配置读取和 Node 进程取消错误映射，并允许宿主显式注入平台与环境事实用于测试和非默认部署。
 
 - `@origin/runtime-node/host` 新增 `NodeTextFileStorage`，以缺失读取、临时文件替换和追加能力实现平台中立的

@@ -180,7 +180,7 @@ function createBackgroundProcessOperations(
 
 const localBackgroundCommandOutputStore: BackgroundCommandOutputStore = {
 	create(taskId) {
-		const path = join(tmpdir(), `vetta-task-${taskId}-${randomBytes(4).toString("hex")}.log`);
+		const path = join(tmpdir(), `origin-task-${taskId}-${randomBytes(4).toString("hex")}.log`);
 		const stream = createWriteStream(path);
 		return {
 			path,

@@ -37,7 +37,7 @@ export class DesktopRuntimeSessionCatalog implements RuntimeSessionCatalog {
 
 	/**
 	 * 不给 `sessionDir` 兜底：底层 catalog 在缺省时会**并集**同一 cwd 的全部已注册 root，
-	 * 于是新会话（全局分片目录）与存量会话（`<项目>/.vetta/sessions`）能一起列出来。
+	 * 于是新会话（全局分片目录）与存量会话（`<项目>/.origin/sessions`）能一起列出来。
 	 * 一旦在这里钉死某一个目录，另一处的会话就从列表里消失了。
 	 *
 	 * 走 {@link catalogForCurrentRoots}（而不是构造时那份无 root 的 catalog）：项目列表

@@ -12,11 +12,11 @@ on:
         options: [default, "true", "false"]
         default: default
       server_url:
-        description: "VETTA_SERVER_URL override. Required for a commercial build."
+        description: "ORIGIN_SERVER_URL override. Required for a commercial build."
         type: string
         required: false
       site_url:
-        description: "VETTA_SITE_URL override. Empty keeps Environment / repo value."
+        description: "ORIGIN_SITE_URL override. Empty keeps Environment / repo value."
         type: string
         required: false
       marketplace_repository:
@@ -24,16 +24,16 @@ on:
         type: string
         required: false
       tenant:
-        description: "VETTA_TENANT override (packages/plugins/tenants.json)."
+        description: "ORIGIN_TENANT override (packages/plugins/tenants.json)."
         type: string
         required: false
       speech_input:
-        description: "VETTA_SPEECH_INPUT_ENABLED. default = Environment / repo variable."
+        description: "ORIGIN_SPEECH_INPUT_ENABLED. default = Environment / repo variable."
         type: choice
         options: [default, "true", "false"]
         default: default
       channel:
-        description: "Rewrite update URL / R2 prefix to stable or test when those path segments exist. Dedicated VETTA_*_TEST / _STABLE vars win."
+        description: "Rewrite update URL / R2 prefix to stable or test when those path segments exist. Dedicated ORIGIN_*_TEST / _STABLE vars win."
         type: choice
         options: [default, stable, test]
         default: default
@@ -42,15 +42,15 @@ on:
         type: string
         required: false
       update_url:
-        description: "VETTA_UPDATE_URL override."
+        description: "ORIGIN_UPDATE_URL override."
         type: string
         required: false
       r2_prefix:
-        description: "VETTA_R2_PREFIX override (publish job only)."
+        description: "ORIGIN_R2_PREFIX override (publish job only)."
         type: string
         required: false
       release_target:
-        description: "Where a matching tag or stable/test dispatch publishes. default = VETTA_RELEASE_TARGET or github."
+        description: "Where a matching tag or stable/test dispatch publishes. default = ORIGIN_RELEASE_TARGET or github."
         type: choice
         options: [default, r2, github]
         default: default
@@ -127,22 +127,22 @@ jobs:
           INPUT_SPEECH_INPUT: ${{ github.event.inputs.speech_input }}
           INPUT_TENANT: ${{ github.event.inputs.tenant }}
           INPUT_UPDATE_URL: ${{ github.event.inputs.update_url }}
-          VAR_CLOUD_ENABLED: ${{ vars.VETTA_CLOUD_ENABLED }}
-          VAR_MARKETPLACE_REPOSITORY: ${{ vars.VETTA_OPEN_MARKETPLACE_REPOSITORY }}
-          VAR_R2_BUCKET: ${{ vars.VETTA_R2_BUCKET }}
-          VAR_R2_PREFIX: ${{ vars.VETTA_R2_PREFIX }}
-          VAR_R2_PREFIX_STABLE: ${{ vars.VETTA_R2_PREFIX_STABLE }}
-          VAR_R2_PREFIX_TEST: ${{ vars.VETTA_R2_PREFIX_TEST }}
-          VAR_RELEASE_CHANNEL: ${{ vars.VETTA_RELEASE_CHANNEL }}
-          VAR_TEST_BUILD_VERSION: ${{ vars.VETTA_TEST_BUILD_VERSION }}
-          VAR_RELEASE_TARGET: ${{ vars.VETTA_RELEASE_TARGET }}
-          VAR_SERVER_URL: ${{ vars.VETTA_SERVER_URL }}
-          VAR_SITE_URL: ${{ vars.VETTA_SITE_URL }}
-          VAR_SPEECH_INPUT: ${{ vars.VETTA_SPEECH_INPUT_ENABLED }}
-          VAR_TENANT: ${{ vars.VETTA_TENANT }}
-          VAR_UPDATE_URL: ${{ vars.VETTA_UPDATE_URL }}
-          VAR_UPDATE_URL_STABLE: ${{ vars.VETTA_UPDATE_URL_STABLE }}
-          VAR_UPDATE_URL_TEST: ${{ vars.VETTA_UPDATE_URL_TEST }}
+          VAR_CLOUD_ENABLED: ${{ vars.ORIGIN_CLOUD_ENABLED }}
+          VAR_MARKETPLACE_REPOSITORY: ${{ vars.ORIGIN_OPEN_MARKETPLACE_REPOSITORY }}
+          VAR_R2_BUCKET: ${{ vars.ORIGIN_R2_BUCKET }}
+          VAR_R2_PREFIX: ${{ vars.ORIGIN_R2_PREFIX }}
+          VAR_R2_PREFIX_STABLE: ${{ vars.ORIGIN_R2_PREFIX_STABLE }}
+          VAR_R2_PREFIX_TEST: ${{ vars.ORIGIN_R2_PREFIX_TEST }}
+          VAR_RELEASE_CHANNEL: ${{ vars.ORIGIN_RELEASE_CHANNEL }}
+          VAR_TEST_BUILD_VERSION: ${{ vars.ORIGIN_TEST_BUILD_VERSION }}
+          VAR_RELEASE_TARGET: ${{ vars.ORIGIN_RELEASE_TARGET }}
+          VAR_SERVER_URL: ${{ vars.ORIGIN_SERVER_URL }}
+          VAR_SITE_URL: ${{ vars.ORIGIN_SITE_URL }}
+          VAR_SPEECH_INPUT: ${{ vars.ORIGIN_SPEECH_INPUT_ENABLED }}
+          VAR_TENANT: ${{ vars.ORIGIN_TENANT }}
+          VAR_UPDATE_URL: ${{ vars.ORIGIN_UPDATE_URL }}
+          VAR_UPDATE_URL_STABLE: ${{ vars.ORIGIN_UPDATE_URL_STABLE }}
+          VAR_UPDATE_URL_TEST: ${{ vars.ORIGIN_UPDATE_URL_TEST }}
         run: node scripts/release/resolve-desktop-release-config.mjs --github-output >> "${GITHUB_OUTPUT}"
 
       - name: Write resolved config to the job summary
@@ -233,7 +233,7 @@ jobs:
             verify: verify:updates:windows
             macArch: ""
           # arm64 与 x64 必须分两次构建：内置的 node/python 运行时按
-          # VETTA_VENDOR_PLATFORM 单架构落盘，一次构建出不了两套。两次都会写同名的
+          # ORIGIN_VENDOR_PLATFORM 单架构落盘，一次构建出不了两套。两次都会写同名的
           # latest-mac.yml，因此各自重命名后上传，由发布任务合并回单一元数据。
           # 两个架构各自使用匹配的 GitHub-hosted runner：签名与公证凭据来自 CI Secret，
           # notarytool 只需要网络，不依赖任何一台固定的签名机。
@@ -306,7 +306,7 @@ jobs:
               echo "Runner-provided macOS signing configuration is missing notarization credentials." >&2
               exit 1
             fi
-            echo "VETTA_REQUIRE_MAC_SIGNATURE=1" >> "${GITHUB_ENV}"
+            echo "ORIGIN_REQUIRE_MAC_SIGNATURE=1" >> "${GITHUB_ENV}"
             echo "Using macOS signing credentials provided by the runner environment."
             exit 0
           fi
@@ -357,7 +357,7 @@ jobs:
             echo "APPLE_API_KEY_ID=${SECRET_APPLE_API_KEY_ID}"
             echo "APPLE_API_ISSUER=${SECRET_APPLE_API_ISSUER}"
             echo "APPLE_TEAM_ID=${SECRET_APPLE_TEAM_ID}"
-            echo "VETTA_REQUIRE_MAC_SIGNATURE=1"
+            echo "ORIGIN_REQUIRE_MAC_SIGNATURE=1"
           } >> "${GITHUB_ENV}"
 
       # release/ 不在版本控制里，actions/checkout 清不掉。复用工作目录的 runner 上
@@ -391,8 +391,8 @@ jobs:
         env:
           # 由 prepare 解析：dispatch 表单 > desktop-production Environment/仓库 Variables。
           # fork 不配任何值就得到开源版。空 optional 键不会写入 GITHUB_ENV。
-          VETTA_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
-          VETTA_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
+          ORIGIN_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
+          ORIGIN_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
         run: bun run ${{ matrix.command }}
 
       - name: Verify platform updater artifacts
@@ -417,23 +417,23 @@ jobs:
           docker run --rm --volume "${PWD}/release:/release:ro" ubuntu:24.04 bash -euo pipefail -c '
             apt-get update
             apt-get install --yes /release/*.deb
-            test -x /opt/Vetta/Vetta
-            test "$(cat /opt/Vetta/resources/package-type)" = "deb"
+            test -x /opt/Origin/Vetta
+            test "$(cat /opt/Origin/resources/package-type)" = "deb"
             find /usr/share/applications -maxdepth 1 -type f -iname "*vetta*.desktop" -print -quit | grep -q .
           '
           docker run --rm --volume "${PWD}/release:/release:ro" fedora:latest bash -euo pipefail -c '
             dnf install --assumeyes --nogpgcheck /release/*.rpm
-            test -x /opt/Vetta/Vetta
-            test "$(cat /opt/Vetta/resources/package-type)" = "rpm"
+            test -x /opt/Origin/Vetta
+            test "$(cat /opt/Origin/resources/package-type)" = "rpm"
             find /usr/share/applications -maxdepth 1 -type f -iname "*vetta*.desktop" -print -quit | grep -q .
           '
 
       - name: Run packaged app and updater E2E
         working-directory: apps/desktop
         env:
-          VETTA_E2E_PACKAGED: "1"
-          VETTA_E2E_UPDATE_FEED: "1"
-          VETTA_SPEECH_INPUT_ENABLED: "false"
+          ORIGIN_E2E_PACKAGED: "1"
+          ORIGIN_E2E_UPDATE_FEED: "1"
+          ORIGIN_SPEECH_INPUT_ENABLED: "false"
         shell: bash
         run: |
           if [[ "${{ matrix.platform }}" == "linux" ]]; then
@@ -526,15 +526,15 @@ jobs:
       - name: Publish artifacts before metadata
         working-directory: apps/desktop
         env:
-          VETTA_R2_ACCOUNT_ID: ${{ secrets.VETTA_R2_ACCOUNT_ID }}
-          VETTA_R2_ACCESS_KEY_ID: ${{ secrets.VETTA_R2_ACCESS_KEY_ID }}
-          VETTA_R2_SECRET_ACCESS_KEY: ${{ secrets.VETTA_R2_SECRET_ACCESS_KEY }}
+          ORIGIN_R2_ACCOUNT_ID: ${{ secrets.ORIGIN_R2_ACCOUNT_ID }}
+          ORIGIN_R2_ACCESS_KEY_ID: ${{ secrets.ORIGIN_R2_ACCESS_KEY_ID }}
+          ORIGIN_R2_SECRET_ACCESS_KEY: ${{ secrets.ORIGIN_R2_SECRET_ACCESS_KEY }}
         run: bun run publish:updates:r2
 
       - name: Verify published update feed
         working-directory: apps/desktop
         env:
-          VETTA_DESKTOP_RELEASE_VERSION: ${{ needs.prepare.outputs.build-version }}
+          ORIGIN_DESKTOP_RELEASE_VERSION: ${{ needs.prepare.outputs.build-version }}
         run: node scripts/verify-update-feed.mjs
 
   # R2 目标也要发 GitHub Release：R2 是更新源，GitHub Release 是对外的下载入口和
@@ -601,8 +601,8 @@ jobs:
       - name: Verify published update feed
         working-directory: apps/desktop
         env:
-          VETTA_DESKTOP_RELEASE_VERSION: ${{ needs.prepare.outputs.build-version }}
-          VETTA_UPDATE_PROVIDER: github
-          VETTA_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
-          VETTA_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
+          ORIGIN_DESKTOP_RELEASE_VERSION: ${{ needs.prepare.outputs.build-version }}
+          ORIGIN_UPDATE_PROVIDER: github
+          ORIGIN_UPDATE_GITHUB_OWNER: ${{ github.repository_owner }}
+          ORIGIN_UPDATE_GITHUB_REPO: ${{ github.event.repository.name }}
         run: node scripts/verify-update-feed.mjs

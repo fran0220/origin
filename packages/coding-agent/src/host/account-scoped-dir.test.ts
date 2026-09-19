@@ -47,7 +47,7 @@ describe("Node account-scoped evolution root", () => {
 });
 
 async function temporaryAgentDir(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-evolution-account-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-evolution-account-"));
 	roots.push(root);
 	return root;
 }

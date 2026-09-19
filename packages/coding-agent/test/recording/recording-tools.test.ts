@@ -128,7 +128,7 @@ describe("recording agent tools", () => {
 	});
 
 	it("covers start → stop → sample → review_recording with a fake video-capable provider", async () => {
-		const directory = await mkdtemp(join(tmpdir(), "vetta-recording-tools-"));
+		const directory = await mkdtemp(join(tmpdir(), "origin-recording-tools-"));
 		directories.push(directory);
 		await writeFile(join(directory, "video.mp4"), "fake-mp4");
 		const engine = new FakeRecordingEngine(readyRecord(directory));
@@ -181,7 +181,7 @@ describe("recording agent tools", () => {
 	});
 
 	it("refuses review when token usage is far below the conservative video check", async () => {
-		const directory = await mkdtemp(join(tmpdir(), "vetta-recording-tools-low-"));
+		const directory = await mkdtemp(join(tmpdir(), "origin-recording-tools-low-"));
 		await writeFile(join(directory, "video.mp4"), "fake-mp4");
 		const engine = new FakeRecordingEngine(readyRecord(directory));
 		await engine.stop();

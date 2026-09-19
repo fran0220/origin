@@ -48,9 +48,9 @@ describe("Coding Agent Node config compatibility facade", () => {
 	});
 
 	it("honors the explicit Agent directory override", () => {
-		process.env[ENV_AGENT_DIR] = "C:/isolated/vetta-agent";
+		process.env[ENV_AGENT_DIR] = "C:/isolated/origin-agent";
 
-		expect(getAgentDir()).toBe("C:/isolated/vetta-agent");
+		expect(getAgentDir()).toBe("C:/isolated/origin-agent");
 	});
 });
 

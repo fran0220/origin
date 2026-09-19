@@ -31,7 +31,7 @@ describe("FfmpegFrameEncoder", () => {
 
 	it("encodes 3 seconds of fake RGBA frames into H.264 MP4 that ffprobe accepts", async () => {
 		if (!ffmpegAvailable()) return;
-		const directory = await mkdtemp(join(tmpdir(), "vetta-recording-"));
+		const directory = await mkdtemp(join(tmpdir(), "origin-recording-"));
 		directories.push(directory);
 		const outputPath = join(directory, "video.mp4");
 		const encoder = new FfmpegFrameEncoder({ ffmpegPath: FFMPEG });
@@ -114,7 +114,7 @@ describe("FfmpegFrameEncoder", () => {
 
 	it("drops frames once the stdin queue is full", async () => {
 		if (!ffmpegAvailable()) return;
-		const directory = await mkdtemp(join(tmpdir(), "vetta-recording-drop-"));
+		const directory = await mkdtemp(join(tmpdir(), "origin-recording-drop-"));
 		directories.push(directory);
 		const encoder = new FfmpegFrameEncoder({ ffmpegPath: FFMPEG });
 		const width = 320;

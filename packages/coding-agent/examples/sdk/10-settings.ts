@@ -13,7 +13,7 @@ import { NodeScopedTextStorage } from "@origin/runtime-node/host";
 function createNodeSettingsRuntime() {
 	return SettingsRuntime.fromStorage(
 		new NodeScopedTextStorage({
-			global: join(homedir(), ".vetta", "agent", "settings.json"),
+			global: join(homedir(), ".origin", "agent", "settings.json"),
 			project: join(process.cwd(), CONFIG_DIR_NAME, "settings.json"),
 		}),
 	);

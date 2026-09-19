@@ -5,13 +5,13 @@ import { DOMAIN_PROJECT_CAPABILITIES, DOMAIN_PROJECT_CAPABILITY_CATALOG } from "
 describe("project domain capabilities", () => {
 	it("uses one stable capability id per project operation", () => {
 		expect(Object.values(DOMAIN_PROJECT_CAPABILITIES).map((capability) => capability.id)).toEqual([
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.create`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.open`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.rename`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.archive`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.unarchive`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}project.remove`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.create`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.open`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.rename`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.archive`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.unarchive`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}project.remove`,
 		]);
 	});
 

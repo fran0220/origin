@@ -108,7 +108,7 @@ async function createRepository(): Promise<{
 	readonly repository: FileConversationRepository;
 	readonly rootDir: string;
 }> {
-	const rootDir = await mkdtemp(join(tmpdir(), "vetta-conversation-continuation-"));
+	const rootDir = await mkdtemp(join(tmpdir(), "origin-conversation-continuation-"));
 	temporaryRoots.push(rootDir);
 	return { repository: new FileConversationRepository({ rootDir }), rootDir };
 }

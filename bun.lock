@@ -34,10 +34,10 @@
       "name": "@origin/cli-host",
       "version": "0.0.1",
       "bin": {
-        "vetta": "dist/cli.js",
-        "vetta-agent": "dist/agent-cli.js",
-        "vetta-cli-app": "dist/cli.js",
-        "vetta-agent-rpc": "dist/agent-rpc-cli.js",
+        "origin": "dist/cli.js",
+        "origin-agent": "dist/agent-cli.js",
+        "origin-cli-app": "dist/cli.js",
+        "origin-agent-rpc": "dist/agent-rpc-cli.js",
       },
       "dependencies": {
         "@origin/action-rpc": "workspace:*",
@@ -79,7 +79,7 @@
         "@origin-org/theme-ui": "workspace:*",
         "@origin-org/ui": "workspace:*",
         "@origin/action-rpc": "workspace:*",
-        "@origin/agent-team": "workspace:*",
+        "@origin/agent-profile": "workspace:*",
         "@origin/ai": "workspace:*",
         "@origin/capability-runtime": "workspace:*",
         "@origin/cli-host": "workspace:*",
@@ -263,8 +263,8 @@
         "typescript": "^5.7.3",
       },
     },
-    "packages/agent-team": {
-      "name": "@origin/agent-team",
+    "packages/agent-profile": {
+      "name": "@origin/agent-profile",
       "version": "0.0.1",
       "dependencies": {
         "@sinclair/typebox": "^0.34.41",
@@ -560,7 +560,7 @@
       "name": "@origin-org/plugin-cli",
       "version": "0.1.6",
       "bin": {
-        "vetta-plugin-cli": "./dist/cli.js",
+        "origin-plugin-cli": "./dist/cli.js",
       },
       "devDependencies": {
         "@origin-org/plugin-sdk": "workspace:*",
@@ -595,7 +595,7 @@
       "name": "@origin-org/plugin-vite",
       "version": "0.2.3",
       "bin": {
-        "vetta-plugin": "./dist/cli.js",
+        "origin-plugin": "./dist/cli.js",
       },
       "dependencies": {
         "@module-federation/vite": "^1.16.6",
@@ -812,6 +812,22 @@
         "vite": "^7.1.7",
       },
     },
+    "packages/plugins/presets/origin-actions": {
+      "name": "@origin/plugin-origin-actions",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@origin-org/plugin-sdk": "workspace:*",
+        "@origin-org/plugin-vite": "workspace:*",
+        "@types/node": "^22.10.5",
+        "@types/react": "^19.1.1",
+        "@types/react-dom": "^19.1.1",
+        "react": "19.1.1",
+        "react-dom": "19.1.1",
+        "typescript": "^5.9.2",
+        "vite": "^7.1.7",
+        "vitest": "^3.2.4",
+      },
+    },
     "packages/plugins/presets/origin-game-studio": {
       "name": "@origin/plugin-origin-game-studio",
       "version": "0.1.0",
@@ -828,6 +844,29 @@
         "@types/react": "^19.1.1",
         "@types/react-dom": "^19.1.1",
         "jsdom": "26.1.0",
+        "react": "19.1.1",
+        "react-dom": "19.1.1",
+        "tailwindcss": "^4.1.12",
+        "typescript": "^5.9.2",
+        "vite": "^7.1.7",
+        "vitest": "^3.2.4",
+      },
+    },
+    "packages/plugins/presets/origin-ui-design": {
+      "name": "@origin/plugin-origin-ui-design",
+      "version": "0.1.15",
+      "dependencies": {
+        "fflate": "^0.8.2",
+        "isomorphic-git": "^1.41.3",
+      },
+      "devDependencies": {
+        "@origin-org/plugin-sdk": "workspace:*",
+        "@origin-org/plugin-vite": "workspace:*",
+        "@tailwindcss/vite": "^4.1.12",
+        "@types/node": "^22.10.5",
+        "@types/react": "^19.1.1",
+        "@types/react-dom": "^19.1.1",
+        "happy-dom": "^20.11.1",
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "tailwindcss": "^4.1.12",
@@ -903,45 +942,6 @@
         "tailwindcss": "^4.1.12",
         "typescript": "^5.9.2",
         "vite": "^7.1.7",
-      },
-    },
-    "packages/plugins/presets/vetta-actions": {
-      "name": "@origin/plugin-vetta-actions",
-      "version": "0.1.0",
-      "devDependencies": {
-        "@origin-org/plugin-sdk": "workspace:*",
-        "@origin-org/plugin-vite": "workspace:*",
-        "@types/node": "^22.10.5",
-        "@types/react": "^19.1.1",
-        "@types/react-dom": "^19.1.1",
-        "react": "19.1.1",
-        "react-dom": "19.1.1",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.7",
-        "vitest": "^3.2.4",
-      },
-    },
-    "packages/plugins/presets/vetta-ui-design": {
-      "name": "@origin/plugin-vetta-ui-design",
-      "version": "0.1.15",
-      "dependencies": {
-        "fflate": "^0.8.2",
-        "isomorphic-git": "^1.41.3",
-      },
-      "devDependencies": {
-        "@origin-org/plugin-sdk": "workspace:*",
-        "@origin-org/plugin-vite": "workspace:*",
-        "@tailwindcss/vite": "^4.1.12",
-        "@types/node": "^22.10.5",
-        "@types/react": "^19.1.1",
-        "@types/react-dom": "^19.1.1",
-        "happy-dom": "^20.11.1",
-        "react": "19.1.1",
-        "react-dom": "19.1.1",
-        "tailwindcss": "^4.1.12",
-        "typescript": "^5.9.2",
-        "vite": "^7.1.7",
-        "vitest": "^3.2.4",
       },
     },
     "packages/remote-control": {
@@ -2065,7 +2065,7 @@
 
     "@origin/agent-core": ["@origin/agent-core@workspace:packages/agent"],
 
-    "@origin/agent-team": ["@origin/agent-team@workspace:packages/agent-team"],
+    "@origin/agent-profile": ["@origin/agent-profile@workspace:packages/agent-profile"],
 
     "@origin/ai": ["@origin/ai@workspace:packages/ai"],
 
@@ -2111,7 +2111,11 @@
 
     "@origin/plugin-office-viewer": ["@origin/plugin-office-viewer@workspace:packages/plugins/presets/office-viewer"],
 
+    "@origin/plugin-origin-actions": ["@origin/plugin-origin-actions@workspace:packages/plugins/presets/origin-actions"],
+
     "@origin/plugin-origin-game-studio": ["@origin/plugin-origin-game-studio@workspace:packages/plugins/presets/origin-game-studio"],
+
+    "@origin/plugin-origin-ui-design": ["@origin/plugin-origin-ui-design@workspace:packages/plugins/presets/origin-ui-design"],
 
     "@origin/plugin-plugin-workbench": ["@origin/plugin-plugin-workbench@workspace:packages/plugins/presets/plugin-workbench"],
 
@@ -2122,10 +2126,6 @@
     "@origin/plugin-security-probe": ["@origin/plugin-security-probe@workspace:packages/plugins/externals/security-probe"],
 
     "@origin/plugin-svg-viewer": ["@origin/plugin-svg-viewer@workspace:packages/plugins/presets/svg-viewer"],
-
-    "@origin/plugin-vetta-actions": ["@origin/plugin-vetta-actions@workspace:packages/plugins/presets/vetta-actions"],
-
-    "@origin/plugin-vetta-ui-design": ["@origin/plugin-vetta-ui-design@workspace:packages/plugins/presets/vetta-ui-design"],
 
     "@origin/remote-control": ["@origin/remote-control@workspace:packages/remote-control"],
 

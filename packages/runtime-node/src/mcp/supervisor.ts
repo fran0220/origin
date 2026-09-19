@@ -10,7 +10,7 @@ import type { McpConfigSource } from "@origin/runtime-mcp/config";
 import {
 	buildBuiltinMcpServers,
 	FileMcpOAuthStateStore,
-	loadVettaCredentials,
+	loadOriginCredentials,
 	McpOAuthProvider,
 } from "./auth/index.js";
 import { createMcpClient } from "./client/index.js";
@@ -47,7 +47,7 @@ export function createNodeMcpSupervisor(options: NodeMcpSupervisorOptions): Node
 		options.configSource ??
 		new FileMcpConfigSource({
 			globalConfigPath: join(options.agentDir, "mcp.json"),
-			projectConfigPath: join(options.projectRoot, options.projectConfigDirectoryName ?? ".vetta", "mcp.json"),
+			projectConfigPath: join(options.projectRoot, options.projectConfigDirectoryName ?? ".origin", "mcp.json"),
 			projectRoot: options.projectRoot,
 		});
 	const oauthStore = new FileMcpOAuthStateStore({ authDirectory: join(options.agentDir, "mcp-auth") });
@@ -58,7 +58,7 @@ export function createNodeMcpSupervisor(options: NodeMcpSupervisorOptions): Node
 				? {}
 				: buildBuiltinMcpServers({
 						clientVersion: options.clientVersion,
-						loadCredentials: () => loadVettaCredentials(options.agentDir),
+						loadCredentials: () => loadOriginCredentials(options.agentDir),
 					}),
 		configSource,
 		clientFactory: (name, config, clientOptions) =>

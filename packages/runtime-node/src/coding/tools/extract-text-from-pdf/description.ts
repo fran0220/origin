@@ -2,7 +2,7 @@ export const EXTRACT_TEXT_FROM_PDF_TOOL_DESCRIPTION = `Extract text from a PDF (
 
 Pages with an embedded text layer are read directly (near-perfect accuracy, milliseconds per page). Pages without a usable text layer fall through to PP-OCRv5 (Chinese + English, ~1-2s per page on a modern machine). All work runs locally — no network calls.
 
-This tool calls the Origin Desktop executable in command-line OCR mode. Origin Desktop must be installed, or VETTA_DESKTOP_EXE must point to the desktop executable.
+This tool calls the Origin Desktop executable in command-line OCR mode. Origin Desktop must be installed, or ORIGIN_DESKTOP_EXE must point to the desktop executable.
 
 Input
   - input: path to the PDF file

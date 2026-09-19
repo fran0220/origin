@@ -24,7 +24,7 @@ import { createLangfuseRuntimeTracerFromEnv } from "@origin/runtime-telemetry/la
 const tracer = createLangfuseRuntimeTracerFromEnv();
 ```
 
-Set `VETTA_TRACING=langfuse` plus Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, optional `LANGFUSE_BASE_URL`) to enable it.
+Set `ORIGIN_TRACING=langfuse` plus Langfuse credentials (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, optional `LANGFUSE_BASE_URL`) to enable it.
 
 ## Runtime Observation adapters
 

@@ -15,8 +15,8 @@ export const CAPABILITY_PREFIXES = {
 	ROOT: "cap.",
 	FOUNDATION: "cap.foundation.",
 	DOMAIN: "cap.domain.",
-	VETTA_FOUNDATION: "cap.foundation.vetta.",
-	VETTA_DOMAIN: "cap.domain.vetta.",
+	ORIGIN_FOUNDATION: "cap.foundation.origin.",
+	ORIGIN_DOMAIN: "cap.domain.origin.",
 } as const;
 
 export const CAPABILITY_PUBLISHERS = {

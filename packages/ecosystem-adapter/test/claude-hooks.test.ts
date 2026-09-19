@@ -35,7 +35,7 @@ afterEach(async () => {
 });
 
 async function makeTempDir(): Promise<string> {
-	const dir = await mkdtemp(join(tmpdir(), "vetta-claude-hooks-"));
+	const dir = await mkdtemp(join(tmpdir(), "origin-claude-hooks-"));
 	tempDirs.push(dir);
 	return dir;
 }

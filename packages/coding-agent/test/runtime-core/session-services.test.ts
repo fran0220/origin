@@ -167,7 +167,7 @@ describe("runtime host process services", () => {
 	});
 
 	it("preserves legacy JSONL listing, history, rename and deletion behavior", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-runtime-core-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-runtime-core-"));
 		const sessionDir = join(root, "sessions");
 		const sessionPath = join(sessionDir, "legacy-session.jsonl");
 		try {

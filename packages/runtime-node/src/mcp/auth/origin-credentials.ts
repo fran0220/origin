@@ -1,7 +1,7 @@
 /**
  * 读取 Vetta 客户端下沉的登录态。
  *
- * 桌面端登录、刷新、登出时都会把当前 access token 写进 `~/.vetta/auth.json`
+ * 桌面端登录、刷新、登出时都会把当前 access token 写进 `~/.origin/auth.json`
  * （见 desktop-app 的 credential-store），这是宿主与外部进程之间唯一的凭据契约：
  * 不去翻客户端的 settings.json，免得把「客户端配置文件的内部结构」变成外部契约。
  *
@@ -13,35 +13,35 @@ import { readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-export interface VettaCredentials {
+export interface OriginCredentials {
 	/** 服务根，不含 API 前缀 */
 	baseUrl: string;
 	/** access token，作 Bearer 用 */
 	token: string;
 }
 
-export const VETTA_API_PREFIX = "/api/v1";
+export const ORIGIN_API_PREFIX = "/api/v1";
 
-/** 凭据文件路径：`~/.vetta/auth.json`，显式运行时目录或 VETTA_HOME 可覆盖根目录。 */
-export function vettaCredentialsPath(vettaHome?: string): string {
-	const home = vettaHome?.trim() || process.env.VETTA_HOME?.trim() || join(homedir(), ".vetta");
+/** 凭据文件路径：`~/.origin/auth.json`，显式运行时目录或 ORIGIN_HOME 可覆盖根目录。 */
+export function originCredentialsPath(originHome?: string): string {
+	const home = originHome?.trim() || process.env.ORIGIN_HOME?.trim() || join(homedir(), ".origin");
 	return join(home, "auth.json");
 }
 
 /**
- * 归一 baseUrl 为**服务根**（不含 API 前缀），拼接一律交给 vettaApiUrl。
+ * 归一 baseUrl 为**服务根**（不含 API 前缀），拼接一律交给 originApiUrl。
  *
- * 必须容忍两种写法：桌面端注入的 `VETTA_SERVER_URL` 本身就带 `/api/v1`，
- * 而手工设 `VETTA_API_BASE_URL` 的人通常只写到域名。两者不统一就会拼出
+ * 必须容忍两种写法：桌面端注入的 `ORIGIN_SERVER_URL` 本身就带 `/api/v1`，
+ * 而手工设 `ORIGIN_API_BASE_URL` 的人通常只写到域名。两者不统一就会拼出
  * `/api/v1/api/v1/...` 而 404。
  */
-export function normalizeVettaBaseUrl(raw: string): string {
+export function normalizeOriginBaseUrl(raw: string): string {
 	return raw.replace(/\/+$/, "").replace(/\/api\/v\d+$/, "");
 }
 
 /** 由服务根与端点路径拼出完整 URL。 */
-export function vettaApiUrl(baseUrl: string, path: string): string {
-	return `${normalizeVettaBaseUrl(baseUrl)}${VETTA_API_PREFIX}${path}`;
+export function originApiUrl(baseUrl: string, path: string): string {
+	return `${normalizeOriginBaseUrl(baseUrl)}${ORIGIN_API_PREFIX}${path}`;
 }
 
 /**
@@ -49,16 +49,16 @@ export function vettaApiUrl(baseUrl: string, path: string): string {
  *
  * 环境变量优先是为 CI 与本地联调留的口子，也让本模块无需真实登录即可测试。
  */
-export function loadVettaCredentials(vettaHome?: string): VettaCredentials | null {
-	const envToken = process.env.VETTA_API_TOKEN?.trim();
-	const envBase = process.env.VETTA_API_BASE_URL?.trim() || process.env.VETTA_SERVER_URL?.trim();
+export function loadOriginCredentials(originHome?: string): OriginCredentials | null {
+	const envToken = process.env.ORIGIN_API_TOKEN?.trim();
+	const envBase = process.env.ORIGIN_API_BASE_URL?.trim() || process.env.ORIGIN_SERVER_URL?.trim();
 	if (envToken && envBase) {
-		return { baseUrl: normalizeVettaBaseUrl(envBase), token: envToken };
+		return { baseUrl: normalizeOriginBaseUrl(envBase), token: envToken };
 	}
 
 	let parsed: unknown;
 	try {
-		parsed = JSON.parse(readFileSync(vettaCredentialsPath(vettaHome), "utf8"));
+		parsed = JSON.parse(readFileSync(originCredentialsPath(originHome), "utf8"));
 	} catch {
 		return null;
 	}
@@ -69,5 +69,5 @@ export function loadVettaCredentials(vettaHome?: string): VettaCredentials | nul
 	const baseUrl = envBase || (typeof record.baseUrl === "string" ? record.baseUrl.trim() : "");
 	if (!token || !baseUrl) return null;
 
-	return { baseUrl: normalizeVettaBaseUrl(baseUrl), token };
+	return { baseUrl: normalizeOriginBaseUrl(baseUrl), token };
 }

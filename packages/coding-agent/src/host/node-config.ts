@@ -2,12 +2,12 @@ import { existsSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { APP_NAME, ENV_AGENT_DIR, ENV_PACKAGE_DIR, ENV_SHARE_VIEWER_URL, PACKAGE_NAME } from "../identity.js";
 
-export { getVettaHomePath } from "@origin/action-rpc";
+export { getOriginHomePath } from "@origin/action-rpc";
 
-declare const VETTA_COMPILED_PACKAGE_METADATA: unknown;
+declare const ORIGIN_COMPILED_PACKAGE_METADATA: unknown;
 
 const moduleFilename = fileURLToPath(import.meta.url);
 const moduleDirectory = dirname(moduleFilename);
@@ -136,7 +136,7 @@ function loadPackageManifest(): unknown {
 			return undefined;
 		}
 	}
-	if (isBunBinary && typeof VETTA_COMPILED_PACKAGE_METADATA !== "undefined") return VETTA_COMPILED_PACKAGE_METADATA;
+	if (isBunBinary && typeof ORIGIN_COMPILED_PACKAGE_METADATA !== "undefined") return ORIGIN_COMPILED_PACKAGE_METADATA;
 	return undefined;
 }
 
@@ -151,7 +151,7 @@ export function getShareViewerUrl(gistId: string): string {
 
 export function getAgentDir(): string {
 	const configuredDirectory = process.env[ENV_AGENT_DIR];
-	return configuredDirectory ? expandHomeDirectory(configuredDirectory) : join(getVettaHomePath(), "agent");
+	return configuredDirectory ? expandHomeDirectory(configuredDirectory) : join(getOriginHomePath(), "agent");
 }
 
 export function getCustomThemesDir(): string {
@@ -191,15 +191,15 @@ export function getDebugLogPath(): string {
 }
 
 export function getSceneDir(): string {
-	return join(getVettaHomePath(), "scene");
+	return join(getOriginHomePath(), "scene");
 }
 
 export function getUserSkillsDir(): string {
-	return join(getVettaHomePath(), "skills");
+	return join(getOriginHomePath(), "skills");
 }
 
 export function getKnowledgeDir(): string {
-	return join(getVettaHomePath(), "knowledges");
+	return join(getOriginHomePath(), "knowledges");
 }
 
 function expandHomeDirectory(path: string): string {

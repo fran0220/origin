@@ -5,7 +5,7 @@
  * that lists all available slash commands in the current session.
  *
  * Usage:
- * 1. Copy this file to ~/.vetta/agent/extensions/ or your project's .vetta/extensions/
+ * 1. Copy this file to ~/.origin/agent/extensions/ or your project's .origin/extensions/
  * 2. Use /commands to see available commands
  * 3. Use /commands extensions to filter by source
  */

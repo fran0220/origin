@@ -37,7 +37,7 @@ import {
 } from "@origin/coding-agent/sdk";
 
 const cwd = process.cwd();
-const conversationDir = join(cwd, ".vetta", "conversations");
+const conversationDir = join(cwd, ".origin", "conversations");
 const model = getModel("anthropic", "claude-opus-4-5");
 
 const { session, diagnostics } = await createCodingAgentSession({

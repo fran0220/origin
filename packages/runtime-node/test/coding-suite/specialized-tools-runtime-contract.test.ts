@@ -251,7 +251,7 @@ describe("runtime specialized tool contracts", () => {
 });
 
 async function temporaryDirectory(label: string): Promise<string> {
-	const directory = await mkdtemp(join(tmpdir(), `vetta-specialized-tools-${label}-`));
+	const directory = await mkdtemp(join(tmpdir(), `origin-specialized-tools-${label}-`));
 	temporaryDirectories.push(directory);
 	return directory;
 }

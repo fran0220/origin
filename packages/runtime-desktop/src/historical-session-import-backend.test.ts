@@ -78,7 +78,7 @@ describe("Desktop historical session import", () => {
 });
 
 async function createFixture(content: string): Promise<{ sourcePath: string; targetRootDir: string }> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-desktop-historical-import-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-desktop-historical-import-"));
 	temporaryRoots.add(root);
 	const sourcePath = join(root, "historical.jsonl");
 	const targetRootDir = join(root, "conversations");

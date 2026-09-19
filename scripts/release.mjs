@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Release script for vetta-mono
+ * Release script for origin-mono
  *
  * Usage: node scripts/release.mjs <major|minor|patch>
  *

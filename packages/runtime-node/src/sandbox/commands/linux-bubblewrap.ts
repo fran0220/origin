@@ -2,7 +2,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { chmodSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { delimiter, isAbsolute, join, resolve as resolvePath } from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import type { SandboxShellGrant } from "@origin/runtime-core/sandbox";
 import type { ForegroundCommandOperations } from "@origin/runtime-tools";
 import { getSandboxShellGrant } from "../sandbox-permissions.js";
@@ -25,10 +25,10 @@ const LINUX_ENV_WHITELIST = [
 	"PIP_TRUSTED_HOST",
 	"PIP_CONFIG_FILE",
 	"PIP_CACHE_DIR",
-	"VETTA_HOME",
-	"VETTA_ACTION_RPC_ENDPOINT_FILE",
-	"VETTA_DESKTOP_EXE",
-	"VETTA_CLI_APP_PATH",
+	"ORIGIN_HOME",
+	"ORIGIN_ACTION_RPC_ENDPOINT_FILE",
+	"ORIGIN_DESKTOP_EXE",
+	"ORIGIN_CLI_APP_PATH",
 ] as const;
 const SANDBOX_HOME = "/tmp/vetta-home";
 const SANDBOX_BIN_DIR = "/vetta-bin";
@@ -63,7 +63,7 @@ function findOnPathUnix(binary: string): string | undefined {
 }
 
 export function resolveLinuxBubblewrapPath(explicitPath?: string): string {
-	const explicitCandidates = [explicitPath, process.env.VETTA_LINUX_BWRAP_PATH].filter(
+	const explicitCandidates = [explicitPath, process.env.ORIGIN_LINUX_BWRAP_PATH].filter(
 		(value): value is string => typeof value === "string" && value.trim().length > 0,
 	);
 	for (const candidate of explicitCandidates) {
@@ -78,7 +78,7 @@ export function resolveLinuxBubblewrapPath(explicitPath?: string): string {
 	}
 	const searched = [...explicitCandidates, ...pathCandidates].map((item) => `  - ${item}`).join("\n");
 	throw new Error(
-		"Linux sandbox requires bubblewrap. Install `bwrap`/`bubblewrap` or set VETTA_LINUX_BWRAP_PATH." +
+		"Linux sandbox requires bubblewrap. Install `bwrap`/`bubblewrap` or set ORIGIN_LINUX_BWRAP_PATH." +
 			`\nSearched:\n${searched}`,
 	);
 }
@@ -155,11 +155,11 @@ function collectEnvReadOnlyMounts(env: NodeSandboxEnvironment | undefined): {
 		existingDir(env?.NPM_CONFIG_CACHE ?? process.env.NPM_CONFIG_CACHE),
 		existingDir(env?.PIP_CACHE_DIR ?? process.env.PIP_CACHE_DIR),
 	].filter((path): path is string => path !== undefined);
-	const vettaHome = env?.VETTA_HOME ?? process.env.VETTA_HOME;
+	const originHome = env?.ORIGIN_HOME ?? process.env.ORIGIN_HOME;
 	const endpointFile =
-		env?.VETTA_ACTION_RPC_ENDPOINT_FILE ??
-		process.env.VETTA_ACTION_RPC_ENDPOINT_FILE ??
-		(vettaHome ? join(vettaHome, "action-server.json") : undefined);
+		env?.ORIGIN_ACTION_RPC_ENDPOINT_FILE ??
+		process.env.ORIGIN_ACTION_RPC_ENDPOINT_FILE ??
+		(originHome ? join(originHome, "action-server.json") : undefined);
 	const files = [
 		env?.npm_config_userconfig ?? process.env.npm_config_userconfig,
 		env?.NPM_CONFIG_USERCONFIG ?? process.env.NPM_CONFIG_USERCONFIG,
@@ -172,44 +172,44 @@ function collectEnvReadOnlyMounts(env: NodeSandboxEnvironment | undefined): {
 }
 
 function readConfiguredVettaPaths(env: NodeSandboxEnvironment | undefined): {
-	readonly vettaAppPath?: string;
-	readonly vettaCliAppPath?: string;
+	readonly originAppPath?: string;
+	readonly originCliAppPath?: string;
 } {
-	const configPath = join(env?.VETTA_HOME ?? getVettaHomePath(), "desktop-config.json");
+	const configPath = join(env?.ORIGIN_HOME ?? getOriginHomePath(), "desktop-config.json");
 	try {
 		const parsed = JSON.parse(readFileSync(configPath, "utf-8")) as {
-			vettaAppPath?: unknown;
-			vettaCliAppPath?: unknown;
+			originAppPath?: unknown;
+			originCliAppPath?: unknown;
 		};
 		return {
-			vettaAppPath: typeof parsed.vettaAppPath === "string" ? parsed.vettaAppPath : undefined,
-			vettaCliAppPath: typeof parsed.vettaCliAppPath === "string" ? parsed.vettaCliAppPath : undefined,
+			originAppPath: typeof parsed.originAppPath === "string" ? parsed.originAppPath : undefined,
+			originCliAppPath: typeof parsed.originCliAppPath === "string" ? parsed.originCliAppPath : undefined,
 		};
 	} catch {
 		return {};
 	}
 }
 
-function resolveVettaDesktopExe(env: NodeSandboxEnvironment | undefined): string | undefined {
+function resolveOriginDesktopExe(env: NodeSandboxEnvironment | undefined): string | undefined {
 	return existingFile(
-		env?.VETTA_DESKTOP_EXE ?? process.env.VETTA_DESKTOP_EXE ?? readConfiguredVettaPaths(env).vettaAppPath,
+		env?.ORIGIN_DESKTOP_EXE ?? process.env.ORIGIN_DESKTOP_EXE ?? readConfiguredVettaPaths(env).originAppPath,
 	);
 }
 
-function resolveVettaCliAppPath(env: NodeSandboxEnvironment | undefined): string | undefined {
+function resolveOriginCliAppPath(env: NodeSandboxEnvironment | undefined): string | undefined {
 	return existingFile(
-		env?.VETTA_CLI_APP_PATH ?? process.env.VETTA_CLI_APP_PATH ?? readConfiguredVettaPaths(env).vettaCliAppPath,
+		env?.ORIGIN_CLI_APP_PATH ?? process.env.ORIGIN_CLI_APP_PATH ?? readConfiguredVettaPaths(env).originCliAppPath,
 	);
 }
 
-function createVettaCliShim(
+function createOriginCliShim(
 	env: NodeSandboxEnvironment | undefined,
 ): { readonly hostDir: string; readonly hostPath: string } | undefined {
-	const vettaCliAppPath = resolveVettaCliAppPath(env);
-	if (!vettaCliAppPath) return undefined;
-	const hostDir = mkdtempSync(join(tmpdir(), "vetta-linux-sandbox-bin-"));
+	const originCliAppPath = resolveOriginCliAppPath(env);
+	if (!originCliAppPath) return undefined;
+	const hostDir = mkdtempSync(join(tmpdir(), "origin-linux-sandbox-bin-"));
 	const hostPath = join(hostDir, "vetta");
-	writeFileSync(hostPath, ["#!/usr/bin/env sh", `exec "${vettaCliAppPath}" "$@"`, ""].join("\n"), "utf8");
+	writeFileSync(hostPath, ["#!/usr/bin/env sh", `exec "${originCliAppPath}" "$@"`, ""].join("\n"), "utf8");
 	chmodSync(hostPath, 0o755);
 	return { hostDir, hostPath };
 }
@@ -220,7 +220,7 @@ export function buildLinuxSandboxArgs(
 	shell: NodeSandboxShell,
 	env: NodeSandboxEnvironment | undefined,
 	grant: SandboxShellGrant | undefined,
-	vettaCliShimPath: string | undefined,
+	originCliShimPath: string | undefined,
 ): string[] {
 	const args: string[] = ["--die-with-parent", "--new-session", "--unshare-pid", "--unshare-ipc", "--unshare-uts"];
 	const createdDirs = new Set<string>();
@@ -232,10 +232,10 @@ export function buildLinuxSandboxArgs(
 		mountedRoots.add(root);
 	}
 	const readOnlyMounts = collectEnvReadOnlyMounts(env);
-	const vettaDesktopExe = resolveVettaDesktopExe(env);
-	const vettaCliAppPath = resolveVettaCliAppPath(env);
+	const vettaDesktopExe = resolveOriginDesktopExe(env);
+	const originCliAppPath = resolveOriginCliAppPath(env);
 	const vettaDesktopExeDir = vettaDesktopExe ? resolvePath(vettaDesktopExe, "..") : undefined;
-	const vettaCliAppDir = vettaCliAppPath ? resolvePath(vettaCliAppPath, "..") : undefined;
+	const originCliAppDir = originCliAppPath ? resolvePath(originCliAppPath, "..") : undefined;
 	for (const root of Array.from(new Set([...collectPathDirs(env), ...readOnlyMounts.dirs]))) {
 		if (mountedRoots.has(root)) continue;
 		appendParentDirs(args, root, createdDirs);
@@ -251,13 +251,14 @@ export function buildLinuxSandboxArgs(
 	args.push("--proc", "/proc", "--dev", "/dev", "--tmpfs", "/tmp");
 	appendParentDirs(args, cwd, new Set());
 	args.push("--bind", cwd, cwd);
-	for (const root of [vettaDesktopExeDir, vettaCliAppDir]) {
+	for (const root of [vettaDesktopExeDir, originCliAppDir]) {
 		if (!root || mountedRoots.has(root)) continue;
 		appendParentDirs(args, root, createdDirs);
 		args.push("--ro-bind", root, root);
 		mountedRoots.add(root);
 	}
-	if (vettaCliShimPath) args.push("--dir", SANDBOX_BIN_DIR, "--ro-bind", vettaCliShimPath, `${SANDBOX_BIN_DIR}/vetta`);
+	if (originCliShimPath)
+		args.push("--dir", SANDBOX_BIN_DIR, "--ro-bind", originCliShimPath, `${SANDBOX_BIN_DIR}/vetta`);
 	for (const root of grant?.allowWriteRoots ?? []) {
 		const normalizedRoot = resolvePath(root);
 		if (!existsSync(normalizedRoot) || mountedRoots.has(normalizedRoot)) continue;
@@ -268,7 +269,7 @@ export function buildLinuxSandboxArgs(
 	args.push("--dir", SANDBOX_HOME);
 
 	const baseEnv = env ?? process.env;
-	const pathValue = vettaCliShimPath
+	const pathValue = originCliShimPath
 		? [SANDBOX_BIN_DIR, baseEnv.PATH].filter((value): value is string => Boolean(value)).join(delimiter)
 		: baseEnv.PATH;
 	args.push("--clearenv");
@@ -276,10 +277,10 @@ export function buildLinuxSandboxArgs(
 		const value =
 			key === "PATH"
 				? pathValue
-				: key === "VETTA_DESKTOP_EXE"
+				: key === "ORIGIN_DESKTOP_EXE"
 					? vettaDesktopExe
-					: key === "VETTA_CLI_APP_PATH"
-						? vettaCliAppPath
+					: key === "ORIGIN_CLI_APP_PATH"
+						? originCliAppPath
 						: baseEnv[key];
 		if (typeof value === "string" && value.length > 0) args.push("--setenv", key, value);
 	}
@@ -298,14 +299,14 @@ export function createLinuxBubblewrapCommandOperations(
 		exec: (command, cwd, { onData, signal, timeout, env }) =>
 			new Promise<{ exitCode: number | null }>((resolve, reject) => {
 				if (!existsSync(cwd)) return reject(new Error(`Working directory does not exist: ${cwd}`));
-				const vettaCliShim = createVettaCliShim(env);
+				const originCliShim = createOriginCliShim(env);
 				const args = buildLinuxSandboxArgs(
 					command,
 					cwd,
 					shell,
 					env,
 					getSandboxShellGrant(cwd),
-					vettaCliShim?.hostPath,
+					originCliShim?.hostPath,
 				);
 				const child = spawn(bubblewrapPath, args, { cwd, detached: true, stdio: ["ignore", "pipe", "pipe"] });
 				let timedOut = false;
@@ -326,7 +327,7 @@ export function createLinuxBubblewrapCommandOperations(
 				const cleanup = () => {
 					if (timeoutHandle) clearTimeout(timeoutHandle);
 					signal?.removeEventListener("abort", onAbort);
-					if (vettaCliShim) rmSync(vettaCliShim.hostDir, { recursive: true, force: true });
+					if (originCliShim) rmSync(originCliShim.hostDir, { recursive: true, force: true });
 				};
 				child.on("error", (error) => {
 					cleanup();

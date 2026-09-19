@@ -23,7 +23,7 @@ const gatewayRequestOutputSchema = defineCapabilityOutputSchema(CAPABILITY_JSON_
 
 export const FOUNDATION_GATEWAY_CAPABILITIES = {
 	REQUEST: defineCapability<GatewayRequestInput, CapabilityJsonValue>({
-		id: "cap.foundation.vetta.gateway.request",
+		id: "cap.foundation.origin.gateway.request",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.FOUNDATION,
 		version: 1,

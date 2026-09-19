@@ -2,7 +2,7 @@ export const EXTRACT_TEXT_FROM_IMAGE_TOOL_DESCRIPTION = `Extract text from an im
 
 Runs entirely locally — no network calls. Designed for screenshots, scanned single pages, photographed documents.
 
-This tool calls the Origin Desktop executable in command-line OCR mode. Origin Desktop must be installed, or VETTA_DESKTOP_EXE must point to the desktop executable.
+This tool calls the Origin Desktop executable in command-line OCR mode. Origin Desktop must be installed, or ORIGIN_DESKTOP_EXE must point to the desktop executable.
 
 Input
   - input: path to an image file. Supported extensions: .png .jpg .jpeg .webp .bmp .gif

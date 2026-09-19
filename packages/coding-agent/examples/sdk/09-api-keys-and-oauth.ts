@@ -13,10 +13,10 @@ import {
 } from "@origin/coding-agent/host-services";
 import { NodeTransactionalTextStorage } from "@origin/runtime-node/host";
 
-// The Node host explicitly chooses ~/.vetta/agent/auth.json.
-// CodingAgentModelRuntime loads built-in + custom models from ~/.vetta/agent/models.json
+// The Node host explicitly chooses ~/.origin/agent/auth.json.
+// CodingAgentModelRuntime loads built-in + custom models from ~/.origin/agent/models.json
 const authStorage = AuthStorage.fromStorage(
-	new NodeTransactionalTextStorage(join(homedir(), ".vetta", "agent", "auth.json")),
+	new NodeTransactionalTextStorage(join(homedir(), ".origin", "agent", "auth.json")),
 );
 const modelRuntime = createCodingAgentModelRuntime(authStorage);
 

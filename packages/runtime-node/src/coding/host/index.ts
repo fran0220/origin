@@ -40,6 +40,10 @@ export {
 	WINDOWS_POWERSHELL_UTF8_COMMAND_PREFIX,
 } from "./node-shell.js";
 export {
+	createNodeOriginDesktopCommandPort,
+	type NodeOriginDesktopCommandPortOptions,
+} from "./origin-desktop-command-port.js";
+export {
 	createNodePathBoundaryClassifier,
 	type NodePathBoundaryClassifier,
 	type NodePathBoundaryClassifierOptions,
@@ -63,7 +67,3 @@ export {
 	createNodeHostCodingToolEnvironment,
 	type NodeHostCodingToolEnvironmentOptions,
 } from "./tool-environment.js";
-export {
-	createNodeVettaDesktopCommandPort,
-	type NodeVettaDesktopCommandPortOptions,
-} from "./vetta-desktop-command-port.js";

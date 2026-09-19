@@ -29,8 +29,8 @@ describe("Node sandbox host", () => {
 	});
 
 	it("resolves workspace boundaries and propagates shell grants through the Node context", async () => {
-		const workspace = await mkdtemp(join(tmpdir(), "vetta-node-sandbox-workspace-"));
-		const outside = await mkdtemp(join(tmpdir(), "vetta-node-sandbox-outside-"));
+		const workspace = await mkdtemp(join(tmpdir(), "origin-node-sandbox-workspace-"));
+		const outside = await mkdtemp(join(tmpdir(), "origin-node-sandbox-outside-"));
 		try {
 			const host = createNodeSandboxHost({ platform: "win32", commandOperations: createOperations() });
 			if (!host) throw new Error("Missing Node sandbox host");

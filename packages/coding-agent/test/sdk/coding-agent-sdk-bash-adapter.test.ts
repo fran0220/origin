@@ -28,7 +28,7 @@ describe("CodingAgentSdkBashAdapter", () => {
 		expect(fixture.deliver).toHaveBeenCalledWith(
 			[
 				expect.objectContaining({
-					type: "vetta.legacy_agent_message",
+					type: "origin.legacy_agent_message",
 					modelVisible: true,
 					display: true,
 				}),

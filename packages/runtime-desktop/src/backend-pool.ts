@@ -261,7 +261,7 @@ export class DesktopRuntimeBackendPool implements RuntimeHostSessionBackend {
 				this.options.compositionDefaults.modelInputImageProcessor ?? nodeModelInputImageProcessor,
 			ocrMaxConcurrent:
 				this.options.compositionDefaults.ocrMaxConcurrent ??
-				resolvePositiveInteger(process.env.VETTA_KB_OCR_CONCURRENCY),
+				resolvePositiveInteger(process.env.ORIGIN_KB_OCR_CONCURRENCY),
 			createConversationPersistence:
 				this.options.compositionDefaults.createConversationPersistence ??
 				(({ conversationDir }) => createFileConversationPersistence(conversationDir)),
@@ -454,7 +454,7 @@ function resolveRuntimeScope(request: RuntimeSessionCreateRequest): DesktopRunti
 	const sessionOptions = readCodingAgentRequestConfiguration(request);
 	const cwd = resolve(request.cwd ?? process.cwd());
 	const sessionPath = request.sessionPath?.trim();
-	// 缺省落点是 agent 目录下按 cwd 编码分片的全局目录，**不是** `<cwd>/.vetta/sessions`：
+	// 缺省落点是 agent 目录下按 cwd 编码分片的全局目录，**不是** `<cwd>/.origin/sessions`：
 	// 会话产物是宿主状态，不该在用户工程里长出未跟踪文件（还会被 `git add -A` 误提交）。
 	// 需要落在项目里的场景（批量任务、宿主自有 conversation 根）自己传 sessionDir。
 	const conversationDir = resolve(

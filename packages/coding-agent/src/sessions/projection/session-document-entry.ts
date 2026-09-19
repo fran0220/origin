@@ -15,7 +15,7 @@ import {
 import type { CodingAgentSessionEntry, CodingAgentSessionMessageEntry } from "../contracts/session-entry.js";
 import { areStructuredValuesEqual } from "./structural-equality.js";
 
-export const CODING_AGENT_EXTENDED_MESSAGE_CONTEXT_TYPE = "vetta.legacy_agent_message";
+export const CODING_AGENT_EXTENDED_MESSAGE_CONTEXT_TYPE = "origin.legacy_agent_message";
 
 const TextContentSchema = Type.Object(
 	{ type: Type.Literal("text"), text: Type.String(), textSignature: Type.Optional(Type.String()) },

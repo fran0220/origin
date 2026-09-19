@@ -13,10 +13,10 @@ import {
 describe("skill domain capabilities", () => {
 	it("uses one stable id per skill operation", () => {
 		expect(Object.values(DOMAIN_SKILL_CAPABILITIES).map((capability) => capability.id)).toEqual([
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}skill.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}skill.installed.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}skill.installed.set-enabled`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}skill.installed.uninstall`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}skill.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}skill.installed.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}skill.installed.set-enabled`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}skill.installed.uninstall`,
 		]);
 	});
 
@@ -107,14 +107,14 @@ describe("skill domain capabilities", () => {
 				source: "plugin",
 				type: "skill",
 				sourcePluginId: "feishu",
-				icon: "vetta-plugin://feishu/versions/1.2.3/assets/icon.png",
+				icon: "origin-plugin://feishu/versions/1.2.3/assets/icon.png",
 				ignored: true,
 			},
 		]);
 
 		expect(skill).toMatchObject({
 			sourcePluginId: "feishu",
-			icon: "vetta-plugin://feishu/versions/1.2.3/assets/icon.png",
+			icon: "origin-plugin://feishu/versions/1.2.3/assets/icon.png",
 		});
 		expect(skill).not.toHaveProperty("ignored");
 	});
@@ -136,12 +136,12 @@ describe("skill domain capabilities", () => {
 	it("resolves provider presentation independently for each product surface", () => {
 		const [skill] = DOMAIN_SKILL_CAPABILITIES.LIST.parseOutput([
 			{
-				name: "vetta-ui-design",
+				name: "origin-ui-design",
 				alias: "Internal alias",
 				description: "Internal description",
 				source: "plugin",
 				type: "skill",
-				provenance: { kind: "provided", providerType: "plugin", providerId: "vetta-ui-design" },
+				provenance: { kind: "provided", providerType: "plugin", providerId: "origin-ui-design" },
 				presentation: {
 					defaultVisibility: "hidden",
 					surfaces: { agentConfiguration: "visible", skillPicker: "hidden" },

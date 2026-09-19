@@ -231,7 +231,7 @@ const schedulerCommandOutputSchema = defineCapabilityOutputSchema(schedulerComma
 
 export const DOMAIN_SCHEDULER_CAPABILITIES = {
 	LIST_TASKS: defineCapability<Record<string, never>, SchedulerTask[]>({
-		id: "cap.domain.vetta.scheduler.task.list",
+		id: "cap.domain.origin.scheduler.task.list",
 		kind: "query",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -239,7 +239,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerTasksOutputSchema,
 	}),
 	GET_TASK: defineCapability<SchedulerTaskIdInput, SchedulerTask>({
-		id: "cap.domain.vetta.scheduler.task.get",
+		id: "cap.domain.origin.scheduler.task.get",
 		kind: "query",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -247,7 +247,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerTaskOutputSchema,
 	}),
 	LIST_HISTORY: defineCapability<SchedulerTaskIdInput, SchedulerExecutionRecord[]>({
-		id: "cap.domain.vetta.scheduler.task.history.list",
+		id: "cap.domain.origin.scheduler.task.history.list",
 		kind: "query",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -255,7 +255,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerExecutionRecordsOutputSchema,
 	}),
 	CREATE_TASK: defineCapability<SchedulerTaskCreateInput, SchedulerTask>({
-		id: "cap.domain.vetta.scheduler.task.create",
+		id: "cap.domain.origin.scheduler.task.create",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -263,7 +263,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerTaskOutputSchema,
 	}),
 	UPDATE_TASK: defineCapability<SchedulerTaskUpdateInput, SchedulerTask>({
-		id: "cap.domain.vetta.scheduler.task.update",
+		id: "cap.domain.origin.scheduler.task.update",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -271,7 +271,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerTaskOutputSchema,
 	}),
 	DELETE_TASK: defineCapability<SchedulerTaskIdInput, SchedulerCommandResult>({
-		id: "cap.domain.vetta.scheduler.task.delete",
+		id: "cap.domain.origin.scheduler.task.delete",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -279,7 +279,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerCommandOutputSchema,
 	}),
 	SET_ENABLED: defineCapability<SchedulerTaskSetEnabledInput, SchedulerTask>({
-		id: "cap.domain.vetta.scheduler.task.set-enabled",
+		id: "cap.domain.origin.scheduler.task.set-enabled",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -287,7 +287,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerTaskOutputSchema,
 	}),
 	RUN_TASK: defineCapability<SchedulerTaskIdInput, SchedulerCommandResult>({
-		id: "cap.domain.vetta.scheduler.task.run",
+		id: "cap.domain.origin.scheduler.task.run",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,
@@ -295,7 +295,7 @@ export const DOMAIN_SCHEDULER_CAPABILITIES = {
 		output: schedulerCommandOutputSchema,
 	}),
 	ABORT_TASK: defineCapability<SchedulerTaskIdInput, SchedulerCommandResult>({
-		id: "cap.domain.vetta.scheduler.task.abort",
+		id: "cap.domain.origin.scheduler.task.abort",
 		kind: "command",
 		layer: CAPABILITY_LAYERS.DOMAIN,
 		version: 1,

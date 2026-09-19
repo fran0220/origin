@@ -5,25 +5,25 @@ import { LATEST_CODEX_HOOK_PROFILE_ID } from "./codex/hooks/latest/profile.js";
 import type { HookConfigLayer, HookConfigSource } from "./hooks/types.js";
 
 /** Project / user config directory basename (brand default). */
-export const VETTA_HOOK_CONFIG_DIR_NAME = ".vetta";
+export const ORIGIN_HOOK_CONFIG_DIR_NAME = ".origin";
 
 export interface BuildDefaultHookConfigLayersOptions {
 	/** Session project working directory. */
 	cwd: string;
 	/**
 	 * Vetta user data root.
-	 * Default: `~/.vetta` (HOME / USERPROFILE / os.homedir()).
-	 * Coding Agent should pass `getVettaHomePath()` so `VETTA_HOME` applies.
+	 * Default: `~/.origin` (HOME / USERPROFILE / os.homedir()).
+	 * Coding Agent should pass `getOriginHomePath()` so `ORIGIN_HOME` applies.
 	 */
-	vettaHome?: string;
+	originHome?: string;
 	/**
-	 * Project config directory name under cwd. Default: `.vetta`.
+	 * Project config directory name under cwd. Default: `.origin`.
 	 * Override only for tests or non-standard layouts.
 	 */
 	configDirName?: string;
 	/**
 	 * Override home directory (tests). Default: HOME / USERPROFILE / os.homedir().
-	 * Used only when `vettaHome` is omitted.
+	 * Used only when `originHome` is omitted.
 	 */
 	homeDir?: string;
 	/** Environment for HOME resolution. Default process.env. */
@@ -36,12 +36,12 @@ export interface BuildDefaultHookConfigLayersOptions {
  * Mirrors official Codex/Claude directory layout **inside** Vetta roots:
  *
  * 1. User:
- *    - `<vettaHome>/.codex/hooks.json`
- *    - `<vettaHome>/.claude/settings.json`
+ *    - `<originHome>/.codex/hooks.json`
+ *    - `<originHome>/.claude/settings.json`
  * 2. Project:
- *    - `<cwd>/.vetta/.codex/hooks.json`
- *    - `<cwd>/.vetta/.claude/settings.json`
- *    - `<cwd>/.vetta/.claude/settings.local.json`
+ *    - `<cwd>/.origin/.codex/hooks.json`
+ *    - `<cwd>/.origin/.claude/settings.json`
+ *    - `<cwd>/.origin/.claude/settings.local.json`
  *
  * Does **not** read top-level official homes (`~/.codex`, `~/.claude`, project
  * `.codex` / `.claude` at cwd root). Hosts that need those must pass explicit layers.
@@ -54,12 +54,12 @@ export interface BuildDefaultHookConfigLayersOptions {
 export function buildDefaultHookConfigLayers(options: BuildDefaultHookConfigLayersOptions): HookConfigLayer[] {
 	const env = options.env ?? process.env;
 	const homeDir = options.homeDir ?? resolveHomeDir(env);
-	const vettaHome = options.vettaHome ?? join(homeDir, VETTA_HOOK_CONFIG_DIR_NAME);
-	const configDirName = options.configDirName ?? VETTA_HOOK_CONFIG_DIR_NAME;
+	const originHome = options.originHome ?? join(homeDir, ORIGIN_HOOK_CONFIG_DIR_NAME);
+	const configDirName = options.configDirName ?? ORIGIN_HOOK_CONFIG_DIR_NAME;
 	const projectVettaDir = join(options.cwd, configDirName);
 
-	const userCodexDir = join(vettaHome, ".codex");
-	const userClaudeDir = join(vettaHome, ".claude");
+	const userCodexDir = join(originHome, ".codex");
+	const userClaudeDir = join(originHome, ".claude");
 	const projectCodexDir = join(projectVettaDir, ".codex");
 	const projectClaudeDir = join(projectVettaDir, ".claude");
 

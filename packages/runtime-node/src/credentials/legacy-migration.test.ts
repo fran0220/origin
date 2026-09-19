@@ -89,7 +89,7 @@ describe("legacy secret migration", () => {
 });
 
 function createTemporaryDirectory(): string {
-	const directory = mkdtempSync(join(tmpdir(), "vetta-secret-migration-"));
+	const directory = mkdtempSync(join(tmpdir(), "origin-secret-migration-"));
 	temporaryDirectories.push(directory);
 	return directory;
 }

@@ -19,7 +19,7 @@ describe("Connection model naming", () => {
 	it("parses both separators and prefers the first colon as the Connection boundary", () => {
 		expect(parseBoundModelRef("openai:gpt-4o")).toEqual({ connectionId: "openai", upstreamModelId: "gpt-4o" });
 		expect(parseBoundModelRef("openai/gpt-4o")).toEqual({ connectionId: "openai", upstreamModelId: "gpt-4o" });
-		expect(parseBoundModelRef("vetta:origin/fast")).toEqual({
+		expect(parseBoundModelRef("origin:origin/fast")).toEqual({
 			connectionId: "vetta",
 			upstreamModelId: "origin/fast",
 		});

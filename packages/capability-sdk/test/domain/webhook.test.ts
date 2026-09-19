@@ -10,14 +10,14 @@ import {
 describe("webhook domain capabilities", () => {
 	it("uses one stable id per webhook operation", () => {
 		expect(Object.values(DOMAIN_WEBHOOK_CAPABILITIES).map((capability) => capability.id)).toEqual([
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.provider.list`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.create`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.update`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.delete`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.set-enabled`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.test`,
-			`${CAPABILITY_PREFIXES.VETTA_DOMAIN}webhook.endpoint.send`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.provider.list`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.create`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.update`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.delete`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.set-enabled`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.test`,
+			`${CAPABILITY_PREFIXES.ORIGIN_DOMAIN}webhook.endpoint.send`,
 		]);
 	});
 

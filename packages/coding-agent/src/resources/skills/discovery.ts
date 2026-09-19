@@ -15,7 +15,7 @@ import type {
 const MAX_NAME_LENGTH = 64;
 const MAX_DESCRIPTION_LENGTH = 1024;
 const IGNORE_FILE_NAMES = [".gitignore", ".ignore", ".fdignore"];
-const PROJECT_CONFIG_DIRECTORY = ".vetta";
+const PROJECT_CONFIG_DIRECTORY = ".origin";
 type IgnoreMatcher = ReturnType<typeof ignore>;
 
 function provenanceForSource(source: string): SkillProvenance {

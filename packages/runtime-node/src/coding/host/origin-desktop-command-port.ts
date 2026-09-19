@@ -1,7 +1,7 @@
 import { constants } from "node:fs";
 import { access, readFile } from "node:fs/promises";
 import nodePath from "node:path";
-import { getVettaHomePath } from "@origin/action-rpc";
+import { getOriginHomePath } from "@origin/action-rpc";
 import { Type } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
 import {
@@ -12,27 +12,27 @@ import {
 import { createNodeCommandProcessHost, NodeCommandProcessAbortedError } from "./command-process.js";
 
 const DesktopConfigSchema = Type.Object(
-	{ vettaAppPath: Type.Optional(Type.String({ minLength: 1 })) },
+	{ originAppPath: Type.Optional(Type.String({ minLength: 1 })) },
 	{ additionalProperties: true },
 );
 
-export interface NodeVettaDesktopCommandPortOptions {
+export interface NodeOriginDesktopCommandPortOptions {
 	readonly commandProcess?: CommandProcessPort;
 	readonly platform?: NodeJS.Platform;
 	readonly environment?: Readonly<Record<string, string | undefined>>;
-	readonly vettaHomePath?: string;
+	readonly originHomePath?: string;
 	readonly fileExists?: (filePath: string) => Promise<boolean>;
 	readonly readTextFile?: (filePath: string) => Promise<string>;
 }
 
-export function createNodeVettaDesktopCommandPort(
-	options: NodeVettaDesktopCommandPortOptions = {},
+export function createNodeOriginDesktopCommandPort(
+	options: NodeOriginDesktopCommandPortOptions = {},
 ): DesktopCommandPort {
 	const commandProcess = options.commandProcess ?? createNodeCommandProcessHost();
-	const locationOptions: VettaExecutableLocationOptions = {
+	const locationOptions: OriginExecutableLocationOptions = {
 		platform: options.platform ?? process.platform,
 		environment: options.environment ?? process.env,
-		vettaHomePath: options.vettaHomePath,
+		originHomePath: options.originHomePath,
 		fileExists: options.fileExists ?? defaultFileExists,
 		readTextFile: options.readTextFile ?? defaultReadTextFile,
 	};
@@ -49,18 +49,18 @@ export function createNodeVettaDesktopCommandPort(
 	};
 }
 
-interface VettaExecutableLocationOptions {
+interface OriginExecutableLocationOptions {
 	readonly platform: NodeJS.Platform;
 	readonly environment: Readonly<Record<string, string | undefined>>;
-	readonly vettaHomePath?: string;
+	readonly originHomePath?: string;
 	readonly fileExists: (filePath: string) => Promise<boolean>;
 	readonly readTextFile: (filePath: string) => Promise<string>;
 }
 
 async function findVettaExecutable(
-	options: VettaExecutableLocationOptions,
+	options: OriginExecutableLocationOptions,
 ): Promise<{ path: string; staleConfiguredPath?: string }> {
-	const environmentPath = options.environment.VETTA_DESKTOP_EXE;
+	const environmentPath = options.environment.ORIGIN_DESKTOP_EXE;
 	if (environmentPath && (await options.fileExists(environmentPath))) return { path: environmentPath };
 	const configuredPath = await readConfiguredVettaAppPath(options);
 	if (configuredPath && (await options.fileExists(configuredPath))) return { path: configuredPath };
@@ -76,19 +76,19 @@ async function findVettaExecutable(
 			return { path: candidate, staleConfiguredPath: configuredPath };
 		}
 	}
-	const staleNote = configuredPath ? ` Configured vettaAppPath is stale: ${configuredPath}` : "";
+	const staleNote = configuredPath ? ` Configured originAppPath is stale: ${configuredPath}` : "";
 	throw new Error(
-		`Origin Desktop executable not found. Set VETTA_DESKTOP_EXE or start Origin Desktop once to write vettaAppPath.${staleNote}`,
+		`Origin Desktop executable not found. Set ORIGIN_DESKTOP_EXE or start Origin Desktop once to write originAppPath.${staleNote}`,
 	);
 }
 
-async function readConfiguredVettaAppPath(options: VettaExecutableLocationOptions): Promise<string | undefined> {
+async function readConfiguredVettaAppPath(options: OriginExecutableLocationOptions): Promise<string | undefined> {
 	try {
 		const raw = await options.readTextFile(
-			nodePath.join(options.vettaHomePath ?? getVettaHomePath(), "desktop-config.json"),
+			nodePath.join(options.originHomePath ?? getOriginHomePath(), "desktop-config.json"),
 		);
 		const parsed: unknown = JSON.parse(raw);
-		return Value.Check(DesktopConfigSchema, parsed) ? parsed.vettaAppPath : undefined;
+		return Value.Check(DesktopConfigSchema, parsed) ? parsed.originAppPath : undefined;
 	} catch {
 		return undefined;
 	}

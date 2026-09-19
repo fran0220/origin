@@ -14,7 +14,7 @@ import { checkpointShadowGitDir } from "./layout.js";
 const CHECKPOINT_TRAILER = "Vetta-Checkpoint";
 const REVERT_TRAILER = "Vetta-Revert";
 const EMPTY_TREE = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-const EXCLUDE_PATHS = [".vetta/", "node_modules/"];
+const EXCLUDE_PATHS = [".origin/", "node_modules/"];
 
 export interface NodeWorkTreeVcsOptions {
 	/** Account-scoped checkpoints root, e.g. `<agentDir>/logged-out/checkpoints`. */
@@ -62,7 +62,7 @@ async function restore(
 	const parent = await git(gitCommand, env, ["rev-parse", `${input.commit}^`], { allowCodes: [0, 128] });
 	const restoreTarget = parent.code === 0 ? parent.stdout.trim() : EMPTY_TREE;
 	await git(gitCommand, env, ["restore", "--source", restoreTarget, "--worktree", "--staged", "--", "."]);
-	await git(gitCommand, env, ["clean", "-fd", "--exclude", ".vetta", "--exclude", "node_modules"]);
+	await git(gitCommand, env, ["clean", "-fd", "--exclude", ".origin", "--exclude", "node_modules"]);
 	await git(gitCommand, env, ["add", "-A", "--", "."]);
 	const staged = await git(gitCommand, env, ["diff", "--cached", "--quiet", "--exit-code"], { allowCodes: [0, 1] });
 	if (staged.code === 0) {

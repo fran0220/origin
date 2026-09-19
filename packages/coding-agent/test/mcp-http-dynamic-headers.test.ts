@@ -98,7 +98,7 @@ describe("HttpMcpClient dynamic headers", () => {
 		const config: McpHttpServerConfig = {
 			type: "http",
 			url: baseUrl,
-			headers: { "X-Vetta-Client-Version": "9.9.9" },
+			headers: { "X-Origin-Client-Version": "9.9.9" },
 			resolveHeaders: () => ({ Authorization: "Bearer t" }),
 		};
 		const client = new HttpMcpClient({ name: "vetta", config });

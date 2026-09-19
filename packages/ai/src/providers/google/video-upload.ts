@@ -77,7 +77,7 @@ async function uploadInlineVideo(video: VideoContent, uploader: GeminiFileUpload
 	const { uri } = await uploader.upload({
 		file: blob,
 		mimeType: video.mimeType,
-		displayName: `vetta-video-${video.durationMs ?? "clip"}`,
+		displayName: `origin-video-${video.durationMs ?? "clip"}`,
 	});
 	return { type: "video", mimeType: video.mimeType, uri, durationMs: video.durationMs };
 }

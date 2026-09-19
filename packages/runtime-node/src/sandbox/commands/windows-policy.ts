@@ -1,6 +1,6 @@
 import { homedir } from "node:os";
 import { dirname, join, resolve as resolvePath } from "node:path";
-import { getVettaConfigDirName } from "@origin/action-rpc";
+import { getOriginConfigDirName } from "@origin/action-rpc";
 import type { SandboxShellGrant } from "@origin/runtime-core/sandbox";
 
 type HostEnvironment = Readonly<Record<string, string | undefined>>;
@@ -52,7 +52,7 @@ export function getWindowsSensitiveDenyRoots(env: HostEnvironment | undefined = 
 			join(homeDir, ".docker"),
 			appData ? join(appData, "gcloud") : undefined,
 			appData ? join(appData, "Vetta") : undefined,
-			join(homeDir, getVettaConfigDirName(), "agent"),
+			join(homeDir, getOriginConfigDirName(), "agent"),
 			join(homeDir, ".pi"),
 		]),
 	);
@@ -67,10 +67,10 @@ export function buildWindowsSandboxPolicy(options: WindowsSandboxPolicyOptions):
 		optionalEnvDir(options.env, "PIP_CONFIG_FILE"),
 	]);
 	const actionRpcReadRoots = compactPaths([
-		optionalEnvPath(options.env, "VETTA_HOME"),
-		optionalEnvDir(options.env, "VETTA_ACTION_RPC_ENDPOINT_FILE"),
-		optionalEnvDir(options.env, "VETTA_DESKTOP_EXE"),
-		optionalEnvDir(options.env, "VETTA_CLI_APP_PATH"),
+		optionalEnvPath(options.env, "ORIGIN_HOME"),
+		optionalEnvDir(options.env, "ORIGIN_ACTION_RPC_ENDPOINT_FILE"),
+		optionalEnvDir(options.env, "ORIGIN_DESKTOP_EXE"),
+		optionalEnvDir(options.env, "ORIGIN_CLI_APP_PATH"),
 	]);
 	const packageManagerWriteRoots = compactPaths([
 		optionalEnvPath(options.env, "npm_config_prefix"),
@@ -78,8 +78,8 @@ export function buildWindowsSandboxPolicy(options: WindowsSandboxPolicyOptions):
 		optionalEnvPath(options.env, "npm_config_cache"),
 		optionalEnvPath(options.env, "NPM_CONFIG_CACHE"),
 		optionalEnvPath(options.env, "PIP_CACHE_DIR"),
-		optionalEnvPath(options.env, "VETTA_MANAGED_PYTHON_SITE_PACKAGES"),
-		optionalEnvPath(options.env, "VETTA_MANAGED_PYTHON_SCRIPTS"),
+		optionalEnvPath(options.env, "ORIGIN_MANAGED_PYTHON_SITE_PACKAGES"),
+		optionalEnvPath(options.env, "ORIGIN_MANAGED_PYTHON_SCRIPTS"),
 	]);
 	const allowReadRoots = uniqueResolved([
 		options.cwd,

@@ -71,7 +71,7 @@ describe("Legacy session format boundary", () => {
 });
 
 function createTemporaryDirectory(collection: string[]): string {
-	const directory = mkdtempSync(join(tmpdir(), "vetta-legacy-format-"));
+	const directory = mkdtempSync(join(tmpdir(), "origin-legacy-format-"));
 	collection.push(directory);
 	return directory;
 }

@@ -423,7 +423,7 @@ describe("skills", () => {
 		};
 
 		beforeAll(() => {
-			tmpRoot = mkdtempSync(join(tmpdir(), "vetta-agents-skills-"));
+			tmpRoot = mkdtempSync(join(tmpdir(), "origin-agents-skills-"));
 			agentsProjectCwd = join(tmpRoot, "project");
 			agentsPriorityCwd = join(tmpRoot, "priority");
 
@@ -438,7 +438,7 @@ describe("skills", () => {
 				"---\nname: loose-root\ndescription: Loose root .md that must be ignored under the subdir-only rule.\n---\n",
 			);
 
-			// priority cwd: same-named skill in both Vetta project (.vetta) and generic (.agents).
+			// priority cwd: same-named skill in both Vetta project (.origin) and generic (.agents).
 			writeSkill(
 				join(agentsPriorityCwd, CONFIG_DIR_NAME, "skills", "shared-skill"),
 				"shared-skill",

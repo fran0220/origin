@@ -19,11 +19,11 @@ function readPackageSource(relativePath: string): string {
 describe("app runtime name", () => {
 	// 打包版的 app 名字来自 asar 内写入的 package.json，开发态由 main.ts 覆盖。
 	// 两者一旦分叉，safeStorage 就会在开发与打包环境派生出不同的主密钥，
-	// 共享 ~/.vetta 时表现为“API key 丢失”，且互相覆盖对方的密文。
+	// 共享 ~/.origin 时表现为“API key 丢失”，且互相覆盖对方的密文。
 	it("matches the name written into the packaged app package.json", () => {
 		const preparePack = readPackageSource("scripts/prepare-pack.js");
 		expect(preparePack).toContain("name: APP_RUNTIME_NAME");
-		expect(APP_RUNTIME_NAME).toBe("vetta");
+		expect(APP_RUNTIME_NAME).toBe("origin");
 	});
 
 	it("is applied to app.name unconditionally in the main process", () => {
@@ -37,7 +37,7 @@ describe("app runtime name", () => {
 describe("product identity", () => {
 	it("keeps the user-facing product name Origin while preserving the vetta runtime name", () => {
 		expect(APP_PRODUCT_NAME).toBe("Origin");
-		expect(APP_RUNTIME_NAME).toBe("vetta");
+		expect(APP_RUNTIME_NAME).toBe("origin");
 	});
 
 	it("registers origin as the current protocol and vetta as a compatibility listener", () => {

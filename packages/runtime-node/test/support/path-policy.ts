@@ -18,7 +18,7 @@ function createTestPathPolicy(
 	options: TestPathPolicyOptions,
 	tool: "edit" | "write",
 ): EditPathPolicy | WritePathPolicy {
-	const protectedDirectories = [resolve(options.cwd, ".vetta", "skills"), resolve(options.cwd, ".agents", "skills")];
+	const protectedDirectories = [resolve(options.cwd, ".origin", "skills"), resolve(options.cwd, ".agents", "skills")];
 	const wikiDirectory = resolve(options.knowledgeRoot, "wiki");
 	return {
 		getRejectionReason(absolutePath) {

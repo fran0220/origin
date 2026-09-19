@@ -45,7 +45,7 @@ interface MockProcess {
 
 const initializeParams = {
 	protocolVersion: "2025-11-25",
-	clientInfo: { name: "vetta-test", version: "1" },
+	clientInfo: { name: "origin-test", version: "1" },
 };
 
 describe("StdioMcpClient protocol-era behavior", () => {

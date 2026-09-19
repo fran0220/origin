@@ -76,7 +76,7 @@ describe("Coding Agent native MCP runtime source", () => {
 	});
 
 	it("uses an explicitly injected Host file policy for large results", async () => {
-		const agentDir = await mkdtemp(join(tmpdir(), "vetta-native-mcp-"));
+		const agentDir = await mkdtemp(join(tmpdir(), "origin-native-mcp-"));
 		const source = new StaticConfigSource({ search: { command: "search" } });
 		const originalText = `start-${"x".repeat(DEFAULT_MCP_MAX_INLINE_RESULT_BYTES)}-end`;
 		const client = new FakeClient(originalText);

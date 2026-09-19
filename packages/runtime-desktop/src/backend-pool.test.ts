@@ -27,8 +27,8 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest
 import { DesktopRuntimeBackendPool } from "./backend-pool.js";
 import { DesktopRuntimeSessionCatalog } from "./session-catalog.js";
 
-/** `getAgentDir()` 的环境变量开关；缺省会话落点由它决定，测试不得写进真实 `~/.vetta/agent`。 */
-const AGENT_DIR_ENV = "VETTA_CODING_AGENT_DIR";
+/** `getAgentDir()` 的环境变量开关；缺省会话落点由它决定，测试不得写进真实 `~/.origin/agent`。 */
+const AGENT_DIR_ENV = "ORIGIN_CODING_AGENT_DIR";
 
 interface CodingAgentTestSessionConfig extends SessionConfig {
 	readonly scenario?: ConversationScenario;
@@ -235,7 +235,7 @@ describe("DesktopRuntimeBackendPool", () => {
 	});
 
 	/**
-	 * 普通项目的会话产物**不落在用户工程目录里**：写进 `<cwd>/.vetta/sessions` 会在
+	 * 普通项目的会话产物**不落在用户工程目录里**：写进 `<cwd>/.origin/sessions` 会在
 	 * 用户仓库里长出未跟踪文件（还可能被 `git add -A` 误提交）。缺省落点是 agent 目录
 	 * 下按 cwd 编码分片的全局目录，与 CLI/SDK 宿主一致。
 	 */
@@ -257,7 +257,7 @@ describe("DesktopRuntimeBackendPool", () => {
 		const globalShard = resolveCodingAgentSessionDir(cwd);
 
 		expect(dirname(runtime.getSessionPath(created.sessionId) ?? "")).toBe(globalShard);
-		expect(existsSync(join(cwd, ".vetta", "sessions"))).toBe(false);
+		expect(existsSync(join(cwd, ".origin", "sessions"))).toBe(false);
 
 		const catalog = new DesktopRuntimeSessionCatalog({
 			resolveRoots: () => [{ cwd, sessionDir: globalShard }],

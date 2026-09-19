@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 function createWorkspace(): string {
-	const root = mkdtempSync(join(tmpdir(), "vetta-prompt-runtime-"));
+	const root = mkdtempSync(join(tmpdir(), "origin-prompt-runtime-"));
 	createdDirs.push(root);
 	mkdirSync(join(root, ".git"));
 	return root;
@@ -78,7 +78,7 @@ describe("CodingAgentPromptRuntime workspace facts", () => {
 	});
 
 	it("leaves the facts undefined for a directory with no detectable signal", () => {
-		const root = mkdtempSync(join(tmpdir(), "vetta-prompt-runtime-empty-"));
+		const root = mkdtempSync(join(tmpdir(), "origin-prompt-runtime-empty-"));
 		createdDirs.push(root);
 
 		expect(createRuntime(root).resolve(promptContext).workspaceFacts).toBeUndefined();

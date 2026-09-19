@@ -99,7 +99,7 @@ describe.each(["bash", "shell"] as const)("runtime %s command adapter", (toolNam
 
 	it("preserves generic protected directory warnings", async () => {
 		const cwd = mkdtempSync(join(tmpdir(), "runtime-command-protected-"));
-		const protectedDirectory = join(cwd, ".vetta", "skills");
+		const protectedDirectory = join(cwd, ".origin", "skills");
 		const protectedFile = join(protectedDirectory, "changed.txt");
 		mkdirSync(protectedDirectory, { recursive: true });
 		const toolOptions: CommandFixtureOptions = {

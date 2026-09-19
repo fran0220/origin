@@ -17,7 +17,7 @@ const NOW = 1_700_000_100_000;
 
 describe("FileEvolutionLedgerStore", () => {
 	it("atomically appends events and enforces CAS across reloads", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-evolution-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-evolution-"));
 		const store = createFileEvolutionLedgerStore(root);
 		const ledger = new EvolutionLedger(store);
 		const scope = subjectScope("game-one");
@@ -62,7 +62,7 @@ describe("FileEvolutionLedgerStore", () => {
 	});
 
 	it("keeps global and subject files separate", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-evolution-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-evolution-"));
 		const ledger = new EvolutionLedger(createFileEvolutionLedgerStore(root));
 		await ledger.record(
 			globalScope(),
@@ -94,7 +94,7 @@ describe("FileEvolutionLedgerStore", () => {
 	});
 
 	it("keeps project path subjects in distinct files", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-evolution-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-evolution-"));
 		const ledger = new EvolutionLedger(createFileEvolutionLedgerStore(root));
 		const alpha = subjectScope("/tmp/game");
 		const beta = subjectScope("/tmp/game-two");

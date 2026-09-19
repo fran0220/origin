@@ -16,7 +16,7 @@ import { NodeTransactionalTextStorage } from "@origin/runtime-node/host";
 
 // Set up auth storage and model registry
 const authStorage = AuthStorage.fromStorage(
-	new NodeTransactionalTextStorage(join(homedir(), ".vetta", "agent", "auth.json")),
+	new NodeTransactionalTextStorage(join(homedir(), ".origin", "agent", "auth.json")),
 );
 const modelRuntime = createCodingAgentModelRuntime(authStorage);
 

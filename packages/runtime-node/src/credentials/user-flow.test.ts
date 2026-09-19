@@ -20,7 +20,7 @@ describe("Connection user flow", () => {
 	});
 
 	it("登录出现 Vetta Connection，粘 BYOK Key 后可转发，登出后仅 Vetta 不可用", async () => {
-		const root = mkdtempSync(join(tmpdir(), "vetta-flow-"));
+		const root = mkdtempSync(join(tmpdir(), "origin-flow-"));
 		const vault = new CredentialVault(root, new OwnerOnlyFileCryptography(ownerOnlyKeyDirectory(root)));
 		vault.put(connectionSecretRef(SIGNED_IN), ACCOUNT_TOKEN, { kind: "connection-secret", consumer: SIGNED_IN });
 		vault.put(connectionSecretRef("openai"), BYOK_KEY, { kind: "connection-secret", consumer: "openai" });

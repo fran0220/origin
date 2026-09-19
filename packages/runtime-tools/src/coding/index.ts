@@ -57,9 +57,9 @@ export {
 	DEFAULT_OCR_PROVIDER_ID,
 	type OcrDefaultOutput,
 	type OcrRemoteProviderPolicy,
-	VETTA_OCR_CONFIGURATION,
-	VETTA_OCR_CONFIGURATION_ID,
-	type VettaOcrConfiguration,
+	ORIGIN_OCR_CONFIGURATION,
+	ORIGIN_OCR_CONFIGURATION_ID,
+	type OriginOcrConfiguration,
 } from "./ocr-configuration.js";
 export { TOOL_CALL_DESCRIPTION_TEXT, ToolCallDescriptionSchema } from "./tool-call-description.js";
 export {

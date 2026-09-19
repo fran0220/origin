@@ -16,13 +16,13 @@ Claude Code profile 固定为 `claude-code-hooks/2.1.211`。它复用通用 disp
 
 **Codex**
 
-1. `~/.vetta/.codex/hooks.json`（`VETTA_HOME` 可覆盖 vetta 根）
-2. `<cwd>/.vetta/.codex/hooks.json`
+1. `~/.origin/.codex/hooks.json`（`ORIGIN_HOME` 可覆盖 vetta 根）
+2. `<cwd>/.origin/.codex/hooks.json`
 
 **Claude Code**
 
-1. `~/.vetta/.claude/settings.json`（`"hooks"` 字段）
-2. `<cwd>/.vetta/.claude/settings.json`、`<cwd>/.vetta/.claude/settings.local.json`
+1. `~/.origin/.claude/settings.json`（`"hooks"` 字段）
+2. `<cwd>/.origin/.claude/settings.json`、`<cwd>/.origin/.claude/settings.local.json`
 3. 插件：显式 `hooks/hooks.json` + `CLAUDE_PLUGIN_ROOT` 或 `profileId: claude-code-hooks/*`
 
 **不读**顶层 `~/.codex` / `~/.claude` 或项目根 `.codex` / `.claude`，避免加载无关官方 hook。文件格式仍与 [Codex Hooks](https://developers.openai.com/codex/hooks)、[Claude Code Hooks](https://code.claude.com/docs/en/hooks) 一致。缺失文件在 discovery 时静默跳过（ENOENT）。配置只在每个 Agent Session 首次触发 Hook 时加载一次。

@@ -58,7 +58,7 @@ Desktop domain service / Electron / OS
 
 项目查询展示了完整结构：
 
-1. `src/domain/project.ts` 定义 `cap.domain.vetta.project.list`、输入输出 Schema 和 Token。
+1. `src/domain/project.ts` 定义 `cap.domain.origin.project.list`、输入输出 Schema 和 Token。
 2. `desktop/src/main/capabilities/domain-providers.ts` 导入 Token，将 `ProjectService.list()` 绑定为 Provider。
 3. `desktop/src/main/capabilities/integrations/plugin/domain/project.ts` 在 Plugin 集成层通过已授权 Client
    调用 Token，不知道 Provider 的实现类型。

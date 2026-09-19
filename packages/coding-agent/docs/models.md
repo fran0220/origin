@@ -4,10 +4,10 @@
 
 | 文件 | 用途 |
 |------|------|
-| `~/.vetta/agent/models.json` | 自定义/本地模型与 provider 覆盖 |
-| `~/.vetta/agent/auth.json` | API key / OAuth token |
+| `~/.origin/agent/models.json` | 自定义/本地模型与 provider 覆盖 |
+| `~/.origin/agent/auth.json` | API key / OAuth token |
 
-可用环境变量 `VETTA_CODING_AGENT_DIR` 覆盖 agent 目录。
+可用环境变量 `ORIGIN_CODING_AGENT_DIR` 覆盖 agent 目录。
 
 ## `models.json` 最小例
 

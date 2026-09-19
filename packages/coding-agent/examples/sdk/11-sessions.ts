@@ -8,7 +8,7 @@ import { join } from "node:path";
 import { createCodingAgentSession, createCodingAgentSessionCatalog } from "@origin/coding-agent/sdk";
 
 const cwd = process.cwd();
-const conversationDir = join(cwd, ".vetta", "conversations");
+const conversationDir = join(cwd, ".origin", "conversations");
 const catalog = createCodingAgentSessionCatalog({ cwd, conversationDir });
 
 // In-memory (no persistence)

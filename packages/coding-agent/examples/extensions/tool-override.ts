@@ -28,7 +28,7 @@ import { access, readFile } from "fs/promises";
 import { homedir } from "os";
 import { join, resolve } from "path";
 
-const LOG_FILE = join(homedir(), ".vetta", "agent", "read-access.log");
+const LOG_FILE = join(homedir(), ".origin", "agent", "read-access.log");
 
 // Paths that are blocked from reading
 const BLOCKED_PATTERNS = [

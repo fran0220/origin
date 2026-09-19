@@ -13,7 +13,7 @@ afterEach(async () => {
 
 describe("native conversation compaction persistence", () => {
 	it("restores summary plus kept tail after closing and reopening the repository", async () => {
-		const rootDir = await mkdtemp(join(tmpdir(), "vetta-compaction-"));
+		const rootDir = await mkdtemp(join(tmpdir(), "origin-compaction-"));
 		temporaryRoots.push(rootDir);
 		const repository = new FileConversationRepository({ rootDir });
 		await repository.create({ sessionId: "session-1", createdAt: 1 });
@@ -68,7 +68,7 @@ describe("native conversation compaction persistence", () => {
 	});
 
 	it("persists manual compaction between turns without inventing a turn id", async () => {
-		const rootDir = await mkdtemp(join(tmpdir(), "vetta-manual-compaction-"));
+		const rootDir = await mkdtemp(join(tmpdir(), "origin-manual-compaction-"));
 		temporaryRoots.push(rootDir);
 		const repository = new FileConversationRepository({ rootDir });
 		await repository.create({ sessionId: "session-1", createdAt: 1 });

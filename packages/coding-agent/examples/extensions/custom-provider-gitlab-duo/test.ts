@@ -28,7 +28,7 @@ async function main() {
 	}
 
 	// Read auth
-	const authPath = join(homedir(), ".vetta", "agent", "auth.json");
+	const authPath = join(homedir(), ".origin", "agent", "auth.json");
 	const authData = JSON.parse(readFileSync(authPath, "utf-8"));
 	const gitlabCred = authData["gitlab-duo"];
 	if (!gitlabCred?.access) {

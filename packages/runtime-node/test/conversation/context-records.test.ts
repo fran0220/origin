@@ -16,7 +16,7 @@ afterEach(async () => {
 
 describe("conversation context records", () => {
 	it("persists visible context on the branch without exposing hidden records as chat messages", async () => {
-		const rootDir = await mkdtemp(join(tmpdir(), "vetta-context-records-"));
+		const rootDir = await mkdtemp(join(tmpdir(), "origin-context-records-"));
 		temporaryRoots.push(rootDir);
 		const repository = new FileConversationRepository({ rootDir });
 		await repository.create({ sessionId: "session-1", createdAt: 1 });
@@ -94,7 +94,7 @@ describe("conversation context records", () => {
 	});
 
 	it("persists session-level context without manufacturing a turn", async () => {
-		const rootDir = await mkdtemp(join(tmpdir(), "vetta-recorded-context-"));
+		const rootDir = await mkdtemp(join(tmpdir(), "origin-recorded-context-"));
 		temporaryRoots.push(rootDir);
 		const repository = new FileConversationRepository({ rootDir });
 		await repository.create({ sessionId: "session-recorded", createdAt: 1 });

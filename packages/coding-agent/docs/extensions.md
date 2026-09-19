@@ -8,8 +8,8 @@ TypeScript 模块，订阅生命周期、注册工具/命令/Provider。契约�
 
 | 路径 | 范围 |
 |------|------|
-| `~/.vetta/agent/extensions/*.ts` 或 `*/index.ts` | 全局 |
-| `<cwd>/.vetta/extensions/` | 项目 |
+| `~/.origin/agent/extensions/*.ts` 或 `*/index.ts` | 全局 |
+| `<cwd>/.origin/extensions/` | 项目 |
 | CLI `-e <path>` / settings `extensions` / packages | 显式 |
 
 ## 最小示例

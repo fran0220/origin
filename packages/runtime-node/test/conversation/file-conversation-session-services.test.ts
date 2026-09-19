@@ -184,7 +184,7 @@ describe("Greenfield runtime session services", () => {
 });
 
 async function createTemporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-runtime-session-services-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-runtime-session-services-"));
 	temporaryRoots.push(root);
 	return root;
 }

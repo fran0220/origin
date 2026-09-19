@@ -70,7 +70,7 @@ describe("Coding Agent Session setup seed initializer", () => {
 				expect.objectContaining({ type: "label", label: "prompt" }),
 				expect.objectContaining({
 					type: "custom_message",
-					customType: "vetta.legacy_agent_message",
+					customType: "origin.legacy_agent_message",
 					modelVisible: true,
 				}),
 				expect.objectContaining({ type: "branch_summary", summary: "branch summary" }),

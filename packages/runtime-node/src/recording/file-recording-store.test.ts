@@ -31,7 +31,7 @@ describe("FileRecordingStore retention sweep", () => {
 	});
 
 	it("removes expired records and orphan directories using an injected clock", async () => {
-		const root = await mkdtemp(join(tmpdir(), "vetta-recording-store-"));
+		const root = await mkdtemp(join(tmpdir(), "origin-recording-store-"));
 		directories.push(root);
 		let now = 1_000;
 		const store = new FileRecordingStore({ rootDirectory: root, now: () => now });

@@ -19,21 +19,21 @@ describe("account-scoped directories", () => {
 	});
 
 	it("puts logged-out data in a dedicated partition", () => {
-		expect(resolveAccountPartition("/home/u/.vetta/agent", defaultLoggedOutSelection())).toBe(
-			"/home/u/.vetta/agent/logged-out",
+		expect(resolveAccountPartition("/home/u/.origin/agent", defaultLoggedOutSelection())).toBe(
+			"/home/u/.origin/agent/logged-out",
 		);
-		expect(resolveAccountScopedDir("/home/u/.vetta/agent", "checkpoints", defaultLoggedOutSelection())).toBe(
-			"/home/u/.vetta/agent/logged-out/checkpoints",
+		expect(resolveAccountScopedDir("/home/u/.origin/agent", "checkpoints", defaultLoggedOutSelection())).toBe(
+			"/home/u/.origin/agent/logged-out/checkpoints",
 		);
-		expect(resolveAccountScopedDir("/home/u/.vetta/agent", "evaluation", defaultLoggedOutSelection())).toBe(
-			"/home/u/.vetta/agent/logged-out/evaluation",
+		expect(resolveAccountScopedDir("/home/u/.origin/agent", "evaluation", defaultLoggedOutSelection())).toBe(
+			"/home/u/.origin/agent/logged-out/evaluation",
 		);
 	});
 
 	it("puts evolution under logged-out until an account is selected, then isolates each account", () => {
-		const agentDir = "/home/u/.vetta/agent";
+		const agentDir = "/home/u/.origin/agent";
 		expect(resolveAccountScopedDir(agentDir, "evolution", defaultLoggedOutSelection())).toBe(
-			"/home/u/.vetta/agent/logged-out/evolution",
+			"/home/u/.origin/agent/logged-out/evolution",
 		);
 		const alice = {
 			scope: accountScopeKey("https://api.example.com", "alice"),
@@ -58,7 +58,7 @@ describe("account-scoped directories", () => {
 			scope: "s",
 			providerEndpoint: "https://api.example.com",
 		});
-		expect(accountSelectionFilePath("/home/u/.vetta/agent")).toBe("/home/u/.vetta/agent/account-selection.json");
+		expect(accountSelectionFilePath("/home/u/.origin/agent")).toBe("/home/u/.origin/agent/account-selection.json");
 	});
 
 	it("isolates signed-in accounts from each other and from logged-out data", () => {

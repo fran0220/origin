@@ -130,7 +130,7 @@ describe("Coding Agent Turn Capability session assembly", () => {
 		const workspace = join(root, "workspace");
 		const agentDir = join(root, "agent");
 		const sceneName = "assembly-scene";
-		const sceneDir = join(workspace, ".vetta", "skills", sceneName);
+		const sceneDir = join(workspace, ".origin", "skills", sceneName);
 		mkdirSync(sceneDir, { recursive: true });
 		writeFileSync(
 			join(sceneDir, "SKILL.md"),
@@ -489,8 +489,8 @@ function isolatedDirectory(prefix: string): string {
 	const root = mkdtempSync(join(tmpdir(), prefix));
 	writeFileSync(join(root, ".git"), "");
 	vi.stubEnv("USERPROFILE", root);
-	vi.stubEnv("VETTA_HOME", join(root, "home"));
-	vi.stubEnv("VETTA_CODING_AGENT_DIR", join(root, "agent"));
+	vi.stubEnv("ORIGIN_HOME", join(root, "home"));
+	vi.stubEnv("ORIGIN_CODING_AGENT_DIR", join(root, "agent"));
 	return root;
 }
 

@@ -47,7 +47,7 @@ export function attachMcpAppDescriptor(projected: RuntimeToolResult, attachment:
 			...details,
 			_meta: {
 				...meta,
-				"io.vetta/mcpApp": attachment,
+				"io.origin/mcpApp": attachment,
 			},
 		},
 	};

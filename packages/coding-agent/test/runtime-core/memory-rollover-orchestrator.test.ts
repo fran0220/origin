@@ -206,7 +206,7 @@ function assistantMessage(text: string): AssistantMessage {
 }
 
 async function temporaryRoot(): Promise<string> {
-	const root = await mkdtemp(join(tmpdir(), "vetta-memory-rollover-"));
+	const root = await mkdtemp(join(tmpdir(), "origin-memory-rollover-"));
 	temporaryRoots.push(root);
 	return root;
 }

@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 function createWorkspace(files: Record<string, string>, dirs: string[] = []): string {
-	const root = mkdtempSync(join(tmpdir(), "vetta-workspace-facts-"));
+	const root = mkdtempSync(join(tmpdir(), "origin-workspace-facts-"));
 	createdDirs.push(root);
 	for (const dir of dirs) mkdirSync(join(root, dir), { recursive: true });
 	for (const [name, content] of Object.entries(files)) writeFileSync(join(root, name), content, "utf-8");
