@@ -30,6 +30,7 @@ export const SETTINGS_TAB_LOADERS: Record<SettingsContentTab, () => Promise<TabM
 		import("./ExtensionsSettings").then((module) => ({ default: module.ExtensionsSettings })),
 	),
 	general: memoizeLoader(() => import("./GeneralSettings").then((module) => ({ default: module.GeneralSettings }))),
+	harness: memoizeLoader(() => import("./HarnessSettings").then((module) => ({ default: module.HarnessSettings }))),
 	im: memoizeLoader(() => import("./ImBridgeSettings").then((module) => ({ default: module.ImBridgeSettings }))),
 	knowledge: memoizeLoader(() =>
 		import("./KnowledgeBaseSettings").then((module) => ({ default: module.KnowledgeBaseSettings })),

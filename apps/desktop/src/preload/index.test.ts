@@ -22,4 +22,9 @@ it("exposes the Desktop bridge without Agent configuration or diagnostic APIs", 
 	expect(api.session.prompt).toBeTypeOf("function");
 	expect(api.checkpoints.list).toBeTypeOf("function");
 	expect(api.checkpoints.revert).toBeTypeOf("function");
+	expect(api.evolution.read).toBeTypeOf("function");
+	expect(api.evolution.commit).toBeTypeOf("function");
+	expect(api.evolution.rollback).toBeTypeOf("function");
+	expect(api.evolution.promote).toBeTypeOf("function");
+	expect(api.evolution.history).toBeTypeOf("function");
 });

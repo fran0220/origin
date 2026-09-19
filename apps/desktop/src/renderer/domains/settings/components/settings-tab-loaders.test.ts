@@ -6,6 +6,7 @@ describe("prefetchSettingsTab", () => {
 		expect(typeof SETTINGS_TAB_LOADERS.general).toBe("function");
 		expect(typeof SETTINGS_TAB_LOADERS.models).toBe("function");
 		expect(typeof SETTINGS_TAB_LOADERS.context).toBe("function");
+		expect(typeof SETTINGS_TAB_LOADERS.harness).toBe("function");
 		prefetchSettingsTab("mcp");
 		prefetchSettingsTab("models");
 		prefetchSettingsTab("not-a-tab");

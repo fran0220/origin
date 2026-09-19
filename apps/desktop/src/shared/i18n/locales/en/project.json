@@ -164,7 +164,9 @@
 		"save": "Save",
 		"editorPlaceholder": "Write AGENTS.md project instructions here...",
 		"agentsMdHint": "AGENTS.md defines project-level AI instructions; every session loads this file automatically.",
-		"quickSave": "Quick save"
+		"quickSave": "Quick save",
+		"harnessTitle": "This project's continual harness",
+		"harnessDescription": "These rules apply only to this Project. The agent can record durable conventions from its work here; you can edit, roll them back, or promote one into the shared baseline. Changes made during a Turn appear in the system prompt from the next Turn."
 	},
 	"exportDialog": {
 		"title": "Export project",

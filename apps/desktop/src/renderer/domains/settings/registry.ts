@@ -17,7 +17,8 @@ export type SettingsTabLabelKey =
 	| "tabKnowledge"
 	| "tabPet"
 	| "tabPermissions"
-	| "tabRemote";
+	| "tabRemote"
+	| "tabHarness";
 
 export interface SettingsTabRegistration {
 	key: SettingsTab;
@@ -51,6 +52,7 @@ export const SETTINGS_TABS: readonly SettingsTabRegistration[] = [
 	},
 	{ key: "appearance", label: "外观", labelKey: "tabAppearance", icon: "icon-[mdi--palette-outline]" },
 	{ key: "context", label: "Agent配置", labelKey: "tabContext", icon: "icon-[mdi--robot-outline]" },
+	{ key: "harness", label: "持续规则", labelKey: "tabHarness", icon: "icon-[mdi--notebook-outline]" },
 	{ key: "models", label: "模型配置", labelKey: "tabModels", icon: "icon-[mdi--brain]" },
 	{ key: "connections", label: "连接", labelKey: "tabConnections", icon: "icon-[mdi--lan-connect]" },
 	// MCP 管理已迁至侧栏「扩展 → 连接器」
@@ -136,6 +138,8 @@ export const SETTINGS_SECTIONS = [
 	{ tab: "context", id: "agent-images", title: "图片", titleKey: "section_agent-images" },
 	{ tab: "context", id: "agent-experimental", title: "扩展功能", titleKey: "section_agent-experimental" },
 	{ tab: "context", id: "agent-runtime", title: "运行时", titleKey: "section_agent-runtime" },
+	{ tab: "harness", id: "harness-entries", title: "规则条目", titleKey: "section_harness-entries" },
+	{ tab: "harness", id: "harness-history", title: "修订历史", titleKey: "section_harness-history" },
 	{ tab: "knowledge", id: "knowledge-processing", title: "后台加工", titleKey: "section_knowledge-processing" },
 	{ tab: "knowledge", id: "knowledge-actions", title: "手动操作", titleKey: "section_knowledge-actions" },
 	{ tab: "pet", id: "pet-display", title: "显示与窗口", titleKey: "section_pet-display" },

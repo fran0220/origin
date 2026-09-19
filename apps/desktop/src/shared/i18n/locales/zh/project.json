@@ -164,7 +164,9 @@
 		"save": "保存",
 		"editorPlaceholder": "在此编写 AGENTS.md 项目指令...",
 		"agentsMdHint": "AGENTS.md 用于定义项目级别的 AI 指令，所有会话都会自动加载此文件。",
-		"quickSave": "快速保存"
+		"quickSave": "快速保存",
+		"harnessTitle": "本项目的持续规则",
+		"harnessDescription": "只对这个项目生效。Agent 会把本项目工作中沉淀的约定写进来；你也可以手工编辑、回滚，或把一条规则提升到所有项目共享的基线。当前 Turn 的修改从下一 Turn 才进入系统提示词。"
 	},
 	"exportDialog": {
 		"title": "导出项目",

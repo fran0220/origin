@@ -12,6 +12,7 @@ import { createCheckpointsApi } from "./apis/checkpoints.js";
 import { createConversationTagsApi } from "./apis/conversation-tags.js";
 import { createDownloadsApi } from "./apis/downloads.js";
 import { createEvaluationApi } from "./apis/evaluation.js";
+import { createEvolutionApi } from "./apis/evolution.js";
 import { createI18nApi } from "./apis/i18n.js";
 import { createImApi } from "./apis/im.js";
 import { createNotificationApi } from "./apis/notification.js";
@@ -46,6 +47,7 @@ const rawApi: Omit<DesktopApi, "hostAccess"> = {
 	...createSpeechInputApi(ipcRenderer),
 	...createImApi(ipcRenderer),
 	...createDownloadsApi(ipcRenderer),
+	...createEvolutionApi(ipcRenderer),
 	...createBatchTasksApi(ipcRenderer),
 	...createEvaluationApi(ipcRenderer),
 	...createCheckpointsApi(ipcRenderer),

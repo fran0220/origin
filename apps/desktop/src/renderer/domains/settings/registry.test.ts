@@ -38,7 +38,7 @@ describe("设置标签可见性", () => {
 	it("无平台限制的标签在任何平台都可见", () => {
 		for (const context of [{ isMac: true }, { isWindows: true }, {}]) {
 			expect(visibleKeys(context)).toEqual(
-				expect.arrayContaining(["general", "appearance", "models", "connections"]),
+				expect.arrayContaining(["general", "appearance", "models", "connections", "harness"]),
 			);
 		}
 	});

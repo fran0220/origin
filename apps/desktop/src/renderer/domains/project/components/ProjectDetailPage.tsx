@@ -2,6 +2,7 @@ import { CurrentScenarioActivityPanel } from "@domains/activity-panel/components
 import { ProjectDetailPageView } from "@vetta-org/theme-ui/project";
 import { motion } from "motion/react";
 import { BatchQueueStatus } from "./BatchQueueStatus";
+import { ProjectHarnessSection } from "./ProjectHarnessSection";
 import { useProjectDetailPageModel } from "../hooks/useProjectDetailPageModel";
 import { useActiveSessionRuntimeIds } from "@shared/workspace/active-session-runtime";
 import { createActivityWorkspace } from "@shared/workspace/activity-workspace";
@@ -12,17 +13,21 @@ export function ProjectDetailPage({ cwd }: { cwd?: string } = {}): JSX.Element {
 	const model = useProjectDetailPageModel(cwd);
 	const activeRuntimeIds = useActiveSessionRuntimeIds();
 
-	const batchSection =
-		model.isBatch && model.batchProject ? (
-			<motion.div
-				className="px-4 pb-4 @md:px-8"
-				initial={{ opacity: 0, y: 10 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, delay: 0.2, ease: easeOut }}
-			>
-				<BatchQueueStatus project={model.batchProject} />
-			</motion.div>
-		) : null;
+	const batchSection = (
+		<>
+			{model.isBatch && model.batchProject ? (
+				<motion.div
+					className="px-4 pb-4 @md:px-8"
+					initial={{ opacity: 0, y: 10 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: 0.2, ease: easeOut }}
+				>
+					<BatchQueueStatus project={model.batchProject} />
+				</motion.div>
+			) : null}
+			{model.decodedCwd ? <ProjectHarnessSection subjectId={model.decodedCwd} /> : null}
+		</>
+	);
 
 	return (
 		<ProjectDetailPageView
