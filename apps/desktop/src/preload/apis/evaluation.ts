@@ -3,16 +3,16 @@ import type { DesktopApi } from "../api.js";
 import type { DesktopEvaluationEvidenceProviderRequest } from "../api-types/evaluation.js";
 
 const CHANNELS = {
-	LIST_DEFINITIONS: "vetta:evaluation:list-definitions",
-	UPSERT_DEFINITION: "vetta:evaluation:upsert-definition",
-	LIST_ATTEMPTS: "vetta:evaluation:list-attempts",
-	GET: "vetta:evaluation:get",
-	RUN: "vetta:evaluation:run",
-	CANCEL: "vetta:evaluation:cancel",
-	REGISTER_PROVIDER: "vetta:evaluation:register-provider",
-	UNREGISTER_PROVIDER: "vetta:evaluation:unregister-provider",
-	PROVIDER_RESPONSE: "vetta:evaluation:provider-response",
-	PROVIDER_REQUEST: "vetta:evaluation:provider-request",
+	LIST_DEFINITIONS: "origin:evaluation:list-definitions",
+	UPSERT_DEFINITION: "origin:evaluation:upsert-definition",
+	LIST_ATTEMPTS: "origin:evaluation:list-attempts",
+	GET: "origin:evaluation:get",
+	RUN: "origin:evaluation:run",
+	CANCEL: "origin:evaluation:cancel",
+	REGISTER_PROVIDER: "origin:evaluation:register-provider",
+	UNREGISTER_PROVIDER: "origin:evaluation:unregister-provider",
+	PROVIDER_RESPONSE: "origin:evaluation:provider-response",
+	PROVIDER_REQUEST: "origin:evaluation:provider-request",
 } as const;
 
 export function createEvaluationApi(ipc: IpcRenderer): Pick<DesktopApi, "evaluation"> {

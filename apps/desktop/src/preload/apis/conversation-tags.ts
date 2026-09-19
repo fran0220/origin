@@ -3,12 +3,12 @@ import { CONVERSATION_TAGS_CHANGED_CHANNEL, type ConversationTagsSnapshot } from
 import type { DesktopApi } from "../api.js";
 
 const CHANNELS = {
-	LIST: "vetta:conversation-tags:list",
-	CREATE: "vetta:conversation-tags:create",
-	UPDATE: "vetta:conversation-tags:update",
-	DELETE: "vetta:conversation-tags:delete",
-	ASSIGN: "vetta:conversation-tags:assign",
-	FORGET: "vetta:conversation-tags:forget",
+	LIST: "origin:conversation-tags:list",
+	CREATE: "origin:conversation-tags:create",
+	UPDATE: "origin:conversation-tags:update",
+	DELETE: "origin:conversation-tags:delete",
+	ASSIGN: "origin:conversation-tags:assign",
+	FORGET: "origin:conversation-tags:forget",
 } as const;
 
 export function createConversationTagsApi(ipc: IpcRenderer): Pick<DesktopApi, "conversationTags"> {

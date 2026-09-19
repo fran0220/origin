@@ -14,12 +14,12 @@ describe("createSessionApi trace propagation", () => {
 
 		expect(invoke).toHaveBeenNthCalledWith(
 			1,
-			"vetta:session:create",
+			"origin:session:create",
 			{ cwd: "C:/workspace" },
 			"conversation",
 			traceContext,
 		);
-		expect(invoke).toHaveBeenNthCalledWith(2, "vetta:session:prompt", "session-1", { text: "hello" }, traceContext);
+		expect(invoke).toHaveBeenNthCalledWith(2, "origin:session:prompt", "session-1", { text: "hello" }, traceContext);
 	});
 
 	it("exposes MCP Task snapshot, cancellation and cleanup channels", async () => {
@@ -31,9 +31,9 @@ describe("createSessionApi trace propagation", () => {
 		await session.cancelMcpTask("task-record-1");
 		await session.clearFinishedMcpTasks("session-1");
 
-		expect(invoke).toHaveBeenNthCalledWith(1, "vetta:session:mcp-tasks-list", "session-1");
-		expect(invoke).toHaveBeenNthCalledWith(2, "vetta:session:mcp-tasks-cancel", "task-record-1");
-		expect(invoke).toHaveBeenNthCalledWith(3, "vetta:session:mcp-tasks-clear-finished", "session-1");
+		expect(invoke).toHaveBeenNthCalledWith(1, "origin:session:mcp-tasks-list", "session-1");
+		expect(invoke).toHaveBeenNthCalledWith(2, "origin:session:mcp-tasks-cancel", "task-record-1");
+		expect(invoke).toHaveBeenNthCalledWith(3, "origin:session:mcp-tasks-clear-finished", "session-1");
 	});
 
 	it("exposes queued context compaction without using the interrupting prompt path", async () => {
@@ -43,7 +43,7 @@ describe("createSessionApi trace propagation", () => {
 
 		await session.queueContextCompaction("session-1");
 
-		expect(invoke).toHaveBeenCalledWith("vetta:session:queue-context-compaction", "session-1");
+		expect(invoke).toHaveBeenCalledWith("origin:session:queue-context-compaction", "session-1");
 	});
 
 	it("exposes the MCP Apps surface proxy channels", async () => {
@@ -56,17 +56,17 @@ describe("createSessionApi trace propagation", () => {
 		await session.readMcpAppResource({ surfaceId: "surface-1", uri: "ui://data" });
 		await session.releaseMcpAppSurface("surface-1");
 
-		expect(invoke).toHaveBeenNthCalledWith(1, "vetta:session:mcp-app-surface-get", "surface-1");
-		expect(invoke).toHaveBeenNthCalledWith(2, "vetta:session:mcp-app-call-tool", {
+		expect(invoke).toHaveBeenNthCalledWith(1, "origin:session:mcp-app-surface-get", "surface-1");
+		expect(invoke).toHaveBeenNthCalledWith(2, "origin:session:mcp-app-call-tool", {
 			surfaceId: "surface-1",
 			name: "refresh",
 			arguments: { page: 1 },
 		});
-		expect(invoke).toHaveBeenNthCalledWith(3, "vetta:session:mcp-app-read-resource", {
+		expect(invoke).toHaveBeenNthCalledWith(3, "origin:session:mcp-app-read-resource", {
 			surfaceId: "surface-1",
 			uri: "ui://data",
 		});
-		expect(invoke).toHaveBeenNthCalledWith(4, "vetta:session:mcp-app-release", "surface-1");
+		expect(invoke).toHaveBeenNthCalledWith(4, "origin:session:mcp-app-release", "surface-1");
 	});
 
 	it("forwards session search requests through the dedicated channel", async () => {
@@ -76,7 +76,7 @@ describe("createSessionApi trace propagation", () => {
 
 		await session.searchSessions({ query: "release plan", limit: 20 }, vi.fn());
 
-		expect(invoke).toHaveBeenCalledWith("vetta:session:search-sessions", expect.any(String), {
+		expect(invoke).toHaveBeenCalledWith("origin:session:search-sessions", expect.any(String), {
 			query: "release plan",
 			limit: 20,
 		});

@@ -148,92 +148,92 @@ const sessionLog = getAppLogger("session");
 const pluginLog = getAppLogger("plugin");
 
 const CHANNELS = {
-	CREATE: "vetta:session:create",
-	LIST_PROJECTS: "vetta:session:list-projects",
-	LIST_SESSIONS: "vetta:session:list-sessions",
-	SESSIONS_CHANGED: "vetta:session:sessions-changed",
-	PROMPT: "vetta:session:prompt",
-	CONTINUE: "vetta:session:continue",
-	ABORT: "vetta:session:abort",
-	QUEUE_STATE: "vetta:session:queue-state",
-	QUEUE_CONTEXT_COMPACTION: "vetta:session:queue-context-compaction",
-	QUEUE_REMOVE: "vetta:session:queue-remove",
-	QUEUE_REORDER: "vetta:session:queue-reorder",
-	QUEUE_SEND_NOW: "vetta:session:queue-send-now",
-	QUEUE_RESUME: "vetta:session:queue-resume",
-	QUEUE_CLEAR: "vetta:session:queue-clear",
-	CLEAR_TODOS: "vetta:session:clear-todos",
-	SUBSCRIBE: "vetta:session:subscribe",
-	UNSUBSCRIBE: "vetta:session:unsubscribe",
-	UPDATE_SETTINGS: "vetta:session:update-settings",
-	SET_EXECUTION_MODE: "vetta:session:set-execution-mode",
-	SET_GLOBAL_EXECUTION_MODE: "vetta:session:set-global-execution-mode",
+	CREATE: "origin:session:create",
+	LIST_PROJECTS: "origin:session:list-projects",
+	LIST_SESSIONS: "origin:session:list-sessions",
+	SESSIONS_CHANGED: "origin:session:sessions-changed",
+	PROMPT: "origin:session:prompt",
+	CONTINUE: "origin:session:continue",
+	ABORT: "origin:session:abort",
+	QUEUE_STATE: "origin:session:queue-state",
+	QUEUE_CONTEXT_COMPACTION: "origin:session:queue-context-compaction",
+	QUEUE_REMOVE: "origin:session:queue-remove",
+	QUEUE_REORDER: "origin:session:queue-reorder",
+	QUEUE_SEND_NOW: "origin:session:queue-send-now",
+	QUEUE_RESUME: "origin:session:queue-resume",
+	QUEUE_CLEAR: "origin:session:queue-clear",
+	CLEAR_TODOS: "origin:session:clear-todos",
+	SUBSCRIBE: "origin:session:subscribe",
+	UNSUBSCRIBE: "origin:session:unsubscribe",
+	UPDATE_SETTINGS: "origin:session:update-settings",
+	SET_EXECUTION_MODE: "origin:session:set-execution-mode",
+	SET_GLOBAL_EXECUTION_MODE: "origin:session:set-global-execution-mode",
 	/** 设置「新会话默认工作模式」。不影响任何已存在会话：mode 在会话创建时固化。 */
-	SET_GLOBAL_AGENT_MODE: "vetta:session:set-global-agent-mode",
+	SET_GLOBAL_AGENT_MODE: "origin:session:set-global-agent-mode",
 	/** 默认工作模式已变更；仅用于各窗口新会话页 toggle 的显示同步，不改变任何活跃会话的行为。 */
-	AGENT_MODE_CHANGED: "vetta:session:agent-mode-changed",
-	GET_STATE: "vetta:session:get-state",
-	GET_MESSAGES: "vetta:session:get-messages",
-	DELETE: "vetta:session:delete",
+	AGENT_MODE_CHANGED: "origin:session:agent-mode-changed",
+	GET_STATE: "origin:session:get-state",
+	GET_MESSAGES: "origin:session:get-messages",
+	DELETE: "origin:session:delete",
 	/** 项目硬删除时清空该 cwd 名下的会话存储；会话不在项目目录内，见 project-session-purge。 */
-	DELETE_ALL_FOR_CWD: "vetta:session:delete-all-for-cwd",
-	RENAME: "vetta:session:rename",
-	AUTO_TITLE: "vetta:session:auto-title",
-	NEXT_PROMPT_SUGGESTIONS: "vetta:session:next-prompt-suggestions",
-	DISPOSE: "vetta:session:dispose",
-	GET_FULL_HISTORY: "vetta:session:get-full-history",
-	NAVIGATE_FOR_EDIT: "vetta:session:navigate-for-edit",
-	SWITCH_BRANCH: "vetta:session:switch-branch",
-	DELETE_MESSAGE: "vetta:session:delete-message",
-	REPLACE_LAST_USER_MESSAGE: "vetta:session:replace-last-user-message",
-	FORK_SESSION: "vetta:session:fork-session",
-	GET_SESSION_PATH: "vetta:session:get-session-path",
-	SET_GLOBAL_THINKING: "vetta:session:set-global-thinking-level",
-	GET_GLOBAL_THINKING: "vetta:session:get-global-thinking-level",
-	GET_PERSONAS: "vetta:session:get-personas",
-	GET_AGENT_MODES: "vetta:session:get-agent-modes",
-	GET_PERSONALIZATION: "vetta:session:get-personalization",
-	SET_PERSONALIZATION: "vetta:session:set-personalization",
-	EVENT: "vetta:session:event",
-	QUESTION_REQUEST: "vetta:session:question-request",
-	QUESTION_LIST_PENDING: "vetta:session:question-list-pending",
-	QUESTION_RESOLVED: "vetta:session:question-resolved",
-	QUESTION_RESPONSE: "vetta:session:question-response",
-	MCP_ELICITATION_REQUEST: "vetta:session:mcp-elicitation-request",
-	MCP_ELICITATION_LIST_PENDING: "vetta:session:mcp-elicitation-list-pending",
-	MCP_ELICITATION_RESOLVED: "vetta:session:mcp-elicitation-resolved",
-	MCP_ELICITATION_RESPONSE: "vetta:session:mcp-elicitation-response",
-	MCP_TASKS_CHANGED: "vetta:session:mcp-tasks-changed",
-	MCP_TASKS_LIST: "vetta:session:mcp-tasks-list",
-	MCP_TASKS_CANCEL: "vetta:session:mcp-tasks-cancel",
-	MCP_TASKS_CLEAR_FINISHED: "vetta:session:mcp-tasks-clear-finished",
-	MCP_APP_SURFACE_GET: "vetta:session:mcp-app-surface-get",
-	MCP_APP_CALL_TOOL: "vetta:session:mcp-app-call-tool",
-	MCP_APP_READ_RESOURCE: "vetta:session:mcp-app-read-resource",
-	MCP_APP_RELEASE: "vetta:session:mcp-app-release",
-	SANDBOX_GRANT_REQUEST: "vetta:session:sandbox-grant-request",
-	SANDBOX_GRANT_RESPONSE: "vetta:session:sandbox-grant-response",
-	SANDBOX_GRANTS_LIST: "vetta:session:sandbox-grants-list",
-	SANDBOX_GRANTS_REVOKE: "vetta:session:sandbox-grants-revoke",
-	SANDBOX_GRANTS_REVOKE_ALL: "vetta:session:sandbox-grants-revoke-all",
-	BACKGROUND_TASKS_CLEAR_FINISHED: "vetta:session:background-tasks-clear-finished",
-	BACKGROUND_TASKS_KILL: "vetta:session:background-tasks-kill",
-	SUBAGENT_INTERRUPT: "vetta:session:subagent-interrupt",
-	LIST_RUNNING: "vetta:session:list-running",
+	DELETE_ALL_FOR_CWD: "origin:session:delete-all-for-cwd",
+	RENAME: "origin:session:rename",
+	AUTO_TITLE: "origin:session:auto-title",
+	NEXT_PROMPT_SUGGESTIONS: "origin:session:next-prompt-suggestions",
+	DISPOSE: "origin:session:dispose",
+	GET_FULL_HISTORY: "origin:session:get-full-history",
+	NAVIGATE_FOR_EDIT: "origin:session:navigate-for-edit",
+	SWITCH_BRANCH: "origin:session:switch-branch",
+	DELETE_MESSAGE: "origin:session:delete-message",
+	REPLACE_LAST_USER_MESSAGE: "origin:session:replace-last-user-message",
+	FORK_SESSION: "origin:session:fork-session",
+	GET_SESSION_PATH: "origin:session:get-session-path",
+	SET_GLOBAL_THINKING: "origin:session:set-global-thinking-level",
+	GET_GLOBAL_THINKING: "origin:session:get-global-thinking-level",
+	GET_PERSONAS: "origin:session:get-personas",
+	GET_AGENT_MODES: "origin:session:get-agent-modes",
+	GET_PERSONALIZATION: "origin:session:get-personalization",
+	SET_PERSONALIZATION: "origin:session:set-personalization",
+	EVENT: "origin:session:event",
+	QUESTION_REQUEST: "origin:session:question-request",
+	QUESTION_LIST_PENDING: "origin:session:question-list-pending",
+	QUESTION_RESOLVED: "origin:session:question-resolved",
+	QUESTION_RESPONSE: "origin:session:question-response",
+	MCP_ELICITATION_REQUEST: "origin:session:mcp-elicitation-request",
+	MCP_ELICITATION_LIST_PENDING: "origin:session:mcp-elicitation-list-pending",
+	MCP_ELICITATION_RESOLVED: "origin:session:mcp-elicitation-resolved",
+	MCP_ELICITATION_RESPONSE: "origin:session:mcp-elicitation-response",
+	MCP_TASKS_CHANGED: "origin:session:mcp-tasks-changed",
+	MCP_TASKS_LIST: "origin:session:mcp-tasks-list",
+	MCP_TASKS_CANCEL: "origin:session:mcp-tasks-cancel",
+	MCP_TASKS_CLEAR_FINISHED: "origin:session:mcp-tasks-clear-finished",
+	MCP_APP_SURFACE_GET: "origin:session:mcp-app-surface-get",
+	MCP_APP_CALL_TOOL: "origin:session:mcp-app-call-tool",
+	MCP_APP_READ_RESOURCE: "origin:session:mcp-app-read-resource",
+	MCP_APP_RELEASE: "origin:session:mcp-app-release",
+	SANDBOX_GRANT_REQUEST: "origin:session:sandbox-grant-request",
+	SANDBOX_GRANT_RESPONSE: "origin:session:sandbox-grant-response",
+	SANDBOX_GRANTS_LIST: "origin:session:sandbox-grants-list",
+	SANDBOX_GRANTS_REVOKE: "origin:session:sandbox-grants-revoke",
+	SANDBOX_GRANTS_REVOKE_ALL: "origin:session:sandbox-grants-revoke-all",
+	BACKGROUND_TASKS_CLEAR_FINISHED: "origin:session:background-tasks-clear-finished",
+	BACKGROUND_TASKS_KILL: "origin:session:background-tasks-kill",
+	SUBAGENT_INTERRUPT: "origin:session:subagent-interrupt",
+	LIST_RUNNING: "origin:session:list-running",
 	/** 有会话在跑的项目 cwd 列表；会话路径无法反推项目，见处理器上的说明。 */
-	LIST_RUNNING_CWDS: "vetta:session:list-running-cwds",
-	RUNNING_CHANGED: "vetta:session:running-changed",
+	LIST_RUNNING_CWDS: "origin:session:list-running-cwds",
+	RUNNING_CHANGED: "origin:session:running-changed",
 	// 某 session 是否有待回答的 ask_user_question；广播给所有窗口（侧栏 + 快捷面板）。
-	PENDING_QUESTION_CHANGED: "vetta:session:pending-question-changed",
-	CLEAR_DEFAULT_CONVERSATION: "vetta:session:clear-default-conversation",
-	CLEAR_DEFAULT_ARTIFACTS: "vetta:session:clear-default-artifacts",
+	PENDING_QUESTION_CHANGED: "origin:session:pending-question-changed",
+	CLEAR_DEFAULT_CONVERSATION: "origin:session:clear-default-conversation",
+	CLEAR_DEFAULT_ARTIFACTS: "origin:session:clear-default-artifacts",
 	// Read-only viewer for sessions we don't want to (or can't) take the
 	// write lock on — currently IM sessions, see ADR-0004. The viewer
 	// reads the .jsonl directly and tails fs.watch for new entries.
-	VIEWER_OPEN: "vetta:session:viewer-open",
-	VIEWER_SUBSCRIBE: "vetta:session:viewer-subscribe",
-	VIEWER_UNSUBSCRIBE: "vetta:session:viewer-unsubscribe",
-	VIEWER_EVENT: "vetta:session:viewer-event",
+	VIEWER_OPEN: "origin:session:viewer-open",
+	VIEWER_SUBSCRIBE: "origin:session:viewer-subscribe",
+	VIEWER_UNSUBSCRIBE: "origin:session:viewer-unsubscribe",
+	VIEWER_EVENT: "origin:session:viewer-event",
 	PLUGIN_TOOL_REQUEST: PLUGIN_CONTRIBUTION_CHANNELS.TOOL_REQUEST,
 	PLUGIN_TOOL_RESPONSE: PLUGIN_CONTRIBUTION_CHANNELS.TOOL_RESPONSE,
 	PLUGIN_HOST_READY: PLUGIN_CONTRIBUTION_CHANNELS.HOST_READY,
@@ -1191,7 +1191,7 @@ export function registerSessionIpc(webContents: WebContents): () => void {
 		return purgeProjectSessions(cwd, {
 			listSessions: (target) => listSessionHistory(target),
 			deleteSession: (sessionPath) => runtime.deleteSession(sessionPath),
-			// 分片目录是新会话的落点；`<项目>/.vetta/sessions` 是存量兼容位置，随项目目录
+			// 分片目录是新会话的落点；`<项目>/.origin/sessions` 是存量兼容位置，随项目目录
 			// 一起消失，这里不重复处理（见 composition.resolveDesktopRuntimeSessionRoots）。
 			resolveSessionDirs: (target) => [codingAgentSessionShardPath(target)],
 			removeDirectory: (dir) => rm(dir, { recursive: true, force: true }),
@@ -1252,7 +1252,7 @@ export function registerSessionIpc(webContents: WebContents): () => void {
 	 *
 	 * 为什么不让调用方拿 LIST_RUNNING 的路径自己反推：会话文件默认落在
 	 * `<agentDir>/sessions/--编码后的 cwd--/` 下，而那个编码把 `/`、`\`、`:` 全压成 `-`
-	 * 且不可逆，`my-project` 与 `my/project` 会撞进同一个分片；`<cwd>/.vetta/sessions`
+	 * 且不可逆，`my-project` 与 `my/project` 会撞进同一个分片；`<cwd>/.origin/sessions`
 	 * 等别的布局也同时存在。唯一可靠的来源是会话头里的 cwd。
 	 * 运行中的会话通常只有个位数，逐个读头的代价可以忽略。
 	 */
@@ -1264,8 +1264,8 @@ export function registerSessionIpc(webContents: WebContents): () => void {
 
 	ipcMain.handle(CHANNELS.CLEAR_DEFAULT_CONVERSATION, async (_event, scope: unknown) => {
 		// 物理分家后（ADR-0005）每个 scope 对应一个独立 cwd，互不干扰：
-		// - "conversation"：清桌面「对话」cwd 下 .vetta/sessions 内的全部会话（保留产物）
-		// - "claw"：清 IM cwd 下 .vetta/sessions 内的全部会话（保留产物）
+		// - "conversation"：清桌面「对话」cwd 下 .origin/sessions 内的全部会话（保留产物）
+		// - "claw"：清 IM cwd 下 .origin/sessions 内的全部会话（保留产物）
 		if (scope !== "conversation" && scope !== "claw") {
 			throw new Error("Invalid scope for clearDefaultConversation");
 		}
@@ -1314,7 +1314,7 @@ export function registerSessionIpc(webContents: WebContents): () => void {
 	});
 
 	ipcMain.handle(CHANNELS.CLEAR_DEFAULT_ARTIFACTS, async (_event, scope: unknown) => {
-		// 清空「对话」或 Claw cwd 下的产物文件（保留 .vetta 目录，会话不受影响）。
+		// 清空「对话」或 Claw cwd 下的产物文件（保留 .origin 目录，会话不受影响）。
 		// ADR-0007：UUID 子目录 *就是* session 的运行 cwd，不能整目录删除——否则 header
 		// 仍指向该路径，重开/编辑后 bash、文件树全部 ENOENT。只清空目录内容并保留壳。
 		if (scope !== "conversation" && scope !== "claw") {
@@ -1330,7 +1330,7 @@ export function registerSessionIpc(webContents: WebContents): () => void {
 		}
 		await Promise.all(
 			entries
-				.filter((entry) => entry.name !== ".vetta")
+				.filter((entry) => entry.name !== ".origin")
 				.map(async (entry) => {
 					const full = join(targetCwd, entry.name);
 					if (entry.isDirectory() && isSessionArtifactDirName(entry.name)) {

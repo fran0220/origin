@@ -3,8 +3,8 @@ import type { DesktopApi } from "../api.js";
 import { onIpcEvent } from "./helper.js";
 
 const NOTIFICATION_CHANNELS = {
-	SET_FOREGROUND: "vetta:notification:set-foreground-session",
-	NAVIGATE: "vetta:notification:navigate",
+	SET_FOREGROUND: "origin:notification:set-foreground-session",
+	NAVIGATE: "origin:notification:navigate",
 } as const;
 
 export function createNotificationApi(ipc: IpcRenderer): Pick<DesktopApi, "notification"> {

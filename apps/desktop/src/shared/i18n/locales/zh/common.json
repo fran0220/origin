@@ -442,8 +442,8 @@
 			"experimentalSectionTitle": "实验功能",
 			"experimentalSectionDescription": "以下开关与设置 → Agent 配置中的实验项一致，可在确认前调整。",
 			"experimentalFields": {
-				"vettaCli": "命令行工具 Origin CLI",
-				"vettaCliDesc": "允许在终端通过 Origin CLI 调用本机能力",
+				"originCli": "命令行工具 Origin CLI",
+				"originCliDesc": "允许在终端通过 Origin CLI 调用本机能力",
 				"promptPrediction": "输入预测",
 				"promptPredictionDesc": "输入时预估可能的后续内容，可能消耗少量额度",
 				"agentSkills": "Agent 技能扩展",

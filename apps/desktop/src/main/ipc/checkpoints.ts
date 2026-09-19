@@ -3,12 +3,12 @@ import { ipcMain } from "electron";
 import { getDesktopCheckpointService } from "../checkpoints/checkpoint-service.js";
 
 const CHANNELS = {
-	LIST: "vetta:checkpoints:list",
-	GET: "vetta:checkpoints:get",
-	REVERT: "vetta:checkpoints:revert",
-	RERUN: "vetta:checkpoints:rerun-verification",
-	SET_POLICY: "vetta:checkpoints:set-policy",
-	GET_POLICY: "vetta:checkpoints:get-policy",
+	LIST: "origin:checkpoints:list",
+	GET: "origin:checkpoints:get",
+	REVERT: "origin:checkpoints:revert",
+	RERUN: "origin:checkpoints:rerun-verification",
+	SET_POLICY: "origin:checkpoints:set-policy",
+	GET_POLICY: "origin:checkpoints:get-policy",
 } as const;
 
 function isNonEmptyString(value: unknown): value is string {

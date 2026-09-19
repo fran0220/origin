@@ -5,20 +5,20 @@ import type { ScheduledTask } from "../scheduler/task-storage";
 import { deleteRecordsBySessionPath, loadAllScheduledSessionPaths, loadRecords } from "../scheduler/task-storage";
 
 const CHANNELS = {
-	GET_TASKS: "vetta:scheduler:get-tasks",
-	CREATE_TASK: "vetta:scheduler:create-task",
-	UPDATE_TASK: "vetta:scheduler:update-task",
-	DELETE_TASK: "vetta:scheduler:delete-task",
-	TOGGLE_TASK: "vetta:scheduler:toggle-task",
-	DISABLE_TASK: "vetta:scheduler:disable-task",
-	GET_RECORDS: "vetta:scheduler:get-records",
-	GET_RUNNING: "vetta:scheduler:get-running",
-	GET_SESSION_PATHS: "vetta:scheduler:get-session-paths",
-	DELETE_RECORD_BY_SESSION: "vetta:scheduler:delete-record-by-session",
-	RUN_NOW: "vetta:scheduler:run-now",
-	ABORT: "vetta:scheduler:abort",
-	EVENT: "vetta:scheduler:event",
-	STREAM_EVENT: "vetta:scheduler:stream-event",
+	GET_TASKS: "origin:scheduler:get-tasks",
+	CREATE_TASK: "origin:scheduler:create-task",
+	UPDATE_TASK: "origin:scheduler:update-task",
+	DELETE_TASK: "origin:scheduler:delete-task",
+	TOGGLE_TASK: "origin:scheduler:toggle-task",
+	DISABLE_TASK: "origin:scheduler:disable-task",
+	GET_RECORDS: "origin:scheduler:get-records",
+	GET_RUNNING: "origin:scheduler:get-running",
+	GET_SESSION_PATHS: "origin:scheduler:get-session-paths",
+	DELETE_RECORD_BY_SESSION: "origin:scheduler:delete-record-by-session",
+	RUN_NOW: "origin:scheduler:run-now",
+	ABORT: "origin:scheduler:abort",
+	EVENT: "origin:scheduler:event",
+	STREAM_EVENT: "origin:scheduler:stream-event",
 } as const;
 
 type TaskStreamHandler = (event: TaskStreamEvent) => void;

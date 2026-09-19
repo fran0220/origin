@@ -1677,7 +1677,7 @@
   "whEditTitle": "Edit Webhook",
   "whAddTitle": "Add Webhook",
   "whEditHint": "Leave URL and Secret empty to keep current values; other fields will be saved.",
-  "whAddHint": "Credentials are stored locally at ~/.vetta/desktop-app/webhook-credentials.json (chmod 0600).",
+  "whAddHint": "Credentials are stored locally at ~/.origin/desktop-app/webhook-credentials.json (chmod 0600).",
   "whChannelType": "Channel type",
   "whChannelLocked": "Cannot switch channel type in edit mode",
   "whName": "Name",

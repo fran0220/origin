@@ -2,12 +2,12 @@ import type { IpcRenderer } from "electron";
 import type { DesktopApi } from "../api.js";
 
 const CHECKPOINT_CHANNELS = {
-	LIST: "vetta:checkpoints:list",
-	GET: "vetta:checkpoints:get",
-	REVERT: "vetta:checkpoints:revert",
-	RERUN: "vetta:checkpoints:rerun-verification",
-	SET_POLICY: "vetta:checkpoints:set-policy",
-	GET_POLICY: "vetta:checkpoints:get-policy",
+	LIST: "origin:checkpoints:list",
+	GET: "origin:checkpoints:get",
+	REVERT: "origin:checkpoints:revert",
+	RERUN: "origin:checkpoints:rerun-verification",
+	SET_POLICY: "origin:checkpoints:set-policy",
+	GET_POLICY: "origin:checkpoints:get-policy",
 } as const;
 
 export function createCheckpointsApi(ipc: IpcRenderer): Pick<DesktopApi, "checkpoints"> {

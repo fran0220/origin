@@ -15,8 +15,8 @@ interface PermissionsSnapshot {
 }
 
 const CHANNELS = {
-	CHECK_ALL: "vetta:permissions:check-all",
-	OPEN_PANE: "vetta:permissions:open-pane",
+	CHECK_ALL: "origin:permissions:check-all",
+	OPEN_PANE: "origin:permissions:open-pane",
 } as const;
 
 // macOS 系统设置 → 隐私与安全 → 子面板的 URL Scheme

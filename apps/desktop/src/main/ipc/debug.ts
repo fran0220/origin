@@ -5,9 +5,9 @@ import type { ToolCallRecord } from "../../preload/api.js";
 import { clearDebugDir, listRequestFiles } from "../debug-writer.js";
 
 const CHANNELS = {
-	PARSE_TOOL_CALLS: "vetta:debug:parse-tool-calls",
-	LIST_REQUEST_FILES: "vetta:debug:list-request-files",
-	CLEAR_DEBUG_DIR: "vetta:debug:clear-debug-dir",
+	PARSE_TOOL_CALLS: "origin:debug:parse-tool-calls",
+	LIST_REQUEST_FILES: "origin:debug:list-request-files",
+	CLEAR_DEBUG_DIR: "origin:debug:clear-debug-dir",
 } as const;
 
 /** Size threshold (10MB) above which we use streaming instead of readFileSync */

@@ -3,7 +3,7 @@ import { type IpcMainInvokeEvent, ipcMain } from "electron";
 import { resolveDesktopCapabilityProject } from "../projects/capability-project.js";
 
 export const PROJECT_IDENTITY_CHANNELS = {
-	RESOLVE: "vetta:project:resolve",
+	RESOLVE: "origin:project:resolve",
 } as const;
 
 function requireAbsoluteCwd(value: unknown): string {

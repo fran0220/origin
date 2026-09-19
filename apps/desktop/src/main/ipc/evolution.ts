@@ -3,11 +3,11 @@ import { ipcMain } from "electron";
 import { DesktopEvolutionService, type EvolutionScopeInput } from "../evolution/evolution-service.js";
 
 const CHANNELS = {
-	READ: "vetta:evolution:read",
-	COMMIT: "vetta:evolution:commit",
-	ROLLBACK: "vetta:evolution:rollback",
-	PROMOTE: "vetta:evolution:promote",
-	HISTORY: "vetta:evolution:history",
+	READ: "origin:evolution:read",
+	COMMIT: "origin:evolution:commit",
+	ROLLBACK: "origin:evolution:rollback",
+	PROMOTE: "origin:evolution:promote",
+	HISTORY: "origin:evolution:history",
 } as const;
 
 function isScope(value: unknown): value is EvolutionScopeInput {

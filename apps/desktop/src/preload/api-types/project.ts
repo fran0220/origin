@@ -40,7 +40,7 @@ export interface DesktopProjectApi {
 	export(projectDir: string): Promise<ProjectExportSuccess | ProjectExportError>;
 	/** Import a project from a zip via native open dialog. `null` = user cancelled. */
 	import(): Promise<ProjectImportSuccess | ProjectExportError | null>;
-	/** Read a project's `.vetta/meta.json` (used to detect project type). `null` if absent. */
+	/** Read a project's `.origin/meta.json` (used to detect project type). `null` if absent. */
 	readMeta(projectDir: string): Promise<Record<string, unknown> | null>;
 	/** Resolve host-owned per-capability keys for a bound workspace cwd. */
 	resolve(cwd: string): Promise<DesktopProjectIdentity>;

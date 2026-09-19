@@ -9,14 +9,14 @@ import { ipcMain } from "electron";
 import { getDesktopRecordingEngine, recordingsRoot } from "../recording/recording-engine.js";
 
 export const RECORDING_CHANNELS = {
-	START: "vetta:recording:start",
-	STOP: "vetta:recording:stop",
-	CANCEL: "vetta:recording:cancel",
-	LIST: "vetta:recording:list",
-	READ: "vetta:recording:read",
-	SAMPLE: "vetta:recording:sample",
-	CLEAR: "vetta:recording:clear",
-	PROBE: "vetta:recording:probe",
+	START: "origin:recording:start",
+	STOP: "origin:recording:stop",
+	CANCEL: "origin:recording:cancel",
+	LIST: "origin:recording:list",
+	READ: "origin:recording:read",
+	SAMPLE: "origin:recording:sample",
+	CLEAR: "origin:recording:clear",
+	PROBE: "origin:recording:probe",
 } as const;
 
 function requireString(value: unknown, label: string): string {

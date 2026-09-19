@@ -1,6 +1,6 @@
 import type { DesktopAbilitiesApi } from "./api-types/abilities.js";
 import type { DesktopActionApprovalApi } from "./api-types/action-approval.js";
-import type { DesktopAgentTeamsApi } from "./api-types/agent-teams.js";
+import type { DesktopAgentProfilesApi } from "./api-types/agent-profiles.js";
 import type { DesktopAppLifecycleApi } from "./api-types/app-lifecycle.js";
 import type { DesktopAppMonitorApi } from "./api-types/app-monitor.js";
 import type { DesktopAppshotApi } from "./api-types/appshot.js";
@@ -53,7 +53,7 @@ import type { DesktopFsApi } from "./fs-types.js";
 
 export type * from "./api-types/abilities.js";
 export type * from "./api-types/action-approval.js";
-export type * from "./api-types/agent-teams.js";
+export type * from "./api-types/agent-profiles.js";
 export type * from "./api-types/app-lifecycle.js";
 export type * from "./api-types/app-monitor.js";
 export type * from "./api-types/appshot.js";
@@ -99,7 +99,7 @@ export interface DesktopHostAccessApi {
 export interface DesktopApi {
 	hostAccess: DesktopHostAccessApi;
 	abilities: DesktopAbilitiesApi;
-	agentTeams: DesktopAgentTeamsApi;
+	agentProfiles: DesktopAgentProfilesApi;
 	actionApproval: DesktopActionApprovalApi;
 	appLifecycle: DesktopAppLifecycleApi;
 	appMonitor: DesktopAppMonitorApi;
@@ -153,6 +153,6 @@ export interface DesktopApi {
 
 declare global {
 	interface Window {
-		vetta: DesktopApi;
+		originApp: DesktopApi;
 	}
 }

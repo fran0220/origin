@@ -3,7 +3,7 @@
 // 在此加一条 import + 在 resources 里加一项。
 
 import enAbilities from "./locales/en/abilities.json";
-import enAgentTeams from "./locales/en/agent-teams.json";
+import enAgentProfiles from "./locales/en/agent-profiles.json";
 import enAutomation from "./locales/en/automation.json";
 import enBatchTasks from "./locales/en/batch-tasks.json";
 import enChat from "./locales/en/chat.json";
@@ -18,7 +18,7 @@ import enSettings from "./locales/en/settings.json";
 import enSkills from "./locales/en/skills.json";
 import enTimeline from "./locales/en/timeline.json";
 import zhAbilities from "./locales/zh/abilities.json";
-import zhAgentTeams from "./locales/zh/agent-teams.json";
+import zhAgentProfiles from "./locales/zh/agent-profiles.json";
 import zhAutomation from "./locales/zh/automation.json";
 import zhBatchTasks from "./locales/zh/batch-tasks.json";
 import zhChat from "./locales/zh/chat.json";
@@ -49,7 +49,7 @@ export const resources = {
 		evaluation: zhEvaluation,
 		timeline: zhTimeline,
 		automation: zhAutomation,
-		"agent-teams": zhAgentTeams,
+		"agent-profiles": zhAgentProfiles,
 	},
 	en: {
 		common: enCommon,
@@ -66,7 +66,7 @@ export const resources = {
 		evaluation: enEvaluation,
 		timeline: enTimeline,
 		automation: enAutomation,
-		"agent-teams": enAgentTeams,
+		"agent-profiles": enAgentProfiles,
 	},
 } as const;
 

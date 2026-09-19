@@ -4,21 +4,21 @@ import { bindModelRuntimeToConnectionRelays } from "../connections/runtime-bindi
 import { getDesktopCredentialVaultWarning } from "../credentials/desktop-credential-vault.js";
 
 export function registerConnectionsIpc(): () => void {
-	ipcMain.handle("vetta:connections:list", () => ({
+	ipcMain.handle("origin:connections:list", () => ({
 		connections: getConnectionCatalog().list(),
 		warning: getDesktopCredentialVaultWarning() ?? null,
 	}));
-	ipcMain.handle("vetta:connections:upsert", async (_event, draft: ConnectionDraft) => {
+	ipcMain.handle("origin:connections:upsert", async (_event, draft: ConnectionDraft) => {
 		const state = getConnectionCatalog().upsertProvided(draft);
 		await bindModelRuntimeToConnectionRelays();
 		return state;
 	});
-	ipcMain.handle("vetta:connections:remove", async (_event, id: unknown) => {
+	ipcMain.handle("origin:connections:remove", async (_event, id: unknown) => {
 		if (typeof id !== "string" || id.length === 0) return;
 		getConnectionCatalog().remove(id);
 		await bindModelRuntimeToConnectionRelays();
 	});
-	ipcMain.handle("vetta:connections:quota", async (_event, id: unknown) => {
+	ipcMain.handle("origin:connections:quota", async (_event, id: unknown) => {
 		if (typeof id !== "string") return { status: "unknown", readAt: new Date().toISOString() };
 		const state = getConnectionCatalog().get(id);
 		return {
@@ -28,9 +28,9 @@ export function registerConnectionsIpc(): () => void {
 		};
 	});
 	return () => {
-		ipcMain.removeHandler("vetta:connections:list");
-		ipcMain.removeHandler("vetta:connections:upsert");
-		ipcMain.removeHandler("vetta:connections:remove");
-		ipcMain.removeHandler("vetta:connections:quota");
+		ipcMain.removeHandler("origin:connections:list");
+		ipcMain.removeHandler("origin:connections:upsert");
+		ipcMain.removeHandler("origin:connections:remove");
+		ipcMain.removeHandler("origin:connections:quota");
 	};
 }

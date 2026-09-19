@@ -26,7 +26,7 @@ describe("project identity IPC", () => {
 	it("rejects relative cwd before calling the host resolver", async () => {
 		const { registerProjectIdentityIpc } = await import("./project-identity.js");
 		registerProjectIdentityIpc();
-		expect(handle).toHaveBeenCalledWith("vetta:project:resolve", expect.any(Function));
+		expect(handle).toHaveBeenCalledWith("origin:project:resolve", expect.any(Function));
 		const handler = handle.mock.calls[0]?.[1] as (event: unknown, cwd: unknown) => Promise<unknown>;
 		await expect(handler({}, "relative/game")).rejects.toThrow(/absolute path/);
 		expect(readDesktopConfig).not.toHaveBeenCalled();
@@ -47,6 +47,6 @@ describe("project identity IPC", () => {
 			recordingProjectKey: "d2e9b71ff7091d76",
 		});
 		dispose();
-		expect(removeHandler).toHaveBeenCalledWith("vetta:project:resolve");
+		expect(removeHandler).toHaveBeenCalledWith("origin:project:resolve");
 	});
 });

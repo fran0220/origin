@@ -41,7 +41,7 @@ export const NAMESPACES = [
 	"timeline",
 	"recording",
 	"automation",
-	"agent-teams",
+	"agent-profiles",
 ] as const;
 export type Namespace = (typeof NAMESPACES)[number];
 

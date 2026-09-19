@@ -19,11 +19,11 @@ const PLAN_TTL_MS = 2 * 60 * 1000;
 const MAX_TRANSFER_ITEMS = 100;
 
 const CHANNELS = {
-	PREPARE_DROP: "vetta:file-transfer:prepare-drop",
-	COMMIT_DROP: "vetta:file-transfer:commit-drop",
-	CANCEL_DROP: "vetta:file-transfer:cancel-drop",
-	START_DRAG: "vetta:file-transfer:start-drag",
-	CACHE_DRAG_ICON: "vetta:file-transfer:cache-drag-icon",
+	PREPARE_DROP: "origin:file-transfer:prepare-drop",
+	COMMIT_DROP: "origin:file-transfer:commit-drop",
+	CANCEL_DROP: "origin:file-transfer:cancel-drop",
+	START_DRAG: "origin:file-transfer:start-drag",
+	CACHE_DRAG_ICON: "origin:file-transfer:cache-drag-icon",
 } as const;
 
 interface StoredTransferPlan {

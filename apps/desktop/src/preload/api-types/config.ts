@@ -4,7 +4,7 @@ export interface DesktopConfigData {
 	projects: ProjectEntry[];
 	archivedProjects: ProjectEntry[];
 	workspacePath: string;
-	vettaAppPath?: string;
+	originAppPath?: string;
 	defaultExecutionMode?: "sandbox" | "full-access";
 	/** 新会话的默认工作模式（agent_mode 轴）。缺省视为 "work"；已存在会话不受它影响。 */
 	defaultAgentMode?: string;
@@ -40,8 +40,8 @@ export interface DesktopConfigData {
 	notificationsEnabled?: boolean;
 	/** 实验性功能开关分组（「Agent配置 → 扩展功能」）。缺省视为全部开启。 */
 	experimental?: {
-		/** Vetta CLI 提示词开关。仅对桌面端对话会话生效，缺省开。 */
-		vettaCli?: boolean;
+		/** Origin CLI 提示词开关。仅对桌面端对话会话生效，缺省开。 */
+		originCli?: boolean;
 		/** 输入预测开关。缺省关；批量/流转会话不适用。 */
 		promptPrediction?: boolean;
 		/** 适配通用 Agent Skill 开关。发现 ~/.agents/skills 与 <cwd>/.agents/skills，缺省开。 */
@@ -54,9 +54,9 @@ export interface DesktopConfigData {
 		imageToImageProviderId?: string | null;
 		imageToImageModelId?: string | null;
 	};
-	/** 默认「对话」项目的绝对路径（~/.vetta/conversation），主进程已确保目录存在。 */
+	/** 默认「对话」项目的绝对路径（~/.origin/conversation），主进程已确保目录存在。 */
 	defaultConversationCwd?: string;
-	/** im-gateway 自己的 cwd（~/.vetta/im-gateway/conversation），与桌面「对话」物理分家（ADR-0005）。 */
+	/** im-gateway 自己的 cwd（~/.origin/im-gateway/conversation），与桌面「对话」物理分家（ADR-0005）。 */
 	defaultImConversationCwd?: string;
 	/** 知识库加工设置。 */
 	knowledgeBase?: {
@@ -73,7 +73,7 @@ export interface DesktopConfigData {
 		/** 并发本地 OCR 子进程数（CPU 限流）。缺省 1。 */
 		ocrConcurrency?: number;
 	};
-	/** 知识库加工特殊项目的绝对路径（~/.vetta/knowledges/processing_records）。 */
+	/** 知识库加工特殊项目的绝对路径（~/.origin/knowledges/processing_records）。 */
 	knowledgeProcessingCwd?: string;
 	/** Appshot（全局手势捕获前台应用窗口为附件）设置。缺省不启用。 */
 	recording?: {

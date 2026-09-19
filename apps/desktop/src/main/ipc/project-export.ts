@@ -11,9 +11,9 @@ const log = getAppLogger("project-export");
 // ─── Channels ───
 
 export const PROJECT_EXPORT_CHANNELS = {
-	EXPORT: "vetta:project:export",
-	IMPORT: "vetta:project:import",
-	READ_META: "vetta:project:read-meta",
+	EXPORT: "origin:project:export",
+	IMPORT: "origin:project:import",
+	READ_META: "origin:project:read-meta",
 } as const;
 
 // ─── Manifest format ───
@@ -74,7 +74,7 @@ export class ProjectExportError extends Error {
 // ─── Helpers ───
 
 function detectSupportedType(projectDir: string): SupportedProjectType | "unsupported" {
-	const metaPath = join(projectDir, ".vetta", "meta.json");
+	const metaPath = join(projectDir, ".origin", "meta.json");
 	if (!existsSync(metaPath)) return "normal";
 	try {
 		const parsed = JSON.parse(readFileSync(metaPath, "utf-8")) as Record<string, unknown>;
@@ -88,7 +88,7 @@ function detectSupportedType(projectDir: string): SupportedProjectType | "unsupp
 
 /**
  * Files we deliberately drop from exports. Currently just per-process file
- * locks (`*.lock`) under `.vetta/sessions/` — they would be stale on the target
+ * locks (`*.lock`) under `.origin/sessions/` — they would be stale on the target
  * machine and Sessions re-create them lazily on open.
  */
 function shouldSkipForExport(zipRelativePath: string): boolean {
@@ -184,8 +184,8 @@ function readManifest(zip: AdmZip): ExportManifest {
 // workspace path on the same host), every absolute path stored inside the
 // project that points back to the OLD project root needs to be rewritten to
 // point at the NEW one. Two known places store such paths:
-//   1. `.vetta/task-states.json` — `sessionPath` of each batch task
-//   2. `.vetta/sessions/*.jsonl` — `cwd` in the session header line, plus
+//   1. `.origin/task-states.json` — `sessionPath` of each batch task
+//   2. `.origin/sessions/*.jsonl` — `cwd` in the session header line, plus
 //      file paths inside tool_call args/results
 //
 // We deliberately limit rewriting to strings that *exactly* start with the
@@ -274,8 +274,8 @@ function rewriteJsonlFile(path: string, oldRoot: string, newRoot: string): void 
  */
 function rewriteAbsolutePathsAfterImport(newRoot: string, oldRoot: string): void {
 	if (!oldRoot) return;
-	rewriteJsonFile(join(newRoot, ".vetta", "task-states.json"), oldRoot, newRoot);
-	const sessionsDir = join(newRoot, ".vetta", "sessions");
+	rewriteJsonFile(join(newRoot, ".origin", "task-states.json"), oldRoot, newRoot);
+	const sessionsDir = join(newRoot, ".origin", "sessions");
 	if (!existsSync(sessionsDir)) return;
 	for (const entry of readdirSync(sessionsDir, { withFileTypes: true })) {
 		if (!entry.isFile() || !entry.name.endsWith(".jsonl")) continue;
@@ -290,7 +290,7 @@ function rewriteAbsolutePathsAfterImport(newRoot: string, oldRoot: string): void
  * meta.json — keeping the original path lets the user re-link later.
  */
 function collectMissingBatchSources(projectDir: string): string[] {
-	const metaPath = join(projectDir, ".vetta", "meta.json");
+	const metaPath = join(projectDir, ".origin", "meta.json");
 	if (!existsSync(metaPath)) return [];
 	let parsed: Record<string, unknown>;
 	try {
@@ -322,7 +322,7 @@ async function handleExport(projectDir: string): Promise<ExportProjectResult> {
 	const projectName = basename(projectDir);
 	const saveResult = await dialog.showSaveDialog({
 		title: "导出项目",
-		defaultPath: `${projectName}.vetta.zip`,
+		defaultPath: `${projectName}.origin.zip`,
 		filters: [{ name: "Origin Project Export", extensions: ["zip"] }],
 	});
 	if (saveResult.canceled || !saveResult.filePath) {
@@ -414,7 +414,7 @@ async function handleImport(): Promise<ImportProjectResult | null> {
 
 	// Rewrite any absolute path inside extracted state files that still points
 	// at the source-machine project root. Without this, batch task-states.json
-	// keeps pointing at e.g. `/Users/m4/.../<project>/.vetta/sessions/foo.jsonl`
+	// keeps pointing at e.g. `/Users/m4/.../<project>/.origin/sessions/foo.jsonl`
 	// on a Windows host, which then crashes session open with EPERM.
 	rewriteAbsolutePathsAfterImport(projectDir, manifest.originalPath);
 
@@ -455,9 +455,9 @@ function toErrorPayload(error: unknown): IpcErrorPayload {
 	return { error: { code: "extract-failed", message } };
 }
 
-/** 读取项目 `.vetta/meta.json`（用于识别 batch 等项目类型）；不存在或解析失败返回 null。 */
+/** 读取项目 `.origin/meta.json`（用于识别 batch 等项目类型）；不存在或解析失败返回 null。 */
 function readProjectMeta(projectDir: string): Record<string, unknown> | null {
-	const metaPath = join(projectDir, ".vetta", "meta.json");
+	const metaPath = join(projectDir, ".origin", "meta.json");
 	if (!existsSync(metaPath)) return null;
 	try {
 		return JSON.parse(readFileSync(metaPath, "utf-8")) as Record<string, unknown>;

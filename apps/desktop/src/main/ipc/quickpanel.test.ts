@@ -54,7 +54,7 @@ describe("Quick Panel recent conversations", () => {
 		};
 		mocks.listSessions.mockResolvedValue([ordinary]);
 		registerQuickPanelIpc();
-		const listRecent = ipc.handlers.get("vetta:quickpanel:list-recent");
+		const listRecent = ipc.handlers.get("origin:quickpanel:list-recent");
 		if (!listRecent) throw new Error("list-recent handler was not registered");
 
 		await expect(listRecent({}, 8)).resolves.toEqual([
@@ -70,7 +70,7 @@ describe("Quick Panel recent conversations", () => {
 
 	it("opens a selected Conversation in the main window", async () => {
 		registerQuickPanelIpc();
-		const openSession = ipc.handlers.get("vetta:quickpanel:open-session");
+		const openSession = ipc.handlers.get("origin:quickpanel:open-session");
 		if (!openSession) throw new Error("open-session handler was not registered");
 
 		await expect(

@@ -3,9 +3,9 @@ import { getRuntimeManager } from "../runtimes/manager.js";
 import type { RuntimeType } from "../runtimes/types.js";
 
 export const RUNTIMES_CHANNELS = {
-	GET_STATUS: "vetta:runtimes:get-status",
-	REINSTALL: "vetta:runtimes:reinstall",
-	REDETECT: "vetta:runtimes:redetect",
+	GET_STATUS: "origin:runtimes:get-status",
+	REINSTALL: "origin:runtimes:reinstall",
+	REDETECT: "origin:runtimes:redetect",
 } as const;
 
 export function registerRuntimesIpc(): () => void {

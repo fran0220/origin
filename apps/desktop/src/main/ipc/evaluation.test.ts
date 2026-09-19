@@ -7,14 +7,14 @@ const source = readFileSync(join(dirname(fileURLToPath(import.meta.url)), "evalu
 
 describe("evaluation IPC contract", () => {
 	it("registers the documented Evaluation channels and nothing else", () => {
-		expect(source).toContain("vetta:evaluation:list-definitions");
-		expect(source).toContain("vetta:evaluation:upsert-definition");
-		expect(source).toContain("vetta:evaluation:list-attempts");
-		expect(source).toContain("vetta:evaluation:get");
-		expect(source).toContain("vetta:evaluation:run");
-		expect(source).toContain("vetta:evaluation:cancel");
-		expect(source).toContain("vetta:evaluation:register-provider");
-		expect(source).toContain("vetta:evaluation:unregister-provider");
+		expect(source).toContain("origin:evaluation:list-definitions");
+		expect(source).toContain("origin:evaluation:upsert-definition");
+		expect(source).toContain("origin:evaluation:list-attempts");
+		expect(source).toContain("origin:evaluation:get");
+		expect(source).toContain("origin:evaluation:run");
+		expect(source).toContain("origin:evaluation:cancel");
+		expect(source).toContain("origin:evaluation:register-provider");
+		expect(source).toContain("origin:evaluation:unregister-provider");
 		expect(source).toContain("ipcMain.removeHandler(channel)");
 	});
 

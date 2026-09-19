@@ -2,11 +2,11 @@ import type { IpcRenderer } from "electron";
 import type { DesktopApi } from "../api.js";
 
 const CHANNELS = {
-	READ: "vetta:evolution:read",
-	COMMIT: "vetta:evolution:commit",
-	ROLLBACK: "vetta:evolution:rollback",
-	PROMOTE: "vetta:evolution:promote",
-	HISTORY: "vetta:evolution:history",
+	READ: "origin:evolution:read",
+	COMMIT: "origin:evolution:commit",
+	ROLLBACK: "origin:evolution:rollback",
+	PROMOTE: "origin:evolution:promote",
+	HISTORY: "origin:evolution:history",
 } as const;
 
 export function createEvolutionApi(ipc: IpcRenderer): Pick<DesktopApi, "evolution"> {

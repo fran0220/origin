@@ -1677,7 +1677,7 @@
   "whEditTitle": "编辑 Webhook",
   "whAddTitle": "新增 Webhook",
   "whEditHint": "URL 与签名 Secret 留空表示不修改；其它字段会按当前内容覆盖保存。",
-  "whAddHint": "凭据将本地存储于 ~/.vetta/desktop-app/webhook-credentials.json (chmod 0600)。",
+  "whAddHint": "凭据将本地存储于 ~/.origin/desktop-app/webhook-credentials.json (chmod 0600)。",
   "whChannelType": "渠道类型",
   "whChannelLocked": "编辑模式下不可切换渠道类型",
   "whName": "名称",

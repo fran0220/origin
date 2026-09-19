@@ -3,14 +3,14 @@ import type { WebhookCreateInput, WebhookMessage, WebhookUpdatePatch } from "../
 import { getWebhookManager } from "../webhook/index.js";
 
 const CHANNELS = {
-	LIST: "vetta:webhook:list",
-	LIST_PROVIDERS: "vetta:webhook:list-providers",
-	CREATE: "vetta:webhook:create",
-	UPDATE: "vetta:webhook:update",
-	DELETE: "vetta:webhook:delete",
-	TOGGLE: "vetta:webhook:toggle",
-	TEST: "vetta:webhook:test",
-	SEND: "vetta:webhook:send",
+	LIST: "origin:webhook:list",
+	LIST_PROVIDERS: "origin:webhook:list-providers",
+	CREATE: "origin:webhook:create",
+	UPDATE: "origin:webhook:update",
+	DELETE: "origin:webhook:delete",
+	TOGGLE: "origin:webhook:toggle",
+	TEST: "origin:webhook:test",
+	SEND: "origin:webhook:send",
 } as const;
 
 function assertNonEmptyString(value: unknown, field: string): asserts value is string {

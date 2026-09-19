@@ -6,8 +6,8 @@ import { getDesktopMediaRuntime } from "../capabilities/media-providers.js";
 import { assertPathReadableForPreview } from "./fs.js";
 
 const CHANNELS = {
-	LIST_PROVIDERS: "vetta:media:list-providers",
-	AUDIO_METADATA: "vetta:media:audio-metadata",
+	LIST_PROVIDERS: "origin:media:list-providers",
+	AUDIO_METADATA: "origin:media:audio-metadata",
 } as const;
 
 /**

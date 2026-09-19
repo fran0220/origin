@@ -78,7 +78,7 @@
 			"name": "Publish Ability",
 			"description": "Submit a skill, scene, MCP server, plugin, or ability bundle to the Origin marketplace, covering required fields, localization, and the review flow."
 		},
-		"vetta-blog": {
+		"origin-blog": {
 			"name": "Origin Blog",
 			"description": "Research, test, write, and review evidence-backed Origin product and technical blogs."
 		}

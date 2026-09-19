@@ -88,11 +88,11 @@ export interface LinuxSandboxConfigState {
 export interface DesktopConfigSnapshot extends DesktopConfig {
 	sandbox: SandboxCapability;
 	linuxSandbox: LinuxSandboxConfigState;
-	/** 默认「对话」项目的绝对路径（~/.vetta/conversation），主进程已确保目录存在。 */
+	/** 默认「对话」项目的绝对路径（~/.origin/conversation），主进程已确保目录存在。 */
 	defaultConversationCwd: string;
-	/** im-gateway 自己的 cwd（~/.vetta/im-gateway/conversation）。Claw tab 据此判定一条 session 是否来自 IM。 */
+	/** im-gateway 自己的 cwd（~/.origin/im-gateway/conversation）。Claw tab 据此判定一条 session 是否来自 IM。 */
 	defaultImConversationCwd: string;
-	/** 知识库加工特殊项目的绝对路径（~/.vetta/knowledges/processing_records）。 */
+	/** 知识库加工特殊项目的绝对路径（~/.origin/knowledges/processing_records）。 */
 	knowledgeProcessingCwd: string;
 }
 
@@ -127,39 +127,39 @@ export type McpServerConfig = McpServerConfigData;
 export type McpConfig = McpConfigData;
 
 const CHANNELS = {
-	READ_DIR: "vetta:fs:read-dir",
-	READ_FILE: "vetta:fs:read-file",
-	READ_EDITABLE_TEXT: "vetta:fs:read-editable-text",
-	SAVE_EDITABLE_TEXT: "vetta:fs:save-editable-text",
-	WRITE_FILE: "vetta:fs:write-file",
-	STAT: "vetta:fs:stat",
-	RENAME: "vetta:fs:rename",
-	DELETE: "vetta:fs:delete",
-	MOVE: "vetta:fs:move",
-	CREATE_ENTRY: "vetta:fs:create-entry",
-	CREATE_DIRECTORY: "vetta:fs:create-directory",
-	LIST_SUB_DIRS: "vetta:fs:list-sub-dirs",
-	LIST_FILES_RECURSIVE: "vetta:fs:list-files-recursive",
-	WATCH_DIR: "vetta:fs:watch-dir",
-	UNWATCH_DIR: "vetta:fs:unwatch-dir",
-	DIR_CHANGED: "vetta:fs:dir-changed",
-	CONFIG_GET: "vetta:config:get",
-	CONFIG_SET: "vetta:config:set",
-	MODELS_GET: "vetta:models:get",
-	MODELS_SET: "vetta:models:set",
-	MODELS_COPY_API_KEY: "vetta:models:copy-api-key",
-	MODELS_PROBE: "vetta:models:probe",
-	MODELS_FETCH_PROVIDER_MODELS: "vetta:models:fetch-provider-models",
-	MCP_GET: "vetta:mcp:get",
-	MCP_SET: "vetta:mcp:set",
-	MCP_LOGIN: "vetta:mcp:login",
-	MCP_LOGOUT: "vetta:mcp:logout",
-	MCP_HAS_AUTH: "vetta:mcp:has-auth",
-	MCP_AUTH_STATUS: "vetta:mcp:auth-status",
-	MCP_GET_SETUP_LOGIN_STATUS: "vetta:mcp:get-setup-login-status",
-	MCP_START_SETUP_LOGIN: "vetta:mcp:start-setup-login",
-	MCP_CANCEL_SETUP_LOGIN: "vetta:mcp:cancel-setup-login",
-	MCP_CLEAR_SETUP_LOGIN: "vetta:mcp:clear-setup-login",
+	READ_DIR: "origin:fs:read-dir",
+	READ_FILE: "origin:fs:read-file",
+	READ_EDITABLE_TEXT: "origin:fs:read-editable-text",
+	SAVE_EDITABLE_TEXT: "origin:fs:save-editable-text",
+	WRITE_FILE: "origin:fs:write-file",
+	STAT: "origin:fs:stat",
+	RENAME: "origin:fs:rename",
+	DELETE: "origin:fs:delete",
+	MOVE: "origin:fs:move",
+	CREATE_ENTRY: "origin:fs:create-entry",
+	CREATE_DIRECTORY: "origin:fs:create-directory",
+	LIST_SUB_DIRS: "origin:fs:list-sub-dirs",
+	LIST_FILES_RECURSIVE: "origin:fs:list-files-recursive",
+	WATCH_DIR: "origin:fs:watch-dir",
+	UNWATCH_DIR: "origin:fs:unwatch-dir",
+	DIR_CHANGED: "origin:fs:dir-changed",
+	CONFIG_GET: "origin:config:get",
+	CONFIG_SET: "origin:config:set",
+	MODELS_GET: "origin:models:get",
+	MODELS_SET: "origin:models:set",
+	MODELS_COPY_API_KEY: "origin:models:copy-api-key",
+	MODELS_PROBE: "origin:models:probe",
+	MODELS_FETCH_PROVIDER_MODELS: "origin:models:fetch-provider-models",
+	MCP_GET: "origin:mcp:get",
+	MCP_SET: "origin:mcp:set",
+	MCP_LOGIN: "origin:mcp:login",
+	MCP_LOGOUT: "origin:mcp:logout",
+	MCP_HAS_AUTH: "origin:mcp:has-auth",
+	MCP_AUTH_STATUS: "origin:mcp:auth-status",
+	MCP_GET_SETUP_LOGIN_STATUS: "origin:mcp:get-setup-login-status",
+	MCP_START_SETUP_LOGIN: "origin:mcp:start-setup-login",
+	MCP_CANCEL_SETUP_LOGIN: "origin:mcp:cancel-setup-login",
+	MCP_CLEAR_SETUP_LOGIN: "origin:mcp:clear-setup-login",
 } as const;
 
 function assertNonEmptyString(value: unknown, fieldName: string): asserts value is string {
@@ -176,7 +176,7 @@ export function registerFsIpc(): () => void {
 	const models = getDesktopModelSettingsService();
 	const disposeModelChanged = onDesktopModelSettingsChanged((providerIds) => {
 		for (const win of BrowserWindow.getAllWindows()) {
-			if (!win.isDestroyed()) win.webContents.send("vetta:models:changed", { providerIds: [...providerIds] });
+			if (!win.isDestroyed()) win.webContents.send("origin:models:changed", { providerIds: [...providerIds] });
 		}
 	});
 	const shortcuts = getDesktopShortcutService();
@@ -414,8 +414,8 @@ export function registerFsIpc(): () => void {
 					? normalizeAgentMode(patch.defaultAgentMode)
 					: current.defaultAgentMode,
 			debugMode: patch.debugMode ?? current.debugMode,
-			vettaAppPath: patch.vettaAppPath ?? current.vettaAppPath,
-			vettaCliAppPath: patch.vettaCliAppPath ?? current.vettaCliAppPath,
+			originAppPath: patch.originAppPath ?? current.originAppPath,
+			originCliAppPath: patch.originCliAppPath ?? current.originCliAppPath,
 			notificationsEnabled: patch.notificationsEnabled ?? current.notificationsEnabled,
 			language: patch.language ?? current.language,
 			experimental:

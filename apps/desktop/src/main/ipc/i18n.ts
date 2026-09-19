@@ -10,9 +10,9 @@ import { applyLanguagePreference, getAppLanguage, getLanguagePreference, getLang
 import { rebuildTrayContextMenu } from "../tray-manager.js";
 import { readDesktopConfig, writeDesktopConfig } from "./fs.js";
 
-export const I18N_GET_INITIAL_CHANNEL = "vetta:i18n:get-initial-language";
-export const I18N_SET_LANGUAGE_CHANNEL = "vetta:i18n:set-language";
-export const I18N_LANGUAGE_CHANGED_CHANNEL = "vetta:i18n:language-changed";
+export const I18N_GET_INITIAL_CHANNEL = "origin:i18n:get-initial-language";
+export const I18N_SET_LANGUAGE_CHANNEL = "origin:i18n:set-language";
+export const I18N_LANGUAGE_CHANGED_CHANNEL = "origin:i18n:language-changed";
 
 function broadcastLanguageState(state: LanguageState): void {
 	for (const win of BrowserWindow.getAllWindows()) {

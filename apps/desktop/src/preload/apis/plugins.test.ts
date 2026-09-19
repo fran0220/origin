@@ -2,8 +2,8 @@ import type { IpcRenderer, IpcRendererEvent, WebUtils } from "electron";
 import { describe, expect, it, vi } from "vitest";
 import { createPluginsApi } from "./plugins";
 
-const SECRETS_CHANGED_CHANNEL = "vetta:plugins:secrets:changed";
-const AI_STREAM_EVENT_CHANNEL = "vetta:plugins:capabilities:ai:stream:event";
+const SECRETS_CHANGED_CHANNEL = "origin:plugins:secrets:changed";
+const AI_STREAM_EVENT_CHANNEL = "origin:plugins:capabilities:ai:stream:event";
 type IpcListener = Parameters<IpcRenderer["on"]>[1];
 const webUtils = { getPathForFile: vi.fn() } as unknown as WebUtils;
 
@@ -14,7 +14,7 @@ describe("createPluginsApi settings events", () => {
 
 		await plugins.reportAgentContributionHostReady();
 
-		expect(harness.invoke).toHaveBeenCalledWith("vetta:plugins:agent-contribution-host-ready");
+		expect(harness.invoke).toHaveBeenCalledWith("origin:plugins:agent-contribution-host-ready");
 	});
 
 	it("passes capability sessions to identity-sensitive plugin IPC", async () => {
@@ -30,7 +30,7 @@ describe("createPluginsApi settings events", () => {
 
 		expect(harness.invoke).toHaveBeenNthCalledWith(
 			1,
-			"vetta:plugins:command-run",
+			"origin:plugins:command-run",
 			"session",
 			"node",
 			["--version"],
@@ -38,22 +38,22 @@ describe("createPluginsApi settings events", () => {
 		);
 		expect(harness.invoke).toHaveBeenNthCalledWith(
 			2,
-			"vetta:plugins:command-spawn",
+			"origin:plugins:command-spawn",
 			"session",
 			"node",
 			["server.js"],
 			undefined,
 		);
-		expect(harness.invoke).toHaveBeenNthCalledWith(3, "vetta:plugins:command-spawn-stop", "session", "spawn-id");
-		expect(harness.invoke).toHaveBeenNthCalledWith(4, "vetta:plugins:command-spawn-status", "session", "spawn-id");
+		expect(harness.invoke).toHaveBeenNthCalledWith(3, "origin:plugins:command-spawn-stop", "session", "spawn-id");
+		expect(harness.invoke).toHaveBeenNthCalledWith(4, "origin:plugins:command-spawn-status", "session", "spawn-id");
 		expect(harness.invoke).toHaveBeenNthCalledWith(
 			5,
-			"vetta:plugins:dev-watch-start",
+			"origin:plugins:dev-watch-start",
 			"official-session",
 			"target",
 			"C:/plugin-project",
 		);
-		expect(harness.invoke).toHaveBeenNthCalledWith(6, "vetta:plugins:dev-watch-stop", "official-session", "target");
+		expect(harness.invoke).toHaveBeenNthCalledWith(6, "origin:plugins:dev-watch-stop", "official-session", "target");
 	});
 
 	it("multiplexes more than ten subscribers through one IPC listener", () => {
@@ -108,12 +108,12 @@ describe("createPluginsApi settings events", () => {
 		await ai.cancelStream("session", "request");
 		harness.emit(AI_STREAM_EVENT_CHANNEL, payload);
 
-		expect(harness.invoke).toHaveBeenNthCalledWith(1, "vetta:plugins:capabilities:ai:stream", "session", "request", {
+		expect(harness.invoke).toHaveBeenNthCalledWith(1, "origin:plugins:capabilities:ai:stream", "session", "request", {
 			prompt: "question",
 		});
 		expect(harness.invoke).toHaveBeenNthCalledWith(
 			2,
-			"vetta:plugins:capabilities:ai:stream:cancel",
+			"origin:plugins:capabilities:ai:stream:cancel",
 			"session",
 			"request",
 		);

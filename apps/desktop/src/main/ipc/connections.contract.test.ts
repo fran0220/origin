@@ -11,7 +11,7 @@ describe("renderer IPC never returns plaintext tokens", () => {
 
 	it("oauth callback payload is signedIn only", () => {
 		const source = readFileSync(join(import.meta.dirname, "../cloud/index.ts"), "utf8");
-		expect(source).toContain('send("vetta:auth:oauth-callback", { signedIn: true })');
+		expect(source).toContain('send("origin:auth:oauth-callback", { signedIn: true })');
 		expect(source).not.toContain("token: tokens.token");
 	});
 

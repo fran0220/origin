@@ -3,7 +3,7 @@ import "./telemetry.js";
 import type { DesktopApi } from "./api.js";
 import { createAbilitiesApi } from "./apis/abilities.js";
 import { createActionApprovalApi } from "./apis/action-approval.js";
-import { createAgentTeamsApi } from "./apis/agent-teams.js";
+import { createAgentProfilesApi } from "./apis/agent-profiles.js";
 import { createAppLifecycleApi } from "./apis/app-lifecycle.js";
 import { createAppMonitorApi } from "./apis/app-monitor.js";
 import { createAppshotApi } from "./apis/appshot.js";
@@ -39,7 +39,7 @@ for (const eventName of ["keydown", "mousedown", "mousemove", "touchstart", "whe
 
 const rawApi: Omit<DesktopApi, "hostAccess"> = {
 	...createAbilitiesApi(ipcRenderer),
-	...createAgentTeamsApi(ipcRenderer),
+	...createAgentProfilesApi(ipcRenderer),
 	...createActionApprovalApi(ipcRenderer),
 	...createAppLifecycleApi(ipcRenderer),
 	...createAppMonitorApi(ipcRenderer),
@@ -73,4 +73,4 @@ const api: DesktopApi = {
 	...hostGate.api,
 };
 
-contextBridge.exposeInMainWorld("vetta", api);
+contextBridge.exposeInMainWorld("originApp", api);

@@ -190,7 +190,7 @@ export interface InstalledPlugin {
 	author?: string;
 	/**
 	 * 见 PluginManifest.icon —— 已解析为可直接渲染的值：Iconify 名 / 外链原样，
-	 * 包内相对路径已转成带 cache key 的 `vetta-plugin://` URL。未声明图标时为 undefined。
+	 * 包内相对路径已转成带 cache key 的 `origin-plugin://` URL。未声明图标时为 undefined。
 	 */
 	iconUrl?: string;
 	/** 见 PluginManifest.guidingWords —— NewSessionPage 欢迎页消费。 */
@@ -220,7 +220,7 @@ export interface InstalledPlugin {
 	pendingVersion?: string;
 	/**
 	 * Absolute filesystem root of the active plugin package
-	 * (system staging dir, or `~/.vetta/plugins/<id>/versions/<activeVersion>`).
+	 * (system staging dir, or `~/.origin/plugins/<id>/versions/<activeVersion>`).
 	 */
 	rootPath: string;
 	/** 存在即该插件处于 dev 热更新链接（资源改从工程目录加载）。 */
@@ -940,7 +940,7 @@ export interface DesktopPluginsApi {
 	/** Fired when plugins are installed/uninstalled/enabled/reloaded (host should re-load remotes). */
 	onPluginsChanged(listener: (event?: PluginsChangedEvent) => void): () => void;
 	networkRequest<T = unknown>(sessionId: string, request: PluginNetworkRequest): Promise<PluginNetworkResponse<T>>;
-	/** 带登录身份打 Vetta 服务端；仅 official 插件的 session 会被主进程放行（ADR-0056）。 */
+	/** 带登录身份打 Origin 服务端；仅 official 插件的 session 会被主进程放行（ADR-0056）。 */
 	gatewayRequest<T = unknown>(sessionId: string, request: PluginGatewayRequest): Promise<PluginGatewayResponse<T>>;
 	secretsGet(sessionId: string, key: string): Promise<string | undefined>;
 	secretsHas(sessionId: string, key: string): Promise<boolean>;

@@ -4,12 +4,12 @@ import { getDesktopCapabilityHost } from "../capabilities/capability-host.js";
 import { listThemes } from "../themes/theme-store.js";
 
 const CHANNELS = {
-	LIST: "vetta:themes:list",
-	STORAGE_GET_ALL: "vetta:themes:storage:get-all",
-	STORAGE_SET: "vetta:themes:storage:set",
-	STORAGE_REMOVE: "vetta:themes:storage:remove",
-	STORAGE_CLEAR: "vetta:themes:storage:clear",
-	STORAGE_CHANGED: "vetta:themes:storage:changed",
+	LIST: "origin:themes:list",
+	STORAGE_GET_ALL: "origin:themes:storage:get-all",
+	STORAGE_SET: "origin:themes:storage:set",
+	STORAGE_REMOVE: "origin:themes:storage:remove",
+	STORAGE_CLEAR: "origin:themes:storage:clear",
+	STORAGE_CHANGED: "origin:themes:storage:changed",
 } as const;
 
 function broadcastStorageChanged(themeId: string, data: Record<string, ThemeStorageJson>): void {

@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("vettaRemoteDesktop", {
+contextBridge.exposeInMainWorld("originRemoteDesktop", {
 	onInput(message: unknown): void {
-		ipcRenderer.send("vetta:remote-desktop:input", message);
+		ipcRenderer.send("origin:remote-desktop:input", message);
 	},
 });

@@ -6,14 +6,14 @@ import { onIpcEvent } from "./helper.js";
 export function createThemesApi(ipc: IpcRenderer): Pick<DesktopApi, "themes"> {
 	return {
 		themes: {
-			list: () => ipc.invoke("vetta:themes:list"),
+			list: () => ipc.invoke("origin:themes:list"),
 			storage: {
-				getAll: (themeId) => ipc.invoke("vetta:themes:storage:get-all", themeId),
-				set: (themeId, key, value) => ipc.invoke("vetta:themes:storage:set", themeId, key, value),
-				remove: (themeId, key) => ipc.invoke("vetta:themes:storage:remove", themeId, key),
-				clear: (themeId) => ipc.invoke("vetta:themes:storage:clear", themeId),
+				getAll: (themeId) => ipc.invoke("origin:themes:storage:get-all", themeId),
+				set: (themeId, key, value) => ipc.invoke("origin:themes:storage:set", themeId, key, value),
+				remove: (themeId, key) => ipc.invoke("origin:themes:storage:remove", themeId, key),
+				clear: (themeId) => ipc.invoke("origin:themes:storage:clear", themeId),
 				onChanged: (handler) =>
-					onIpcEvent<DesktopThemeStorageChangedEvent>(ipc, "vetta:themes:storage:changed", handler),
+					onIpcEvent<DesktopThemeStorageChangedEvent>(ipc, "origin:themes:storage:changed", handler),
 			},
 		},
 	};

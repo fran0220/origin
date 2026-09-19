@@ -2,46 +2,46 @@ import { ipcMain } from "electron";
 import { getAppVersion, updaterService } from "../updater.js";
 
 export function registerUpdaterIpc(): () => void {
-	ipcMain.handle("vetta:updater:check", async () => {
+	ipcMain.handle("origin:updater:check", async () => {
 		return updaterService.check();
 	});
 
-	ipcMain.handle("vetta:updater:sync", async () => {
+	ipcMain.handle("origin:updater:sync", async () => {
 		await updaterService.syncInBackground();
 	});
 
-	ipcMain.handle("vetta:updater:get-state", () => {
+	ipcMain.handle("origin:updater:get-state", () => {
 		return updaterService.getState();
 	});
 
-	ipcMain.handle("vetta:updater:get-current-version", () => {
+	ipcMain.handle("origin:updater:get-current-version", () => {
 		return getAppVersion();
 	});
 
-	ipcMain.handle("vetta:updater:download", async () => {
+	ipcMain.handle("origin:updater:download", async () => {
 		return updaterService.startDownload();
 	});
 
-	ipcMain.handle("vetta:updater:install", async () => {
+	ipcMain.handle("origin:updater:install", async () => {
 		await updaterService.install();
 	});
 
-	ipcMain.handle("vetta:updater:dismiss", () => {
+	ipcMain.handle("origin:updater:dismiss", () => {
 		updaterService.dismissReady();
 	});
 
-	ipcMain.handle("vetta:updater:cancel", () => {
+	ipcMain.handle("origin:updater:cancel", () => {
 		updaterService.cancel();
 	});
 
 	return () => {
-		ipcMain.removeHandler("vetta:updater:check");
-		ipcMain.removeHandler("vetta:updater:sync");
-		ipcMain.removeHandler("vetta:updater:get-state");
-		ipcMain.removeHandler("vetta:updater:get-current-version");
-		ipcMain.removeHandler("vetta:updater:download");
-		ipcMain.removeHandler("vetta:updater:install");
-		ipcMain.removeHandler("vetta:updater:dismiss");
-		ipcMain.removeHandler("vetta:updater:cancel");
+		ipcMain.removeHandler("origin:updater:check");
+		ipcMain.removeHandler("origin:updater:sync");
+		ipcMain.removeHandler("origin:updater:get-state");
+		ipcMain.removeHandler("origin:updater:get-current-version");
+		ipcMain.removeHandler("origin:updater:download");
+		ipcMain.removeHandler("origin:updater:install");
+		ipcMain.removeHandler("origin:updater:dismiss");
+		ipcMain.removeHandler("origin:updater:cancel");
 	};
 }

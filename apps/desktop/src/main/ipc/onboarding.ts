@@ -14,7 +14,7 @@ import { macTrayIconPath } from "../window-manager.js";
 const log = getAppLogger("onboarding-ipc");
 
 // 主窗口 → main：唤出引导窗。字面量与 preload/apis/appshot.ts 的 openOnboarding() 保持一致。
-const SHOW_ONBOARDING_CHANNEL = "vetta:onboarding:show";
+const SHOW_ONBOARDING_CHANNEL = "origin:onboarding:show";
 
 function sendPermissionsUpdated(perms: HelperPermissions): void {
 	const win = getOnboardingWindow();

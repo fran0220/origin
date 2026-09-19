@@ -3,9 +3,9 @@ import type { DesktopApi } from "../api.js";
 import { onIpcEvent } from "./helper.js";
 
 const CHANNELS = {
-	REQUEST: "vetta:action-approval:request",
-	RESPONSE: "vetta:action-approval:response",
-	TIMEOUT: "vetta:action-approval:timeout",
+	REQUEST: "origin:action-approval:request",
+	RESPONSE: "origin:action-approval:response",
+	TIMEOUT: "origin:action-approval:timeout",
 } as const;
 
 export function createActionApprovalApi(ipc: IpcRenderer): Pick<DesktopApi, "actionApproval"> {

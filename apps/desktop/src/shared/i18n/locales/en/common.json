@@ -442,8 +442,8 @@
 			"experimentalSectionTitle": "Experimental features",
 			"experimentalSectionDescription": "Same toggles as Settings → Agent. You can adjust them before confirming.",
 			"experimentalFields": {
-				"vettaCli": "Origin CLI",
-				"vettaCliDesc": "Allow calling local capabilities from the terminal via Origin CLI",
+				"originCli": "Origin CLI",
+				"originCliDesc": "Allow calling local capabilities from the terminal via Origin CLI",
 				"promptPrediction": "Input prediction",
 				"promptPredictionDesc": "Suggest possible follow-up text while typing; may use a little quota",
 				"agentSkills": "Agent skill extensions",

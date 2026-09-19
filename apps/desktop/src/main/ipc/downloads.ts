@@ -3,16 +3,16 @@ import type { DownloadStartParams } from "../../preload/api-types/downloads.js";
 import { getDesktopDownloadService } from "../downloads/download-service.js";
 
 const DOWNLOAD_CHANNELS = {
-	START: "vetta:downloads:start",
-	PAUSE: "vetta:downloads:pause",
-	RESUME: "vetta:downloads:resume",
-	CANCEL: "vetta:downloads:cancel",
-	REMOVE: "vetta:downloads:remove",
-	LIST: "vetta:downloads:list",
-	OPEN_FILE: "vetta:downloads:open-file",
-	SHOW_IN_FOLDER: "vetta:downloads:show-in-folder",
-	GET_DEFAULT_DIR: "vetta:downloads:get-default-dir",
-	EVENT: "vetta:downloads:event",
+	START: "origin:downloads:start",
+	PAUSE: "origin:downloads:pause",
+	RESUME: "origin:downloads:resume",
+	CANCEL: "origin:downloads:cancel",
+	REMOVE: "origin:downloads:remove",
+	LIST: "origin:downloads:list",
+	OPEN_FILE: "origin:downloads:open-file",
+	SHOW_IN_FOLDER: "origin:downloads:show-in-folder",
+	GET_DEFAULT_DIR: "origin:downloads:get-default-dir",
+	EVENT: "origin:downloads:event",
 } as const;
 
 export { DOWNLOAD_CHANNELS };
