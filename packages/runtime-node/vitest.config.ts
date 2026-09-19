@@ -8,6 +8,9 @@ export default defineConfig({
 			"@vetta/runtime-node/conversation/legacy": fileURLToPath(
 				new URL("./src/conversation/legacy.ts", import.meta.url),
 			),
+			"@vetta/runtime-node/credentials": fileURLToPath(
+				new URL("./src/credentials/index.ts", import.meta.url),
+			),
 			"@vetta/runtime-node/host": fileURLToPath(new URL("./src/host/index.ts", import.meta.url)),
 			"@vetta/runtime-node/sandbox": fileURLToPath(new URL("./src/sandbox/index.ts", import.meta.url)),
 			"@vetta/runtime-node/coding": fileURLToPath(new URL("./src/coding/index.ts", import.meta.url)),
