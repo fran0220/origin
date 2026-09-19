@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, rename, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
 	FfmpegFrameEncoder,
@@ -35,6 +35,10 @@ const AUDIO_CHANNEL = "vetta:recording:audio";
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
 const DEFAULT_FPS = 30;
+// Same-directory main-bundle output (vite.main.config.ts copies audio-preload.js
+// next to index.js). A static new-URL import.meta.url asset reference would be
+// inlined into a data: URL and fileURLToPath would throw (uiohook-host-entry.test.ts).
+const AUDIO_PRELOAD_PATH = join(dirname(fileURLToPath(import.meta.url)), "audio-preload.js");
 
 interface ActiveCapture {
 	readonly id: string;
@@ -154,7 +158,6 @@ export class DesktopRecordingEngine implements RecordingEngine {
 		const encoder = new FfmpegFrameEncoder({ ffmpegPath: ffmpeg });
 		await encoder.start({ outputPath: videoPath, width, height, fps, codec, maxQueuedFrames: fps });
 
-		const preloadPath = fileURLToPath(new URL("./audio-preload.js", import.meta.url));
 		const window = new BrowserWindow({
 			show: false,
 			frame: false,
@@ -167,7 +170,7 @@ export class DesktopRecordingEngine implements RecordingEngine {
 				nodeIntegration: false,
 				offscreen: true,
 				backgroundThrottling: false,
-				preload: preloadPath,
+				preload: AUDIO_PRELOAD_PATH,
 			},
 		});
 		window.webContents.setFrameRate(fps);

@@ -6,6 +6,8 @@ const loaders = vi.hoisted(() => ({
 	loadAutomationPage: vi.fn(() => Promise.resolve()),
 	loadBatchTasksPage: vi.fn(() => Promise.resolve()),
 	loadChatPage: vi.fn(() => Promise.resolve()),
+	loadEvaluationPage: vi.fn(() => Promise.resolve()),
+	loadTimelinePage: vi.fn(() => Promise.resolve()),
 	loadKnowledgeListPage: vi.fn(() => Promise.resolve()),
 	loadKnowledgePage: vi.fn(() => Promise.resolve()),
 	loadNewSessionPage: vi.fn(() => Promise.resolve()),

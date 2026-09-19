@@ -11,6 +11,10 @@ vi.mock("../ipc/settings.js", () => ({
 	readSettings: vi.fn(() => ({})),
 }));
 
+vi.mock("../credentials/account-token-store.js", () => ({
+	readAccountAccessToken: () => undefined,
+}));
+
 vi.mock("../logger.js", () => ({
 	getAppLogger: () => ({ info: vi.fn(), warn: vi.fn(), error: vi.fn() }),
 }));

@@ -21,8 +21,10 @@ describe("Coding Agent session initialization profile", () => {
 		const streamFn = (() => {
 			throw new Error("not called by profile projection");
 		}) as NonNullable<CodingAgentRuntimeCompositionOptions["streamFn"]>;
+		const resolveEvaluationScope = () => ({ kind: "project" as const, projectKey: "project-under-test" });
 		const options = {
 			...createBaseOptions(),
+			resolveEvaluationScope,
 			promptResourceSource,
 			promptSettingsSource,
 			createPromptRuntimeSources,
@@ -57,6 +59,7 @@ describe("Coding Agent session initialization profile", () => {
 			"createSystemPromptOptionsResolver",
 			"createTodoRuntime",
 			"enableSubagents",
+			"evaluationRuntime",
 			"generateCompaction",
 			"hookConfigLayers",
 			"initialModel",
@@ -68,6 +71,7 @@ describe("Coding Agent session initialization profile", () => {
 			"promptResourceSource",
 			"promptSettingsSource",
 			"resolveCompactionSettings",
+			"resolveEvaluationScope",
 			"resolveModePrompt",
 			"resolvePromptResource",
 			"resolveSystemPromptOptions",
@@ -86,6 +90,7 @@ describe("Coding Agent session initialization profile", () => {
 		expect(profile.createPromptRuntimeSources).toBe(createPromptRuntimeSources);
 		expect(profile.createPluginRuntime).toBe(createPluginRuntime);
 		expect(profile.createContextRuntime).toBe(createContextRuntime);
+		expect(profile.resolveEvaluationScope).toBe(resolveEvaluationScope);
 		expect(profile.streamFn).toBe(streamFn);
 		expect(profile.initialModel).toBe(MODEL);
 		expect("conversationDir" in profile).toBe(false);

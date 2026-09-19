@@ -1,3 +1,4 @@
+import { copyFileSync } from "node:fs";
 import { builtinModules } from "node:module";
 import { resolve } from "node:path";
 import { defineConfig, loadEnv, type Plugin } from "vite";
@@ -7,6 +8,16 @@ import {
 	resolveSpeechInputBuildConfig,
 	SPEECH_INPUT_ENABLED_ENV,
 } from "./scripts/speech-input-build-config.js";
+
+function copyRecordingAudioPreload(): Plugin {
+	return {
+		name: "copy-recording-audio-preload",
+		writeBundle(options) {
+			const outDir = options.dir ?? resolve(process.cwd(), "dist/main");
+			copyFileSync(resolve(process.cwd(), "src/main/recording/audio-preload.js"), resolve(outDir, "audio-preload.js"));
+		},
+	};
+}
 
 function toolkitSourceAlias(): Plugin {
 	return {
@@ -74,7 +85,7 @@ export default defineConfig(({ mode }) => {
 
 	return {
 		define,
-		plugins: [toolkitSourceAlias(), ...sentry.plugins],
+		plugins: [toolkitSourceAlias(), copyRecordingAudioPreload(), ...sentry.plugins],
 		resolve: {
 			alias: [
 				{

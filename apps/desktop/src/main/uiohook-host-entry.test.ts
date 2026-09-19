@@ -10,9 +10,11 @@
 // 类型检查和单元测试都看不见这个 bug（它发生在打包变换里），所以在源码层禁掉该写法：
 // 同目录产物请用 dirname(fileURLToPath(import.meta.url)) 拼接，或显式加 /* @vite-ignore */。
 
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { mkdirSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const MAIN_DIR = dirname(fileURLToPath(import.meta.url));
@@ -51,6 +53,42 @@ describe("main bundle asset-URL guard", () => {
 		const source = readFileSync(join(MAIN_DIR, "quickpanel-trigger.ts"), "utf8");
 		expect(source).toContain('join(HOST_DIR, "uiohook-worker.js")');
 		expect(source).toContain("dirname(fileURLToPath(import.meta.url))");
+	});
+
+	it("recording audio preload 按同目录路径拼接，并由 vite.main 复制到 dist/main", () => {
+		const engine = readFileSync(join(MAIN_DIR, "recording/recording-engine.ts"), "utf8");
+		expect(engine).toContain('join(dirname(fileURLToPath(import.meta.url)), "audio-preload.js")');
+		expect(engine).toContain("AUDIO_PRELOAD_PATH");
+		const viteMain = readFileSync(join(MAIN_DIR, "../../vite.main.config.ts"), "utf8");
+		expect(viteMain).toContain("copy-recording-audio-preload");
+		expect(viteMain).toContain('resolve(outDir, "audio-preload.js")');
+		expect(viteMain).toContain("src/main/recording/audio-preload.js");
+	});
+
+	it("vite.main writeBundle 把 audio-preload.js 复制到主进程产物目录", async () => {
+		const desktopRoot = join(MAIN_DIR, "../..");
+		const outDir = await mkdtemp(join(tmpdir(), "audio-preload-test-"));
+		const previousCwd = process.cwd();
+		try {
+			process.chdir(desktopRoot);
+			const configModule = (await import(pathToFileURL(join(desktopRoot, "vite.main.config.ts")).href)) as {
+				default: (env: { mode: string }) => {
+					plugins?: Array<{ name: string; writeBundle?: (options: { dir?: string }) => void }>;
+				};
+			};
+			const config = configModule.default({ mode: "production" });
+			const plugin = config.plugins?.find((item) => item.name === "copy-recording-audio-preload");
+			expect(plugin?.writeBundle).toEqual(expect.any(Function));
+			mkdirSync(outDir, { recursive: true });
+			plugin?.writeBundle?.({ dir: outDir });
+			const copied = await readFile(join(outDir, "audio-preload.js"), "utf8");
+			const source = await readFile(join(MAIN_DIR, "recording/audio-preload.js"), "utf8");
+			expect(copied).toBe(source);
+			expect(copied).toContain("vetta:recording:audio");
+		} finally {
+			process.chdir(previousCwd);
+			await rm(outDir, { recursive: true, force: true });
+		}
 	});
 
 	// 回归：主线程 import uiohook-napi 只为取键码常量，却在主线程 Environment 注册了

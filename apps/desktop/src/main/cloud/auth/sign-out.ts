@@ -4,9 +4,9 @@ import { getConnectionCatalog } from "../../connections/catalog.js";
 import { refreshConnectionRelays } from "../../connections/relay-host.js";
 import { DEFAULT_SERVER_URL } from "../../constants.js";
 import { clearAccountTokens, readAccountRefreshToken } from "../../credentials/account-token-store.js";
+import { syncCredentialFile } from "../../credentials/cli-credential-file.js";
 import { getAppLogger } from "../../logger.js";
 import { peekSharedRuntime } from "../../runtime.js";
-import { syncCredentialFile } from "./credential-store.js";
 import { discoverDesktopAuth, revokeRemoteSession } from "./pkce-login.js";
 
 const log = getAppLogger("cloud-auth");

@@ -76,6 +76,7 @@ describe("Desktop GitHub marketplace refresh", () => {
 		const manager = new OpenMarketplaceManager({
 			appVersion: "0.5.49",
 			store: new MarketplaceSourceStore({ filePath }),
+			credentialStore: { has: () => false, get: () => undefined, set: vi.fn(), remove: vi.fn() },
 			cacheRoot: join(root, "cache"),
 			workerFactory: (source, cacheRoot, onBackgroundUpdate) =>
 				new OpenMarketplaceService({

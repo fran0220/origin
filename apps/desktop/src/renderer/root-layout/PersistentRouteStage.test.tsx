@@ -9,6 +9,7 @@ vi.mock("./persistent-page-loaders", () => ({
 	loadAutomationPage: () => Promise.resolve({ default: () => <p>automation-body</p> }),
 	loadBatchTasksPage: () => Promise.resolve({ default: () => <p>batch-body</p> }),
 	loadEvaluationPage: () => Promise.resolve({ default: () => <p>evaluation-body</p> }),
+	loadTimelinePage: () => Promise.resolve({ default: () => <p>timeline-body</p> }),
 	loadKnowledgePage: () => Promise.resolve({ default: () => <p>knowledge-body</p> }),
 	loadKnowledgeListPage: () => Promise.resolve({ default: () => <p>knowledge-all-body</p> }),
 	loadScenesPage: () => Promise.resolve({ default: () => <p>scenes-body</p> }),
