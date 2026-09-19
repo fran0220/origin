@@ -48,7 +48,7 @@ function buildTrayMenu(): Electron.Menu {
 			toggleItem,
 			{ type: "separator" },
 			{
-				label: mainT("tray.quitVetta"),
+				label: mainT("tray.quitOrigin"),
 				click: () => {
 					(app as typeof app & { isQuitting?: boolean }).isQuitting = true;
 					if (tray) {

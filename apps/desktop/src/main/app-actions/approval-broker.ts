@@ -86,7 +86,7 @@ export class ActionApprovalBroker implements ActionApprovalRequester {
 				cancel(
 					new ActionError(
 						"ACTION_APPROVAL_TIMEOUT",
-						"等待用户授权 Vetta action 超时。可能用户并不在线，你需要询问用户发生了什么情况",
+						"等待用户授权 Origin action 超时。可能用户并不在线，你需要询问用户发生了什么情况",
 						{
 							actionId: request.actionId,
 						},

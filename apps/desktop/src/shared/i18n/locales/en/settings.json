@@ -1083,6 +1083,7 @@
   },
   "tabMcp": "MCP Management",
   "tabIm": "Claw",
+  "imPageTitle": "Origin Claw",
   "tabWebhook": "Webhook",
   "tabArchive": "Archived",
   "tabShortcuts": "Shortcuts",

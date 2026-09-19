@@ -1083,6 +1083,7 @@
   },
   "tabMcp": "MCP 管理",
   "tabIm": "Claw",
+  "imPageTitle": "Origin Claw",
   "tabWebhook": "消息推送",
   "tabArchive": "已归档",
   "tabShortcuts": "快捷键",

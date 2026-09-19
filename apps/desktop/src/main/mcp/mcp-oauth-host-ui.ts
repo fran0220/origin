@@ -107,7 +107,7 @@ export async function createDeviceCodePresentation(
 function renderBrowserResultPage(success: boolean, message?: string): string {
 	const title = mainT(success ? "mcpOAuth.authorizationSuccessful" : "mcpOAuth.authorizationFailed");
 	const detail = success
-		? mainT("mcpOAuth.returnToVetta")
+		? mainT("mcpOAuth.returnToOrigin")
 		: `${message ?? ""} ${mainT("mcpOAuth.closeAndRetry")}`.trim();
 	return `<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>${escapeHtml(title)}</title></head><body style="font-family:system-ui,sans-serif;padding:2rem;text-align:center"><h1>${escapeHtml(title)}</h1><p>${escapeHtml(detail)}</p>${success ? "<script>setTimeout(() => window.close(), 1500)</script>" : ""}</body></html>`;
 }
