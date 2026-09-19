@@ -85,7 +85,12 @@ describe.each(["bash", "shell"] as const)("runtime %s command adapter", (toolNam
 			onUpdate: (update) => runtimeUpdates.push(update),
 		});
 
-		expect(runtimeResult).toEqual({ content: [{ type: "text", text: "command output\n" }], details: undefined });
+		// Commands executed inside a session/turn settle an Execution Receipt and
+		// surface its id in details so checkpoints and evaluation can link to it.
+		expect(runtimeResult).toEqual({
+			content: [{ type: "text", text: "command output\n" }],
+			details: { executionId: expect.stringMatching(/^exec_[0-9a-z]+_[0-9a-f]{12}$/) },
+		});
 		expect(runtimeUpdates).toEqual([{ content: [{ type: "text", text: "command output\n" }], details: {} }]);
 		expect(calls).toEqual([
 			{ command: "echo prefix\necho command\necho hook", cwd: "C:/spawn-cwd", marker: "present" },
