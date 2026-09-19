@@ -27,6 +27,7 @@
 			],
 			"@vetta/coding-agent/plugin-runtime": ["./packages/coding-agent/src/public-api/plugin-runtime.ts"],
 			"@vetta/coding-agent/cli-guidance": ["./packages/coding-agent/src/public-api/cli-guidance.ts"],
+			"@vetta/coding-agent/connections": ["./packages/coding-agent/src/public-api/connections.ts"],
 			"@vetta/coding-agent/export-html": ["./packages/coding-agent/src/public-api/export-html.ts"],
 			"@vetta/coding-agent/compat/runtime-storage": [
 				"./packages/coding-agent/src/public-api/compat-runtime-storage.ts"
@@ -129,6 +130,7 @@
 			"@vetta/runtime-node/conversation/legacy": ["./packages/runtime-node/src/conversation/legacy.ts"],
 			"@vetta/runtime-node/coding": ["./packages/runtime-node/src/coding/index.ts"],
 			"@vetta/runtime-node/mcp": ["./packages/runtime-node/src/mcp/index.ts"],
+			"@vetta/runtime-node/credentials": ["./packages/runtime-node/src/credentials/index.ts"],
 			"@vetta/runtime-node/host": ["./packages/runtime-node/src/host/index.ts"],
 			"@vetta/runtime-node/sandbox": ["./packages/runtime-node/src/sandbox/index.ts"],
 			"@vetta/runtime-node/*": ["./packages/runtime-node/src/*"],

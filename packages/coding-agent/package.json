@@ -81,6 +81,10 @@
 			"types": "./dist/public-api/session-extensions.d.ts",
 			"import": "./dist/public-api/session-extensions.js"
 		},
+		"./connections": {
+			"types": "./dist/public-api/connections.d.ts",
+			"import": "./dist/public-api/connections.js"
+		},
 		"./settings": {
 			"types": "./dist/public-api/settings.d.ts",
 			"import": "./dist/public-api/settings.js"
