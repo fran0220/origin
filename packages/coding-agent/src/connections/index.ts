@@ -15,6 +15,16 @@ export {
 	resolveAccountScopedDir,
 } from "./account-scope.js";
 export {
+	DEFAULT_DIAL_MODE,
+	DIAL_MODE_DEFAULT_REASONING,
+	DIAL_MODE_LABELS,
+	DIAL_MODES,
+	type DialMode,
+	freezeDialMode,
+	isDialMode,
+	normalizeDialMode,
+} from "./dial-modes.js";
+export {
 	AmbiguousDialRouteError,
 	assertUnambiguousCatalog,
 	type CatalogModel,

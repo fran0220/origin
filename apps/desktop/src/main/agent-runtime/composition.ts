@@ -84,6 +84,7 @@ import { createDesktopPromptRuntimeSources } from "./resource-runtime.js";
 import { createRuntimeLifecycleLogPort } from "./runtime-lifecycle-log-port.js";
 import { createRuntimeRetryLogPort } from "./runtime-retry-log-port.js";
 import { createSessionInitializationLogPort } from "./session-initialization-log-port.js";
+import { createDesktopThreadCoordinator } from "./thread-coordinator.js";
 
 const log = getAppLogger("runtime");
 
@@ -143,6 +144,7 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 		conversationCatalog,
 		(sessionPath) => !isSessionPathInDirectory(sessionPath, DEFAULT_IM_CONVERSATION_SESSION_DIR),
 	);
+	let hostRef: RuntimeHost | undefined;
 	const createRuntimeBackendPool = (
 		agentRuntime: RuntimeAgentRuntime,
 		observationPublisher: RuntimeObservationPublisher,
@@ -156,6 +158,9 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 				modelRegistry: modelRuntime,
 				createPromptRuntimeSources: createDesktopPromptRuntimeSources,
 				createPluginRuntime: () => getDesktopCodingAgentPluginRuntimeSource(),
+				createThreadRuntime: () => ({
+					getCoordinator: () => (hostRef ? createDesktopThreadCoordinator(hostRef) : undefined),
+				}),
 				// 工作模式注册表归 desktop 所有（ADR-0071 修订）：coding-agent 只保留 core.mode
 				// 槽位，正文由这里按会话固化的 agentMode 解析注入。
 				resolveModePrompt: getModePrompt,
@@ -335,6 +340,7 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 		sessionErrorObserver: (event) => logRuntimeSessionError(event, log),
 		sessionCompactionObserver: createRuntimeSessionCompactionLogger(log),
 	});
+	hostRef = runtime;
 	return { runtime };
 }
 

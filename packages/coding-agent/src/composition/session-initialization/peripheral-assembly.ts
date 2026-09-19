@@ -26,6 +26,7 @@ import {
 	createCodingAgentHarnessRuntimeFeature,
 } from "../../features/harness/index.js";
 import { createCodingAgentSessionAssistanceExtension } from "../../features/session-assistance/session-assistance-session-extension.js";
+import { createThreadToolRegistrations } from "../../features/threads/index.js";
 import type { CodingAgentTodoRuntime } from "../../features/todo/contracts.js";
 import {
 	CODING_AGENT_TODO_RUNTIME,
@@ -114,6 +115,7 @@ export async function createCodingAgentSessionPeripheralAssembly(
 		ocrExecutionGate: getCodingAgentOcrExecutionGate(profile.ocrMaxConcurrent),
 		configurationSource: options.configurationSource,
 	});
+	const threadRuntime = profile.createThreadRuntime?.(sessionOptions);
 	const specializedToolRegistrations = [
 		...createCodingAgentSpecializedToolRegistrations({
 			platformRegistrations: platformSpecializedToolRegistrations,
@@ -126,6 +128,7 @@ export async function createCodingAgentSessionPeripheralAssembly(
 				: undefined,
 		}),
 		...(sessionOptions.sessionRuntimeTools ?? []),
+		...(threadRuntime ? createThreadToolRegistrations(threadRuntime) : []),
 	];
 	const specializedToolFeature = createCodingAgentSpecializedToolFeature({
 		registrations: specializedToolRegistrations,

@@ -247,6 +247,13 @@ export class RuntimeHostSessionOperations {
 
 	async updateSettings(sessionId: string, partialSettings: SettingsPatch): Promise<void> {
 		const handle = this.requireSession(sessionId);
+		if (this.isDialFrozen(handle) && (partialSettings.modelKey || partialSettings.thinkingLevel)) {
+			throw runtimeError(
+				"INVALID_REQUEST",
+				"Dial is frozen after the first user message; start a new thread to change model or thinking.",
+				false,
+			);
+		}
 		if (partialSettings.modelKey) await handle.modelController.selectModel(partialSettings.modelKey, "always");
 		if (partialSettings.thinkingLevel) handle.modelController.setThinkingLevel(partialSettings.thinkingLevel);
 		if (partialSettings.steeringMode) {
@@ -435,6 +442,10 @@ export class RuntimeHostSessionOperations {
 
 	getMessages(sessionId: string): Message[] {
 		return [...this.requireSession(sessionId).stateReader.readMessages()];
+	}
+
+	private isDialFrozen(handle: RuntimeHostSessionRecord): boolean {
+		return handle.stateReader.readMessages().some((message) => message.role === "user");
 	}
 
 	getFullHistory(sessionId: string): HistoryEntry[] {

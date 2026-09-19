@@ -57,6 +57,7 @@ describe("Coding Agent session initialization profile", () => {
 			"createSubagentChildFactory",
 			"createSubagentId",
 			"createSystemPromptOptionsResolver",
+			"createThreadRuntime",
 			"createTodoRuntime",
 			"enableSubagents",
 			"evaluationRuntime",

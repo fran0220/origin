@@ -10,6 +10,7 @@ export type CodingAgentSessionInitializationProfile = Pick<
 	| "createContextRuntime"
 	| "createMemoryRolloverRuntime"
 	| "createHarnessRuntime"
+	| "createThreadRuntime"
 	| "createPluginMcpRuntime"
 	| "createPluginRuntime"
 	| "createPromptRuntimeSources"
@@ -63,6 +64,7 @@ export function createCodingAgentSessionInitializationProfile(
 		createContextRuntime: options.createContextRuntime,
 		createMemoryRolloverRuntime: options.createMemoryRolloverRuntime,
 		createHarnessRuntime: options.createHarnessRuntime,
+		createThreadRuntime: options.createThreadRuntime,
 		createPluginMcpRuntime: options.createPluginMcpRuntime,
 		createPluginRuntime: options.createPluginRuntime,
 		createPromptRuntimeSources: options.createPromptRuntimeSources,

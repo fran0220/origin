@@ -387,6 +387,14 @@ export interface SessionConfig {
 	model?: Model<any>;
 	thinkingLevel?: ThinkingLevel;
 	executionMode?: SessionExecutionMode;
+	/** 协作父 Thread；与历史 parentSessionPath 分叉血缘分开。 */
+	parentThreadId?: string;
+	/** 创建该 Thread 的来源。缺省为 user。 */
+	threadOrigin?: "user" | "thread";
+	/** Effort Dial。首条用户消息后由产品层冻结。 */
+	dialMode?: "low" | "medium" | "high" | "ultra";
+	/** 跨会话协作意图。 */
+	threadIntent?: "delegation" | "parallel-work" | "independent-review" | "environment-access" | "other";
 	/**
 	 * 注入到 bash/shell 工具子进程的环境变量覆盖层（如 TMPDIR/TEMP/TMP）。
 	 * 仅对该 session 内的命令执行生效；不传则行为等同旧版。

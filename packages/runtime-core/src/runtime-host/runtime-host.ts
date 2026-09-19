@@ -27,6 +27,7 @@ import {
 	runtimeObservationFailure,
 } from "../observation/index.js";
 import type { SessionExtensionEndpointToken } from "../session-extensions/contracts.js";
+import { ThreadCollaborationGraph } from "../threads/graph.js";
 import { RuntimeHostAgentBackendRegistry } from "./agent-backend-admission.js";
 import {
 	RUNTIME_HOST_LIFECYCLE_OBSERVATION,
@@ -94,6 +95,7 @@ export class RuntimeHost implements SessionFacade {
 	private readonly pathServices: RuntimeHostPathServices | undefined;
 	private readonly queueSidecar: RuntimeHostQueueSidecar;
 	private readonly sandboxGrantStore: RuntimeSandboxGrantStore | undefined;
+	readonly threads = new ThreadCollaborationGraph();
 
 	constructor(options: RuntimeHostOptions = {}) {
 		if (options.sessionBackend && options.createSessionBackend) {
@@ -271,7 +273,17 @@ export class RuntimeHost implements SessionFacade {
 	 * 创建或复用 Session。生命周期组件按规范化文件路径去重，避免同一进程重复获取文件锁。
 	 */
 	async createSession(config: SessionConfig = {}): Promise<{ sessionId: string }> {
-		return this.sessionLifecycle.createSession(config);
+		const result = await this.sessionLifecycle.createSession(config);
+		if (!this.threads.has(result.sessionId)) {
+			this.threads.register({
+				threadId: result.sessionId,
+				parentThreadId: config.parentThreadId,
+				origin: config.threadOrigin ?? (config.parentThreadId ? "thread" : "user"),
+				intent: config.threadIntent,
+				dialMode: config.dialMode,
+			});
+		}
+		return result;
 	}
 
 	/** Creates a failure-isolated publisher for product orchestration built on this host. */
@@ -663,6 +675,7 @@ export class RuntimeHost implements SessionFacade {
 
 	async disposeSession(sessionId: string): Promise<void> {
 		await this.sessionLifecycle.disposeSession(sessionId);
+		// 协作图跟会话身份走，不跟内存驻留走：空闲会话被释放后仍可被 find/wait/read。
 	}
 
 	/**

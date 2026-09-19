@@ -245,6 +245,13 @@ export interface CodingAgentRuntimeContextOptions {
 	readonly createHarnessRuntime?: (
 		sessionOptions: CodingAgentRuntimeSessionOptions,
 	) => import("../../features/harness/index.js").CodingAgentHarnessRuntime | undefined;
+	/**
+	 * 为每个 Session 注入 Thread 协作工具。宿主提供 RuntimeThreadCoordinator。
+	 * 缺省时不注册 create_thread / send_thread_message / wait_for_threads。
+	 */
+	readonly createThreadRuntime?: (
+		sessionOptions: CodingAgentRuntimeSessionOptions,
+	) => import("../../features/threads/index.js").CodingAgentThreadToolHost | undefined;
 }
 
 export interface CodingAgentRuntimeObservabilityOptions {
