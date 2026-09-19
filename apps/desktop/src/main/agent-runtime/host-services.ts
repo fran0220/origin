@@ -17,6 +17,11 @@ import {
 } from "@vetta/runtime-node/host";
 import { getConnectionRelayRoute } from "../connections/relay-host.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
+import {
+	createDesktopEvaluationService,
+	getDesktopEvaluationOperations,
+	resolveDesktopEvaluationScope,
+} from "../evaluation/desktop-evaluation-runtime.js";
 import { getDesktopModelCredentialStore, type ModelCredentialStore } from "../models/model-credential-store.js";
 import { readModelsConfigSync } from "../models/model-settings-service.js";
 
@@ -73,4 +78,12 @@ export function readDesktopMcpDebug(cwd: string, agentDir: string): boolean {
 			project: join(cwd, CONFIG_DIR_NAME, "settings.json"),
 		}),
 	).getMcpDebug();
+}
+
+export function getDesktopEvaluationRuntime() {
+	createDesktopEvaluationService();
+	return {
+		evaluationRuntime: getDesktopEvaluationOperations(),
+		resolveEvaluationScope: resolveDesktopEvaluationScope,
+	};
 }

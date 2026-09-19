@@ -10,6 +10,7 @@ import { createAppshotApi } from "./apis/appshot.js";
 import { createBatchTasksApi } from "./apis/batch-tasks.js";
 import { createConversationTagsApi } from "./apis/conversation-tags.js";
 import { createDownloadsApi } from "./apis/downloads.js";
+import { createEvaluationApi } from "./apis/evaluation.js";
 import { createI18nApi } from "./apis/i18n.js";
 import { createImApi } from "./apis/im.js";
 import { createNotificationApi } from "./apis/notification.js";
@@ -45,6 +46,7 @@ const rawApi: Omit<DesktopApi, "hostAccess"> = {
 	...createImApi(ipcRenderer),
 	...createDownloadsApi(ipcRenderer),
 	...createBatchTasksApi(ipcRenderer),
+	...createEvaluationApi(ipcRenderer),
 	...createSchedulerApi(ipcRenderer),
 	...createWebhookApi(ipcRenderer),
 	...createNotificationApi(ipcRenderer),

@@ -6,6 +6,7 @@ import {
 	loadAutomationPage,
 	loadBatchTasksPage,
 	loadChatPage,
+	loadEvaluationPage,
 	loadKnowledgeListPage,
 	loadKnowledgePage,
 	loadNewSessionPage,
@@ -21,6 +22,7 @@ type PrefetchKey =
 	| "/agents"
 	| "/automation"
 	| "/batch-tasks"
+	| "/evaluation"
 	| "/knowledge"
 	| "/knowledge/all"
 	| "/scenes"
@@ -35,6 +37,7 @@ const LOADERS: Record<PrefetchKey, () => Promise<unknown>> = {
 	"/agents": loadAgentsPage,
 	"/automation": loadAutomationPage,
 	"/batch-tasks": loadBatchTasksPage,
+	"/evaluation": loadEvaluationPage,
 	"/knowledge": loadKnowledgePage,
 	"/knowledge/all": loadKnowledgeListPage,
 	"/scenes": loadScenesPage,
@@ -60,6 +63,7 @@ export const IDLE_PREFETCH_KEYS: readonly PrefetchKey[] = [
 	"/scenes",
 	"/automation",
 	"/batch-tasks",
+	"/evaluation",
 	"team-chat",
 ];
 
@@ -74,6 +78,7 @@ export function navItemPrefetchKey(item: SidebarNavItem): PrefetchKey | null {
 	if (item.path === "/agents") return "/agents";
 	if (item.path === "/automation") return "/automation";
 	if (item.path === "/batch-tasks") return "/batch-tasks";
+	if (item.path === "/evaluation") return "/evaluation";
 	if (item.path === "/knowledge") return "/knowledge";
 	if (item.path === "/scenes") return "/scenes";
 	return null;

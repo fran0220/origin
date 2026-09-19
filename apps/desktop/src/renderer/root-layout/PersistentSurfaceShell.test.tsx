@@ -37,6 +37,7 @@ describe("PersistentSurfaceShell", () => {
 			"agents",
 			"automation",
 			"batch-tasks",
+			"evaluation",
 			"knowledge",
 			"knowledge-all",
 			"scenes",

@@ -60,6 +60,7 @@ export function navigationTargetLabel(t: TFunction<"common">, target: string): s
 		chat: t("navigationApproval.targets.chat"),
 		automation: t("navigationApproval.targets.automation"),
 		"batch-tasks": t("navigationApproval.targets.batch-tasks"),
+		evaluation: t("navigationApproval.targets.evaluation"),
 		skills: t("navigationApproval.targets.skills"),
 		plugins: t("navigationApproval.targets.plugins"),
 		connectors: t("navigationApproval.targets.connectors"),

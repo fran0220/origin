@@ -10,6 +10,7 @@ export type PersistentSurfaceId =
 	| "agents"
 	| "automation"
 	| "batch-tasks"
+	| "evaluation"
 	| "chat"
 	| "knowledge"
 	| "knowledge-all"
@@ -26,6 +27,7 @@ export function persistentSurfaceIdForPath(pathname: string): PersistentSurfaceI
 	if (path === "/scenes" || path.startsWith("/scenes/")) return "scenes";
 	if (path === "/automation" || path.startsWith("/automation/")) return "automation";
 	if (path === "/batch-tasks" || path.startsWith("/batch-tasks/")) return "batch-tasks";
+	if (path === "/evaluation" || path.startsWith("/evaluation/")) return "evaluation";
 	if (path === "/settings" || path.startsWith("/settings/")) return "settings";
 	if (path === "/new-session" || path.startsWith("/new-session/")) return "new-session";
 	if (isChatSurfacePath(path)) return "chat";

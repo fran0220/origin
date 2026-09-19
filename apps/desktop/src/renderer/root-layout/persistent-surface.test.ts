@@ -13,6 +13,7 @@ describe("persistentSurfaceIdForPath", () => {
 		expect(persistentSurfaceIdForPath("/scenes")).toBe("scenes");
 		expect(persistentSurfaceIdForPath("/automation")).toBe("automation");
 		expect(persistentSurfaceIdForPath("/batch-tasks")).toBe("batch-tasks");
+		expect(persistentSurfaceIdForPath("/evaluation")).toBe("evaluation");
 	});
 
 	it("团队会话走独立 LRU，不映射到内置 surface", () => {

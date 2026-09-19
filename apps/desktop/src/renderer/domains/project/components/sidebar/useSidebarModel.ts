@@ -83,6 +83,12 @@ const BUILTIN_NAV_ITEMS = [
 	},
 	{
 		type: "route",
+		path: "/evaluation" as const,
+		labelKey: "sidebar.nav.evaluation",
+		icon: "icon-[solar--clipboard-check-linear]",
+	},
+	{
+		type: "route",
 		path: "/scenes" as const,
 		labelKey: "sidebar.nav.scenes",
 		icon: "icon-[solar--clapperboard-open-linear]",

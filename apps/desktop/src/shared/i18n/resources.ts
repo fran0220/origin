@@ -8,6 +8,7 @@ import enAutomation from "./locales/en/automation.json";
 import enBatchTasks from "./locales/en/batch-tasks.json";
 import enChat from "./locales/en/chat.json";
 import enCommon from "./locales/en/common.json";
+import enEvaluation from "./locales/en/evaluation.json";
 import enMain from "./locales/en/main.json";
 import enMessage from "./locales/en/message.json";
 import enPet from "./locales/en/pet.json";
@@ -20,6 +21,7 @@ import zhAutomation from "./locales/zh/automation.json";
 import zhBatchTasks from "./locales/zh/batch-tasks.json";
 import zhChat from "./locales/zh/chat.json";
 import zhCommon from "./locales/zh/common.json";
+import zhEvaluation from "./locales/zh/evaluation.json";
 import zhMain from "./locales/zh/main.json";
 import zhMessage from "./locales/zh/message.json";
 import zhPet from "./locales/zh/pet.json";
@@ -39,6 +41,7 @@ export const resources = {
 		skills: zhSkills,
 		abilities: zhAbilities,
 		"batch-tasks": zhBatchTasks,
+		evaluation: zhEvaluation,
 		automation: zhAutomation,
 		"agent-teams": zhAgentTeams,
 	},
@@ -53,6 +56,7 @@ export const resources = {
 		skills: enSkills,
 		abilities: enAbilities,
 		"batch-tasks": enBatchTasks,
+		evaluation: enEvaluation,
 		automation: enAutomation,
 		"agent-teams": enAgentTeams,
 	},

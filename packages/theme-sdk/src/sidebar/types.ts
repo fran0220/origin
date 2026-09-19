@@ -27,6 +27,7 @@ export type SidebarLabelKey =
 	| "sidebar.nav.newSession"
 	| "sidebar.nav.automation"
 	| "sidebar.nav.batchTasks"
+	| "sidebar.nav.evaluation"
 	| "sidebar.nav.knowledge"
 	| "sidebar.nav.skills"
 	| "sidebar.nav.agents"
@@ -90,6 +91,7 @@ export interface SidebarNavItem {
 	readonly path?:
 		| "/automation"
 		| "/batch-tasks"
+		| "/evaluation"
 		| "/knowledge"
 		| "/abilities"
 		| "/skills"

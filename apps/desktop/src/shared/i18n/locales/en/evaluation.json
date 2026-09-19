@@ -1,0 +1,69 @@
+{
+	"page": {
+		"title": "Evaluation",
+		"subtitle": "Check whether work met explicit criteria. Evidence comes from product records, not model claims.",
+		"newDefinition": "New definition",
+		"run": "Run evaluation",
+		"cancel": "Cancel evaluation",
+		"save": "Save",
+		"back": "Back to list"
+	},
+	"scope": {
+		"global": "App",
+		"project": "This project"
+	},
+	"empty": {
+		"title": "No evaluation definitions yet",
+		"desc": "Write two criteria, run once, and you will see each finding with the evidence it cites.",
+		"action": "New definition"
+	},
+	"definition": {
+		"title": "Definition title",
+		"titlePlaceholder": "e.g. The project builds",
+		"criteria": "Criteria",
+		"criterionTitle": "Criterion title",
+		"required": "Required",
+		"optional": "Optional",
+		"addCriterion": "Add criterion",
+		"removeCriterion": "Remove",
+		"commandVerifier": "Command verifier",
+		"commandPlaceholder": "e.g. test",
+		"argsPlaceholder": "Arguments, space-separated",
+		"noVerifier": "No verifier (settles inconclusive)"
+	},
+	"attempt": {
+		"title": "Attempts",
+		"latest": "Latest",
+		"empty": "No attempts yet",
+		"triggerManual": "Manual",
+		"triggerTurn": "Turn",
+		"triggerCheckpoint": "Checkpoint",
+		"triggerMilestone": "Milestone",
+		"fingerprint": "Input fingerprint",
+		"createdAt": "Started",
+		"outcome": "Outcome",
+		"open": "Open details"
+	},
+	"outcome": {
+		"passed": "Passed",
+		"failed": "Failed",
+		"inconclusive": "Inconclusive",
+		"error": "Error",
+		"cancelled": "Cancelled",
+		"budget-limited": "Budget limited"
+	},
+	"finding": {
+		"title": "Findings",
+		"required": "Required",
+		"optional": "Optional",
+		"evidence": "Evidence",
+		"noEvidence": "No evidence cited",
+		"note": "Note",
+		"openEvidence": "Open evidence"
+	},
+	"error": {
+		"load": "Could not load evaluation records",
+		"save": "Could not save the definition",
+		"run": "The evaluation did not finish"
+	}
+}

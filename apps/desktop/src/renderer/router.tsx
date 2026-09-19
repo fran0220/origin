@@ -34,6 +34,12 @@ const batchTasksRoute = createRoute({
 	component: EmptyPersistentRoute,
 });
 
+const evaluationRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/evaluation",
+	component: EmptyPersistentRoute,
+});
+
 /**
  * 能力详情是页内右侧抽屉，由来源感知的 `?detail=<catalog-id>` 驱动（返回键即关闭）。
  * `?q=` 是外部深链带进来的搜索词初值，`?scope=` 是落地时选中的分区（Command Menu
@@ -223,6 +229,7 @@ const routeTree = rootRoute.addChildren([
 	indexRoute,
 	automationRoute,
 	batchTasksRoute,
+	evaluationRoute,
 	agentCenterRoute,
 	teamListRedirectRoute,
 	teamChatRoute,

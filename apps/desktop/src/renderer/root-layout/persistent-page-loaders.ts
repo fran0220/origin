@@ -35,6 +35,12 @@ export const loadBatchTasksPage = memoizeLoader(() =>
 	})),
 );
 
+export const loadEvaluationPage = memoizeLoader(() =>
+	import("../domains/evaluation/components/EvaluationPage").then((module) => ({
+		default: module.EvaluationPage,
+	})),
+);
+
 export const loadKnowledgePage = memoizeLoader(() =>
 	import("../domains/knowledge-base/components/KnowledgeBasePage").then((module) => ({
 		default: module.KnowledgeBasePage,

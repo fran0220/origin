@@ -5,6 +5,7 @@ export type PersistentSurfaceTitleRef =
 	| { readonly ns: "agent-teams"; readonly key: "center.title" }
 	| { readonly ns: "automation"; readonly key: "page.title" }
 	| { readonly ns: "batch-tasks"; readonly key: "page.title" }
+	| { readonly ns: "evaluation"; readonly key: "page.title" }
 	| { readonly ns: "settings"; readonly key: "kbPageTitle" | "kbAllTitle" | "title" }
 	| { readonly ns: "skills"; readonly key: "tabs.scene" }
 	| { readonly ns: "chat"; readonly key: "newSession.greetingDefault" };
@@ -22,6 +23,8 @@ export function persistentSurfaceTitleRef(id: Exclude<PersistentSurfaceId, "chat
 			return { ns: "automation", key: "page.title" };
 		case "batch-tasks":
 			return { ns: "batch-tasks", key: "page.title" };
+		case "evaluation":
+			return { ns: "evaluation", key: "page.title" };
 		case "knowledge":
 			return { ns: "settings", key: "kbPageTitle" };
 		case "knowledge-all":

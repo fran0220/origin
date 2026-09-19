@@ -70,7 +70,7 @@ import { getAvailableLinuxBubblewrapPath, getAvailableMacosSandboxExecPath } fro
 import { resolveWindowsSandboxHostBinary } from "../sandbox/windows-binary-resolver.js";
 import { createCodingAgentObservationLogPort } from "./coding-agent-observation-log-port.js";
 import { createDesktopCodingAgentFunctionSource } from "./function-extension-source.js";
-import { getOrCreateSharedModelRuntime, readDesktopMcpDebug } from "./host-services.js";
+import { getDesktopEvaluationRuntime, getOrCreateSharedModelRuntime, readDesktopMcpDebug } from "./host-services.js";
 import { createDesktopMcpSupervisor } from "./mcp-supervisor.js";
 import { getDesktopProviderObservationRuntime } from "./provider-observation.js";
 import { createDesktopPromptRuntimeSources } from "./resource-runtime.js";
@@ -157,6 +157,7 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 					process.env.VETTA_KNOWLEDGE_DISABLED === "1"
 						? undefined
 						: createNodeKnowledgeRuntime(getKnowledgeRoot()),
+				...getDesktopEvaluationRuntime(),
 				createMemoryRolloverRuntime: (options) => {
 					const memoryFile = options.memoryFile ?? join(options.cwd, "MEMORY.md");
 					return createCodingAgentMemoryRolloverRuntime({

@@ -764,6 +764,7 @@
 			"chat": "Chat",
 			"automation": "Automation",
 			"batch-tasks": "Batch tasks",
+			"evaluation": "Evaluation",
 			"skills": "Capabilities",
 			"plugins": "Plugins",
 			"connectors": "Connectors",
@@ -936,6 +937,7 @@
 		"routeTitles": {
 			"automation": "Automation",
 			"batchTasks": "Batch Tasks",
+			"evaluation": "Evaluation",
 			"knowledgeAll": "All Knowledge Bases",
 			"knowledge": "Knowledge Base",
 			"skills": "Skills",

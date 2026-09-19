@@ -14,6 +14,7 @@ import { registerDebugIpc } from "./debug.js";
 import { registerDiagnosticsIpc } from "./diagnostics.js";
 import { registerDialogIpc } from "./dialog.js";
 import { registerDownloadsIpc } from "./downloads.js";
+import { registerEvaluationIpc } from "./evaluation.js";
 import { registerFileTransferIpc } from "./file-transfer.js";
 import { registerFsIpc } from "./fs.js";
 import { registerImIpc } from "./im.js";
@@ -55,6 +56,7 @@ interface IpcTeardown {
 	teardownFs: () => void;
 	teardownFileTransfer: () => void;
 	teardownDownloads: () => void;
+	teardownEvaluation: () => void;
 	teardownIm: () => void;
 	teardownMedia: () => void;
 	teardownDebug: () => void;
@@ -102,6 +104,7 @@ export function registerAllIpc(
 		teardownFs: registerFsIpc(),
 		teardownFileTransfer: registerFileTransferIpc(),
 		teardownDownloads: registerDownloadsIpc(webContents),
+		teardownEvaluation: registerEvaluationIpc(),
 		teardownIm: registerImIpc(webContents),
 		teardownMedia: registerMediaIpc(),
 		teardownDebug: registerDebugIpc(),
@@ -142,6 +145,7 @@ export function teardownAllIpc(teardown: IpcTeardown): void {
 	teardown.teardownFs();
 	teardown.teardownFileTransfer();
 	teardown.teardownDownloads();
+	teardown.teardownEvaluation();
 	teardown.teardownIm();
 	teardown.teardownMedia();
 	teardown.teardownDebug();

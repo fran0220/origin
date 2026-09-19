@@ -37,6 +37,7 @@ export const NAMESPACES = [
 	"skills",
 	"abilities",
 	"batch-tasks",
+	"evaluation",
 	"automation",
 	"agent-teams",
 ] as const;

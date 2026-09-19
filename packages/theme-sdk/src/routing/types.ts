@@ -1,6 +1,7 @@
 export type ThemeRouteArea =
 	| "automation"
 	| "batchTasks"
+	| "evaluation"
 	| "chat"
 	| "knowledgeBase"
 	| "plugins"
@@ -18,6 +19,7 @@ export interface ThemeRouteState {
 export type ThemeNavigationTarget =
 	| { readonly kind: "automation" }
 	| { readonly kind: "batchTasks" }
+	| { readonly kind: "evaluation" }
 	| { readonly kind: "chat" }
 	| { readonly kind: "knowledgeBase" }
 	| { readonly kind: "knowledgeBaseList" }

@@ -1,0 +1,69 @@
+{
+	"page": {
+		"title": "评估",
+		"subtitle": "用明确标准核对工作是否达标，证据来自真实记录而不是模型自述",
+		"newDefinition": "新建标准",
+		"run": "开始评估",
+		"cancel": "取消评估",
+		"save": "保存",
+		"back": "返回列表"
+	},
+	"scope": {
+		"global": "应用",
+		"project": "当前项目"
+	},
+	"empty": {
+		"title": "还没有评估标准",
+		"desc": "先写两条标准，再手动跑一次，就能看到每条是否通过以及引用了哪些证据。",
+		"action": "新建标准"
+	},
+	"definition": {
+		"title": "标准名称",
+		"titlePlaceholder": "例如：构建可以通过",
+		"criteria": "检查项",
+		"criterionTitle": "检查项名称",
+		"required": "必须通过",
+		"optional": "可选",
+		"addCriterion": "添加检查项",
+		"removeCriterion": "删除",
+		"commandVerifier": "命令核验",
+		"commandPlaceholder": "例如 test",
+		"argsPlaceholder": "参数，空格分隔",
+		"noVerifier": "无核验器（只能记为证据不足）"
+	},
+	"attempt": {
+		"title": "评估记录",
+		"latest": "最近一次",
+		"empty": "还没有跑过评估",
+		"triggerManual": "手动",
+		"triggerTurn": "回合",
+		"triggerCheckpoint": "检查点",
+		"triggerMilestone": "里程碑",
+		"fingerprint": "输入指纹",
+		"createdAt": "开始时间",
+		"outcome": "结果",
+		"open": "查看详情"
+	},
+	"outcome": {
+		"passed": "通过",
+		"failed": "未通过",
+		"inconclusive": "证据不足",
+		"error": "核验出错",
+		"cancelled": "已取消",
+		"budget-limited": "超出预算"
+	},
+	"finding": {
+		"title": "检查结果",
+		"required": "必须",
+		"optional": "可选",
+		"evidence": "证据",
+		"noEvidence": "没有引用证据",
+		"note": "备注",
+		"openEvidence": "打开证据"
+	},
+	"error": {
+		"load": "评估记录加载失败",
+		"save": "保存标准失败",
+		"run": "评估未能完成"
+	}
+}

@@ -3,6 +3,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 export type PageHeaderTitleKey =
 	| "appShell.routeTitles.automation"
 	| "appShell.routeTitles.batchTasks"
+	| "appShell.routeTitles.evaluation"
 	| "appShell.routeTitles.knowledgeAll"
 	| "appShell.routeTitles.knowledge"
 	| "appShell.routeTitles.skills"

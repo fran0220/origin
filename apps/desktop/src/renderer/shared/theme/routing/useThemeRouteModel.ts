@@ -4,6 +4,7 @@ import type { ThemeNavigationTarget, ThemeRouteArea, ThemeRouteModel } from "@ve
 function resolveRouteArea(pathname: string): ThemeRouteArea {
 	if (pathname === "/automation") return "automation";
 	if (pathname === "/batch-tasks") return "batchTasks";
+	if (pathname === "/evaluation") return "evaluation";
 	if (pathname === "/knowledge" || pathname === "/knowledge/all") return "knowledgeBase";
 	// 插件已并入能力页（ADR-0049）；theme-sdk 的 plugins area 不再对应任何路由。
 	if (pathname === "/abilities" || pathname.startsWith("/abilities/")) return "skills";
@@ -27,6 +28,9 @@ export function useThemeRouteModel(): ThemeRouteModel {
 				return;
 			case "batchTasks":
 				void navigate({ to: "/batch-tasks" });
+				return;
+			case "evaluation":
+				void navigate({ to: "/evaluation" });
 				return;
 			case "chat":
 				void navigate({ to: "/" });
