@@ -12,7 +12,7 @@ import {
 
 interface FakeWindow {
 	__runtime_probe__?: unknown;
-	__vettaRecordingProbe?: { call(kind: string, payload: unknown): Promise<unknown> };
+	__originRecordingProbe?: { call(kind: string, payload: unknown): Promise<unknown> };
 	addEventListener(type: string, listener: (event: { data: unknown }) => void): void;
 	postMessage(data: unknown, targetOrigin?: string): void;
 }
@@ -85,7 +85,7 @@ describe("RECORDING_PROBE_SCRIPT execution", () => {
 			postMessage() {},
 		};
 		installRecordingProbe(window);
-		const probe = window.__vettaRecordingProbe;
+		const probe = window.__originRecordingProbe;
 		expect(probe).toBeDefined();
 		await expect(probe!.call("tick", null)).resolves.toEqual({ ok: true, result: 10 });
 		await expect(probe!.call("input", { kind: "key", key: "Space" })).resolves.toEqual({ ok: true, result: true });
@@ -124,7 +124,7 @@ describe("RECORDING_PROBE_SCRIPT execution", () => {
 			});
 		};
 		runInContext(RECORDING_PROBE_SCRIPT, probeScriptContext(window));
-		const probe = window.__vettaRecordingProbe;
+		const probe = window.__originRecordingProbe;
 		expect(probe).toBeDefined();
 		await expect(probe!.call("tick", null)).resolves.toEqual({ ok: true, result: 4 });
 		await expect(probe!.call("input", { kind: "key" })).resolves.toEqual({ ok: true, result: true });
@@ -142,7 +142,7 @@ describe("RECORDING_PROBE_SCRIPT execution", () => {
 			postMessage() {},
 		};
 		installRecordingProbe(window);
-		await expect(window.__vettaRecordingProbe!.call("input", { kind: "key" })).resolves.toEqual({
+		await expect(window.__originRecordingProbe!.call("input", { kind: "key" })).resolves.toEqual({
 			ok: false,
 			error: "input system missing",
 		});

@@ -24,7 +24,7 @@ export type ProbeEnvelope =
  */
 export const RECORDING_PROBE_SCRIPT = `
 (() => {
-  if (window.__vettaRecordingProbe) return true;
+  if (window.__originRecordingProbe) return true;
   const pending = new Map();
   window.addEventListener("message", (event) => {
     const data = event.data;
@@ -113,7 +113,7 @@ export const RECORDING_PROBE_SCRIPT = `
       window.postMessage(message, "*");
     });
   }
-  window.__vettaRecordingProbe = {
+  window.__originRecordingProbe = {
     async call(kind, payload) {
       try {
         if (hasRuntimeProbe()) {
@@ -192,7 +192,7 @@ export async function appendJsonl(path: string, line: RecordingTelemetryLine | R
 }
 
 export function pageProbeJavaScript(kind: RecordingProbeKind, payload: unknown): string {
-	return `window.__vettaRecordingProbe ? window.__vettaRecordingProbe.call(${JSON.stringify(kind)}, ${JSON.stringify(payload ?? null)}) : { ok: false, error: "probe missing" }`;
+	return `window.__originRecordingProbe ? window.__originRecordingProbe.call(${JSON.stringify(kind)}, ${JSON.stringify(payload ?? null)}) : { ok: false, error: "probe missing" }`;
 }
 
 export function probeFailureEnvelope(error: unknown): ProbeEnvelope {

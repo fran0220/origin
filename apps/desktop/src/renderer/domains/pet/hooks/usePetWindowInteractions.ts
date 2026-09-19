@@ -25,17 +25,17 @@ export function usePetWindowInteractions({
 		isPointOverElement(videoRef.current, clientX, clientY);
 	const updateMousePassthrough = (clientX: number, clientY: number) => {
 		if (isDraggingRef.current) {
-			void window.originAppPet?.setMousePassthrough(false);
+			void window.originPet?.setMousePassthrough(false);
 			return;
 		}
-		void window.originAppPet?.setMousePassthrough(!isPointOverVideo(clientX, clientY));
+		void window.originPet?.setMousePassthrough(!isPointOverVideo(clientX, clientY));
 	};
 
 	const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
 		event.preventDefault();
 		event.stopPropagation();
 		if (actionId) {
-			void window.originAppPet?.resizeVideoByWheel(actionId, event.deltaY);
+			void window.originPet?.resizeVideoByWheel(actionId, event.deltaY);
 		}
 	};
 
@@ -45,13 +45,13 @@ export function usePetWindowInteractions({
 		const dragTarget = event.currentTarget;
 		dragTarget.setPointerCapture(event.pointerId);
 		isDraggingRef.current = true;
-		void window.originAppPet?.setMousePassthrough(false);
-		const moveSessionReady = window.originAppPet?.beginWindowMove() ?? Promise.resolve();
+		void window.originPet?.setMousePassthrough(false);
+		const moveSessionReady = window.originPet?.beginWindowMove() ?? Promise.resolve();
 		let dragFinished = false;
 
 		const handlePointerMove = (moveEvent: PointerEvent) => {
 			moveEvent.preventDefault();
-			void moveSessionReady.then(() => window.originAppPet?.moveWindow());
+			void moveSessionReady.then(() => window.originPet?.moveWindow());
 		};
 		const handlePointerUp = () => {
 			if (dragFinished) return;
@@ -61,7 +61,7 @@ export function usePetWindowInteractions({
 			window.removeEventListener("pointercancel", handlePointerUp);
 			dragTarget.removeEventListener("lostpointercapture", handleLostPointerCapture);
 			isDraggingRef.current = false;
-			void moveSessionReady.then(() => window.originAppPet?.endWindowMove());
+			void moveSessionReady.then(() => window.originPet?.endWindowMove());
 		};
 		const handleLostPointerCapture = (captureEvent: PointerEvent) => {
 			if ((captureEvent.buttons & 1) !== 0) return;
@@ -78,7 +78,7 @@ export function usePetWindowInteractions({
 		handlePointerDown,
 		handlePointerLeave: () => {
 			if (isDraggingRef.current) return;
-			void window.originAppPet?.setMousePassthrough(true);
+			void window.originPet?.setMousePassthrough(true);
 		},
 		handlePointerMove: (event) => updateMousePassthrough(event.clientX, event.clientY),
 		handleWheel,

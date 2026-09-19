@@ -67,7 +67,7 @@ async function activate(plugin: InstalledPlugin) {
 	});
 }
 
-beforeEach(() => vi.stubGlobal("vetta", { plugins: { internalCapabilities: {} } }));
+beforeEach(() => vi.stubGlobal("originApp", { plugins: { internalCapabilities: {} } }));
 afterEach(() => {
 	vi.restoreAllMocks();
 	vi.unstubAllGlobals();

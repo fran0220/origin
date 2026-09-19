@@ -165,7 +165,7 @@ it("新会话在订阅建立后立即发送，不等待空历史与状态水合"
 		scenario: "project";
 	}>();
 	let stateResolved = false;
-	const sessionApi = (window as unknown as { vetta: { session: Record<string, unknown> } }).origin.session;
+	const sessionApi = (window as unknown as { originApp: { session: Record<string, unknown> } }).originApp.session;
 	const getFullHistory = vi.fn(async () => []);
 	sessionApi.create = vi.fn(async () => ({ cwd, sessionId: runtimeId, sessionPath }));
 	sessionApi.getFullHistory = getFullHistory;
@@ -208,7 +208,7 @@ it("新会话在订阅建立后立即发送，不等待空历史与状态水合"
 });
 
 it("新会话首条消息的 prompt 被主进程拒绝时退出流式态，停止按钮不再卡住", { timeout: 30_000 }, async () => {
-	const sessionApi = (window as unknown as { vetta: { session: Record<string, unknown> } }).origin.session;
+	const sessionApi = (window as unknown as { originApp: { session: Record<string, unknown> } }).originApp.session;
 	sessionApi.create = vi.fn(async () => ({ cwd, sessionId: runtimeId, sessionPath }));
 	sessionApi.getSessionPath = vi.fn(async () => sessionPath);
 	sessionApi.getState = vi.fn(async () => ({
@@ -293,7 +293,7 @@ it("失步竞态：以为空闲实则已在跑（回执 queued）时撤掉抢先
 
 it("turn 内接力消费：第二条回复的流式内容开新气泡、排在补出的用户气泡之后", async () => {
 	let eventHandler: SessionEventHandler | undefined;
-	const sessionApi = (window as unknown as { vetta: { session: Record<string, unknown> } }).origin.session;
+	const sessionApi = (window as unknown as { originApp: { session: Record<string, unknown> } }).originApp.session;
 	sessionApi.create = vi.fn(async () => ({ cwd, sessionId: runtimeId, sessionPath }));
 	sessionApi.getSessionPath = vi.fn(async () => sessionPath);
 	sessionApi.getState = vi.fn(async () => ({
@@ -352,7 +352,7 @@ it("turn 内接力消费：第二条回复的流式内容开新气泡、排在�
 
 it("立即发送打断插队：上一回合已 streaming 的部分回复保留，不被吞掉", async () => {
 	let eventHandler: SessionEventHandler | undefined;
-	const sessionApi = (window as unknown as { vetta: { session: Record<string, unknown> } }).origin.session;
+	const sessionApi = (window as unknown as { originApp: { session: Record<string, unknown> } }).originApp.session;
 	sessionApi.create = vi.fn(async () => ({ cwd, sessionId: runtimeId, sessionPath }));
 	sessionApi.getSessionPath = vi.fn(async () => sessionPath);
 	sessionApi.getState = vi.fn(async () => ({
@@ -497,7 +497,7 @@ it("失败回执：即使 error 事件未到达也上屏错误并返回 failed",
 
 it("失败收尾：agent_end 的落后历史快照不会清掉刚显示的错误卡片", async () => {
 	let eventHandler: SessionEventHandler | undefined;
-	const sessionApi = (window as unknown as { vetta: { session: Record<string, unknown> } }).origin.session;
+	const sessionApi = (window as unknown as { originApp: { session: Record<string, unknown> } }).originApp.session;
 	const autoTitle = vi.fn();
 	sessionApi.create = vi.fn(async () => ({ cwd, sessionId: runtimeId, sessionPath }));
 	sessionApi.autoTitle = autoTitle;

@@ -75,7 +75,7 @@ function setupHarness(entry: MarketAbility) {
 	const disk = { mcp: { mcpServers: {} } as McpConfigData, ledger: {} as AbilityLedger };
 	// 渲染层持有的台账快照：只有 refresh() 才与磁盘同步，与 useAbilityData 一致。
 	let ledgerSnapshot: AbilityLedger = {};
-	(window as unknown as { vetta: unknown }).origin = {
+	(window as unknown as { originApp: unknown }).originApp = {
 		mcp: {
 			get: async () => structuredClone(disk.mcp),
 			set: async (next: McpConfigData) => {

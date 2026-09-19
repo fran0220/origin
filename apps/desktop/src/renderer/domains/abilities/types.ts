@@ -36,9 +36,9 @@ export const ABILITY_CATEGORY_CONNECTORS = "__connectors__";
 /**
  * 分组 key：随 App 分发的内置能力（`isBuiltin`：skill-presets、通用 Agent、系统插件）。
  * 与用户自己安装的能力（市场 / `~/.agents/skills`）分开成组，展示名走
- * `abilities:group.originBuiltin`。
+ * `abilities:group.vettaBuiltin`。
  */
-export const ABILITY_CATEGORY_ORIGIN_BUILTIN = "__vetta_builtin__";
+export const ABILITY_CATEGORY_ORIGIN_BUILTIN = "__origin_builtin__";
 
 /** 用户触发的能力操作阶段；用于让列表与详情说明当前正在发生什么。 */
 export type AbilityOperation =

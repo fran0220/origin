@@ -16,7 +16,7 @@ import { PluginLocalContributions } from "./plugin-local-contributions";
 // Route navigation is an external UI effect; keep context assembly and permission checks real.
 vi.mock("../../../router", () => ({ router: { navigate: vi.fn() } }));
 
-type BrowserBridge = Window["vetta"]["plugins"]["internalCapabilities"]["browser"];
+type BrowserBridge = Window["originApp"]["plugins"]["internalCapabilities"]["browser"];
 
 const bridge = {
 	runtimeStatus: vi.fn<BrowserBridge["runtimeStatus"]>().mockResolvedValue({ phase: "ready" }),
@@ -88,7 +88,7 @@ function expectNoBrowserEffects(): void {
 
 beforeEach(() => {
 	vi.clearAllMocks();
-	vi.stubGlobal("vetta", { plugins: { internalCapabilities: { browser: bridge } } });
+	vi.stubGlobal("originApp", { plugins: { internalCapabilities: { browser: bridge } } });
 	store.set(activeSessionAtom, session);
 	store.set(browserUrlBySessionAtom, new Map());
 	store.set(activityPanelOpenAtom, false);

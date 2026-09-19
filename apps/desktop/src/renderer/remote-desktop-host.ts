@@ -38,7 +38,7 @@ host = new RemoteDesktopHost(
 		},
 	},
 	async (signal) => signaling.send(signal),
-	(message) => window.originAppRemoteDesktop?.onInput(message),
+	(message) => window.originRemoteDesktop?.onInput(message),
 );
 await host.start(stream, { waitForPeerReady: true });
 for (const signal of pending.splice(0)) await host.acceptSignal(signal);

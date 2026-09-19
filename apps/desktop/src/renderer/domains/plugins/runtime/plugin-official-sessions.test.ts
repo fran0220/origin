@@ -22,7 +22,7 @@ function stubHostSessionApi(): {
 	};
 	Object.defineProperty(globalThis, "window", {
 		configurable: true,
-		value: { vetta: { session: api } },
+		value: { originApp: { session: api } },
 	});
 	return api;
 }
@@ -74,7 +74,7 @@ describe("official.sessions.list 的可用性透传", () => {
 	function stubListSessions(sessions: unknown[]): void {
 		Object.defineProperty(globalThis, "window", {
 			configurable: true,
-			value: { vetta: { session: { listSessions: vi.fn(async () => sessions) } } },
+			value: { originApp: { session: { listSessions: vi.fn(async () => sessions) } } },
 		});
 	}
 

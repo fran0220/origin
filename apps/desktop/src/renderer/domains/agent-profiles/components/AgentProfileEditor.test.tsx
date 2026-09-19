@@ -281,7 +281,7 @@ describe("AgentProfileEditor", () => {
 		const user = userEvent.setup();
 		const onSave = vi.fn(async () => ({ updated: agent }));
 		const uploadAvatar = vi.fn(async () => "origin-file://local/home/pictures/mine.png");
-		vi.stubGlobal("vetta", { agentProfiles: { uploadAvatar } });
+		vi.stubGlobal("originApp", { agentProfiles: { uploadAvatar } });
 		render(
 			<AgentProfileEditor
 				agent={agent}
@@ -309,7 +309,7 @@ describe("AgentProfileEditor", () => {
 	it("keeps the profile unchanged when the upload dialog is cancelled", async () => {
 		const user = userEvent.setup();
 		const onSave = vi.fn(async () => ({ updated: agent }));
-		vi.stubGlobal("vetta", { agentProfiles: { uploadAvatar: vi.fn(async () => undefined) } });
+		vi.stubGlobal("originApp", { agentProfiles: { uploadAvatar: vi.fn(async () => undefined) } });
 		render(
 			<AgentProfileEditor
 				agent={agent}

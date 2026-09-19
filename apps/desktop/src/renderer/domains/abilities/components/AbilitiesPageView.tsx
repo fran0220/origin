@@ -166,7 +166,7 @@ export function AbilitiesPageView({ model }: { model: AbilitiesModel }): JSX.Ele
 															: group.category === ABILITY_CATEGORY_CONNECTORS
 																? t("group.connectors")
 																: group.category === ABILITY_CATEGORY_ORIGIN_BUILTIN
-																	? t("group.originBuiltin")
+																	? t("group.vettaBuiltin")
 																	: resolveCategoryLabel(group.category, group.categoryI18n, i18n.language)}
 											</h2>
 											<span className="text-[11px] tabular-nums text-muted-foreground/50">

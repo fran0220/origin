@@ -1,6 +1,6 @@
 // 快捷面板独立 i18next 实例（面板窗口走独立 ns、内联自己的文案目录）。语言真相源
 // = main 解析结果（config.language 或系统 locale）：preload 经 sendSync 暴露
-// window.originAppQuickPanel.initialLanguage，与主窗口同源；navigator 仅作 bridge 缺失时的兜底。
+// window.originQuickPanel.initialLanguage，与主窗口同源；navigator 仅作 bridge 缺失时的兜底。
 
 import i18next from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
@@ -55,13 +55,13 @@ const resources = {
 
 function detectLanguage(): AppLanguage {
 	// 真相源：main 已按 config 或系统 locale 解析（preload sendSync）；缺失时回退 navigator。
-	const fromBridge = window.originAppQuickPanel?.initialLanguage;
+	const fromBridge = window.originQuickPanel?.initialLanguage;
 	return resolveAppLanguageFromLocale(fromBridge ?? navigator.language);
 }
 
 /** 跟随 App 语言切换实时刷新；返回取消订阅函数。 */
 export function subscribeQuickPanelLanguage(): () => void {
-	const bridge = window.originAppQuickPanel;
+	const bridge = window.originQuickPanel;
 	if (!bridge?.onLanguageChanged) return () => {};
 	return bridge.onLanguageChanged((lang) => {
 		const next = resolveAppLanguageFromLocale(lang);

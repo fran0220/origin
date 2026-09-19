@@ -9,7 +9,7 @@ vi.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => k
 
 function installMcpWindow(get = vi.fn(async () => ({ mcpServers: {} }))) {
 	const set = vi.fn(async () => undefined);
-	(window as unknown as { vetta: unknown }).origin = {
+	(window as unknown as { originApp: unknown }).originApp = {
 		mcp: {
 			get,
 			set,
@@ -22,7 +22,7 @@ function installMcpWindow(get = vi.fn(async () => ({ mcpServers: {} }))) {
 describe("useMcpSettingsModel managed runtime parameters", () => {
 	it("preserves the managed connection identity and writes parameters to runtime env", async () => {
 		const set = vi.fn(async () => undefined);
-		(window as unknown as { vetta: unknown }).origin = {
+		(window as unknown as { originApp: unknown }).originApp = {
 			mcp: {
 				get: vi.fn(async () => ({
 					mcpServers: {

@@ -31,14 +31,14 @@ export function useQuickPanelSessions(): QuickPanelItem[] {
 	const [pending, setPending] = useState<ReadonlySet<string>>(() => new Set());
 
 	const refresh = useCallback(async () => {
-		const bridge = window.originAppQuickPanel;
+		const bridge = window.originQuickPanel;
 		if (!bridge) return;
 		const list = await bridge.listRecent(RECENT_LIMIT);
 		setSessions(list);
 	}, []);
 
 	useEffect(() => {
-		const bridge = window.originAppQuickPanel;
+		const bridge = window.originQuickPanel;
 		if (!bridge) return;
 		void refresh();
 		const offShown = bridge.onShown(() => {

@@ -142,7 +142,7 @@ const STEP_REPLACEMENTS = {
 		["window.originPet", "window.originPet"],
 		["window.origin", "window.originApp"],
 		["__vettaRecordingAudio", "__originRecordingAudio"],
-		["__vettaOcr", "__originOcr"],
+		["__originOcr", "__originOcr"],
 		["__ORIGIN_PLUGIN_DEV_MODULES__", "__ORIGIN_PLUGIN_DEV_MODULES__"],
 		["__ORIGIN_PLUGIN_HOST__", "__ORIGIN_PLUGIN_HOST__"],
 		['exposeInMainWorld("vettaQuickPanel"', 'exposeInMainWorld("originQuickPanel"'],

@@ -155,7 +155,7 @@ export function PetApp(): JSX.Element {
 	}, [actionId]);
 
 	useEffect(() => {
-		return window.originAppPet?.onCommand((command) => {
+		return window.originPet?.onCommand((command) => {
 			if (command.type === "show-bubble") {
 				const input = getShowPetBubbleInput(command);
 				if (input) showBubble(input);

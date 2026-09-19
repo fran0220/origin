@@ -21,7 +21,7 @@ export interface HelperPermissions {
 
 export type OnboardingPaneKind = "accessibility" | "screen-recording";
 
-// preload bridge（window.originAppOnboarding）。preload 实现只 type-import 本接口
+// preload bridge（window.originOnboarding）。preload 实现只 type-import 本接口
 // （值仍走内联字面量，见文件头注释）。
 export interface OnboardingBridge {
 	// App 语言真相源（desktop-config），preload 求值期同步 sendSync 取得。

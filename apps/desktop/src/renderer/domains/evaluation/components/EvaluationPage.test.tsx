@@ -39,7 +39,7 @@ beforeEach(() => {
 	definitions.splice(0);
 	attempts.splice(0);
 	attemptView = null;
-	vi.stubGlobal("vetta", {
+	vi.stubGlobal("originApp", {
 		evaluation: {
 			listDefinitions: vi.fn(async () => [...definitions]),
 			listAttempts: vi.fn(async () => [...attempts]),

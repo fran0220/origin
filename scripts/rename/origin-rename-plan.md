@@ -15,7 +15,7 @@ node scripts/rename/apply-origin-identifiers.mjs --apply --step <npm-scope|data-
 
 | 步骤 | 结果 |
 | --- | --- |
-| npm-scope | `@vetta/*` → `@origin/*`，`@origin-org/*` → `@origin-org/*`，`bun.lock` 已重生 |
+| npm-scope | `@vetta/*` → `@origin/*`，`@vetta-org/*` → `@origin-org/*`，`bun.lock` 已重生 |
 | data-dir | `~/.vetta` / 项目 `.vetta` → `.origin`；`VETTA_*` → `ORIGIN_*`；无旧变量回落 |
 | ipc | 通道 `vetta:` → `origin:`；preload `window.originApp`（避免撞 `window.origin`）；不双暴露旧名 |
 | identity | `APP_RUNTIME_NAME` / `APP_NAME` → `origin`；`vetta-file` / `vetta-media` → `origin-file` / `origin-media` |

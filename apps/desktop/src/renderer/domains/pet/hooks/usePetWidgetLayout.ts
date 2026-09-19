@@ -32,14 +32,14 @@ export function usePetWidgetLayout({
 				});
 				if (!samePetContentBounds(lastContentRef.current, content)) {
 					lastContentRef.current = content;
-					void window.originAppPet?.setContentSize(content);
+					void window.originPet?.setContentSize(content);
 				}
 			}
 
 			const videoHitbox = videoEl ? clientRectToHitbox(videoEl.getBoundingClientRect(), viewport) : undefined;
 			if (!samePetHitbox(lastHitboxRef.current, videoHitbox)) {
 				lastHitboxRef.current = videoHitbox;
-				void window.originAppPet?.setVideoHitbox(videoHitbox);
+				void window.originPet?.setVideoHitbox(videoHitbox);
 			}
 		};
 		reportRef.current = report;
@@ -55,7 +55,7 @@ export function usePetWidgetLayout({
 			reportRef.current = undefined;
 			lastHitboxRef.current = undefined;
 			lastContentRef.current = undefined;
-			void window.originAppPet?.setVideoHitbox(undefined);
+			void window.originPet?.setVideoHitbox(undefined);
 		};
 	}, [shellRef, videoRef]);
 

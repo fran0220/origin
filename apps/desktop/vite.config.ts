@@ -63,10 +63,10 @@ function hostApiAccessTransform(): Plugin {
 
 			let transformed = code;
 			for (const replacement of replacements.sort((left, right) => right.start - left.start)) {
-				transformed = `${transformed.slice(0, replacement.start)}__vettaHostApi${transformed.slice(replacement.end)}`;
+				transformed = `${transformed.slice(0, replacement.start)}__originHostApi${transformed.slice(replacement.end)}`;
 			}
 			return {
-				code: `import { hostApi as __vettaHostApi } from "@shared/host-api";\n${transformed}`,
+				code: `import { hostApi as __originHostApi } from "@shared/host-api";\n${transformed}`,
 				map: null,
 			};
 		},

@@ -7,7 +7,7 @@ contextBridge.exposeInMainWorld("__originRecordingAudio", {
 		ipcRenderer.send(CHANNEL, payload);
 	},
 	setRecordingId(recordingId) {
-		window.__vettaRecordingId = recordingId;
+		window.__originRecordingId = recordingId;
 	},
 });
 
@@ -26,17 +26,17 @@ function installAudioCapture() {
 		Object.defineProperty(proto, "destination", {
 			configurable: true,
 			get() {
-				if (!this.__vettaCaptureDest) {
-					this.__vettaCaptureDest = this.createMediaStreamDestination();
+				if (!this.__originCaptureDest) {
+					this.__originCaptureDest = this.createMediaStreamDestination();
 					try {
-						this.__vettaCaptureDest.connect(originalDestination.get.call(this));
+						this.__originCaptureDest.connect(originalDestination.get.call(this));
 					} catch {
 						// Some contexts refuse a second connection; capture still works.
 					}
-					destinationNodes.add(this.__vettaCaptureDest.stream);
+					destinationNodes.add(this.__originCaptureDest.stream);
 					maybeStart();
 				}
-				return this.__vettaCaptureDest;
+				return this.__originCaptureDest;
 			},
 		});
 	}
@@ -51,7 +51,7 @@ function installAudioCapture() {
 		} catch {
 			window.__originRecordingAudio.send({
 				type: "unavailable",
-				recordingId: window.__vettaRecordingId,
+				recordingId: window.__originRecordingId,
 			});
 			return;
 		}
@@ -60,15 +60,15 @@ function installAudioCapture() {
 			event.data.arrayBuffer().then((buffer) => {
 				window.__originRecordingAudio.send({
 					type: "chunk",
-					recordingId: window.__vettaRecordingId,
+					recordingId: window.__originRecordingId,
 					data: Array.from(new Uint8Array(buffer)),
 				});
 			});
 		};
 		recorder.onstop = () =>
-			window.__originRecordingAudio.send({ type: "end", recordingId: window.__vettaRecordingId });
+			window.__originRecordingAudio.send({ type: "end", recordingId: window.__originRecordingId });
 		recorder.start(1_000);
-		window.__originRecordingAudio.send({ type: "start", recordingId: window.__vettaRecordingId });
+		window.__originRecordingAudio.send({ type: "start", recordingId: window.__originRecordingId });
 	}
 
 	window.addEventListener("vetta-recording-stop-audio", () => {
