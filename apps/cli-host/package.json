@@ -23,6 +23,7 @@
 		"@vetta/ai": "workspace:*",
 		"@vetta/action-rpc": "workspace:*",
 		"@vetta/coding-agent": "workspace:*",
+		"@vetta/runtime-evolution": "workspace:*",
 		"@vetta/ecosystem-adapter": "workspace:*",
 		"@vetta/runtime-core": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",

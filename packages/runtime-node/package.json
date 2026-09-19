@@ -45,6 +45,10 @@
 		"./checkpoints": {
 			"types": "./dist/checkpoints/index.d.ts",
 			"import": "./dist/checkpoints/index.js"
+		},
+		"./evolution": {
+			"types": "./dist/evolution/index.d.ts",
+			"import": "./dist/evolution/index.js"
 		}
 	},
 	"files": [
@@ -67,6 +71,7 @@
 		"@vetta/runtime-core": "workspace:*",
 		"@vetta/runtime-evaluation": "workspace:*",
 		"@vetta/runtime-checkpoints": "workspace:*",
+		"@vetta/runtime-evolution": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",
 		"@vetta/runtime-mcp": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",

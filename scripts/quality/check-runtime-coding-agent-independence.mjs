@@ -10,6 +10,7 @@ import { fail, isDirectRun, ok, readText, rel, repoRoot, walkFiles } from "./lib
 
 export const INDEPENDENT_RUNTIME_PACKAGES = Object.freeze([
 	"packages/runtime-core",
+	"packages/runtime-evolution",
 	"packages/runtime-knowledge",
 	"packages/runtime-mcp",
 	"packages/runtime-storage",

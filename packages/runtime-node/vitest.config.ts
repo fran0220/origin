@@ -33,6 +33,9 @@ export default defineConfig({
 			"@vetta/runtime-storage/conversation": fileURLToPath(
 				new URL("../runtime-storage/src/conversation/index.ts", import.meta.url),
 			),
+			"@vetta/runtime-evolution": fileURLToPath(
+				new URL("../runtime-evolution/src/index.ts", import.meta.url),
+			),
 			"@vetta/runtime-storage": fileURLToPath(new URL("../runtime-storage/src/index.ts", import.meta.url)),
 			"@vetta/runtime-tools/coding": fileURLToPath(
 				new URL("../runtime-tools/src/coding/index.ts", import.meta.url),
