@@ -87,11 +87,11 @@ plugins.manage {"operation":"install-from-url","url":"https://…/x.zip"}
 plugins.manage {"operation":"reload","id":"<plugin-id>"}
 ```
 
-本地路径安装用 `install-from-path`（zip 绝对路径 + `"enable": true`）。若目标是「制作插件」工作台里的工程，改为引导用户点面板的「应用到 Vetta」，那条路径不弹确认。
+本地路径安装用 `install-from-path`（zip 绝对路径 + `"enable": true`）。若目标是「制作插件」工作台里的工程，改为引导用户点面板的「应用到 Origin」，那条路径不弹确认。
 
 ### 2.5 退出码
 
-`0` 成功 · `2` 参数错 · `3` 连不上宿主（Vetta 没运行，或 `VETTA_CONFIG_DIR`/`VETTA_HOME` 指到了别的环境）· `4` 宿主拒绝（权限、id 冲突、系统插件不可覆盖）· `5` 其它失败。遇到 `3` 先让用户确认 Vetta 桌面端在前台运行，不要反复重试。
+`0` 成功 · `2` 参数错 · `3` 连不上宿主（Origin 没运行，或 `VETTA_CONFIG_DIR`/`VETTA_HOME` 指到了别的环境）· `4` 宿主拒绝（权限、id 冲突、系统插件不可覆盖）· `5` 其它失败。遇到 `3` 先让用户确认 Origin 桌面端在前台运行，不要反复重试。
 
 ### 2.6 能力市场里的插件
 

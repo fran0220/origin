@@ -13,7 +13,7 @@ export interface ApplyPluginOptions {
 	/**
 	 * After install, reload the whole Vetta renderer so host permission tables,
 	 * settings schema, and every plugin remote re-hydrate from a cold start.
-	 * Default false for first-time「应用到 Vetta」; true for「重新安装」.
+	 * Default false for first-time「应用到 Origin」; true for「重新安装」.
 	 */
 	refreshApp?: boolean;
 	/** Start / restart dev watch after install (ignored when refreshApp reloads). */

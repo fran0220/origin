@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Install deps, bump patch, vite build, zip plugin for Vetta install.
+ * Install deps, bump patch, vite build, zip plugin for Origin install.
  * Uses managed Node/npm (ADR-0011). Does not assume bun.
  *
  * Usage: node build-and-pack.mjs <pluginRoot> [--skip-install] [--no-bump]

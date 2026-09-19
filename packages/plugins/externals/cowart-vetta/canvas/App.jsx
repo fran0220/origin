@@ -144,7 +144,7 @@ const ANNOTATION_EDIT_TOOL_LABEL = '按标注修改'
 const ANNOTATION_HTML_TOOL_LABEL = '按标注生成 Html'
 /** Vetta Desktop image tools: new bitmap → generate_image; revise existing → edit_image. */
 const VETTA_IMAGE_TOOL_RULES = [
-  '【Vetta 图片工具约定 — 必须遵守】',
+  '【Origin 图片工具约定 — 必须遵守】',
   '- 生成全新图片（新建画面、AI 图片框填图、从 HTML/文案/参考图新建位图）：必须调用工具 generate_image。',
   '- 修改已有图片（按标注改图、在原图或标注截图上修订）：必须调用工具 edit_image（以截图/原图为源）。',
   '- 禁止使用 imagegen skill 或其它未声明的生图入口；禁止用 bash/脚本另起生图。',
@@ -2070,7 +2070,7 @@ async function exportCowartHtmlDraft(editor, draftShapeId, format) {
 
 async function exportCowartSlides(editor, slidesShapeId, format) {
   if (!hasCowartWidgetBridge()) {
-    throw new Error('导出 Slides 文件夹需要在 Vetta Cowart 小组件中使用。')
+    throw new Error('导出 Slides 文件夹需要在 Origin Cowart 小组件中使用。')
   }
 
   const slidesShape = editor.getShape(slidesShapeId)
@@ -2725,7 +2725,7 @@ async function sendAiImageGenerationRequest({ holderShape, userPrompt, reference
         console.warn('Cowart reference image could not be saved; relying on direct image attachment.', error)
       }
     } else if (!referenceAttached) {
-      throw new Error('当前 Vetta host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
+      throw new Error('当前 Origin host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
     }
     references.push({ file: referenceFile, dataUrl: referenceDataUrl, savedReference })
   }
@@ -2781,7 +2781,7 @@ async function sendAiDraftGenerationRequest({ holderShape, userPrompt, reference
         console.warn('Cowart draft reference image could not be saved; relying on direct image attachment.', error)
       }
     } else if (!referenceAttached) {
-      throw new Error('当前 Vetta host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
+      throw new Error('当前 Origin host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
     }
     references.push({ file: referenceFile, dataUrl: referenceDataUrl, savedReference })
   }
@@ -2837,7 +2837,7 @@ async function sendAiSlidesGenerationRequest({ slidesShape, pageCount, userPromp
         console.warn('Cowart slides reference image could not be saved; relying on direct image attachment.', error)
       }
     } else if (!referenceAttached) {
-      throw new Error('当前 Vetta host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
+      throw new Error('当前 Origin host 没有声明支持图片附件，也没有可用的 Cowart MCP 文件保存桥。')
     }
     references.push({ file: referenceFile, dataUrl: referenceDataUrl, savedReference })
   }

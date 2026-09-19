@@ -1,7 +1,7 @@
 {
 	"name": "@vetta-org/plugin-cli",
 	"version": "0.1.6",
-	"description": "Install npm-distributed plugins into Vetta Desktop",
+	"description": "Install npm-distributed plugins into Origin Desktop",
 	"type": "module",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

@@ -230,7 +230,7 @@ function parseInitHubCommand(argv: string[]): PluginInitCommand {
 	if (typeof minAppVersion !== "string" || minAppVersion.length === 0) {
 		return {
 			type: "error",
-			message: "Missing --min-app-version <x.y.z> (the oldest Vetta Desktop version your abilities support)",
+			message: "Missing --min-app-version <x.y.z> (the oldest Origin Desktop version your abilities support)",
 		};
 	}
 	const [targetDir, unexpected] = parsed.positionals;

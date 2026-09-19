@@ -113,9 +113,9 @@ function mediaFailure(error: PluginMediaError): Record<string, unknown> {
 	const message = ((): string => {
 		switch (error.code) {
 			case "quota-exhausted":
-				return "The user's Vetta subscription quota is used up, so no image can be produced right now. Tell the user their image quota is exhausted and when it resets, and do not retry.";
+				return "The user's Origin subscription quota is used up, so no image can be produced right now. Tell the user their image quota is exhausted and when it resets, and do not retry.";
 			case "not-entitled":
-				return "The user's current Vetta plan does not include image generation. Tell the user to upgrade their subscription, and do not retry.";
+				return "The user's current Origin plan does not include image generation. Tell the user to upgrade their subscription, and do not retry.";
 			case "provider-unavailable":
 			case "operation-unsupported":
 				return "No installed media provider can perform this image operation. Tell the user that image generation is unavailable, and do not retry.";

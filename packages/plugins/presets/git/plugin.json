@@ -14,5 +14,5 @@
 	"permissions": ["ui.slot.activity-tab", "ui.slot.turn-card", "agent.session.read", "agent.command.run"],
 	"commands": ["git"],
 	"description": "%plugin.description%",
-	"author": "Vetta"
+	"author": "Origin"
 }

@@ -62,7 +62,7 @@ export function buildResourceIndex(systemName: string, written: readonly DesignR
 	return [
 		`# ${systemName} — style reference pack`,
 		"",
-		"Written by the Vetta design sidebar when the user picked this style.",
+		"Written by the Origin design sidebar when the user picked this style.",
 		"Files in this pack:",
 		"",
 		...written.map((resource) => {

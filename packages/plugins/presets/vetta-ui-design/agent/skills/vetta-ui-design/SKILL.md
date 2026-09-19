@@ -89,7 +89,7 @@ same way. The templates below are already correct on all of it:
 - No remote image URLs (`<img>`, `background-image`) — they break screenshots.
   Import from `assets/`, or use a gradient/token color/Iconify glyph.
 - Normal formatting, one element per line for nested markup. Everything on one
-  line destroys element→source mapping, and the user's "Ask Vetta" edits then
+  line destroys element→source mapping, and the user's "Ask Origin" edits then
   point every element at the same line.
 - One default export per frame, rendering edge-to-edge — no page margins.
 - react, react-router, Tailwind v4 and Iconify are always there. Anything else
