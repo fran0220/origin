@@ -35,11 +35,8 @@ export function findConversationMessageArchitectureViolations(files) {
 		if (file.path.startsWith("apps/desktop/src/renderer/domains/chat/")) {
 			violations.push(`${file.path}: retired chat domain must remain migrated to domains/conversation`);
 		}
-		if (
-			file.path.startsWith("apps/desktop/src/renderer/domains/conversation/connectors/team/") &&
-			/(?:MessageInput|MessageFeed\.VirtualList|ConversationEditorView)/u.test(file.text)
-		) {
-			violations.push(`${file.path}: Team connector must compose the shared conversation recipe`);
+		if (file.path.startsWith("apps/desktop/src/renderer/domains/conversation/connectors/team/")) {
+			violations.push(`${file.path}: retired Team conversation connector must remain deleted`);
 		}
 		if (
 			file.path.includes("/shared/components/message-feed/") &&

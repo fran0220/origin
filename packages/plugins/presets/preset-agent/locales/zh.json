@@ -10,9 +10,5 @@
 	"agent.auditor.name": "审计员",
 	"agent.auditor.description": "红队挑刺：正确性、安全、边界、回归与无依据的结论。",
 	"agent.business.name": "业务员",
-	"agent.business.description": "把目标落成需求、范围与商业模式，并说清假设与风险。",
-	"team.dev.name": "开发团队",
-	"team.dev.description": "从取证到实现再到审查，一支队把一次改动送到可交付。",
-	"team.planning.name": "策划团队",
-	"team.planning.description": "先调研再成案，挑完致命缺陷才出方案。"
+	"agent.business.description": "把目标落成需求、范围与商业模式，并说清假设与风险。"
 }

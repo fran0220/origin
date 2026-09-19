@@ -316,7 +316,7 @@ describe("SessionRowView Team identity", () => {
 		);
 	});
 
-	it("renders the Agent Team icon before the task title and member avatars at the trailing edge", () => {
+	it("renders a custom leading icon before the task title and trailing avatars", () => {
 		const view = render(
 			<SessionRowView
 				active={false}
@@ -343,7 +343,7 @@ describe("SessionRowView Team identity", () => {
 		expect(view.container.querySelector('[data-avatar-stack="true"]')?.querySelectorAll("img")).toHaveLength(3);
 	});
 
-	it("replaces the Agent Team icon with the running spinner without moving member avatars", () => {
+	it("replaces the custom leading icon with the running spinner without moving trailing avatars", () => {
 		const view = render(
 			<SessionRowView
 				active={false}

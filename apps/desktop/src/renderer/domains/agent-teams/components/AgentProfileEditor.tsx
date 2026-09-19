@@ -256,7 +256,7 @@ export function AgentProfileEditor({
 					</div>
 
 					{/* Navigation Menu Items */}
-					<nav className="flex flex-1 flex-col gap-1" aria-label={t("settings.editMemberTitle")}>
+					<nav className="flex flex-1 flex-col gap-1" aria-label={t("profile.editorNav")}>
 						<button
 							type="button"
 							onClick={() => setActiveTab("basic")}

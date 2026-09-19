@@ -11,7 +11,7 @@ export interface DefaultSessionRowViewProps {
 	/** When false, context menu is ignored (e.g. claw filter). */
 	contextMenuEnabled: boolean;
 	label: string;
-	/** Optional source-specific icon, used by non-session conversation sources such as Agent Teams. */
+	/** Optional source-specific icon, used by non-session conversation sources. */
 	iconClassName?: string;
 	/** Optional grouped-participant context rendered at the trailing edge. */
 	trailingAvatarUrls?: readonly string[];

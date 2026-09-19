@@ -9,7 +9,7 @@ import { prepareSidebarSelection } from "./useActiveSessionAutoScroll";
 export interface SessionRowViewProps {
 	active: boolean;
 	label: string;
-	/** Optional source-specific icon, used by non-session conversation sources such as Agent Teams. */
+	/** Optional source-specific icon, used by non-session conversation sources. */
 	iconClassName?: string;
 	/** Optional grouped-participant context rendered at the trailing edge. */
 	trailingAvatarUrls?: readonly string[];

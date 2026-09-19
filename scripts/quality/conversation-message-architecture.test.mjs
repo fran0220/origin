@@ -40,8 +40,8 @@ describe("Conversation message architecture guard", () => {
 		expect(
 			findConversationMessageArchitectureViolations([
 				{
-					path: "packages/agent-team/src/legacy-events.ts",
-					text: "export type LegacyTeamFeedEvent = { type: 'user-message' };",
+					path: "packages/runtime-storage/src/conversation/legacy-session-document.ts",
+					text: "export type LegacySessionEvent = { type: 'user-message' };",
 				},
 			]),
 		).toEqual([]);
@@ -51,11 +51,11 @@ describe("Conversation message architecture guard", () => {
 		expect(
 			findConversationMessageArchitectureViolations([
 				{
-					path: "apps/desktop/src/main/agent-teams/example.ts",
+					path: "apps/desktop/src/main/example.ts",
 					text: 'const tool = { name: "team_delegate" };',
 				},
 			]),
-		).toEqual(["apps/desktop/src/main/agent-teams/example.ts:1: retired synchronous Team tool team_delegate"]);
+		).toEqual(["apps/desktop/src/main/example.ts:1: retired synchronous Team tool team_delegate"]);
 	});
 
 	it("keeps MessageFeed and Agent Team independent from product message and subagent domains", () => {
@@ -76,16 +76,12 @@ describe("Conversation message architecture guard", () => {
 		]);
 	});
 
-	it("keeps Team conversations on the shared conversation domain and recipe", () => {
+	it("rejects retired chat-domain and Team conversation identifiers", () => {
 		expect(
 			findConversationMessageArchitectureViolations([
 				{
 					path: "apps/desktop/src/renderer/domains/chat/components/InputBar.tsx",
 					text: "export function InputBar() {}",
-				},
-				{
-					path: "apps/desktop/src/renderer/domains/conversation/connectors/team/TeamChatView.tsx",
-					text: "return <ConversationEditorView />;",
 				},
 				{
 					path: "apps/desktop/src/renderer/example.tsx",
@@ -94,7 +90,6 @@ describe("Conversation message architecture guard", () => {
 			]),
 		).toEqual([
 			"apps/desktop/src/renderer/domains/chat/components/InputBar.tsx: retired chat domain must remain migrated to domains/conversation",
-			"apps/desktop/src/renderer/domains/conversation/connectors/team/TeamChatView.tsx: Team connector must compose the shared conversation recipe",
 			"apps/desktop/src/renderer/example.tsx:1: retired message identifier TeamConversationFeed",
 		]);
 	});

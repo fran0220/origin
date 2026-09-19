@@ -20,14 +20,14 @@ describe("ToolCallBlock Work-mode label", () => {
 		const block: ToolCallBlock = {
 			type: "tool_call",
 			toolCallId: "delegate-call",
-			toolName: "team_delegate_task",
-			args: { description: "委派开发工程师实现游戏" },
+			toolName: "create_thread",
+			args: { description: "开一条 Thread 实现游戏" },
 			status: "pending",
 		};
 
 		render(<ToolCallBlockView block={block} aliased />, { wrapper: Wrapper });
 
-		expect(screen.getByText("委派开发工程师实现游戏")).toBeTruthy();
-		expect(screen.queryByText("team_delegate_task")).toBeNull();
+		expect(screen.getByText("开一条 Thread 实现游戏")).toBeTruthy();
+		expect(screen.queryByText("create_thread")).toBeNull();
 	});
 });

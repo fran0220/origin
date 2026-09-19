@@ -58,6 +58,12 @@ describe("Preset agent manifest", () => {
 	it("does not ship persistent teams; collaboration belongs to Threads", async () => {
 		const manifest = await readManifest();
 		expect(manifest.agent?.teams).toBeUndefined();
+		const messages = await readLocale("en");
+		expect(Object.keys(messages).filter((key) => key.startsWith("team."))).toEqual([]);
+		for (const agent of manifest.agent?.agents ?? []) {
+			const prompt = await readFile(resolve(import.meta.dirname, "..", agent.systemPromptPath!), "utf8");
+			expect(prompt).not.toMatch(/team_delegate|team_wait|team_get_task|agent team/i);
+		}
 	});
 
 	it("claims the ids the host used to ship, so existing profiles are upgraded in place", async () => {
