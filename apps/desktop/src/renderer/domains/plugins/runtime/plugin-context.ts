@@ -20,6 +20,7 @@ import {
 	createJobsApi,
 	createMediaApi,
 	createOcrApi,
+	createProjectApi,
 	createRecordingApi,
 	createStorageApi,
 } from "./plugin-host-apis";
@@ -98,6 +99,7 @@ export function createPluginContext({
 		models: createPluginModelsApi(permissions, capabilitySessionId),
 		media: createMediaApi(plugin, capabilitySessionId, activationId, disposers, pendingRuntimeRegistrations),
 		evaluation: createEvaluationApi(plugin, disposers),
+		project: createProjectApi(plugin),
 		ocr: createOcrApi(plugin, capabilitySessionId, disposers, activationId, pendingRuntimeRegistrations),
 		jobs: createJobsApi(plugin, capabilitySessionId),
 		artifacts: createArtifactsApi(plugin, capabilitySessionId),

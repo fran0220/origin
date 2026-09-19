@@ -6,13 +6,30 @@ Plugin API 2.6.0 起，插件可以通过 `ctx.evaluation` 读取或触发平台
 
 - `evaluation:read`：列出 Definition / Attempt，读取 Attempt 详情（含 Finding 与证据摘要）。
 - `evaluation:run`：按 Definition 启动一次评估，并注册额外证据 Provider。
+- `evaluation:write`：通过 `upsertDefinition` 写入 Definition，不改写 Attempt；需要 Plugin API `^2.8.0`。
 
-使用这些权限时把 `plugin.json#pluginApiVersion` 写成 `^2.6.0`。清单校验对未知权限 fail-closed；旧宿主会给出「Unsupported plugin API version」，而不是静默丢掉权限条目。
+只读或运行评估时声明 `^2.6.0`；写入 Definition 或使用 `ctx.project.resolve` 时声明 `^2.8.0`。清单校验对未知权限 fail-closed；旧宿主会给出「Unsupported plugin API version」，而不是静默丢掉权限条目。
 
 ```ts
+const identity = await ctx.project.resolve(cwd); // workspace.read
+await ctx.evaluation.upsertDefinition({
+  scope: identity.evaluationScope,
+  definition: {
+    id: "def-build",
+    title: "Build",
+    criteria: [{
+      id: "typecheck",
+      title: "Typecheck",
+      required: true,
+      verifier: { kind: "command", command: "bun", args: ["run", "typecheck"], cwd },
+    }],
+  },
+});
+
 const attempt = await ctx.evaluation.run({
   definitionId: "def-build",
   trigger: { kind: "manual" },
+  scope: identity.evaluationScope,
 });
 
 ctx.evaluation.registerEvidenceProvider({
@@ -29,7 +46,7 @@ ctx.evaluation.registerEvidenceProvider({
 
 - 模型自述不是证据。插件可以把说明写进 Finding.note 的消费方，但不能把自然语言审阅伪装成 Evidence。
 - `registerEvidenceProvider` 在插件停用时必须随 activation 一起 dispose；宿主不会替插件保留跨重启的回调。
-- Recording / Checkpoint 证据源由对应 runtime 包落地后接入；当前默认适配器可能返回空集。
+- Desktop 默认读取同项目的命令收据、检查点及已完成且未过期的录像；缺少关联记录时仍可能返回空集，不借用其他项目数据。
 
 ## Recording telemetry 断言
 

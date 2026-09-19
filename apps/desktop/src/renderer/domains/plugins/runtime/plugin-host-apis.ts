@@ -20,6 +20,7 @@ import type {
 	PluginJob,
 	PluginJobsApi,
 	PluginMediaApi,
+	PluginProjectApi,
 	PluginRecordingApi,
 	PluginSecretsApi,
 } from "@vetta-org/plugin-sdk";
@@ -28,6 +29,7 @@ import { getDefaultStore } from "jotai";
 import { router } from "../../../router";
 import { normalizeBrowserOpenUrl } from "./browser-open-policy";
 import { trackActivationDisposable } from "./plugin-activation-disposables";
+import { toHostEvaluationScope } from "./plugin-evaluation-scope";
 import {
 	pluginHostBridge,
 	registerPluginMediaProviderHandler,
@@ -261,36 +263,27 @@ export function createEvaluationApi(plugin: InstalledPlugin, disposers: Array<()
 	return {
 		run: (request) => {
 			permissions.require("evaluation:run");
-			const scope =
-				request.scope?.kind === "project" && request.scope.projectKey
-					? { kind: "project" as const, projectKey: request.scope.projectKey }
-					: { kind: "global" as const };
-			return window.vetta.evaluation.run(scope, request.definitionId, request.trigger ?? { kind: "manual" });
+			return window.vetta.evaluation.run(
+				toHostEvaluationScope(request.scope),
+				request.definitionId,
+				request.trigger ?? { kind: "manual" },
+			);
+		},
+		upsertDefinition: (request) => {
+			permissions.require("evaluation:write");
+			return window.vetta.evaluation.upsertDefinition(toHostEvaluationScope(request.scope), request.definition);
 		},
 		listDefinitions: (scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.listDefinitions(
-				scope?.kind === "project" && scope.projectKey
-					? { kind: "project", projectKey: scope.projectKey }
-					: { kind: "global" },
-			);
+			return window.vetta.evaluation.listDefinitions(toHostEvaluationScope(scope));
 		},
 		listAttempts: (scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.listAttempts(
-				scope?.kind === "project" && scope.projectKey
-					? { kind: "project", projectKey: scope.projectKey }
-					: { kind: "global" },
-			);
+			return window.vetta.evaluation.listAttempts(toHostEvaluationScope(scope));
 		},
 		get: (attemptId, scope) => {
 			permissions.require("evaluation:read");
-			return window.vetta.evaluation.get(
-				scope?.kind === "project" && scope.projectKey
-					? { kind: "project", projectKey: scope.projectKey }
-					: { kind: "global" },
-				attemptId,
-			);
+			return window.vetta.evaluation.get(toHostEvaluationScope(scope), attemptId);
 		},
 		registerEvidenceProvider: (provider) => {
 			permissions.require("evaluation:run");
@@ -533,6 +526,19 @@ export function createGatewayApi(capabilitySessionId: string): PluginGatewayApi 
 function toJsonValue(value: unknown): unknown {
 	if (value === undefined) return null;
 	return JSON.parse(JSON.stringify(value));
+}
+
+export function createProjectApi(plugin: InstalledPlugin): PluginProjectApi {
+	const permissions = createPermissionApi(plugin);
+	return {
+		resolve: (cwd) => {
+			permissions.require("workspace.read");
+			if (typeof cwd !== "string" || cwd.trim().length === 0) {
+				throw new Error("cwd is required");
+			}
+			return window.vetta.project.resolve(cwd);
+		},
+	};
 }
 
 export function createCheckpointsApi(plugin: InstalledPlugin): PluginCheckpointsApi {

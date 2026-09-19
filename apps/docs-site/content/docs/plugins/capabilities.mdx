@@ -30,6 +30,8 @@ description: 按目标查找 ctx 上的界面、对话、Agent、文件、网络
 | 维护自有模型服务商 | `ctx.models.replaceOwnedProviders`、`listOwnedProviders` | `models.manage` | 写入是原子快照，省略即删除；先读回对账，读到的 apiKey 是掩码 |
 | 生成与注册媒体能力 | `ctx.media.submit`、`registerProvider` | `media.generate` / `media.provider.register` | 长任务通过 `ctx.jobs` 观察进度与取消 |
 | 读取或运行评估 | `ctx.evaluation.run`、`listAttempts`、`registerEvidenceProvider` | `evaluation:run` / `evaluation:read` | Attempt 不可变；模型自述只能进 Finding.note |
+| 写入评估标准 | `ctx.evaluation.upsertDefinition` | `evaluation:write` | 不改写 Attempt；需要 Plugin API `^2.8.0` |
+| 解析项目能力键 | `ctx.project.resolve` | `workspace.read` | 插件不得自己 hash cwd；需要 Plugin API `^2.8.0` |
 | 识别与注册 OCR 能力 | `ctx.ocr.recognize`、`registerProvider` | `ai.ocr.recognize` / `ai.ocr.provider.register` | 消费与提供是两个独立权限 |
 | 管理 CLI 与本地服务 | `ctx.cliProviders.*`、`ctx.services.*` | 由清单 `providers` 声明 | 宿主负责探测、安装、启停与健康检查 |
 | 注册可发现动作 | `ctx.appActions.register` | `app.actions.register` + `app.actionHandler.execute` | 高影响文件和网络操作仍需确认 |

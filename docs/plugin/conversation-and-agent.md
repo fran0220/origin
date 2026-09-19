@@ -536,6 +536,20 @@ const response = await ctx.network.request<{ data: unknown[] }>({
 
 `body.type` 也可取 `"multipart"`，通过 `fields` 和 base64 `files` 组装表单。API 返回 `{ ok, status, statusText, headers, body }`，非 2xx 不自动抛错；JSON 错误响应若不是合法 JSON，会以文本返回。响应按流读取，超过上限会立即中止。
 
+## 项目身份 project.resolve
+
+`ctx.project.resolve(cwd)` 向宿主查询一个已绑定工作区的 per-capability 项目键（权限 `workspace.read`，Plugin API `^2.8.0`）。插件不得自己 hash cwd。相对路径或空路径会被宿主拒绝。
+
+```ts
+const identity = await ctx.project.resolve(cwd);
+// identity.evaluationScope → ctx.evaluation.run / upsertDefinition / list*
+// identity.checkpointProjectKey → ctx.checkpoints.list / get / requestRevert
+// identity.recordingProjectKey → ctx.recording.start / list
+```
+
+- Home / 对话默认目录返回 `evaluationScope: { kind: "global" }`，checkpoint 与 recording 键为 `"home"`。
+- 不要把 Evaluation 的 `scopeKey`（`global` / `project:<key>`）当作存储键传给其它能力。
+
 ## 检查点 API
 
 `ctx.checkpoints` 只读时间线，并可显式请求文件回退。对话回退不在这个 API 里。

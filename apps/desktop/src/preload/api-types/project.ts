@@ -28,6 +28,13 @@ export interface ProjectImportSuccess {
 	missingSources?: string[];
 }
 
+export interface DesktopProjectIdentity {
+	readonly cwd: string;
+	readonly evaluationScope: { readonly kind: "global" } | { readonly kind: "project"; readonly projectKey: string };
+	readonly checkpointProjectKey: string;
+	readonly recordingProjectKey: string;
+}
+
 export interface DesktopProjectApi {
 	/** Export a project to a zip via native save dialog. */
 	export(projectDir: string): Promise<ProjectExportSuccess | ProjectExportError>;
@@ -35,4 +42,6 @@ export interface DesktopProjectApi {
 	import(): Promise<ProjectImportSuccess | ProjectExportError | null>;
 	/** Read a project's `.vetta/meta.json` (used to detect project type). `null` if absent. */
 	readMeta(projectDir: string): Promise<Record<string, unknown> | null>;
+	/** Resolve host-owned per-capability keys for a bound workspace cwd. */
+	resolve(cwd: string): Promise<DesktopProjectIdentity>;
 }

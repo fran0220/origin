@@ -61,6 +61,7 @@ export const PLUGIN_PERMISSION_LABEL_KEYS = {
 	"media.provider.register": "permission.mediaProviderRegister",
 	"evaluation:run": "permission.evaluationRun",
 	"evaluation:read": "permission.evaluationRead",
+	"evaluation:write": "permission.evaluationWrite",
 	"ai.ocr.recognize": "permission.ocrRecognize",
 	"ai.ocr.provider.register": "permission.ocrProviderRegister",
 	"secrets.read": "permission.secretsRead",
@@ -477,6 +478,12 @@ export const PLUGIN_PERMISSION_PRESENTATIONS = {
 		descriptionKey: "permission.description.evaluationRead",
 		group: "intelligence",
 		risk: "low",
+		visual: "intelligence",
+	},
+	"evaluation:write": {
+		descriptionKey: "permission.description.evaluationWrite",
+		group: "intelligence",
+		risk: "medium",
 		visual: "intelligence",
 	},
 	"ai.ocr.recognize": {

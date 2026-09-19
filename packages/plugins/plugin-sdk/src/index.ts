@@ -355,8 +355,10 @@ export type {
 } from "./ocr.js";
 export type {
 	PluginEvaluationApi,
+	PluginEvaluationAssertionVerifier,
 	PluginEvaluationAttempt,
 	PluginEvaluationAttemptView,
+	PluginEvaluationCommandVerifier,
 	PluginEvaluationDefinition,
 	PluginEvaluationEvidence,
 	PluginEvaluationEvidenceCapture,
@@ -368,7 +370,16 @@ export type {
 	PluginEvaluationScope,
 	PluginEvaluationTrigger,
 	PluginEvaluationTriggerKind,
+	PluginEvaluationUpsertCriterion,
+	PluginEvaluationUpsertDefinition,
+	PluginEvaluationUpsertRequest,
+	PluginEvaluationVerifier,
 } from "./evaluation.js";
+export type {
+	PluginProjectApi,
+	PluginProjectEvaluationScope,
+	PluginProjectIdentity,
+} from "./project.js";
 export { PluginMediaError } from "./media.js";
 export type {
 	PluginPromptAttachment,

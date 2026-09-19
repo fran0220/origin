@@ -331,6 +331,7 @@ export function createSystemApi(
 			export: (projectDir) => ipc.invoke("vetta:project:export", projectDir),
 			import: () => ipc.invoke("vetta:project:import"),
 			readMeta: (projectDir) => ipc.invoke("vetta:project:read-meta", projectDir),
+			resolve: (cwd) => ipc.invoke("vetta:project:resolve", cwd),
 		},
 		permissions: {
 			checkAll: () => ipc.invoke("vetta:permissions:check-all"),

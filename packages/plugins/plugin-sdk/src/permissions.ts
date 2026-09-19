@@ -55,6 +55,7 @@ export const PLUGIN_PERMISSIONS = [
 	"media.provider.register",
 	"evaluation:run",
 	"evaluation:read",
+	"evaluation:write",
 	"ai.ocr.recognize",
 	"ai.ocr.provider.register",
 	"settings.read",

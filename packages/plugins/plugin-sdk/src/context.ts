@@ -22,6 +22,7 @@ import type { PluginModelsApi } from "./models.js";
 import type { PluginNetworkApi } from "./network.js";
 import type { PluginOfficialApi } from "./official.js";
 import type { PluginPermission } from "./permissions.js";
+import type { PluginProjectApi } from "./project.js";
 import type { PluginSecretsApi } from "./secrets.js";
 import type { PluginServiceApi } from "./service-provider.js";
 import type { PluginStorageApi } from "./storage.js";
@@ -66,6 +67,11 @@ export interface PluginContext {
 	models: PluginModelsApi;
 	media: PluginMediaApi;
 	evaluation: PluginEvaluationApi;
+	/**
+	 * Host-resolved per-capability project keys for a bound workspace cwd
+	 * (`workspace.read`). Requires Plugin API `^2.8.0`.
+	 */
+	project: PluginProjectApi;
 	ocr: OcrClient;
 	jobs: PluginJobsApi;
 	artifacts: PluginArtifactsApi;

@@ -64,6 +64,13 @@ const BUNDLE_CAPABILITY_RULES: readonly BundleCapabilityRule[] = [
 			/(?:\.|\[\s*["'])evaluation(?:["']\s*\])?(?:\.(?:listDefinitions|listAttempts|get)|\[\s*["'](?:listDefinitions|listAttempts|get)["']\s*\])\s*\(/u,
 		],
 	},
+	{
+		capability: "Evaluation write",
+		permissions: ["evaluation:write"],
+		patterns: [
+			/(?:\.|\[\s*["'])evaluation(?:["']\s*\])?(?:\.upsertDefinition|\[\s*["']upsertDefinition["']\s*\])\s*\(/u,
+		],
+	},
 ];
 
 function missingPermissions(

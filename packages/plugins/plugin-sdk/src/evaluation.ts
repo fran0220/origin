@@ -72,6 +72,22 @@ export interface PluginEvaluationEvidenceProvider {
 	capture(scopeKey: string, trigger: PluginEvaluationTrigger): Promise<PluginEvaluationEvidenceCapture>;
 }
 
+export interface PluginEvaluationCommandVerifier {
+	readonly kind: "command";
+	readonly command: string;
+	readonly args?: readonly string[];
+	readonly cwd?: string;
+	readonly timeoutMs?: number;
+}
+
+export interface PluginEvaluationAssertionVerifier {
+	readonly kind: "assertion";
+	readonly source: "recording-telemetry";
+	readonly expression: string;
+}
+
+export type PluginEvaluationVerifier = PluginEvaluationCommandVerifier | PluginEvaluationAssertionVerifier;
+
 export interface PluginEvaluationDefinition {
 	readonly id: string;
 	readonly revision: number;
@@ -84,14 +100,38 @@ export interface PluginEvaluationDefinition {
 	readonly updatedAt: string;
 }
 
+export interface PluginEvaluationUpsertCriterion {
+	readonly id?: string;
+	readonly title: string;
+	readonly required: boolean;
+	readonly verifier?: PluginEvaluationVerifier;
+}
+
+export interface PluginEvaluationUpsertDefinition {
+	readonly id?: string;
+	readonly title: string;
+	readonly criteria: readonly PluginEvaluationUpsertCriterion[];
+}
+
+export interface PluginEvaluationUpsertRequest {
+	readonly definition: PluginEvaluationUpsertDefinition;
+	readonly scope?: PluginEvaluationScope;
+}
+
 export interface PluginEvaluationAttemptView {
 	readonly attempt: PluginEvaluationAttempt;
 	readonly definition: PluginEvaluationDefinition;
 	readonly evidence: readonly PluginEvaluationEvidence[];
 }
 
+/**
+ * Host evaluation ledger. `run` / evidence providers require `evaluation:run`.
+ * Reads require `evaluation:read`. `upsertDefinition` requires `evaluation:write`
+ * and Plugin API `^2.8.0`.
+ */
 export interface PluginEvaluationApi {
 	run(request: PluginEvaluationRunRequest): Promise<PluginEvaluationAttempt>;
+	upsertDefinition(request: PluginEvaluationUpsertRequest): Promise<PluginEvaluationDefinition>;
 	listDefinitions(scope?: PluginEvaluationScope): Promise<readonly PluginEvaluationDefinition[]>;
 	listAttempts(scope?: PluginEvaluationScope): Promise<readonly PluginEvaluationAttempt[]>;
 	get(attemptId: string, scope?: PluginEvaluationScope): Promise<PluginEvaluationAttemptView>;

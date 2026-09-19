@@ -48,7 +48,7 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 | `ui.file-explorer.decorations` | `ctx.fileExplorer.registerDecorationProvider()` | [file-explorer](./file-explorer.md#文件装饰) |
 | `ui.file-explorer.context-menu` | `ctx.fileExplorer.registerContextMenuAction()` | [file-explorer](./file-explorer.md#右键菜单) |
 | `ui.file-explorer.toolbar` | `ctx.fileExplorer.registerToolbarAction()` | [file-explorer](./file-explorer.md#工具栏动作) |
-| `workspace.read` | 文件列表查询、定位、刷新与事件 | [file-explorer](./file-explorer.md#工作区选择与定位) |
+| `workspace.read` | 文件列表查询、定位、刷新与事件；`ctx.project.resolve` | [file-explorer](./file-explorer.md#工作区选择与定位) / [conversation-and-agent](./conversation-and-agent.md#项目身份-projectresolve) |
 | `agent.session.read` | `ctx.conversation.on()` + 对话 hook | [conversation-and-agent](./conversation-and-agent.md#对话读状态) |
 | `agent.session.write` | `sendPrompt` / `insertText` / `abort` | [conversation-and-agent](./conversation-and-agent.md#对话驾驶) |
 | `agent.command.run` | `ctx.command.run` + 清单 `commands` | [conversation-and-agent](./conversation-and-agent.md#命令执行-command) |
@@ -86,6 +86,7 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 | `media.provider.register` | `ctx.media.registerProvider`（注册媒体 Provider） | [media](./media.md#注册-provider) |
 | `evaluation:run` | `ctx.evaluation.run` / `registerEvidenceProvider` | [evaluation](./evaluation.md) |
 | `evaluation:read` | `ctx.evaluation.listDefinitions` / `listAttempts` / `get` | [evaluation](./evaluation.md) |
+| `evaluation:write` | `ctx.evaluation.upsertDefinition` | [evaluation](./evaluation.md) |
 | `ai.models.list` | `ctx.ai.listModels()` | [ai](./ai.md) |
 | `ai.complete` | `ctx.ai.complete()` / `ctx.ai.stream()` / `ctx.ai.chat()` | [ai](./ai.md) |
 | `models.manage` | `ctx.models.replaceOwnedProviders()` / `listOwnedProviders()` | [下方](#尚无专章的能力) |
