@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_CONVERSATION_CWD } from "../config/desktop-config-store.js";
 import {
+	checkpointCwdForProjectKey,
 	checkpointProjectKeyForCwd,
 	decodeProjectKey,
 	encodeProjectKey,
@@ -14,5 +15,30 @@ describe("checkpoint project keys", () => {
 		const key = checkpointProjectKeyForCwd("/tmp/demo", [{ path: "/tmp/demo" }]);
 		expect(key).toBe(encodeProjectKey("/tmp/demo"));
 		expect(decodeProjectKey(key)).toBe("/tmp/demo");
+	});
+
+	it("aligns Windows casing and separators to the registered project path", () => {
+		const registered = "C:\\Projects\\Game";
+		expect(checkpointProjectKeyForCwd("c:/projects/game/", [{ path: registered }])).toBe(
+			encodeProjectKey(registered),
+		);
+	});
+
+	it("rejects arbitrary strings that Node would still Buffer-decode", () => {
+		expect(decodeProjectKey("not-a-path")).toBeUndefined();
+		expect(decodeProjectKey("@@@@")).toBeUndefined();
+		expect(decodeProjectKey("abc")).toBeUndefined();
+		expect(decodeProjectKey(encodeProjectKey("relative/path"))).toBeUndefined();
+		expect(decodeProjectKey(HOME_CHECKPOINT_PROJECT_KEY)).toBeUndefined();
+	});
+
+	it("refuses to restore an unreadable key into Home", () => {
+		expect(checkpointCwdForProjectKey(HOME_CHECKPOINT_PROJECT_KEY, "/tmp/home")).toBe("/tmp/home");
+		expect(() => checkpointCwdForProjectKey("not-a-path", "/tmp/home")).toThrow(
+			"Cannot restore checkpoints for unreadable project key",
+		);
+		expect(() => checkpointCwdForProjectKey(encodeProjectKey("relative"), "/tmp/home")).toThrow(
+			"Cannot restore checkpoints for unreadable project key",
+		);
 	});
 });

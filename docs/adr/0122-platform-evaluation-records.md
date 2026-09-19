@@ -28,3 +28,11 @@ Game Studio 与其它产品面需要一套「工作是否达标」的产品记�
 ## 后果
 
 Desktop 侧栏出现评估页；Agent 与插件可以触发同一套账本。Checkpoint / Recording 未落地时，对应证据为空，命令型 verifier 仍可产出 execution-receipt。新增权限要求插件声明 `pluginApiVersion ^2.6.0`。若本机已有未分区的 `<agentDir>/evaluation`，首次打开会迁入当前账号分区，不丢数据。
+
+## 后续落实：真实平台证据与账号固定目录
+
+Checkpoint / Recording 已落地后，Desktop 的 `platform-evidence.ts` 替换三个空查询，读取真实文件账本。项目身份由宿主解析，兼容各能力的历史存储键；Home 与未知项目不能互相回退。Turn / Checkpoint 触发按轮次筛选收据，并仅在同会话时间区间可证明时引用录像；手动或里程碑触发捕获同项目已完成、未过期的录像，不预先挑最新一条。手动引用精确命中录像 ID 时选择该条，否则由 verifier 对唯一录像求值，多条录像保持 inconclusive。
+
+检查点和录像不是天然不可变的证据：检查点会经历验证或回退，录像遥测文件也可能变化。因此证据 ID 加入内容 digest，历史 Attempt 引用的摘要不会被同 ID 的后续状态覆盖；录像 verifier 必须核对读取内容与捕获时 digest 相同，不接受悄悄更新证据。
+
+EvaluationService 以创建时的账号目录固定全部账本与证据根目录，不再每次文件写入时重新解析登录态。宿主收到新账号的评估调用时取消旧实例，Agent 长期持有的 operations 在每次调用入口解析当前实例；已在途的运行仍只写回原账号。这样既不让新调用滞留旧账号，也不让一次运行跨账号落盘。

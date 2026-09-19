@@ -1,11 +1,15 @@
 export { FileCheckpointStore, type FileCheckpointStoreOptions } from "./jsonl-store.js";
 export {
+	CheckpointProjectKeyCollisionError,
 	checkpointMainlinePath,
 	checkpointPolicyPath,
 	checkpointProjectDir,
 	checkpointReceiptsPath,
 	checkpointShadowGitDir,
+	longCheckpointProjectDirName,
+	resolveCheckpointProjectDirName,
 	sanitizeProjectKey,
+	truncatedLegacyProjectKey,
 } from "./layout.js";
 export {
 	createExecutionId,
