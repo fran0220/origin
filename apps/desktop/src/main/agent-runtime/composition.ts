@@ -6,6 +6,7 @@ import {
 	CODING_AGENT_SESSION_ASSISTANCE_OBSERVATION,
 	CODING_AGENT_SESSION_INITIALIZATION_OBSERVATION,
 	CODING_AGENT_SUBAGENT_ISSUE_OBSERVATION,
+	createCodingAgentCheckpointSessionExtension,
 	createCodingAgentMemoryRolloverRuntime,
 	publishCodingAgentExecutionRuntimeDefinition,
 } from "@vetta/coding-agent/composition";
@@ -51,6 +52,7 @@ import {
 } from "@vetta/runtime-node/host";
 import { getModePrompt } from "../agent-modes/index.js";
 import { createDesktopAgentObservability } from "../agent-observability/composition.js";
+import { getDesktopCheckpointService } from "../checkpoints/checkpoint-service.js";
 import {
 	DEFAULT_CONVERSATION_CWD,
 	DEFAULT_IM_CONVERSATION_SESSION_DIR,
@@ -153,6 +155,18 @@ export function createDesktopRuntimeComposition(): DesktopRuntimeComposition {
 				// 槽位，正文由这里按会话固化的 agentMode 解析注入。
 				resolveModePrompt: getModePrompt,
 				sessionExtensionFunctions,
+				createSessionExtensionDefinitions: (sessionOptions) => [
+					createCodingAgentCheckpointSessionExtension({
+						engine: getDesktopCheckpointService().engine(),
+						resolveContext: async ({ cwd }) => {
+							const service = getDesktopCheckpointService();
+							const resolvedCwd = cwd ?? sessionOptions.cwd ?? DEFAULT_CONVERSATION_CWD;
+							const projectKey = await service.resolveProjectKey(resolvedCwd);
+							const policy = await service.readPolicy(projectKey);
+							return { projectKey, cwd: resolvedCwd, policy };
+						},
+					}),
+				],
 				knowledgeRuntime:
 					process.env.VETTA_KNOWLEDGE_DISABLED === "1"
 						? undefined

@@ -1,0 +1,37 @@
+{
+	"page": {
+		"title": "Timeline",
+		"subtitle": "Each completed turn leaves a restorable checkpoint"
+	},
+	"empty": {
+		"title": "No checkpoints yet",
+		"desc": "After a turn finishes, its checkpoint will appear here."
+	},
+	"phase": {
+		"verifying": "Verifying",
+		"reverting": "Reverting",
+		"settled": "Settled",
+		"failed": "Failed"
+	},
+	"decision": {
+		"kept": "Kept",
+		"reverted": "Reverted"
+	},
+	"actions": {
+		"revert": "Revert files",
+		"rerun": "Rerun verification",
+		"conversationRevertHint": "Conversation rewind is a separate action and does not change files."
+	},
+	"detail": {
+		"intent": "Intent",
+		"commit": "Commit",
+		"files": "Files",
+		"verification": "Verification",
+		"error": "Error",
+		"noVerification": "No verification commands; the checkpoint is kept after landing."
+	},
+	"confirm": {
+		"revertTitle": "Revert this checkpoint?",
+		"revertBody": "Files will be restored to the previous snapshot and a new commit will be added. History is never rewritten."
+	}
+}

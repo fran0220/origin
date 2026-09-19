@@ -20,4 +20,6 @@ it("exposes the Desktop bridge without Agent configuration or diagnostic APIs", 
 	expect(api).not.toHaveProperty("agentTraces");
 	expect(api.session.create).toBeTypeOf("function");
 	expect(api.session.prompt).toBeTypeOf("function");
+	expect(api.checkpoints.list).toBeTypeOf("function");
+	expect(api.checkpoints.revert).toBeTypeOf("function");
 });

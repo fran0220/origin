@@ -45,6 +45,7 @@ import { SystemPluginCatalog } from "./plugin-system-catalog.js";
  * - 2.4.0：Media Provider v5 的模型目录与受控输入读取。
  * - 2.5.0：构建期绑定插件身份的持久化 logger。
  * - 2.6.0：Evaluation 权限与 `ctx.evaluation`（`evaluation:run` / `evaluation:read`）。
+ * - 2.6.0：`ctx.checkpoints` 与 `checkpoints:read` / `checkpoints:revert` 权限。
  *
  * 清单校验对未知字段 fail-closed，所以用到这些字段的插件装到旧宿主上会整个解析失败，而不是
  * 少一项贡献。作者把 `pluginApiVersion` 写成用到的那一档，旧宿主才会给出「版本不支持」这种

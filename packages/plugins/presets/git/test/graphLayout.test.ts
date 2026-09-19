@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeGraphLayout } from "../src/git/graphLayout";
+import { computeGraphLayout } from "@vetta-org/ui/git-graph";
 import type { CommitNode } from "../src/git/types";
 
 function node(hash: string, parents: string[]): CommitNode {

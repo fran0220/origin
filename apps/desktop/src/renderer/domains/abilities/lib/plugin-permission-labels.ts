@@ -64,6 +64,8 @@ export const PLUGIN_PERMISSION_LABEL_KEYS = {
 	"ai.ocr.provider.register": "permission.ocrProviderRegister",
 	"secrets.read": "permission.secretsRead",
 	"secrets.write": "permission.secretsWrite",
+	"checkpoints:read": "permission.checkpointsRead",
+	"checkpoints:revert": "permission.checkpointsRevert",
 	"settings.read": "permission.settingsRead",
 	"settings.write": "permission.settingsWrite",
 	"shell.openExternal": "permission.shellOpenExternal",
@@ -481,6 +483,18 @@ export const PLUGIN_PERMISSION_PRESENTATIONS = {
 		group: "intelligence",
 		risk: "high",
 		visual: "intelligence",
+	},
+	"checkpoints:read": {
+		descriptionKey: "permission.description.checkpointsRead",
+		group: "projectData",
+		risk: "low",
+		visual: "data",
+	},
+	"checkpoints:revert": {
+		descriptionKey: "permission.description.checkpointsRevert",
+		group: "projectData",
+		risk: "high",
+		visual: "data",
 	},
 } as const satisfies Record<PluginPermission, PluginPermissionPresentation>;
 

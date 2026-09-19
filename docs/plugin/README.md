@@ -83,6 +83,8 @@
 | 宿主代理网络请求 | `ctx.network.request` | `network.fetch` | [conversation-and-agent](./conversation-and-agent.md#网络-api) |
 | 宿主管理的浏览器自动化 | `ctx.browser.*` | `browser.*` | [browser](./browser.md) |
 | 插件私有持久化 | `ctx.storage.*` | `storage.read` / `storage.write` | [conversation-and-agent](./conversation-and-agent.md#插件私有存储-api) |
+| 检查点时间线 | `ctx.checkpoints.list/get` | `checkpoints:read` | [conversation-and-agent](./conversation-and-agent.md#检查点-api) |
+| 请求文件回退 | `ctx.checkpoints.requestRevert` | `checkpoints:revert` | 同上 |
 | 调用用户 AI 模型（单轮/多轮+插件内部工具） | `ctx.ai.listModels/complete/chat` | `ai.models.list` / `ai.complete` | [ai](./ai.md) |
 | 读写自身密钥 | `ctx.secrets.*` | `secrets.read` / `secrets.write` | [conversation-and-agent](./conversation-and-agent.md#密钥-api) |
 | 插件 i18n | `ctx.i18n` / `useTranslation` + `locales/` | 无（catalog 随包） | [conversation-and-agent](./conversation-and-agent.md#插件-i18n) / [manifest](./manifest.md#i18n) |

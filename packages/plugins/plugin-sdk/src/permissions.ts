@@ -61,6 +61,8 @@ export const PLUGIN_PERMISSIONS = [
 	"secrets.read",
 	"secrets.write",
 	"shell.openExternal",
+	"checkpoints:read",
+	"checkpoints:revert",
 ] as const;
 
 export type PluginPermission = (typeof PLUGIN_PERMISSIONS)[number];

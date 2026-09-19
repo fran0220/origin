@@ -9,6 +9,7 @@ const NON_CHAT_PREFIXES = [
 	"/automation",
 	"/batch-tasks",
 	"/evaluation",
+	"/timeline",
 	"/knowledge",
 	"/new-session",
 	"/plugins",

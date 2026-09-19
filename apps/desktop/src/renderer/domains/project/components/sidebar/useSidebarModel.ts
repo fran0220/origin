@@ -89,6 +89,12 @@ const BUILTIN_NAV_ITEMS = [
 	},
 	{
 		type: "route",
+		path: "/timeline" as const,
+		labelKey: "sidebar.nav.timeline",
+		icon: "icon-[solar--history-linear]",
+	},
+	{
+		type: "route",
 		path: "/scenes" as const,
 		labelKey: "sidebar.nav.scenes",
 		icon: "icon-[solar--clapperboard-open-linear]",

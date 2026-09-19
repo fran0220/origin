@@ -41,6 +41,12 @@ export const loadEvaluationPage = memoizeLoader(() =>
 	})),
 );
 
+export const loadTimelinePage = memoizeLoader(() =>
+	import("../domains/timeline/components/TimelinePage").then((module) => ({
+		default: module.TimelinePage,
+	})),
+);
+
 export const loadKnowledgePage = memoizeLoader(() =>
 	import("../domains/knowledge-base/components/KnowledgeBasePage").then((module) => ({
 		default: module.KnowledgeBasePage,

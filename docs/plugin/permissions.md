@@ -24,7 +24,7 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 
 不同注册点对「声明了但未授权」的处理不同：
 
-- **抛错（require）**：`registerInputAction`、`registerCardRenderer`、`registerToolCallSlot`、`registerTurnCard`、`registerShortcutScope`、`openActivityTab`、`setActivityTabVisible`、`setPromptAttachment`、`fileExplorer.*`、`agent.registerContinuationProvider`、`agent.registerSystemPromptProvider`、`conversation.*`、`fs.*`、`network.*`、`storage.*`、`media.*`、`ai.*`、`command.run`。缺权限直接抛 `Plugin permission denied: <permission>`，中断该次调用。
+- **抛错（require）**：`registerInputAction`、`registerCardRenderer`、`registerToolCallSlot`、`registerTurnCard`、`registerShortcutScope`、`openActivityTab`、`setActivityTabVisible`、`setPromptAttachment`、`fileExplorer.*`、`agent.registerContinuationProvider`、`agent.registerSystemPromptProvider`、`conversation.*`、`fs.*`、`network.*`、`storage.*`、`checkpoints.*`、`media.*`、`ai.*`、`command.run`。缺权限直接抛 `Plugin permission denied: <permission>`，中断该次调用。
 - **跳过 + 警告（warn+noop）**：`registerGlobalSlot`、`registerFilePreview`、`registerActivityTab`、`registerNewSessionContext`、`agent.registerTool`、`agent.registerHook`、`appActions.register`。缺权限时静默跳过该贡献并打 `console.warn`，**不影响**插件其它已授权能力。
 
 > 设计上一个缺失权限不应拖垮插件的其它能力——`activate()` 里建议把可选能力的注册各自独立，避免一处 throw 掉整段。
@@ -76,6 +76,8 @@ ctx.permissions.require("fs.read");  // 缺则抛 Plugin permission denied: fs.r
 | `browser.attach` | 附着用户自行开启调试的 Chrome | [browser](./browser.md) |
 | `browser.runtime.manage` | 安装/修复浏览器运行时 | [browser](./browser.md) |
 | `storage.read` | `ctx.storage.list/readFile/readSnapshot/readBlob/getBlobRef` | [conversation-and-agent](./conversation-and-agent.md#插件私有存储-api) |
+| `checkpoints:read` | `ctx.checkpoints.list/get` | [conversation-and-agent](./conversation-and-agent.md#检查点-api) |
+| `checkpoints:revert` | `ctx.checkpoints.requestRevert` | 同上 |
 | `storage.write` | `ctx.storage.writeFile/commit/putBlob/putBlobFromFile` | 同上 |
 | `secrets.read` | `ctx.secrets.get/has/keys` | [conversation-and-agent](./conversation-and-agent.md#密钥-api) |
 | `secrets.write` | `ctx.secrets.set/delete` | 同上 |

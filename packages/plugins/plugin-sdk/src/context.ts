@@ -4,6 +4,7 @@ import type { PluginAppActionsApi } from "./app-actions.js";
 import type { PluginArtifactsApi } from "./artifacts.js";
 import type { PluginBrowserApi } from "./browser.js";
 import type { PluginCaptureApi } from "./capture.js";
+import type { PluginCheckpointsApi } from "./checkpoints.js";
 import type { PluginCommandApi } from "./command.js";
 import type { PluginCliProviderApi } from "./cli-provider.js";
 import type { PluginConversationApi } from "./conversation.js";
@@ -78,6 +79,8 @@ export interface PluginContext {
 	 */
 	gateway?: PluginGatewayApi;
 	storage: PluginStorageApi;
+	/** Read-only checkpoint timeline plus an explicit revert request. */
+	checkpoints: PluginCheckpointsApi;
 	/** Encrypted per-plugin secret storage (`secrets.read` / `secrets.write`). */
 	secrets: PluginSecretsApi;
 	i18n: PluginI18nApi;

@@ -8,6 +8,7 @@ import { createAppLifecycleApi } from "./apis/app-lifecycle.js";
 import { createAppMonitorApi } from "./apis/app-monitor.js";
 import { createAppshotApi } from "./apis/appshot.js";
 import { createBatchTasksApi } from "./apis/batch-tasks.js";
+import { createCheckpointsApi } from "./apis/checkpoints.js";
 import { createConversationTagsApi } from "./apis/conversation-tags.js";
 import { createDownloadsApi } from "./apis/downloads.js";
 import { createEvaluationApi } from "./apis/evaluation.js";
@@ -47,6 +48,7 @@ const rawApi: Omit<DesktopApi, "hostAccess"> = {
 	...createDownloadsApi(ipcRenderer),
 	...createBatchTasksApi(ipcRenderer),
 	...createEvaluationApi(ipcRenderer),
+	...createCheckpointsApi(ipcRenderer),
 	...createSchedulerApi(ipcRenderer),
 	...createWebhookApi(ipcRenderer),
 	...createNotificationApi(ipcRenderer),

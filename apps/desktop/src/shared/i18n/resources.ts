@@ -15,6 +15,7 @@ import enPet from "./locales/en/pet.json";
 import enProject from "./locales/en/project.json";
 import enSettings from "./locales/en/settings.json";
 import enSkills from "./locales/en/skills.json";
+import enTimeline from "./locales/en/timeline.json";
 import zhAbilities from "./locales/zh/abilities.json";
 import zhAgentTeams from "./locales/zh/agent-teams.json";
 import zhAutomation from "./locales/zh/automation.json";
@@ -28,6 +29,7 @@ import zhPet from "./locales/zh/pet.json";
 import zhProject from "./locales/zh/project.json";
 import zhSettings from "./locales/zh/settings.json";
 import zhSkills from "./locales/zh/skills.json";
+import zhTimeline from "./locales/zh/timeline.json";
 
 export const resources = {
 	zh: {
@@ -42,6 +44,7 @@ export const resources = {
 		abilities: zhAbilities,
 		"batch-tasks": zhBatchTasks,
 		evaluation: zhEvaluation,
+		timeline: zhTimeline,
 		automation: zhAutomation,
 		"agent-teams": zhAgentTeams,
 	},
@@ -57,6 +60,7 @@ export const resources = {
 		abilities: enAbilities,
 		"batch-tasks": enBatchTasks,
 		evaluation: enEvaluation,
+		timeline: enTimeline,
 		automation: enAutomation,
 		"agent-teams": enAgentTeams,
 	},

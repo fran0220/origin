@@ -40,6 +40,21 @@ export {
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "./dropdown-menu";
+export {
+	computeGraphLayout,
+	GitGraphCanvas,
+	type GitGraphCanvasProps,
+	type GitGraphRowRenderContext,
+	type GraphCommit,
+	type GraphCommitNode,
+	type GraphCurveKind,
+	type GraphFeedbackEdge,
+	type GraphHostMode,
+	type GraphLayout,
+	type GraphLine,
+	type GraphSegment,
+	useHostMode,
+} from "./git-graph";
 export { Input } from "./input";
 export {
 	Popover,

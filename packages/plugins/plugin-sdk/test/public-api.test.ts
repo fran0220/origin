@@ -18,6 +18,8 @@ describe("plugin-sdk public API", () => {
 		expect(PLUGIN_PERMISSIONS).toContain("shell.openExternal");
 		expect(PLUGIN_PERMISSIONS).toContain("evaluation:run");
 		expect(PLUGIN_PERMISSIONS).toContain("evaluation:read");
+		expect(PLUGIN_PERMISSIONS).toContain("checkpoints:read");
+		expect(PLUGIN_PERMISSIONS).toContain("checkpoints:revert");
 	});
 
 	it("exposes browser as a required facade with a display-only open method", () => {

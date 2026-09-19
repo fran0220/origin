@@ -1,0 +1,37 @@
+{
+	"page": {
+		"title": "时间线",
+		"subtitle": "每个 Turn 完成后自动留下可回退的检查点"
+	},
+	"empty": {
+		"title": "还没有检查点",
+		"desc": "完成一轮对话后，这里会自动出现对应的检查点。"
+	},
+	"phase": {
+		"verifying": "验证中",
+		"reverting": "回退中",
+		"settled": "已落地",
+		"failed": "失败"
+	},
+	"decision": {
+		"kept": "保留",
+		"reverted": "已回退"
+	},
+	"actions": {
+		"revert": "回退文件",
+		"rerun": "重新验证",
+		"conversationRevertHint": "对话回退请在会话里单独操作，不会改文件。"
+	},
+	"detail": {
+		"intent": "意图",
+		"commit": "提交",
+		"files": "文件",
+		"verification": "验证",
+		"error": "错误",
+		"noVerification": "未配置验证命令，落地后直接保留。"
+	},
+	"confirm": {
+		"revertTitle": "回退这个检查点？",
+		"revertBody": "会恢复该检查点之前的文件，并追加一次新提交，不会改写历史。"
+	}
+}

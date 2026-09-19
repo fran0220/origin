@@ -7,6 +7,7 @@ import type {
 	PluginArtifactsApi,
 	PluginBrowserApi,
 	PluginCaptureApi,
+	PluginCheckpointsApi,
 	PluginCommandApi,
 	PluginCommandSpawnExit,
 	PluginCommandSpawnHandle,
@@ -531,6 +532,24 @@ export function createGatewayApi(capabilitySessionId: string): PluginGatewayApi 
 function toJsonValue(value: unknown): unknown {
 	if (value === undefined) return null;
 	return JSON.parse(JSON.stringify(value));
+}
+
+export function createCheckpointsApi(plugin: InstalledPlugin): PluginCheckpointsApi {
+	const permissions = createPermissionApi(plugin);
+	return {
+		list: (projectKey) => {
+			permissions.require("checkpoints:read");
+			return window.vetta.checkpoints.list(projectKey);
+		},
+		get: (projectKey, checkpointId) => {
+			permissions.require("checkpoints:read");
+			return window.vetta.checkpoints.get(projectKey, checkpointId);
+		},
+		requestRevert: (projectKey, checkpointId) => {
+			permissions.require("checkpoints:revert");
+			return window.vetta.checkpoints.revert(projectKey, checkpointId);
+		},
+	};
 }
 
 export function createStorageApi(plugin: InstalledPlugin, capabilitySessionId: string) {

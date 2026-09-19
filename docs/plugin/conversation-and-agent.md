@@ -495,6 +495,22 @@ const response = await ctx.network.request<{ data: unknown[] }>({
 
 `body.type` 也可取 `"multipart"`，通过 `fields` 和 base64 `files` 组装表单。API 返回 `{ ok, status, statusText, headers, body }`，非 2xx 不自动抛错；JSON 错误响应若不是合法 JSON，会以文本返回。响应按流读取，超过上限会立即中止。
 
+## 检查点 API
+
+`ctx.checkpoints` 只读时间线，并可显式请求文件回退。对话回退不在这个 API 里。
+
+```ts
+const checkpoints = await ctx.checkpoints.list();
+const latest = checkpoints[0];
+if (latest) {
+  await ctx.checkpoints.requestRevert(latest.projectKey, latest.id);
+}
+```
+
+- `checkpoints:read` 门控 `list` / `get`。
+- `checkpoints:revert` 门控 `requestRevert`。回退会恢复文件并追加新提交，永不改写历史。
+- 使用该入口的插件应声明 `pluginApiVersion: ^2.6.0`。
+
 ## 插件私有存储 API
 
 `ctx.storage` 是按插件 id 隔离的持久化文件命名空间，物理目录位于 `~/.vetta/plugin-data/<plugin-id>/`。

@@ -161,6 +161,7 @@
 		"@vetta/runtime-evaluation": "workspace:*",
 		"@vetta/runtime-node": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",
+		"@vetta/runtime-checkpoints": "workspace:*",
 		"@vetta/runtime-tools": "workspace:*",
 		"@vetta-org/theme-sdk": "workspace:*",
 		"@vetta-org/theme-ui": "workspace:*",

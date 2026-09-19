@@ -29,6 +29,7 @@ import {
 	loadAutomationPage,
 	loadBatchTasksPage,
 	loadEvaluationPage,
+	loadTimelinePage,
 	loadChatPage,
 	loadKnowledgeListPage,
 	loadKnowledgePage,
@@ -59,6 +60,7 @@ const AgentsPage = lazy(loadAgentsPage);
 const AutomationPage = lazy(loadAutomationPage);
 const BatchTasksPage = lazy(loadBatchTasksPage);
 const EvaluationPage = lazy(loadEvaluationPage);
+const TimelinePage = lazy(loadTimelinePage);
 const KnowledgePage = lazy(loadKnowledgePage);
 const KnowledgeListPage = lazy(loadKnowledgeListPage);
 const ScenesPage = lazy(loadScenesPage);
@@ -79,6 +81,7 @@ const PAGE_BY_SURFACE: Record<
 	automation: AutomationPage,
 	"batch-tasks": BatchTasksPage,
 	evaluation: EvaluationPage,
+	timeline: TimelinePage,
 	knowledge: KnowledgePage,
 	"knowledge-all": KnowledgeListPage,
 	"new-session": NewSessionPage,
@@ -92,6 +95,7 @@ const LOAD_BY_SURFACE: Record<Exclude<PersistentSurfaceId, "chat">, () => Promis
 	automation: loadAutomationPage,
 	"batch-tasks": loadBatchTasksPage,
 	evaluation: loadEvaluationPage,
+	timeline: loadTimelinePage,
 	knowledge: loadKnowledgePage,
 	"knowledge-all": loadKnowledgeListPage,
 	"new-session": loadNewSessionPage,

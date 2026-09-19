@@ -416,7 +416,9 @@
 			"settingsWrite": "Changes app settings the host exposes to plugins and may alter app behavior.",
 			"shellOpenExternal": "Opens a plugin-selected external link in the system browser or default app.",
 			"uiSlotNewSessionContext": "Lets the plugin show a block beneath the new-session input, only when you pick one of its agents or teams, or mention one of its abilities.",
-			"conversationDraftRead": "Lets the plugin read what you have typed but not yet sent. Provided only while that plugin's context block is on screen."
+			"conversationDraftRead": "Lets the plugin read what you have typed but not yet sent. Provided only while that plugin's context block is on screen.",
+			"checkpointsRead": "Read the checkpoint timeline for the current account without changing files.",
+			"checkpointsRevert": "Restore files from before a checkpoint and append a new commit."
 		},
 		"uiSlotGlobal": "Global UI slot",
 		"uiSlotAbilityDetail": "Show detail configuration panel",
@@ -479,7 +481,9 @@
 		"settingsWrite": "Modify settings",
 		"shellOpenExternal": "Open links in the system browser",
 		"uiSlotNewSessionContext": "New Session Context Slot",
-		"conversationDraftRead": "Read input draft"
+		"conversationDraftRead": "Read input draft",
+		"checkpointsRead": "Read checkpoint timeline",
+		"checkpointsRevert": "Revert checkpoint files"
 	},
 	"meta": {
 		"title": "Other",

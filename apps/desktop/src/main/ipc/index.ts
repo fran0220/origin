@@ -7,6 +7,7 @@ import { registerActionApprovalIpc } from "./action-approval.js";
 import { registerAgentTeamsIpc } from "./agent-teams.js";
 import { registerAppMonitorIpc } from "./app-monitor.js";
 import { registerAppshotIpc } from "./appshot.js";
+import { registerCheckpointsIpc } from "./checkpoints.js";
 import { registerClipboardIpc } from "./clipboard.js";
 import { registerConnectionsIpc } from "./connections.js";
 import { registerConversationTagsIpc } from "./conversation-tags.js";
@@ -51,6 +52,7 @@ interface IpcTeardown {
 	teardownSpeechInput: () => void;
 	teardownThemes: () => void;
 	teardownDialog: () => void;
+	teardownCheckpoints: () => void;
 	teardownClipboard: () => void;
 	teardownConnections: () => void;
 	teardownFs: () => void;
@@ -99,6 +101,7 @@ export function registerAllIpc(
 		teardownSpeechInput: registerSpeechInputIpc(webContents),
 		teardownThemes: registerThemesIpc(),
 		teardownDialog: registerDialogIpc(),
+		teardownCheckpoints: registerCheckpointsIpc(),
 		teardownClipboard: registerClipboardIpc(),
 		teardownConnections: registerConnectionsIpc(),
 		teardownFs: registerFsIpc(),
@@ -140,6 +143,7 @@ export function teardownAllIpc(teardown: IpcTeardown): void {
 	teardown.teardownSpeechInput();
 	teardown.teardownThemes();
 	teardown.teardownDialog();
+	teardown.teardownCheckpoints();
 	teardown.teardownClipboard();
 	teardown.teardownConnections();
 	teardown.teardownFs();

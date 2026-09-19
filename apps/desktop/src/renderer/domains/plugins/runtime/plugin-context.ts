@@ -10,6 +10,7 @@ import {
 	createArtifactsApi,
 	createBrowserApi,
 	createCaptureApi,
+	createCheckpointsApi,
 	createCommandApi,
 	createConversationApi,
 	createEvaluationApi,
@@ -113,6 +114,7 @@ export function createPluginContext({
 		network: createPluginNetworkApi(plugin, capabilitySessionId),
 		gateway: plugin.trustLevel === "official" ? createGatewayApi(capabilitySessionId) : undefined,
 		storage: createStorageApi(plugin, capabilitySessionId),
+		checkpoints: createCheckpointsApi(plugin),
 		secrets: secretsApi,
 		i18n: createI18nApi(plugin),
 		// 模式已不再过滤任何插件能力：插件面板、命令、hook 在所有模式下都常驻。这里给出的是

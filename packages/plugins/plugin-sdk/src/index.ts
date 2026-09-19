@@ -390,6 +390,7 @@ export type {
 } from "./storage.js";
 export { readJsonFile, writeJsonFile } from "./storage.js";
 export type { PluginSecretsApi } from "./secrets.js";
+export type { PluginCheckpoint, PluginCheckpointCommit, PluginCheckpointsApi } from "./checkpoints.js";
 
 // i18n
 export type {

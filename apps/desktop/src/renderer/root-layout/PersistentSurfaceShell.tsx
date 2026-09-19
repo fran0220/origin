@@ -10,6 +10,7 @@ function usePersistentSurfaceTitle(id: Exclude<PersistentSurfaceId, "chat">): st
 	const automation = useTranslation("automation");
 	const batchTasks = useTranslation("batch-tasks");
 	const evaluation = useTranslation("evaluation");
+	const timeline = useTranslation("timeline");
 	const chat = useTranslation("chat");
 	const settings = useTranslation("settings");
 	const skills = useTranslation("skills");
@@ -25,6 +26,8 @@ function usePersistentSurfaceTitle(id: Exclude<PersistentSurfaceId, "chat">): st
 			return batchTasks.t(ref.key);
 		case "evaluation":
 			return evaluation.t(ref.key);
+		case "timeline":
+			return timeline.t(ref.key);
 		case "chat":
 			return chat.t(ref.key);
 		case "settings":

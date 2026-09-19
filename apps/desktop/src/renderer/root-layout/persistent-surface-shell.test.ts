@@ -11,6 +11,7 @@ describe("persistentSurfaceTitleRef", () => {
 		expect(persistentSurfaceTitleRef("automation")).toEqual({ ns: "automation", key: "page.title" });
 		expect(persistentSurfaceTitleRef("batch-tasks")).toEqual({ ns: "batch-tasks", key: "page.title" });
 		expect(persistentSurfaceTitleRef("evaluation")).toEqual({ ns: "evaluation", key: "page.title" });
+		expect(persistentSurfaceTitleRef("timeline")).toEqual({ ns: "timeline", key: "page.title" });
 		expect(persistentSurfaceTitleRef("settings")).toEqual({ ns: "settings", key: "title" });
 		expect(persistentSurfaceTitleRef("new-session")).toEqual({ ns: "chat", key: "newSession.greetingDefault" });
 	});

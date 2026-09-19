@@ -16,6 +16,7 @@ const ROUTE_TITLE_KEYS: Array<{ match: RegExp; titleKey: PageHeaderTitleKey }> =
 	{ match: /^\/automation$/, titleKey: "appShell.routeTitles.automation" },
 	{ match: /^\/batch-tasks$/, titleKey: "appShell.routeTitles.batchTasks" },
 	{ match: /^\/evaluation$/, titleKey: "appShell.routeTitles.evaluation" },
+	{ match: /^\/timeline$/, titleKey: "appShell.routeTitles.timeline" },
 	{ match: /^\/knowledge\/all$/, titleKey: "appShell.routeTitles.knowledgeAll" },
 	{ match: /^\/knowledge$/, titleKey: "appShell.routeTitles.knowledge" },
 	{ match: /^\/abilities\b/, titleKey: "appShell.routeTitles.skills" },

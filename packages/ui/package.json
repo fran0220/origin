@@ -12,6 +12,10 @@
 		"./utils": {
 			"types": "./src/utils.ts",
 			"import": "./src/utils.ts"
+		},
+		"./git-graph": {
+			"types": "./src/git-graph/index.ts",
+			"import": "./src/git-graph/index.ts"
 		}
 	},
 	"files": ["src"],

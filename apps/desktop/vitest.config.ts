@@ -136,6 +136,7 @@ export default defineConfig({
 				replacement: resolve(__dirname, "../../packages/runtime-core/src/session-extensions/index.ts"),
 			},
 			{ find: "@vetta/runtime-core", replacement: resolve(__dirname, "../../packages/runtime-core/src/index.ts") },
+			{ find: "@vetta/runtime-checkpoints", replacement: resolve(__dirname, "../../packages/runtime-checkpoints/src/index.ts") },
 			{ find: "@vetta/runtime-desktop", replacement: resolve(__dirname, "../../packages/runtime-desktop/src/index.ts") },
 			{ find: "@vetta/runtime-mcp/auth", replacement: resolve(__dirname, "../../packages/runtime-mcp/src/auth/index.ts") },
 			{
@@ -188,6 +189,10 @@ export default defineConfig({
 			{
 				find: "@vetta/runtime-evaluation",
 				replacement: resolve(__dirname, "../../packages/runtime-evaluation/src/index.ts"),
+			},
+			{
+				find: "@vetta/runtime-node/checkpoints",
+				replacement: resolve(__dirname, "../../packages/runtime-node/src/checkpoints/index.ts"),
 			},
 			{
 				find: "@vetta/runtime-subagents",
