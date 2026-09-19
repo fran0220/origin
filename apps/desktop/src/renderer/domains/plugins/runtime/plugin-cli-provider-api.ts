@@ -1,10 +1,10 @@
-import type { InstalledPlugin } from "@preload/api";
 import type {
 	Disposable,
 	PluginCliProviderApi,
 	PluginCommandSpawnExit,
 	PluginCommandSpawnHandle,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import type { InstalledPlugin } from "@preload/api";
 
 const exitListeners = new Map<string, Set<(exit: PluginCommandSpawnExit) => void>>();
 let exitSubscriptionInstalled = false;

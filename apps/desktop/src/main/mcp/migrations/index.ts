@@ -1,5 +1,5 @@
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { runFileMigrations } from "@vetta/toolkit/file-migrations";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { runFileMigrations } from "@origin/toolkit/file-migrations";
 import { removeRetiredBuiltinMcpServersMigration } from "./001_remove_retired_builtin_servers.js";
 
 const MCP_FILE_MIGRATIONS = [removeRetiredBuiltinMcpServersMigration] as const;

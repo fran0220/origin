@@ -29,9 +29,9 @@ export function findTurboConfigurationProblems({
 }) {
 	const problems = [];
 	const build = turboConfig.tasks?.build ?? {};
-	const desktopBuild = turboConfig.tasks?.["@vetta/desktop#build"] ?? {};
-	const docsBuild = turboConfig.tasks?.["@vetta/docs-site#build"] ?? {};
-	const pluginWorkbenchBuild = turboConfig.tasks?.["@vetta/plugin-plugin-workbench#build"] ?? {};
+	const desktopBuild = turboConfig.tasks?.["@origin/desktop#build"] ?? {};
+	const docsBuild = turboConfig.tasks?.["@origin/docs-site#build"] ?? {};
+	const pluginWorkbenchBuild = turboConfig.tasks?.["@origin/plugin-plugin-workbench#build"] ?? {};
 
 	for (const value of missingValues(turboConfig.globalDependencies, REQUIRED_GLOBAL_DEPENDENCIES)) {
 		problems.push(`turbo globalDependencies 缺少 ${value}`);
@@ -78,8 +78,8 @@ export function findTurboConfigurationProblems({
 	if (desktopBuild.cache !== false) {
 		problems.push("Desktop 完整 build 必须保持 cache: false");
 	}
-	if (!desktopBuild.dependsOn?.includes("@vetta-org/plugin-vite#build")) {
-		problems.push("Desktop build 必须显式依赖 @vetta-org/plugin-vite#build");
+	if (!desktopBuild.dependsOn?.includes("@origin-org/plugin-vite#build")) {
+		problems.push("Desktop build 必须显式依赖 @origin-org/plugin-vite#build");
 	}
 	if (turboConfig.remoteCache?.enabled !== false) {
 		problems.push("Remote Cache 在完成跨平台与凭证验收前必须保持关闭");

@@ -5,14 +5,14 @@
  */
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({ t: (key: string) => key }),
 	usePromptAttachment: () => null,
 }));
 
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { NotesLayer } from "../src/canvas/NotesLayer";
 import { NotesStore } from "../src/notes/notes-store";
 

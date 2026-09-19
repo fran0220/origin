@@ -1,5 +1,5 @@
+import type { Disposable, PluginContext, PluginPermission } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { Disposable, PluginContext, PluginPermission } from "@vetta-org/plugin-sdk";
 
 export const noopDisposable: Disposable = { dispose: () => {} };
 

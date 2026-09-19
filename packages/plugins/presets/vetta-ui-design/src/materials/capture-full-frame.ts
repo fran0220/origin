@@ -11,7 +11,7 @@
  *
  * 出图一律 CSS 尺寸 × 宿主的设备像素比；调用方拿到 dataUrl 与像素尺寸。
  */
-import type { PluginOffscreenCaptureOptions, PluginOffscreenCaptureResult } from "@vetta-org/plugin-sdk";
+import type { PluginOffscreenCaptureOptions, PluginOffscreenCaptureResult } from "@origin-org/plugin-sdk";
 import { canvasToJpegDataUrl } from "../mockup/render";
 import { FRAME_READY_EXPRESSION, framePrepareScript } from "../canvas/offscreen-raster";
 import { SCROLL_PROBE_SCRIPT, SCROLL_RESET_SCRIPT, parseScrollProbe, scrollPrepareScript, scrollReadyExpression } from "./scroll-probe";

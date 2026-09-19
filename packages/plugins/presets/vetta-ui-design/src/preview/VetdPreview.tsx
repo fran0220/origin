@@ -1,5 +1,5 @@
-import type { PluginPreviewFile } from "@vetta-org/plugin-sdk";
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import type { PluginPreviewFile } from "@origin-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useState } from "react";
 import { parsePackagedVetd, importPackagedVetd, type PackagedVetd } from "../export/import-design";
 import { getPluginCtx, notify } from "../plugin-context";

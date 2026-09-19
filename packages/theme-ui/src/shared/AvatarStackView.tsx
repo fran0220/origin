@@ -1,4 +1,4 @@
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import type { JSX } from "react";
 
 export interface AvatarStackViewProps {

@@ -1,6 +1,3 @@
-import type { InstalledPlugin } from "@preload/api";
-import { activeSessionAtom, languageAtom, openUrlInBrowserAtom } from "@shared/store/atoms";
-import { showToast } from "@shared/store/toast-atoms";
 import type {
 	Disposable,
 	OcrClient,
@@ -23,8 +20,11 @@ import type {
 	PluginProjectApi,
 	PluginRecordingApi,
 	PluginSecretsApi,
-} from "@vetta-org/plugin-sdk";
-import { resolveCatalogKey, resolvePluginText } from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import { resolveCatalogKey, resolvePluginText } from "@origin-org/plugin-sdk";
+import type { InstalledPlugin } from "@preload/api";
+import { activeSessionAtom, languageAtom, openUrlInBrowserAtom } from "@shared/store/atoms";
+import { showToast } from "@shared/store/toast-atoms";
 import { getDefaultStore } from "jotai";
 import { router } from "../../../router";
 import { normalizeBrowserOpenUrl } from "./browser-open-policy";

@@ -1,10 +1,10 @@
-import type { Api, Message, Model } from "@vetta/ai";
+import type { Api, Message, Model } from "@origin/ai";
 import type {
 	ModelCallFrameCompositionContext,
 	RuntimeSnapshotAcquireContext,
 	RuntimeToolDefinition,
 	RuntimeToolExecutionError,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import { describe, expect, it, vi } from "vitest";
 import type {
 	AgentPluginRuntimeConfig,

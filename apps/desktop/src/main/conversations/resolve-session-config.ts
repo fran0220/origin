@@ -1,11 +1,11 @@
-import { VETTA_CLI_GUIDANCE } from "@vetta/coding-agent/cli-guidance";
-import { createCodingAgentRuntimeSessionSelection } from "@vetta/coding-agent/composition";
-import type { AgentConfigurationSelection, ConversationScenario } from "@vetta/coding-agent/profile";
+import { VETTA_CLI_GUIDANCE } from "@origin/coding-agent/cli-guidance";
+import { createCodingAgentRuntimeSessionSelection } from "@origin/coding-agent/composition";
+import type { AgentConfigurationSelection, ConversationScenario } from "@origin/coding-agent/profile";
 import type {
 	CodingAgentPinnedModelContextBinder,
 	CodingAgentRuntimeToolRegistration,
-} from "@vetta/coding-agent/runtime";
-import type { SessionConfig } from "@vetta/runtime-core";
+} from "@origin/coding-agent/runtime";
+import type { SessionConfig } from "@origin/runtime-core";
 import { DEFAULT_AGENT_MODE } from "../agent-modes/index.js";
 import { allowProjectRoot, readDesktopConfig } from "../ipc/fs.js";
 import { type DesktopAgentMode, readSessionAgentMode } from "./session-agent-mode-store.js";

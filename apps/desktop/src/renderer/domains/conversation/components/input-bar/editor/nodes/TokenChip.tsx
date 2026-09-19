@@ -1,1 +1,1 @@
-export { InlineTokenChip as TokenChip } from "@vetta-org/theme-ui/chat";
+export { InlineTokenChip as TokenChip } from "@origin-org/theme-ui/chat";

@@ -1,4 +1,4 @@
-import { definePlugin, type PluginFileExplorerEntry } from "@vetta-org/plugin-sdk";
+import { definePlugin, type PluginFileExplorerEntry } from "@origin-org/plugin-sdk";
 import { MobilePreviewPanel } from "./MobilePreviewPanel";
 import { setPluginCtx } from "./plugin-context";
 import { selectionHasHtmlFile, TAB_ID } from "./tab-visibility";

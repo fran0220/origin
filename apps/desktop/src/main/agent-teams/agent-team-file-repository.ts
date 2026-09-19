@@ -1,9 +1,9 @@
 import { mkdir, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
-import { parseAgentProfileDocument } from "@vetta/agent-team";
-import { atomicWriteFileAsync, atomicWriteJSONAsync } from "@vetta/toolkit/atomic-write";
+import { getVettaHomePath } from "@origin/action-rpc";
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
+import { parseAgentProfileDocument } from "@origin/agent-team";
+import { atomicWriteFileAsync, atomicWriteJSONAsync } from "@origin/toolkit/atomic-write";
 import { getAppLogger } from "../logger.js";
 import { agentBlueprintRegistry, resolveAgentBlueprint } from "./agent-blueprint-registry.js";
 import {

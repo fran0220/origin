@@ -2,8 +2,8 @@
 /**
  * Copy the plugin manual into the package so it ships inside the npm tarball.
  *
- * 手册必须与 SDK 同版本发布。插件工程 `npm i @vetta-org/plugin-sdk@^0.3.0` 之后，
- * `node_modules/@vetta-org/plugin-sdk/docs/` 里就是 0.3.0 的手册——Agent 读到的合同
+ * 手册必须与 SDK 同版本发布。插件工程 `npm i @origin-org/plugin-sdk@^0.3.0` 之后，
+ * `node_modules/@origin-org/plugin-sdk/docs/` 里就是 0.3.0 的手册——Agent 读到的合同
  * 与它即将编译的合同天然一致。从网络现取做不到这一点：main 上的手册会教 Agent 写出
  * 用户宿主还不支持的东西，而那种错误不会在构建期暴露。
  *

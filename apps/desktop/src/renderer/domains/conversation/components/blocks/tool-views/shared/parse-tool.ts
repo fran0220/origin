@@ -1,6 +1,6 @@
+import { resolvePluginText } from "@origin-org/plugin-sdk";
 import { i18n } from "@shared/i18n";
 import { languageAtom, pluginAgentToolLabelsAtom, pluginI18nByIdAtom, type ToolCallBlock } from "@shared/store/atoms";
-import { resolvePluginText } from "@vetta-org/plugin-sdk";
 import { getDefaultStore } from "jotai";
 import { shortenPath } from "./format";
 

@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { GalleryDesign } from "./gallery-model";
 import type { GalleryCard } from "./gallery-store";

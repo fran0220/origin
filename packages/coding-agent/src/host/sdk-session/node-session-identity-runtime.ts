@@ -3,7 +3,7 @@ import {
 	FileConversationRuntimeSessionCatalog,
 	resolveConversationFilePath,
 	resolveSessionIdFromPath,
-} from "@vetta/runtime-node/conversation";
+} from "@origin/runtime-node/conversation";
 import type {
 	CodingAgentSdkSessionCatalogContext,
 	CodingAgentSdkSessionIdentityRuntime,

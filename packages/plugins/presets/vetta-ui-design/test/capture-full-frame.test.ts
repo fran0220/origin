@@ -3,7 +3,7 @@
  * 就按滚动分块拼接。宿主离屏窗口是唯一的外部边界，用一个「会随视口高度回答探针」
  * 的假页面代替。
  */
-import type { PluginOffscreenCaptureOptions, PluginOffscreenCaptureResult } from "@vetta-org/plugin-sdk";
+import type { PluginOffscreenCaptureOptions, PluginOffscreenCaptureResult } from "@origin-org/plugin-sdk";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import {
 	captureFullFrame,

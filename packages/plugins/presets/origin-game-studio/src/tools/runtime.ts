@@ -1,4 +1,4 @@
-import type { PluginContext, PluginEvaluationAttempt, PluginRecordingRecord } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginEvaluationAttempt, PluginRecordingRecord } from "@origin-org/plugin-sdk";
 import {
 	listHostCheckpoints,
 	listHostRecordings,

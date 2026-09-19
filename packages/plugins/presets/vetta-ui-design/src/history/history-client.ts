@@ -1,7 +1,7 @@
 /**
  * 设计历史的插件侧入口（ADR-0069）。其余代码只认这几个方法，不知道 git 存在。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { runHistoryCommand } from "./runner-host";
 
 /** 一个设计版本。`files` 是提交时就算好的变更清单，不需要事后算 diff。 */

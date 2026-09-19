@@ -1,6 +1,6 @@
 import { useRendererMarkdownModel } from "@shared/hooks/useRendererMarkdownModel";
-import { MarkdownContent } from "@vetta-org/theme-ui/markdown";
-import type { InlineTokenSupport } from "@vetta-org/theme-ui/markdown";
+import { MarkdownContent } from "@origin-org/theme-ui/markdown";
+import type { InlineTokenSupport } from "@origin-org/theme-ui/markdown";
 import { memo } from "react";
 import { useRendererMarkdownScope } from "./RendererMarkdownScope";
 

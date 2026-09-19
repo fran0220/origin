@@ -1,2 +1,2 @@
-export type { ResizeHandleProps } from "@vetta-org/theme-ui/layout";
-export { ResizeHandle } from "@vetta-org/theme-ui/layout";
+export type { ResizeHandleProps } from "@origin-org/theme-ui/layout";
+export { ResizeHandle } from "@origin-org/theme-ui/layout";

@@ -1,5 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@vetta-org/plugin-vite";
+import { vettaPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({

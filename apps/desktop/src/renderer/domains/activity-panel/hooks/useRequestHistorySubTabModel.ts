@@ -1,6 +1,6 @@
+import type { RequestHistoryItem, RequestHistorySubTabViewLabels } from "@origin-org/theme-ui/activity";
 import { pathBasename } from "@shared/lib/utils";
 import { activeSessionAtom, filePreviewAtom } from "@shared/store/atoms";
-import type { RequestHistoryItem, RequestHistorySubTabViewLabels } from "@vetta-org/theme-ui/activity";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

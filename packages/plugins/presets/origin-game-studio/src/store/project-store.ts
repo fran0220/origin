@@ -1,4 +1,4 @@
-import type { PluginStorageApi } from "@vetta-org/plugin-sdk";
+import type { PluginStorageApi } from "@origin-org/plugin-sdk";
 import type { Substrate } from "../design/types";
 import type { GameGenre } from "../genres";
 import { sha256Hex } from "../sha256";

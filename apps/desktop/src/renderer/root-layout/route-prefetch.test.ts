@@ -1,4 +1,4 @@
-import type { SidebarNavItem } from "@vetta-org/theme-sdk/sidebar";
+import type { SidebarNavItem } from "@origin-org/theme-sdk/sidebar";
 import { describe, expect, it } from "vitest";
 import {
 	commandMenuActionPrefetchKey,

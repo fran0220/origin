@@ -1,5 +1,5 @@
-import { readJsonFile, writeJsonFile } from "@vetta-org/plugin-sdk";
-import type { PluginImageRef, PluginStorageApi, PluginStoredBlobRef } from "@vetta-org/plugin-sdk";
+import { readJsonFile, writeJsonFile } from "@origin-org/plugin-sdk";
+import type { PluginImageRef, PluginStorageApi, PluginStoredBlobRef } from "@origin-org/plugin-sdk";
 
 interface ImageRecord {
 	id: string;

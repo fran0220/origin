@@ -13,7 +13,7 @@ import {
 	replayEvents,
 	validateEvolutionState,
 	validateRefinementEvent,
-} from "@vetta/runtime-evolution";
+} from "@origin/runtime-evolution";
 import lockfile from "proper-lockfile";
 
 function scopeFileName(scope: EvolutionScope): string {

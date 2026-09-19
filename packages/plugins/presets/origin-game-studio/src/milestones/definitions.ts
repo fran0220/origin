@@ -1,4 +1,4 @@
-import type { PluginEvaluationVerifier } from "@vetta-org/plugin-sdk";
+import type { PluginEvaluationVerifier } from "@origin-org/plugin-sdk";
 import type { DesignGraph, ProductionMilestone } from "../design/types";
 
 export const GREYBOX_PLAYBACK_EXPRESSION =

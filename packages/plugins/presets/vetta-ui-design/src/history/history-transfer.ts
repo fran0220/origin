@@ -5,7 +5,7 @@
  * 对导出代码完全不可见；而 git 对象是无扩展名的二进制，插件的 `readFile` 会按 utf8
  * 解坏它们。所以这里只做「让 runner 落一个 zip，我再把这个 zip 搬进/搬出分享包」。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { runHistoryCommand } from "./runner-host";
 
 /** 分享包里存历史的条目名。老包没有这一项，导入时按「没有历史」处理。 */

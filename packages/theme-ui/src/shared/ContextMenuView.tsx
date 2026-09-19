@@ -8,7 +8,7 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import type { JSX } from "react";
 
 /**

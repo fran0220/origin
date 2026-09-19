@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import type { CodingToolExecutable } from "@vetta/runtime-tools";
+import type { CodingToolExecutable } from "@origin/runtime-tools";
 
 export interface CodingToolReleaseConfig {
 	readonly name: string;

@@ -76,8 +76,8 @@ npm install
 npx vetta-plugin-cli docs --check-latest
 \`\`\`
 
-\`npm install\` 必须先跑：\`vetta-plugin-cli\` 是 \`@vetta-org/plugin-cli\` 的命令名，装完才在
-\`node_modules/.bin\` 里。还没装就想跑，用全名 \`npx @vetta-org/plugin-cli docs\`。
+\`npm install\` 必须先跑：\`vetta-plugin-cli\` 是 \`@origin-org/plugin-cli\` 的命令名，装完才在
+\`node_modules/.bin\` 里。还没装就想跑，用全名 \`npx @origin-org/plugin-cli docs\`。
 
 它打印手册目录的**绝对路径**、手册对应的 SDK 版本，以及本工程与所属 hub 的位置。
 **不要硬编码这个路径**：工作区可能把依赖提升到仓库根，一仓多插件时各插件还可能钉不同版本。

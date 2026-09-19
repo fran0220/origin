@@ -6,8 +6,8 @@ import type {
 	PluginMediaInput,
 	PluginMediaProviderDescriptor,
 	PluginStoredBlobRef,
-} from "@vetta-org/plugin-sdk";
-import { PluginMediaError } from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import { PluginMediaError } from "@origin-org/plugin-sdk";
 import type { ImageRepository } from "./image-repository";
 import { EDIT_IMAGE_TOOL_DESCRIPTION, GENERATE_IMAGE_TOOL_DESCRIPTION } from "./tool-descriptions";
 

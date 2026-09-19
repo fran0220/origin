@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { strToU8, zipSync, type Zippable } from "fflate";
 import { buildDesign } from "../engine/engine-manager";
 import { HISTORY_ENTRY, packHistoryForShare } from "../history/history-transfer";

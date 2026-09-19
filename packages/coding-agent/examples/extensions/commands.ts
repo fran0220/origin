@@ -10,7 +10,7 @@
  * 3. Use /commands extensions to filter by source
  */
 
-import type { ExtensionAPI, SlashCommandInfo } from "@vetta/coding-agent";
+import type { ExtensionAPI, SlashCommandInfo } from "@origin/coding-agent";
 
 export default function commandsExtension(api: ExtensionAPI) {
 	api.registerCommand("commands", {

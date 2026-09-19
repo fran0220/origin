@@ -2,7 +2,7 @@
  * 打开设计时接上历史的编排逻辑。runner 与文件系统都在边界上换掉——这里验证的是
  * 「什么时候该落基础版本、失败了会不会连累打开设计」，不是 git 本身。
  */
-import type { PluginContext, PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginFsApi } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const ensureHistory = vi.fn();

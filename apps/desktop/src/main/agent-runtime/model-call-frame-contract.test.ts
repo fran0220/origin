@@ -1,19 +1,19 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, Model } from "@vetta/ai";
-import { createCodingAgentRuntimeSessionSelection } from "@vetta/coding-agent/composition";
-import { ENV_AGENT_DIR, getAgentDir } from "@vetta/coding-agent/config";
+import type { Api, Model } from "@origin/ai";
+import { createCodingAgentRuntimeSessionSelection } from "@origin/coding-agent/composition";
+import { ENV_AGENT_DIR, getAgentDir } from "@origin/coding-agent/config";
 import {
 	type CodingAgentPluginRuntimeSource,
 	type CodingAgentRuntimeModelSource,
 	createCodingAgentMcpRuntimeToolSource,
 	createCodingAgentPluginMcpRuntime,
-} from "@vetta/coding-agent/host-services";
-import type { AgentPluginRuntimeConfig } from "@vetta/coding-agent/plugin-runtime";
-import { ALL_SCENARIOS, type ConversationScenario } from "@vetta/coding-agent/profile";
-import { RuntimeHost } from "@vetta/runtime-core";
-import { DesktopRuntimeBackendPool } from "@vetta/runtime-desktop";
+} from "@origin/coding-agent/host-services";
+import type { AgentPluginRuntimeConfig } from "@origin/coding-agent/plugin-runtime";
+import { ALL_SCENARIOS, type ConversationScenario } from "@origin/coding-agent/profile";
+import { RuntimeHost } from "@origin/runtime-core";
+import { DesktopRuntimeBackendPool } from "@origin/runtime-desktop";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import {
 	type OpenAiResponsesTestServer,

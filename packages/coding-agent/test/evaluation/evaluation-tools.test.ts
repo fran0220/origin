@@ -1,5 +1,5 @@
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import type { EvaluationAttempt, EvaluationDefinition, EvaluationScope } from "@vetta/runtime-evaluation";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import type { EvaluationAttempt, EvaluationDefinition, EvaluationScope } from "@origin/runtime-evaluation";
 import { describe, expect, it } from "vitest";
 import type { CodingAgentEvaluationOperations } from "../../src/features/evaluation/contracts.js";
 import {

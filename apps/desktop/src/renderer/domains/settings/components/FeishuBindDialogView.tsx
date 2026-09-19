@@ -1,5 +1,5 @@
-import { QrBindDialogView } from "@vetta-org/theme-ui/settings";
-import { Button } from "@vetta-org/ui";
+import { QrBindDialogView } from "@origin-org/theme-ui/settings";
+import { Button } from "@origin-org/ui";
 import { ImChannelGuideButton } from "./ImChannelGuideButton";
 import type { FeishuBindDialogModel } from "./useFeishuBindDialogModel";
 

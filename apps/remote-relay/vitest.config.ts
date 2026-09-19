@@ -13,9 +13,9 @@ export default defineWorkersConfig({
 	},
 	resolve: {
 		alias: {
-			"@vetta/remote-control": resolve(__dirname, "../../packages/remote-control/src/index.ts"),
-			"@vetta/remote-desktop/protocol": resolve(__dirname, "../../packages/remote-desktop/src/protocol-entry.ts"),
-			"@vetta/remote-desktop": resolve(__dirname, "../../packages/remote-desktop/src/index.ts"),
+			"@origin/remote-control": resolve(__dirname, "../../packages/remote-control/src/index.ts"),
+			"@origin/remote-desktop/protocol": resolve(__dirname, "../../packages/remote-desktop/src/protocol-entry.ts"),
+			"@origin/remote-desktop": resolve(__dirname, "../../packages/remote-desktop/src/index.ts"),
 		},
 	},
 });

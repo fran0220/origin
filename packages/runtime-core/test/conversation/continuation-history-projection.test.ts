@@ -1,4 +1,4 @@
-import type { Message } from "@vetta/ai";
+import type { Message } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import {
 	applyStoredEventToConversationDocument,

@@ -1,4 +1,4 @@
-import type { PluginContext, PluginDynamicSystemPromptOperation } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginDynamicSystemPromptOperation } from "@origin-org/plugin-sdk";
 import { getCanvasController } from "../canvas/design-runtime";
 import { SCREENSHOT_TOOL_NAME } from "../cards/screenshot-card";
 import { hasDesignInWorkspace } from "./design-presence";

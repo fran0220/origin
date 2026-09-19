@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useCatalogState } from "../design-systems/index";
 import { SHARE_EXTENSION } from "../export/share-format";
 import { HeroArtwork } from "./HeroArtwork";

@@ -7,16 +7,16 @@
 你不需要 Origin 的源码仓库，也不需要插件工作台。任意空目录里：
 
 ```bash
-npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
+npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
 ```
 
 脚手架会落下一份 `AGENTS.md`，把「先读手册再写代码」这条规矩和构建安装闭环交代清楚。
 
-**手册就在工程里**——它随 `@vetta-org/plugin-sdk` 一起装进 `node_modules`：
+**手册就在工程里**——它随 `@origin-org/plugin-sdk` 一起装进 `node_modules`：
 
 ```bash
-npx vetta-plugin-cli docs      # 装完依赖后可用；未装时用 npx @vetta-org/plugin-cli docs + 它对应的 SDK 版本
+npx vetta-plugin-cli docs      # 装完依赖后可用；未装时用 npx @origin-org/plugin-cli docs + 它对应的 SDK 版本
 ```
 
 **不要硬编码那个路径**：工作区可能把依赖提升到仓库根，一仓多插件时各插件还可能钉不同的
@@ -93,8 +93,8 @@ dist/
     "@tailwindcss/vite": "^4.1.12",
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.1",
-    "@vetta-org/plugin-sdk": "workspace:*",
-    "@vetta-org/plugin-vite": "workspace:*",
+    "@origin-org/plugin-sdk": "workspace:*",
+    "@origin-org/plugin-vite": "workspace:*",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "tailwindcss": "^4.1.12",
@@ -104,15 +104,15 @@ dist/
 }
 ```
 
-> `react` / `react-dom` 仅用于类型与本地构建——运行时由**宿主作为共享单例提供**，不会打进你的 bundle（见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）。`@vetta-org/plugin-sdk` 同理：构建时被 external 化，运行时由宿主提供。可选 UI primitives `@vetta-org/ui`（`Button` / `Dialog` / `Switch`…）需要同时设置 `hostUi: true` 并在 `devDependencies` 声明；没有使用时两者都不要添加。仓库内插件用 `workspace:*` 直链源码；仓库外插件改用发布版本号。
+> `react` / `react-dom` 仅用于类型与本地构建——运行时由**宿主作为共享单例提供**，不会打进你的 bundle（见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）。`@origin-org/plugin-sdk` 同理：构建时被 external 化，运行时由宿主提供。可选 UI primitives `@origin-org/ui`（`Button` / `Dialog` / `Switch`…）需要同时设置 `hostUi: true` 并在 `devDependencies` 声明；没有使用时两者都不要添加。仓库内插件用 `workspace:*` 直链源码；仓库外插件改用发布版本号。
 
 ## 3. vite.config.ts
 
-用 `@vetta-org/plugin-vite` 的 `vettaPluginFederation` 封装 Module Federation；**UI 插件请始终接 Tailwind**（样式只走 className，见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）：
+用 `@origin-org/plugin-vite` 的 `vettaPluginFederation` 封装 Module Federation；**UI 插件请始终接 Tailwind**（样式只走 className，见 [styling-and-pitfalls.md](./styling-and-pitfalls.md)）：
 
 ```ts
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@vetta-org/plugin-vite";
+import { vettaPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -122,7 +122,7 @@ export default defineConfig({
       name: "my_plugin",        // MF remoteName，与 plugin.json.moduleFederation.remoteName 一致
       entry: "./src/index.tsx", // 入口（默认即此）
       expose: "./plugin",       // 暴露名（默认 "./plugin"，与 plugin.json.moduleFederation.expose 一致）
-      // hostUi: true,           // 仅在导入 @vetta-org/ui 时开启
+      // hostUi: true,           // 仅在导入 @origin-org/ui 时开启
       // package: true,         // 见 §5：构建后自动产出 release/<id>-<version>.zip
     }),
   ],
@@ -130,7 +130,7 @@ export default defineConfig({
 });
 ```
 
-`vettaPluginFederation` 默认把 `react` / `react-dom` / `@vetta-org/plugin-sdk` 设为 `singleton`、`import:false`（用宿主的），生产构建时 external 化 SDK。设置 `hostUi: true` 后才会以相同方式共享并 external 化 `@vetta-org/ui`。构建产出 `mf-manifest.json` + `remoteEntry.js`，CSS 落 `dist/style.css`。
+`vettaPluginFederation` 默认把 `react` / `react-dom` / `@origin-org/plugin-sdk` 设为 `singleton`、`import:false`（用宿主的），生产构建时 external 化 SDK。设置 `hostUi: true` 后才会以相同方式共享并 external 化 `@origin-org/ui`。构建产出 `mf-manifest.json` + `remoteEntry.js`，CSS 落 `dist/style.css`。
 
 它还会在插件 Tailwind 编译前自动接入 plugin-sdk 的宿主主题 Token 契约，因此
 `text-foreground`、`text-muted-foreground/50`、`bg-card` 等语义类可以直接使用；
@@ -153,7 +153,7 @@ export default defineConfig({
 ## 5. 入口 src/index.tsx
 
 ```tsx
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 import { useState } from "react";
 import "./style.css";
 
@@ -254,7 +254,7 @@ bunx vite build      # 产出 dist/（mf-manifest.json + remoteEntry.js + style.
 
 ### 依赖注意（用户机）
 
-仓库内 preset / external 可用 `workspace:*` 链本地 SDK。**用户自建工程**应使用发布到 registry 的 `@vetta-org/plugin-sdk` / `@vetta-org/plugin-vite` **semver**（sdk `^0.3.1`，手册随该版本进 node_modules；版本化热更新协议对应 vite `^0.2.0`，两者版本独立）。推出包含该脚手架的 Desktop 前，必须先发布对应的 vite 版本并确认 registry 可达。
+仓库内 preset / external 可用 `workspace:*` 链本地 SDK。**用户自建工程**应使用发布到 registry 的 `@origin-org/plugin-sdk` / `@origin-org/plugin-vite` **semver**（sdk `^0.3.1`，手册随该版本进 node_modules；版本化热更新协议对应 vite `^0.2.0`，两者版本独立）。推出包含该脚手架的 Desktop 前，必须先发布对应的 vite 版本并确认 registry 可达。
 
 ## 8. 调试闭环（dev loop）
 

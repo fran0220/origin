@@ -1,5 +1,5 @@
-import type { EcosystemHookEvent, HookRunSummary } from "@vetta/coding-agent/hooks";
-import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES } from "@vetta-org/plugin-sdk";
+import type { EcosystemHookEvent, HookRunSummary } from "@origin/coding-agent/hooks";
+import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES } from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDesktopPluginHookAdapterFactory } from "./coding-agent-hook-adapter.js";
 import { setDesktopPluginHookInvoker } from "./coding-agent-hook-invocation.js";

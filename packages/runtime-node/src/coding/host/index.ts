@@ -1,4 +1,4 @@
-export type { CodingToolExecutable, CodingToolExecutableResolver } from "@vetta/runtime-tools/coding";
+export type { CodingToolExecutable, CodingToolExecutableResolver } from "@origin/runtime-tools/coding";
 export {
 	createNodeHostBashExecutor,
 	type NodeHostBashExecutionOptions,

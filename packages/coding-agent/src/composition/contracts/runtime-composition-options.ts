@@ -1,5 +1,5 @@
-import type { Api, Model } from "@vetta/ai";
-import type { EcosystemHookAdapterFactory, HookConfigLayer } from "@vetta/ecosystem-adapter";
+import type { Api, Model } from "@origin/ai";
+import type { EcosystemHookAdapterFactory, HookConfigLayer } from "@origin/ecosystem-adapter";
 import type {
 	RuntimeAgentDefinition,
 	RuntimeAgentDefinitionSourceRef,
@@ -9,18 +9,18 @@ import type {
 	RuntimeObservationPublisher,
 	RuntimeObservationRouteOptions,
 	SessionConfig,
-} from "@vetta/runtime-core";
-import type { AgentCoreTurnEngineOptions } from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core";
+import type { AgentCoreTurnEngineOptions } from "@origin/runtime-core/kernel";
 import type {
 	SessionExtensionDefinition,
 	SessionExtensionFunctionSource,
-} from "@vetta/runtime-core/session-extensions";
-import type { EvaluationScope } from "@vetta/runtime-evaluation";
-import type { McpRuntimeToolSource } from "@vetta/runtime-mcp";
-import type { RecordingEngine, RecordingRecord } from "@vetta/runtime-recording";
-import type { ConversationOwnershipManager } from "@vetta/runtime-storage/conversation";
-import type { SubagentTypeRegistryLike } from "@vetta/runtime-subagents";
-import type { CodingToolResultPolicy } from "@vetta/runtime-tools";
+} from "@origin/runtime-core/session-extensions";
+import type { EvaluationScope } from "@origin/runtime-evaluation";
+import type { McpRuntimeToolSource } from "@origin/runtime-mcp";
+import type { RecordingEngine, RecordingRecord } from "@origin/runtime-recording";
+import type { ConversationOwnershipManager } from "@origin/runtime-storage/conversation";
+import type { SubagentTypeRegistryLike } from "@origin/runtime-subagents";
+import type { CodingToolResultPolicy } from "@origin/runtime-tools";
 import type { CodingAgentEvaluationOperations } from "../../features/evaluation/contracts.js";
 import type { CodingAgentKnowledgeRuntime } from "../../features/knowledge/contracts.js";
 import type { CodingAgentTodoRuntime } from "../../features/todo/contracts.js";

@@ -1,3 +1,5 @@
+import type { SessionContextMenuViewProps } from "@origin-org/theme-ui/project";
+import type { ContextMenuNode } from "@origin-org/theme-ui/shared";
 import type { SessionContextMenuSession } from "@shared/store/atoms";
 import {
 	conversationTagEditorAtom,
@@ -6,8 +8,6 @@ import {
 	renamingSessionPathAtom,
 	setSessionPinnedAtom,
 } from "@shared/store/atoms";
-import type { SessionContextMenuViewProps } from "@vetta-org/theme-ui/project";
-import type { ContextMenuNode } from "@vetta-org/theme-ui/shared";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";

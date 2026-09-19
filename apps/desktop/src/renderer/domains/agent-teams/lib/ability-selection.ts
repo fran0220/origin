@@ -1,4 +1,4 @@
-import type { AgentAbilitySelection } from "@vetta/agent-team";
+import type { AgentAbilitySelection } from "@origin/agent-team";
 import type { AgentCapabilityOption } from "./capability-options";
 
 export type AgentAbilityKey = "skills" | "mcpServers" | "plugins";

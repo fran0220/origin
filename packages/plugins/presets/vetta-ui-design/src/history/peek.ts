@@ -13,7 +13,7 @@
  * 3. 查看期间禁止自动提交（见 turn-history）。
  * 4. 标记留在磁盘上，崩溃或强退后下次打开设计自动退回最新版。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { MANIFEST_FILE } from "../vetd/manifest-types";
 import type { DesignSession } from "../vetd/design-session";
 import { commitHistory, listHistory } from "./history-client";

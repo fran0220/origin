@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { ensureDesignIgnored } from "../vetd/design-ignore";
 import { manifestPathOf, type VetdManifest } from "../vetd/manifest-types";
 import { designSystemById } from "./index";

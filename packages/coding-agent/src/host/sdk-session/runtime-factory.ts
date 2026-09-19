@@ -6,7 +6,7 @@ import {
 	RuntimeHost,
 	type RuntimeHostSession,
 	type RuntimePreparedSessionBinding,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import type {
 	CodingAgentRuntimeComposition,
 	CodingAgentRuntimeCompositionOptions,

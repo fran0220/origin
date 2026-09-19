@@ -39,7 +39,7 @@ vi.mock("../hooks/useProjectDetailPageModel", () => ({
 		};
 	},
 }));
-vi.mock("@vetta-org/theme-ui/project", () => ({
+vi.mock("@origin-org/theme-ui/project", () => ({
 	ProjectDetailPageView: ({ cwd }: { cwd: string }) => <div>{cwd}</div>,
 }));
 vi.mock("@domains/activity-panel/components/ActivityPanel", () => ({

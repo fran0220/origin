@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 
 /** Screenshots live beside the design sources, one flat directory per design. */
 const SNAPSHOTS_DIR = ".snapshots";

@@ -1,10 +1,10 @@
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
 import type {
 	SubagentCoordinatorPort,
 	SubagentSnapshot,
 	SubagentSpawnRequest,
 	SubagentWaitResult,
-} from "@vetta/runtime-subagents";
+} from "@origin/runtime-subagents";
 import { describe, expect, it, vi } from "vitest";
 import {
 	createFollowupTaskToolRegistration,

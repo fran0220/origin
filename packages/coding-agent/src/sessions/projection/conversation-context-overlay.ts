@@ -1,5 +1,5 @@
-import type { ConversationDocument, RuntimeMessageEnvelope } from "@vetta/runtime-core";
-import type { ConversationContextProjector } from "@vetta/runtime-core/kernel";
+import type { ConversationDocument, RuntimeMessageEnvelope } from "@origin/runtime-core";
+import type { ConversationContextProjector } from "@origin/runtime-core/kernel";
 import { areStructuredValuesEqual } from "./structural-equality.js";
 
 interface ConversationContextOverlay {

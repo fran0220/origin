@@ -1,4 +1,4 @@
-import { Button, cn } from "@vetta-org/ui";
+import { Button, cn } from "@origin-org/ui";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {

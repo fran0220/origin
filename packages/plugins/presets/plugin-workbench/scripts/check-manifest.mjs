@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Validate plugin.json through @vetta-org/plugin-sdk, then report optional
+ * Validate plugin.json through @origin-org/plugin-sdk, then report optional
  * authoring recommendations used by the plugin workbench.
  * Usage: node check-manifest.mjs <pluginRoot>
  */

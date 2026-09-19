@@ -13,7 +13,7 @@
  * 忙时说「留个备注」（要等它这一轮收尾自检时才来取）。
  */
 
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { NotesStore } from "../notes/notes-store";
 import type { VetdFrameEntry } from "../vetd/manifest-types";

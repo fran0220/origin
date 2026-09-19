@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import type { ExecutionReceipt, VerificationRunInput, VerificationRunner } from "@vetta/runtime-checkpoints";
+import type { ExecutionReceipt, VerificationRunInput, VerificationRunner } from "@origin/runtime-checkpoints";
 import { outcomeFromCommandResult } from "./receipt-emitter.js";
 
 export interface NodeVerificationRunnerOptions {

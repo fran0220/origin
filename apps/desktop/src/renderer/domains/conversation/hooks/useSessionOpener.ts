@@ -1,5 +1,6 @@
 import { useProjectActions } from "@domains/project/hooks/useProjects";
 import { applyActiveTagFilterToNewConversation } from "@domains/project/services/new-conversation-tagging";
+import type { ConversationScenario } from "@origin-org/plugin-sdk";
 import { i18n } from "@shared/i18n";
 import { waitForCommittedPaint } from "@shared/lib/committed-paint";
 import { perfSendMark } from "@shared/lib/perf-send";
@@ -42,7 +43,6 @@ import {
 } from "@shared/store/atoms";
 import { setQueueForSessionAtom, setQueuePausedAtom } from "@shared/store/message-queue-atoms";
 import { useNavigate } from "@tanstack/react-router";
-import type { ConversationScenario } from "@vetta-org/plugin-sdk";
 import { getDefaultStore, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { type MutableRefObject, useCallback, useRef } from "react";
 import { preserveMessagesAddedAfterSnapshot, shareChatMessageSnapshot } from "../services/chat-message-snapshot";

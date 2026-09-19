@@ -1,5 +1,5 @@
-import { SIGNED_IN_CONNECTION_ID } from "@vetta/coding-agent/connections";
-import type { RelayRoute } from "@vetta/runtime-node/credentials";
+import { SIGNED_IN_CONNECTION_ID } from "@origin/coding-agent/connections";
+import type { RelayRoute } from "@origin/runtime-node/credentials";
 import { getOrCreateSharedModelRuntime } from "../agent-runtime/host-services.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
 import { syncCredentialFile } from "../credentials/cli-credential-file.js";

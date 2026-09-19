@@ -1,4 +1,4 @@
-import type { PluginCommandSpawnHandle, PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginCommandSpawnHandle, PluginContext } from "@origin-org/plugin-sdk";
 import { updateProject } from "../store/project-store";
 
 export const DEV_SERVER_RETRY_LIMIT = 3;

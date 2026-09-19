@@ -25,7 +25,7 @@ const galleryViewGate = vi.hoisted(() => {
 });
 const gridChunk = vi.hoisted(() => ({ loaded: false }));
 
-vi.mock("@vetta-org/plugin-sdk", () => {
+vi.mock("@origin-org/plugin-sdk", () => {
 	const t = (key: string) => key;
 	return { useTranslation: () => ({ t, locale: "zh" }) };
 });

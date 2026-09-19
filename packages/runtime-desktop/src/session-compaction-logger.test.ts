@@ -1,4 +1,4 @@
-import type { SessionEvent } from "@vetta/runtime-core";
+import type { SessionEvent } from "@origin/runtime-core";
 import { describe, expect, it, vi } from "vitest";
 import { createRuntimeSessionCompactionLogger } from "./session-compaction-logger.js";
 

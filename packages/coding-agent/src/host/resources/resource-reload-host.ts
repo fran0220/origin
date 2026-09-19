@@ -1,4 +1,4 @@
-import { resetApiProviders } from "@vetta/ai";
+import { resetApiProviders } from "@origin/ai";
 import type { SessionResourceRuntime } from "../../resources/index.js";
 import type { SettingsRuntime } from "../../settings/index.js";
 

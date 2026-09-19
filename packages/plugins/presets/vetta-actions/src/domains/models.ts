@@ -3,7 +3,7 @@ import type {
 	PluginContext,
 	PluginJsonSchema,
 	PluginOfficialProviderUpsertData,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { throwEntityNotFound, throwInvalidInput } from "../action-errors";
 import { createVettaActionRegistrar } from "../action-usage";
 

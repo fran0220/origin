@@ -1,4 +1,4 @@
-import { PermissionsSettingsView as ThemePermissionsSettingsView } from "@vetta-org/theme-ui/settings";
+import { PermissionsSettingsView as ThemePermissionsSettingsView } from "@origin-org/theme-ui/settings";
 import { SETTINGS_SECTION } from "../registry";
 import type { PermissionsSettingsModel } from "./usePermissionsSettingsModel";
 

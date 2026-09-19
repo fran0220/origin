@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { loadRasters } from "../canvas/raster-cache";
 import type { VetdFrameEntry } from "../vetd/manifest-types";

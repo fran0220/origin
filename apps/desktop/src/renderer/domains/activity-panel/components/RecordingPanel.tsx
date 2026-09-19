@@ -1,4 +1,4 @@
-import type { RecordingRecord } from "@vetta/runtime-recording";
+import type { RecordingRecord } from "@origin/runtime-recording";
 import { toVettaFileUrl } from "@shared/lib/utils";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

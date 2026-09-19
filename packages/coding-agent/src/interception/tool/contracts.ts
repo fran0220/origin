@@ -3,7 +3,7 @@ import type {
 	RuntimeToolDefinition,
 	RuntimeToolExecutionRequest,
 	RuntimeToolResult,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 
 export const CODING_AGENT_TOOL_INTERCEPTION_ORDER = {
 	ecosystem: 100,

@@ -1,7 +1,7 @@
 /**
  * 历史进出分享包的那一层：中转文件一定要删干净，任何失败都不能连累导出本身。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const runHistoryCommand = vi.fn();

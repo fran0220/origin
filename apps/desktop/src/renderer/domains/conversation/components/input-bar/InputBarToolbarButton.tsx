@@ -1,2 +1,2 @@
-export type { InputBarToolbarButtonProps } from "@vetta-org/theme-ui/chat";
-export { InputBarToolbarButton } from "@vetta-org/theme-ui/chat";
+export type { InputBarToolbarButtonProps } from "@origin-org/theme-ui/chat";
+export { InputBarToolbarButton } from "@origin-org/theme-ui/chat";

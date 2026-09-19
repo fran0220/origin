@@ -7,7 +7,7 @@ import {
 	normalizeMentionHandle,
 	parseAgentProfileDocument,
 	type UpdateAgentProfileInput,
-} from "@vetta/agent-team";
+} from "@origin/agent-team";
 import { getAppLogger } from "../logger.js";
 import { agentBlueprintRegistry, resolveAgentBlueprint } from "./agent-blueprint-registry.js";
 import { type AgentTeamConfigRepository, createAgentTeamConfigRepository } from "./agent-team-config-repository.js";

@@ -1,7 +1,7 @@
 import { spawn } from "node:child_process";
 import { mkdir, stat } from "node:fs/promises";
 import { join } from "node:path";
-import type { RecordingSampleRequest, RecordingSampleResult } from "@vetta/runtime-recording";
+import type { RecordingSampleRequest, RecordingSampleResult } from "@origin/runtime-recording";
 
 export interface FfmpegSampleOptions {
 	readonly ffmpegPath: string;

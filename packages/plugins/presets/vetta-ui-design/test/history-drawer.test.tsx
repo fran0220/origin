@@ -4,7 +4,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({ t: (key: string, vars?: Record<string, unknown>) => (vars ? `${key}:${vars.name ?? vars.count}` : key) }),
 }));
 

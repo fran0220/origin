@@ -1,5 +1,5 @@
+import type { AgentBlueprint, AgentProfileDocument } from "@origin/agent-team";
 import { i18n } from "@shared/i18n";
-import type { AgentBlueprint, AgentProfileDocument } from "@vetta/agent-team";
 import type { BlueprintDisplayPlugin } from "../lib/blueprint-display";
 import { type AgentCapabilityOption, buildAgentCapabilityOptions } from "../lib/capability-options";
 

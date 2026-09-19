@@ -2,7 +2,7 @@ import {
 	parseCreateAgentProfileInput,
 	parseDeleteAgentProfileInput,
 	parseUpdateAgentProfileInput,
-} from "@vetta/agent-team";
+} from "@origin/agent-team";
 import { dialog, ipcMain, webContents } from "electron";
 import { storeAgentAvatarFile } from "../agent-teams/agent-avatar-store.js";
 import { agentTeamStore } from "../agent-teams/agent-team-store.js";

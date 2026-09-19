@@ -2,7 +2,7 @@
  * 回合提交的编排：什么时候提交、用什么标题、失败了会不会连累别的设计。
  * git 与画布都在边界上换掉——这里验证的是接线，不是 git。
  */
-import type { PluginContext, PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginFsApi } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const commitHistory = vi.fn();

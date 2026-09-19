@@ -1,5 +1,5 @@
-import type { RuntimeConfigurationSnapshotSource } from "@vetta/runtime-core/configuration";
-import type { CodingToolRegistration } from "@vetta/runtime-tools";
+import type { RuntimeConfigurationSnapshotSource } from "@origin/runtime-core/configuration";
+import type { CodingToolRegistration } from "@origin/runtime-tools";
 import { createNodeSandboxHost, type NodeSandboxHost, type NodeSandboxHostOptions } from "../../sandbox/index.js";
 import { createForegroundCommandToolExecutor } from "../shared/foreground-command-executor.js";
 import { createBashToolRegistration } from "../tools/bash/index.js";

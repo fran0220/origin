@@ -1,4 +1,4 @@
-import type { SessionExtensionDefinition } from "@vetta/runtime-core/session-extensions";
+import type { SessionExtensionDefinition } from "@origin/runtime-core/session-extensions";
 import { createCheckpointTurnObserver } from "./checkpoint-turn-feature.js";
 import type { CheckpointTurnHost } from "./contracts.js";
 

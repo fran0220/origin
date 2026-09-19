@@ -1,4 +1,4 @@
-import { Button, Input } from "@vetta-org/ui";
+import { Button, Input } from "@origin-org/ui";
 import { useTranslation } from "react-i18next";
 import { SETTINGS_SECTION } from "../registry";
 import type { ConnectionsSettingsModel } from "./useConnectionsSettingsModel";

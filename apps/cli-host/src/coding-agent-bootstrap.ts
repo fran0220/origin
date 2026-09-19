@@ -3,14 +3,14 @@ import {
 	type CodingAgentBootstrap,
 	type CodingAgentBootstrapDiagnostics,
 	createCodingAgentBootstrap,
-} from "@vetta/coding-agent/bootstrap";
-import { ENV_SERVER_URL, getAgentDir } from "@vetta/coding-agent/config";
-import { createCodingAgentAuthRuntime, createCodingAgentModelRuntime } from "@vetta/coding-agent/host-services";
+} from "@origin/coding-agent/bootstrap";
+import { ENV_SERVER_URL, getAgentDir } from "@origin/coding-agent/config";
+import { createCodingAgentAuthRuntime, createCodingAgentModelRuntime } from "@origin/coding-agent/host-services";
 import {
 	NodeTransactionalTextStorage,
 	nodeConfigurationValueResolver,
 	nodeSyncTextFileSource,
-} from "@vetta/runtime-node/host";
+} from "@origin/runtime-node/host";
 import chalk from "chalk";
 import { createCliSessionResourceRuntime, createCliSettingsRuntime } from "./coding-agent-resource-runtime.js";
 import { runMigrations as runCodingAgentStartupMigrations } from "./startup-migrations.js";

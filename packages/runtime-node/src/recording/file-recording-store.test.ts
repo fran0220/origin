@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { applyRecordingRetention, type RecordingRecord } from "@vetta/runtime-recording";
+import { applyRecordingRetention, type RecordingRecord } from "@origin/runtime-recording";
 import { afterEach, describe, expect, it } from "vitest";
 import { FileRecordingStore } from "./file-recording-store.js";
 

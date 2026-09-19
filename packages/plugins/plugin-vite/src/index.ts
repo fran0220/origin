@@ -1,7 +1,7 @@
 import { federation, type ModuleFederationOptions } from "@module-federation/vite";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { parsePluginManifest } from "@vetta-org/plugin-sdk/manifest";
+import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { Plugin, PluginOption } from "vite";
 import {
 	createVettaPluginDevPlugins,
@@ -29,9 +29,9 @@ export interface VettaPluginFederationOptions {
 	entry?: string;
 	manifestFileName?: string;
 	remoteEntryFileName?: string;
-	/** Share the host design-system primitives exposed by `@vetta-org/ui`. */
+	/** Share the host design-system primitives exposed by `@origin-org/ui`. */
 	hostUi?: boolean;
-	/** Share the narrow host UI contract exposed by `@vetta-org/theme-ui/plugin-ui`. */
+	/** Share the narrow host UI contract exposed by `@origin-org/theme-ui/plugin-ui`. */
 	hostThemeUi?: boolean;
 	shared?: ModuleFederationOptions["shared"];
 	package?: boolean | VettaPluginPackageOptions;
@@ -51,7 +51,7 @@ export function createVettaPluginFederationConfig(options: VettaPluginFederation
 		},
 		dts: false,
 		shared: {
-			"@vetta-org/plugin-sdk": {
+			"@origin-org/plugin-sdk": {
 				singleton: true,
 				import: false,
 				requiredVersion: "*",
@@ -75,7 +75,7 @@ export function createVettaPluginFederationConfig(options: VettaPluginFederation
 			...(options.hostUi
 				? {
 						// Host design-system primitives; runtime provided by desktop-app share scope.
-						"@vetta-org/ui": {
+						"@origin-org/ui": {
 							singleton: true,
 							import: false,
 							requiredVersion: "*",
@@ -85,7 +85,7 @@ export function createVettaPluginFederationConfig(options: VettaPluginFederation
 			...(options.hostThemeUi
 				? {
 						// Host-built UI components (model selector, …); opt in to keep unrelated plugins decoupled.
-						"@vetta-org/theme-ui/plugin-ui": {
+						"@origin-org/theme-ui/plugin-ui": {
 							singleton: true,
 							import: false,
 							requiredVersion: "*",
@@ -113,16 +113,16 @@ function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFeder
 						input: entry,
 						// Host-provided singletons (see desktop-app plugin-shared-modules + vetta-host protocol).
 						external: [
-							"@vetta-org/plugin-sdk",
+							"@origin-org/plugin-sdk",
 							...(options.hostUi
 								? [
-										"@vetta-org/ui",
+										"@origin-org/ui",
 										// 旧源码名仍映射到宿主；已构建的旧 remote 则由 Desktop share scope 兼容。
-										"@vetta/ui",
+										"@origin/ui",
 									]
 								: []),
-							"@vetta-org/theme-ui/plugin-ui",
-							"@vetta/theme-ui/plugin-ui",
+							"@origin-org/theme-ui/plugin-ui",
+							"@origin/theme-ui/plugin-ui",
 						],
 						output: {
 							assetFileNames(assetInfo) {
@@ -131,11 +131,11 @@ function createBuildDefaultsPlugin(entry: string, options: Pick<VettaPluginFeder
 									: "assets/[name]-[hash][extname]";
 							},
 							paths: {
-								"@vetta-org/plugin-sdk": "vetta-host://plugin-sdk",
-								"@vetta-org/ui": "vetta-host://ui",
-								"@vetta/ui": "vetta-host://ui",
-								"@vetta-org/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
-								"@vetta/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
+								"@origin-org/plugin-sdk": "vetta-host://plugin-sdk",
+								"@origin-org/ui": "vetta-host://ui",
+								"@origin/ui": "vetta-host://ui",
+								"@origin-org/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
+								"@origin/theme-ui/plugin-ui": "vetta-host://theme-ui-plugin",
 							},
 						},
 					},

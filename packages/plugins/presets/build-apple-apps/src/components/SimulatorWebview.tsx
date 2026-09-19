@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, type Ref, useCallback, useEffect, useRef, useState } from "react";
 import { buildEmbedCss } from "../runtime/embed-css.js";
 import { readHostTheme } from "../runtime/host-theme.js";

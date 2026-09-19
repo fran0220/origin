@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import type { RecordingRecord } from "@vetta/runtime-recording";
+import type { RecordingRecord } from "@origin/runtime-recording";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ActivityPanelContextProvider } from "../registry/context";
 import { RecordingPanel } from "./RecordingPanel";

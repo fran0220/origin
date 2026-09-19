@@ -1,17 +1,17 @@
-import type { KnowledgeViewLabels } from "@vetta-org/theme-ui/knowledge";
+import type { KnowledgeViewLabels } from "@origin-org/theme-ui/knowledge";
 import { useTranslation } from "react-i18next";
 
 export type {
 	KnowledgeProcessStatus,
 	KnowledgeViewNode,
 	KnowledgeViewProps,
-} from "@vetta-org/theme-ui/knowledge";
+} from "@origin-org/theme-ui/knowledge";
 export {
 	formatFileSize,
 	KnowledgeEmptyState,
 	knowledgeDirItemCount,
 	StatusBadge,
-} from "@vetta-org/theme-ui/knowledge";
+} from "@origin-org/theme-ui/knowledge";
 
 /** Host i18n labels for knowledge grid/list. */
 export function useKnowledgeViewLabels(): KnowledgeViewLabels {

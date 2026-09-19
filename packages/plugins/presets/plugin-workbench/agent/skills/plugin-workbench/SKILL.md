@@ -5,7 +5,7 @@ description: >
   for non-developers. Use whenever the user wants an Origin plugin, plugin scaffolding,
   apply zip to Origin, edit plugin.json name/guidingWords, or debug plugin load/install.
   Requires the Plugin Workbench input-bar toggle (hard isolation). The plugin handbook ships
-  inside the project's own @vetta-org/plugin-sdk; locate it with the bundled CLI's docs command.
+  inside the project's own @origin-org/plugin-sdk; locate it with the bundled CLI's docs command.
 ---
 
 # 制作插件（完整流水线）
@@ -31,7 +31,7 @@ workbenchRoot = listPlugins() 中 id === "plugin-workbench" 的 rootPath
 | 实现模板摘要 | 本 skill 目录 `references/templates.md` |
 | 标准脚本 | `{workbenchRoot}/scripts/*.mjs` |
 
-**手册不在工作台里**，它随 `@vetta-org/plugin-sdk` 装进**被编辑工程自己的** `node_modules`。
+**手册不在工作台里**，它随 `@origin-org/plugin-sdk` 装进**被编辑工程自己的** `node_modules`。
 这是刻意的：那份手册与该工程实际编译的 SDK 版本一致，而随 App 发版的内嵌副本做不到。用内置
 CLI 解析它的位置（工程 `npm install` 之后）：
 
@@ -90,7 +90,7 @@ node "{workbenchRoot}/agent/cli/vetta-plugin-cli.js" docs --json
 
 1. 用户已打开输入栏 **「制作插件」** toggle（硬隔离；关着则 skill/agent 贡献不可见）。  
 2. 工程在**当前会话 cwd**（或一层子目录），无特殊工场目录。  
-3. 用户插件依赖：`@vetta-org/plugin-sdk` / `@vetta-org/plugin-vite` 用 **registry 已发布 semver**（`init` 默认 sdk `^0.3.1` / vite `^0.2.0`，两者版本独立；若 install 失败问用户 registry/版本）。
+3. 用户插件依赖：`@origin-org/plugin-sdk` / `@origin-org/plugin-vite` 用 **registry 已发布 semver**（`init` 默认 sdk `^0.3.1` / vite `^0.2.0`，两者版本独立；若 install 失败问用户 registry/版本）。
 4. 构建用 **托管 Node + npm**；标准脚本封装，禁止随意手搓另一套 pack（除非用户明确要求且你已读 getting-started 的打包约定）。
 
 ---
@@ -229,4 +229,4 @@ Activity Tab「制作插件」（同样受 toggle 硬隔离）：扫描 cwd、�
 - `references/templates.md` — 常见扩展点代码起点  
 
 **再次强调**：实现前先 `docs --json` 拿到 `manualDir`，再 `read` 其中对应的章节。手册随工程自己的
-`@vetta-org/plugin-sdk` 发布，因此它描述的合同就是这个工程即将编译的合同。
+`@origin-org/plugin-sdk` 发布，因此它描述的合同就是这个工程即将编译的合同。

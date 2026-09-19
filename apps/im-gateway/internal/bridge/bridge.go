@@ -700,7 +700,7 @@ func extractToolName(raw json.RawMessage) string {
 // `message_end` event whose payload is a fully-formed AssistantMessage
 // with stopReason == "error". Returns "" when the message ended normally.
 //
-// Shape we read (subset of @vetta/coding-agent's AssistantMessage):
+// Shape we read (subset of @origin/coding-agent's AssistantMessage):
 //
 //	{ "message": { "stopReason": "error", "errorMessage": "Connection error." } }
 //

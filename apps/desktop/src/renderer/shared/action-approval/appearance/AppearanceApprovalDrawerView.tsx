@@ -1,5 +1,5 @@
 export type {
 	AppearanceApprovalDrawerViewLabels,
 	AppearanceApprovalDrawerViewProps,
-} from "@vetta-org/theme-ui/action-approval";
-export { AppearanceApprovalDrawerView } from "@vetta-org/theme-ui/action-approval";
+} from "@origin-org/theme-ui/action-approval";
+export { AppearanceApprovalDrawerView } from "@origin-org/theme-ui/action-approval";

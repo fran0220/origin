@@ -6,7 +6,7 @@
  * 大的浪费。风险是它挑错版本，由 vetd_restore 的返回值兜住：它同时报出「已恢复到
  * 哪一版」和「恢复前的状态存成了哪一版」，用户说「不是这个」时模型能立刻改正。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { getCanvasController } from "../canvas/design-runtime";
 import { listHistory } from "./history-client";
 import { restoreDesign } from "./restore";

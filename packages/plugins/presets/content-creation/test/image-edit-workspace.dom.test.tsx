@@ -5,11 +5,11 @@ import type { ComponentProps } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ImageEditWorkspace } from "../src/image-edit/ImageEditWorkspace";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock("@vetta-org/ui", () => ({
+vi.mock("@origin-org/ui", () => ({
 	Button: ({ children, ...props }: ComponentProps<"button">) => <button {...props}>{children}</button>,
 }));
 

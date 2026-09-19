@@ -6,7 +6,7 @@ import {
 	type RuntimeTurnPromptOutcome,
 	type ThreadIntent,
 	type ThreadOrigin,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import { getAppLogger } from "../logger.js";
 
 const log = getAppLogger("thread-coordinator");

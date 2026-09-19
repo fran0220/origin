@@ -1,4 +1,5 @@
 import { useProjectActions } from "@domains/project/hooks/useProjects";
+import type { NewSessionHeroIdentity } from "@origin-org/theme-ui";
 import { i18n } from "@shared/i18n";
 import {
 	abortMessageFnRef,
@@ -28,7 +29,6 @@ import {
 } from "@shared/store/atoms";
 import { useInactiveFrozenValue, useSurfaceActive } from "@shared/surface-active";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import type { NewSessionHeroIdentity } from "@vetta-org/theme-ui";
 import { useAtomValue, useSetAtom } from "jotai";
 import { startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

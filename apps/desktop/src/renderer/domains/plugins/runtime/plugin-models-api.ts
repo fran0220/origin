@@ -1,4 +1,4 @@
-import type { PluginModelsApi, PluginPermissionApi } from "@vetta-org/plugin-sdk";
+import type { PluginModelsApi, PluginPermissionApi } from "@origin-org/plugin-sdk";
 
 export function createPluginModelsApi(permissions: PluginPermissionApi, capabilitySessionId: string): PluginModelsApi {
 	return {

@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import type {
 	AddMarketplaceSourceInput,
 	MarketplaceSource,

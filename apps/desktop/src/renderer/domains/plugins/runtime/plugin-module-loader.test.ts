@@ -1,5 +1,5 @@
+import type { PluginDefinition } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginDefinition } from "@vetta-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({

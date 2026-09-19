@@ -533,7 +533,7 @@ ready 弹窗只会在以下三项同时存在后出现：
 
 - `prepare-pack.js` 显式 staging `electron-updater`、`builder-util-runtime` 等 external 依赖及其生产依赖闭包。
 - coding-agent runtime、agent-rpc CLI 和 cli-host 作为资源进入安装包。
-- 打包前扫描 `dist/main`，若仍有 `@vetta/*` workspace import 会直接失败。
+- 打包前扫描 `dist/main`，若仍有 `@origin/*` workspace import 会直接失败。
 - R2 发布前 Inno 预检会把版本目录全部展开并按 manifest 校验文件数量与大小。
 
 新增/调整 Vite external 时必须同步检查 `prepare-pack.js` 的 staging 列表，不能只让开发模式通过。
@@ -665,7 +665,7 @@ install failed
 - [ ] 更新 provider/URL 写入目标包。
 - [ ] EXE、blockmap、files manifest、`latest.yml` 属于同一版本。
 - [ ] Inno 本地预检通过，文件数量和大小一致。
-- [ ] 最终包不含未解析的 `@vetta/*` workspace import。
+- [ ] 最终包不含未解析的 `@origin/*` workspace import。
 
 ### R2/Cloudflare
 

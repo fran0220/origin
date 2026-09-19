@@ -1,8 +1,8 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
 import { join, parse } from "node:path";
 import { inspect } from "node:util";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { scrubSecrets } from "@vetta/runtime-node/credentials";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { scrubSecrets } from "@origin/runtime-node/credentials";
 import electronLog from "electron-log/main";
 import { getDesktopCredentialVault } from "./credentials/desktop-credential-vault.js";
 import { formatErrorChain, formatErrorChainJSON } from "./logger/format-error-chain.js";

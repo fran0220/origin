@@ -3,5 +3,5 @@ export type {
 	AtPanelEntryModel,
 	AtPanelLabels,
 	AtPanelViewProps,
-} from "@vetta-org/theme-ui/chat";
-export { AtPanelView } from "@vetta-org/theme-ui/chat";
+} from "@origin-org/theme-ui/chat";
+export { AtPanelView } from "@origin-org/theme-ui/chat";

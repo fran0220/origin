@@ -6,7 +6,7 @@
  * 而 scaffoldDesign 与导入本来就只往项目根写（`${cwd}/${name}.vetd`）。
  * 代价是用户手动挪进子目录的设计收不到，这是明确取舍。
  */
-import type { PluginFsApi, PluginOfficialSessionSummary } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginOfficialSessionSummary } from "@origin-org/plugin-sdk";
 import { designNameOf, MANIFEST_FILE } from "../vetd/manifest-types";
 import { migrateLegacyDesign } from "../vetd/migrate";
 

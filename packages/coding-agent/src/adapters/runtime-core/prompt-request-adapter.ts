@@ -1,11 +1,11 @@
-import type { PromptRequest, RuntimePromptAdapter } from "@vetta/runtime-core";
+import type { PromptRequest, RuntimePromptAdapter } from "@origin/runtime-core";
 import type {
 	RuntimeInputRequestPreparationContext,
 	RuntimeInputRequestPreparationResult,
 	RuntimeInputRequestPreparer,
 	RuntimeSnapshotAcquireContext,
 	SessionInputRequest,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import {
 	DefaultCodingAgentPromptRequestRuntime,
 	type DefaultCodingAgentPromptRequestRuntimeOptions,

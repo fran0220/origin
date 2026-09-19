@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useId, useRef, useState } from "react";
 
 /** 下拉里的四个动作：范围（选中 / 全部）× 形态（图片 / PDF）。 */

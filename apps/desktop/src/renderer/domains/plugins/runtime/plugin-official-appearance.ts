@@ -1,5 +1,5 @@
+import type { PluginOfficialApi } from "@origin-org/plugin-sdk";
 import { i18n } from "@shared/i18n";
-import type { PluginOfficialApi } from "@vetta-org/plugin-sdk";
 import { getDefaultStore } from "jotai";
 import { cursorStyleAtom, resolvedThemeAtom, themeModeAtom, themeNameAtom } from "../../../shared/store/ui-atoms";
 import { applyTheme, MODE_STORAGE_KEY, type ResolvedMode, THEME_STORAGE_KEY } from "../../../shared/theme/apply";

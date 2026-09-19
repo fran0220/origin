@@ -14,7 +14,7 @@ import type {
 	PluginCommandSpawnExit,
 	PluginCommandSpawnHandle,
 	PluginContext,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { designPackageJson, needsDependencyInstall, PACKAGE_FILE } from "../vetd/design-package";
 import { sanitizeDesignName } from "../vetd/scaffold";
 import { ENGINE_FILES, engineFilesHash } from "./engine-files";

@@ -2,7 +2,7 @@ import type {
 	RuntimeActiveSessionTransition,
 	RuntimeHostSession,
 	RuntimePreparedSessionBinding,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import type {
 	ExtensionCommandContextActions,
 	ExtensionError,

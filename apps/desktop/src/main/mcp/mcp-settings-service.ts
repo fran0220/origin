@@ -1,9 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { isSecretFieldName, storeMcpConfigSecrets } from "@vetta/runtime-node/credentials";
-import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
-import type { McpServerDetail, McpServerSummary, McpServerUpsertData } from "@vetta-org/capability-sdk";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { isSecretFieldName, storeMcpConfigSecrets } from "@origin/runtime-node/credentials";
+import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
+import type { McpServerDetail, McpServerSummary, McpServerUpsertData } from "@origin-org/capability-sdk";
 import type {
 	McpConfigData,
 	McpHttpServerConfigData,

@@ -53,7 +53,7 @@ const TEXT_EXTENSIONS = new Set([
 
 const STEPS = {
 	"npm-scope": {
-		title: "npm scope (@vetta/* → @origin/*, @vetta-org/* → @origin-org/*)",
+		title: "npm scope (@origin/* → @origin/*, @origin-org/* → @origin-org/*)",
 		patterns: [/@vetta\//g, /@vetta-org\//g],
 	},
 	"data-dir": {

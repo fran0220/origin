@@ -1,4 +1,4 @@
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 import { type ComponentType, type ReactElement, lazy, Suspense } from "react";
 import "./style.css";
 import {

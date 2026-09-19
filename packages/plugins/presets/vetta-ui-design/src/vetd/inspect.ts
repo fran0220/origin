@@ -8,7 +8,7 @@
  * 机制删掉了：一轮结束却又冒出一条消息，观感上是 agent 自说自话又跑了起来）。所以
  * 「写完就截图」这条纪律只能靠 SKILL.md 立，见那里的 Done 定义。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { checkSources, type SourceFile, type SourceIssue } from "./check-sources";
 import { checkSyntax } from "./check-syntax";
 import { readDesignDependencies } from "./design-package";

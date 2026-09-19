@@ -1,4 +1,5 @@
 import { markQueueEntrySelfRemoved } from "@domains/conversation/services/queue-mirror";
+import type { QueueCardItem, QueueCardPausedBanner, QueueCardViewLabels } from "@origin-org/theme-ui/chat";
 import { isCompactingAtom } from "@shared/store/atoms";
 import {
 	getQueueForSession,
@@ -7,7 +8,6 @@ import {
 	messageQueuePausedBySessionAtom,
 	setQueueForSessionAtom,
 } from "@shared/store/message-queue-atoms";
-import type { QueueCardItem, QueueCardPausedBanner, QueueCardViewLabels } from "@vetta-org/theme-ui/chat";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";

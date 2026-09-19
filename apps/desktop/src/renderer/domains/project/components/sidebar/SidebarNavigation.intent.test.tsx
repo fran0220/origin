@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { fireEvent, render, screen } from "@testing-library/react";
-import type { SidebarNavItem } from "@vetta-org/theme-sdk/sidebar";
-import { SidebarNavigation } from "@vetta-org/theme-ui/sidebar";
+import type { SidebarNavItem } from "@origin-org/theme-sdk/sidebar";
+import { SidebarNavigation } from "@origin-org/theme-ui/sidebar";
 import { describe, expect, it, vi } from "vitest";
 
 const ITEMS: SidebarNavItem[] = [

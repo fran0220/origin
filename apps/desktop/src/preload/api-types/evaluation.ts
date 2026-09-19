@@ -7,7 +7,7 @@ import type {
 	EvaluationTrigger,
 	UpsertCriterionInput,
 	UpsertDefinitionInput,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 
 export type {
 	EvaluationAttempt,

@@ -1,12 +1,12 @@
-import { McpInputRequiredError } from "@vetta/runtime-mcp/client";
+import { McpInputRequiredError } from "@origin/runtime-mcp/client";
 import type {
 	McpInputRequiredResult,
 	McpInteractionContext,
 	McpJsonObject,
 	McpRequestOptions,
 	McpServerInteractionHandlers,
-} from "@vetta/runtime-mcp/protocol";
-import { isMcpInputRequiredResult, resolveMcpInputRequests } from "@vetta/runtime-mcp/protocol";
+} from "@origin/runtime-mcp/protocol";
+import { isMcpInputRequiredResult, resolveMcpInputRequests } from "@origin/runtime-mcp/protocol";
 
 export interface McpMrtrRequestOptions<T> {
 	readonly serverName: string;

@@ -1,13 +1,13 @@
 import type { ModuleFederation } from "@module-federation/enhanced/runtime";
-import * as themeSdk from "@vetta-org/theme-sdk";
-import * as themeSdkPages from "@vetta-org/theme-sdk/pages";
-import * as themeSdkRouting from "@vetta-org/theme-sdk/routing";
-import * as themeSdkStorage from "@vetta-org/theme-sdk/storage";
-import * as themeSdkUsage from "@vetta-org/theme-sdk/usage";
-import * as themeUi from "@vetta-org/theme-ui";
-import * as themeUiAppShell from "@vetta-org/theme-ui/app-shell";
-import * as themeUiSidebar from "@vetta-org/theme-ui/sidebar";
-import * as vettaUi from "@vetta-org/ui";
+import * as themeSdk from "@origin-org/theme-sdk";
+import * as themeSdkPages from "@origin-org/theme-sdk/pages";
+import * as themeSdkRouting from "@origin-org/theme-sdk/routing";
+import * as themeSdkStorage from "@origin-org/theme-sdk/storage";
+import * as themeSdkUsage from "@origin-org/theme-sdk/usage";
+import * as themeUi from "@origin-org/theme-ui";
+import * as themeUiAppShell from "@origin-org/theme-ui/app-shell";
+import * as themeUiSidebar from "@origin-org/theme-ui/sidebar";
+import * as vettaUi from "@origin-org/ui";
 import * as MotionReact from "motion/react";
 import * as React from "react";
 import * as jsxDevRuntime from "react/jsx-dev-runtime";
@@ -19,17 +19,17 @@ import * as desktopThemeSidebar from "../sdk/sidebar-primitives";
 type ModuleFederationShared = Parameters<typeof ModuleFederation.prototype.initOptions>[0]["shared"];
 
 const sharedModules = {
-	"@vetta/desktop-theme-ui/app-shell": { module: desktopThemeAppShell, version: "0.1.0" },
-	"@vetta/desktop-theme-ui/sidebar": { module: desktopThemeSidebar, version: "0.1.0" },
-	"@vetta-org/theme-sdk": { module: themeSdk, version: "0.1.0" },
-	"@vetta-org/theme-sdk/pages": { module: themeSdkPages, version: "0.1.0" },
-	"@vetta-org/theme-sdk/routing": { module: themeSdkRouting, version: "0.1.0" },
-	"@vetta-org/theme-sdk/storage": { module: themeSdkStorage, version: "0.1.0" },
-	"@vetta-org/theme-sdk/usage": { module: themeSdkUsage, version: "0.1.0" },
-	"@vetta-org/theme-ui": { module: themeUi, version: "0.1.0" },
-	"@vetta-org/theme-ui/app-shell": { module: themeUiAppShell, version: "0.1.0" },
-	"@vetta-org/theme-ui/sidebar": { module: themeUiSidebar, version: "0.1.0" },
-	"@vetta-org/ui": { module: vettaUi, version: "0.1.0" },
+	"@origin/desktop-theme-ui/app-shell": { module: desktopThemeAppShell, version: "0.1.0" },
+	"@origin/desktop-theme-ui/sidebar": { module: desktopThemeSidebar, version: "0.1.0" },
+	"@origin-org/theme-sdk": { module: themeSdk, version: "0.1.0" },
+	"@origin-org/theme-sdk/pages": { module: themeSdkPages, version: "0.1.0" },
+	"@origin-org/theme-sdk/routing": { module: themeSdkRouting, version: "0.1.0" },
+	"@origin-org/theme-sdk/storage": { module: themeSdkStorage, version: "0.1.0" },
+	"@origin-org/theme-sdk/usage": { module: themeSdkUsage, version: "0.1.0" },
+	"@origin-org/theme-ui": { module: themeUi, version: "0.1.0" },
+	"@origin-org/theme-ui/app-shell": { module: themeUiAppShell, version: "0.1.0" },
+	"@origin-org/theme-ui/sidebar": { module: themeUiSidebar, version: "0.1.0" },
+	"@origin-org/ui": { module: vettaUi, version: "0.1.0" },
 	"motion/react": { module: MotionReact, version: "12.23.12" },
 	react: { module: React, version: React.version },
 	"react-dom": { module: ReactDom, version: ReactDom.version },

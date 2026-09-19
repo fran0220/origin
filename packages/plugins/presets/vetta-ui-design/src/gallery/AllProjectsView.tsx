@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useState } from "react";
 import { GalleryCard } from "./GalleryCard";
 import { growVisibleCount, initialVisibleCount, PROJECT_GRID_CLASS } from "./gallery-layout";

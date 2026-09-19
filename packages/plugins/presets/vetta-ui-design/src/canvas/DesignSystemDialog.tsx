@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { TemplateGalleryDialog } from "../cards/TemplateGalleryDialog";
 import {

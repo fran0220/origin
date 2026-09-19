@@ -5,7 +5,7 @@ import {
 	parsePluginCommandNames,
 	parsePluginManifest,
 	validatePluginRelativePath,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 import type { InstalledPlugin, PluginLocales, PluginManifest } from "../../preload/api-types/plugins.js";
 import { readPluginLocales, resolvePluginIcon } from "./plugin-package.js";
 import type { SystemPluginPreferenceStore } from "./plugin-registry-store.js";

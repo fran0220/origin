@@ -3,11 +3,11 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, Model } from "@vetta/ai";
-import { createCodingAgentRuntimeSessionSelection } from "@vetta/coding-agent/composition";
-import type { CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
-import { RuntimeHost } from "@vetta/runtime-core";
-import { DesktopRuntimeBackendPool } from "@vetta/runtime-desktop";
+import type { Api, Model } from "@origin/ai";
+import { createCodingAgentRuntimeSessionSelection } from "@origin/coding-agent/composition";
+import type { CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
+import { RuntimeHost } from "@origin/runtime-core";
+import { DesktopRuntimeBackendPool } from "@origin/runtime-desktop";
 import { afterEach, describe, expect, it } from "vitest";
 import {
 	startOpenAiResponsesTestServer,

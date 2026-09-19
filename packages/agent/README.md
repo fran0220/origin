@@ -1,6 +1,6 @@
-# @vetta/agent-core
+# @origin/agent-core
 
-Stateful agent with tool execution and event streaming. Built on `@vetta/ai`.
+Stateful agent with tool execution and event streaming. Built on `@origin/ai`.
 
 ## Package Boundary
 
@@ -25,14 +25,14 @@ Stateful agent with tool execution and event streaming. Built on `@vetta/ai`.
 ## Installation
 
 ```bash
-npm install @vetta/agent-core
+npm install @origin/agent-core
 ```
 
 ## Quick Start
 
 ```typescript
-import { Agent } from "@vetta/agent-core";
-import { getModel } from "@vetta/ai";
+import { Agent } from "@origin/agent-core";
+import { getModel } from "@origin/ai";
 
 const agent = new Agent({
   initialState: {
@@ -319,7 +319,7 @@ Follow-up messages are checked only when there are no more tool calls and no ste
 Extend `AgentMessage` via declaration merging:
 
 ```typescript
-declare module "@vetta/agent-core" {
+declare module "@origin/agent-core" {
   interface CustomAgentMessages {
     notification: { role: "notification"; text: string; timestamp: number };
   }
@@ -391,7 +391,7 @@ Thrown errors are caught by the agent and reported to the LLM as tool errors wit
 For browser apps that proxy through a backend:
 
 ```typescript
-import { Agent, streamProxy } from "@vetta/agent-core";
+import { Agent, streamProxy } from "@origin/agent-core";
 
 const agent = new Agent({
   streamFn: (model, context, options) =>
@@ -408,7 +408,7 @@ const agent = new Agent({
 For direct control without the Agent class:
 
 ```typescript
-import { agentLoop, agentLoopContinue } from "@vetta/agent-core";
+import { agentLoop, agentLoopContinue } from "@origin/agent-core";
 
 const context: AgentContext = {
   systemPrompt: "You are helpful.",

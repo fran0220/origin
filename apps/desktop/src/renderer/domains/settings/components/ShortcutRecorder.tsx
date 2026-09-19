@@ -1,4 +1,4 @@
-import { ShortcutRecorderView } from "@vetta-org/theme-ui/settings";
+import { ShortcutRecorderView } from "@origin-org/theme-ui/settings";
 import { eventToShortcut, formatShortcut } from "@shared/lib/platform";
 
 export function ShortcutRecorder({

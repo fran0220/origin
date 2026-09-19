@@ -1,4 +1,4 @@
-import type { Disposable, PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { Disposable, PluginFsApi } from "@origin-org/plugin-sdk";
 import {
 	type DesignNote,
 	demoteAnchor,

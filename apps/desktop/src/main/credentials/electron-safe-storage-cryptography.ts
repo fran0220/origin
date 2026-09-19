@@ -1,4 +1,4 @@
-import type { CredentialCryptography } from "@vetta/runtime-node/credentials";
+import type { CredentialCryptography } from "@origin/runtime-node/credentials";
 import { safeStorage } from "electron";
 
 export class ElectronSafeStorageCryptography implements CredentialCryptography {

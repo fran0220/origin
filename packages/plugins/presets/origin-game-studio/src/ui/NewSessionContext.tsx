@@ -1,4 +1,4 @@
-import { useTranslation, type PluginNewSessionContext } from "@vetta-org/plugin-sdk";
+import { useTranslation, type PluginNewSessionContext } from "@origin-org/plugin-sdk";
 import { GAME_GENRES, type GameGenre } from "../genres";
 
 export function NewSessionContext({ context }: { context: PluginNewSessionContext }) {

@@ -1,4 +1,4 @@
-import type { CardDescriptor } from "@vetta-org/plugin-sdk";
+import type { CardDescriptor } from "@origin-org/plugin-sdk";
 
 /** Card type this plugin renders; the tool's descriptor and the renderer agree on it. */
 export const SCREENSHOT_CARD_TYPE = "vetta-ui-design:screenshot";

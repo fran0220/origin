@@ -2,8 +2,8 @@ import { randomUUID } from "node:crypto";
 import type { Dirent } from "node:fs";
 import { access, copyFile, cp, mkdir, readdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import type { PluginPutBlobInput, PluginStoredBlob, PluginStoredBlobRef } from "@vetta-org/plugin-sdk";
+import { getVettaHomePath } from "@origin/action-rpc";
+import type { PluginPutBlobInput, PluginStoredBlob, PluginStoredBlobRef } from "@origin-org/plugin-sdk";
 
 export type PluginStorageEncoding = "utf8" | "base64";
 export interface PluginStorageWrite {

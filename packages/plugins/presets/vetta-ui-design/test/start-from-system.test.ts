@@ -7,7 +7,7 @@
  */
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { DesignResource, DesignSystem } from "../src/design-systems/types";
 import {

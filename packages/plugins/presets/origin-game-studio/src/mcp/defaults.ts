@@ -1,4 +1,4 @@
-import type { PluginStorageApi } from "@vetta-org/plugin-sdk";
+import type { PluginStorageApi } from "@origin-org/plugin-sdk";
 
 export const MCP_SETTINGS_PATH = "settings.json";
 

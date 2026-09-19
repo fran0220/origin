@@ -2,11 +2,11 @@
 
 ## 目的
 
-`@vetta/capability-runtime` 是 Capability 合同的通用执行内核。它把“某个 Token 有什么 Provider”与
+`@origin/capability-runtime` 是 Capability 合同的通用执行内核。它把“某个 Token 有什么 Provider”与
 “某个 Subject 是否持有精确 Grant”组合成一次受控调用，但不定义具体能力，也不知道调用者属于哪个扩展系统。
 
 Token、Schema 和上层系统集成的边界见
-[`@vetta-org/capability-sdk` 的合同与宿主集成文档](../../capability-sdk/docs/contracts-and-host-integration.md)。
+[`@origin-org/capability-sdk` 的合同与宿主集成文档](../../capability-sdk/docs/contracts-and-host-integration.md)。
 
 一句话边界：
 
@@ -15,11 +15,11 @@ Token、Schema 和上层系统集成的边界见
 ## 与 SDK、Host 的关系
 
 ```text
-@vetta-org/capability-sdk
+@origin-org/capability-sdk
   Token / Schema / Error / Grant contract
                |
                v
-@vetta/capability-runtime
+@origin/capability-runtime
   Registry / Hub / Access / Constraint / Audit
                ^
                |

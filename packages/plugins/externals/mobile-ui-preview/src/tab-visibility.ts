@@ -1,4 +1,4 @@
-import type { PluginFileExplorerEntry } from "@vetta-org/plugin-sdk";
+import type { PluginFileExplorerEntry } from "@origin-org/plugin-sdk";
 
 export const TAB_ID = "preview";
 

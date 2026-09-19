@@ -402,7 +402,7 @@ if (existsSync(imGatewayDistDir)) {
 // coding-agent runtime assets (extraResources)
 // =============================================================================
 //
-// The bundled main-*.js (Vite output) contains `@vetta/coding-agent`'s JS
+// The bundled main-*.js (Vite output) contains `@origin/coding-agent`'s JS
 // but not its on-disk package tree. Stage the full dist plus metadata into
 // Resources/coding-agent/. macOS/Linux agent-rpc-command.ts uses it as
 // VETTA_PACKAGE_DIR for assets; Windows additionally runs a bundled
@@ -456,7 +456,7 @@ if (!existsSync(bundledAgentRpcCli)) {
 // vetta CLI app (extraResources)
 // =============================================================================
 //
-// The agent-facing `vetta` command is @vetta/cli-host, not the desktop
+// The agent-facing `vetta` command is @origin/cli-host, not the desktop
 // executable. Stage it into Resources/cli-app/ so Desktop can write
 // ~/.vetta/agent/bin/vetta as a stable shim to this entry.
 const stagedCliAppDir = join(buildStageDir, "cli-app");

@@ -1,5 +1,5 @@
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
 import { languageAtom, type PluginI18nEntry, pluginI18nByIdAtom } from "@shared/store/atoms";
-import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
 import { useAtomValue } from "jotai";
 import { useCallback, useMemo } from "react";
 

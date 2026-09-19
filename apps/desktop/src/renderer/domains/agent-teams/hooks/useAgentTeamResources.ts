@@ -1,6 +1,6 @@
+import type { AgentBlueprint, AgentProfileDocument } from "@origin/agent-team";
 import { useLocalizedAgentTeamDocument } from "@shared/agent-teams/agent-team-localization";
 import { waitForCommittedPaint } from "@shared/lib/committed-paint";
-import type { AgentBlueprint, AgentProfileDocument } from "@vetta/agent-team";
 import { type Dispatch, type SetStateAction, useCallback, useEffect, useState } from "react";
 import type { BlueprintDisplayPlugin } from "../lib/blueprint-display";
 import type { AgentCapabilityOption } from "../lib/capability-options";

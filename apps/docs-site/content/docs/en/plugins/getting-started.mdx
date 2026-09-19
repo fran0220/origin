@@ -13,7 +13,7 @@ You do **not** need a Origin source checkout.
 ## Scaffold in one command
 
 ```bash
-npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
+npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
 ```
 
@@ -21,7 +21,7 @@ You get `plugin.json`, a Vite + Module Federation config, a Tailwind entry, and 
 brief.
 
 <Callout title="First step for an agent" type="info">
-  The manual ships inside `@vetta-org/plugin-sdk`, so it lands in `node_modules`. **Do not
+  The manual ships inside `@origin-org/plugin-sdk`, so it lands in `node_modules`. **Do not
   hard-code that path** — a workspace may hoist the dependency to the repository root, and in a
   multi-plugin repository each plugin can pin a different SDK version. Resolve it with a command:
 
@@ -69,11 +69,11 @@ version until `reload` switches over. If a code change does not show up, check t
 
 ## Configure the build
 
-Use `@vetta-org/plugin-vite` to configure Module Federation:
+Use `@origin-org/plugin-vite` to configure Module Federation:
 
 ```ts
 import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@vetta-org/plugin-vite";
+import { vettaPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -92,7 +92,7 @@ export default defineConfig({
 ## Create the entry point
 
 ```tsx
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 
 function MyPanel() {
 	return <div className="p-3 text-sm text-foreground">Plugin loaded</div>;
@@ -149,7 +149,7 @@ When one repository ships several abilities (plugins, MCP servers, skills, scene
 marketplace:
 
 ```bash
-npx @vetta-org/plugin-cli init hub --name my-market \
+npx @origin-org/plugin-cli init hub --name my-market \
   --repository https://github.com/me/my-market --min-app-version 0.55.0
 ```
 
@@ -162,8 +162,8 @@ The index carries fields derived from each ability package, reconciled by a tool
 hand:
 
 ```bash
-npx @vetta-org/plugin-cli sync          # pull derived fields, advance marketplaceVersion
-npx @vetta-org/plugin-cli sync --check  # report only, non-zero exit — for CI
+npx @origin-org/plugin-cli sync          # pull derived fields, advance marketplaceVersion
+npx @origin-org/plugin-cli sync --check  # report only, non-zero exit — for CI
 ```
 
 <Callout title="Three constraints that bite remotely" type="warn">

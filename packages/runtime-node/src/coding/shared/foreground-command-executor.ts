@@ -2,10 +2,10 @@ import { randomBytes } from "node:crypto";
 import { createWriteStream } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { RuntimeToolResult } from "@vetta/runtime-core/kernel";
-import type { ForegroundCommandOperations } from "@vetta/runtime-tools";
+import type { RuntimeToolResult } from "@origin/runtime-core/kernel";
+import type { ForegroundCommandOperations } from "@origin/runtime-tools";
 
-export type { ForegroundCommandOperations } from "@vetta/runtime-tools";
+export type { ForegroundCommandOperations } from "@origin/runtime-tools";
 
 import { getExecutionReceiptCollector, outcomeFromCommandResult } from "../../checkpoints/receipt-emitter.js";
 import {

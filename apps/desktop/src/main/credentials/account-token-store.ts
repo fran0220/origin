@@ -1,4 +1,4 @@
-import { ACCOUNT_ACCESS_TOKEN_REF, ACCOUNT_REFRESH_TOKEN_REF } from "@vetta/runtime-node/credentials";
+import { ACCOUNT_ACCESS_TOKEN_REF, ACCOUNT_REFRESH_TOKEN_REF } from "@origin/runtime-node/credentials";
 import { getDesktopCredentialVault } from "./desktop-credential-vault.js";
 
 export function readAccountAccessToken(): string | undefined {

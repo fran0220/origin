@@ -1,2 +1,2 @@
-export { getFileIcon } from "@vetta-org/theme-ui/file-explorer";
-export { getColoredFileIcon } from "@vetta-org/theme-ui/knowledge";
+export { getFileIcon } from "@origin-org/theme-ui/file-explorer";
+export { getColoredFileIcon } from "@origin-org/theme-ui/knowledge";

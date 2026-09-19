@@ -1,4 +1,4 @@
-import type { PluginCommandApi, PluginCommandSpawnHandle } from "@vetta-org/plugin-sdk";
+import type { PluginCommandApi, PluginCommandSpawnHandle } from "@origin-org/plugin-sdk";
 import { isBaguetteCompatible, MINIMUM_BAGUETTE_VERSION, parseBaguetteVersion } from "./baguette-version.js";
 import { isBooted, parseDeviceList, type SimulatorDevice } from "./device-registry.js";
 

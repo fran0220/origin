@@ -47,15 +47,15 @@ const LIB_PREFIXES = [
 ];
 
 const MANIFEST_TRUTH_PACKAGE_NAMES = new Set([
-	"@vetta/coding-agent",
-	"@vetta/runtime-knowledge",
-	"@vetta/runtime-storage",
-	"@vetta/runtime-evolution",
-	"@vetta/runtime-node",
-	"@vetta/runtime-tools",
-	"@vetta/runtime-desktop",
-	"@vetta/cli-host",
-	"@vetta/desktop",
+	"@origin/coding-agent",
+	"@origin/runtime-knowledge",
+	"@origin/runtime-storage",
+	"@origin/runtime-evolution",
+	"@origin/runtime-node",
+	"@origin/runtime-tools",
+	"@origin/runtime-desktop",
+	"@origin/cli-host",
+	"@origin/desktop",
 ]);
 
 const RETIRED_CODING_AGENT_TOOL_EXPORTS = new Set([
@@ -119,7 +119,7 @@ const RETIRED_CLI_COMPOSITION_FORWARDERS = new Set([
 	"apps/cli-host/src/runtime-tools-composition.ts",
 ]);
 
-const RETIRED_CODING_AGENT_RUNTIME_HOST = "@vetta/coding-agent/runtime-host";
+const RETIRED_CODING_AGENT_RUNTIME_HOST = "@origin/coding-agent/runtime-host";
 
 function isLibFile(posixPath) {
 	return LIB_PREFIXES.some((prefix) => posixPath.startsWith(prefix));
@@ -235,7 +235,7 @@ function usesDesktopPluginGlobal(filePath, text) {
 
 function forbiddenAppId(specifier) {
 	const normalized = specifier.replaceAll("\\", "/");
-	for (const packageName of ["@vetta/desktop", "@vetta/cli-host", "@vetta/site", "shadcn-admin"]) {
+	for (const packageName of ["@origin/desktop", "@origin/cli-host", "@origin/site", "shadcn-admin"]) {
 		if (normalized === packageName || normalized.startsWith(`${packageName}/`)) return packageName;
 	}
 	const match = normalized.match(/(?:^|\/)(desktop|cli-host|admin|site)(?:\/|$)/);
@@ -281,10 +281,10 @@ function checkDesktopCliSourceImports(posixPath, specifiers, findings) {
 function checkDesktopRendererMcpImports(posixPath, text, findings) {
 	if (!posixPath.startsWith("apps/desktop/src/renderer/")) return;
 	for (const specifier of collectRuntimeImportSpecifiers(posixPath, text)) {
-		if (specifier === "@vetta/runtime-mcp/browser") continue;
-		if (specifier === "@vetta/runtime-mcp" || specifier.startsWith("@vetta/runtime-mcp/")) {
+		if (specifier === "@origin/runtime-mcp/browser") continue;
+		if (specifier === "@origin/runtime-mcp" || specifier.startsWith("@origin/runtime-mcp/")) {
 			findings.push(
-				`${posixPath}: desktop renderer must import MCP runtime values from @vetta/runtime-mcp/browser (${specifier})`,
+				`${posixPath}: desktop renderer must import MCP runtime values from @origin/runtime-mcp/browser (${specifier})`,
 			);
 		}
 	}
@@ -308,13 +308,13 @@ function checkCapabilityLayerImports(posixPath, specifiers, findings) {
 	if (!isCapabilitySdk && !isCapabilityRuntime) return;
 
 	const forbiddenPrefixes = [
-		"@vetta-org/plugin-sdk",
-		"@vetta/action-rpc",
-		"@vetta/desktop",
-		"@vetta-org/theme-sdk",
-		"@vetta-org/theme-ui",
+		"@origin-org/plugin-sdk",
+		"@origin/action-rpc",
+		"@origin/desktop",
+		"@origin-org/theme-sdk",
+		"@origin-org/theme-ui",
 	];
-	if (isCapabilitySdk) forbiddenPrefixes.push("@vetta/capability-runtime");
+	if (isCapabilitySdk) forbiddenPrefixes.push("@origin/capability-runtime");
 	for (const specifier of specifiers) {
 		if (forbiddenPrefixes.some((prefix) => specifier === prefix || specifier.startsWith(`${prefix}/`))) {
 			findings.push(
@@ -329,7 +329,7 @@ function checkPublicSystemSdkImports(posixPath, specifiers, findings) {
 		posixPath.startsWith("packages/theme-sdk/") || posixPath.startsWith("packages/plugins/plugin-sdk/");
 	if (!isPublicSystemSdk) return;
 	for (const specifier of specifiers) {
-		if (specifier.startsWith("@vetta-org/capability-sdk/internal/")) {
+		if (specifier.startsWith("@origin-org/capability-sdk/internal/")) {
 			findings.push(`${posixPath}: public system SDKs must not expose built-in capability adapters (${specifier})`);
 		}
 	}
@@ -367,7 +367,7 @@ function checkGreenfieldRuntimeImports(posixPath, specifiers, findings) {
 		posixPath.startsWith("packages/runtime-mcp/src/");
 	if (!isGreenfieldRuntime) return;
 	for (const specifier of specifiers) {
-		if (specifier === "@vetta/coding-agent" || specifier.startsWith("@vetta/coding-agent/")) {
+		if (specifier === "@origin/coding-agent" || specifier.startsWith("@origin/coding-agent/")) {
 			findings.push(`${posixPath}: greenfield runtime modules must not import coding-agent (${specifier})`);
 		}
 	}
@@ -378,10 +378,10 @@ function checkStorageProtocolImports(posixPath, specifiers, findings) {
 	for (const specifier of specifiers) {
 		if (
 			specifier.startsWith("node:") ||
-			specifier === "@vetta/runtime-node" ||
-			specifier.startsWith("@vetta/runtime-node/") ||
-			specifier === "@vetta/runtime-desktop" ||
-			specifier.startsWith("@vetta/runtime-desktop/")
+			specifier === "@origin/runtime-node" ||
+			specifier.startsWith("@origin/runtime-node/") ||
+			specifier === "@origin/runtime-desktop" ||
+			specifier.startsWith("@origin/runtime-desktop/")
 		) {
 			findings.push(`${posixPath}: runtime-storage protocol must not import platform implementation (${specifier})`);
 		}
@@ -393,10 +393,10 @@ function checkToolsProtocolImports(posixPath, specifiers, findings) {
 	for (const specifier of specifiers) {
 		if (
 			specifier.startsWith("node:") ||
-			specifier === "@vetta/runtime-node" ||
-			specifier.startsWith("@vetta/runtime-node/") ||
-			specifier === "@vetta/runtime-desktop" ||
-			specifier.startsWith("@vetta/runtime-desktop/")
+			specifier === "@origin/runtime-node" ||
+			specifier.startsWith("@origin/runtime-node/") ||
+			specifier === "@origin/runtime-desktop" ||
+			specifier.startsWith("@origin/runtime-desktop/")
 		) {
 			findings.push(`${posixPath}: runtime-tools protocol must not import platform implementation (${specifier})`);
 		}
@@ -408,10 +408,10 @@ function checkMcpProtocolImports(posixPath, specifiers, findings) {
 	for (const specifier of specifiers) {
 		if (
 			specifier.startsWith("node:") ||
-			specifier === "@vetta/runtime-node" ||
-			specifier.startsWith("@vetta/runtime-node/") ||
-			specifier === "@vetta/runtime-desktop" ||
-			specifier.startsWith("@vetta/runtime-desktop/")
+			specifier === "@origin/runtime-node" ||
+			specifier.startsWith("@origin/runtime-node/") ||
+			specifier === "@origin/runtime-desktop" ||
+			specifier.startsWith("@origin/runtime-desktop/")
 		) {
 			findings.push(`${posixPath}: runtime-mcp protocol must not import platform implementation (${specifier})`);
 		}
@@ -423,10 +423,10 @@ function checkRuntimeCorePlatformImports(posixPath, text, specifiers, findings) 
 	for (const specifier of specifiers) {
 		if (
 			specifier.startsWith("node:") ||
-			specifier === "@vetta/runtime-node" ||
-			specifier.startsWith("@vetta/runtime-node/") ||
-			specifier === "@vetta/runtime-desktop" ||
-			specifier.startsWith("@vetta/runtime-desktop/")
+			specifier === "@origin/runtime-node" ||
+			specifier.startsWith("@origin/runtime-node/") ||
+			specifier === "@origin/runtime-desktop" ||
+			specifier.startsWith("@origin/runtime-desktop/")
 		) {
 			findings.push(
 				`${posixPath}: runtime-core must use host ports instead of platform implementation (${specifier})`,
@@ -484,7 +484,7 @@ function checkActiveSessionTransitionBoundary(posixPath, text, specifiers, findi
 		if (specifier.includes("core/session-manager") || specifier.includes("legacy-session-import-normalizer")) {
 			findings.push(`${posixPath}: active-session transactions must delegate Legacy session seed construction`);
 		}
-		if (specifier === "@vetta/coding-agent" || specifier.startsWith("@vetta/coding-agent/")) {
+		if (specifier === "@origin/coding-agent" || specifier.startsWith("@origin/coding-agent/")) {
 			findings.push(`${posixPath}: active-session transactions must not import Coding Agent products`);
 		}
 		if (specifier.includes("core/extensions")) {
@@ -544,8 +544,8 @@ function checkKnowledgeProcessingBoundary(posixPath, text, specifiers, findings)
 	];
 	for (const specifier of specifiers) {
 		if (
-			specifier === "@vetta/runtime-core" ||
-			specifier.startsWith("@vetta/runtime-core/") ||
+			specifier === "@origin/runtime-core" ||
+			specifier.startsWith("@origin/runtime-core/") ||
 			forbiddenImportFragments.some((fragment) => specifier.includes(fragment))
 		) {
 			findings.push(`${posixPath}: Knowledge Processing contract must not depend on a backend implementation`);
@@ -1176,18 +1176,18 @@ function checkRetiredCompositionBoundaries(posixPath, text, specifiers, findings
 	if (posixPath.startsWith("packages/runtime-composition/")) {
 		findings.push(`${posixPath}: retired runtime-composition package must stay deleted`);
 	}
-	if (text.includes("@vetta/runtime-composition")) {
-		findings.push(`${posixPath}: retired @vetta/runtime-composition reference must stay deleted`);
+	if (text.includes("@origin/runtime-composition")) {
+		findings.push(`${posixPath}: retired @origin/runtime-composition reference must stay deleted`);
 	}
 	if (RETIRED_CLI_COMPOSITION_FORWARDERS.has(posixPath)) {
 		findings.push(`${posixPath}: retired CLI composition forwarding module must stay deleted`);
 	}
-	if (posixPath === "apps/cli-host/src/index.ts" && specifiers.includes("@vetta/coding-agent/composition")) {
+	if (posixPath === "apps/cli-host/src/index.ts" && specifiers.includes("@origin/coding-agent/composition")) {
 		findings.push(`${posixPath}: CLI public API must not re-export Coding Agent composition`);
 	}
 	if (
 		posixPath.startsWith("apps/desktop/src/") &&
-		specifiers.includes("@vetta/cli-host") &&
+		specifiers.includes("@origin/cli-host") &&
 		/\b(?:CodingAgentGreenfieldActiveSessionHost|CodingToolsRuntimeComposition|GreenfieldCliSessionOptions|CodingAgentRuntimeComposition(?:Options)?|GreenfieldRuntimeHostSessionBackend|resolveGreenfieldSessionIdFromPath)\b/.test(
 			text,
 		)
@@ -1207,9 +1207,9 @@ function checkCodingAgentRootImports(posixPath, specifiers, findings) {
 		posixPath.startsWith("packages/runtime-tools/src/coding/") ||
 		posixPath.startsWith("packages/runtime-mcp/src/");
 	if (!isInternalConsumer || hasStricterProductionBoundary) return;
-	if (specifiers.includes("@vetta/coding-agent")) {
+	if (specifiers.includes("@origin/coding-agent")) {
 		findings.push(
-			`${posixPath}: internal consumers must use an explicit @vetta/coding-agent subpath instead of the compatibility root`,
+			`${posixPath}: internal consumers must use an explicit @origin/coding-agent subpath instead of the compatibility root`,
 		);
 	}
 }
@@ -1227,8 +1227,8 @@ function checkCodingAgentToolPublicSurfaceBoundary(posixPath, text, findings) {
 			: undefined;
 		if (
 			moduleSpecifier?.includes("core/tools") ||
-			moduleSpecifier === "@vetta/runtime-tools/coding" ||
-			moduleSpecifier?.startsWith("@vetta/runtime-tools/coding/")
+			moduleSpecifier === "@origin/runtime-tools/coding" ||
+			moduleSpecifier?.startsWith("@origin/runtime-tools/coding/")
 		) {
 			findings.push(
 				`${posixPath}: coding-agent public surfaces must not forward concrete Tool implementations (${moduleSpecifier})`,
@@ -1252,7 +1252,7 @@ function checkRetiredCodingAgentKnowledgeSurface(posixPath, specifiers, findings
 		findings.push(`${posixPath}: retired Coding Agent Knowledge implementation must stay deleted`);
 	}
 	for (const specifier of specifiers) {
-		if (specifier !== "@vetta/coding-agent/knowledge" && !specifier.includes("core/knowledge")) continue;
+		if (specifier !== "@origin/coding-agent/knowledge" && !specifier.includes("core/knowledge")) continue;
 		findings.push(`${posixPath}: retired Coding Agent Knowledge surface import (${specifier})`);
 	}
 }
@@ -1288,10 +1288,10 @@ function checkCodingAgentCompactionBoundary(posixPath, specifiers, findings) {
 	for (const specifier of specifiers) {
 		const dependsOnSessionImplementation = specifier.includes("/core/") || specifier.includes("/adapters/");
 		const dependsOnRuntimeStorage =
-			specifier === "@vetta/runtime-core" ||
-			specifier.startsWith("@vetta/runtime-core/") ||
-			specifier === "@vetta/runtime-storage" ||
-			specifier.startsWith("@vetta/runtime-storage/");
+			specifier === "@origin/runtime-core" ||
+			specifier.startsWith("@origin/runtime-core/") ||
+			specifier === "@origin/runtime-storage" ||
+			specifier.startsWith("@origin/runtime-storage/");
 		if (dependsOnSessionImplementation || (dependsOnRuntimeStorage && !isCompactionRuntime)) {
 			findings.push(
 				`${posixPath}: Compaction policy must not depend on Session implementations; ` +
@@ -1304,7 +1304,7 @@ function checkCodingAgentCompactionBoundary(posixPath, specifiers, findings) {
 function checkCodingAgentLegacyBoundaries(posixPath, text, specifiers, findings) {
 	const isProductionSource = posixPath.includes("/src/") && !/\.(?:test|spec)\.[cm]?[jt]sx?$/.test(posixPath);
 	if (!isProductionSource) return;
-	const historicalSessionPublicSubpath = "@vetta/coding-agent/historical-sessions";
+	const historicalSessionPublicSubpath = "@origin/coding-agent/historical-sessions";
 	const historicalSessionConsumers = new Set([
 		"apps/cli-host/src/coding-agent-bootstrap.ts",
 		"apps/cli-host/src/rpc/cli-session-format-compatibility.ts",
@@ -1317,7 +1317,7 @@ function checkCodingAgentLegacyBoundaries(posixPath, text, specifiers, findings)
 	]);
 
 	for (const specifier of specifiers) {
-		if (specifier.startsWith("@vetta/coding-agent/legacy/")) {
+		if (specifier.startsWith("@origin/coding-agent/legacy/")) {
 			findings.push(`${posixPath}: production Legacy subpath import is outside the compatibility allowlist`);
 		}
 		if (specifier === historicalSessionPublicSubpath && !historicalSessionConsumers.has(posixPath)) {
@@ -1401,7 +1401,7 @@ function checkCodingAgentLegacyBoundaries(posixPath, text, specifiers, findings)
 }
 
 function workspacePackageName(specifier) {
-	if (!specifier.startsWith("@vetta/") && !specifier.startsWith("@vetta-org/")) return undefined;
+	if (!specifier.startsWith("@origin/") && !specifier.startsWith("@origin-org/")) return undefined;
 	return specifier.split("/").slice(0, 2).join("/");
 }
 
@@ -1422,7 +1422,7 @@ function checkWorkspaceManifestImports(posixPath, specifiers, manifest, findings
 function checkRuntimeCoreImports(posixPath, specifiers, findings) {
 	if (!posixPath.startsWith("packages/runtime-core/src/")) return;
 	for (const specifier of specifiers) {
-		if (specifier === "@vetta/coding-agent" || specifier.startsWith("@vetta/coding-agent/")) {
+		if (specifier === "@origin/coding-agent" || specifier.startsWith("@origin/coding-agent/")) {
 			findings.push(`${posixPath}: runtime-core production code must not import coding-agent (${specifier})`);
 		}
 	}
@@ -1431,8 +1431,8 @@ function checkRuntimeCoreImports(posixPath, specifiers, findings) {
 function checkAgentCoreImports(posixPath, specifiers, findings) {
 	if (!posixPath.startsWith("packages/agent/src/")) return;
 	for (const specifier of specifiers) {
-		const importsRuntime = specifier.startsWith("@vetta/runtime-");
-		const importsCodingAgent = specifier === "@vetta/coding-agent" || specifier.startsWith("@vetta/coding-agent/");
+		const importsRuntime = specifier.startsWith("@origin/runtime-");
+		const importsCodingAgent = specifier === "@origin/coding-agent" || specifier.startsWith("@origin/coding-agent/");
 		if (importsRuntime || importsCodingAgent) {
 			findings.push(`${posixPath}: agent-core must not import runtime or product packages (${specifier})`);
 		}
@@ -1513,7 +1513,7 @@ export function findPackageBoundaryViolations(posixPath, text, options = {}) {
 export function findPackageManifestBoundaryViolations(manifest) {
 	const findings = [];
 	if (!manifest) return findings;
-	if (manifest.name === "@vetta/runtime-composition") {
+	if (manifest.name === "@origin/runtime-composition") {
 		findings.push("packages/runtime-composition/package.json: retired package must stay deleted");
 	}
 	const dependencyGroups = [
@@ -1522,22 +1522,22 @@ export function findPackageManifestBoundaryViolations(manifest) {
 		manifest.optionalDependencies,
 		manifest.peerDependencies,
 	];
-	if (dependencyGroups.some((dependencies) => Object.hasOwn(dependencies ?? {}, "@vetta/runtime-composition"))) {
-		findings.push(`${manifest.name ?? "workspace package"}: retired @vetta/runtime-composition dependency`);
+	if (dependencyGroups.some((dependencies) => Object.hasOwn(dependencies ?? {}, "@origin/runtime-composition"))) {
+		findings.push(`${manifest.name ?? "workspace package"}: retired @origin/runtime-composition dependency`);
 	}
-	if (manifest.name === "@vetta/agent-core") {
+	if (manifest.name === "@origin/agent-core") {
 		const productionDependencies = {
 			...manifest.dependencies,
 			...manifest.optionalDependencies,
 			...manifest.peerDependencies,
 		};
 		for (const dependency of Object.keys(productionDependencies)) {
-			if (dependency.startsWith("@vetta/runtime-") || dependency === "@vetta/coding-agent") {
-				findings.push(`@vetta/agent-core: lower-level execution kernel must not depend on ${dependency}`);
+			if (dependency.startsWith("@origin/runtime-") || dependency === "@origin/coding-agent") {
+				findings.push(`@origin/agent-core: lower-level execution kernel must not depend on ${dependency}`);
 			}
 		}
 	}
-	if (manifest.name !== "@vetta/coding-agent") return findings;
+	if (manifest.name !== "@origin/coding-agent") return findings;
 	const exports = manifest.exports ?? {};
 	if (Object.hasOwn(exports, "./knowledge")) {
 		findings.push("packages/coding-agent/package.json: retired ./knowledge export must stay deleted");

@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
  * 数字只反映真实存在的东西（空库不吹「0 个项目」）、两个按钮各自回调、busy 时不可点。
  */
 
-vi.mock("@vetta-org/plugin-sdk", () => {
+vi.mock("@origin-org/plugin-sdk", () => {
 	const t = (key: string, vars?: Record<string, unknown>) => (vars ? `${key}|${JSON.stringify(vars)}` : key);
 	return { useTranslation: () => ({ t, locale: "zh" }) };
 });

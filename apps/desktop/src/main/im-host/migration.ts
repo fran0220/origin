@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, renameSync } from "node:fs";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 
 /**
  * Detect and import legacy im-gateway configuration written by older

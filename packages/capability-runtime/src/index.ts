@@ -1,4 +1,4 @@
-export type { CapabilityAccessHandle, CapabilityAccessSessionFactory } from "@vetta-org/capability-sdk";
+export type { CapabilityAccessHandle, CapabilityAccessSessionFactory } from "@origin-org/capability-sdk";
 export {
 	CAPABILITY_ACCESS_DECISIONS,
 	CAPABILITY_ACCESS_REASONS,

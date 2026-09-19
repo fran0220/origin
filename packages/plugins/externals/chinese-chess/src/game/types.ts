@@ -1,4 +1,4 @@
-import type { PluginAiChatMessage } from "@vetta-org/plugin-sdk";
+import type { PluginAiChatMessage } from "@origin-org/plugin-sdk";
 
 export type Side = "RED" | "BLACK";
 

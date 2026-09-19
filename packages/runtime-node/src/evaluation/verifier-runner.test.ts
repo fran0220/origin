@@ -1,7 +1,7 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { EvaluationService, InMemoryEvaluationStore } from "@vetta/runtime-evaluation";
+import { EvaluationService, InMemoryEvaluationStore } from "@origin/runtime-evaluation";
 import { afterEach, describe, expect, it } from "vitest";
 import { sha256Text } from "./digest.js";
 import { createNodeVerifierRunner } from "./verifier-runner.js";

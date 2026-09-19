@@ -1,4 +1,4 @@
-import type { LegacySessionImportEntryNormalizer } from "@vetta/runtime-storage/conversation";
+import type { LegacySessionImportEntryNormalizer } from "@origin/runtime-storage/conversation";
 
 export interface LegacySessionFormatLeaseHolder {
 	readonly pid: number;

@@ -4,7 +4,7 @@ import type {
 	PluginJsonSchema,
 	PluginOfficialBatchProjectCreateData,
 	PluginOfficialBatchProjectUpdateData,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { throwEntityNotFound } from "../action-errors";
 import { createVettaActionRegistrar } from "../action-usage";
 

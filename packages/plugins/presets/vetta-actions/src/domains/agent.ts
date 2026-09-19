@@ -3,7 +3,7 @@ import type {
 	PluginContext,
 	PluginJsonSchema,
 	PluginOfficialExperimentalSettings,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { createVettaActionRegistrar } from "../action-usage";
 
 type AgentQueryInput = { operation: "help" } | { operation: "get" };

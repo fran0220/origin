@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@vetta/runtime-evaluation` are documented in this file.
+All notable changes to `@origin/runtime-evaluation` are documented in this file.
 
 ## [Unreleased]
 

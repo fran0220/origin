@@ -1,4 +1,4 @@
-import { RequestHistorySubTabView } from "@vetta-org/theme-ui/activity";
+import { RequestHistorySubTabView } from "@origin-org/theme-ui/activity";
 import { useRequestHistorySubTabModel } from "../hooks/useRequestHistorySubTabModel";
 
 export function RequestHistorySubTab({ cwd }: { cwd: string }): JSX.Element {

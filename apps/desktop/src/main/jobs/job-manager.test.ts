@@ -1,4 +1,4 @@
-import { JOB_ERROR_CODES } from "@vetta-org/capability-sdk";
+import { JOB_ERROR_CODES } from "@origin-org/capability-sdk";
 import { describe, expect, it } from "vitest";
 import { JobManager } from "./job-manager.js";
 

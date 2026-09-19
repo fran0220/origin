@@ -1,6 +1,6 @@
 import { appendFile } from "node:fs/promises";
-import type { RecordingInputLine, RecordingTelemetryLine } from "@vetta/runtime-recording";
-import { serializeRecordingJsonlLine } from "@vetta/runtime-recording";
+import type { RecordingInputLine, RecordingTelemetryLine } from "@origin/runtime-recording";
+import { serializeRecordingJsonlLine } from "@origin/runtime-recording";
 
 export const RECORDING_PROBE_KINDS = [
 	"tick",

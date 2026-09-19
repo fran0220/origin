@@ -1,3 +1,4 @@
+import { DEFAULT_VISIBLE_SESSIONS } from "@origin-org/theme-ui/project";
 import { pathBasename } from "@shared/lib/utils";
 import type { Project, ProjectType } from "@shared/store/atoms";
 import {
@@ -9,7 +10,6 @@ import {
 	sessionContextMenuAtom,
 	sessionDisplayLabel,
 } from "@shared/store/atoms";
-import { DEFAULT_VISIBLE_SESSIONS } from "@vetta-org/theme-ui/project";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

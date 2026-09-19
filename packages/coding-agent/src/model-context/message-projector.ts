@@ -1,7 +1,7 @@
 /** Deterministic projection from Coding Agent messages to provider-facing LLM messages. */
 
-import type { AgentMessage } from "@vetta/agent-core";
-import type { Message } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { Message } from "@origin/ai";
 import {
 	type BashExecutionMessage,
 	BRANCH_SUMMARY_PREFIX,

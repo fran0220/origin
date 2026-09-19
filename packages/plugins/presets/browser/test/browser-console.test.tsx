@@ -6,7 +6,7 @@
  */
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({
 		// 直接回 key，好让断言锁住「显示了哪条文案」而不是具体译文；带参的补出参数值，
 		// 这样「检测到 0.25.4」这种关键信息仍然可断言。

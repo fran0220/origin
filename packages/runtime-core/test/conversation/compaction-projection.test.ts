@@ -1,4 +1,4 @@
-import type { AssistantMessage, Message, UserMessage } from "@vetta/ai";
+import type { AssistantMessage, Message, UserMessage } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import {
 	applyStoredEventToConversationDocument,

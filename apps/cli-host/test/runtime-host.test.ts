@@ -1,9 +1,9 @@
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { CodingAgentBootstrap } from "@vetta/coding-agent/bootstrap";
-import type { RpcSessionInitialization } from "@vetta/coding-agent/rpc";
-import { RUNTIME_ERROR_CODES, type RuntimeSessionCatalog } from "@vetta/runtime-core";
+import type { CodingAgentBootstrap } from "@origin/coding-agent/bootstrap";
+import type { RpcSessionInitialization } from "@origin/coding-agent/rpc";
+import { RUNTIME_ERROR_CODES, type RuntimeSessionCatalog } from "@origin/runtime-core";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { createCliCodingAgentBootstrap } from "../src/coding-agent-bootstrap.js";
 import { createCliRuntimeSessionCatalog } from "../src/rpc/cli-session-format-compatibility.js";

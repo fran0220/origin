@@ -1,5 +1,5 @@
+import type { PluginNetworkApi } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginNetworkApi } from "@vetta-org/plugin-sdk";
 import { normalizePluginNetworkRequest } from "./plugin-network-request";
 import { createPluginPermissionApi } from "./plugin-permissions";
 

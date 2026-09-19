@@ -1,10 +1,10 @@
-# @vetta/ecosystem-adapter
+# @origin/ecosystem-adapter
 
 外部 Agent 生态兼容层。包内的通用能力与具体生态 profile 分离：
 
-- `@vetta/ecosystem-adapter/hooks`：Hook 领域模型、调度器和命令执行器。
-- `@vetta/ecosystem-adapter/codex/hooks`：版本化 Codex Hook 配置与协议语义。
-- `@vetta/ecosystem-adapter/claude-code/hooks`：版本化 Claude Code Hook 配置与协议语义。
+- `@origin/ecosystem-adapter/hooks`：Hook 领域模型、调度器和命令执行器。
+- `@origin/ecosystem-adapter/codex/hooks`：版本化 Codex Hook 配置与协议语义。
+- `@origin/ecosystem-adapter/claude-code/hooks`：版本化 Claude Code Hook 配置与协议语义。
 
 根导出提供 `createEcosystemHookRuntime()`。运行时只依赖 `EcosystemHookAdapter` 接口，负责统一的 session/turn 状态、多 adapter 聚合和 Stop 安全阀；默认注册 Codex 与 Claude 两个 adapter。通过 `adapterFactories` 可替换默认集合，通过 `additionalAdapterFactories` 可追加其他生态实现，调用方生命周期无需增加新的 `xxHooks` 字段。
 

@@ -8,7 +8,7 @@ import type {
 	WorkTreeLandInput,
 	WorkTreeRestoreInput,
 	WorkTreeVcs,
-} from "@vetta/runtime-checkpoints";
+} from "@origin/runtime-checkpoints";
 import { checkpointShadowGitDir } from "./layout.js";
 
 const CHECKPOINT_TRAILER = "Vetta-Checkpoint";

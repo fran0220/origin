@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import {
 	Button,
 	DropdownMenu,
@@ -6,7 +6,7 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { useCallback, useRef, useState } from "react";
 import type { ContentModelDescriptor } from "../generation/types";
 import type { ContentNodeData, ContentNodeKind } from "../project/types";

@@ -1,4 +1,4 @@
-import type { ConversationEvent } from "@vetta-org/plugin-sdk";
+import type { ConversationEvent } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const RUNTIME_STATE_KEY = "__vettaPluginHostBridgeRuntimeState_v2";

@@ -1,4 +1,4 @@
-import { useActivityTab, useTranslation } from "@vetta-org/plugin-sdk";
+import { useActivityTab, useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useCallback, useEffect, useRef, useState } from "react";
 import { getPluginCtx } from "../plugin-context.js";
 import { selectPreferredDevice, type SimulatorDevice } from "../runtime/device-registry.js";

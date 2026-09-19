@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@vetta/im-gateway` are documented in this file.
+All notable changes to `@origin/im-gateway` are documented in this file.
 
 ## [Unreleased]
 
@@ -46,7 +46,7 @@ All notable changes to `@vetta/im-gateway` are documented in this file.
 
 ### Added
 
-- `InitFrame.codingAgent` (`{ bin, prefixArgs[] }`)：让 parent 显式指定 IM session 用来拉起 coding-agent 子进程的可执行文件与前置参数。`hostclient/local.Options.BinPrefixArgs` 同步新增。未设置时仍走老路径（`vetta` PATH lookup），保证 `im-gateway start` 独立模式不受影响。Desktop-app 生产环境从此可以传 `process.execPath` + `--agent-rpc` 让 Vetta.app 自身充当 coding-agent CLI 入口，避免再要求用户全局安装 `@vetta/coding-agent`。
+- `InitFrame.codingAgent` (`{ bin, prefixArgs[] }`)：让 parent 显式指定 IM session 用来拉起 coding-agent 子进程的可执行文件与前置参数。`hostclient/local.Options.BinPrefixArgs` 同步新增。未设置时仍走老路径（`vetta` PATH lookup），保证 `im-gateway start` 独立模式不受影响。Desktop-app 生产环境从此可以传 `process.execPath` + `--agent-rpc` 让 Vetta.app 自身充当 coding-agent CLI 入口，避免再要求用户全局安装 `@origin/coding-agent`。
 
 ### Fixed
 

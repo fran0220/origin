@@ -1,5 +1,5 @@
-import type { AssistantMessageEvent } from "@vetta/ai";
-import type { AssistantSessionEvent, SessionEvent } from "@vetta/runtime-core";
+import type { AssistantMessageEvent } from "@origin/ai";
+import type { AssistantSessionEvent, SessionEvent } from "@origin/runtime-core";
 
 /**
  * Runtime SessionEvent 到现有 RPC wire event 的窄适配器。

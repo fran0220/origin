@@ -1,1 +1,1 @@
-export { Input } from "@vetta-org/ui";
+export { Input } from "@origin-org/ui";

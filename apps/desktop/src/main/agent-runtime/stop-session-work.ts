@@ -1,5 +1,5 @@
-import { CODING_AGENT_WORK_STOP_ALL } from "@vetta/coding-agent/session-extensions";
-import type { RuntimeHost } from "@vetta/runtime-core";
+import { CODING_AGENT_WORK_STOP_ALL } from "@origin/coding-agent/session-extensions";
+import type { RuntimeHost } from "@origin/runtime-core";
 
 /**
  * Cascades a user stop into the work a turn spawned but does not own.

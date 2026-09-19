@@ -1,13 +1,13 @@
-import type { ImageContent, UserMessage } from "@vetta/ai";
-import type { EcosystemHookRuntime } from "@vetta/ecosystem-adapter/hooks";
-import type { PromptAttachmentRef, PromptRequest } from "@vetta/runtime-core";
+import type { ImageContent, UserMessage } from "@origin/ai";
+import type { EcosystemHookRuntime } from "@origin/ecosystem-adapter/hooks";
+import type { PromptAttachmentRef, PromptRequest } from "@origin/runtime-core";
 import type {
 	RuntimeInputRequestPreparationContext,
 	RuntimeInputRequestPreparationResult,
 	RuntimeSnapshotAcquireContext,
 	SessionContextRecord,
 	SessionInput,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import type { InputEventResult, InputSource } from "../extensions/index.js";
 import {
 	type AgentPluginPromptContext,

@@ -1,5 +1,5 @@
-import type { AssistantMessage } from "@vetta/ai";
-import { getModel } from "@vetta/ai";
+import type { AssistantMessage } from "@origin/ai";
+import { getModel } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import { Agent } from "../src/index.js";
 

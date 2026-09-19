@@ -55,7 +55,7 @@ function emit(
 	});
 }
 
-/** Build-tool entry point. Plugin authors import the bound facade from `@vetta-org/plugin-sdk/logger`. */
+/** Build-tool entry point. Plugin authors import the bound facade from `@origin-org/plugin-sdk/logger`. */
 export function __createPluginLogger(plugin: PluginLogIdentity, scope?: string): PluginLogger {
 	const identity = Object.freeze({ id: plugin.id, version: plugin.version });
 	const write = (level: PluginLogLevel, message: string, fields?: PluginLogFields): void => {

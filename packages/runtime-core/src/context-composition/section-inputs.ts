@@ -1,4 +1,4 @@
-import type { Message } from "@vetta/ai";
+import type { Message } from "@origin/ai";
 import type { ContextCompositionSectionInput, ContextSectionSource } from "./contracts.js";
 
 export function instructionSection(input: {

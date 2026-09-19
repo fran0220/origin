@@ -1,10 +1,10 @@
-import type { ConversationDocument } from "@vetta/runtime-core/conversation";
+import type { ConversationDocument } from "@origin/runtime-core/conversation";
 import type {
 	ConsecutiveFailureCircuitBreaker,
 	ContextCompactionCommitResult,
 	ContextCompactionFinalizationResult,
 	ContextCompactionRecord,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import type {
 	CodingAgentCompactionExtensionRuntime,
 	CodingAgentContextRuntimeOptions,

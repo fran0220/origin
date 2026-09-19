@@ -44,7 +44,7 @@ vi.mock("@xyflow/react", () => ({
 	},
 }));
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	usePluginShortcutScope: (_register: unknown, options: Record<string, unknown>) => {
 		shortcutScopeCapture.options.push(options);
 	},

@@ -1,4 +1,4 @@
-import type { PluginAppActionRegistration, PluginAppActionUsage, PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginAppActionRegistration, PluginAppActionUsage, PluginContext } from "@origin-org/plugin-sdk";
 
 const DOMAIN_USAGE = {
 	general: {

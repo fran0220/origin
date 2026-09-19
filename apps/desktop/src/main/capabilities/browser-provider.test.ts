@@ -1,9 +1,9 @@
-import { CapabilityHub } from "@vetta/capability-runtime";
+import { CapabilityHub } from "@origin/capability-runtime";
 import {
 	type BrowserRuntimeStatus,
 	CAPABILITY_ERROR_CODES,
 	FOUNDATION_BROWSER_CAPABILITIES,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import { describe, expect, it, vi } from "vitest";
 import { BrowserAutomationError } from "../browser-automation/contracts.js";
 import { type BrowserCapabilityService, registerDesktopBrowserProvider } from "./browser-provider.js";

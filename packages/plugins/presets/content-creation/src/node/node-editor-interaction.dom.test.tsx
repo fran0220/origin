@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { ContentGeneratorComposer } from "./ContentGeneratorComposer";
 import { ContentPromptEditor } from "./ContentPromptEditor";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({
 		t: (key: string) => key,
 	}),
@@ -17,7 +17,7 @@ interface MockButtonProps extends ComponentProps<"button"> {
 	variant?: string;
 }
 
-vi.mock("@vetta-org/ui", () => ({
+vi.mock("@origin-org/ui", () => ({
 	Button: ({ children, size: _size, variant: _variant, ...props }: MockButtonProps) => (
 		<button {...props}>{children}</button>
 	),

@@ -10,7 +10,7 @@ const testPaths = vi.hoisted(() => {
 	return { root, home: `${root}/home`, resources: `${root}/resources` };
 });
 
-vi.mock("@vetta/action-rpc", () => ({ getVettaHomePath: () => testPaths.home }));
+vi.mock("@origin/action-rpc", () => ({ getVettaHomePath: () => testPaths.home }));
 vi.mock("electron", () => ({
 	app: { isPackaged: true, resourcesPath: testPaths.resources },
 	webContents: { getAllWebContents: () => [] },

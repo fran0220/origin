@@ -3,7 +3,7 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { DEFAULT_AGENT_PARTICIPANT_ID } from "@shared/conversation";
 import { activeSessionAtom } from "@shared/store/atoms";
-import { createAgentProfileFixture } from "@vetta/agent-team";
+import { createAgentProfileFixture } from "@origin/agent-team";
 import { createStore, Provider } from "jotai";
 import type { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";

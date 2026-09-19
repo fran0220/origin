@@ -1,11 +1,11 @@
-import type { InstalledPlugin } from "@preload/api";
 import type {
 	Disposable,
 	PluginContext,
 	PluginFileExplorerContextMenuContribution,
 	PluginFileExplorerDecorationProvider,
 	PluginFileExplorerToolbarContribution,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import type { InstalledPlugin } from "@preload/api";
 import {
 	getPluginFileExplorerSelection,
 	getPluginFileExplorerWorkspaceRoots,

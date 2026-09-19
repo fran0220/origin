@@ -2,7 +2,7 @@ import { type ChildProcessWithoutNullStreams, spawn } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import { mkdir, stat } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { FrameEncoder, FrameEncoderStartOptions, FrameEncoderStats, FramePixels } from "@vetta/runtime-recording";
+import type { FrameEncoder, FrameEncoderStartOptions, FrameEncoderStats, FramePixels } from "@origin/runtime-recording";
 
 const DEFAULT_MAX_QUEUED_FRAMES = 30;
 

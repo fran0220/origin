@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { renderHook } from "@testing-library/react";
-import type { ThemeModule } from "@vetta-org/theme-sdk";
+import type { ThemeModule } from "@origin-org/theme-sdk";
 import { describe, expect, it, vi } from "vitest";
 
 const matches = vi.hoisted(() => ({
@@ -24,7 +24,7 @@ const theme = vi.hoisted(
 vi.mock("@tanstack/react-router", () => ({
 	useMatches: () => matches.current,
 }));
-vi.mock("@vetta-org/theme-sdk", () => ({
+vi.mock("@origin-org/theme-sdk", () => ({
 	useThemeModule: () => theme,
 }));
 

@@ -1,10 +1,10 @@
-import type { RuntimeDocumentParticipant } from "@vetta/runtime-core";
+import type { RuntimeDocumentParticipant } from "@origin/runtime-core";
 import {
 	defineSessionExtensionService,
 	defineSessionExtensionSignal,
 	type SessionExtensionDefinition,
 	sessionExtensionObservation,
-} from "@vetta/runtime-core/session-extensions";
+} from "@origin/runtime-core/session-extensions";
 import {
 	type CodingAgentRuntimeToolRegistration,
 	type CodingAgentToolActivation,

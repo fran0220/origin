@@ -1,5 +1,5 @@
 {
-  "generatedFrom": "@vetta-org/capability-sdk Capability Tokens",
+  "generatedFrom": "@origin-org/capability-sdk Capability Tokens",
   "foundation": [
     {
       "id": "cap.foundation.vetta.artifact.persist",

@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useState } from "react";
 import type { BrowserRuntimeController, RuntimeStatus } from "../runtime/runtime-controller";
 import { CapabilitiesSection, CliSection, ComparisonSection, PromptsSection } from "./GuideSections";

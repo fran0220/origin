@@ -71,7 +71,7 @@ describe("scaffolding a project", () => {
 		};
 		// 一条命令走完构建到安装，Agent 不需要记住产物路径。
 		expect(pkg.scripts["install:vetta"]).toContain("vetta-plugin-cli add .");
-		expect(pkg.devDependencies["@vetta-org/plugin-sdk"]).toMatch(/^\^\d/);
+		expect(pkg.devDependencies["@origin-org/plugin-sdk"]).toMatch(/^\^\d/);
 
 		const brief = readFileSync(join(result.root, "AGENTS.md"), "utf8");
 		// 说明书只指路，不复述合同——手册才是真源，而且随 SDK 版本走。
@@ -164,7 +164,7 @@ describe("scaffolding a marketplace repository", () => {
 		// 落在仓库根的 Agent 最需要知道的两件事。
 		expect(brief).toContain("cd abilities/plugins");
 		// 仓库根没有 node_modules，裸 bin 解析不到，必须写全名。
-		expect(brief).toContain("npx @vetta-org/plugin-cli sync");
+		expect(brief).toContain("npx @origin-org/plugin-cli sync");
 	});
 
 	it("keeps dist publishable by not ignoring it", () => {

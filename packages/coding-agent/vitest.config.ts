@@ -4,82 +4,82 @@ import { coverageConfigDefaults, defineConfig } from "vitest/config";
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@vetta/coding-agent/resources": fileURLToPath(
+			"@origin/coding-agent/resources": fileURLToPath(
 				new URL("./src/public-api/resources.ts", import.meta.url),
 			),
-			"@vetta/agent-core": fileURLToPath(new URL("../agent/src/index.ts", import.meta.url)),
-			"@vetta/ai": fileURLToPath(new URL("../ai/src/index.ts", import.meta.url)),
-			"@vetta/ecosystem-adapter/hooks": fileURLToPath(
+			"@origin/agent-core": fileURLToPath(new URL("../agent/src/index.ts", import.meta.url)),
+			"@origin/ai": fileURLToPath(new URL("../ai/src/index.ts", import.meta.url)),
+			"@origin/ecosystem-adapter/hooks": fileURLToPath(
 				new URL("../ecosystem-adapter/src/hooks/index.ts", import.meta.url),
 			),
-			"@vetta/ecosystem-adapter": fileURLToPath(new URL("../ecosystem-adapter/src/index.ts", import.meta.url)),
-			"@vetta/runtime-evaluation": fileURLToPath(new URL("../runtime-evaluation/src/index.ts", import.meta.url)),
-			"@vetta/runtime-knowledge": fileURLToPath(new URL("../runtime-knowledge/src/index.ts", import.meta.url)),
-			"@vetta/runtime-subagents": fileURLToPath(new URL("../runtime-subagents/src/index.ts", import.meta.url)),
-			"@vetta/runtime-evolution": fileURLToPath(new URL("../runtime-evolution/src/index.ts", import.meta.url)),
-			"@vetta/runtime-storage/conversation": fileURLToPath(
+			"@origin/ecosystem-adapter": fileURLToPath(new URL("../ecosystem-adapter/src/index.ts", import.meta.url)),
+			"@origin/runtime-evaluation": fileURLToPath(new URL("../runtime-evaluation/src/index.ts", import.meta.url)),
+			"@origin/runtime-knowledge": fileURLToPath(new URL("../runtime-knowledge/src/index.ts", import.meta.url)),
+			"@origin/runtime-subagents": fileURLToPath(new URL("../runtime-subagents/src/index.ts", import.meta.url)),
+			"@origin/runtime-evolution": fileURLToPath(new URL("../runtime-evolution/src/index.ts", import.meta.url)),
+			"@origin/runtime-storage/conversation": fileURLToPath(
 				new URL("../runtime-storage/src/conversation/index.ts", import.meta.url),
 			),
-			"@vetta/coding-agent/connections": fileURLToPath(
+			"@origin/coding-agent/connections": fileURLToPath(
 				new URL("./src/public-api/connections.ts", import.meta.url),
 			),
-			"@vetta/runtime-recording": fileURLToPath(new URL("../runtime-recording/src/index.ts", import.meta.url)),
-			"@vetta/runtime-node/evolution": fileURLToPath(
+			"@origin/runtime-recording": fileURLToPath(new URL("../runtime-recording/src/index.ts", import.meta.url)),
+			"@origin/runtime-node/evolution": fileURLToPath(
 				new URL("../runtime-node/src/evolution/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/recording": fileURLToPath(
+			"@origin/runtime-node/recording": fileURLToPath(
 				new URL("../runtime-node/src/recording/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/sandbox": fileURLToPath(
+			"@origin/runtime-node/sandbox": fileURLToPath(
 				new URL("../runtime-node/src/sandbox/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/conversation/legacy": fileURLToPath(
+			"@origin/runtime-node/conversation/legacy": fileURLToPath(
 				new URL("../runtime-node/src/conversation/legacy.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/conversation": fileURLToPath(
+			"@origin/runtime-node/conversation": fileURLToPath(
 				new URL("../runtime-node/src/conversation/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/coding": fileURLToPath(
+			"@origin/runtime-node/coding": fileURLToPath(
 				new URL("../runtime-node/src/coding/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-node/host": fileURLToPath(new URL("../runtime-node/src/host/index.ts", import.meta.url)),
-			"@vetta/runtime-node/mcp": fileURLToPath(new URL("../runtime-node/src/mcp/index.ts", import.meta.url)),
-			"@vetta/runtime-tools/coding": fileURLToPath(
+			"@origin/runtime-node/host": fileURLToPath(new URL("../runtime-node/src/host/index.ts", import.meta.url)),
+			"@origin/runtime-node/mcp": fileURLToPath(new URL("../runtime-node/src/mcp/index.ts", import.meta.url)),
+			"@origin/runtime-tools/coding": fileURLToPath(
 				new URL("../runtime-tools/src/coding/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-tools": fileURLToPath(new URL("../runtime-tools/src/index.ts", import.meta.url)),
-			"@vetta/runtime-mcp/auth": fileURLToPath(new URL("../runtime-mcp/src/auth/index.ts", import.meta.url)),
-			"@vetta/runtime-mcp/client": fileURLToPath(
+			"@origin/runtime-tools": fileURLToPath(new URL("../runtime-tools/src/index.ts", import.meta.url)),
+			"@origin/runtime-mcp/auth": fileURLToPath(new URL("../runtime-mcp/src/auth/index.ts", import.meta.url)),
+			"@origin/runtime-mcp/client": fileURLToPath(
 				new URL("../runtime-mcp/src/client/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-mcp/config": fileURLToPath(
+			"@origin/runtime-mcp/config": fileURLToPath(
 				new URL("../runtime-mcp/src/config/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-mcp/protocol": fileURLToPath(
+			"@origin/runtime-mcp/protocol": fileURLToPath(
 				new URL("../runtime-mcp/src/protocol/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-mcp": fileURLToPath(new URL("../runtime-mcp/src/index.ts", import.meta.url)),
-			"@vetta/runtime-core/configuration": fileURLToPath(
+			"@origin/runtime-mcp": fileURLToPath(new URL("../runtime-mcp/src/index.ts", import.meta.url)),
+			"@origin/runtime-core/configuration": fileURLToPath(
 				new URL("../runtime-core/src/configuration/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core/observation": fileURLToPath(
+			"@origin/runtime-core/observation": fileURLToPath(
 				new URL("../runtime-core/src/observation/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core/kernel": fileURLToPath(
+			"@origin/runtime-core/kernel": fileURLToPath(
 				new URL("../runtime-core/src/kernel/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core/conversation": fileURLToPath(
+			"@origin/runtime-core/conversation": fileURLToPath(
 				new URL("../runtime-core/src/conversation/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core/failures": fileURLToPath(new URL("../runtime-core/src/failures.ts", import.meta.url)),
-			"@vetta/runtime-core/sandbox": fileURLToPath(
+			"@origin/runtime-core/failures": fileURLToPath(new URL("../runtime-core/src/failures.ts", import.meta.url)),
+			"@origin/runtime-core/sandbox": fileURLToPath(
 				new URL("../runtime-core/src/sandbox/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core/session-extensions": fileURLToPath(
+			"@origin/runtime-core/session-extensions": fileURLToPath(
 				new URL("../runtime-core/src/session-extensions/index.ts", import.meta.url),
 			),
-			"@vetta/runtime-core": fileURLToPath(new URL("../runtime-core/src/index.ts", import.meta.url)),
-			"@vetta/runtime-checkpoints": fileURLToPath(new URL("../runtime-checkpoints/src/index.ts", import.meta.url)),
+			"@origin/runtime-core": fileURLToPath(new URL("../runtime-core/src/index.ts", import.meta.url)),
+			"@origin/runtime-checkpoints": fileURLToPath(new URL("../runtime-checkpoints/src/index.ts", import.meta.url)),
 		},
 	},
 	test: {

@@ -1,4 +1,4 @@
-import type { AgentProfile } from "@vetta/agent-team";
+import type { AgentProfile } from "@origin/agent-team";
 import { motion } from "motion/react";
 import { useTranslation } from "react-i18next";
 import { AgentConstellation } from "./AgentConstellation";

@@ -1,5 +1,5 @@
+import type { Disposable } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { Disposable } from "@vetta-org/plugin-sdk";
 
 function stylesheetIdentity(href: string): string {
 	try {

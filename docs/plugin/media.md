@@ -147,7 +147,7 @@ Provider 收到的 `inputs` 只有不透明 ID、媒体类型和 MIME，不包�
 
 ## Provider SPI
 
-通用媒体契约和 capability token 定义在 `@vetta-org/capability-sdk`，当前协议版本为 5。注册表、通用任务、临时产物存储、输入解析与网络传输位于 desktop 主进程。插件 Provider 通过受控 IPC 回调桥接到同一个 Registry，注销时会中止仍在执行的调用。使用模型目录或 `readInput()` 的插件应声明 `pluginApiVersion: ^2.4.0`；旧 Provider 不声明模型目录时继续按原行为运行。
+通用媒体契约和 capability token 定义在 `@origin-org/capability-sdk`，当前协议版本为 5。注册表、通用任务、临时产物存储、输入解析与网络传输位于 desktop 主进程。插件 Provider 通过受控 IPC 回调桥接到同一个 Registry，注销时会中止仍在执行的调用。使用模型目录或 `readInput()` 的插件应声明 `pluginApiVersion: ^2.4.0`；旧 Provider 不声明模型目录时继续按原行为运行。
 
 需要宿主凭据或其它主进程特权的实现仍应注册为宿主 Provider；普通远端服务、本地模型或 sidecar 可用 Provider 插件适配。两者对消费者暴露同一契约。
 

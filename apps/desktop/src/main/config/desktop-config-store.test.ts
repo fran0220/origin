@@ -1,7 +1,7 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { VETTA_HOME_ENV } from "@vetta/action-rpc";
+import { VETTA_HOME_ENV } from "@origin/action-rpc";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const temporaryRoots: string[] = [];

@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import type { evaluationOperationsFromService } from "@vetta/coding-agent/composition";
-import { getAgentDir } from "@vetta/coding-agent/config";
+import type { evaluationOperationsFromService } from "@origin/coding-agent/composition";
+import { getAgentDir } from "@origin/coding-agent/config";
 import {
 	CompositeEvaluationEvidenceProvider,
 	type EvaluationEvidenceProvider,
@@ -9,14 +9,14 @@ import {
 	EvaluationService,
 	type EvaluationTrigger,
 	HOME_PROJECT_KEY,
-} from "@vetta/runtime-evaluation";
-import { FileCheckpointStore } from "@vetta/runtime-node/checkpoints";
+} from "@origin/runtime-evaluation";
+import { FileCheckpointStore } from "@origin/runtime-node/checkpoints";
 import {
 	createArtifactDigestEvidenceProvider,
 	createNodeVerifierRunner,
 	createTraceEvidenceProvider,
 	FileEvaluationStore,
-} from "@vetta/runtime-node/evaluation";
+} from "@origin/runtime-node/evaluation";
 import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { getAppLogger } from "../logger.js";
 import {

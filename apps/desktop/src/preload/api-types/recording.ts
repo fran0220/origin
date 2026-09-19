@@ -4,7 +4,7 @@ import type {
 	RecordingSampleRequest,
 	RecordingSampleResult,
 	RecordingStartRequest,
-} from "@vetta/runtime-recording";
+} from "@origin/runtime-recording";
 
 export interface DesktopRecordingApi {
 	start(request: RecordingStartRequest): Promise<RecordingRecord>;

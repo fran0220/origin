@@ -1,4 +1,4 @@
-export * from "@vetta/runtime-mcp";
+export * from "@origin/runtime-mcp";
 export { NodeMcpToolResultArtifactStore } from "../host/result-artifact-storage.js";
 export * from "./auth/index.js";
 export * from "./client/index.js";

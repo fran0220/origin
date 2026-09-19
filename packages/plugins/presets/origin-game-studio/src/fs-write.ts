@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { dirname, joinPath } from "./paths";
 
 export async function writeTextFile(fs: PluginFsApi, path: string, content: string): Promise<void> {

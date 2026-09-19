@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useRef, useState } from "react";
 import { getPluginCtx, notify } from "../plugin-context";
 import type { NotesStore } from "./notes-store";

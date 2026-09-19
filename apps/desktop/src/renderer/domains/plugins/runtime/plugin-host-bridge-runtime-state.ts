@@ -10,7 +10,7 @@ import type {
 	PluginContinuationHandler,
 	PluginMediaProviderRegistration,
 	PluginSystemPromptProviderHandler,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 
 export interface PluginAgentToolHandlerEntry {
 	handler: PluginAgentToolHandler;

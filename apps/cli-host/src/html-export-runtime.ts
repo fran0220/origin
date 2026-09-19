@@ -1,7 +1,7 @@
-import { getExportTemplateDir } from "@vetta/coding-agent/config";
-import { createCodingAgentHtmlExportRuntime } from "@vetta/coding-agent/export-html";
-import { parseCodingAgentHistoricalSessionDocument } from "@vetta/coding-agent/historical-sessions";
-import { createNodeHtmlExportFileAdapters, nodeSyncTextFileSource } from "@vetta/runtime-node/host";
+import { getExportTemplateDir } from "@origin/coding-agent/config";
+import { createCodingAgentHtmlExportRuntime } from "@origin/coding-agent/export-html";
+import { parseCodingAgentHistoricalSessionDocument } from "@origin/coding-agent/historical-sessions";
+import { createNodeHtmlExportFileAdapters, nodeSyncTextFileSource } from "@origin/runtime-node/host";
 
 export function createCliCodingAgentHtmlExportRuntime() {
 	return createCodingAgentHtmlExportRuntime(

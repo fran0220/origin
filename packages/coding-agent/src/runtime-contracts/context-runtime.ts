@@ -1,11 +1,11 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { Api, AssistantMessage, Message, Model } from "@vetta/ai";
-import type { EcosystemHookRuntime } from "@vetta/ecosystem-adapter/hooks";
+import type { AgentMessage } from "@origin/agent-core";
+import type { Api, AssistantMessage, Message, Model } from "@origin/ai";
+import type { EcosystemHookRuntime } from "@origin/ecosystem-adapter/hooks";
 import type {
 	ContextCompositionReport,
 	RuntimeDocumentParticipant,
 	RuntimeObservationPublisher,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import type {
 	ContextCompositionPublisher,
 	ContextStrategy,
@@ -16,7 +16,7 @@ import type {
 	RuntimeSnapshotAcquireContext,
 	SessionContextRecord,
 	TurnObserver,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import type { CompactionPreparation, CompactionResult, CompactionSettings } from "../compaction/index.js";
 import type { CompactionWorkStateSnapshot } from "../compaction/work-state-recovery.js";
 import type { CodingAgentMemoryCompactionPolicy } from "../memory/index.js";

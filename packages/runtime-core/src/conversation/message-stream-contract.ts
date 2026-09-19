@@ -1,5 +1,5 @@
-import type { ToolPhase } from "@vetta/agent-core";
-import type { AssistantMessageEvent } from "@vetta/ai";
+import type { ToolPhase } from "@origin/agent-core";
+import type { AssistantMessageEvent } from "@origin/ai";
 import type { RuntimeToolResult } from "../kernel/contracts.js";
 import type { ConversationAgentAuthorReference } from "./message-contract.js";
 

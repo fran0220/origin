@@ -6,7 +6,7 @@
  */
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({ t: (key: string, vars?: Record<string, unknown>) => `${key}:${JSON.stringify(vars ?? {})}` }),
 }));
 
@@ -35,7 +35,7 @@ vi.mock("../src/plugin-context", () => ({
 
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { useNotesAutoDispatch } from "../src/notes/handoff";
 import { NotesStore } from "../src/notes/notes-store";
 import type { NoteAnchor } from "../src/notes/types";

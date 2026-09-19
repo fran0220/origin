@@ -13,7 +13,7 @@
  * 失败一律当作「没有语法错」：引擎还没装好、node 起不来、脚本自己崩了，都不该
  * 凭空造出一条 issue 让 agent 去改本来正确的代码（同 check-sources 的取舍）。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { engineRootDir } from "../engine/engine-manager";
 import type { SourceIssue } from "./check-sources";
 

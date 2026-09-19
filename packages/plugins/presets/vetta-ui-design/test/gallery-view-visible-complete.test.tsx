@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
  * - 全部设计页在列表 chunk 未到时主区仍有标题，不能是空白。
  */
 
-vi.mock("@vetta-org/plugin-sdk", () => {
+vi.mock("@origin-org/plugin-sdk", () => {
 	const t = (key: string) => key;
 	return { useTranslation: () => ({ t, locale: "zh" }) };
 });

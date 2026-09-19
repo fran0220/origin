@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@vetta/runtime-checkpoints": fileURLToPath(new URL("./src/index.ts", import.meta.url)),
+			"@origin/runtime-checkpoints": fileURLToPath(new URL("./src/index.ts", import.meta.url)),
 		},
 	},
 	test: {

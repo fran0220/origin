@@ -10,7 +10,7 @@ import {
 	type McpToolCallResult,
 	readMcpAppResource,
 	readMcpAppToolMeta,
-} from "@vetta/runtime-mcp";
+} from "@origin/runtime-mcp";
 import type { DesktopMcpAppSurface } from "../../shared/mcp-app.js";
 
 const MAX_SURFACES = 64;

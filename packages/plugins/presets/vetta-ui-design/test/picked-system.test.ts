@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import type { DesignSystem } from "../src/design-systems/types";
 
 const installSystemResources = vi.fn(async () => undefined);

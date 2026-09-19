@@ -1,5 +1,5 @@
 export type {
 	BatchTasksApprovalFrameViewLabels,
 	BatchTasksApprovalFrameViewProps,
-} from "@vetta-org/theme-ui/action-approval";
-export { BatchTasksApprovalFrameView } from "@vetta-org/theme-ui/action-approval";
+} from "@origin-org/theme-ui/action-approval";
+export { BatchTasksApprovalFrameView } from "@origin-org/theme-ui/action-approval";

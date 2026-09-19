@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { designCountBadge } from "./gallery-model";
 import type { GalleryCard as GalleryCardData } from "./gallery-store";
 import { formatRelativeTime } from "./relative-time";

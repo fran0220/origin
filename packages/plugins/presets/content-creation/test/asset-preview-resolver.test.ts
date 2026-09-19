@@ -1,4 +1,4 @@
-import type { PluginFsApi, PluginStorageApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginStorageApi } from "@origin-org/plugin-sdk";
 import { describe, expect, it, vi } from "vitest";
 import { ContentAssetPreviewResolver } from "../src/generation/asset-preview-resolver";
 import type { ContentAsset } from "../src/project/types";

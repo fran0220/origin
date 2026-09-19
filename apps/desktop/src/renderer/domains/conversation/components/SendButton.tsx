@@ -1,7 +1,7 @@
-import { SendButton as ThemeSendButton, type SendButtonProps as ThemeSendButtonProps } from "@vetta-org/theme-ui/chat";
+import { SendButton as ThemeSendButton, type SendButtonProps as ThemeSendButtonProps } from "@origin-org/theme-ui/chat";
 import { useTranslation } from "react-i18next";
 
-export type { SendButtonLabels } from "@vetta-org/theme-ui/chat";
+export type { SendButtonLabels } from "@origin-org/theme-ui/chat";
 
 type HostSendButtonProps = Omit<ThemeSendButtonProps, "labels">;
 

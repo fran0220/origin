@@ -8,7 +8,7 @@ import {
 	type RedeemableAuthorization,
 	redeemAuthorizationCode,
 	revokeRemoteSession,
-} from "@vetta/coding-agent/connections";
+} from "@origin/coding-agent/connections";
 import { BrowserWindow } from "electron";
 import { getAccountDirectoryService } from "../../connections/account-directory.js";
 import { getConnectionCatalog } from "../../connections/catalog.js";

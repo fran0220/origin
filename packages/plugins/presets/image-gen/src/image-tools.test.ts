@@ -10,7 +10,7 @@ import type {
 	PluginMediaArtifact,
 	PluginMediaApi,
 	PluginMediaJob,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ImageRepository } from "./image-repository";
 import { registerImageTools, selectImageProvider } from "./image-tools";

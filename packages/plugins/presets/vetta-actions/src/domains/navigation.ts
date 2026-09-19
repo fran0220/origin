@@ -1,4 +1,4 @@
-import type { PluginAppActionExample, PluginContext, PluginJsonSchema } from "@vetta-org/plugin-sdk";
+import type { PluginAppActionExample, PluginContext, PluginJsonSchema } from "@origin-org/plugin-sdk";
 import { throwInvalidInput } from "../action-errors";
 import { createVettaActionRegistrar } from "../action-usage";
 

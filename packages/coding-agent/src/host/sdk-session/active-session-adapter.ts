@@ -1,4 +1,4 @@
-import type { UserContentPart } from "@vetta/ai";
+import type { UserContentPart } from "@origin/ai";
 import type {
 	CodingAgentNewSessionOptions,
 	CodingAgentSession,

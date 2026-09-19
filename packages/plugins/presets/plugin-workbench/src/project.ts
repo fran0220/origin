@@ -1,4 +1,4 @@
-import { PLUGIN_PERMISSIONS, type PluginPermission } from "@vetta-org/plugin-sdk";
+import { PLUGIN_PERMISSIONS, type PluginPermission } from "@origin-org/plugin-sdk";
 import { getWorkbenchFs, getWorkbenchPlugins, withWorkbenchFs } from "./runtime";
 
 const pluginPermissionSet = new Set<string>(PLUGIN_PERMISSIONS);

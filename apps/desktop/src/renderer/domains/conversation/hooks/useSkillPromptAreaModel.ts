@@ -1,6 +1,6 @@
+import type { SkillPromptAreaViewProps } from "@origin-org/theme-ui/chat";
 import type { SkillInfo } from "@preload/api";
 import type { SelectedSkill } from "@shared/store/atoms";
-import type { SkillPromptAreaViewProps } from "@vetta-org/theme-ui/chat";
 import {
 	type ChangeEvent,
 	type KeyboardEvent,

@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { FramePixels } from "@vetta/runtime-recording";
+import type { FramePixels } from "@origin/runtime-recording";
 import { afterEach, describe, expect, it } from "vitest";
 import { FfmpegFrameEncoder } from "./ffmpeg-frame-encoder.js";
 import { contactSheetExpectedSize, resolveSampleTimestamps, sampleRecordingWithFfmpeg } from "./ffmpeg-sample.js";

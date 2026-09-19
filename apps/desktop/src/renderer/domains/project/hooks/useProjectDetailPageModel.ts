@@ -1,3 +1,4 @@
+import type { ProjectDetailPageViewProps } from "@origin-org/theme-ui/project";
 import { useOwnedHeaderTitleHidden } from "@shared/hooks/useOwnedHeaderTitleHidden";
 import { isMac } from "@shared/lib/platform";
 import { pathBasename } from "@shared/lib/utils";
@@ -12,7 +13,6 @@ import {
 } from "@shared/store/atoms";
 import { useSurfaceActive } from "@shared/surface-active";
 import { useNavigate, useParams } from "@tanstack/react-router";
-import type { ProjectDetailPageViewProps } from "@vetta-org/theme-ui/project";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

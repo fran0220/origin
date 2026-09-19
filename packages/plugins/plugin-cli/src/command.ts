@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { ActionRpcError, createActionRpcClient, readActionRpcEndpoint } from "@vetta/action-rpc";
+import { ActionRpcError, createActionRpcClient, readActionRpcEndpoint } from "@origin/action-rpc";
 import { readLatestNpmVersion, resolveNpmPluginArchive, type ResolvedNpmPluginArchive } from "./npm-package.js";
 import { AGENTS_GUIDE_REVISION, readAgentsGuideRevision } from "./agents-template.js";
 import { initHubRepository, initPluginProject, refreshAgentsGuide } from "./init.js";
@@ -81,18 +81,18 @@ Usage:
   vetta-plugin-cli sync [--check] [--json]
 
 Examples:
-  npx @vetta-org/plugin-cli add @example/vetta-plugin-demo
-  npx @vetta-org/plugin-cli add @example/vetta-plugin-demo@1.2.0
-  npx @vetta-org/plugin-cli add .                      # 当前插件工程（先 pack）
-  npx @vetta-org/plugin-cli add ./release/demo-1.2.0.zip
-  npx @vetta-org/plugin-cli reload demo
-  npx @vetta-org/plugin-cli docs
-  npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
-  npx @vetta-org/plugin-cli init hub --name my-market --repository https://github.com/me/my-market --min-app-version 0.55.0
-  npx @vetta-org/plugin-cli watch          # 让宿主改从工程目录加载，改完即生效
-  npx @vetta-org/plugin-cli uninstall      # 卸载当前插件工程对应的插件
-  npx @vetta-org/plugin-cli sync           # 在市场仓库根对账 .vetta/marketplace.json
-  npx @vetta-org/plugin-cli sync --check   # 只报不写，给 CI 用
+  npx @origin-org/plugin-cli add @example/vetta-plugin-demo
+  npx @origin-org/plugin-cli add @example/vetta-plugin-demo@1.2.0
+  npx @origin-org/plugin-cli add .                      # 当前插件工程（先 pack）
+  npx @origin-org/plugin-cli add ./release/demo-1.2.0.zip
+  npx @origin-org/plugin-cli reload demo
+  npx @origin-org/plugin-cli docs
+  npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
+  npx @origin-org/plugin-cli init hub --name my-market --repository https://github.com/me/my-market --min-app-version 0.55.0
+  npx @origin-org/plugin-cli watch          # 让宿主改从工程目录加载，改完即生效
+  npx @origin-org/plugin-cli uninstall      # 卸载当前插件工程对应的插件
+  npx @origin-org/plugin-cli sync           # 在市场仓库根对账 .vetta/marketplace.json
+  npx @origin-org/plugin-cli sync --check   # 只报不写，给 CI 用
 `;
 
 function formatParseError(error: unknown): string {
@@ -319,7 +319,7 @@ const defaultDependencies: PluginCommandDependencies = {
 	runAction: defaultRunAction,
 	writeStdout: (value) => process.stdout.write(value),
 	writeStderr: (value) => process.stderr.write(value),
-	readLatestSdkVersion: () => readLatestNpmVersion("@vetta-org/plugin-sdk"),
+	readLatestSdkVersion: () => readLatestNpmVersion("@origin-org/plugin-sdk"),
 };
 
 function isHttpUrl(source: string): boolean {
@@ -561,7 +561,7 @@ async function runDocsCommand(
 		const inHubRoot = findPluginHub(cwd) !== undefined && findPluginProject(cwd) === undefined;
 		const message = inHubRoot
 			? "Plugin manual not found at the hub root. cd into an ability directory (abilities/plugins/<slug>), then run npm install.\n"
-			: "Plugin manual not found. Install the SDK first: npm i -D @vetta-org/plugin-sdk\n";
+			: "Plugin manual not found. Install the SDK first: npm i -D @origin-org/plugin-sdk\n";
 		if (command.json) {
 			dependencies.writeStdout(
 				`${JSON.stringify({ ok: false, error: { code: "MANUAL_NOT_FOUND", message: message.trim() } })}\n`,
@@ -601,7 +601,7 @@ async function runDocsCommand(
 		return 0;
 	}
 	const lines = [
-		`Plugin manual (@vetta-org/plugin-sdk${sdkVersion ? `@${sdkVersion}` : ""}):`,
+		`Plugin manual (@origin-org/plugin-sdk${sdkVersion ? `@${sdkVersion}` : ""}):`,
 		`  ${manualDir}`,
 		`Start here: ${join(manualDir, "README.md")}`,
 	];
@@ -643,10 +643,10 @@ async function runDocsCommand(
  * 版本一致。代价是它不会自己变新，所以「怎么变新」必须由 CLI 每次说一遍：`npx` 默认取最新的
  * CLI，它的输出是这条链路上唯一不会过期的位置。
  */
-const SDK_REFRESH_COMMAND = "npm i -D @vetta-org/plugin-sdk@latest && npx vetta-plugin-cli docs";
+const SDK_REFRESH_COMMAND = "npm i -D @origin-org/plugin-sdk@latest && npx vetta-plugin-cli docs";
 
 /** 刷新说明书的命令。与手册各刷各的：一个随 SDK 走，一个随 CLI 走。 */
-const GUIDE_REFRESH_COMMAND = "npx @vetta-org/plugin-cli init --refresh-guide";
+const GUIDE_REFRESH_COMMAND = "npx @origin-org/plugin-cli init --refresh-guide";
 
 export interface AgentsGuideStatus {
 	/** 本工程有没有 AGENTS.md。 */
@@ -954,8 +954,8 @@ function runInitHubCommand(
 				? `${JSON.stringify({ ok: true, ...result })}\n`
 				: [
 						`Created marketplace ${result.name} at ${result.root}`,
-						"Add an ability: npx @vetta-org/plugin-cli init --id <slug> --name \"<Display>\" abilities/plugins/<slug>",
-						"Then list it in .vetta/marketplace.json and run: npx @vetta-org/plugin-cli sync",
+						"Add an ability: npx @origin-org/plugin-cli init --id <slug> --name \"<Display>\" abilities/plugins/<slug>",
+						"Then list it in .vetta/marketplace.json and run: npx @origin-org/plugin-cli sync",
 						"The working agreement for agents is in AGENTS.md.",
 					].join("\n") + "\n",
 		);

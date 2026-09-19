@@ -1,8 +1,8 @@
-# @vetta/runtime-storage
+# @origin/runtime-storage
 
 Platform-neutral conversation storage contracts, errors, and persisted record schemas.
 
-The package deliberately contains no filesystem, process, database, Electron, or browser I/O. Platform runtimes implement these contracts. The shared Node implementation is published by `@vetta/runtime-node` and selected by `@vetta/runtime-desktop` or other Node hosts.
+The package deliberately contains no filesystem, process, database, Electron, or browser I/O. Platform runtimes implement these contracts. The shared Node implementation is published by `@origin/runtime-node` and selected by `@origin/runtime-desktop` or other Node hosts.
 
 ## Main Exports
 

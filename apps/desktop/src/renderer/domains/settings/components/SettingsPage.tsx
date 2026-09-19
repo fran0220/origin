@@ -1,5 +1,5 @@
 import { PluginWorkspaceViewSurface } from "@domains/plugins/components/PluginWorkspaceViewRoute";
-import { useThemeSurface } from "@vetta-org/theme-sdk/appearance";
+import { useThemeSurface } from "@origin-org/theme-sdk/appearance";
 import type { JSX } from "react";
 import { SettingsPageView } from "./SettingsPageView";
 import { SettingsTabSurfaces } from "./SettingsTabSurfaces";

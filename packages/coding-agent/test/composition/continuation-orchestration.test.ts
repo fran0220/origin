@@ -10,8 +10,8 @@ import {
 	EventStream,
 	type Message,
 	type Model,
-} from "@vetta/ai";
-import type { RuntimeSnapshotAcquireContext } from "@vetta/runtime-core/kernel";
+} from "@origin/ai";
+import type { RuntimeSnapshotAcquireContext } from "@origin/runtime-core/kernel";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { CompactionPreparation } from "../../src/compaction/index.js";
 import type { CodingAgentRuntimeComposition } from "../../src/composition/index.js";

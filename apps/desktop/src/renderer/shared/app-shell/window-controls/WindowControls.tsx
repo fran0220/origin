@@ -1,9 +1,9 @@
-import { useThemeComponent } from "@vetta-org/theme-sdk";
-import { useWindowControlsModel } from "@vetta-org/theme-sdk/app-shell";
-import { DefaultWindowControls } from "@vetta-org/theme-ui/app-shell";
+import { useThemeComponent } from "@origin-org/theme-sdk";
+import { useWindowControlsModel } from "@origin-org/theme-sdk/app-shell";
+import { DefaultWindowControls } from "@origin-org/theme-ui/app-shell";
 import type { WindowControlsProps } from "./types";
 
-export { DefaultWindowControls } from "@vetta-org/theme-ui/app-shell";
+export { DefaultWindowControls } from "@origin-org/theme-ui/app-shell";
 
 export function WindowControls(props: WindowControlsProps): JSX.Element {
 	const model = useWindowControlsModel();

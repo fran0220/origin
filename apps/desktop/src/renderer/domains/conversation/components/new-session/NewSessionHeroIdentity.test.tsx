@@ -2,7 +2,7 @@
 
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createAgentProfileFixture } from "@vetta/agent-team";
+import { createAgentProfileFixture } from "@origin/agent-team";
 import { createElement, type ReactNode, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { resetAgentTeamDirectoryForTest } from "./agent-team-directory";
@@ -34,7 +34,7 @@ function domProps(props: Record<string, unknown>): Record<string, unknown> {
 }
 vi.mock("../GuideBadgeSwiper", () => ({ GuideBadgeSwiper: () => null }));
 vi.mock("./ornament/HeroOrnamentSlot", () => ({ HeroOrnamentSlot: () => null }));
-vi.mock("@vetta-org/theme-sdk", () => ({ useThemeComponent: (_key: string, fallback: unknown) => fallback }));
+vi.mock("@origin-org/theme-sdk", () => ({ useThemeComponent: (_key: string, fallback: unknown) => fallback }));
 vi.mock("react-i18next", () => ({
 	useTranslation: () => ({
 		t: (key: string, values?: Record<string, number>) =>

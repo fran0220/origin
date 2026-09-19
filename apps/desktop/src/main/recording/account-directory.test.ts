@@ -6,7 +6,7 @@ import {
 	accountScopeKey,
 	defaultLoggedOutSelection,
 	resolveAccountScopedDir,
-} from "@vetta/coding-agent/connections";
+} from "@origin/coding-agent/connections";
 import { afterEach, describe, expect, it } from "vitest";
 import { migrateUnscopedLegacyTrees } from "../connections/account-directory.js";
 

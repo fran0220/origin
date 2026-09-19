@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { act, render, renderHook, screen } from "@testing-library/react";
 import { createConversationAgentMessage, type ConversationAgentMessageViewModel } from "@shared/conversation";
-import type { CardDescriptor } from "@vetta-org/plugin-sdk";
+import type { CardDescriptor } from "@origin-org/plugin-sdk";
 import { createStore, Provider, useAtomValue } from "jotai";
 import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";

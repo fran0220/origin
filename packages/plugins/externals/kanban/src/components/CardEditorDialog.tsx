@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import {
 	Button,
 	cn,
@@ -8,7 +8,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { useEffect, useRef, useState, type JSX } from "react";
 import { ModelPicker } from "./ModelPicker";
 import { ProjectPicker } from "./ProjectPicker";

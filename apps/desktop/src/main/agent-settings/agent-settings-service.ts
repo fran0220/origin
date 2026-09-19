@@ -3,7 +3,7 @@ import type {
 	AgentExperimentalSettingsUpdate,
 	ImageGenerationSettings,
 	ImageGenerationSettingsUpdate,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import {
 	type DesktopConfig,
 	normalizeExperimental,

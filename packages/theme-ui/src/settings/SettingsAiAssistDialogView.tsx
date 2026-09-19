@@ -6,7 +6,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 	cn,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { SettingsAiAssistButtonView } from "./SettingsAiAssistButtonView";
 
 export interface SettingsAiAssistDialogViewLabels {

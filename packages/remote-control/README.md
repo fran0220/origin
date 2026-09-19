@@ -1,4 +1,4 @@
-# @vetta/remote-control
+# @origin/remote-control
 
 Platform-neutral remote control protocol, connection lifecycle, diagnostics contract, and deterministic fake transport.
 

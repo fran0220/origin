@@ -1,4 +1,4 @@
-import type { AgentProfileDocument } from "@vetta/agent-team";
+import type { AgentProfileDocument } from "@origin/agent-team";
 import { createAgentTeamFileRepository } from "./agent-team-file-repository.js";
 
 export interface AgentTeamConfigRepository {

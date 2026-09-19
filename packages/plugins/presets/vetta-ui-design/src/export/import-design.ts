@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { strFromU8, unzipSync } from "fflate";
 import { HISTORY_ENTRY, unpackHistoryFromShare } from "../history/history-transfer";
 import { manifestPathOf } from "../vetd/manifest-types";

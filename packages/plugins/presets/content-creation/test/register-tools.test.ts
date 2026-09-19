@@ -1,5 +1,5 @@
-import { validateToolArguments, type Tool } from "@vetta/ai";
-import type { PluginAgentToolRegistration, PluginContext } from "@vetta-org/plugin-sdk";
+import { validateToolArguments, type Tool } from "@origin/ai";
+import type { PluginAgentToolRegistration, PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ContentGenerationPromptPlanError } from "../src/agent/generation-prompt-plan";
 import { parseContentAgentOperations } from "../src/agent/operations";

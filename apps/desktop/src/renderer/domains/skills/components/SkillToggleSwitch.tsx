@@ -1,2 +1,2 @@
-export type { SkillToggleSwitchProps } from "@vetta-org/theme-ui/skills";
-export { SkillToggleSwitch } from "@vetta-org/theme-ui/skills";
+export type { SkillToggleSwitchProps } from "@origin-org/theme-ui/skills";
+export { SkillToggleSwitch } from "@origin-org/theme-ui/skills";

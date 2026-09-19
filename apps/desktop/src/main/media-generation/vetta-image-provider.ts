@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import type { MediaDimensions, MediaFailure, MediaProviderJob } from "@vetta-org/capability-sdk";
-import { MEDIA_PROTOCOL_VERSION } from "@vetta-org/capability-sdk";
+import type { MediaDimensions, MediaFailure, MediaProviderJob } from "@origin-org/capability-sdk";
+import { MEDIA_PROTOCOL_VERSION } from "@origin-org/capability-sdk";
 import {
 	gatewayUnavailableResponse,
 	getCloudBridge,

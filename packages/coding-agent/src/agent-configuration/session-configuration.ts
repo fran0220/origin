@@ -2,10 +2,10 @@ import type {
 	ConversationDocument,
 	RuntimeDocumentParticipant,
 	RuntimeDocumentParticipantContext,
-} from "@vetta/runtime-core";
-import { selectConversationDocumentEntries } from "@vetta/runtime-core";
-import type { RuntimeSnapshotAcquireContext, StoredSessionEvent } from "@vetta/runtime-core/kernel";
-import type { RuntimeObservationPublisher } from "@vetta/runtime-core/observation";
+} from "@origin/runtime-core";
+import { selectConversationDocumentEntries } from "@origin/runtime-core";
+import type { RuntimeSnapshotAcquireContext, StoredSessionEvent } from "@origin/runtime-core/kernel";
+import type { RuntimeObservationPublisher } from "@origin/runtime-core/observation";
 import { AGENT_CONFIGURATION_OBSERVATION } from "./configuration-observability.js";
 import { AgentConfigurationResolution } from "./configuration-resolution.js";
 import {

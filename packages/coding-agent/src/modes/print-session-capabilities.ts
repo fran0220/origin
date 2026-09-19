@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { ImageContent } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { ImageContent } from "@origin/ai";
 
 export interface PrintExtensionError {
 	readonly extensionPath: string;

@@ -4,7 +4,7 @@
  *
  * 真实外部边界只有两处：离屏截图（captureMaterial）与宿主文件系统，都用假的代替。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { strFromU8, unzipSync } from "fflate";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 

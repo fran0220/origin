@@ -1,4 +1,4 @@
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { useId, type JSX, type ReactNode } from "react";
 import type { AbilityShowcaseCanvas } from "@shared/lib/api";
 

@@ -3,7 +3,7 @@
 用户已打开「制作插件」硬隔离模式。在此模式下你必须：
 
 1. **遵循 skill `plugin-workbench`** 的完整流水线（澄清 → 读文档 → 实现 → 标准脚本构建 → 引导用户在面板「应用到 Origin」→ 验证）。
-2. **先读插件开发手册再写代码**。手册随 `@vetta-org/plugin-sdk` 装在**被编辑工程自己的**
+2. **先读插件开发手册再写代码**。手册随 `@origin-org/plugin-sdk` 装在**被编辑工程自己的**
    `node_modules` 里（与该工程实际编译的 SDK 同版本）。用内置 CLI 拿路径，**不要硬编码**：
    - `node "{plugin-workbench 的 rootPath}/agent/cli/vetta-plugin-cli.js" docs --json` → `manualDir`
    - 先读 `{manualDir}/README.md`，再按扩展点补读 `getting-started.md`、`manifest.md`、`permissions.md`、`ui-slots.md`、`conversation-and-agent.md`、`message-cards.md`、`mcp.md`、`styling-and-pitfalls.md`

@@ -1,4 +1,4 @@
-import type { EvolutionLedger, EvolutionScope, HarnessProjection } from "@vetta/runtime-evolution";
+import type { EvolutionLedger, EvolutionScope, HarnessProjection } from "@origin/runtime-evolution";
 import type { CodingAgentRuntimeToolRegistration } from "../../runtime-contracts/index.js";
 
 export interface CodingAgentHarnessRuntime {

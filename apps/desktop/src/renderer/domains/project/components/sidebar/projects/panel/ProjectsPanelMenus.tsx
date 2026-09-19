@@ -1,4 +1,4 @@
-import { ProjectsPanelMenusView } from "@vetta-org/theme-ui/project";
+import { ProjectsPanelMenusView } from "@origin-org/theme-ui/project";
 import { ConversationTagEditorDialog } from "../../../ConversationTagEditorDialog";
 import { useProjectsPanelMenusModel } from "../../../../hooks/useProjectsPanelMenusModel";
 import { ProjectContextMenu } from "../../../ProjectContextMenu";

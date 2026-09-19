@@ -1,34 +1,34 @@
 # Changelog
 
-All notable changes to `@vetta-org/plugin-vite` are documented in this file.
+All notable changes to `@origin-org/plugin-vite` are documented in this file.
 
 ## [Unreleased]
 
 ### Added
 
-- Bind `@vetta-org/plugin-sdk/logger` to the current plugin's validated manifest identity in both production builds and the development server. The generated facade keeps plugin code free from `ctx` plumbing without using a mutable shared-SDK identity; this release requires `@vetta-org/plugin-sdk >=0.3.7`.
+- Bind `@origin-org/plugin-sdk/logger` to the current plugin's validated manifest identity in both production builds and the development server. The generated facade keeps plugin code free from `ctx` plumbing without using a mutable shared-SDK identity; this release requires `@origin-org/plugin-sdk >=0.3.7`.
 
 ### Fixed
 
-- Make the host design-system primitives explicitly opt-in through `hostUi: true`, so plugins that do not import `@vetta-org/ui` no longer need to install it. The uninstalled legacy names `@vetta/ui` and `@vetta/theme-ui/plugin-ui` are no longer default build-time shared dependencies; opted-in legacy UI source imports remain externalized to the Desktop host, and Desktop continues serving both legacy share keys for already-built plugins.
+- Make the host design-system primitives explicitly opt-in through `hostUi: true`, so plugins that do not import `@origin-org/ui` no longer need to install it. The uninstalled legacy names `@origin/ui` and `@origin/theme-ui/plugin-ui` are no longer default build-time shared dependencies; opted-in legacy UI source imports remain externalized to the Desktop host, and Desktop continues serving both legacy share keys for already-built plugins.
 
 ## [0.2.2] — 2026-09-14
 
 ### Fixed
 
-- Externalize and share the host component surface under both `@vetta-org/theme-ui/plugin-ui` and its former name `@vetta/theme-ui/plugin-ui`, for the same reason as `@vetta-org/ui` in 0.2.1: the specifier doubles as the Module Federation share key, so knowing only one of them makes a plugin bundle its own copy instead of reusing the host singleton.
+- Externalize and share the host component surface under both `@origin-org/theme-ui/plugin-ui` and its former name `@origin/theme-ui/plugin-ui`, for the same reason as `@origin-org/ui` in 0.2.1: the specifier doubles as the Module Federation share key, so knowing only one of them makes a plugin bundle its own copy instead of reusing the host singleton.
 
 ## [0.2.1] — 2026-09-14
 
 ### Fixed
 
-- Externalize and share the host design system under **both** `@vetta-org/ui` and its former name `@vetta/ui`. The package name doubles as the Module Federation share key, so a build that only knew one of them bundled the whole component library into the plugin instead of reusing the host singleton — two React component instances, and a ~10x larger artifact. Desktop now serves both names from the same module, so plugins built against either name keep resolving to the host instance.
+- Externalize and share the host design system under **both** `@origin-org/ui` and its former name `@origin/ui`. The package name doubles as the Module Federation share key, so a build that only knew one of them bundled the whole component library into the plugin instead of reusing the host singleton — two React component instances, and a ~10x larger artifact. Desktop now serves both names from the same module, so plugins built against either name keep resolving to the host instance.
 
 ## [0.2.0] — 2026-09-14
 
 ### Breaking Changes
 
-- Narrowed the `@vetta-org/plugin-sdk` peer range to `>=0.3.0 <0.4.0`. The 0.3.0 SDK carries breaking contract changes (plugin private storage, owned model providers, plugin-drawn configuration), so a project cannot stay on 0.2.x while packaging against this builder.
+- Narrowed the `@origin-org/plugin-sdk` peer range to `>=0.3.0 <0.4.0`. The 0.3.0 SDK carries breaking contract changes (plugin private storage, owned model providers, plugin-drawn configuration), so a project cannot stay on 0.2.x while packaging against this builder.
 
 ### Fixed
 
@@ -53,11 +53,11 @@ All notable changes to `@vetta-org/plugin-vite` are documented in this file.
 
 - Suppressed Rollup's harmless `MODULE_LEVEL_DIRECTIVE` warnings for `"use client"` inside bundled third-party
   browser modules; plugin-source directives, `"use server"`, and all other Rollup warnings remain visible.
-- Made the host `@vetta-org/theme-ui/plugin-ui` share explicitly opt-in through `hostThemeUi`, so plugins that do not use host-built Theme UI components no longer emit missing-dependency warnings or inherit an unnecessary build-time dependency.
+- Made the host `@origin-org/theme-ui/plugin-ui` share explicitly opt-in through `hostThemeUi`, so plugins that do not use host-built Theme UI components no longer emit missing-dependency warnings or inherit an unnecessary build-time dependency.
 - Raised production `assetsInlineLimit` so small plugin assets (for example package `icon.png`) stay data-URL inlined; absolute `/…` asset URLs resolve against the host origin and can pick up desktop `public/icon.png` by mistake.
 - Kept CSS resource-module requests such as `?raw`, `?url`, and `?inline` out of the development PostCSS scoping pipeline, while preserving scoping for normal, direct, and HMR stylesheet requests.
 - Made the development ready handshake transform the plugin-local module graph before publishing the source overlay, so entry dependency compilation failures retain the stable plugin instead of surfacing later in Renderer.
-- Exposed the project-local `vetta-plugin` CLI through the stable `@vetta-org/plugin-vite/cli` subpath so ESM-only package exports can be resolved by Desktop without pretending the package has a CommonJS entry.
+- Exposed the project-local `vetta-plugin` CLI through the stable `@origin-org/plugin-vite/cli` subpath so ESM-only package exports can be resolved by Desktop without pretending the package has a CommonJS entry.
 - Stopped the resource watcher's initial scan from blocking the development server ready handshake after Vite was already serving the plugin entry.
 - Preserved valid React bindings when transitive CommonJS dependencies are bundled against the host-provided React singleton.
 - Kept validated Iconify mask rules available outside plugin CSS scopes so icons render inside portalled UI components.
@@ -68,13 +68,13 @@ All notable changes to `@vetta-org/plugin-vite` are documented in this file.
 ### Added
 
 - Added the `vetta-plugin validate` and `vetta-plugin pack` CLI so external projects and the plugin workbench use the same manifest parser and archive implementation as Vite builds.
-- **宿主共享 `@vetta-org/ui`**：`vettaPluginFederation` 默认将 `@vetta-org/ui` 设为 MF `singleton + import:false`，并 rollup external 到 `vetta-host://ui`，与 desktop 的 share scope / host shim 对齐；插件可选用宿主 primitives 而不打进 bundle。
+- **宿主共享 `@origin-org/ui`**：`vettaPluginFederation` 默认将 `@origin-org/ui` 设为 MF `singleton + import:false`，并 rollup external 到 `vetta-host://ui`，与 desktop 的 share scope / host shim 对齐；插件可选用宿主 primitives 而不打进 bundle。
 - **打包纳入能力详情**：根目录存在 `ability.json` 时随 zip 分发，并连带约定的 `presentation/` 展示资源目录；打包期校验 `schemaVersion` / `type` / `slug` / `version` 与 `plugin.json` 身份一致，不一致直接报错。`ability.json` 缺省时行为不变。
 
 ### Changed
 
 - Removed the obsolete Worker/WASM packaging branch; packaging accepts only ESM and Module Federation plugin manifests.
-- Plugin packaging now validates `plugin.json` through `@vetta-org/plugin-sdk/manifest` and only replaces the target archive instead of deleting the entire `release/` directory.
+- Plugin packaging now validates `plugin.json` through `@origin-org/plugin-sdk/manifest` and only replaces the target archive instead of deleting the entire `release/` directory.
 
 ## [0.0.4] — 2026-07-31
 
@@ -100,7 +100,7 @@ All notable changes to `@vetta-org/plugin-vite` are documented in this file.
 
 ### Changed
 
-- **npm 包名**：由 `@vetta/plugin-vite` 更名为 `@vetta-org/plugin-vite`（发布 scope 与 org `vetta-org` 对齐）；构建时 external 的 SDK 名为 `@vetta-org/plugin-sdk`。
+- **npm 包名**：由 `@origin/plugin-vite` 更名为 `@origin-org/plugin-vite`（发布 scope 与 org `vetta-org` 对齐）；构建时 external 的 SDK 名为 `@origin-org/plugin-sdk`。
 
 ### Added
 

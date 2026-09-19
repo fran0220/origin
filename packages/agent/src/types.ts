@@ -1,4 +1,3 @@
-import type { Static, TSchema } from "@sinclair/typebox";
 import type {
 	AIErrorDetails,
 	AssistantMessage,
@@ -11,7 +10,8 @@ import type {
 	Tool,
 	ToolResultMessage,
 	UserContentPart,
-} from "@vetta/ai";
+} from "@origin/ai";
+import type { Static, TSchema } from "@sinclair/typebox";
 import type { AgentTracer } from "./telemetry.js";
 
 /** Stream function - can return sync or Promise for async config lookup */

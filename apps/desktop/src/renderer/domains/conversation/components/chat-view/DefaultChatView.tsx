@@ -4,7 +4,7 @@ import { PerfSendProfiler } from "@shared/lib/perf-send";
 import type { ChatConversationItem } from "@shared/store/atoms";
 import type { ActivityWorkspace } from "@shared/workspace/activity-workspace";
 import type { ActivityTabId } from "@domains/activity-panel/registry/types";
-import type { ConversationScenario } from "@vetta-org/plugin-sdk";
+import type { ConversationScenario } from "@origin-org/plugin-sdk";
 import { memo, type ReactNode } from "react";
 import { ChatExportHost } from "../ChatExportHost";
 

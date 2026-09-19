@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useState } from "react";
 import { MINIMUM_BAGUETTE_VERSION } from "../runtime/baguette-version.js";
 import type { RuntimeState } from "../runtime/simulator-runtime.js";

@@ -1,4 +1,4 @@
-import type { PluginFsApi, PluginFsFileRef } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginFsFileRef } from "@origin-org/plugin-sdk";
 import { MANIFEST_FILE } from "./manifest-types";
 import { migrateLegacyDesign } from "./migrate";
 

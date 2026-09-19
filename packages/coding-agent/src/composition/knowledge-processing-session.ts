@@ -1,5 +1,5 @@
-import type { Api, Model } from "@vetta/ai";
-import { RuntimeHost, type RuntimeHostSession, type SessionEvent } from "@vetta/runtime-core";
+import type { Api, Model } from "@origin/ai";
+import { RuntimeHost, type RuntimeHostSession, type SessionEvent } from "@origin/runtime-core";
 import type { CodingAgentKnowledgeRuntime, CodingAgentKnowledgeWriteOperations } from "../features/knowledge/index.js";
 import type { CodingAgentRuntimeModelSource } from "../runtime-contracts/index.js";
 import type {

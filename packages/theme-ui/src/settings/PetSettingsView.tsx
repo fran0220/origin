@@ -1,5 +1,5 @@
 import type { JSX, ReactNode } from "react";
-import { Switch } from "@vetta-org/ui";
+import { Switch } from "@origin-org/ui";
 import { SettingRow, SettingSection, type SettingSectionMeta } from "./SettingChrome";
 
 export interface PetDecorationView {

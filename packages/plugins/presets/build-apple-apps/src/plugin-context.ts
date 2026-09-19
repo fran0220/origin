@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 
 /**
  * activate() 拿到的 ctx 存这里：面板组件是零 props 的，拿不到 ctx，

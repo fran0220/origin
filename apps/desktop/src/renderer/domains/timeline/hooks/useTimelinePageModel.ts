@@ -1,6 +1,6 @@
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
 import { useOwnedHeaderTitleHidden } from "@shared/hooks/useOwnedHeaderTitleHidden";
 import { useSurfaceActive } from "@shared/surface-active";
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { nodeHash, projectCheckpointGraph, type TimelineGraph } from "../checkpoint-graph";

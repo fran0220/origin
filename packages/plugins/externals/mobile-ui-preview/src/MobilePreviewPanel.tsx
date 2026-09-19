@@ -1,4 +1,4 @@
-import { type PluginFsFileRef, useActivityTab, useTranslation } from "@vetta-org/plugin-sdk";
+import { type PluginFsFileRef, useActivityTab, useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { AndroidMockup, AndroidTabMockup, IPadMockup, IPhoneMockup } from "react-device-mockup";
 import { DEFAULT_DEVICE_ID, DEVICE_PRESETS, findDevice, type DevicePreset } from "./devices";

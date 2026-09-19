@@ -1,11 +1,11 @@
-import type { Message } from "@vetta/ai";
+import type { Message } from "@origin/ai";
 import type {
 	CodingAgentQuestionFunctionRequest,
 	CodingAgentQuestionResult,
 	CodingAgentSandboxAuthorizationDecision,
 	CodingAgentSandboxAuthorizationFunctionRequest,
-} from "@vetta/coding-agent/function-extensions";
-import type { ConversationScenario } from "@vetta/coding-agent/profile";
+} from "@origin/coding-agent/function-extensions";
+import type { ConversationScenario } from "@origin/coding-agent/profile";
 import type {
 	HistoryEntry,
 	ProjectInfo,
@@ -18,7 +18,7 @@ import type {
 	SessionExecutionMode,
 	SessionStateSnapshot,
 	SettingsPatch,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import type { DesktopMcpAppResourceRead, DesktopMcpAppSurface, DesktopMcpAppToolCall } from "../../shared/mcp-app.js";
 import type {
 	DesktopMcpElicitationRequest,

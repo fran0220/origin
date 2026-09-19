@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 /** 右键菜单的锚点：frameId + 容器内坐标（不受画布 transform 影响）。 */

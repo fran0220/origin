@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { BackgroundTasksTabPanelView } from "@vetta-org/theme-ui/activity";
+import { BackgroundTasksTabPanelView } from "@origin-org/theme-ui/activity";
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 

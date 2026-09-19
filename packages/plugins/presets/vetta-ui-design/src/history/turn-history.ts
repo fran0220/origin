@@ -5,7 +5,7 @@
  * 的流程已经证明这类「回合末尾必做」的约定要靠 SKILL.md 反复叮嘱才勉强可靠，而漏
  * 一次就是一个版本永久缺失。挂在 hook 上，agent 完全不需要知道 git 存在。
  */
-import type { Disposable, PluginContext } from "@vetta-org/plugin-sdk";
+import type { Disposable, PluginContext } from "@origin-org/plugin-sdk";
 import { pickDesignPaths } from "../vetd/discover";
 import { commitHistory } from "./history-client";
 import { notifyHistoryChanged } from "./history-events";

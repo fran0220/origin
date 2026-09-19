@@ -1,4 +1,4 @@
-import type { AssistantMessage, AssistantMessageEvent } from "@vetta/ai";
+import type { AssistantMessage, AssistantMessageEvent } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import { mapRuntimeSessionObservationEvent } from "./session-events.js";
 

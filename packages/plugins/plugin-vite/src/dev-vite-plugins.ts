@@ -1,7 +1,7 @@
 import react from "@vitejs/plugin-react";
 import { readFileSync } from "node:fs";
 import { relative, resolve } from "node:path";
-import { parsePluginManifest } from "@vetta-org/plugin-sdk/manifest";
+import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { HMRPayload, Plugin, PluginOption, ResolvedConfig } from "vite";
 import { emitVettaPluginDevEvent } from "./dev-events.js";
 

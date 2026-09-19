@@ -3,10 +3,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
 import { TimelinePageView } from "./TimelinePageView";
 
-vi.mock("@vetta-org/ui/git-graph", () => ({
+vi.mock("@origin-org/ui/git-graph", () => ({
 	GitGraphCanvas: ({ onSelect }: { onSelect: (hash: string) => void }) => (
 		<button type="button" onClick={() => onSelect("aaa")}>
 			graph

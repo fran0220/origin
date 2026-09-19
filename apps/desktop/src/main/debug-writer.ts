@@ -1,8 +1,8 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { scrubUnknown } from "@vetta/runtime-node/credentials";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { scrubUnknown } from "@origin/runtime-node/credentials";
 import type { RequestFileInfo } from "../preload/api.js";
 
 const DEBUG_BASE = join(getVettaHomePath(), "debug");

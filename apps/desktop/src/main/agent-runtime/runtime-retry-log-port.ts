@@ -5,7 +5,7 @@ import {
 	type RuntimeObservationRecord,
 	type RuntimeTurnRetryIssueObservation,
 	type RuntimeTurnRetryLifecycleObservation,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 
 interface RuntimeRetryLogger {
 	info(message: string, fields: Record<string, unknown>): void;

@@ -1,7 +1,7 @@
 /**
  * 查看模式的三道闸：进入前封存现场、标记先写后切、退出写回进入时的那一版。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { DesignSession } from "../src/vetd/design-session";
 

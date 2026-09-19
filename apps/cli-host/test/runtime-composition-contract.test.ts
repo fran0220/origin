@@ -1,22 +1,22 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@vetta/ai";
-import type { CodingAgentKnowledgeRuntime, CodingAgentRuntimeComposition } from "@vetta/coding-agent/composition";
-import type { CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
+import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@origin/ai";
+import type { CodingAgentKnowledgeRuntime, CodingAgentRuntimeComposition } from "@origin/coding-agent/composition";
+import type { CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
 import {
 	CODING_AGENT_SESSION_AGENT_MODE_SET,
 	CODING_AGENT_SESSION_PROFILE_STATE_READ,
 	CODING_AGENT_SUBAGENTS_READ,
 	CODING_AGENT_TODO_READ,
-} from "@vetta/coding-agent/session-extensions";
+} from "@origin/coding-agent/session-extensions";
 import {
 	createMcpServerRuntimeToolSource,
 	type McpClientHandle,
 	type McpRuntimeToolSource,
 	type McpTool,
-} from "@vetta/runtime-mcp";
-import { FileConversationRepository } from "@vetta/runtime-node/conversation";
+} from "@origin/runtime-mcp";
+import { FileConversationRepository } from "@origin/runtime-node/conversation";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createCliPromptRuntimeSources } from "../src/coding-agent-resource-runtime.js";
 import { createCodingAgentRuntimeComposition } from "./fixtures/runtime-composition.js";

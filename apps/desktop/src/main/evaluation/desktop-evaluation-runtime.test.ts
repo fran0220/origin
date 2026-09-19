@@ -1,8 +1,8 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { FileCheckpointStore } from "@vetta/runtime-node/checkpoints";
-import { FileEvaluationStore } from "@vetta/runtime-node/evaluation";
+import { FileCheckpointStore } from "@origin/runtime-node/checkpoints";
+import { FileEvaluationStore } from "@origin/runtime-node/evaluation";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { resolveCapabilityProject } from "../projects/capability-project.js";
 import {

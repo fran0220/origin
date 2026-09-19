@@ -1,8 +1,8 @@
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
-import { listPluginManifestResources, parsePluginManifest, type PluginManifest } from "@vetta-org/plugin-sdk/manifest";
-import { parseVettaNpmPluginPackage } from "@vetta-org/plugin-sdk/npm-package";
+import { listPluginManifestResources, parsePluginManifest, type PluginManifest } from "@origin-org/plugin-sdk/manifest";
+import { parseVettaNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
 import { assertPluginPermissionContract } from "./permission-contract.js";
 
 export interface VettaPluginPackageFile {

@@ -1,4 +1,4 @@
-import { type Disposable, type HostedRouteRef, isValidHostedRouteSegment } from "@vetta-org/capability-sdk";
+import { type Disposable, type HostedRouteRef, isValidHostedRouteSegment } from "@origin-org/capability-sdk";
 
 export interface HostedRouteNamespaceAdapter {
 	path(route: HostedRouteRef): string;

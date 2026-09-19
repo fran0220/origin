@@ -4,7 +4,7 @@ import { mkdtemp, readFile, realpath, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseVettaNpmPluginPackage } from "@vetta-org/plugin-sdk/npm-package";
+import { parseVettaNpmPluginPackage } from "@origin-org/plugin-sdk/npm-package";
 import npa from "npm-package-arg";
 import { x as extractTar } from "tar";
 

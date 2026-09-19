@@ -1,4 +1,4 @@
-import type { SubagentSnapshot } from "@vetta/runtime-subagents";
+import type { SubagentSnapshot } from "@origin/runtime-subagents";
 import type {
 	CodingAgentSubagentSnapshot,
 	CodingAgentSubagentTodoProgress,

@@ -1,4 +1,4 @@
-import { DIAL_MODES, type DialMode, isDialMode } from "@vetta/runtime-core";
+import { DIAL_MODES, type DialMode, isDialMode } from "@origin/runtime-core";
 
 export { DIAL_MODES, isDialMode, type DialMode };
 

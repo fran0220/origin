@@ -1,4 +1,4 @@
-import type { PluginCommandApi } from "@vetta-org/plugin-sdk";
+import type { PluginCommandApi } from "@origin-org/plugin-sdk";
 
 /** 活动面板标签卡 id（与 registerActivityTab 的 contribution id 一致）。 */
 export const CHANGES_TAB_ID = "changes";

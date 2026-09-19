@@ -5,8 +5,8 @@ import {
 	type McpServerInteractionHandlers,
 	McpServerSupervisor,
 	type RuntimeMcpClientFactory,
-} from "@vetta/runtime-mcp";
-import type { McpConfigSource } from "@vetta/runtime-mcp/config";
+} from "@origin/runtime-mcp";
+import type { McpConfigSource } from "@origin/runtime-mcp/config";
 import {
 	buildBuiltinMcpServers,
 	FileMcpOAuthStateStore,

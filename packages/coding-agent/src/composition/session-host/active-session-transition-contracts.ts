@@ -2,7 +2,7 @@ import type {
 	RuntimeActiveSession,
 	RuntimeActiveSessionHostOptions,
 	RuntimeActiveSessionRuntimePort,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import type { CodingAgentRuntimeSessionOptions } from "../contracts/index.js";
 
 export type {

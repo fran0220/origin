@@ -1,6 +1,6 @@
 import { useState, type JSX } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "@vetta-org/ui";
-import { cn } from "@vetta-org/ui";
+import { Popover, PopoverContent, PopoverTrigger } from "@origin-org/ui";
+import { cn } from "@origin-org/ui";
 
 export interface KnowledgeBreadcrumbViewProps {
 	readonly baseName: string;

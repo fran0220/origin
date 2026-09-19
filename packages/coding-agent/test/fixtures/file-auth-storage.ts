@@ -1,4 +1,4 @@
-import { NodeTransactionalTextStorage, nodeConfigurationValueResolver } from "@vetta/runtime-node/host";
+import { NodeTransactionalTextStorage, nodeConfigurationValueResolver } from "@origin/runtime-node/host";
 import { AuthStorage, type AuthStorageDependencies } from "../../src/auth/index.js";
 
 export function createFileAuthStorage(path: string, dependencies?: AuthStorageDependencies): AuthStorage {

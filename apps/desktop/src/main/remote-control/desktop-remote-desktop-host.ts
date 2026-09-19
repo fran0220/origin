@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { decodeRemoteInputMessage } from "@vetta/remote-desktop";
+import { decodeRemoteInputMessage } from "@origin/remote-desktop";
 import { BrowserWindow, desktopCapturer, ipcMain, session, webContents } from "electron";
 import { getAppLogger } from "../logger.js";
 import { registerRemoteDesktopVideoPermission } from "../speech-input/media-permissions.js";

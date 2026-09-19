@@ -1,3 +1,4 @@
+import type { CommandMenuGroupView, CommandMenuViewLabels } from "@origin-org/theme-ui/overlays";
 import type { InstalledPlugin, SkillInfo } from "@preload/api";
 import { PLUGIN_HOSTED_ROUTE_PATH } from "@shared/hosted-routes/hosted-route-descriptors";
 import { isMac, isWindows } from "@shared/lib/platform";
@@ -12,7 +13,6 @@ import {
 } from "@shared/store/atoms";
 import { authUserAtom } from "@shared/store/auth-atoms";
 import { useNavigate } from "@tanstack/react-router";
-import type { CommandMenuGroupView, CommandMenuViewLabels } from "@vetta-org/theme-ui/overlays";
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

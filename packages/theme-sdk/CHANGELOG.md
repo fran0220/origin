@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@vetta-org/theme-sdk` are documented in this file.
+All notable changes to `@origin-org/theme-sdk` are documented in this file.
 
 ## [Unreleased]
 
@@ -17,5 +17,5 @@ All notable changes to `@vetta-org/theme-sdk` are documented in this file.
 
 ### Changed
 
-- 包名由 `@vetta/theme-sdk` 改为 `@vetta-org/theme-sdk`：`@vetta` scope 不属于本账号，公开包统一
+- 包名由 `@origin/theme-sdk` 改为 `@origin-org/theme-sdk`：`@vetta` scope 不属于本账号，公开包统一
   发在 `@vetta-org` 下（与 plugin-sdk / plugin-vite / plugin-cli / ui 一致）。

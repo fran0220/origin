@@ -26,7 +26,7 @@ interface PluginNotifyOptions {
 
 ```tsx
 // 模块级捕获，供预览 / 面板组件使用
-let notify: import("@vetta-org/plugin-sdk").PluginUiApi["notify"];
+let notify: import("@origin-org/plugin-sdk").PluginUiApi["notify"];
 
 function PptxPreview({ file }: PluginFilePreviewProps) {
   useEffect(() => {
@@ -202,7 +202,7 @@ useEffect(() => () => ctx.ui.setWorkspaceViewHeader("board", null), []);
 按钮，压在视图自己画的那一带上。视图要让位，就得知道侧边栏此刻什么形态。
 
 ```tsx
-import { useSidebarState } from "@vetta-org/plugin-sdk";
+import { useSidebarState } from "@origin-org/plugin-sdk";
 
 function Hero() {
   const { collapsed, narrow, visible } = useSidebarState();
@@ -379,7 +379,7 @@ ctx.ui.registerActivityTab({
 组件零 props。**面板作用域用 `useActivityTab()` 取 cwd**，不要用 `useActiveConversation().cwd` 代替（项目详情页面板 cwd 是项目的，活动会话可能属于别的项目）：
 
 ```tsx
-import { useActivityTab } from "@vetta-org/plugin-sdk";
+import { useActivityTab } from "@origin-org/plugin-sdk";
 
 function StatsPanel() {
   const { cwd, active } = useActivityTab();
@@ -621,7 +621,7 @@ let registerShortcutScope = ctx.ui.registerShortcutScope.bind(ctx.ui);
 // 或：setRegisterShortcutScope((c) => ctx.ui.registerShortcutScope(c));
 
 // React 组件
-import { usePluginShortcutScope, type PluginShortcutBinding } from "@vetta-org/plugin-sdk";
+import { usePluginShortcutScope, type PluginShortcutBinding } from "@origin-org/plugin-sdk";
 
 const bindings: PluginShortcutBinding[] = [
   { key: "=", when: "not-editable", run: () => zoomIn() },

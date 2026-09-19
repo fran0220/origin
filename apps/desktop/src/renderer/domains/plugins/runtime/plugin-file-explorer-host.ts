@@ -4,7 +4,7 @@ import type {
 	PluginFileExplorerEntry,
 	PluginFileExplorerRevealOptions,
 	PluginWorkspaceRoot,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 
 export interface PluginFileExplorerHostAdapter {
 	getWorkspaceRoot(): PluginWorkspaceRoot | null;

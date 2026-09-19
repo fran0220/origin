@@ -1,5 +1,5 @@
-import { RuntimeHost } from "@vetta/runtime-core";
-import { resolveModelCallFrame } from "@vetta/runtime-core/kernel";
+import { RuntimeHost } from "@origin/runtime-core";
+import { resolveModelCallFrame } from "@origin/runtime-core/kernel";
 import { createPromptAgent } from "./prompt-agent.js";
 
 export interface PeerAgentsExampleResult {

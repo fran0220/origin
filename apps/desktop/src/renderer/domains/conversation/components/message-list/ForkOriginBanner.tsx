@@ -5,7 +5,7 @@ import {
 	openSessionFnRef,
 	pendingScrollToEntryAtom,
 } from "@shared/store/atoms";
-import { ForkOriginBannerView } from "@vetta-org/theme-ui/chat";
+import { ForkOriginBannerView } from "@origin-org/theme-ui/chat";
 import { getDefaultStore, useAtomValue } from "jotai";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";

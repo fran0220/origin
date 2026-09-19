@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import nodePath from "node:path";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
 import { type Static, Type } from "@sinclair/typebox";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
 import {
 	type AsyncExecutionGate,
 	DesktopCommandAbortedError,

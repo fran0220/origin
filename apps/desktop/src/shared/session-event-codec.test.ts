@@ -1,4 +1,4 @@
-import type { AssistantMessage } from "@vetta/ai";
+import type { AssistantMessage } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import { decodeSessionEvent } from "./session-event-codec";
 

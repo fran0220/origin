@@ -66,7 +66,7 @@ async function createFixture(): Promise<string> {
 		),
 		writeFile(
 			join(rootDir, "src", "index.js"),
-			`import { logger } from "@vetta-org/plugin-sdk/logger";
+			`import { logger } from "@origin-org/plugin-sdk/logger";
 export const boundLogger = logger;
 export default { activate() { logger.info("fixture activated"); } };
 `,

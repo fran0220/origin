@@ -1,5 +1,5 @@
-import { useThemeModule } from "@vetta-org/theme-sdk";
-import type { ThemeStorage } from "@vetta-org/theme-sdk/storage";
+import { useThemeModule } from "@origin-org/theme-sdk";
+import type { ThemeStorage } from "@origin-org/theme-sdk/storage";
 import { useMemo, useSyncExternalStore } from "react";
 import { createThemeStorage, getThemeStorageRevision } from "./themeStorageClient";
 

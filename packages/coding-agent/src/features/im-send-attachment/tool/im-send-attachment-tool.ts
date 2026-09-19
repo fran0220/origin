@@ -1,6 +1,6 @@
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import { ToolCallDescriptionSchema } from "@origin/runtime-tools/coding";
 import { type Static, Type } from "@sinclair/typebox";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
 import { IM_SEND_ATTACHMENT_TOOL_DESCRIPTION } from "./description.js";
 
 export const ImSendAttachmentToolInputSchema = Type.Object({

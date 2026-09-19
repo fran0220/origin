@@ -1,7 +1,7 @@
+import type { AssistantMessage, Message, ModelStreamResponse, ToolCall } from "@origin/ai";
+import { LanguageModelStream } from "@origin/ai";
+import { canonicalizeAssistantMessage, canonicalizeJsonValue } from "@origin/ai/testkit";
 import { Type } from "@sinclair/typebox";
-import type { AssistantMessage, Message, ModelStreamResponse, ToolCall } from "@vetta/ai";
-import { LanguageModelStream } from "@vetta/ai";
-import { canonicalizeAssistantMessage, canonicalizeJsonValue } from "@vetta/ai/testkit";
 import { describe, expect, it } from "vitest";
 import { agentLoopContinue } from "../src/agent-loop.js";
 import { runAgentTurn } from "../src/engine/run-agent-turn.js";

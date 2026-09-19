@@ -1,4 +1,4 @@
-import { validatePluginId, validatePluginVersion } from "@vetta-org/plugin-sdk/manifest";
+import { validatePluginId, validatePluginVersion } from "@origin-org/plugin-sdk/manifest";
 import type {
 	PluginInstallOptions,
 	PluginManifest,

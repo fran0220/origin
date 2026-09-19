@@ -1,4 +1,4 @@
-import { getAgentDir } from "@vetta/coding-agent/config";
+import { getAgentDir } from "@origin/coding-agent/config";
 import {
 	EvolutionLedger,
 	type EvolutionScope,
@@ -16,8 +16,8 @@ import {
 	type RefinementOutcome,
 	type RefinementProposal,
 	subjectScope,
-} from "@vetta/runtime-evolution";
-import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
+} from "@origin/runtime-evolution";
+import { createFileEvolutionLedgerStore } from "@origin/runtime-node/evolution";
 import { DEFAULT_CONVERSATION_CWD, readConfigSync } from "../config/desktop-config-store.js";
 import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { sameProjectPath } from "../projects/project-path.js";

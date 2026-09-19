@@ -1,7 +1,7 @@
 import "../registry";
 import type { AppBackground } from "./AppBackground";
 
-declare module "@vetta-org/theme-sdk" {
+declare module "@origin-org/theme-sdk" {
 	interface ThemeComponentRegistry {
 		readonly "app.background"?: typeof AppBackground;
 	}

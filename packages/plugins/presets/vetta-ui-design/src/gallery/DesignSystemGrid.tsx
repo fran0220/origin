@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { DesignSystemTileContent } from "../cards/DesignSystemTileContent";
 import { refreshDesignCatalog, useCatalogState } from "../design-systems/index";

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useActiveConversation } from "@vetta-org/plugin-sdk";
+import { useActiveConversation } from "@origin-org/plugin-sdk";
 import { getPluginCtx } from "./plugin-context";
 import { ALL_PROBES, runAllProbes, summarizeResults, type ProbeResult, type ProbeStatus } from "./probes";
 

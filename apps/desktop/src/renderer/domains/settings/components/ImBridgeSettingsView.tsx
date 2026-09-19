@@ -1,6 +1,6 @@
 import { ModelSelect } from "@shared/components/ModelSelect";
-import { Button, Switch, cn } from "@vetta-org/ui";
-import { ImChannelIconView, SettingHeading, SettingRow, SettingSection } from "@vetta-org/theme-ui/settings";
+import { Button, Switch, cn } from "@origin-org/ui";
+import { ImChannelIconView, SettingHeading, SettingRow, SettingSection } from "@origin-org/theme-ui/settings";
 import { useTranslation } from "react-i18next";
 import { SettingsAiAssist } from "../ai-assist";
 import { SETTINGS_SECTION } from "../registry";

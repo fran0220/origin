@@ -8,8 +8,8 @@ import type {
 	VerifierRunContext,
 	VerifierRunner,
 	VerifierRunResult,
-} from "@vetta/runtime-evaluation";
-import { EvaluationError } from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
+import { EvaluationError } from "@origin/runtime-evaluation";
 import { sha256Json, sha256Text } from "./digest.js";
 import { evaluateTelemetryAssertion, parseTelemetryAssertionExpression } from "./telemetry-assertion.js";
 

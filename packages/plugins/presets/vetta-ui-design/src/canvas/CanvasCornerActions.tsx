@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import type { ReactNode } from "react";
 import { DownloadMaterialsMenu, type MaterialAction, type MaterialProgress } from "./DownloadMaterialsMenu";
 import { NotesVisibilitySwitch } from "./NotesVisibilitySwitch";

@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import { app, autoUpdater as nativeAutoUpdater, powerMonitor } from "electron";
 import electronUpdater from "electron-updater";
 

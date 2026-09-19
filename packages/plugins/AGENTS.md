@@ -29,7 +29,7 @@
 
 | 出口 | 机制 | 到达谁 |
 | --- | --- | --- |
-| npm tarball | `plugin-sdk/scripts/bundle-docs.mjs` 在 `plugin-sdk` 的 `build` 里跑，把整个目录拷进包 | 插件工程的 `node_modules/@vetta-org/plugin-sdk/docs/`，由 `vetta-plugin-cli docs` 解析 |
+| npm tarball | `plugin-sdk/scripts/bundle-docs.mjs` 在 `plugin-sdk` 的 `build` 里跑，把整个目录拷进包 | 插件工程的 `node_modules/@origin-org/plugin-sdk/docs/`，由 `vetta-plugin-cli docs` 解析 |
 | 插件工作台 | 工作台内置 `plugin-cli`（`bundle-cli.mjs`），由它解析上面那份 | 工作台里开发的插件 |
 
 两条都是构建期自动的，**不需要手工拷贝**。改 `docs/plugin/` 就够了。
@@ -111,7 +111,7 @@ profile + 租户的 zip 制品打入 `Resources/system-plugins`。同一次构�
 
 若租户包含 `plugin-workbench`，`build-presets.mjs` 在算缓存哈希之前会先跑
 `presets/plugin-workbench/scripts/bundle-cli.mjs`，把 `plugin-cli` 的构建产物内置到该插件包内
-`agent/cli/`。**工作台不再自带手册副本**：手册随 `@vetta-org/plugin-sdk` 进被编辑工程自己的
+`agent/cli/`。**工作台不再自带手册副本**：手册随 `@origin-org/plugin-sdk` 进被编辑工程自己的
 `node_modules`，由 CLI 的 `docs` 命令解析——那份才与该工程实际编译的 SDK 版本一致。
 
 ## Preset 与外置插件的区别
@@ -124,7 +124,7 @@ profile + 租户的 zip 制品打入 `Resources/system-plugins`。同一次构�
 | 安装方式 | 随 Desktop 发布，不需要用户安装 | 构建 zip 后由用户安装 |
 | 开发加载 | 构建 zip 后解压到 Desktop `.artifacts/system-plugins`；`bun dev` 默认叠加当前租户全部 preset 的内存 dev 链接 | 从 `~/.vetta/plugins` 读取已安装版本；显式 dev 链接可覆盖 |
 | App 打包 | 从 `release/<id>-<version>.zip` 解压到 `Resources/system-plugins` | 不随 App 打包 |
-| 插件制品 | `@vetta-org/plugin-vite` 在构建后生成 zip | `@vetta-org/plugin-vite` 在构建后生成安装 zip |
+| 插件制品 | `@origin-org/plugin-vite` 在构建后生成 zip | `@origin-org/plugin-vite` 在构建后生成安装 zip |
 | 权限 | manifest 中声明的权限自动授予，不可撤销 | 安装后由用户授权 |
 | 生命周期 | 默认启用，可停用，不可卸载，版本随 App | 可安装、更新、重载和卸载 |
 
@@ -158,7 +158,7 @@ Preset 和 external 插件直接纳入根 `package.json` 定义的 workspace。�
 
 ```json
 {
-  "name": "@vetta/plugin-example",
+  "name": "@origin/plugin-example",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -169,8 +169,8 @@ Preset 和 external 插件直接纳入根 `package.json` 定义的 workspace。�
   "devDependencies": {
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.1",
-    "@vetta-org/plugin-sdk": "workspace:*",
-    "@vetta-org/plugin-vite": "workspace:*",
+    "@origin-org/plugin-sdk": "workspace:*",
+    "@origin-org/plugin-vite": "workspace:*",
     "react": "19.1.1",
     "react-dom": "19.1.1"
   }
@@ -240,7 +240,7 @@ Module Federation 的共享依赖约定和常见构建警告见
 `vite.config.ts`、共享依赖或 `package.json` 时，必须同步检查该文档中的依赖和验证清单。
 
 ```ts
-import { vettaPluginFederation } from "@vetta-org/plugin-vite";
+import { vettaPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -253,10 +253,10 @@ export default defineConfig({
 });
 ```
 
-React、React DOM 和 `@vetta-org/plugin-sdk` 由宿主共享。模块顶层禁止创建
+React、React DOM 和 `@origin-org/plugin-sdk` 由宿主共享。模块顶层禁止创建
 依赖共享模块的 JSX；将 JSX 放在组件或 `activate()` 内。
 
-`@vetta-org/plugin-vite` 会在构建产物中自动用原生 `@scope` 把 CSS 限定到 manifest
+`@origin-org/plugin-vite` 会在构建产物中自动用原生 `@scope` 把 CSS 限定到 manifest
 声明的插件 id 根节点，并将 `:root` / `:host` 映射为 `:scope`。插件作者可以正常使用
 Tailwind 或业务 CSS，不要手写插件 id 前缀，也不要依赖修改 `body`、`html` 或宿主私有 class。
 
@@ -306,7 +306,7 @@ bun run check
   `packages/plugins/externals/<id>/`。
 - preset 和 external 插件已纳入根 workspace。
 - 根 `bun.lock` 已更新。
-- `@vetta-org/plugin-sdk` 和 `@vetta-org/plugin-vite` 使用 `workspace:*`，或使用
+- `@origin-org/plugin-sdk` 和 `@origin-org/plugin-vite` 使用 `workspace:*`，或使用
   可由当前本地包满足且已按发布场景验证的 semver。
 - `dist/`、`release/`、`node_modules/` 已加入 `.gitignore`，没有提交。
 - `plugin.json` 的入口与实际构建产物一致。

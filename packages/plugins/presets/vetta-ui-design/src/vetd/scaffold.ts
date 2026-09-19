@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { designPackageJson, PACKAGE_FILE } from "./design-package";
 import { emptyManifest, type FrameSize, manifestPathOf, type VetdManifest } from "./manifest-types";
 

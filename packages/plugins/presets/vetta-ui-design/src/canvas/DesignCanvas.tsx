@@ -1,4 +1,4 @@
-import { usePluginShortcutScope, useTranslation } from "@vetta-org/plugin-sdk";
+import { usePluginShortcutScope, useTranslation } from "@origin-org/plugin-sdk";
 import {
 	type CSSProperties,
 	type PointerEvent as ReactPointerEvent,

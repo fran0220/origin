@@ -3,7 +3,7 @@ import type {
 	PluginAgentToolRegistration,
 	PluginContext,
 	PluginFsApi,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
 const inspectIssues = vi.hoisted(() => vi.fn(async () => []));

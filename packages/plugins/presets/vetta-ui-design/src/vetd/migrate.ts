@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { legacySidecarDirOf, manifestPathOf, sniffVetdKind } from "./manifest-types";
 
 /**

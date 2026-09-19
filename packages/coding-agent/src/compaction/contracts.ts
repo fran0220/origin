@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { UserContentPart } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { UserContentPart } from "@origin/ai";
 
 export interface CompactionHistoryEntryBase {
 	readonly type: string;

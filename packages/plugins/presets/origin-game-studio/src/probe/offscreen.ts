@@ -1,4 +1,4 @@
-import type { PluginCaptureApi, PluginContext, PluginRecordingApi } from "@vetta-org/plugin-sdk";
+import type { PluginCaptureApi, PluginContext, PluginRecordingApi } from "@origin-org/plugin-sdk";
 import type { ProbeMethod } from "./protocol";
 import { prepareScriptForReady, probeScriptFor } from "./protocol";
 

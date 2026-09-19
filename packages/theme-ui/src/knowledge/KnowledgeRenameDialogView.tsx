@@ -7,7 +7,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	cn,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 
 export interface KnowledgeRenameDialogViewLabels {
 	readonly cancel: string;

@@ -1,4 +1,4 @@
-import type { PluginContext, PluginMediaArtifact } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginMediaArtifact } from "@origin-org/plugin-sdk";
 import { createRemotionRenderDocument, REMOTION_DOCUMENT_MIME_TYPE } from "../render-document";
 
 interface RenderRemotionInput {

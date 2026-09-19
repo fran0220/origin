@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type CSSProperties, type PointerEvent as ReactPointerEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { fitViewport, useViewport } from "../canvas/use-viewport";
 import type { VetdFrameEntry, VetdManifest } from "../vetd/manifest-types";

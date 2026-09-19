@@ -5,7 +5,7 @@
  * 调一次 vetd_notes（skill 的收尾自检把它带出来），而工作区里根本没有 .vetd，
  * 调用注定报错。工具表本身是这条防线的硬边界。
  */
-import type { PluginContext, PluginFsFileRef } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginFsFileRef } from "@origin-org/plugin-sdk";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { setCanvasController } from "../src/canvas/design-runtime";
 import { resetDesignPresence, setDesignPresence } from "../src/vetd/design-presence";

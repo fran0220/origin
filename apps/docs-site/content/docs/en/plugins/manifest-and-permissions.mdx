@@ -5,7 +5,7 @@ description: Declare plugin identity, entry, styles, permissions, commands, netw
 
 `plugin.json` sits at the root of the plugin archive, or inside its single top-level folder. The host validates identity, compatibility, and permissions from it before loading any code, so the manifest must match the build output.
 
-The manifest structure has exactly one implementation: the TypeBox schema exported from `@vetta-org/plugin-sdk/manifest`. `PluginManifestSchema` serialises directly to JSON Schema, and `parsePluginManifest()` handles validation, defaults, de-duplication, relative-path normalisation, and cross-field constraints. The schema deliberately allows unknown fields so a newer manifest is not rejected outright by an older host.
+The manifest structure has exactly one implementation: the TypeBox schema exported from `@origin-org/plugin-sdk/manifest`. `PluginManifestSchema` serialises directly to JSON Schema, and `parsePluginManifest()` handles validation, defaults, de-duplication, relative-path normalisation, and cross-field constraints. The schema deliberately allows unknown fields so a newer manifest is not rejected outright by an older host.
 
 ```json
 {
@@ -192,7 +192,7 @@ The host does not start processes through a caller-controlled shell, and `node`,
 Declare only what the plugin actually uses. A smaller set means an easier approval for the user and a faster review. Start from the minimal manifest, and when a host API reports a permission error, confirm the behaviour is really needed before adding the permission and re-running the approval flow. Do not copy another plugin's full permission array for convenience.
 
 <Callout title="The build reconciles this for you" type="info">
-  `@vetta-org/plugin-vite` scans the final JavaScript output during build and packaging. When it detects `registerTool`, `registerHook`, `registerSystemPromptProvider`, `registerContinuationProvider`, runtime tool toggles, or an `agent.toolPolicy` in the manifest without the matching permission, it fails the build. UI slots are not part of this check: a missing slot permission is only skipped silently at runtime, so verify those against [extension points](/plugins/extension-points/).
+  `@origin-org/plugin-vite` scans the final JavaScript output during build and packaging. When it detects `registerTool`, `registerHook`, `registerSystemPromptProvider`, `registerContinuationProvider`, runtime tool toggles, or an `agent.toolPolicy` in the manifest without the matching permission, it fails the build. UI slots are not part of this check: a missing slot permission is only skipped silently at runtime, so verify those against [extension points](/plugins/extension-points/).
 </Callout>
 
 ## Before publishing

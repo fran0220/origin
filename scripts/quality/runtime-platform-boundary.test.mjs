@@ -29,8 +29,8 @@ describe("platform Runtime package boundary", () => {
 		const findings = findPackageBoundaryViolations(
 			"packages/runtime-desktop/src/composition.ts",
 			[
-				'import { createCodingAgentRuntimeComposition } from "@vetta/coding-agent/composition";',
-				'import { RuntimeHost } from "@vetta/runtime-core";',
+				'import { createCodingAgentRuntimeComposition } from "@origin/coding-agent/composition";',
+				'import { RuntimeHost } from "@origin/runtime-core";',
 			].join("\n"),
 		);
 
@@ -40,11 +40,11 @@ describe("platform Runtime package boundary", () => {
 	it("rejects a runtime-desktop back edge into desktop-app", () => {
 		const findings = findPackageBoundaryViolations(
 			"packages/runtime-desktop/src/composition.ts",
-			'import { getDesktopConfig } from "@vetta/desktop/config";',
+			'import { getDesktopConfig } from "@origin/desktop/config";',
 		);
 
 		expect(findings).toContain(
-			"packages/runtime-desktop/src/composition.ts: libs/plugins must not import app package (@vetta/desktop)",
+			"packages/runtime-desktop/src/composition.ts: libs/plugins must not import app package (@origin/desktop)",
 		);
 	});
 });

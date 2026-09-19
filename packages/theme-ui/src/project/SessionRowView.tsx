@@ -1,4 +1,4 @@
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { memo, type JSX } from "react";
 import { SessionStatusIcon } from "../sidebar/SessionStatusIcon";
 import { AvatarStackView } from "../shared/AvatarStackView";

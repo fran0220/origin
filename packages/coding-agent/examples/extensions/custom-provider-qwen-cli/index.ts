@@ -9,8 +9,8 @@
  *   # Then /login qwen-cli, or set QWEN_CLI_API_KEY=...
  */
 
-import type { OAuthCredentials, OAuthLoginCallbacks } from "@vetta/ai";
-import type { ExtensionAPI } from "@vetta/coding-agent";
+import type { OAuthCredentials, OAuthLoginCallbacks } from "@origin/ai";
+import type { ExtensionAPI } from "@origin/coding-agent";
 
 // =============================================================================
 // Constants

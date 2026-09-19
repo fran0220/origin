@@ -8,7 +8,7 @@ import {
 	parsePluginManifest,
 	validatePluginRelativePath,
 	validatePluginVersion,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 import AdmZip from "adm-zip";
 import type {
 	InstalledPlugin,

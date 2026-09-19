@@ -1,2 +1,2 @@
-export type { PageHeaderFrameProps } from "@vetta-org/theme-ui/app-shell";
-export { PageHeaderFrame } from "@vetta-org/theme-ui/app-shell";
+export type { PageHeaderFrameProps } from "@origin-org/theme-ui/app-shell";
+export { PageHeaderFrame } from "@origin-org/theme-ui/app-shell";

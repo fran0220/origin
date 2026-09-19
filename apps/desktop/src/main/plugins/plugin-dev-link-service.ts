@@ -5,7 +5,7 @@ import {
 	parsePluginManifest,
 	validatePluginId,
 	validatePluginRelativePath,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 import type {
 	InstalledPlugin,
 	PluginDevWatchState,

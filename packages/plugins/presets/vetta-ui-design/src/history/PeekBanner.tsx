@@ -4,7 +4,7 @@
  * 它必须一直在、一直显眼：画布此刻渲染的是一份旧版本，而画布看起来和平时一模一样。
  * 没有这条横幅，用户会以为自己的设计被改回去了。
  */
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 
 interface PeekBannerProps {
 	title: string;

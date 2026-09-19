@@ -7,7 +7,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 
 export interface WorkflowBindStageView {
 	readonly name: string;

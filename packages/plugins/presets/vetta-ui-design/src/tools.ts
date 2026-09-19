@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import type { ElementQuery, SelectedElementPayload } from "./canvas/bridge-client";
 import {
 	type CanvasController,

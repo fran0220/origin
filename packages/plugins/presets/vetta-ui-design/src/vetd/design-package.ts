@@ -9,7 +9,7 @@
  * 事实源是**声明**而不是 node_modules：清单在、依赖没装是一个正常且短暂的状态
  * （刚从 .vetdz 导入），由补装接住；反过来 node_modules 里有什么则完全不作数。
  */
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { engineRuntimeDependencies } from "../engine/engine-files";
 
 export const PACKAGE_FILE = "package.json";

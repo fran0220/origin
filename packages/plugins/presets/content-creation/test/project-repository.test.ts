@@ -1,4 +1,4 @@
-import type { PluginFsApi, PluginStorageApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginStorageApi } from "@origin-org/plugin-sdk";
 import { describe, expect, it } from "vitest";
 import { createContentProject } from "../src/project/types";
 import { PluginContentProjectRepository } from "../src/project/repository";

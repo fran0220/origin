@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { PluginPermission } from "@vetta-org/plugin-sdk/manifest";
+import type { PluginPermission } from "@origin-org/plugin-sdk/manifest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { build } from "vite";
 import { vettaPluginFederation } from "../src/index.js";

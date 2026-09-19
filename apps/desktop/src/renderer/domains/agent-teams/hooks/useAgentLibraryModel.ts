@@ -1,4 +1,4 @@
-import { type AgentAbilitySelection, type AgentProfile, listLibraryAgentProfiles } from "@vetta/agent-team";
+import { type AgentAbilitySelection, type AgentProfile, listLibraryAgentProfiles } from "@origin/agent-team";
 import { useCallback, useMemo } from "react";
 import { type AgentTeamResources, agentTeamErrorMessage } from "./useAgentTeamResources";
 

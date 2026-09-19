@@ -1,17 +1,17 @@
-import type { PrintExtensionError, PrintSessionCapabilities } from "@vetta/coding-agent/bootstrap";
+import type { PrintExtensionError, PrintSessionCapabilities } from "@origin/coding-agent/bootstrap";
 import {
 	type CodingAgentTurnExecutor,
 	createCodingAgentRuntimeExtensionObservationAdapter,
 	projectCodingAgentRuntimeMessages,
-} from "@vetta/coding-agent/runtime";
+} from "@origin/coding-agent/runtime";
 import {
 	isCodingAgentMcpReloadStarted,
 	readCodingAgentBackgroundTasksObservation,
 	readCodingAgentMcpReloadFinished,
 	readCodingAgentSubagentsObservation,
 	readCodingAgentTodoObservation,
-} from "@vetta/coding-agent/session-extensions";
-import type { RuntimeHostSession, RuntimeSessionExecutionObservation, SessionEvent } from "@vetta/runtime-core";
+} from "@origin/coding-agent/session-extensions";
+import type { RuntimeHostSession, RuntimeSessionExecutionObservation, SessionEvent } from "@origin/runtime-core";
 
 interface PrintSessionHost {
 	readonly turnExecutor: Pick<CodingAgentTurnExecutor, "prompt">;

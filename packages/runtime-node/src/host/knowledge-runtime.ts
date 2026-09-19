@@ -9,7 +9,7 @@ import {
 	type WritePageResult,
 	wikiDir,
 	writeKnowledgePage,
-} from "@vetta/runtime-knowledge";
+} from "@origin/runtime-knowledge";
 
 export interface NodeKnowledgePage extends FilteredPage {
 	readonly absolutePath: string;

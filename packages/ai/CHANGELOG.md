@@ -8,7 +8,7 @@
 - 工具参数校验失败新增公开的 `ToolArgumentsValidationError` 与结构化 `issues`；跨 UI/日志边界可使用
   `formatToolArgumentValidationIssues()` 返回不含原始参数的字段级摘要，原有详细 `message` 保持兼容。
 - `PromptCacheDiagnostics` 新增隐私安全的逐块系统提示词与逐工具指纹，并报告具体 ID/名称的新增、删除、内容和顺序变化；诊断不持久化 Prompt 正文、工具描述或 Schema。
-- `@vetta/ai/testing` 新增非干扰式 Provider 观测中间件、统一脱敏合同与隔离 Registry 流入口；测试宿主可按 metadata、payload、wire 三档记录真实请求、响应及缓存 usage，而不修改全局 Adapter Registry。
+- `@origin/ai/testing` 新增非干扰式 Provider 观测中间件、统一脱敏合同与隔离 Registry 流入口；测试宿主可按 metadata、payload、wire 三档记录真实请求、响应及缓存 usage，而不修改全局 Adapter Registry。
 - `PromptCacheDiagnostics` 新增跨调用消息谱系、追加兼容状态及分段变化原因，可区分正常历史追加与稳定系统提示词、工具或历史重写导致的缓存前缀失效；旧 usage 记录保持兼容。
 - `Usage` 新增向后兼容的 `cacheUsageReporting`，区分真实零命中与 Provider 未上报；Anthropic、Bedrock、OpenAI 和 Google 原生适配器现在声明每次调用的缓存观测级别，并公开统一的单次与多调用缓存指标投影。
 - AI 根入口现在公开导出 Provider credential/error 合同，Runtime 模型绑定与 Provider 适配器可以共享同一套认证失败类型，而不需要深度导入实现目录。
@@ -26,8 +26,8 @@
 
 - 新增 `zai-openai-completions` 与 `zhipu-openai-completions` provider 变体，复用 OpenAI Chat Completions 流式实现并内置 GLM 思考控制：下发 `thinking: { type: "enabled" | "disabled" }`，启用时将模型配置的 `reasoning_effort`（含 `none` / `minimal` / `low` / `medium` / `high` / `max`）原样透传；同时新增 `zhipu` KnownProvider 与 `ZHIPU_API_KEY` 识别。
 - 新增 `openai-completions-deepseek` provider 变体（DeepSeek 直连），照搬 qwen/nvidia 的 thinkingFormat 模式：v4 统一模型（deepseek-v4-flash / deepseek-v4-pro）通过 `thinking: { type: "enabled" | "disabled", reasoning_effort }` 控制思考，`reasoning_effort` 取值 `high`/`max` 按模型配置透传；无推理请求时下发 `thinking: { type: "disabled" }`。reasoning 输出（`reasoning_content`）与工具轮的 reasoning 回传规则复用既有 `openai-completions` 逻辑。同时新增 `deepseek` KnownProvider 与 `DEEPSEEK_API_KEY` 环境变量识别。
-- 新增 `@vetta/ai/protocol` 稳定协议子路径，集中导出 Provider 中立的消息、工具、usage、reasoning、终止原因、流事件与结构化 AI 错误类型；旧根入口保持兼容 re-export。
-- 新增隔离的 `LanguageModelAdapter`/`AdapterRegistry`、`@vetta/ai/testing` 脚本模型与可控 Provider transport；OpenAI Completions 和 Anthropic 试点增加 TypeBox wire 校验及无网络 conformance 覆盖。
+- 新增 `@origin/ai/protocol` 稳定协议子路径，集中导出 Provider 中立的消息、工具、usage、reasoning、终止原因、流事件与结构化 AI 错误类型；旧根入口保持兼容 re-export。
+- 新增隔离的 `LanguageModelAdapter`/`AdapterRegistry`、`@origin/ai/testing` 脚本模型与可控 Provider transport；OpenAI Completions 和 Anthropic 试点增加 TypeBox wire 校验及无网络 conformance 覆盖。
 - `Context` 新增可选字段 `systemPromptStableLength`：声明 `systemPrompt` 中会话内逐字不变的前缀长度。Anthropic provider 据此把 system 拆成「稳定前缀（打 `cache_control`）+ 易变尾段（不打）」两个 text block，使会话内变化的模式/人设/日期段落不再作废整段 system 前缀缓存；OAuth 分支同样生效。未声明该字段、或 `cacheRetention: "none"`、或切分点落在正文两端时保持单 block 原行为，其他 provider 忽略该字段。
 
 ### Changed
@@ -184,7 +184,7 @@
 ### Fixed
 
 - Set OpenAI Responses API requests to `store: false` by default to avoid server-side history logging ([#1308](https://github.com/badlogic/pi-mono/issues/1308))
-- Re-exported TypeBox `Type`, `Static`, and `TSchema` from `@vetta/ai` to match documentation and avoid duplicate TypeBox type identity issues in pnpm setups ([#1338](https://github.com/badlogic/pi-mono/issues/1338))
+- Re-exported TypeBox `Type`, `Static`, and `TSchema` from `@origin/ai` to match documentation and avoid duplicate TypeBox type identity issues in pnpm setups ([#1338](https://github.com/badlogic/pi-mono/issues/1338))
 - Fixed Bedrock adaptive thinking handling for Claude Opus 4.6 with interleaved thinking beta responses ([#1323](https://github.com/badlogic/pi-mono/pull/1323) by [@markusylisiurunen](https://github.com/markusylisiurunen))
 - Fixed `AWS_BEDROCK_SKIP_AUTH` environment detection to avoid `process` access in non-Node.js environments
 
@@ -635,7 +635,7 @@
 
 ### Breaking Changes
 
-- **Agent API moved**: All agent functionality (`agentLoop`, `agentLoopContinue`, `AgentContext`, `AgentEvent`, `AgentTool`, `AgentToolResult`, etc.) has moved to `@vetta/agent-core`. Import from that package instead of `@vetta/ai`.
+- **Agent API moved**: All agent functionality (`agentLoop`, `agentLoopContinue`, `AgentContext`, `AgentEvent`, `AgentTool`, `AgentToolResult`, etc.) has moved to `@origin/agent-core`. Import from that package instead of `@origin/ai`.
 
 ### Added
 

@@ -8,7 +8,7 @@ import type {
 	StopReason,
 	UserContentPart,
 	UserMessage,
-} from "@vetta/ai";
+} from "@origin/ai";
 import type {
 	ContextCompositionReport,
 	ContextCompositionSectionInput,

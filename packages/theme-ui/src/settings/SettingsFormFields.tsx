@@ -1,5 +1,5 @@
 import type { FocusEventHandler, JSX, KeyboardEvent } from "react";
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { MotionSelect } from "./MotionSelect";
 
 /**

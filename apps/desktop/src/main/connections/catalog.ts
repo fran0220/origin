@@ -7,9 +7,9 @@ import {
 	parseConnectionEndpoint,
 	SIGNED_IN_CONNECTION_ID,
 	stripEndpointToOrigin,
-} from "@vetta/coding-agent/connections";
-import { type CredentialVault, connectionSecretRef } from "@vetta/runtime-node/credentials";
-import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
+} from "@origin/coding-agent/connections";
+import { type CredentialVault, connectionSecretRef } from "@origin/runtime-node/credentials";
+import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import {
 	getDesktopCredentialVault,
 	getDesktopCredentialVaultWarning,

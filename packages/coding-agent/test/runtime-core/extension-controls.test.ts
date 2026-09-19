@@ -1,4 +1,4 @@
-import { InMemoryRuntimeSessionValueIndex } from "@vetta/runtime-core";
+import { InMemoryRuntimeSessionValueIndex } from "@origin/runtime-core";
 import { describe, expect, it, vi } from "vitest";
 import {
 	type CodingAgentExtensionToolHostPort,

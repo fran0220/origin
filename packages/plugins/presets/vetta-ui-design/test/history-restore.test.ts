@@ -1,7 +1,7 @@
 /**
  * 恢复的编排顺序：先封存现场，再写回，依赖变了才重装，最后重载画布。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { DesignSession } from "../src/vetd/design-session";
 

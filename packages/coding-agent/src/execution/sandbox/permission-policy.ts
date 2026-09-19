@@ -1,4 +1,4 @@
-import type { SandboxPermissionDecision, SandboxPermissionRequest } from "@vetta/runtime-core/sandbox";
+import type { SandboxPermissionDecision, SandboxPermissionRequest } from "@origin/runtime-core/sandbox";
 import type { EcosystemPermissionHookRequest, EcosystemPermissionHookResult } from "../../extensions/ui-contracts.js";
 import type { CodingAgentSandboxAuthorizationPort } from "./authorization-contract.js";
 

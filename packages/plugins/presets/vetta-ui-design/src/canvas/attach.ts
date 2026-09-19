@@ -1,4 +1,4 @@
-import type { PluginPromptAttachment } from "@vetta-org/plugin-sdk";
+import type { PluginPromptAttachment } from "@origin-org/plugin-sdk";
 import type { DesignSession } from "../vetd/design-session";
 
 export function themeTokenAttachment(session: DesignSession, token: string, label: string): PluginPromptAttachment {

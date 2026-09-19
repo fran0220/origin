@@ -2,8 +2,8 @@ import { createHash } from "node:crypto";
 import type { Dirent } from "node:fs";
 import { access, cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import type { BrowserSessionProfile, BrowserSource } from "@vetta-org/capability-sdk";
+import { getVettaHomePath } from "@origin/action-rpc";
+import type { BrowserSessionProfile, BrowserSource } from "@origin-org/capability-sdk";
 import type {
 	BrowserAutomationLogger,
 	BrowserSessionResources,

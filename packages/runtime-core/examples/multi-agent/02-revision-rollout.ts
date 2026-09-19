@@ -1,5 +1,5 @@
-import { RuntimeHost, type RuntimeAgentSession } from "@vetta/runtime-core";
-import type { RuntimeSnapshotLease } from "@vetta/runtime-core/kernel";
+import { RuntimeHost, type RuntimeAgentSession } from "@origin/runtime-core";
+import type { RuntimeSnapshotLease } from "@origin/runtime-core/kernel";
 import { createPromptAgent } from "./prompt-agent.js";
 
 export interface RevisionRolloutExampleResult {

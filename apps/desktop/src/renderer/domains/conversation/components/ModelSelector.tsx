@@ -1,6 +1,6 @@
-import { useThemeComponent } from "@vetta-org/theme-sdk";
+import { useThemeComponent } from "@origin-org/theme-sdk";
 import { type ModelSelectorScope, useModelSelectorModel } from "../hooks/useModelSelectorModel";
-import { ModelSelectorView } from "@vetta-org/theme-ui/chat";
+import { ModelSelectorView } from "@origin-org/theme-ui/chat";
 
 export function ModelSelector({
 	updateActiveSession = true,

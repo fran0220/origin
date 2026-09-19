@@ -1,4 +1,4 @@
-import type { PluginFsApi, PluginOfficialSessionSummary } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginOfficialSessionSummary } from "@origin-org/plugin-sdk";
 import { describe, expect, it, vi } from "vitest";
 import {
 	designCountBadge,

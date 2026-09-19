@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { dirname, join } from "node:path";
-import type { CodingAgentBootstrap } from "@vetta/coding-agent/bootstrap";
+import type { CodingAgentBootstrap } from "@origin/coding-agent/bootstrap";
 import {
 	type CodingAgentMemoryRuntimeFactoryOptions,
 	type CodingAgentRuntimeComposition,
@@ -12,13 +12,13 @@ import {
 	createCodingAgentRuntimeComposition,
 	createCodingAgentRuntimeHostSessionConfig,
 	createCodingAgentSessionSetupSeedInitializer,
-} from "@vetta/coding-agent/composition";
-import { getKnowledgeDir, getVettaHomePath, resolveNodeAccountScopedDir } from "@vetta/coding-agent/config";
+} from "@origin/coding-agent/composition";
+import { getKnowledgeDir, getVettaHomePath, resolveNodeAccountScopedDir } from "@origin/coding-agent/config";
 import {
 	createCodingAgentMcpRuntimeToolSource,
 	createCodingAgentPluginMcpRuntime,
-} from "@vetta/coding-agent/host-services";
-import { detectWorkspaceFacts, probeWorkspaceSignals } from "@vetta/coding-agent/model-context";
+} from "@origin/coding-agent/host-services";
+import { detectWorkspaceFacts, probeWorkspaceSignals } from "@origin/coding-agent/model-context";
 import {
 	type CodingAgentRuntimeExtensionEventHost,
 	type CodingAgentRuntimeExtensionSessionHost,
@@ -28,18 +28,18 @@ import {
 	createCodingAgentRuntimeExtensionEventHost,
 	createCodingAgentRuntimeExtensionSessionHost,
 	createCodingAgentRuntimeResourceReloadHost,
-} from "@vetta/coding-agent/runtime";
-import { buildDefaultHookConfigLayers } from "@vetta/ecosystem-adapter";
+} from "@origin/coding-agent/runtime";
+import { buildDefaultHookConfigLayers } from "@origin/ecosystem-adapter";
 import {
 	InitializationRollbackScope,
 	RuntimeActiveSessionHost,
 	RuntimeHost,
 	type RuntimeHostSession,
 	type RuntimeSessionCatalog,
-} from "@vetta/runtime-core";
-import { EvolutionLedger, HOME_SUBJECT_ID } from "@vetta/runtime-evolution";
-import { createMcpToolResultPolicy } from "@vetta/runtime-mcp";
-import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@vetta/runtime-node/coding";
+} from "@origin/runtime-core";
+import { EvolutionLedger, HOME_SUBJECT_ID } from "@origin/runtime-evolution";
+import { createMcpToolResultPolicy } from "@origin/runtime-mcp";
+import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@origin/runtime-node/coding";
 import {
 	createConversationSeedDraft,
 	createFileConversationPersistence,
@@ -47,14 +47,14 @@ import {
 	type FileConversationOwnershipManagerOptions,
 	resolveConversationFilePath,
 	resolveSessionIdFromPath,
-} from "@vetta/runtime-node/conversation";
-import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
+} from "@origin/runtime-node/conversation";
+import { createFileEvolutionLedgerStore } from "@origin/runtime-node/evolution";
 import {
 	createLoopbackSessionAffinityStream,
 	createNodeKnowledgeRuntime,
 	createNodeResultArtifactStorage,
 	NodeTextFileStorage,
-} from "@vetta/runtime-node/host";
+} from "@origin/runtime-node/host";
 import {
 	createCliCodingAgentSessionExecutionEnvironmentFactory,
 	createCliCodingAgentToolEnvironmentFactory,

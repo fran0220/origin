@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { LiveThinkingView } from "@vetta-org/theme-ui/chat";
+import { LiveThinkingView } from "@origin-org/theme-ui/chat";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 

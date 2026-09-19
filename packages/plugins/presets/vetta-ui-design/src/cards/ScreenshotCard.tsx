@@ -1,4 +1,4 @@
-import type { PluginCardProps } from "@vetta-org/plugin-sdk";
+import type { PluginCardProps } from "@origin-org/plugin-sdk";
 import { useEffect, useState } from "react";
 import { getPluginCtx } from "../plugin-context";
 import { ScreenshotSwiper } from "./ScreenshotSwiper";

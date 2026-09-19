@@ -1,4 +1,4 @@
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 import { SettingsView } from "./components/SettingsView.js";
 import { SimulatorPanel } from "./components/SimulatorPanel.js";
 import { setPluginCtx } from "./plugin-context.js";

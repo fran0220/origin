@@ -1,6 +1,6 @@
 import type { JSX } from "react";
-import { Button } from "@vetta-org/ui";
-import { cn } from "@vetta-org/ui";
+import { Button } from "@origin-org/ui";
+import { cn } from "@origin-org/ui";
 
 export interface MessageCenterTriggerViewProps {
 	readonly open: boolean;

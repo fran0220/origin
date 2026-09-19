@@ -1,5 +1,5 @@
 import { Type, type Static } from "@sinclair/typebox";
-import { SkillSurfaceVisibilitySchema, SkillVisibilitySchema } from "@vetta-org/capability-sdk";
+import { SkillSurfaceVisibilitySchema, SkillVisibilitySchema } from "@origin-org/capability-sdk";
 import { PLUGIN_PERMISSIONS } from "./permissions.js";
 
 const NON_WHITESPACE_PATTERN = "\\S";

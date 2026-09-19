@@ -3,8 +3,8 @@ import {
 	type ModuleFederation,
 	type ModuleFederationRuntimePlugin,
 } from "@module-federation/enhanced/runtime";
+import type { PluginDefinition } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginDefinition } from "@vetta-org/plugin-sdk";
 import { extractPluginReloadToken, normalizePluginModule } from "./plugin-module-contract";
 import { createPluginRuntimeShared } from "./plugin-shared-modules";
 

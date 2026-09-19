@@ -6,7 +6,7 @@ import {
 	listPluginManifestResources,
 	parsePluginManifest,
 	type PluginManifest,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 import { watch } from "chokidar";
 import { createServer, isCSSRequest, type ViteDevServer } from "vite";
 import { VETTA_PLUGIN_DEV_ENTRY_ID } from "./dev-vite-plugins.js";

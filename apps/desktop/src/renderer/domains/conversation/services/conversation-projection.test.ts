@@ -1,5 +1,5 @@
-import type { AssistantMessage, AssistantMessageEvent } from "@vetta/ai";
-import type { AssistantSessionEvent } from "@vetta/runtime-core";
+import type { AssistantMessage, AssistantMessageEvent } from "@origin/ai";
+import type { AssistantSessionEvent } from "@origin/runtime-core";
 import { describe, expect, it } from "vitest";
 import { ConversationProjection, projectConversationAgentMessage } from "./conversation-projection";
 

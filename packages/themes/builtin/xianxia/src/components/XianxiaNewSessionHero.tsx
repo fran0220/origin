@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
-import type { NewSessionHeroProps } from "@vetta-org/theme-ui";
-import { cn } from "@vetta-org/ui";
+import type { NewSessionHeroProps } from "@origin-org/theme-ui";
+import { cn } from "@origin-org/ui";
 import type { JSX } from "react";
 import { XianxiaSceneCarousel } from "./XianxiaNewSession";
 

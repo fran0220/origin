@@ -1,10 +1,10 @@
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, AssistantMessage, Model, TextContent, Usage } from "@vetta/ai";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import type { RecordingEngine, RecordingRecord, RecordingSampleResult } from "@vetta/runtime-recording";
-import { applyRecordingRetention } from "@vetta/runtime-recording";
+import type { Api, AssistantMessage, Model, TextContent, Usage } from "@origin/ai";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import type { RecordingEngine, RecordingRecord, RecordingSampleResult } from "@origin/runtime-recording";
+import { applyRecordingRetention } from "@origin/runtime-recording";
 import { afterEach, describe, expect, it } from "vitest";
 import { createRecordingToolRegistrations, estimateVideoPromptTokens } from "../../src/recording/index.js";
 

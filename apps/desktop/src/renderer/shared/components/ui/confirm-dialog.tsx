@@ -1,4 +1,4 @@
-import { useThemeComponent } from "@vetta-org/theme-sdk";
+import { useThemeComponent } from "@origin-org/theme-sdk";
 import { createPortal } from "react-dom";
 import { useConfirmDialogModel } from "../../hooks/useConfirmDialogModel";
 import { ConfirmDialogView } from "./ConfirmDialogView";

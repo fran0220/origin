@@ -10,8 +10,8 @@
 ## 注意事项
 
 - 生产源码不得导入 `node:*`、Electron、DOM 或平台 Runtime
-- Node JSONL 实现位于 `@vetta/runtime-node`
-- 不得依赖 `@vetta/coding-agent` 或应用包
+- Node JSONL 实现位于 `@origin/runtime-node`
+- 不得依赖 `@origin/coding-agent` 或应用包
 - Harness 是规则层，不替代 Memory；`kind: skill/subagent` 只是提示词级引导
 
 ## 测试要求

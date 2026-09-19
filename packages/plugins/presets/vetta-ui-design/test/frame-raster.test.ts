@@ -7,7 +7,7 @@
  */
 import { act, createElement } from "react";
 import { createRoot, type Root } from "react-dom/client";
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import type { BridgeHub } from "../src/canvas/bridge-client";
 import { clearFrameErrors, setFrameError } from "../src/canvas/design-runtime";

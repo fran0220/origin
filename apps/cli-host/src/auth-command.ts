@@ -1,5 +1,5 @@
 import { writeSync } from "node:fs";
-import { discoverDesktopAuth, revokeRemoteSession, startPkceLogin } from "@vetta/coding-agent/connections";
+import { discoverDesktopAuth, revokeRemoteSession, startPkceLogin } from "@origin/coding-agent/connections";
 import { z } from "zod";
 import {
 	ACCOUNT_ACCESS_TOKEN_REF,

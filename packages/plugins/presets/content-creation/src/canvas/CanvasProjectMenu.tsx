@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -6,7 +6,7 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { type ComponentProps, type ReactNode, useMemo } from "react";
 import type { ContentModelDescriptor } from "../generation/types";
 import type { ContentProjectDocument } from "../project/types";

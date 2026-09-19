@@ -1,20 +1,20 @@
 // Shared Desktop host services used by the production Agent Runtime composition.
 import { join } from "node:path";
-import { CONFIG_DIR_NAME, getAgentDir } from "@vetta/coding-agent/config";
-import { SIGNED_IN_CONNECTION_ID } from "@vetta/coding-agent/connections";
+import { CONFIG_DIR_NAME, getAgentDir } from "@origin/coding-agent/config";
+import { SIGNED_IN_CONNECTION_ID } from "@origin/coding-agent/connections";
 import {
 	AuthStorage,
 	type CodingAgentAuthRuntime,
 	type CodingAgentModelRuntime,
 	createCodingAgentModelRuntime,
 	SettingsRuntime,
-} from "@vetta/coding-agent/host-services";
+} from "@origin/coding-agent/host-services";
 import {
 	NodeScopedTextStorage,
 	NodeTransactionalTextStorage,
 	nodeConfigurationValueResolver,
 	nodeSyncTextFileSource,
-} from "@vetta/runtime-node/host";
+} from "@origin/runtime-node/host";
 import { getConnectionRelayRoute } from "../connections/relay-host.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
 import {

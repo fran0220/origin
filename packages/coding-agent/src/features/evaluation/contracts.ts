@@ -4,7 +4,7 @@ import type {
 	EvaluationDefinition,
 	EvaluationScope,
 	EvaluationTrigger,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 
 export interface CodingAgentEvaluationOperations {
 	listDefinitions(scope: EvaluationScope): Promise<readonly EvaluationDefinition[]>;

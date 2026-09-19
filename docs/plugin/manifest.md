@@ -7,14 +7,14 @@
 
 ## 契约与校验
 
-清单结构的唯一实现位于 `@vetta-org/plugin-sdk/manifest`：
+清单结构的唯一实现位于 `@origin-org/plugin-sdk/manifest`：
 
 ```ts
 import {
   PluginManifestSchema,
   parsePluginManifest,
   type PluginManifestInput,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 ```
 
 - `PluginManifestSchema` 是 TypeBox Schema，可直接序列化为 JSON Schema，供编辑器、CLI 或市场服务端使用。
@@ -81,7 +81,7 @@ Schema 只描述 `plugin.json` 数据本身；Plugin API 版本是否兼容、�
 
 插件只有一种加载方式：宿主用 `@module-federation/enhanced/runtime` 动态注册 remote 并加载 `expose`。
 `entry` 指向 Federation 生成的 `dist/mf-manifest.json`，`moduleFederation` 必须声明与 Vite 配置一致的
-`remoteName` 和 `expose`。React / React DOM / `@vetta-org/plugin-sdk` 由宿主作为共享单例提供。
+`remoteName` 和 `expose`。React / React DOM / `@origin-org/plugin-sdk` 由宿主作为共享单例提供。
 
 清单不提供加载模式选择字段；声明 `runtime` 会被校验器拒绝，避免清单看似选择了一条宿主并不存在的加载路径。
 

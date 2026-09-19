@@ -1,4 +1,4 @@
-# @vetta/agent-team
+# @origin/agent-team
 
 ## [Unreleased]
 

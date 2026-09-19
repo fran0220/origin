@@ -1,4 +1,4 @@
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useState, type JSX } from "react";
 

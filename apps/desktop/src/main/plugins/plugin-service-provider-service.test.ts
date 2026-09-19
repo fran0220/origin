@@ -2,7 +2,7 @@ import { ChildProcess } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { PluginServiceProviderManifest, PluginServiceRuntimeKind } from "@vetta-org/plugin-sdk";
+import type { PluginServiceProviderManifest, PluginServiceRuntimeKind } from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { InstalledPlugin } from "../../preload/api-types/plugins.js";
 import { PluginServiceProviderService } from "./plugin-service-provider-service.js";

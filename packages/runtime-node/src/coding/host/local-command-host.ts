@@ -4,7 +4,7 @@ import { createWriteStream, existsSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setImmediate } from "node:timers";
-import type { ForegroundCommandOperations } from "@vetta/runtime-tools";
+import type { ForegroundCommandOperations } from "@origin/runtime-tools";
 import type {
 	BackgroundCommandHost,
 	BackgroundCommandOutputStore,

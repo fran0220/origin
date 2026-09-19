@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { cleanup, render, screen } from "@testing-library/react";
-import type { Usage } from "@vetta/ai";
+import type { Usage } from "@origin/ai";
 import { createConversationAgentMessage } from "@shared/conversation";
 import userEvent from "@testing-library/user-event";
 import { type ComponentProps, Fragment, type ReactNode } from "react";
@@ -28,7 +28,7 @@ vi.mock("react-virtuoso", () => ({
 	},
 }));
 
-vi.mock("@vetta-org/theme-ui/chat", () => ({
+vi.mock("@origin-org/theme-ui/chat", () => ({
 	MessageFeed: {
 		Root: ({ children }: { children: ReactNode }) => <>{children}</>,
 		VirtualList: (props: Record<string, unknown>) => {

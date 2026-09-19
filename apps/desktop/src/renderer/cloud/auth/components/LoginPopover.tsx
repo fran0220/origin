@@ -1,6 +1,6 @@
 import { loginPopoverOpenAtom } from "@shared/store/atoms";
-import { useThemeComponent } from "@vetta-org/theme-sdk";
-import { Popover, PopoverAnchor, PopoverContent } from "@vetta-org/ui";
+import { useThemeComponent } from "@origin-org/theme-sdk";
+import { Popover, PopoverAnchor, PopoverContent } from "@origin-org/ui";
 import { useAtom } from "jotai";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef } from "react";

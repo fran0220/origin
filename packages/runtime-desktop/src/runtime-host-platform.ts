@@ -1,6 +1,6 @@
-import type { RuntimeHostPathServices, RuntimeQueueSidecarStore, RuntimeSandboxGrantStore } from "@vetta/runtime-core";
-import { nodeRuntimeHostPathServices, nodeRuntimeQueueSidecarStore } from "@vetta/runtime-node/host";
-import { nodeSandboxGrantStore } from "@vetta/runtime-node/sandbox";
+import type { RuntimeHostPathServices, RuntimeQueueSidecarStore, RuntimeSandboxGrantStore } from "@origin/runtime-core";
+import { nodeRuntimeHostPathServices, nodeRuntimeQueueSidecarStore } from "@origin/runtime-node/host";
+import { nodeSandboxGrantStore } from "@origin/runtime-node/sandbox";
 
 export interface DesktopRuntimeHostPlatformServices {
 	readonly pathServices: RuntimeHostPathServices;

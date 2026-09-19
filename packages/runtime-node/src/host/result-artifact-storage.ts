@@ -1,8 +1,8 @@
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import type { McpToolResultArtifactStore, McpToolResultArtifactWriteRequest } from "@vetta/runtime-mcp";
-import type { RuntimeToolResultArtifactStore, RuntimeToolResultArtifactWriteRequest } from "@vetta/runtime-tools";
+import type { McpToolResultArtifactStore, McpToolResultArtifactWriteRequest } from "@origin/runtime-mcp";
+import type { RuntimeToolResultArtifactStore, RuntimeToolResultArtifactWriteRequest } from "@origin/runtime-tools";
 
 interface ResultArtifactWriteRequest {
 	readonly sessionId: string;

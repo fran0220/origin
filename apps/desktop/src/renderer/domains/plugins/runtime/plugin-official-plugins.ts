@@ -1,5 +1,5 @@
+import type { PluginOfficialApi, PluginOfficialPluginSummary } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginOfficialApi, PluginOfficialPluginSummary } from "@vetta-org/plugin-sdk";
 
 function summarizePlugin(plugin: InstalledPlugin): PluginOfficialPluginSummary {
 	return {

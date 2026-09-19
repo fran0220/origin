@@ -11,8 +11,8 @@ import {
 	type Tool,
 	type ToolCall,
 	type Usage,
-} from "@vetta/ai";
-import { bindCapability, type CapabilityRegistry } from "@vetta/capability-runtime";
+} from "@origin/ai";
+import { bindCapability, type CapabilityRegistry } from "@origin/capability-runtime";
 import {
 	type AiChatInput,
 	type AiChatMessage,
@@ -22,7 +22,7 @@ import {
 	CapabilityError,
 	type Disposable,
 	DOMAIN_AI_CAPABILITIES,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import { getOrCreateSharedModelRuntime } from "../agent-runtime/host-services.js";
 import { getDesktopModelSettingsService } from "../models/model-settings-host.js";
 

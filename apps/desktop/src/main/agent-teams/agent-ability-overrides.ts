@@ -1,4 +1,4 @@
-import type { AgentAbilitySelection } from "@vetta/agent-team";
+import type { AgentAbilitySelection } from "@origin/agent-team";
 
 export interface PinnedAbilityContext {
 	/** Blueprint 强制随该智能体激活的插件。 */

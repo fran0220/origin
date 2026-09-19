@@ -1,6 +1,6 @@
 import { memo, type ComponentPropsWithoutRef, type JSX, type ReactNode } from "react";
-import type { CornerImageFrameDecoration } from "@vetta-org/theme-sdk/appearance";
-import { cn } from "@vetta-org/ui";
+import type { CornerImageFrameDecoration } from "@origin-org/theme-sdk/appearance";
+import { cn } from "@origin-org/ui";
 
 export interface CornerImageFrameProps extends ComponentPropsWithoutRef<"div"> {
 	children: ReactNode;

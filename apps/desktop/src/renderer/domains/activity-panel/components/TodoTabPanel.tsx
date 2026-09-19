@@ -1,4 +1,4 @@
-import { TodoTabPanelView } from "@vetta-org/theme-ui/activity";
+import { TodoTabPanelView } from "@origin-org/theme-ui/activity";
 import { useTodoTabPanelModel } from "../hooks/useTodoTabPanelModel";
 
 export function TodoTabPanel(): JSX.Element {

@@ -1,13 +1,13 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, Message, Model } from "@vetta/ai";
-import { createCodingAgentRuntimeSessionSelection } from "@vetta/coding-agent/composition";
-import type { CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
-import type { ConversationScenario } from "@vetta/coding-agent/profile";
-import { CODING_AGENT_SESSION_PROFILE_STATE_READ } from "@vetta/coding-agent/session-extensions";
-import { type HistoryEntry, RuntimeHost, type SessionEvent } from "@vetta/runtime-core";
-import { DesktopRuntimeBackendPool } from "@vetta/runtime-desktop";
+import type { Api, Message, Model } from "@origin/ai";
+import { createCodingAgentRuntimeSessionSelection } from "@origin/coding-agent/composition";
+import type { CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
+import type { ConversationScenario } from "@origin/coding-agent/profile";
+import { CODING_AGENT_SESSION_PROFILE_STATE_READ } from "@origin/coding-agent/session-extensions";
+import { type HistoryEntry, RuntimeHost, type SessionEvent } from "@origin/runtime-core";
+import { DesktopRuntimeBackendPool } from "@origin/runtime-desktop";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
 	startOpenAiResponsesTestServer,

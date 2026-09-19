@@ -1,4 +1,4 @@
-import type { PluginManifest, PluginPermission } from "@vetta-org/plugin-sdk/manifest";
+import type { PluginManifest, PluginPermission } from "@origin-org/plugin-sdk/manifest";
 
 export interface PluginRuntimeChunk {
 	fileName: string;

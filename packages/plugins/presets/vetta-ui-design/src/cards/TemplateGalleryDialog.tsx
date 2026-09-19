@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type ReactNode, useEffect, useState } from "react";
 import { designSystemById, useDesignSystems } from "../design-systems/index";
 import { PluginPortal } from "../plugin-portal";

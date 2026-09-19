@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/runtime-tools",
+	"name": "@origin/runtime-tools",
 	"version": "0.0.1",
 	"description": "Platform-neutral coding tool protocols and catalog logic for Vetta runtimes",
 	"type": "module",
@@ -23,8 +23,8 @@
 	},
 	"dependencies": {
 		"@sinclair/typebox": "^0.34.41",
-		"@vetta/ai": "workspace:*",
-		"@vetta/runtime-core": "workspace:*"
+		"@origin/ai": "workspace:*",
+		"@origin/runtime-core": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.5",

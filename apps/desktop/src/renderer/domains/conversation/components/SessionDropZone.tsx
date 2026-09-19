@@ -1,4 +1,4 @@
-import { SessionDropZoneView } from "@vetta-org/theme-ui/chat";
+import { SessionDropZoneView } from "@origin-org/theme-ui/chat";
 import { useSessionDropZoneModel } from "../hooks/useSessionDropZoneModel";
 
 interface SessionDropZoneProps {

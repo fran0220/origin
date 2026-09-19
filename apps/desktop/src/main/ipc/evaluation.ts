@@ -7,7 +7,7 @@ import type {
 	EvaluationTrigger,
 	UpsertDefinitionInput,
 	VerifierRef,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 import { type IpcMainInvokeEvent, ipcMain, type WebContents } from "electron";
 import { registerDesktopEvaluationEvidenceProvider } from "../evaluation/desktop-evaluation-runtime.js";
 import {

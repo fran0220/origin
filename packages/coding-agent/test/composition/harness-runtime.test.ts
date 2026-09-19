@@ -1,8 +1,8 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@vetta/ai";
-import { EvolutionLedger, HOST_ORIGIN, MemoryEvolutionLedgerStore, subjectScope } from "@vetta/runtime-evolution";
+import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@origin/ai";
+import { EvolutionLedger, HOST_ORIGIN, MemoryEvolutionLedgerStore, subjectScope } from "@origin/runtime-evolution";
 import { afterEach, describe, expect, it } from "vitest";
 import type { CodingAgentRuntimeComposition } from "../../src/composition/index.js";
 import { createCodingAgentHarnessRuntime } from "../../src/features/harness/index.js";

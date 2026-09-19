@@ -1,4 +1,4 @@
-import { readJsonFile, writeJsonFile } from "@vetta-org/plugin-sdk";
+import { readJsonFile, writeJsonFile } from "@origin-org/plugin-sdk";
 import type { ProbeDefinition } from "./types";
 import { errorMessage, isPermissionDenied, isStorageEscape, timedResult } from "./types";
 

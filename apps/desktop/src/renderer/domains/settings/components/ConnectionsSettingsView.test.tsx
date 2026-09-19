@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { parseConnectionEndpoint } from "@vetta/coding-agent/connections";
+import { parseConnectionEndpoint } from "@origin/coding-agent/connections";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -13,7 +13,7 @@ vi.mock("react-i18next", () => ({
 	}),
 }));
 
-vi.mock("@vetta-org/ui", () => ({
+vi.mock("@origin-org/ui", () => ({
 	Button: ({ children, onClick, disabled }: { children: string; onClick?: () => void; disabled?: boolean }) => (
 		<button type="button" onClick={onClick} disabled={disabled}>
 			{children}

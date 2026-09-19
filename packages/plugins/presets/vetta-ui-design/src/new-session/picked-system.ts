@@ -8,7 +8,7 @@
  * 两个条件谁先到都有可能，所以不写成「turn-start 时读 cwd」：有的会话是先发送、再创建、
  * 最后才有工作目录，按那种写法发出去的第一轮永远落不了盘。这里改成两边各自记账，齐了就落。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import type { DesignSystem } from "../design-systems/types";
 import { installSystemResources } from "../gallery/start-from-system";
 

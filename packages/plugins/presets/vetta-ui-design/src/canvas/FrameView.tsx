@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { memo, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import { frameUrl } from "../vetd/frame-url";
 import type { VetdFrameEntry } from "../vetd/manifest-types";

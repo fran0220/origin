@@ -1,4 +1,4 @@
-import type { PluginContext, PluginUiApi } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginUiApi } from "@origin-org/plugin-sdk";
 
 let pluginCtx: PluginContext | null = null;
 

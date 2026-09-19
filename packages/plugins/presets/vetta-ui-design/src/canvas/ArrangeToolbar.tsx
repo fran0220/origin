@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useRef, useState } from "react";
 import { ColumnsPopover } from "./ColumnsPopover";
 import type { SnapRect } from "./snap";

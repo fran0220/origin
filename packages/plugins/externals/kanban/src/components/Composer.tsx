@@ -1,5 +1,5 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
-import { cn } from "@vetta-org/ui";
+import { useTranslation } from "@origin-org/plugin-sdk";
+import { cn } from "@origin-org/ui";
 import { ModelPicker } from "./ModelPicker";
 import { ProjectPicker } from "./ProjectPicker";
 import { PromptTextarea, type PromptTextareaHandle } from "./PromptTextarea";

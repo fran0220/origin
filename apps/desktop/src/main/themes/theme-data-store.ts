@@ -1,8 +1,8 @@
 import { existsSync } from "node:fs";
 import { readFile, unlink } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { atomicWriteJSONAsync } from "@vetta/toolkit/atomic-write";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { atomicWriteJSONAsync } from "@origin/toolkit/atomic-write";
 import {
 	assertThemeStorageWritable,
 	isThemeStorageJson,

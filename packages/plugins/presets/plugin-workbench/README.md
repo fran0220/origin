@@ -4,11 +4,11 @@
 
 ## Agent 文档（关键）
 
-**手册不在本包里。** 它随 `@vetta-org/plugin-sdk` 装进被编辑工程自己的 `node_modules`，
+**手册不在本包里。** 它随 `@origin-org/plugin-sdk` 装进被编辑工程自己的 `node_modules`，
 因此与该工程实际编译的 SDK 版本一致——随 App 发版的内嵌副本做不到这一点，而且等于把同一批
 知识维护两遍。
 
-工作台内置 `@vetta-org/plugin-cli` 的单文件产物，由它解析手册位置：
+工作台内置 `@origin-org/plugin-cli` 的单文件产物，由它解析手册位置：
 
 ```bash
 node <workbenchRoot>/agent/cli/vetta-plugin-cli.js docs --json

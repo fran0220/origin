@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { render } from "@testing-library/react";
-import type { ThemePageDefinition } from "@vetta-org/theme-sdk";
+import type { ThemePageDefinition } from "@origin-org/theme-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const runtime = vi.hoisted(() => ({

@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 import { BrowserWindow, net } from "electron";
 import { getAppLogger } from "../../logger.js";
 import { getDesktopModelSettingsService } from "../model-settings-host.js";

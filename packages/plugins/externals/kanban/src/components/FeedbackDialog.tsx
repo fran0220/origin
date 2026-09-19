@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import {
 	Button,
 	Dialog,
@@ -7,7 +7,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { useEffect, useState, type JSX } from "react";
 import { PromptTextarea } from "./PromptTextarea";
 import type { KanbanSkillOption } from "../board/board-controller";

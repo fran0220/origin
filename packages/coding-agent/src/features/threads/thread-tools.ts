@@ -1,4 +1,3 @@
-import { type Static, Type } from "@sinclair/typebox";
 import {
 	DIAL_MODES,
 	type DialMode,
@@ -6,9 +5,10 @@ import {
 	isThreadIntent,
 	THREAD_INTENTS,
 	type ThreadIntent,
-} from "@vetta/runtime-core";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
+} from "@origin/runtime-core";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import { ToolCallDescriptionSchema } from "@origin/runtime-tools/coding";
+import { type Static, Type } from "@sinclair/typebox";
 import type { CodingAgentThreadToolHost } from "./contracts.js";
 
 export const CREATE_THREAD_TOOL_NAME = "create_thread";

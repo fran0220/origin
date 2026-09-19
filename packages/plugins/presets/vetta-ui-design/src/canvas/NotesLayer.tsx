@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type PointerEvent as ReactPointerEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { NotesStore } from "../notes/notes-store";
 import { type DesignNote, noteStatus, noteWorldPosition, pendingNotes } from "../notes/types";

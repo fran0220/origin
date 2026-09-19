@@ -1,4 +1,4 @@
-import { Button, Spin } from "@vetta-org/ui";
+import { Button, Spin } from "@origin-org/ui";
 import type { OAuthLoginPhase } from "../hooks/useOAuthLogin";
 
 export interface LoginPopoverViewLabels {

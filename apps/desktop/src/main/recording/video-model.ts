@@ -1,4 +1,4 @@
-import type { Api, Model } from "@vetta/ai";
+import type { Api, Model } from "@origin/ai";
 import { getOrCreateSharedModelRuntime } from "../agent-runtime/host-services.js";
 
 export async function resolveDesktopRecordingVideoModel(requested?: string): Promise<{

@@ -1,10 +1,10 @@
-import type { RuntimeConfigurationSnapshotSource } from "@vetta/runtime-core/configuration";
+import type { RuntimeConfigurationSnapshotSource } from "@origin/runtime-core/configuration";
 import type {
 	SandboxPermissionRequest,
 	SandboxSessionGrantEntry,
 	SandboxShellGrant,
-} from "@vetta/runtime-core/sandbox";
-import type { BackgroundCommandService, CodingToolRegistration } from "@vetta/runtime-tools";
+} from "@origin/runtime-core/sandbox";
+import type { BackgroundCommandService, CodingToolRegistration } from "@origin/runtime-tools";
 import type { ConversationScenario } from "../../profiles/index.js";
 
 export interface CodingAgentSandboxWorkspacePathAccess {

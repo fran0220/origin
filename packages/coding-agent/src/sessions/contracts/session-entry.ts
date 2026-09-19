@@ -1,5 +1,5 @@
-import type { AgentMessage, ToolPhase } from "@vetta/agent-core";
-import type { UserContentPart } from "@vetta/ai";
+import type { AgentMessage, ToolPhase } from "@origin/agent-core";
+import type { UserContentPart } from "@origin/ai";
 
 /** Extension-facing compatibility version; native persistence has its own schema version. */
 export const CODING_AGENT_SESSION_VIEW_VERSION = 3;

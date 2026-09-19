@@ -8,7 +8,7 @@ import {
 	MessageVisual,
 	SettingsAssistBadgeView,
 	UserMessage as UserMessagePrimitive,
-} from "@vetta-org/theme-ui/chat";
+} from "@origin-org/theme-ui/chat";
 import { useSetAtom } from "jotai";
 import { memo, useMemo } from "react";
 import type { MouseEventHandler, ReactNode } from "react";

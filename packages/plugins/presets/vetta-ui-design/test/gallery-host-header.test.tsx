@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
  * 插件顶栏」两条叠加的栏。
  */
 
-vi.mock("@vetta-org/plugin-sdk", () => {
+vi.mock("@origin-org/plugin-sdk", () => {
 	const t = (key: string) => key;
 	return { useTranslation: () => ({ t, locale: "zh" }) };
 });

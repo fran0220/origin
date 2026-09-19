@@ -1,4 +1,4 @@
-import type { PluginCommandSpawnExit } from "@vetta-org/plugin-sdk";
+import type { PluginCommandSpawnExit } from "@origin-org/plugin-sdk";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
@@ -29,7 +29,7 @@ const mocks = vi.hoisted(() => ({
 			: key,
 }));
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useActivityTab: () => ({ cwd: "C:/project" }),
 	useTranslation: () => ({ t: mocks.t }),
 }));

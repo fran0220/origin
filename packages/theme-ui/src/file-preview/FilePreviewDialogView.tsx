@@ -1,5 +1,5 @@
 import { ThemeSurface } from "../appearance";
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { AnimatePresence, motion } from "motion/react";
 import type { JSX, MouseEvent, ReactNode } from "react";
 import {

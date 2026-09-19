@@ -1,4 +1,4 @@
-import type { CheckpointEngine, CheckpointPolicy, ProposeCheckpointInput } from "@vetta/runtime-checkpoints";
+import type { CheckpointEngine, CheckpointPolicy, ProposeCheckpointInput } from "@origin/runtime-checkpoints";
 
 export interface CheckpointTurnHost {
 	readonly engine: CheckpointEngine;

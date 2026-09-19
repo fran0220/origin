@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { PluginPortal } from "../plugin-portal";
 import { hexToHsv, hsvToHex, toHex } from "./color";

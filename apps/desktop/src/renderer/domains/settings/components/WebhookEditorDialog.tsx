@@ -1,4 +1,4 @@
-import { WebhookEndpointListView } from "@vetta-org/theme-ui/settings";
+import { WebhookEndpointListView } from "@origin-org/theme-ui/settings";
 import {
 	Dialog,
 	DialogContent,
@@ -6,8 +6,8 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@vetta-org/ui";
-import { Switch } from "@vetta-org/ui";
+} from "@origin-org/ui";
+import { Switch } from "@origin-org/ui";
 import { cn } from "@shared/lib/utils";
 import { useState } from "react";
 import type { WebhookFormState, WebhookSettingsModel } from "./useWebhookSettingsModel";

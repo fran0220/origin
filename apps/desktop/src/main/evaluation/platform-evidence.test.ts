@@ -1,12 +1,12 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { ExecutionReceipt, MainlineCheckpoint } from "@vetta/runtime-checkpoints";
-import { EvaluationService } from "@vetta/runtime-evaluation";
-import { FileCheckpointStore } from "@vetta/runtime-node/checkpoints";
-import { createNodeVerifierRunner, FileEvaluationStore, sha256Text } from "@vetta/runtime-node/evaluation";
-import { FileRecordingStore } from "@vetta/runtime-node/recording";
-import type { RecordingRecord } from "@vetta/runtime-recording";
+import type { ExecutionReceipt, MainlineCheckpoint } from "@origin/runtime-checkpoints";
+import { EvaluationService } from "@origin/runtime-evaluation";
+import { FileCheckpointStore } from "@origin/runtime-node/checkpoints";
+import { createNodeVerifierRunner, FileEvaluationStore, sha256Text } from "@origin/runtime-node/evaluation";
+import { FileRecordingStore } from "@origin/runtime-node/recording";
+import type { RecordingRecord } from "@origin/runtime-recording";
 import { afterEach, describe, expect, it } from "vitest";
 import { createPlatformEvaluationEvidenceProvider } from "./platform-evidence.js";
 

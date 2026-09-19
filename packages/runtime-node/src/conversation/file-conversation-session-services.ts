@@ -7,13 +7,13 @@ import type {
 	RuntimeSessionCatalog,
 	RuntimeSessionFileHistoryReader,
 	SessionHistoryInfo,
-} from "@vetta/runtime-core";
-import { projectConversationDocumentHistory } from "@vetta/runtime-core/conversation";
+} from "@origin/runtime-core";
+import { projectConversationDocumentHistory } from "@origin/runtime-core/conversation";
 import {
 	type ConversationOwnershipManager,
 	isConversationFileHeader,
 	type ReadConversationFileHeader,
-} from "@vetta/runtime-storage/conversation";
+} from "@origin/runtime-storage/conversation";
 import { documentFromFile, encodeConversationSessionId, parseConversationFile } from "./conversation-file-codec.js";
 import { acquireConversationFileLock } from "./conversation-file-lock.js";
 import { FileConversationOwnershipManager } from "./conversation-ownership-lease.js";

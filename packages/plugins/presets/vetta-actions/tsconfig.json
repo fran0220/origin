@@ -10,7 +10,7 @@
 		"moduleResolution": "bundler",
 		"baseUrl": ".",
 		"paths": {
-			"@vetta-org/plugin-sdk": ["../../plugin-sdk/src/index.ts"]
+			"@origin-org/plugin-sdk": ["../../plugin-sdk/src/index.ts"]
 		},
 		"isolatedModules": true,
 		"noEmit": true,

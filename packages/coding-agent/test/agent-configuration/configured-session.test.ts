@@ -1,10 +1,10 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, Model } from "@vetta/ai";
-import { RuntimeAgentRuntime } from "@vetta/runtime-core";
-import type { RuntimeSnapshotLease, RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import { resolveModelCallFrame } from "@vetta/runtime-core/kernel";
+import type { Api, Model } from "@origin/ai";
+import { RuntimeAgentRuntime } from "@origin/runtime-core";
+import type { RuntimeSnapshotLease, RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import { resolveModelCallFrame } from "@origin/runtime-core/kernel";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
 	AGENT_CONFIGURATION_READ,

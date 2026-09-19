@@ -2,7 +2,7 @@ import type {
 	PluginAppActionExample,
 	PluginContext,
 	PluginJsonSchema,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { createVettaActionRegistrar } from "../action-usage";
 
 type GeneralQueryInput = { operation: "help" } | { operation: "get" };

@@ -1,5 +1,3 @@
-import type { InstalledPlugin, PluginAgentHookHostRegistration, PluginAgentToolRegistration } from "@preload/api";
-import { pluginAgentToolLabelsAtom, type RegisteredAgentToolLabel } from "@shared/store/atoms";
 import type {
 	PluginAgentToolHandler,
 	PluginAppActionHandler,
@@ -10,8 +8,10 @@ import type {
 	PluginConversationApi,
 	PluginFsApi,
 	PluginToolCallSlotContribution,
-} from "@vetta-org/plugin-sdk";
-import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES } from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import { PLUGIN_CODING_AGENT_HOOK_EVENT_NAMES } from "@origin-org/plugin-sdk";
+import type { InstalledPlugin, PluginAgentHookHostRegistration, PluginAgentToolRegistration } from "@preload/api";
+import { pluginAgentToolLabelsAtom, type RegisteredAgentToolLabel } from "@shared/store/atoms";
 import { getDefaultStore } from "jotai";
 import {
 	registerPluginAgentHookHandler,

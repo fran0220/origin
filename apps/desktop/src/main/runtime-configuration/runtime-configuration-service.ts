@@ -4,9 +4,9 @@ import {
 	RuntimeConfigurationCenter,
 	type RuntimeConfigurationJsonObject,
 	type RuntimeConfigurationJsonValue,
-} from "@vetta/runtime-core/configuration";
-import { CODING_IMAGE_CONFIGURATION, VETTA_OCR_CONFIGURATION } from "@vetta/runtime-tools";
-import type { OcrProviderDescriptor } from "@vetta-org/capability-sdk";
+} from "@origin/runtime-core/configuration";
+import { CODING_IMAGE_CONFIGURATION, VETTA_OCR_CONFIGURATION } from "@origin/runtime-tools";
+import type { OcrProviderDescriptor } from "@origin-org/capability-sdk";
 import type {
 	DesktopRuntimeConfigurationCatalog,
 	DesktopRuntimeConfigurationConsumer,

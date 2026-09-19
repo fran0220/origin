@@ -5,7 +5,7 @@ import type {
 	CreateAgentProfileInput,
 	DeleteAgentProfileInput,
 	UpdateAgentProfileInput,
-} from "@vetta/agent-team";
+} from "@origin/agent-team";
 
 export interface DesktopAgentTeamsApi {
 	list(): Promise<AgentProfileDocument>;

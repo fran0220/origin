@@ -1,4 +1,4 @@
-import type { PluginCommandApi, PluginCommandRunResult } from "@vetta-org/plugin-sdk";
+import type { PluginCommandApi, PluginCommandRunResult } from "@origin-org/plugin-sdk";
 import { describe, expect, it } from "vitest";
 import { isInsideGitWorkTree } from "../src/git/tab-visibility";
 

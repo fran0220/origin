@@ -1,4 +1,4 @@
-import type { CheckpointPolicy, MainlineCheckpoint } from "@vetta/runtime-checkpoints";
+import type { CheckpointPolicy, MainlineCheckpoint } from "@origin/runtime-checkpoints";
 
 export type DesktopCheckpoint = MainlineCheckpoint;
 export type DesktopCheckpointPolicy = CheckpointPolicy;

@@ -3,7 +3,7 @@ import type {
 	PluginAgentToolRegistration,
 	PluginContext,
 	PluginFsApi,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { setPendingDesignPath, takePendingDesignPath } from "../src/canvas/design-runtime";
 import { registerDesignTools } from "../src/tools";

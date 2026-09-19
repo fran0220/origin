@@ -6,7 +6,7 @@ description: 输出自动带插件身份、由桌面宿主持久化的结构化�
 插件可以直接从 SDK 导入已经绑定身份的 `logger`，不需要从 `PluginContext` 逐层传递：
 
 ```ts
-import { logger } from "@vetta-org/plugin-sdk/logger";
+import { logger } from "@origin-org/plugin-sdk/logger";
 
 logger.info("Proxy configuration loaded", { provider: "codex" });
 
@@ -14,7 +14,7 @@ const syncLogger = logger.child("sync");
 syncLogger.warn("Remote catalog is unavailable", { retryInMs: 5_000 });
 ```
 
-`@vetta-org/plugin-vite` 会在开发和生产构建中读取经过校验的 `plugin.json`，把这个入口绑定到
+`@origin-org/plugin-vite` 会在开发和生产构建中读取经过校验的 `plugin.json`，把这个入口绑定到
 当前插件的 `id` 和 `version`。桌面宿主接收日志后统一添加插件标识、限制字段大小、脱敏常见
 敏感字段，并写入 Renderer 日志文件。Windows 默认位置是
 `%USERPROFILE%\.vetta\desktop-app\logs\render\YYYY-MM-DD.log`。
@@ -24,7 +24,7 @@ syncLogger.warn("Remote catalog is unavailable", { retryInMs: 5_000 });
 在源头避免输出敏感数据。
 
 <Callout title="版本要求" type="info">
-  这一入口要求 `@vetta-org/plugin-sdk >= 0.3.7`、`@vetta-org/plugin-vite >= 0.2.3`，并在
+  这一入口要求 `@origin-org/plugin-sdk >= 0.3.7`、`@origin-org/plugin-vite >= 0.2.3`，并在
   `plugin.json` 中声明 `pluginApiVersion: "^2.5.0"`。旧插件无需迁移，仍可照常加载。
 </Callout>
 

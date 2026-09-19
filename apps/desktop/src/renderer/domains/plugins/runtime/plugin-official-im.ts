@@ -1,4 +1,4 @@
-import type { PluginOfficialApi } from "@vetta-org/plugin-sdk";
+import type { PluginOfficialApi } from "@origin-org/plugin-sdk";
 
 export function createOfficialImApi(assertOfficial: () => void, capabilitySessionId: string): PluginOfficialApi["im"] {
 	const im = window.vetta.plugins.internalCapabilities.im;

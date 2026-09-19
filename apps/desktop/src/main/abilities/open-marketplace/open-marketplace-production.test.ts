@@ -1,7 +1,7 @@
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { parsePluginManifest } from "@vetta-org/plugin-sdk/manifest";
+import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import AdmZip from "adm-zip";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {

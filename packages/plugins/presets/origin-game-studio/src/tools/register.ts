@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { SCOPE_USE } from "../ids";
 import { TOOL_DESCRIPTIONS, TOOL_GROUPS, TOOL_SCHEMAS, type ToolName } from "./schemas";
 import { validateToolInput } from "./validate";

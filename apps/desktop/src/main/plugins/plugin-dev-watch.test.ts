@@ -19,7 +19,7 @@ describe("plugin development watch", () => {
 		await writeFile(
 			join(packageDir, "package.json"),
 			JSON.stringify({
-				name: "@vetta-org/plugin-vite",
+				name: "@origin-org/plugin-vite",
 				version: "1.0.0",
 				type: "module",
 				exports: {
@@ -52,7 +52,7 @@ describe("plugin development watch", () => {
 		await writeFile(
 			join(packageDir, "package.json"),
 			JSON.stringify({
-				name: "@vetta-org/plugin-vite",
+				name: "@origin-org/plugin-vite",
 				version: "0.0.5",
 				type: "module",
 				exports: { ".": { import: "./dist/index.js" } },

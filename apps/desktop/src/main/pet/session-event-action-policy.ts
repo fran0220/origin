@@ -1,6 +1,6 @@
-import { readCodingAgentBackgroundTasksObservation } from "@vetta/coding-agent/session-extensions";
-import type { SessionEvent } from "@vetta/runtime-core";
-import type { BackgroundCommandSnapshot } from "@vetta/runtime-tools";
+import { readCodingAgentBackgroundTasksObservation } from "@origin/coding-agent/session-extensions";
+import type { SessionEvent } from "@origin/runtime-core";
+import type { BackgroundCommandSnapshot } from "@origin/runtime-tools";
 import { getPetActionsByGroup, type PetActionGroupId, type PetActionId } from "../../shared/pet-actions.js";
 import type { PetBubbleNotice } from "../../shared/pet-ipc.js";
 

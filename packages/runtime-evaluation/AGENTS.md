@@ -9,8 +9,8 @@
 ## 注意事项
 
 - 生产源码不得导入 `node:*`、Electron、DOM 或具体平台 Runtime
-- 文件账本、命令型 verifier、证据适配器的 Node 实现位于 `@vetta/runtime-node`
-- 不得依赖 `@vetta/coding-agent`、`apps/*` 或其它 `runtime-*` 的具体实现
+- 文件账本、命令型 verifier、证据适配器的 Node 实现位于 `@origin/runtime-node`
+- 不得依赖 `@origin/coding-agent`、`apps/*` 或其它 `runtime-*` 的具体实现
 - 模型自述不是证据；模型审阅只能进入 `Finding.note`
 
 ## 测试要求

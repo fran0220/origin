@@ -1,4 +1,4 @@
-# @vetta/runtime-evaluation
+# @origin/runtime-evaluation
 
 Platform-neutral Evaluation records for Vetta hosts.
 
@@ -15,4 +15,4 @@ Platform-neutral Evaluation records for Vetta hosts.
 - File I/O, command execution, Desktop IPC or UI
 - Checkpoint / Recording / Trace / Artifact implementations
 
-Node hosts bind this package through `@vetta/runtime-node/evaluation`.
+Node hosts bind this package through `@origin/runtime-node/evaluation`.

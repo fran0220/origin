@@ -4,7 +4,7 @@ import {
 	MemoryEvolutionLedgerStore,
 	REFINEMENT_SOURCE,
 	subjectScope,
-} from "@vetta/runtime-evolution";
+} from "@origin/runtime-evolution";
 import { describe, expect, it } from "vitest";
 import {
 	createHarnessListTool,

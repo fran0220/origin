@@ -3,10 +3,10 @@
 import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import type { ComponentType } from "react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { PluginAiChatRequest, PluginAiChatResult, PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginAiChatRequest, PluginAiChatResult, PluginContext } from "@origin-org/plugin-sdk";
 
-vi.mock("@vetta-org/plugin-sdk", async () => {
-	const actual = await vi.importActual<Record<string, unknown>>("@vetta-org/plugin-sdk");
+vi.mock("@origin-org/plugin-sdk", async () => {
+	const actual = await vi.importActual<Record<string, unknown>>("@origin-org/plugin-sdk");
 	return {
 		...actual,
 		definePlugin: (definition: unknown) => definition,

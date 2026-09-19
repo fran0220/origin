@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { URL } from "node:url";
-import { getVettaHomePath, VETTA_HOME_ENV } from "@vetta/action-rpc";
+import { getVettaHomePath, VETTA_HOME_ENV } from "@origin/action-rpc";
 import { app, type BrowserWindow, dialog, ipcMain, nativeImage, nativeTheme, protocol, session, shell } from "electron";
 import { APP_PROTOCOL_SCHEMES, APP_RUNTIME_NAME, isAppProtocolUrl } from "../shared/app-identity.js";
 import { isCloudBuildEnabled } from "../shared/feature-flags.js";
@@ -132,7 +132,7 @@ const helpCliCommand =
 		? parseHelpCliCommand(process.argv)
 		: null;
 // `--agent-rpc` is the IM sidecar's discriminator: when present we
-// short-circuit into @vetta/coding-agent's main and skip every UI/IPC
+// short-circuit into @origin/coding-agent's main and skip every UI/IPC
 // bring-up below. See cli/agent-rpc-command.ts for the full rationale.
 const agentRpcArgs =
 	pdfCliCommand === null && ocrCliCommand === null && actionCliCommand === null && helpCliCommand === null

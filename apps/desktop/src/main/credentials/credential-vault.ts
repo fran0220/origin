@@ -1,5 +1,5 @@
 /**
- * Compatibility facade. New code should import `@vetta/runtime-node/credentials`
+ * Compatibility facade. New code should import `@origin/runtime-node/credentials`
  * or `getDesktopCredentialVault()`. Existing Desktop modules keep this path.
  */
 export {
@@ -8,4 +8,4 @@ export {
 	type CredentialMetadata,
 	type CredentialRef,
 	CredentialVault,
-} from "@vetta/runtime-node/credentials";
+} from "@origin/runtime-node/credentials";

@@ -42,8 +42,8 @@ import {
 	type ToolCall,
 	type ToolResultMessage,
 	type UserContentPart,
-} from "@vetta/ai";
-import type { ExtensionAPI } from "@vetta/coding-agent";
+} from "@origin/ai";
+import type { ExtensionAPI } from "@origin/coding-agent";
 
 // =============================================================================
 // OAuth Implementation (copied from packages/ai/src/utils/oauth/anthropic.ts)

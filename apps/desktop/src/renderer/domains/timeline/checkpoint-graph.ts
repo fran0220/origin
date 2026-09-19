@@ -1,5 +1,5 @@
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
-import type { GraphCommitNode, GraphFeedbackEdge } from "@vetta-org/ui/git-graph";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
+import type { GraphCommitNode, GraphFeedbackEdge } from "@origin-org/ui/git-graph";
 
 export interface TimelineGraphNode extends GraphCommitNode {
 	readonly checkpointId: string;

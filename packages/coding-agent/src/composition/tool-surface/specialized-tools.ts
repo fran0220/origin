@@ -1,5 +1,5 @@
-import type { AgentFeatureDefinition, ModelCallContributionContext } from "@vetta/runtime-core/kernel";
-import type { CodingToolRegistration } from "@vetta/runtime-tools";
+import type { AgentFeatureDefinition, ModelCallContributionContext } from "@origin/runtime-core/kernel";
+import type { CodingToolRegistration } from "@origin/runtime-tools";
 import { createEvaluationToolRegistrations, type EvaluationToolOptions } from "../../features/evaluation/index.js";
 import {
 	type CodingAgentKnowledgeWriteOperations,

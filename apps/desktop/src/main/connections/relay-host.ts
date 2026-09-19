@@ -3,7 +3,7 @@ import {
 	createConnectionRelayHost,
 	type RelayRoute,
 	type RelayUpstream,
-} from "@vetta/runtime-node/credentials";
+} from "@origin/runtime-node/credentials";
 import { getAppLogger } from "../logger.js";
 import { getConnectionCatalog } from "./catalog.js";
 

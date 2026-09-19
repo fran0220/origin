@@ -20,8 +20,8 @@ import {
 	type SimpleStreamOptions,
 	streamSimpleAnthropic,
 	streamSimpleOpenAIResponses,
-} from "@vetta/ai";
-import type { ExtensionAPI } from "@vetta/coding-agent";
+} from "@origin/ai";
+import type { ExtensionAPI } from "@origin/coding-agent";
 
 // =============================================================================
 // Constants

@@ -27,7 +27,7 @@ function installManual(root: string, version: string): string {
 	writeFileSync(join(docs, "README.md"), "# manual", "utf8");
 	writeFileSync(
 		join(root, "node_modules", "@vetta-org", "plugin-sdk", "package.json"),
-		JSON.stringify({ name: "@vetta-org/plugin-sdk", version }),
+		JSON.stringify({ name: "@origin-org/plugin-sdk", version }),
 		"utf8",
 	);
 	return docs;
@@ -315,7 +315,7 @@ describe("docs command", () => {
 		expect(payload.project).toMatchObject({ pluginId: "demo" });
 		expect(payload.hub).toMatchObject({ root });
 		// 手册是个快照，工程不升级它就不会变新。刷新命令必须每次都在输出里。
-		expect(payload.refreshCommand).toContain("@vetta-org/plugin-sdk@latest");
+		expect(payload.refreshCommand).toContain("@origin-org/plugin-sdk@latest");
 		expect(payload).not.toHaveProperty("latestVersion");
 	});
 
@@ -513,6 +513,6 @@ describe("docs command", () => {
 		);
 
 		expect(code).toBe(6);
-		expect(stderr).toContain("@vetta-org/plugin-sdk");
+		expect(stderr).toContain("@origin-org/plugin-sdk");
 	});
 });

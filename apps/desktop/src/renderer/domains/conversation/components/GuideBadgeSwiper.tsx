@@ -1,4 +1,4 @@
-import { GuideBadgeSwiperView } from "@vetta-org/theme-ui/chat";
+import { GuideBadgeSwiperView } from "@origin-org/theme-ui/chat";
 import { useGuideBadgeSwiperModel } from "../hooks/useGuideBadgeSwiperModel";
 
 interface GuideBadgeSwiperProps {

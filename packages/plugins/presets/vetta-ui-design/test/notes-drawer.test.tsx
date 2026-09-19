@@ -5,7 +5,7 @@
  */
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({ t: (key: string) => key }),
 	usePromptAttachment: () => null,
 }));
@@ -18,7 +18,7 @@ vi.mock("../src/plugin-context", () => ({
 }));
 
 import { act } from "react";
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { createRoot, type Root } from "react-dom/client";
 import { NotesDrawer } from "../src/canvas/NotesDrawer";
 import { NotesStore } from "../src/notes/notes-store";

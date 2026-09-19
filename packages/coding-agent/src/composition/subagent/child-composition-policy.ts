@@ -1,5 +1,5 @@
-import { RetryableCleanup, RuntimeHost } from "@vetta/runtime-core";
-import type { McpRuntimeToolView } from "@vetta/runtime-mcp";
+import { RetryableCleanup, RuntimeHost } from "@origin/runtime-core";
+import type { McpRuntimeToolView } from "@origin/runtime-mcp";
 import type { CodingAgentPromptResourceSource } from "../../runtime-contracts/index.js";
 import type {
 	CodingAgentRuntimeComposition,

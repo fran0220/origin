@@ -6,8 +6,8 @@ import { describe, expect, it } from "vitest";
 
 const pluginsRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const pluginDirectories = ["presets", "externals"] as const;
-const defaultSharedDependencies = ["@vetta-org/plugin-sdk", "react", "react-dom"] as const;
-const hostUiSpecifiers = new Set(["@vetta-org/ui", "@vetta/ui"]);
+const defaultSharedDependencies = ["@origin-org/plugin-sdk", "react", "react-dom"] as const;
+const hostUiSpecifiers = new Set(["@origin-org/ui", "@origin/ui"]);
 const codeExtensions = new Set([".js", ".jsx", ".ts", ".tsx"]);
 
 interface PackageManifest {
@@ -26,7 +26,7 @@ describe("workspace plugin shared dependencies", () => {
 		const violations: string[] = [];
 
 		for (const project of projects) {
-			if (project.manifest.devDependencies?.["@vetta-org/plugin-vite"] === undefined) continue;
+			if (project.manifest.devDependencies?.["@origin-org/plugin-vite"] === undefined) continue;
 
 			for (const dependency of defaultSharedDependencies) {
 				if (project.manifest.devDependencies?.[dependency] === undefined) {
@@ -36,12 +36,12 @@ describe("workspace plugin shared dependencies", () => {
 
 			const importsHostUi = await sourceImportsHostUi(project.root);
 			const enablesHostUi = await configEnablesHostUi(project.root);
-			const declaresHostUi = project.manifest.devDependencies?.["@vetta-org/ui"] !== undefined;
+			const declaresHostUi = project.manifest.devDependencies?.["@origin-org/ui"] !== undefined;
 
 			if (importsHostUi && !enablesHostUi) violations.push(`${project.packagePath}: missing hostUi: true`);
-			if (importsHostUi && !declaresHostUi) violations.push(`${project.packagePath}: missing @vetta-org/ui`);
+			if (importsHostUi && !declaresHostUi) violations.push(`${project.packagePath}: missing @origin-org/ui`);
 			if (!importsHostUi && enablesHostUi) violations.push(`${project.packagePath}: unused hostUi: true`);
-			if (!importsHostUi && declaresHostUi) violations.push(`${project.packagePath}: unused @vetta-org/ui`);
+			if (!importsHostUi && declaresHostUi) violations.push(`${project.packagePath}: unused @origin-org/ui`);
 		}
 
 		expect(violations).toEqual([]);

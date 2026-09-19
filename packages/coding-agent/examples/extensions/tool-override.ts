@@ -20,9 +20,9 @@
  *   vetta -e ./tool-override.ts
  */
 
+import type { TextContent } from "@origin/ai";
+import type { ExtensionAPI } from "@origin/coding-agent";
 import { Type } from "@sinclair/typebox";
-import type { TextContent } from "@vetta/ai";
-import type { ExtensionAPI } from "@vetta/coding-agent";
 import { appendFileSync, constants, readFileSync } from "fs";
 import { access, readFile } from "fs/promises";
 import { homedir } from "os";

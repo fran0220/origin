@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
 	resolve: {
 		alias: {
-			"@vetta-org/plugin-sdk": fileURLToPath(new URL("./test/helpers/plugin-sdk-stub.ts", import.meta.url)),
+			"@origin-org/plugin-sdk": fileURLToPath(new URL("./test/helpers/plugin-sdk-stub.ts", import.meta.url)),
 		},
 	},
 	test: {

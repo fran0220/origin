@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { isAbsolute, relative } from "node:path";
 import type { Plugin } from "vite";
 
-export const HOST_THEME_STYLESHEET_ID = "@vetta-org/plugin-sdk/tailwind-theme.css";
+export const HOST_THEME_STYLESHEET_ID = "@origin-org/plugin-sdk/tailwind-theme.css";
 
 const HOST_THEME_IMPORT = `@import "${HOST_THEME_STYLESHEET_ID}";`;
 const HOST_THEME_IMPORT_PATTERN = /@import\s+["']@vetta-org\/plugin-sdk\/tailwind-theme\.css["']\s*;/u;

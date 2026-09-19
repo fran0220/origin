@@ -1,3 +1,5 @@
+import type { ModelSelectorViewProps } from "@origin-org/theme-ui/chat";
+import { fmtMultiplier } from "@origin-org/theme-ui/shared";
 import { resolveReasoning } from "@shared/components/ModelSelect/resolveReasoning";
 import { type ModelOption, useModelOptions } from "@shared/components/ModelSelect/useModelOptions";
 import {
@@ -9,8 +11,6 @@ import {
 	selectedModelAtom,
 } from "@shared/store/atoms";
 import { modelCatalog } from "@shared/store/model-catalog";
-import type { ModelSelectorViewProps } from "@vetta-org/theme-ui/chat";
-import { fmtMultiplier } from "@vetta-org/theme-ui/shared";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";

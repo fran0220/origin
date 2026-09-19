@@ -1,4 +1,4 @@
-import { resolveNodeConfigurationHeaders, resolveNodeConfigurationValue } from "@vetta/runtime-node/host";
+import { resolveNodeConfigurationHeaders, resolveNodeConfigurationValue } from "@origin/runtime-node/host";
 import { net } from "electron";
 import { getDesktopModelSettingsService } from "./model-settings-host.js";
 

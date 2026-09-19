@@ -1,12 +1,12 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync, writeSync } from "node:fs";
 import { join } from "node:path";
-import { getAgentDir } from "@vetta/coding-agent/config";
+import { getAgentDir } from "@origin/coding-agent/config";
 import {
 	type ConnectionDescriptor,
 	parseConnectionEndpoint,
 	SIGNED_IN_CONNECTION_ID,
 	stripEndpointToOrigin,
-} from "@vetta/coding-agent/connections";
+} from "@origin/coding-agent/connections";
 import { z } from "zod";
 import { connectionSecretRef, createCliCredentialVault } from "./cli-credential-host.js";
 

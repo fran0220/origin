@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { getPluginCtx } from "../plugin-context";
 import { toVettaFileUrl } from "./file-url";
 import type { Snapshot } from "./snapshots";

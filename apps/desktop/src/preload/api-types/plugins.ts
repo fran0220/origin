@@ -66,7 +66,7 @@ import type {
 	WebhookSendResult,
 	WebhookUpdateData,
 	WorkspaceSettingInput,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import type {
 	OcrProviderDescriptor,
 	OcrProviderRequest,
@@ -107,7 +107,7 @@ import type {
 	PluginServiceRequest,
 	PluginServiceResponse,
 	PluginServiceStatus,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 
 export type {
 	PluginAgentManifest,
@@ -119,7 +119,7 @@ export type {
 	PluginServiceHostPlatform,
 	PluginServiceProviderManifest,
 	PluginServiceRequest,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 
 /** 一份扁平 catalog：翻译 key → 本地化字符串。 */
 export type PluginLocaleCatalog = Record<string, string>;

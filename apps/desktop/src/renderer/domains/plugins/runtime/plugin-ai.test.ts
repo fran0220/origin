@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import type { PluginPermissionApi } from "@vetta-org/plugin-sdk";
+import type { PluginPermissionApi } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createPluginAiApi } from "./plugin-ai";
 

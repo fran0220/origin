@@ -8,7 +8,7 @@ import type {
 	PluginCommandSpawnExit,
 	PluginCommandSpawnHandle,
 	PluginContext,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it } from "vitest";
 import { engineFilesHash } from "../src/engine/engine-files";
 import { engineReady, migrateLegacyEngine, waitForSpawnExit } from "../src/engine/engine-manager";

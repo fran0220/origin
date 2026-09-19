@@ -1,6 +1,6 @@
-import type { ConversationDocument, RuntimeDocumentParticipantContext } from "@vetta/runtime-core";
-import { selectConversationDocumentEntries } from "@vetta/runtime-core";
-import type { StoredSessionEvent } from "@vetta/runtime-core/kernel";
+import type { ConversationDocument, RuntimeDocumentParticipantContext } from "@origin/runtime-core";
+import { selectConversationDocumentEntries } from "@origin/runtime-core";
+import type { StoredSessionEvent } from "@origin/runtime-core/kernel";
 import type {
 	CodingAgentTodoRuntime as CodingAgentTodoRuntimePort,
 	TodoItem,

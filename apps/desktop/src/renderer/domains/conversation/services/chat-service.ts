@@ -1,3 +1,7 @@
+import type { Usage } from "@origin/ai";
+import type { HistoryEntry, PromptAttachmentRef, PromptResourceRef } from "@origin/runtime-core";
+import { readMcpAppAttachment, selectMcpMediaCandidates } from "@origin/runtime-mcp/browser";
+import type { CardDescriptor } from "@origin-org/plugin-sdk";
 import {
 	type ConversationAgentMessageViewModel,
 	createConversationAgentMessage,
@@ -17,10 +21,6 @@ import type {
 	ToolImagePreview,
 	ToolVideoPreview,
 } from "@shared/store/atoms";
-import type { Usage } from "@vetta/ai";
-import type { HistoryEntry, PromptAttachmentRef, PromptResourceRef } from "@vetta/runtime-core";
-import { readMcpAppAttachment, selectMcpMediaCandidates } from "@vetta/runtime-mcp/browser";
-import type { CardDescriptor } from "@vetta-org/plugin-sdk";
 import { classifyChatError } from "./classifyChatError";
 
 export function toChatErrorDetails(

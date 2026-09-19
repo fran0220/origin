@@ -30,7 +30,7 @@ import {
 import type { PluginsChangedEvent } from "@preload/api";
 import { getDefaultStore, useSetAtom } from "jotai";
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
-import type { PluginGlobalSlotContribution } from "@vetta-org/plugin-sdk";
+import type { PluginGlobalSlotContribution } from "@origin-org/plugin-sdk";
 import { markPluginHostLoading, markPluginHostReady, PLUGINS_CHANGED_EVENT } from "../runtime/plugin-events";
 import { installPluginHostBridge } from "../runtime/plugin-host-bridge";
 import { installPluginHostShim } from "../runtime/plugin-host-shim";

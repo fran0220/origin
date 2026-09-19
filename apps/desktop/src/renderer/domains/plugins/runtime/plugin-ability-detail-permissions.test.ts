@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
+import type { PluginPermission } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginPermission } from "@vetta-org/plugin-sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { loadPluginSnapshot } from "../components/plugin-snapshot";
 import { createPluginContext } from "./plugin-context";

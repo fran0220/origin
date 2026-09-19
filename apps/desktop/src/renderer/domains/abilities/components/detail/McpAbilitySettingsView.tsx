@@ -1,5 +1,5 @@
-import { InputField } from "@vetta-org/theme-ui/settings";
-import { Button } from "@vetta-org/ui";
+import { InputField } from "@origin-org/theme-ui/settings";
+import { Button } from "@origin-org/ui";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { existingSecretValues } from "../../../settings/mcp/builtin-mcp-presets";

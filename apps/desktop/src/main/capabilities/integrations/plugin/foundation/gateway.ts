@@ -2,7 +2,7 @@ import {
 	type CapabilityJsonValue,
 	FOUNDATION_GATEWAY_CAPABILITIES,
 	parseCapabilityJsonValue,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import type { PluginCapabilitySessionAccess } from "../types.js";
 
 /**

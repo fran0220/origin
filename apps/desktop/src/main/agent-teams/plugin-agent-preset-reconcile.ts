@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
-import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
-import { normalizeMentionHandle } from "@vetta/agent-team";
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
+import { normalizeMentionHandle } from "@origin/agent-team";
 import type { PluginAgentPreset } from "./plugin-agent-presets.js";
 
 /**

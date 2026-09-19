@@ -1,4 +1,4 @@
-# @vetta/action-rpc
+# @origin/action-rpc
 
 Localhost HTTP JSON RPC transport for Vetta Desktop capabilities.
 

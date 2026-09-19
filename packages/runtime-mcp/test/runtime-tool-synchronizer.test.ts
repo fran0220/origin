@@ -1,5 +1,5 @@
-import { createRuntimeObservationPublisher, type RuntimeObservationRecord } from "@vetta/runtime-core";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
+import { createRuntimeObservationPublisher, type RuntimeObservationRecord } from "@origin/runtime-core";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
 import { describe, expect, it, vi } from "vitest";
 import {
 	createMcpRuntimeToolSynchronizer,

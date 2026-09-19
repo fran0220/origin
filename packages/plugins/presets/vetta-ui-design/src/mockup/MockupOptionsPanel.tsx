@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import type { ReactNode } from "react";
 import { ColorPicker } from "./ColorPicker";
 import { OptionSlider } from "./OptionSlider";

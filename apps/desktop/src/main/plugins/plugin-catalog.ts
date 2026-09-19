@@ -1,12 +1,12 @@
 import { existsSync, readFileSync, rmSync } from "node:fs";
 import { readFile, rm } from "node:fs/promises";
 import { isAbsolute, join, resolve } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import {
 	parsePluginCommandNames as parseCommands,
 	parsePluginManifest as parseManifest,
 	validatePluginId,
-} from "@vetta-org/plugin-sdk/manifest";
+} from "@origin-org/plugin-sdk/manifest";
 import { app, webContents } from "electron";
 import type {
 	InstalledPlugin,

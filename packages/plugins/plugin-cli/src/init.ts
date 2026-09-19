@@ -76,9 +76,9 @@ export function initPluginProject(input: InitPluginInput): InitPluginResult {
 				"@tailwindcss/vite": "^4.1.12",
 				"@types/react": "^19.1.1",
 				"@types/react-dom": "^19.1.1",
-				"@vetta-org/plugin-cli": "^0.1.1",
-				"@vetta-org/plugin-sdk": input.sdkRange ?? DEFAULT_SDK_RANGE,
-				"@vetta-org/plugin-vite": input.viteRange ?? DEFAULT_VITE_RANGE,
+				"@origin-org/plugin-cli": "^0.1.1",
+				"@origin-org/plugin-sdk": input.sdkRange ?? DEFAULT_SDK_RANGE,
+				"@origin-org/plugin-vite": input.viteRange ?? DEFAULT_VITE_RANGE,
 				react: "19.1.1",
 				"react-dom": "19.1.1",
 				tailwindcss: "^4.1.12",
@@ -102,7 +102,7 @@ export function initPluginProject(input: InitPluginInput): InitPluginResult {
 			include: ["src/**/*.ts", "src/**/*.tsx"],
 		}),
 		"vite.config.ts": `import tailwindcss from "@tailwindcss/vite";
-import { vettaPluginFederation } from "@vetta-org/plugin-vite";
+import { vettaPluginFederation } from "@origin-org/plugin-vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -116,7 +116,7 @@ export default defineConfig({
 	esbuild: { jsx: "automatic", jsxImportSource: "react" },
 });
 `,
-		"src/index.tsx": `import { definePlugin } from "@vetta-org/plugin-sdk";
+		"src/index.tsx": `import { definePlugin } from "@origin-org/plugin-sdk";
 // Tailwind pipeline only — business CSS here would leak into the host page.
 import "./style.css";
 

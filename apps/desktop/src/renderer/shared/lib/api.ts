@@ -1,6 +1,6 @@
+import type { SkillPresentation } from "@origin-org/capability-sdk";
 import type { McpServerConfigData, RefreshOutcome } from "@preload/api";
 import { i18n } from "@shared/i18n";
-import type { SkillPresentation } from "@vetta-org/capability-sdk";
 
 let cachedBaseUrl: string | undefined;
 const hostFetch = globalThis.fetch.bind(globalThis);

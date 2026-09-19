@@ -1,3 +1,4 @@
+import { useThemeSurface } from "@origin-org/theme-sdk/appearance";
 import { useChatSurfaceActive } from "@shared/chat-surface-active";
 import { useOwnedHeaderSlot } from "@shared/hooks/useOwnedHeaderSlot";
 import { usePausedAtomValue } from "@shared/hooks/usePausedAtomValue";
@@ -19,7 +20,6 @@ import {
 	promptAttachmentAtom,
 	syncHardIsolationContributionModes,
 } from "@shared/store/atoms";
-import { useThemeSurface } from "@vetta-org/theme-sdk/appearance";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { selectAtom } from "jotai/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";

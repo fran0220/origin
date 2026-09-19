@@ -10,7 +10,7 @@ import {
 	type MainlineCheckpoint,
 	parseExecutionReceipt,
 	parseMainlineCheckpoint,
-} from "@vetta/runtime-checkpoints";
+} from "@origin/runtime-checkpoints";
 import {
 	checkpointMainlinePath,
 	checkpointPolicyPath,

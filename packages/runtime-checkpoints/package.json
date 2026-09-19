@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/runtime-checkpoints",
+	"name": "@origin/runtime-checkpoints",
 	"version": "0.0.1",
 	"description": "Platform-neutral checkpoint domain, schemas, and reactor for Vetta runtimes",
 	"type": "module",

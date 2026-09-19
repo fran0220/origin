@@ -1,6 +1,6 @@
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
 import { type Static, Type } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
 import {
 	DesktopCommandAbortedError,
 	type DesktopCommandPort,

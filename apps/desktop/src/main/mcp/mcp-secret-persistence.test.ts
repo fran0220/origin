@@ -1,6 +1,6 @@
 import { readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { CredentialVault, mcpSecretRef } from "@vetta/runtime-node/credentials";
+import { CredentialVault, mcpSecretRef } from "@origin/runtime-node/credentials";
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 const fixture = await vi.hoisted(async () => {
@@ -10,7 +10,7 @@ const fixture = await vi.hoisted(async () => {
 	return { root: mkdtempSync(join(tmpdir(), "origin-mcp-secrets-")), available: true };
 });
 
-vi.mock("@vetta/action-rpc", () => ({ getVettaHomePath: () => fixture.root }));
+vi.mock("@origin/action-rpc", () => ({ getVettaHomePath: () => fixture.root }));
 vi.mock("../abilities/ability-ledger.js", () => ({
 	recordAbilityInstall: vi.fn(),
 	removeAbilityLedgerEntry: vi.fn(),

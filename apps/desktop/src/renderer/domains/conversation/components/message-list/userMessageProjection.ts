@@ -1,3 +1,4 @@
+import type { InlineTokenAnnotation } from "@origin-org/theme-ui/chat";
 import type { ConversationUserMessageViewModel } from "@shared/conversation";
 import {
 	type InputSegment,
@@ -8,7 +9,6 @@ import {
 } from "@shared/lib/input-tokens";
 import { pathBasename, toVettaFileUrl } from "@shared/lib/utils";
 import type { FilePreviewItem } from "@shared/store/atoms";
-import type { InlineTokenAnnotation } from "@vetta-org/theme-ui/chat";
 import { isSystemAttachmentPath, isUserImageFile, parseUserPrefixes } from "../../services/chat-service";
 import type { AppshotCardData } from "../AppshotCard";
 

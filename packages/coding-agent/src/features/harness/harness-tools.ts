@@ -1,5 +1,4 @@
-import { type Static, Type } from "@sinclair/typebox";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
 import {
 	type EvolutionLedger,
 	type EvolutionScope,
@@ -11,8 +10,9 @@ import {
 	type RefinementOutcome,
 	type RefinementProposal,
 	subjectScope,
-} from "@vetta/runtime-evolution";
-import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
+} from "@origin/runtime-evolution";
+import { ToolCallDescriptionSchema } from "@origin/runtime-tools/coding";
+import { type Static, Type } from "@sinclair/typebox";
 
 export const HARNESS_REFINE_TOOL_NAME = "harness_refine";
 export const HARNESS_LIST_TOOL_NAME = "harness_list";

@@ -1,6 +1,6 @@
+import type { RuntimeSessionAccess } from "@origin/runtime-core";
+import type { PluginOfficialApi, PluginOfficialSessionAccess } from "@origin-org/plugin-sdk";
 import { openSessionFnRef } from "@shared/store/atoms";
-import type { RuntimeSessionAccess } from "@vetta/runtime-core";
-import type { PluginOfficialApi, PluginOfficialSessionAccess } from "@vetta-org/plugin-sdk";
 import { pluginRendererCapabilityHost } from "./plugin-renderer-capability-host";
 
 /**

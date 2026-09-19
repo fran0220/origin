@@ -1,4 +1,4 @@
-import { readJsonFile, type PluginContext } from "@vetta-org/plugin-sdk";
+import { readJsonFile, type PluginContext } from "@origin-org/plugin-sdk";
 import { parseRemoteCatalog } from "./remote-catalog";
 import { markCatalogFailed, markCatalogLoading, setDesignSystems } from "./registry";
 

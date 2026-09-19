@@ -5,7 +5,7 @@ import {
 	HOME_PROJECT_KEY,
 	parseScopeKey,
 	scopeKey,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 import { encodeProjectKey, HOME_CHECKPOINT_PROJECT_KEY } from "../checkpoints/project-key.js";
 import { DEFAULT_CONVERSATION_CWD, readDesktopConfig } from "../config/desktop-config-store.js";
 import { sameProjectPath } from "./project-path.js";

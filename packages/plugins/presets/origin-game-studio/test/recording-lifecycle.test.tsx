@@ -1,4 +1,4 @@
-import type { ConversationEvent, PluginRecordingRecord } from "@vetta-org/plugin-sdk";
+import type { ConversationEvent, PluginRecordingRecord } from "@origin-org/plugin-sdk";
 import { act, cleanup, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { setPluginCtx } from "../src/plugin-context";

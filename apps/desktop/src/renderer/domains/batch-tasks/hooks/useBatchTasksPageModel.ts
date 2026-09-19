@@ -1,8 +1,8 @@
+import type { BatchTasksPageLabels, BatchTasksPageStatsView } from "@origin-org/theme-ui/batch-tasks";
 import { useOwnedHeaderTitleHidden } from "@shared/hooks/useOwnedHeaderTitleHidden";
 import type { BatchProject } from "@shared/store/atoms";
 import { batchProjectDialogOpenAtom, batchProjectsAtom } from "@shared/store/atoms";
 import { useSurfaceActive } from "@shared/surface-active";
-import type { BatchTasksPageLabels, BatchTasksPageStatsView } from "@vetta-org/theme-ui/batch-tasks";
 import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

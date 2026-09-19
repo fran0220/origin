@@ -1,5 +1,5 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
-import { Button, Slider } from "@vetta-org/ui";
+import { useTranslation } from "@origin-org/plugin-sdk";
+import { Button, Slider } from "@origin-org/ui";
 import { useEffect, useMemo, useState } from "react";
 import type { TimelineClip, ContentProjectDocument } from "../project/types";
 

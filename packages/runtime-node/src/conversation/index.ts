@@ -6,7 +6,7 @@ export {
 	type ConversationOwnershipManager,
 	ConversationStorageError,
 	type ConversationStorageErrorCode,
-} from "@vetta/runtime-storage/conversation";
+} from "@origin/runtime-storage/conversation";
 export { resolveSessionIdFromPath } from "./conversation-file-path.js";
 export {
 	FileConversationOwnershipManager,

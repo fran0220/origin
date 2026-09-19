@@ -10,7 +10,7 @@
 | 自己排列正文和命令 | `UserMessage` + action hooks + `MessageLayout.Footer` |
 | 改消息/消息行 | `MessageRenderingProvider` |
 | 改 thinking、tool_call、text 等内容块 | `ContentRenderingProvider` |
-| 改 Markdown 语法、节点、代码块 | `@vetta-org/theme-ui/markdown` |
+| 改 Markdown 语法、节点、代码块 | `@origin-org/theme-ui/markdown` |
 
 这些是局部 React 组合 API。没有新增 Plugin SDK manifest 项或全局 renderer 注册服务；Desktop 组件也不是插件可深度导入的公共包入口。
 
@@ -54,8 +54,8 @@ const rendering: MessageRendering = {
 ## Markdown 定义
 
 ```tsx
-import { CodeBlock, defaultMarkdown, extendMarkdown, MarkdownProvider } from "@vetta-org/theme-ui/markdown";
-import type { MarkdownCodeBlockProps } from "@vetta-org/theme-ui/markdown";
+import { CodeBlock, defaultMarkdown, extendMarkdown, MarkdownProvider } from "@origin-org/theme-ui/markdown";
+import type { MarkdownCodeBlockProps } from "@origin-org/theme-ui/markdown";
 
 function MyCode(props: MarkdownCodeBlockProps) {
   return (

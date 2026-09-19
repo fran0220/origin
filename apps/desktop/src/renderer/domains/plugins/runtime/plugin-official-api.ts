@@ -1,4 +1,4 @@
-import type { PluginOfficialApi } from "@vetta-org/plugin-sdk";
+import type { PluginOfficialApi } from "@origin-org/plugin-sdk";
 import { createOfficialAgentApi } from "./plugin-official-agent";
 import { createOfficialAppearanceApi } from "./plugin-official-appearance";
 import { createOfficialBatchTasksApi } from "./plugin-official-batch-tasks";

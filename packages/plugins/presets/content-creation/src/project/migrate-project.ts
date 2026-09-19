@@ -1,4 +1,4 @@
-import type { ConfigRecord } from "@vetta/toolkit/versioned-config";
+import type { ConfigRecord } from "@origin/toolkit/versioned-config";
 import { resolveContentProjectRuntime } from "./legacy-runtime";
 import { migrateContentProjectConfig } from "./migrate-config";
 import { hydrateContentProject, isContentProjectFile } from "./persistence";

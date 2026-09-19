@@ -223,7 +223,7 @@ function spawnPluginDevServer(id: string, entry: DevWatchEntry): void {
 	});
 	entry.startupTimer = setTimeout(() => {
 		failAttempt(
-			`plugin dev server did not become ready within ${STARTUP_TIMEOUT_MS / 1000}s; update @vetta-org/plugin-vite`,
+			`plugin dev server did not become ready within ${STARTUP_TIMEOUT_MS / 1000}s; update @origin-org/plugin-vite`,
 		);
 	}, STARTUP_TIMEOUT_MS);
 	log.info(`dev-watch: starting ${id} at ${entry.projectDir}`);

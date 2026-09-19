@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import type { ExecutionReceipt, VerificationOutcome } from "@vetta/runtime-checkpoints";
+import type { ExecutionReceipt, VerificationOutcome } from "@origin/runtime-checkpoints";
 
 export interface ExecutionReceiptSink {
 	record(receipt: ExecutionReceipt): Promise<void> | void;

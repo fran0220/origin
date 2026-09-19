@@ -1,25 +1,3 @@
-import type { InstalledPlugin } from "@preload/api";
-import { readSidebarState, subscribeSidebarState } from "@shared/app-shell/sidebar-state";
-import type { ActivityTabKey } from "@shared/lib/project-profile";
-import {
-	activeInputActionIdsAtom,
-	activeSessionAtom,
-	activityPanelOpenAtom,
-	activityPanelTabByProjectAtom,
-	attachedPluginTabsAtom,
-	type FilePreviewItem,
-	filePreviewAtom,
-	mountedActivityWorkspacesAtom,
-	persistCurrentInputActionState,
-	pluginInputActionsAtom,
-	pluginWorkspaceViewHeadersAtom,
-	promptAttachmentAtom,
-	resolveActivityWorkspaceKey,
-	sameWorkspaceViewHeader,
-	setActivityPanelWidthAtom,
-	workspaceViewHeaderKey,
-} from "@shared/store/atoms";
-import { showToast } from "@shared/store/toast-atoms";
 import type {
 	Disposable,
 	PluginAbilityDetailSlotContribution,
@@ -42,7 +20,29 @@ import type {
 	PluginTurnCardContribution,
 	PluginWorkspaceViewContribution,
 	PluginWorkspaceViewHeader,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import type { InstalledPlugin } from "@preload/api";
+import { readSidebarState, subscribeSidebarState } from "@shared/app-shell/sidebar-state";
+import type { ActivityTabKey } from "@shared/lib/project-profile";
+import {
+	activeInputActionIdsAtom,
+	activeSessionAtom,
+	activityPanelOpenAtom,
+	activityPanelTabByProjectAtom,
+	attachedPluginTabsAtom,
+	type FilePreviewItem,
+	filePreviewAtom,
+	mountedActivityWorkspacesAtom,
+	persistCurrentInputActionState,
+	pluginInputActionsAtom,
+	pluginWorkspaceViewHeadersAtom,
+	promptAttachmentAtom,
+	resolveActivityWorkspaceKey,
+	sameWorkspaceViewHeader,
+	setActivityPanelWidthAtom,
+	workspaceViewHeaderKey,
+} from "@shared/store/atoms";
+import { showToast } from "@shared/store/toast-atoms";
 import { getDefaultStore } from "jotai";
 import QRCode from "qrcode";
 import { type ComponentType, createElement, type ReactNode } from "react";

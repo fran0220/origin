@@ -4,7 +4,7 @@
  * 关注三件事：迁完之后 discover 认得出、源码一个不少、打包分享文件不会被当成设计
  * 拆掉。中断重跑的幂等性单独覆盖——用户的设计只有一份，迁移不能有丢内容的窗口。
  */
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { describe, expect, it } from "vitest";
 import { findVetdFiles } from "../src/vetd/discover";
 import { migrateLegacyDesign } from "../src/vetd/migrate";

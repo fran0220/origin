@@ -20,7 +20,7 @@
 ## 注册示例
 
 ```ts
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 
 export default definePlugin({
   activate(ctx) {

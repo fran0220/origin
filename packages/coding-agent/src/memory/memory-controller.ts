@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { Api, Model } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { Api, Model } from "@origin/ai";
 import type { CodingAgentMemoryRolloverRuntime } from "./memory-runtime-contract.js";
 
 export interface CodingAgentMemoryController {

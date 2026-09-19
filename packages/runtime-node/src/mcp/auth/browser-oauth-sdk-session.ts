@@ -2,7 +2,7 @@ import type { OAuthClientProvider } from "@modelcontextprotocol/sdk/client/auth.
 import { UnauthorizedError } from "@modelcontextprotocol/sdk/client/auth.js";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import type { McpBrowserOAuthSession } from "@vetta/runtime-mcp/auth";
+import type { McpBrowserOAuthSession } from "@origin/runtime-mcp/auth";
 import type { McpClientInfo } from "../protocol/index.js";
 
 export interface McpBrowserOAuthSdkSessionOptions {

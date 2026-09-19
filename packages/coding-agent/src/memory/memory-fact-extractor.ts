@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { Api, Model } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { Api, Model } from "@origin/ai";
 
 export interface MemoryFactExtractionInput {
 	readonly currentEntries: readonly string[];

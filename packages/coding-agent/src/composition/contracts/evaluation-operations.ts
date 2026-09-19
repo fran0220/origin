@@ -1,4 +1,4 @@
-import type { EvaluationService } from "@vetta/runtime-evaluation";
+import type { EvaluationService } from "@origin/runtime-evaluation";
 import type { CodingAgentEvaluationOperations } from "../../features/evaluation/contracts.js";
 
 export function evaluationOperationsFromService(service: EvaluationService): CodingAgentEvaluationOperations {

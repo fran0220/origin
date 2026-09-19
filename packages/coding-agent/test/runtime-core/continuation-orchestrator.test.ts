@@ -1,5 +1,5 @@
-import type { Api, Message, Model, UserMessage } from "@vetta/ai";
-import type { ContinuationPolicyContext } from "@vetta/runtime-core/kernel";
+import type { Api, Message, Model, UserMessage } from "@origin/ai";
+import type { ContinuationPolicyContext } from "@origin/runtime-core/kernel";
 import { describe, expect, it, vi } from "vitest";
 import { CodingAgentContinuationOrchestrator } from "../../src/composition/turn/continuation-orchestrator.js";
 import { CodingAgentLengthContinuationSource } from "../../src/composition/turn/length-continuation-source.js";

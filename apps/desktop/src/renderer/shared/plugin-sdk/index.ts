@@ -1,1 +1,1 @@
-export * from "@vetta-org/plugin-sdk";
+export * from "@origin-org/plugin-sdk";

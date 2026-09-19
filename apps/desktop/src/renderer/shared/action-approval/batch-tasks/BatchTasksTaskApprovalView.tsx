@@ -1,8 +1,8 @@
-import { useThemeComponent } from "@vetta-org/theme-sdk";
+import { useThemeComponent } from "@origin-org/theme-sdk";
 import {
 	BatchTasksApprovalFrameView,
 	BatchTasksTaskApprovalView as ThemeBatchTasksTaskApprovalView,
-} from "@vetta-org/theme-ui/action-approval";
+} from "@origin-org/theme-ui/action-approval";
 import type { BatchTasksTaskApprovalModel } from "./useBatchTasksTaskApprovalModel";
 
 export function BatchTasksTaskApprovalView(model: BatchTasksTaskApprovalModel): JSX.Element {

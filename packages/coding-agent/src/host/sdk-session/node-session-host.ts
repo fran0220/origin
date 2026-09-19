@@ -1,14 +1,14 @@
 import { randomUUID } from "node:crypto";
 import { dirname, join } from "node:path";
-import { buildDefaultHookConfigLayers } from "@vetta/ecosystem-adapter";
+import { buildDefaultHookConfigLayers } from "@origin/ecosystem-adapter";
 import {
 	SessionExtensionFunctionRegistry,
 	type SessionExtensionFunctionSource,
-} from "@vetta/runtime-core/session-extensions";
-import { EvolutionLedger, HOME_SUBJECT_ID } from "@vetta/runtime-evolution";
-import { createMcpToolResultPolicy, EMPTY_MCP_CONFIG_SOURCE, type McpServerSupervisor } from "@vetta/runtime-mcp";
-import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@vetta/runtime-node/coding";
-import { createFileEvolutionLedgerStore } from "@vetta/runtime-node/evolution";
+} from "@origin/runtime-core/session-extensions";
+import { EvolutionLedger, HOME_SUBJECT_ID } from "@origin/runtime-evolution";
+import { createMcpToolResultPolicy, EMPTY_MCP_CONFIG_SOURCE, type McpServerSupervisor } from "@origin/runtime-mcp";
+import { nodeModelInputImageProcessor, nodeWorkspaceFactsFileSource } from "@origin/runtime-node/coding";
+import { createFileEvolutionLedgerStore } from "@origin/runtime-node/evolution";
 import {
 	createLoopbackSessionAffinityStream,
 	createNodeHtmlExportFileAdapters,
@@ -18,9 +18,9 @@ import {
 	NodeTransactionalTextStorage,
 	nodeConfigurationValueResolver,
 	nodeSyncTextFileSource,
-} from "@vetta/runtime-node/host";
-import { createNodeMcpSupervisor } from "@vetta/runtime-node/mcp";
-import { createLangfuseRuntimeTracerFromEnv } from "@vetta/runtime-telemetry/langfuse";
+} from "@origin/runtime-node/host";
+import { createNodeMcpSupervisor } from "@origin/runtime-node/mcp";
+import { createLangfuseRuntimeTracerFromEnv } from "@origin/runtime-telemetry/langfuse";
 import { createCodingAgentCompactionExtensionRuntime } from "../../adapters/extensions/compaction-extension-adapter.js";
 import { createCodingAgentAuthRuntime } from "../../auth/index.js";
 import { createCodingAgentMemoryRolloverRuntime } from "../../composition/memory-runtime.js";

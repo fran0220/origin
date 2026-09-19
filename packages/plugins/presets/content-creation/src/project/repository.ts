@@ -1,4 +1,4 @@
-import { readJsonFile, writeJsonFile, type PluginFsApi, type PluginStorageApi } from "@vetta-org/plugin-sdk";
+import { readJsonFile, writeJsonFile, type PluginFsApi, type PluginStorageApi } from "@origin-org/plugin-sdk";
 import { joinContentPath } from "../shared/path";
 import { serializeContentProject, serializeContentProjectRuntime } from "./persistence";
 import type { ContentProjectDocument } from "./types";

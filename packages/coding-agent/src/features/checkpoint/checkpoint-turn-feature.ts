@@ -1,4 +1,4 @@
-import type { StoredSessionEvent, TurnObserver } from "@vetta/runtime-core/kernel";
+import type { StoredSessionEvent, TurnObserver } from "@origin/runtime-core/kernel";
 import type { CheckpointTurnHost } from "./contracts.js";
 
 const DEFAULT_INTENT = "Turn completed";

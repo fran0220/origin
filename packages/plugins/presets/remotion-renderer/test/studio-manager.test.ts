@@ -2,7 +2,7 @@ import type {
 	PluginCommandSpawnHandle,
 	PluginCommandSpawnOptions,
 	PluginContext,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { buildStudioArgs, startRemotionStudio, stopAllRemotionStudios } from "../src/studio/studio-manager";
 

@@ -1,6 +1,6 @@
 import type { JSX } from "react";
-import { Switch } from "@vetta-org/ui";
-import { cn } from "@vetta-org/ui";
+import { Switch } from "@origin-org/ui";
+import { cn } from "@origin-org/ui";
 
 export interface WebhookEndpointRowView {
 	readonly id: string;

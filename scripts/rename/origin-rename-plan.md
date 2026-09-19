@@ -1,6 +1,6 @@
 # Origin 内部标识符迁移计划（第二阶段）
 
-第一阶段已把用户可见产品名改为 Origin，并双注册 `origin://` / `vetta://`。本文件描述第二阶段：改内部标识符。**本阶段脚本只支持 `--dry-run` 与分步执行；不要在并行线程仍大量新增 `@vetta/*` 时跑写操作。**
+第一阶段已把用户可见产品名改为 Origin，并双注册 `origin://` / `vetta://`。本文件描述第二阶段：改内部标识符。**本阶段脚本只支持 `--dry-run` 与分步执行；不要在并行线程仍大量新增 `@origin/*` 时跑写操作。**
 
 事实源：`scripts/rename/rename-internal-identifiers.mjs`。scope 默认 `@vetta` → `@origin`、`@vetta-org` → `@origin-org`，可用 `--from-scope` / `--to-scope` 覆盖。
 
@@ -23,7 +23,7 @@ node scripts/rename/rename-internal-identifiers.mjs --step npm-scope --dry-run
 
 写操作后：`bun install` 重生 `bun.lock`，再 `bun run check`。
 
-回滚：还原 git；未 push 前 `git revert`。已发布的 `@vetta/*` 包需在 registry 保留一个兼容版本窗口。
+回滚：还原 git；未 push 前 `git revert`。已发布的 `@origin/*` 包需在 registry 保留一个兼容版本窗口。
 
 ### 2. 数据目录与环境变量
 
@@ -59,7 +59,7 @@ node scripts/rename/rename-internal-identifiers.mjs --step ipc --dry-run
 ### 4. 协议、插件 SDK、CI 产物
 
 - 内部媒体/文件协议 `vetta-file` / `vetta-media` / `vetta-asset` 是否改名单独评估；它们不是产品深链。
-- 插件 `pluginApiVersion`：新 scope 包发布时升兼容范围，旧 `@vetta-org/plugin-sdk` 保留一个废弃版本转发。
+- 插件 `pluginApiVersion`：新 scope 包发布时升兼容范围，旧 `@origin-org/plugin-sdk` 保留一个废弃版本转发。
 - `skills-lock.json`、GitHub Actions 产物名、`Vetta-*.yml` 更新 feed 文件名改为 `Origin-*`（第一阶段安装包已用 Origin 文件名；CI 脚本里剩余 `Vetta` 字面量在本步清掉）。
 
 ```bash
@@ -82,4 +82,4 @@ node scripts/rename/rename-internal-identifiers.mjs --step ci-sdk --dry-run
 
 ## 执行窗口
 
-其它线程停止向 `@vetta/*` 新增代码后再跑写操作。建议顺序：先 npm-scope（锁文件一次重生），再 data-dir + runtime name，再 IPC，最后 CI/SDK 与 scheme 下线。
+其它线程停止向 `@origin/*` 新增代码后再跑写操作。建议顺序：先 npm-scope（锁文件一次重生），再 data-dir + runtime name，再 IPC，最后 CI/SDK 与 scheme 下线。

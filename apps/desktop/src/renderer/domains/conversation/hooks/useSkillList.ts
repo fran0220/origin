@@ -1,10 +1,10 @@
-import type { AppMonitorPromptRefUsageMap, SkillInfo } from "@preload/api";
 import {
 	getSkillDisplayDescription,
 	getSkillDisplayName,
 	isSkillVisibleOnSurface,
 	type SkillPresentationSurface,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
+import type { AppMonitorPromptRefUsageMap, SkillInfo } from "@preload/api";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { filterSkills, sortSkillsForPanel } from "../lib/skill-ranking";

@@ -2,14 +2,14 @@ import type { PluginLogFields, PluginLogger } from "./logging.js";
 
 function unavailable(): never {
 	throw new Error(
-		"Plugin logger is not bound. Build this plugin with a compatible @vetta-org/plugin-vite release.",
+		"Plugin logger is not bound. Build this plugin with a compatible @origin-org/plugin-vite release.",
 	);
 }
 
 /**
  * Build-bound plugin logger.
  *
- * `@vetta-org/plugin-vite` replaces this module with a facade whose immutable
+ * `@origin-org/plugin-vite` replaces this module with a facade whose immutable
  * identity comes from the validated `plugin.json`. The fallback deliberately
  * fails on use so an unsupported build pipeline cannot emit unscoped logs.
  */

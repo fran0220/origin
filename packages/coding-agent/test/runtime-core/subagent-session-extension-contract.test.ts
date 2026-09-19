@@ -1,5 +1,8 @@
-import type { SessionEvent } from "@vetta/runtime-core";
-import { defineSessionExtensionObservation, sessionExtensionObservation } from "@vetta/runtime-core/session-extensions";
+import type { SessionEvent } from "@origin/runtime-core";
+import {
+	defineSessionExtensionObservation,
+	sessionExtensionObservation,
+} from "@origin/runtime-core/session-extensions";
 import { describe, expect, it } from "vitest";
 import {
 	CODING_AGENT_SUBAGENTS_OBSERVATION,

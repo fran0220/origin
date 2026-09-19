@@ -15,7 +15,7 @@ import {
 	resolveConversationUserTurnTip,
 	selectConversationDocumentEntries,
 	selectConversationDocumentModelMessages,
-} from "@vetta/runtime-core/conversation";
+} from "@origin/runtime-core/conversation";
 import {
 	type AppendResult,
 	type ContinueConversationInput,
@@ -28,8 +28,8 @@ import {
 	FailInterruptedTurnRecoveryPolicy,
 	type StoredConversation,
 	type StoredSessionEvent,
-} from "@vetta/runtime-core/kernel";
-import { CONVERSATION_STORAGE_ERROR_CODES, ConversationStorageError } from "@vetta/runtime-storage/conversation";
+} from "@origin/runtime-core/kernel";
+import { CONVERSATION_STORAGE_ERROR_CODES, ConversationStorageError } from "@origin/runtime-storage/conversation";
 
 /**
  * 进程内 Conversation 仓储。

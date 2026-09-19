@@ -1,6 +1,6 @@
-import type { ThinkingLevel } from "@vetta/agent-core";
-import { type Api, getModelReasoningPreset, type Model, modelsAreEqual } from "@vetta/ai";
-import type { RuntimeHostSession } from "@vetta/runtime-core";
+import type { ThinkingLevel } from "@origin/agent-core";
+import { type Api, getModelReasoningPreset, type Model, modelsAreEqual } from "@origin/ai";
+import type { RuntimeHostSession } from "@origin/runtime-core";
 import type { CodingAgentModelCycleResult, CodingAgentScopedModel } from "../../public-api/sdk/sdk-session-contract.js";
 import type { CodingAgentSdkSessionCapabilitySettings } from "./session-capability-options.js";
 

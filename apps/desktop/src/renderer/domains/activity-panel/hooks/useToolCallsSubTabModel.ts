@@ -1,10 +1,10 @@
-import { activeSessionAtom, debugToolFilterAtom, debugToolSearchAtom } from "@shared/store/atoms";
 import type {
 	ToolCallFilterOption,
 	ToolCallFilterValue,
 	ToolCallsSubTabViewLabels,
 	ToolCallViewItem,
-} from "@vetta-org/theme-ui/activity";
+} from "@origin-org/theme-ui/activity";
+import { activeSessionAtom, debugToolFilterAtom, debugToolSearchAtom } from "@shared/store/atoms";
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";

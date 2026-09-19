@@ -23,11 +23,11 @@ function toolkitSourceAlias(): Plugin {
 	return {
 		name: "toolkit-source-alias",
 		resolveId(source) {
-			if (source === "@vetta/toolkit") {
+			if (source === "@origin/toolkit") {
 				return resolve(process.cwd(), "../../packages/toolkit/src/index.ts");
 			}
-			if (source.startsWith("@vetta/toolkit/")) {
-				return resolve(process.cwd(), `../../packages/toolkit/src/${source.slice("@vetta/toolkit/".length)}.ts`);
+			if (source.startsWith("@origin/toolkit/")) {
+				return resolve(process.cwd(), `../../packages/toolkit/src/${source.slice("@origin/toolkit/".length)}.ts`);
 			}
 			return null;
 		},

@@ -9,7 +9,7 @@ import {
 	HOST_ORIGIN,
 	REFINEMENT_SOURCE,
 	subjectScope,
-} from "@vetta/runtime-evolution";
+} from "@origin/runtime-evolution";
 import { describe, expect, it } from "vitest";
 import { createFileEvolutionLedgerStore } from "../../src/evolution/index.js";
 

@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { ToolResultMessage } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { ToolResultMessage } from "@origin/ai";
 import type { BashExecutionMessage } from "../model-context/index.js";
 import { findRecentMatchingUserTurnBoundary } from "./user-turn-boundary.js";
 import { sliceUtf8End, sliceUtf8Start, utf8ByteLength } from "./utf8.js";

@@ -2,9 +2,9 @@
 
 面向第三方开发者的 Origin 桌面端插件**对接与开发**完整手册。读完本目录你应当能从零写出、打包、安装、调试一个插件，并用上所有可用扩展点。
 
-> 插件运行在 Origin 桌面 App（Electron）的 renderer 进程内，与宿主共享 JavaScript realm——**没有安全沙箱**。只安装并启用你信任的插件。`@vetta-org/plugin-sdk` 权限用于声明与门控宿主 API，不承诺隔离恶意代码（见 [信任模型](#信任模型)）。
+> 插件运行在 Origin 桌面 App（Electron）的 renderer 进程内，与宿主共享 JavaScript realm——**没有安全沙箱**。只安装并启用你信任的插件。`@origin-org/plugin-sdk` 权限用于声明与门控宿主 API，不承诺隔离恶意代码（见 [信任模型](#信任模型)）。
 
-> **这份手册是随 `@vetta-org/plugin-sdk` 装进 `node_modules` 的快照**，版本与本工程实际编译的 SDK 一致——这正是它的价值：它不会教你写宿主还不支持的东西。代价是工程不升级 SDK，它就永远停在初始化那天。开工前确认一次：
+> **这份手册是随 `@origin-org/plugin-sdk` 装进 `node_modules` 的快照**，版本与本工程实际编译的 SDK 一致——这正是它的价值：它不会教你写宿主还不支持的东西。代价是工程不升级 SDK，它就永远停在初始化那天。开工前确认一次：
 >
 > ```bash
 > npx vetta-plugin-cli docs --check-latest
@@ -59,7 +59,7 @@
 | 能力 | 入口 | 权限 | 文档 |
 | --- | --- | --- | --- |
 | **全局 Toast / 错误通知** | `ctx.ui.notify` | 无 | [ui-slots](./ui-slots.md#全局通知-notify) |
-| **持久化诊断日志** | `logger`（`@vetta-org/plugin-sdk/logger`） | 无 | [logging](./logging.md) |
+| **持久化诊断日志** | `logger`（`@origin-org/plugin-sdk/logger`） | 无 | [logging](./logging.md) |
 | 全局浮层 UI | `ctx.ui.registerGlobalSlot` | `ui.slot.global` | [ui-slots](./ui-slots.md#全局浮层-registerglobalslot) |
 | **工作区视图**（整页 + 侧边栏入口） | `ctx.ui.registerWorkspaceView` | `ui.slot.workspace-view` | [ui-slots](./ui-slots.md#工作区视图-registerworkspaceview) |
 | 文件预览 | `ctx.ui.registerFilePreview` | `ui.slot.file-preview` | [ui-slots](./ui-slots.md#文件预览-registerfilepreview) |
@@ -102,14 +102,14 @@
 ## 信任模型
 
 - 插件按用户明确选择的**可信代码**处理，可以来自官方、市场或本地安装；宿主不把未知第三方代码自动提升为可信。
-- 插件跑在 renderer 进程内，经 Module Federation 与宿主**共享同一份 React / React DOM / `@vetta-org/plugin-sdk` 单例**；可选再共享 **`@vetta-org/ui`** 设计系统 primitives（见 [styling-and-pitfalls](./styling-and-pitfalls.md#可选vettaui-宿主-primitives)）。
+- 插件跑在 renderer 进程内，经 Module Federation 与宿主**共享同一份 React / React DOM / `@origin-org/plugin-sdk` 单例**；可选再共享 **`@origin-org/ui`** 设计系统 primitives（见 [styling-and-pitfalls](./styling-and-pitfalls.md#可选vettaui-宿主-primitives)）。
 - SDK 提供宿主能力出口与权限门控，可同步传递 React 组件并读取宿主公开状态，**刻意不做** iframe/worker 沙箱与异步消息桥。
 - 每项公开能力由 `plugin.json` 声明权限、宿主单独授权、运行时校验；缺权限会抛 `Plugin permission denied: <permission>` 或 warn+noop（见 [permissions.md](./permissions.md)）。这套机制服务于知情同意、治理和误用防护，不阻止同 realm 插件绕过 SDK 使用浏览器原生能力。
 
 ## 5 分钟速览
 
 ```tsx
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 
 export default definePlugin({
   activate(ctx) {

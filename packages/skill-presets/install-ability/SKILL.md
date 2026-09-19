@@ -33,8 +33,8 @@ Vetta 的能力分三种，安装路径互不相同。**先分类，再动手**�
 ### 2.1 命令入口
 
 ```bash
-npx @vetta-org/plugin-cli add <npm-package|./local.zip|https://…/x.zip|.>
-npx @vetta-org/plugin-cli reload <plugin-id>
+npx @origin-org/plugin-cli add <npm-package|./local.zip|https://…/x.zip|.>
+npx @origin-org/plugin-cli reload <plugin-id>
 ```
 
 `.` 表示「当前插件工程」（会先 pack）。加 `--json` 便于解析结果。
@@ -59,7 +59,7 @@ CLI 不直接写插件目录，它把请求交给正在运行的宿主校验、�
   此刻插件**仍在跑旧代码**。安装动作没有完成，必须立刻重载：
 
   ```bash
-  npx @vetta-org/plugin-cli reload <plugin-id>
+  npx @origin-org/plugin-cli reload <plugin-id>
   ```
 
 `--json` 下的判据（不要靠读人类文案）：
@@ -78,7 +78,7 @@ reload 走与 UI 相同的宿主审批流，用户确认后新版本才生效。
 - 返回项含 `devWatch` → 热更新已开启，源码构建成功后自动重载。**不要** reload、不要重装。
 - 无 `devWatch` → 走 §2.1 / §2.2 常规流程。
 
-开发迭代（不是安装）可以直接开热更新：在插件工程目录 `npx @vetta-org/plugin-cli watch`，`--stop` 关闭。
+开发迭代（不是安装）可以直接开热更新：在插件工程目录 `npx @origin-org/plugin-cli watch`，`--stop` 关闭。
 
 ### 2.4 没有 CLI 时的等价调用
 

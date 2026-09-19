@@ -2,35 +2,35 @@ import { join } from "node:path";
 import type {
 	CodingAgentPromptRuntimeSourceContext,
 	CodingAgentPromptRuntimeSources,
-} from "@vetta/coding-agent/composition";
+} from "@origin/coding-agent/composition";
 import {
 	CONFIG_DIR_NAME,
 	getAgentDir,
 	getSceneDir,
 	getUserSkillsDir,
 	getVettaHomePath,
-} from "@vetta/coding-agent/config";
+} from "@origin/coding-agent/config";
 import {
 	configureThemeRuntime,
 	detectColorMode,
 	detectTerminalBackground,
 	loadThemeFromContent,
-} from "@vetta/coding-agent/extensions";
-import { createCodingAgentNodeExtensionFactoryLoader } from "@vetta/coding-agent/host-services";
+} from "@origin/coding-agent/extensions";
+import { createCodingAgentNodeExtensionFactoryLoader } from "@origin/coding-agent/host-services";
 import {
 	createResourcePackageRuntime,
 	createSessionResourceRuntime,
 	type ResourceSettingsPort,
 	type SessionResourceRuntime,
 	type SessionResourceRuntimeOptions,
-} from "@vetta/coding-agent/resources";
-import { createSettingsRuntimeFromStorage, type SettingsRuntime } from "@vetta/coding-agent/settings";
+} from "@origin/coding-agent/resources";
+import { createSettingsRuntimeFromStorage, type SettingsRuntime } from "@origin/coding-agent/settings";
 import {
 	createNodeCommandExecutor,
 	createNodeResourcePackageHost,
 	NodeScopedTextStorage,
 	nodeTextFileWatchPort,
-} from "@vetta/runtime-node/host";
+} from "@origin/runtime-node/host";
 
 interface DesktopResourceRuntimeScope {
 	readonly cwd: string;

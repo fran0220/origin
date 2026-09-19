@@ -1,8 +1,8 @@
 import { cn } from "@shared/lib/utils";
 import { PerfSendProfiler } from "@shared/lib/perf-send";
-import { ThemeSurface } from "@vetta-org/theme-ui/appearance";
-import { AppFrame, MainContentFrame, SidebarDock, SidebarOverlay } from "@vetta-org/theme-ui/layout";
-import { useThemeComponent, useThemeSurface } from "@vetta-org/theme-sdk";
+import { ThemeSurface } from "@origin-org/theme-ui/appearance";
+import { AppFrame, MainContentFrame, SidebarDock, SidebarOverlay } from "@origin-org/theme-ui/layout";
+import { useThemeComponent, useThemeSurface } from "@origin-org/theme-sdk";
 import { memo, useCallback, useEffect } from "react";
 import { CommandMenu } from "../domains/command-menu/components/CommandMenu";
 import { useActiveWorkspaceViewHeader } from "../domains/plugins/components/WorkspaceViewHeaderSlot";

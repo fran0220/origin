@@ -3,7 +3,7 @@ import { Value } from "@sinclair/typebox/value";
 import {
 	definePluginPromptContext,
 	type PluginPromptAttachment,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { AssetSchema, WorkflowNodeSchema } from "../project/document-schema";
 import { serializeContentProject } from "../project/persistence";
 import type { ContentProjectDocument } from "../project/types";

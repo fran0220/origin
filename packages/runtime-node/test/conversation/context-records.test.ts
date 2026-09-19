@@ -4,7 +4,7 @@ import { join } from "node:path";
 import {
 	selectConversationDocumentMessages,
 	selectConversationDocumentModelMessages,
-} from "@vetta/runtime-core/conversation";
+} from "@origin/runtime-core/conversation";
 import { afterEach, describe, expect, it } from "vitest";
 import { FileConversationRepository } from "../../src/conversation/index.js";
 

@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
+import type { PluginServiceStatus } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { PluginServiceStatus } from "@vetta-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createPluginServiceApi } from "./plugin-service-api";
 

@@ -1,4 +1,4 @@
-import { SIGNED_IN_CONNECTION_ID } from "@vetta/coding-agent/connections";
+import { SIGNED_IN_CONNECTION_ID } from "@origin/coding-agent/connections";
 import { getAccountDirectoryService } from "../../connections/account-directory.js";
 import { getConnectionCatalog } from "../../connections/catalog.js";
 import { refreshConnectionRelays } from "../../connections/relay-host.js";

@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useState } from "react";
 import { GRAPH_FILE } from "../ids";
 import { getPluginCtx } from "../plugin-context";

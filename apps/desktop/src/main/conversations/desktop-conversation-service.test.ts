@@ -1,8 +1,8 @@
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { AgentProfile, AgentProfileDocument } from "@vetta/agent-team";
-import { type RuntimeHost, runtimeError } from "@vetta/runtime-core";
+import type { AgentProfile, AgentProfileDocument } from "@origin/agent-team";
+import { type RuntimeHost, runtimeError } from "@origin/runtime-core";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { onConversationListChanged } from "./conversation-list-events.js";
 import { type DesktopConversationError, DesktopConversationService } from "./desktop-conversation-service.js";

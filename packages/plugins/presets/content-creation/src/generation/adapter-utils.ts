@@ -1,4 +1,4 @@
-import type { PluginNetworkApi } from "@vetta-org/plugin-sdk";
+import type { PluginNetworkApi } from "@origin-org/plugin-sdk";
 import type { ContentSettingsReader } from "../settings/content-settings";
 import type {
 	ContentGenerationReference,

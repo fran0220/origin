@@ -3,7 +3,7 @@
  * patch（agent 回写期间用户新加的备注不能被抹掉——这是「插件单写」承诺的核心）。
  */
 import { expect, it } from "vitest";
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { NotesStore, notesFilePath } from "../src/notes/notes-store";
 import {
 	demoteAnchor,

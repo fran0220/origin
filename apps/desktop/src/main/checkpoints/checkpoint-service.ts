@@ -5,13 +5,13 @@ import {
 	type ExecutionReceipt,
 	HOME_PROJECT_KEY,
 	type MainlineCheckpoint,
-} from "@vetta/runtime-checkpoints";
+} from "@origin/runtime-checkpoints";
 import {
 	createNodeVerificationRunner,
 	createNodeWorkTreeVcs,
 	FileCheckpointStore,
 	registerExecutionReceiptSink,
-} from "@vetta/runtime-node/checkpoints";
+} from "@origin/runtime-node/checkpoints";
 import { DEFAULT_CONVERSATION_CWD, readDesktopConfig } from "../config/desktop-config-store.js";
 import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";
 import { getAppLogger } from "../logger.js";

@@ -1,4 +1,4 @@
-import { CODING_IMAGE_CONFIGURATION_ID, VETTA_OCR_CONFIGURATION_ID } from "@vetta/runtime-tools";
+import { CODING_IMAGE_CONFIGURATION_ID, VETTA_OCR_CONFIGURATION_ID } from "@origin/runtime-tools";
 import { describe, expect, it, vi } from "vitest";
 import {
 	DesktopRuntimeConfigurationService,

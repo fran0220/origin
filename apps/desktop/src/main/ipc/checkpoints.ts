@@ -1,4 +1,4 @@
-import type { CheckpointPolicy } from "@vetta/runtime-checkpoints";
+import type { CheckpointPolicy } from "@origin/runtime-checkpoints";
 import { ipcMain } from "electron";
 import { getDesktopCheckpointService } from "../checkpoints/checkpoint-service.js";
 

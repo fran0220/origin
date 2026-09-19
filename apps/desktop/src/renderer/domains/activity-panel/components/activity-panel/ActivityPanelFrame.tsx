@@ -1,2 +1,2 @@
-export type { ActivityPanelFrameProps } from "@vetta-org/theme-ui/activity";
-export { ActivityPanelFrame } from "@vetta-org/theme-ui/activity";
+export type { ActivityPanelFrameProps } from "@origin-org/theme-ui/activity";
+export { ActivityPanelFrame } from "@origin-org/theme-ui/activity";

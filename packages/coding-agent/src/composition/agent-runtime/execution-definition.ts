@@ -4,7 +4,7 @@ import {
 	type RuntimeAgentDefinition,
 	type RuntimeAgentSessionDefinition,
 	type RuntimeAgentSessionPreparationContext,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import { DEFAULT_CODING_AGENT_RUNTIME_ID } from "../runtime-agent-definition.js";
 import {
 	requireCodingAgentExecutionRuntimeInstanceConfiguration,

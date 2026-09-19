@@ -1,4 +1,4 @@
-import { type AgentProfileDocument, createAgentProfileFixture, INITIAL_AGENT_PROFILES } from "@vetta/agent-team";
+import { type AgentProfileDocument, createAgentProfileFixture, INITIAL_AGENT_PROFILES } from "@origin/agent-team";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AgentTeamConfigRepository } from "./agent-team-config-repository.js";
 import { AgentTeamStore, PROVIDED_RESOURCE_WRITE_ERROR } from "./agent-team-store.js";

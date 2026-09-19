@@ -1,5 +1,5 @@
-import { definePlugin, type PluginFilePreviewProps, useTranslation } from "@vetta-org/plugin-sdk";
-import { Button } from "@vetta-org/ui";
+import { definePlugin, type PluginFilePreviewProps, useTranslation } from "@origin-org/plugin-sdk";
+import { Button } from "@origin-org/ui";
 import { useEffect, useMemo, useState } from "react";
 import "./style.css";
 

@@ -1,5 +1,5 @@
 import type { JSX } from "react";
-import { Button } from "@vetta-org/ui";
+import { Button } from "@origin-org/ui";
 import { SettingSection, type SettingSectionMeta } from "./SettingChrome";
 
 export interface ArchivedProjectRowView {

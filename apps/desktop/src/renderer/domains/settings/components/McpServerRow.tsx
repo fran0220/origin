@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { McpDefaultIcon, McpJsonEditorView } from "@vetta-org/theme-ui/settings";
-import { Button, Switch, cn } from "@vetta-org/ui";
+import { McpDefaultIcon, McpJsonEditorView } from "@origin-org/theme-ui/settings";
+import { Button, Switch, cn } from "@origin-org/ui";
 import {
 	isBuiltinMcpServer,
 	matchBuiltinMcpPreset,

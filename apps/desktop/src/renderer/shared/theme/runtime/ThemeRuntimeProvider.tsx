@@ -1,6 +1,6 @@
 import type { DesktopThemePackage } from "@preload/api";
-import { DEFAULT_THEME_MODULE, ThemeProvider, type ThemeModule } from "@vetta-org/theme-sdk";
-import { AppBootLoadingView } from "@vetta-org/theme-ui/app";
+import { DEFAULT_THEME_MODULE, ThemeProvider, type ThemeModule } from "@origin-org/theme-sdk";
+import { AppBootLoadingView } from "@origin-org/theme-ui/app";
 import {
 	type ErrorInfo,
 	type ReactNode,

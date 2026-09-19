@@ -35,7 +35,7 @@ vi.mock("./skill-service.js", () => ({
 	writeSkillsManifest: vi.fn(),
 }));
 
-vi.mock("@vetta/action-rpc", () => ({
+vi.mock("@origin/action-rpc", () => ({
 	getVettaHomePath: () => "C:/tmp/vetta-home",
 }));
 

@@ -1,4 +1,3 @@
-import type { Static, TSchema } from "@sinclair/typebox";
 import type {
 	AIErrorDetails,
 	AssistantMessage,
@@ -8,7 +7,8 @@ import type {
 	ToolCall,
 	ToolResultMessage,
 	UserContentPart,
-} from "@vetta/ai";
+} from "@origin/ai";
+import type { Static, TSchema } from "@sinclair/typebox";
 
 export interface AgentRunLimits {
 	readonly maxModelCalls: number;

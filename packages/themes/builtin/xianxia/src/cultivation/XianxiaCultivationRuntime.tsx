@@ -1,4 +1,4 @@
-import { useThemeUsageStats } from "@vetta-org/theme-sdk";
+import { useThemeUsageStats } from "@origin-org/theme-sdk";
 import { useEffect } from "react";
 import { computeCultivation } from "./computeCultivation";
 import { useCultivationRepository } from "./persistence/cultivation-repository";

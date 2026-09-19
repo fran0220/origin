@@ -1,11 +1,11 @@
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import {
 	CredentialVault,
 	type CredentialVaultWarning,
 	OwnerOnlyFileCryptography,
 	ownerOnlyKeyDirectory,
-} from "@vetta/runtime-node/credentials";
+} from "@origin/runtime-node/credentials";
 import { ElectronSafeStorageCryptography } from "./electron-safe-storage-cryptography.js";
 
 let desktopCredentialVault: CredentialVault | undefined;

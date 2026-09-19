@@ -2,8 +2,8 @@
  * List available models with optional fuzzy search
  */
 
-import type { Api, Model } from "@vetta/ai";
-import type { CodingAgentBootstrap } from "@vetta/coding-agent/bootstrap";
+import type { Api, Model } from "@origin/ai";
+import type { CodingAgentBootstrap } from "@origin/coding-agent/bootstrap";
 
 /**
  * Case-insensitive subsequence match: every character of `pattern` must appear

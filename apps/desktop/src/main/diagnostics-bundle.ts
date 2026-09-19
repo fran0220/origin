@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { stat } from "node:fs/promises";
 import { join } from "node:path";
-import { scrubSecrets } from "@vetta/runtime-node/credentials";
+import { scrubSecrets } from "@origin/runtime-node/credentials";
 import AdmZip from "adm-zip";
 import { app } from "electron";
 import { logRingBuffer } from "./logger/log-ring-buffer.js";

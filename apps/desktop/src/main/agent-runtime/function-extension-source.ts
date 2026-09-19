@@ -1,11 +1,11 @@
 import {
 	CODING_AGENT_ASK_USER_QUESTION_FUNCTION,
 	CODING_AGENT_SANDBOX_AUTHORIZATION_FUNCTION,
-} from "@vetta/coding-agent/function-extensions";
+} from "@origin/coding-agent/function-extensions";
 import {
 	SessionExtensionFunctionRegistry,
 	type SessionExtensionFunctionSource,
-} from "@vetta/runtime-core/session-extensions";
+} from "@origin/runtime-core/session-extensions";
 import { getDesktopSandboxAuthorizationBroker } from "../conversations/sandbox-authorization-broker.js";
 import { getDesktopUserQuestionBroker } from "../conversations/user-question-broker.js";
 import { getAppLogger } from "../logger.js";

@@ -99,8 +99,8 @@ export const jsxDEV = jsxDevRuntime.jsxDEV;
 `);
 	}
 	if (moduleName === "plugin-sdk") {
-		// 须与 @vetta-org/plugin-sdk 的运行时导出保持同步（纯类型导出无需列出）：
-		// 插件构建时 @vetta-org/plugin-sdk 被外部化为本模块，漏列会在插件模块求值时
+		// 须与 @origin-org/plugin-sdk 的运行时导出保持同步（纯类型导出无需列出）：
+		// 插件构建时 @origin-org/plugin-sdk 被外部化为本模块，漏列会在插件模块求值时
 		// 抛 "does not provide an export named ..." 导致整个插件加载失败。
 		return moduleResponse(`
 const sdk = globalThis.__VETTA_PLUGIN_HOST__.pluginSdk;
@@ -143,7 +143,7 @@ export const getProviderIcon = themeUi.getProviderIcon;
 `);
 	}
 	if (moduleName === "ui" || moduleName === "vetta-ui") {
-		// Federation chunks can reach @vetta-org/ui through the host shim as well as the
+		// Federation chunks can reach @origin-org/ui through the host shim as well as the
 		// share scope; keep this export list in sync with packages/ui/src/index.ts.
 		return moduleResponse(`
 const ui = globalThis.__VETTA_PLUGIN_HOST__.vettaUi;

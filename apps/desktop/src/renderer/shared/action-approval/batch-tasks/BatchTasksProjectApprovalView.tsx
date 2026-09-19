@@ -1,7 +1,7 @@
 import { BatchProjectFormFields } from "@domains/batch-tasks/components/BatchProjectFormFields";
-import { useThemeComponent } from "@vetta-org/theme-sdk";
-import { BatchTasksApprovalFrameView } from "@vetta-org/theme-ui/action-approval";
-import { Drawer, DrawerContent } from "@vetta-org/ui";
+import { useThemeComponent } from "@origin-org/theme-sdk";
+import { BatchTasksApprovalFrameView } from "@origin-org/theme-ui/action-approval";
+import { Drawer, DrawerContent } from "@origin-org/ui";
 import type { BatchTasksProjectApprovalModel } from "./useBatchTasksProjectApprovalModel";
 
 function ValueRow({ label, value }: { label: string; value: string | number }): JSX.Element {

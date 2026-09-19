@@ -1,5 +1,5 @@
-import type { AgentMessage, ToolPhase } from "@vetta/agent-core";
-import type { UserContentPart } from "@vetta/ai";
+import type { AgentMessage, ToolPhase } from "@origin/agent-core";
+import type { UserContentPart } from "@origin/ai";
 import type { CodingAgentSessionView, CodingAgentSessionWriter } from "../sessions/index.js";
 
 export type {

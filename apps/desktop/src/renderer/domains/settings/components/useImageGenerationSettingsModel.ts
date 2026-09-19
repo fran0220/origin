@@ -1,4 +1,4 @@
-import type { MediaProviderDescriptor } from "@vetta-org/capability-sdk";
+import type { MediaProviderDescriptor } from "@origin-org/capability-sdk";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SETTINGS_SECTION } from "../registry";

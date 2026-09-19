@@ -1,4 +1,4 @@
-import { PluginAppActionError } from "@vetta-org/plugin-sdk";
+import { PluginAppActionError } from "@origin-org/plugin-sdk";
 
 export function throwEntityNotFound(options: {
 	operation: string;

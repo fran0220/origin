@@ -1,4 +1,4 @@
-import type { PluginMediaErrorCode } from "@vetta-org/plugin-sdk";
+import type { PluginMediaErrorCode } from "@origin-org/plugin-sdk";
 
 export const CONTENT_CREATION_FORMAT = "vetta.content-workflow" as const;
 export const CONTENT_CREATION_SCHEMA_VERSION = 6 as const;

@@ -143,7 +143,7 @@ Greenfield/Legacy 名称墓碑、固定文件数量、行数阈值及实施日�
 
 plugin-workbench 的 `prebuild` 会同步根 `docs/plugin/**`，该目录通过 `$TURBO_ROOT$` 作为其显式输入；其它包不会因插件文档变化而失效。
 
-Desktop build task 显式依赖 `@vetta-org/plugin-vite`。开发前置构建读取本地 Turbo 缓存；正式打包入口带 `--force`，继续无条件执行 workspace 构建并写入新缓存。Preset 的租户选择、zip 校验与 staging 仍由 `build-presets.mjs` 负责，但正式 Desktop build 复用 Turbo 已构建的 plugin tooling；独立 `build:preset` 才自行准备 tooling。
+Desktop build task 显式依赖 `@origin-org/plugin-vite`。开发前置构建读取本地 Turbo 缓存；正式打包入口带 `--force`，继续无条件执行 workspace 构建并写入新缓存。Preset 的租户选择、zip 校验与 staging 仍由 `build-presets.mjs` 负责，但正式 Desktop build 复用 Turbo 已构建的 plugin tooling；独立 `build:preset` 才自行准备 tooling。
 
 根 build、Desktop 前置 build 和测试依赖 build 均使用 `--summarize`。本地 summary 位于 `.turbo/runs/`（已忽略），CI 的三平台单测 job 将其作为保留 7 天的诊断制品上传；summary 用于观察任务耗时、哈希和命中状态，不作为构建成功的第二事实源。
 
@@ -160,7 +160,7 @@ Desktop build task 显式依赖 `@vetta-org/plugin-vite`。开发前置构建读
 日志直接显示 CLI 门禁。
 
 根 `tsconfig.json` 的 path map 必须为每个 workspace `package.json#exports` 的 types 子路径
-写明源文件（例如 `@vetta/runtime-mcp/auth` → `src/auth/index.ts`）。`check` 在干净树里
+写明源文件（例如 `@origin/runtime-mcp/auth` → `src/auth/index.ts`）。`check` 在干净树里
 typecheck，不会先生成 `dist/*.d.ts`；`moduleResolution: Node16` 下通配 `src/*` 也不会把
 目录解析成 `index.ts`。`check-source-path-maps.mjs` 机械检查这条合同。
 

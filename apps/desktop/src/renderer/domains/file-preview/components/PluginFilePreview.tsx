@@ -1,6 +1,6 @@
-import type { PluginFilePreviewContribution } from "@vetta-org/plugin-sdk";
-import type { FilePreviewItem } from "@vetta-org/theme-ui/file-preview";
-import { PluginFilePreviewView } from "@vetta-org/theme-ui/file-preview";
+import type { PluginFilePreviewContribution } from "@origin-org/plugin-sdk";
+import type { FilePreviewItem } from "@origin-org/theme-ui/file-preview";
+import { PluginFilePreviewView } from "@origin-org/theme-ui/file-preview";
 import { usePluginFilePreviewModel } from "../hooks/usePluginFilePreviewModel";
 
 /**

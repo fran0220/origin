@@ -4,7 +4,7 @@
  * 悬浮在画布右上角，入口按钮就在它正上方——面板与开关同处一角。开关不放进 ControlBar：
  * 那一排是「用什么工具画」，翻历史不属于那件事。
  */
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { ConfirmDialog } from "../canvas/ConfirmDialog";
 import { getPluginCtx } from "../plugin-context";

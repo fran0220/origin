@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
 import { afterEach, describe, expect, it } from "vitest";
 import { FileCheckpointStore } from "../../src/checkpoints/jsonl-store.js";
 import { checkpointMainlinePath } from "../../src/checkpoints/layout.js";

@@ -1,4 +1,4 @@
-import { resolveSkillProviderPresentation, type SkillProviderPresentation } from "@vetta-org/capability-sdk";
+import { resolveSkillProviderPresentation, type SkillProviderPresentation } from "@origin-org/capability-sdk";
 import type { SkillPresentation } from "../../preload/api-types/skills.js";
 
 export interface SkillPathContribution {

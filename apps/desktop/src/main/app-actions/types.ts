@@ -1,7 +1,7 @@
-import type { ActionRpcErrorBody, JsonValue } from "@vetta/action-rpc";
-import type { PluginAppActionUsage } from "@vetta-org/plugin-sdk";
+import type { ActionRpcErrorBody, JsonValue } from "@origin/action-rpc";
+import type { PluginAppActionUsage } from "@origin-org/plugin-sdk";
 
-export type { JsonValue } from "@vetta/action-rpc";
+export type { JsonValue } from "@origin/action-rpc";
 
 export type ActionAvailability = "headless" | "gui-main" | "gui-renderer";
 

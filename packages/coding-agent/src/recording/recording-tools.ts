@@ -1,12 +1,12 @@
 import { readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
+import type { Api, Model, UserContentPart, VideoContent } from "@origin/ai";
+import { completeSimple } from "@origin/ai";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import { transcodeRecordingForReview } from "@origin/runtime-node/recording";
+import type { RecordingEngine, RecordingRecord, RecordingRetention } from "@origin/runtime-recording";
+import { ToolCallDescriptionSchema } from "@origin/runtime-tools/coding";
 import { type Static, Type } from "@sinclair/typebox";
-import type { Api, Model, UserContentPart, VideoContent } from "@vetta/ai";
-import { completeSimple } from "@vetta/ai";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import { transcodeRecordingForReview } from "@vetta/runtime-node/recording";
-import type { RecordingEngine, RecordingRecord, RecordingRetention } from "@vetta/runtime-recording";
-import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
 
 export const REVIEW_RECORDING_BUDGET_BYTES = 128 * 1024 * 1024;
 const TEXT_TOKEN_ALLOWANCE = 2_048;

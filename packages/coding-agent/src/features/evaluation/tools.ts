@@ -1,7 +1,7 @@
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import type { EvaluationScope, EvaluationTrigger } from "@origin/runtime-evaluation";
+import { ToolCallDescriptionSchema } from "@origin/runtime-tools/coding";
 import { type Static, Type } from "@sinclair/typebox";
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import type { EvaluationScope, EvaluationTrigger } from "@vetta/runtime-evaluation";
-import { ToolCallDescriptionSchema } from "@vetta/runtime-tools/coding";
 import type { ConversationScenario } from "../../profiles/index.js";
 import type { CodingAgentRuntimeToolRegistration } from "../../runtime-contracts/index.js";
 import type { CodingAgentEvaluationOperations } from "./contracts.js";

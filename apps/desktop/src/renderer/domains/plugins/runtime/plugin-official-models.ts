@@ -1,9 +1,9 @@
-import { remoteProvidersAtom } from "@shared/store/atoms";
 import type {
 	PluginOfficialApi,
 	PluginOfficialModelSummary,
 	PluginOfficialProviderSummary,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import { remoteProvidersAtom } from "@shared/store/atoms";
 import { getDefaultStore } from "jotai";
 
 /**

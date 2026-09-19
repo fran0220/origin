@@ -5,7 +5,7 @@ description: 声明插件身份、加载入口、样式、权限、命令、网�
 
 `plugin.json` 位于插件归档根目录（或归档内唯一的顶层文件夹里）。宿主在加载代码前用它校验身份、兼容性和权限，因此清单必须与构建产物一致。
 
-清单结构的唯一实现是 `@vetta-org/plugin-sdk/manifest` 导出的 TypeBox Schema：`PluginManifestSchema` 可直接序列化为 JSON Schema，`parsePluginManifest()` 负责校验、默认值、去重、相对路径归一化和跨字段约束。Schema 有意允许未知字段，这样更高版本清单不会被旧宿主直接拒绝。
+清单结构的唯一实现是 `@origin-org/plugin-sdk/manifest` 导出的 TypeBox Schema：`PluginManifestSchema` 可直接序列化为 JSON Schema，`parsePluginManifest()` 负责校验、默认值、去重、相对路径归一化和跨字段约束。Schema 有意允许未知字段，这样更高版本清单不会被旧宿主直接拒绝。
 
 ```json
 {
@@ -192,7 +192,7 @@ description: 声明插件身份、加载入口、样式、权限、命令、网�
 只声明插件实际使用的权限，声明越小用户授权越省心、审核越快。开发时先从最小清单开始，调用宿主 API 报权限错误时确认该行为确实必要，再增加对应权限并重新走安装授权。不要为了省事复制其他插件的完整权限数组。
 
 <Callout title="构建期就会对账" type="info">
-  `@vetta-org/plugin-vite` 在构建和打包时扫描最终 JavaScript 产物，检出 `registerTool`、`registerHook`、`registerSystemPromptProvider`、`registerContinuationProvider`、运行时工具开关等调用点，以及清单里的 `agent.toolPolicy`，缺少对应权限会直接终止构建。界面槽位不在这条校验里，缺权限只在运行时静默跳过，需要对照[扩展点](/plugins/extension-points/)核对。
+  `@origin-org/plugin-vite` 在构建和打包时扫描最终 JavaScript 产物，检出 `registerTool`、`registerHook`、`registerSystemPromptProvider`、`registerContinuationProvider`、运行时工具开关等调用点，以及清单里的 `agent.toolPolicy`，缺少对应权限会直接终止构建。界面槽位不在这条校验里，缺权限只在运行时静默跳过，需要对照[扩展点](/plugins/extension-points/)核对。
 </Callout>
 
 ## 发布前检查

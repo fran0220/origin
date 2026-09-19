@@ -1,7 +1,7 @@
 /**
  * vetd_history / vetd_restore 的对外合同：模型拿到什么、挑错版本时能不能自己改正。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const listHistory = vi.fn();

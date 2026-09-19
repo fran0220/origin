@@ -1,4 +1,4 @@
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { DESIGN_CATALOG_SOURCES, isCacheFresh, refreshDesignCatalog, repoRootUrl } from "../src/design-systems/catalog-sync";
 import { catalogState, designSystems, resetDesignSystems } from "../src/design-systems/registry";

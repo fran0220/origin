@@ -1,5 +1,5 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
-import { Button } from "@vetta-org/ui";
+import { useTranslation } from "@origin-org/plugin-sdk";
+import { Button } from "@origin-org/ui";
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import {
 	normalizeBounds,

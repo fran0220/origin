@@ -1,18 +1,5 @@
-import { useSidebarState } from "@shared/app-shell/sidebar-state";
-import {
-	activeSessionAtom,
-	chatMessagesAtom,
-	inputValueAtom,
-	isStreamingAtom,
-	languageAtom,
-	openSessionFnRef,
-	pluginConversationOverrideAtom,
-	promptAttachmentAtom,
-	selectedModelAtom,
-	sessionExecutionModeAtom,
-} from "@shared/store/atoms";
-import type { Message } from "@vetta/ai";
-import type { SessionEvent } from "@vetta/runtime-core";
+import type { Message } from "@origin/ai";
+import type { SessionEvent } from "@origin/runtime-core";
 import type {
 	ConversationEvent,
 	ConversationMessage,
@@ -39,8 +26,21 @@ import type {
 	PluginPromptAttachment,
 	PluginSystemPromptProviderHandler,
 	SendPromptResult,
-} from "@vetta-org/plugin-sdk";
-import { __setPluginHostBridge, PluginAppActionError } from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
+import { __setPluginHostBridge, PluginAppActionError } from "@origin-org/plugin-sdk";
+import { useSidebarState } from "@shared/app-shell/sidebar-state";
+import {
+	activeSessionAtom,
+	chatMessagesAtom,
+	inputValueAtom,
+	isStreamingAtom,
+	languageAtom,
+	openSessionFnRef,
+	pluginConversationOverrideAtom,
+	promptAttachmentAtom,
+	selectedModelAtom,
+	sessionExecutionModeAtom,
+} from "@shared/store/atoms";
 import { getDefaultStore, useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { pluginHandlerGenerationKey as handlerKey } from "./plugin-handler-generation-key.js";

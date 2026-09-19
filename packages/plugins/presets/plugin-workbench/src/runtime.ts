@@ -1,4 +1,4 @@
-import type { PluginCommandApi, PluginFsApi, PluginOfficialApi } from "@vetta-org/plugin-sdk";
+import type { PluginCommandApi, PluginFsApi, PluginOfficialApi } from "@origin-org/plugin-sdk";
 
 interface WorkbenchRuntime {
 	command: PluginCommandApi | null;

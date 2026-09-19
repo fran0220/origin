@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { type ActionRpcEndpoint, getActionRpcEndpointFilePath } from "@vetta/action-rpc";
+import { type ActionRpcEndpoint, getActionRpcEndpointFilePath } from "@origin/action-rpc";
 
 export function getLocalRpcServerEndpointFilePath(): string {
 	return getActionRpcEndpointFilePath();

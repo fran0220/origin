@@ -1,20 +1,20 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@vetta/ai";
+import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@origin/ai";
 import {
 	type CodingAgentRuntimeComposition,
 	createCodingAgentRuntimeHostSessionConfig,
-} from "@vetta/coding-agent/composition";
-import { CODING_AGENT_ASK_USER_QUESTION_FUNCTION } from "@vetta/coding-agent/function-extensions";
-import type { CodingAgentPluginRuntimeSource, CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
+} from "@origin/coding-agent/composition";
+import { CODING_AGENT_ASK_USER_QUESTION_FUNCTION } from "@origin/coding-agent/function-extensions";
+import type { CodingAgentPluginRuntimeSource, CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
 import type {
 	AgentPluginContinuationInvocation,
 	AgentPluginSystemPromptInvocation,
 	AgentPluginToolInvocation,
-} from "@vetta/coding-agent/plugin-runtime";
-import { RuntimeHost } from "@vetta/runtime-core";
-import { SessionExtensionFunctionRegistry } from "@vetta/runtime-core/session-extensions";
+} from "@origin/coding-agent/plugin-runtime";
+import { RuntimeHost } from "@origin/runtime-core";
+import { SessionExtensionFunctionRegistry } from "@origin/runtime-core/session-extensions";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
 	createCodingAgentRuntimeComposition,

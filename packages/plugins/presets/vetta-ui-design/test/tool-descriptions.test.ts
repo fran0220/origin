@@ -5,7 +5,7 @@
  * 代码库里写页面」只隔一层意思。描述里没有明确的排除段时，模型只能靠工具名猜，
  * 误调的代价是用户工作区多出一棵没人要的目录。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeAll, describe, expect, it } from "vitest";
 import { registerDesignTools } from "../src/tools";
 

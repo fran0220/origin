@@ -9,7 +9,7 @@
  * 截图与打包复用画布「下载素材」那条链路（materials/），区别只在落盘：画布弹另存为，
  * 这里直接写进会话的工作目录。
  */
-import type { PluginContext, PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginContext, PluginFsApi } from "@origin-org/plugin-sdk";
 import { getCanvasController } from "../canvas/design-runtime";
 import { byCanvasOrder } from "../canvas/frame-order";
 import { bytesToBase64 } from "../mockup/binary";

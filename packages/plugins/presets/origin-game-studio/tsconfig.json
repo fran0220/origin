@@ -16,10 +16,10 @@
 		"noEmit": true,
 		"types": ["node", "vite/client"],
 		"paths": {
-			"@vetta-org/plugin-sdk": ["../../plugin-sdk/src/index.ts"],
-			"@vetta-org/plugin-sdk/*": ["../../plugin-sdk/src/*"],
-			"@vetta-org/capability-sdk": ["../../../capability-sdk/src/index.ts"],
-			"@vetta-org/capability-sdk/*": ["../../../capability-sdk/src/*"]
+			"@origin-org/plugin-sdk": ["../../plugin-sdk/src/index.ts"],
+			"@origin-org/plugin-sdk/*": ["../../plugin-sdk/src/*"],
+			"@origin-org/capability-sdk": ["../../../capability-sdk/src/index.ts"],
+			"@origin-org/capability-sdk/*": ["../../../capability-sdk/src/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]

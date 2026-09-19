@@ -1,7 +1,7 @@
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { getAgentDir } from "@vetta/coding-agent/config";
-import { migrateLegacySecrets } from "@vetta/runtime-node/credentials";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { getAgentDir } from "@origin/coding-agent/config";
+import { migrateLegacySecrets } from "@origin/runtime-node/credentials";
 import {
 	getDesktopCredentialVault,
 	getDesktopCredentialVaultWarning,

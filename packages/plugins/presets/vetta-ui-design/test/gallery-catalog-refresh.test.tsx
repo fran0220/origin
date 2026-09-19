@@ -9,7 +9,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // t 固定为稳定引用，对齐真实 plugin-sdk（useCallback 缓存）；不稳定的 t 会让依赖
 // [t] 的 refresh 每次渲染换身份，把 mount effect 变成无限循环。
-vi.mock("@vetta-org/plugin-sdk", () => {
+vi.mock("@origin-org/plugin-sdk", () => {
 	const t = (key: string) => key;
 	return { useTranslation: () => ({ t, locale: "zh" }) };
 });

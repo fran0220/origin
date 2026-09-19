@@ -1,4 +1,4 @@
-import { useActivityTab, useTranslation } from "@vetta-org/plugin-sdk";
+import { useActivityTab, useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
 	type EngineProgress,

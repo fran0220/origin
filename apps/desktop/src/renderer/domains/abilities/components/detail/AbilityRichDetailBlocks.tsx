@@ -1,5 +1,5 @@
 import type { AbilityComparisonColumn, AbilityDetailBlock } from "@shared/lib/api";
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import type { ReactNode } from "react";
 import { GalleryTheater } from "./ability-detail-interactive";
 import { DetailChapterTitle } from "./ability-detail-surface";

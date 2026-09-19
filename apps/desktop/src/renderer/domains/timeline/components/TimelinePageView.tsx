@@ -1,5 +1,5 @@
-import { GitGraphCanvas } from "@vetta-org/ui/git-graph";
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
+import { GitGraphCanvas } from "@origin-org/ui/git-graph";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
 import type { TimelineGraph } from "../checkpoint-graph";
 import { nodeHash } from "../checkpoint-graph";
 import type { TimelinePageLabels } from "../hooks/useTimelinePageModel";

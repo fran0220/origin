@@ -1,5 +1,5 @@
 export type {
 	UpdateRestartDialogViewLabels,
 	UpdateRestartDialogViewProps,
-} from "@vetta-org/theme-ui/overlays";
-export { UpdateRestartDialogView } from "@vetta-org/theme-ui/overlays";
+} from "@origin-org/theme-ui/overlays";
+export { UpdateRestartDialogView } from "@origin-org/theme-ui/overlays";

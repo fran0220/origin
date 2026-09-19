@@ -1,5 +1,7 @@
 import { waitForPluginHostFirstReady } from "@domains/plugins/runtime/plugin-events";
 import { useProjectActions } from "@domains/project/hooks/useProjects";
+import type { PromptAttachmentRef, PromptRequest } from "@origin/runtime-core";
+import type { PluginPromptContext } from "@origin-org/plugin-sdk";
 import type { PersistedImageResult } from "@preload/api";
 import { type ConversationUserMessageViewModel, createConversationUserMessage } from "@shared/conversation";
 import { i18n } from "@shared/i18n";
@@ -50,8 +52,6 @@ import {
 	todoItemsBySessionAtom,
 } from "@shared/store/atoms";
 import { bumpQueuedDispatchSeq } from "@shared/store/message-queue-atoms";
-import type { PromptAttachmentRef, PromptRequest } from "@vetta/runtime-core";
-import type { PluginPromptContext } from "@vetta-org/plugin-sdk";
 import { getDefaultStore, useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useCallback, useRef } from "react";
 import {

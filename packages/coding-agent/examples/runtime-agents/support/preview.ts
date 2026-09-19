@@ -1,10 +1,10 @@
-import type { RuntimeAgentSession } from "@vetta/runtime-core";
+import type { RuntimeAgentSession } from "@origin/runtime-core";
 import {
 	type ModelCallFrame,
 	type RuntimeSnapshotLease,
 	type RuntimeToolDefinition,
 	resolveModelCallFrame,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 
 export interface AcquiredPreview {
 	readonly frame: ModelCallFrame;

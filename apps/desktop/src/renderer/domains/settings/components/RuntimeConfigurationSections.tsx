@@ -1,5 +1,5 @@
-import { MotionSelect, SettingRow, SettingSection } from "@vetta-org/theme-ui/settings";
-import { Switch } from "@vetta-org/ui";
+import { MotionSelect, SettingRow, SettingSection } from "@origin-org/theme-ui/settings";
+import { Switch } from "@origin-org/ui";
 import type { RuntimeConfigurationFieldModel, RuntimeConfigurationModel } from "./useRuntimeConfigurationModel";
 import { SETTINGS_SECTION } from "../registry";
 

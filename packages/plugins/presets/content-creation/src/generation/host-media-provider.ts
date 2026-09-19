@@ -8,7 +8,7 @@ import {
 	type PluginMediaJob,
 	type PluginMediaProviderDescriptor,
 	type PluginMediaInput,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import type {
 	ContentGenerationMode,
 	ContentGenerationRequest,

@@ -19,7 +19,7 @@ Vetta 能力市场仓库。本仓库索引若干**能力**（plugin / mcp / skil
 
 ## 开发时站在能力目录里，不是站在这里
 
-> 仓库根没有 \`node_modules\`，所以在根上执行时用全名 \`@vetta-org/plugin-cli\`；进了能力目录、
+> 仓库根没有 \`node_modules\`，所以在根上执行时用全名 \`@origin-org/plugin-cli\`；进了能力目录、
 > \`npm install\` 之后，裸命令 \`vetta-plugin-cli\` 才在 \`node_modules/.bin\` 里。
 
 \`\`\`bash
@@ -39,7 +39,7 @@ npx vetta-plugin-cli watch       # 热更新
 新建一个插件：
 
 \`\`\`bash
-npx @vetta-org/plugin-cli init --id <slug> --name "<Display Name>" abilities/plugins/<slug>
+npx @origin-org/plugin-cli init --id <slug> --name "<Display Name>" abilities/plugins/<slug>
 \`\`\`
 
 它只创建目录，**不会**动索引——新能力什么时候上架是人的决定。想好了再按下面的方式登记。
@@ -49,8 +49,8 @@ npx @vetta-org/plugin-cli init --id <slug> --name "<Display Name>" abilities/plu
 改完能力后：
 
 \`\`\`bash
-npx @vetta-org/plugin-cli sync          # 对账并回填，看输出
-npx @vetta-org/plugin-cli sync --check  # 只报不写，非零退出（CI 用）
+npx @origin-org/plugin-cli sync          # 对账并回填，看输出
+npx @origin-org/plugin-cli sync --check  # 只报不写，非零退出（CI 用）
 \`\`\`
 
 \`sync\` 到底做什么，分三档看清楚——它不是万能的：
@@ -84,7 +84,7 @@ npx @vetta-org/plugin-cli sync --check  # 只报不写，非零退出（CI 用�
 ## 发布
 
 1. 改能力 → 在能力目录里 build
-2. 回仓库根 \`npx @vetta-org/plugin-cli sync\`
+2. 回仓库根 \`npx @origin-org/plugin-cli sync\`
 3. 提交并推送；客户端在 \`marketplaceVersion\` 变化时拉新快照
 `;
 }
@@ -106,7 +106,7 @@ jobs:
         with:
           node-version: 22
       # 索引与能力包漂移的后果有两种不在作者机器上复现、一种压根不报错，所以在这里拦。
-      - run: npx --yes @vetta-org/plugin-cli sync --check
+      - run: npx --yes @origin-org/plugin-cli sync --check
 `;
 }
 
@@ -120,6 +120,6 @@ ${input.repository}
 \`\`\`
 
 Abilities live under \`abilities/\`. The index is \`.vetta/marketplace.json\`; its derived fields are
-maintained by \`npx @vetta-org/plugin-cli sync\`. See \`AGENTS.md\` for the working agreement.
+maintained by \`npx @origin-org/plugin-cli sync\`. See \`AGENTS.md\` for the working agreement.
 `;
 }

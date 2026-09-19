@@ -1,4 +1,4 @@
-import { __createPluginLogger, __setPluginLogSink } from "@vetta-org/plugin-sdk";
+import { __createPluginLogger, __setPluginLogSink } from "@origin-org/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { formatPluginLogEntry, installPluginLogSink } from "./plugin-log-sink";
 

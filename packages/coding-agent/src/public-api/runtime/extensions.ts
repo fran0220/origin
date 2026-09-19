@@ -1,4 +1,4 @@
-import type { RuntimeSessionExecutionObservation } from "@vetta/runtime-core";
+import type { RuntimeSessionExecutionObservation } from "@origin/runtime-core";
 import {
 	CodingAgentExtensionObservationAdapter,
 	type CodingAgentObservedExtensionEvent,

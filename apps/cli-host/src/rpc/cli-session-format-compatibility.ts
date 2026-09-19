@@ -1,8 +1,8 @@
 import { join } from "node:path";
-import { createCodingAgentHistoricalSessionCatalog } from "@vetta/coding-agent/historical-sessions";
-import { CompositeRuntimeSessionCatalog, type RuntimeSessionCatalog } from "@vetta/runtime-core";
-import { FileConversationRuntimeSessionCatalog } from "@vetta/runtime-node/conversation";
-import { createNodeResultArtifactStorage } from "@vetta/runtime-node/host";
+import { createCodingAgentHistoricalSessionCatalog } from "@origin/coding-agent/historical-sessions";
+import { CompositeRuntimeSessionCatalog, type RuntimeSessionCatalog } from "@origin/runtime-core";
+import { FileConversationRuntimeSessionCatalog } from "@origin/runtime-node/conversation";
+import { createNodeResultArtifactStorage } from "@origin/runtime-node/host";
 import { createCliHistoricalSessionHost } from "../historical-session-host.js";
 
 export interface CliRuntimeSessionCatalogOptions {

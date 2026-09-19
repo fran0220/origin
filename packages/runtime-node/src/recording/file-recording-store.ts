@@ -6,7 +6,7 @@ import {
 	type RecordingListQuery,
 	type RecordingRecord,
 	type RecordingStore,
-} from "@vetta/runtime-recording";
+} from "@origin/runtime-recording";
 
 export interface FileRecordingStoreOptions {
 	readonly rootDirectory: string;

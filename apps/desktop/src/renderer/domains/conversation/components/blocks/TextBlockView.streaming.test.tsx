@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { act, render } from "@testing-library/react";
-import { TextBlockView } from "@vetta-org/theme-ui/chat";
+import { TextBlockView } from "@origin-org/theme-ui/chat";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const FULL_TEXT =

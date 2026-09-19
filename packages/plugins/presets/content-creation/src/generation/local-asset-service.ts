@@ -1,4 +1,4 @@
-import type { PluginFsApi, PluginFsBinaryReadResult } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi, PluginFsBinaryReadResult } from "@origin-org/plugin-sdk";
 import type { AssetKind } from "../project/types";
 import {
 	assetKindForMimeType,

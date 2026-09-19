@@ -1,4 +1,4 @@
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
 import { describe, expect, it } from "vitest";
 import { projectCheckpointGraph } from "./checkpoint-graph";
 

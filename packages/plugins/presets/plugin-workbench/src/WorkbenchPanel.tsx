@@ -1,5 +1,5 @@
-import { useActiveConversation, useActivityTab, useTranslation } from "@vetta-org/plugin-sdk";
-import { Button, Switch } from "@vetta-org/ui";
+import { useActiveConversation, useActivityTab, useTranslation } from "@origin-org/plugin-sdk";
+import { Button, Switch } from "@origin-org/ui";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { discoverProjects, joinPath, readJson, type ProjectInfo } from "./project";
 import { applyPluginToVetta, reinstallPluginToVetta } from "./reinstall";

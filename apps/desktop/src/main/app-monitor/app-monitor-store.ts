@@ -1,5 +1,5 @@
-import { atomicWriteJSONAsync } from "@vetta/toolkit/atomic-write";
-import { createVersionedJsonConfigStore, type VersionedJsonConfigStore } from "@vetta/toolkit/config-store";
+import { atomicWriteJSONAsync } from "@origin/toolkit/atomic-write";
+import { createVersionedJsonConfigStore, type VersionedJsonConfigStore } from "@origin/toolkit/config-store";
 import { migrateAppMonitorData } from "../config/app-monitor/migrate-config.js";
 import { migrateAppMonitorMonthData } from "../config/app-monitor/migrate-month-data.js";
 import { getAppLogger } from "../logger.js";

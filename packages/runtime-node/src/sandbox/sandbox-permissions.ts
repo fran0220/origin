@@ -2,14 +2,14 @@ import { AsyncLocalStorage } from "node:async_hooks";
 import { randomUUID } from "node:crypto";
 import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, relative, resolve as resolvePath } from "node:path";
-import { getVettaConfigDirName } from "@vetta/action-rpc";
-import type { RuntimeSandboxGrantStore } from "@vetta/runtime-core";
+import { getVettaConfigDirName } from "@origin/action-rpc";
+import type { RuntimeSandboxGrantStore } from "@origin/runtime-core";
 import type {
 	SandboxPermissionCapability,
 	SandboxPermissionRequest,
 	SandboxSessionGrantEntry,
 	SandboxShellGrant,
-} from "@vetta/runtime-core/sandbox";
+} from "@origin/runtime-core/sandbox";
 
 interface SandboxShellGrantContext {
 	cwd: string;

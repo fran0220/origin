@@ -6,7 +6,7 @@
  * react / react-router 里就有这类字符串，展开出来的 `</script>` 会让 script 提前
  * 闭合，剩下的 bundle 全部变成页面正文。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { expect, it } from "vitest";
 import { buildSnapshotHtml } from "../src/export/export-design";
 

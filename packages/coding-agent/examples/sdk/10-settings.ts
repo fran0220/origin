@@ -6,9 +6,9 @@
 
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { CONFIG_DIR_NAME } from "@vetta/coding-agent/config";
-import { createCodingAgentHostWithServices, SettingsRuntime } from "@vetta/coding-agent/host-services";
-import { NodeScopedTextStorage } from "@vetta/runtime-node/host";
+import { CONFIG_DIR_NAME } from "@origin/coding-agent/config";
+import { createCodingAgentHostWithServices, SettingsRuntime } from "@origin/coding-agent/host-services";
+import { NodeScopedTextStorage } from "@origin/runtime-node/host";
 
 function createNodeSettingsRuntime() {
 	return SettingsRuntime.fromStorage(

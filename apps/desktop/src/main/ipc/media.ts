@@ -1,4 +1,4 @@
-import type { MediaProviderDescriptor } from "@vetta-org/capability-sdk";
+import type { MediaProviderDescriptor } from "@origin-org/capability-sdk";
 import { ipcMain } from "electron";
 import { parseFile } from "music-metadata";
 import type { AudioMetadata } from "../../preload/api-types/media.js";

@@ -1,5 +1,5 @@
 import { writeSync } from "node:fs";
-import { ActionRpcError, createActionRpcClient } from "@vetta/action-rpc";
+import { ActionRpcError, createActionRpcClient } from "@origin/action-rpc";
 import { readLocalRpcServerEndpoint } from "../local-rpc/endpoint-file.js";
 
 export type ActionCliCommand =

@@ -69,7 +69,7 @@ vettaPluginFederation({
 发布 npm 包后，用户需要先启动 Vetta Desktop，再执行：
 
 ```bash
-npx @vetta-org/plugin-cli add @example/vetta-plugin-demo
+npx @origin-org/plugin-cli add @example/vetta-plugin-demo
 ```
 
 CLI 使用 `npm pack --ignore-scripts` 获取包，校验 npm 元数据后仅提取声明的 zip；

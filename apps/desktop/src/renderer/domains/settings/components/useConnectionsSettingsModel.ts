@@ -1,7 +1,7 @@
+import type { ConnectionReadState, CredentialOrigin, LiveQuota } from "@origin/coding-agent/connections";
+import { leavingActionFor } from "@origin/coding-agent/connections";
 import { cloudLogoutAtom } from "@shared/store/auth-atoms";
 import { showToast } from "@shared/store/toast-atoms";
-import type { ConnectionReadState, CredentialOrigin, LiveQuota } from "@vetta/coding-agent/connections";
-import { leavingActionFor } from "@vetta/coding-agent/connections";
 import { useSetAtom } from "jotai";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

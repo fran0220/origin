@@ -1,10 +1,10 @@
 import { stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import type { MessagePort } from "node:worker_threads";
-import { CompositeRuntimeSessionCatalog, CompositeRuntimeSessionFileHistoryReader } from "@vetta/runtime-core";
-import { createDesktopHistoricalSessionFormat, DesktopRuntimeSessionCatalog } from "@vetta/runtime-desktop";
-import type { RuntimeConversationSessionRoot } from "@vetta/runtime-node/conversation";
-import { FileConversationRuntimeSessionFileHistoryReader } from "@vetta/runtime-node/conversation";
+import { CompositeRuntimeSessionCatalog, CompositeRuntimeSessionFileHistoryReader } from "@origin/runtime-core";
+import { createDesktopHistoricalSessionFormat, DesktopRuntimeSessionCatalog } from "@origin/runtime-desktop";
+import type { RuntimeConversationSessionRoot } from "@origin/runtime-node/conversation";
+import { FileConversationRuntimeSessionFileHistoryReader } from "@origin/runtime-node/conversation";
 import { UNAVAILABLE_RUNTIME_SESSION_ACCESS } from "../../shared/session-access.js";
 import type { DesktopSessionSearchEvent } from "../../shared/session-search.js";
 import { SessionSearchService } from "./session-search-service.js";

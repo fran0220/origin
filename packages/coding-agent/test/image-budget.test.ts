@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { ImageContent, TextContent } from "@origin/ai";
 import { describe, expect, it } from "vitest";
 import { applyImageBudget, estimateModelMessageRequestBytes } from "../src/model-context/image-budget.js";
 

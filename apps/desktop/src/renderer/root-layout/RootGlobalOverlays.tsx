@@ -19,7 +19,7 @@ import { SchedulerUpdateApproval } from "../shared/action-approval/scheduler/Sch
 import { UpdateRestartDialog } from "../shared/components/UpdateRestartDialog";
 import { Toaster } from "../shared/components/ui/Toaster";
 import { ConfirmDialog } from "../shared/components/ui/confirm-dialog";
-import { useThemeComponent } from "@vetta-org/theme-sdk";
+import { useThemeComponent } from "@origin-org/theme-sdk";
 
 export function RootGlobalOverlays(): JSX.Element {
 	const ThemedConfirmDialog = useThemeComponent("root.confirmDialog", ConfirmDialog);

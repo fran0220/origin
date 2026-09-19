@@ -1,4 +1,4 @@
-import type { PluginCommandSpawnHandle, PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginCommandSpawnHandle, PluginContext } from "@origin-org/plugin-sdk";
 import { ENGINE_FILES, engineFilesHash } from "./engine-files";
 
 export interface RemotionEngineServer {

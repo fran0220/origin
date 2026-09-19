@@ -1,12 +1,12 @@
 import { join } from "node:path";
-import type { AssistantMessage } from "@vetta/ai";
+import type { AssistantMessage } from "@origin/ai";
 import type {
 	CodingAgentRuntimeComposition,
 	CodingAgentRuntimeToolRegistration,
-} from "@vetta/coding-agent/composition";
-import type { RpcSessionInitialization, RpcSessionState } from "@vetta/coding-agent/rpc";
-import type { RuntimeHostSession, SessionEvent } from "@vetta/runtime-core";
-import { resolveSessionIdFromPath } from "@vetta/runtime-node/conversation";
+} from "@origin/coding-agent/composition";
+import type { RpcSessionInitialization, RpcSessionState } from "@origin/coding-agent/rpc";
+import type { RuntimeHostSession, SessionEvent } from "@origin/runtime-core";
+import { resolveSessionIdFromPath } from "@origin/runtime-node/conversation";
 import { describe, expect, test, vi } from "vitest";
 import { type CreateImRpcSessionAdapterOptions, createImRpcSessionAdapter } from "../src/rpc/rpc-session-adapter.js";
 import { RpcSessionEventAdapter } from "../src/rpc/rpc-session-event-adapter.js";

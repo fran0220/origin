@@ -13,9 +13,9 @@
  *   vetta --extension examples/extensions/custom-compaction.ts
  */
 
-import { complete } from "@vetta/ai";
-import type { ExtensionAPI } from "@vetta/coding-agent";
-import { convertToLlm, serializeConversation } from "@vetta/coding-agent";
+import { complete } from "@origin/ai";
+import type { ExtensionAPI } from "@origin/coding-agent";
+import { convertToLlm, serializeConversation } from "@origin/coding-agent";
 
 export default function (api: ExtensionAPI) {
 	api.on("session_before_compact", async (event, ctx) => {

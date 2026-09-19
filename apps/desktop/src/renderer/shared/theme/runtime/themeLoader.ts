@@ -1,6 +1,6 @@
 import { createInstance, type ModuleFederation } from "@module-federation/enhanced/runtime";
+import type { ThemeModule } from "@origin-org/theme-sdk";
 import type { DesktopThemePackage } from "@preload/api";
-import type { ThemeModule } from "@vetta-org/theme-sdk";
 import { createThemeRuntimeShared } from "./themeSharedModules";
 
 interface ThemeModuleExports {

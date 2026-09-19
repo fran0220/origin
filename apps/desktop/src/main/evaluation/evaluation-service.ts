@@ -5,7 +5,7 @@ import type {
 	EvaluationScope,
 	EvaluationTrigger,
 	UpsertDefinitionInput,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 import { createDesktopEvaluationService } from "./desktop-evaluation-runtime.js";
 
 export function listEvaluationDefinitions(scope: EvaluationScope): Promise<readonly EvaluationDefinition[]> {

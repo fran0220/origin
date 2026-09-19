@@ -5,7 +5,7 @@ import {
 	HOME_SUBJECT_ID,
 	renderHarnessSupplement,
 	subjectScope,
-} from "@vetta/runtime-evolution";
+} from "@origin/runtime-evolution";
 import type { CodingAgentHarnessRuntime, CodingAgentHarnessRuntimeOptions } from "./contracts.js";
 import { createHarnessToolRegistrations } from "./harness-tool-registration.js";
 

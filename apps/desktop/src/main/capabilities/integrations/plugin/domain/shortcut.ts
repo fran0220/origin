@@ -7,7 +7,7 @@ import {
 	type ShortcutBindingResetResult,
 	type ShortcutBindingsResult,
 	type ShortcutSettings,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import type { PluginCapabilitySessionAccess } from "../types.js";
 
 export const pluginShortcutMethods = {

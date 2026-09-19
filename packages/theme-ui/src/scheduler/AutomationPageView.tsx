@@ -1,6 +1,6 @@
 import type { JSX, ReactNode } from "react";
 import { motion } from "motion/react";
-import { Button } from "@vetta-org/ui";
+import { Button } from "@origin-org/ui";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 

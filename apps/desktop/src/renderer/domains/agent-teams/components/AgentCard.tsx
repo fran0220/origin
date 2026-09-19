@@ -1,8 +1,9 @@
 import { agentAvatarUrl } from "@shared/agent-teams/agent-avatar";
-import type { AgentBlueprint, AgentProfile } from "@vetta/agent-team";
+import type { AgentBlueprint, AgentProfile } from "@origin/agent-team";
 import { agentUnavailableReason, type BlueprintDisplayPlugin } from "../lib/blueprint-display";
+import { Button } from "@origin-org/ui";
 import { useTranslation } from "react-i18next";
-import { AgentAvatarView } from "@vetta-org/theme-ui/chat";
+import { AgentAvatarView } from "@origin-org/theme-ui/chat";
 
 export interface AgentCardProps {
 	readonly agent: AgentProfile;

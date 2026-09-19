@@ -1,10 +1,10 @@
 import { readFile, realpath } from "node:fs/promises";
 import { isAbsolute, relative, resolve, sep } from "node:path";
-import type { ExecutionReceipt, MainlineCheckpoint } from "@vetta/runtime-checkpoints";
-import type { EvaluationEvidence, EvaluationEvidenceProvider } from "@vetta/runtime-evaluation";
-import { sha256Json, sha256Text } from "@vetta/runtime-node/evaluation";
-import { FileRecordingStore } from "@vetta/runtime-node/recording";
-import type { RecordingRecord } from "@vetta/runtime-recording";
+import type { ExecutionReceipt, MainlineCheckpoint } from "@origin/runtime-checkpoints";
+import type { EvaluationEvidence, EvaluationEvidenceProvider } from "@origin/runtime-evaluation";
+import { sha256Json, sha256Text } from "@origin/runtime-node/evaluation";
+import { FileRecordingStore } from "@origin/runtime-node/recording";
+import type { RecordingRecord } from "@origin/runtime-recording";
 
 interface EvidenceProject {
 	readonly checkpointProjectKeys: readonly string[];

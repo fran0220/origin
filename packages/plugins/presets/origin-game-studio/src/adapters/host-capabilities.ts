@@ -5,7 +5,7 @@ import type {
 	PluginEvaluationScope,
 	PluginProjectIdentity,
 	PluginRecordingRecord,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import type { EvaluationDefinition } from "../milestones/definitions";
 
 export async function resolveProjectIdentity(ctx: PluginContext, cwd: string): Promise<PluginProjectIdentity> {

@@ -1,5 +1,5 @@
-import type { PluginAiModel } from "@vetta-org/plugin-sdk";
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import type { PluginAiModel } from "@origin-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useState } from "react";
 import { useChessRuntime } from "../runtime-context";
 

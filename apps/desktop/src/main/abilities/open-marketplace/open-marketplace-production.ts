@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import type {
 	GitHubMarketplaceOrigin,
 	OpenMarketplaceMcpRuntimeProgress,

@@ -14,7 +14,7 @@ import {
 	toAttemptRecord,
 	toDefinitionRecord,
 	toEvidenceRecord,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 
 export interface FileEvaluationStoreOptions {
 	/**

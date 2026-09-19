@@ -1,4 +1,4 @@
-import type { ThinkingLevel } from "@vetta/agent-core";
+import type { ThinkingLevel } from "@origin/agent-core";
 import {
 	type Api,
 	type Model,
@@ -6,7 +6,7 @@ import {
 	providerAuthenticationError,
 	providerModelNotFoundError,
 	resolveModelThinkingLevel,
-} from "@vetta/ai";
+} from "@origin/ai";
 import type {
 	RuntimeSnapshotAcquireContext,
 	RuntimeTurnCredentialBinding,

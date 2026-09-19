@@ -1,4 +1,4 @@
-# @vetta/runtime-recording
+# @origin/runtime-recording
 
 Platform-neutral recording records, state machine, retention, JSONL line formats, and ports.
 

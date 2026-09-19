@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 
 /**
  * 画廊工具栏。它不渲染在插件自己的页面里，而是通过

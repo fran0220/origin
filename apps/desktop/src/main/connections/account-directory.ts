@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { getAgentDir } from "@vetta/coding-agent/config";
+import { getAgentDir } from "@origin/coding-agent/config";
 import {
 	ACCOUNT_SELECTION_FILE,
 	ACCOUNTS_PARTITION,
@@ -11,8 +11,8 @@ import {
 	defaultLoggedOutSelection,
 	LOGGED_OUT_PARTITION,
 	resolveAccountScopedDir,
-} from "@vetta/coding-agent/connections";
-import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
+} from "@origin/coding-agent/connections";
+import { atomicWriteJSON } from "@origin/toolkit/atomic-write";
 
 const LEGACY_KIND_NAMES: readonly AccountScopeKind[] = [
 	"checkpoints",

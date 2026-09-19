@@ -1,19 +1,19 @@
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@vetta/ai";
+import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@origin/ai";
 import {
 	type CodingAgentRuntimeCompositionOptions,
 	createCodingAgentRuntimeSessionSelection,
-} from "@vetta/coding-agent/composition";
-import type { CodingAgentPluginRuntimeSource, CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
+} from "@origin/coding-agent/composition";
+import type { CodingAgentPluginRuntimeSource, CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
 import type {
 	AgentPluginContinuationInvocation,
 	AgentPluginSystemPromptInvocation,
 	AgentPluginToolInvocation,
-} from "@vetta/coding-agent/plugin-runtime";
-import { RuntimeHost } from "@vetta/runtime-core";
-import { DesktopRuntimeBackendPool } from "@vetta/runtime-desktop";
+} from "@origin/coding-agent/plugin-runtime";
+import { RuntimeHost } from "@origin/runtime-core";
+import { DesktopRuntimeBackendPool } from "@origin/runtime-desktop";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getDesktopUserQuestionBroker } from "../conversations/user-question-broker.js";
 import { createDesktopCodingAgentFunctionSource } from "./function-extension-source.js";

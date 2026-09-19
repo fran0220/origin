@@ -9,7 +9,7 @@ import {
 	muxOpusAudioIntoMp4,
 	probeVideoDurationMs,
 	sampleRecordingWithFfmpeg,
-} from "@vetta/runtime-node/recording";
+} from "@origin/runtime-node/recording";
 import {
 	applyRecordingRetention,
 	parseRecordingRecord,
@@ -20,7 +20,7 @@ import {
 	type RecordingSampleResult,
 	type RecordingStartRequest,
 	transitionRecording,
-} from "@vetta/runtime-recording";
+} from "@origin/runtime-recording";
 import { BrowserWindow, ipcMain } from "electron";
 import { readDesktopConfig } from "../config/desktop-config-store.js";
 import { resolveAccountScopedDirForHost } from "../connections/account-directory.js";

@@ -16,7 +16,7 @@ import type {
 	PluginTurnCardContribution,
 	PluginWorkspaceViewContribution,
 	PluginWorkspaceViewHeader,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { atom, getDefaultStore } from "jotai";
 
 /** A loaded plugin's i18n catalogs + fallback locale, keyed by plugin id. */

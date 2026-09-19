@@ -1,4 +1,4 @@
-import type { RuntimeTraceRecord } from "@vetta/runtime-telemetry";
+import type { RuntimeTraceRecord } from "@origin/runtime-telemetry";
 
 export interface AgentObservationQuery {
 	readonly sessionId: string;

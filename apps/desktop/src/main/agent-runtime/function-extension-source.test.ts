@@ -2,7 +2,7 @@ import {
 	CODING_AGENT_ASK_USER_QUESTION_FUNCTION,
 	CODING_AGENT_SANDBOX_AUTHORIZATION_FUNCTION,
 	type CodingAgentQuestionFunctionRequest,
-} from "@vetta/coding-agent/function-extensions";
+} from "@origin/coding-agent/function-extensions";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getDesktopSandboxAuthorizationBroker } from "../conversations/sandbox-authorization-broker.js";
 import { getDesktopUserQuestionBroker } from "../conversations/user-question-broker.js";

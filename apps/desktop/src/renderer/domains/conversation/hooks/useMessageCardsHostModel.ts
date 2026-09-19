@@ -1,7 +1,7 @@
+import type { CardDescriptor, PluginCardProps } from "@origin-org/plugin-sdk";
 import type { ContentBlock, ConversationAgentMessageViewModel } from "@shared/conversation";
 import { pluginCardRenderersAtom, type RegisteredCardRenderer } from "@shared/store/atoms";
 import type { ChatConversationItem } from "@shared/store/chat-atoms";
-import type { CardDescriptor, PluginCardProps } from "@vetta-org/plugin-sdk";
 import { useAtomValue } from "jotai";
 import type { ComponentType, ReactNode } from "react";
 import { createContext, createElement, useContext, useMemo, useRef } from "react";

@@ -1,5 +1,5 @@
 import type { JSX, ReactNode } from "react";
-import { Button, Dialog, DialogContent } from "@vetta-org/ui";
+import { Button, Dialog, DialogContent } from "@origin-org/ui";
 
 export interface TaskFormDialogViewLabels {
 	readonly cancel: string;

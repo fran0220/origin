@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@vetta-org/plugin-sdk", () => ({
+vi.mock("@origin-org/plugin-sdk", () => ({
 	useTranslation: () => ({
 		t: (key: string, params?: Record<string, string>) =>
 			params ? `${key}:${Object.values(params).join(",")}` : key,

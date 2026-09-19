@@ -1,5 +1,5 @@
-import { BotAvatar } from "@vetta-org/theme-ui/shared";
-import { Button, cn } from "@vetta-org/ui";
+import { BotAvatar } from "@origin-org/theme-ui/shared";
+import { Button, cn } from "@origin-org/ui";
 import type { AbilityShowcase, AbilityShowcaseCanvas, AbilityShowcaseTemplate } from "@shared/lib/api";
 import { motion, useReducedMotion } from "motion/react";
 import { useState, type JSX, type ReactNode } from "react";

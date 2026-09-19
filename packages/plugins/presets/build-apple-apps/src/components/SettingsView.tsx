@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { type JSX, useEffect, useState } from "react";
 import { getPluginCtx } from "../plugin-context.js";
 import { MINIMUM_BAGUETTE_VERSION } from "../runtime/baguette-version.js";

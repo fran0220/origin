@@ -1,4 +1,4 @@
-import { RuntimeThreadCoordinator, ThreadCollaborationGraph } from "@vetta/runtime-core";
+import { RuntimeThreadCoordinator, ThreadCollaborationGraph } from "@origin/runtime-core";
 import { describe, expect, it } from "vitest";
 import {
 	createCreateThreadTool,

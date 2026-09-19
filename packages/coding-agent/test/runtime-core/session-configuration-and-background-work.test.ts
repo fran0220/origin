@@ -1,6 +1,6 @@
-import type { AgentSession } from "@vetta/runtime-core/kernel";
-import { SessionExtensionComposition } from "@vetta/runtime-core/session-extensions";
-import type { BackgroundCommandService, BackgroundCommandSnapshot } from "@vetta/runtime-node/coding";
+import type { AgentSession } from "@origin/runtime-core/kernel";
+import { SessionExtensionComposition } from "@origin/runtime-core/session-extensions";
+import type { BackgroundCommandService, BackgroundCommandSnapshot } from "@origin/runtime-node/coding";
 import { describe, expect, it, vi } from "vitest";
 import { CodingAgentBackgroundWorkController } from "../../src/execution/background/work-controller.js";
 import { CodingAgentSessionConfigurationState } from "../../src/host/session-configuration/configuration-state.js";

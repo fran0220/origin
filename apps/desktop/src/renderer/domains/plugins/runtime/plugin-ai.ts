@@ -1,4 +1,4 @@
-import type { PluginAiApi, PluginPermissionApi } from "@vetta-org/plugin-sdk";
+import type { PluginAiApi, PluginPermissionApi } from "@origin-org/plugin-sdk";
 
 export function createPluginAiApi(permissions: PluginPermissionApi, capabilitySessionId: string): PluginAiApi {
 	const ai = window.vetta.plugins.internalCapabilities.ai;

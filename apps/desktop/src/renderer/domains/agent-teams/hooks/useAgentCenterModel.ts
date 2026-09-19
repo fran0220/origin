@@ -1,4 +1,4 @@
-import type { AgentProfile } from "@vetta/agent-team";
+import type { AgentProfile } from "@origin/agent-team";
 import { useCallback } from "react";
 import type { AgentCapabilityOption } from "../lib/capability-options";
 import { type AgentLibraryCopy, type AgentProfileEditInput, useAgentLibraryModel } from "./useAgentLibraryModel";

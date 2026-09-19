@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 
+import { parseCapabilityJsonValue } from "@origin-org/capability-sdk";
+import type { PluginNetworkResponse } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import { parseCapabilityJsonValue } from "@vetta-org/capability-sdk";
-import type { PluginNetworkResponse } from "@vetta-org/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createPluginNetworkApi } from "./plugin-network-api";
 

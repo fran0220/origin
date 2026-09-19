@@ -1,5 +1,5 @@
-import { useThemeRegion } from "@vetta-org/theme-sdk";
-import { useSidebarModel } from "@vetta-org/theme-sdk/sidebar";
+import { useThemeRegion } from "@origin-org/theme-sdk";
+import { useSidebarModel } from "@origin-org/theme-sdk/sidebar";
 import { memo } from "react";
 import { DefaultSidebar } from "./DefaultSidebar";
 import type { SidebarProps } from "./types";

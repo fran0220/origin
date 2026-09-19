@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/runtime-evaluation",
+	"name": "@origin/runtime-evaluation",
 	"version": "0.0.1",
 	"description": "Platform-neutral Evaluation records, aggregation, and ports for Vetta runtimes",
 	"type": "module",

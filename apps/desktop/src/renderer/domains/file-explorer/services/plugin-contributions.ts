@@ -1,13 +1,13 @@
 import type {
+	PluginFileExplorerDecoration,
+	PluginFileExplorerEntry,
+	PluginFileExplorerWhen,
+} from "@origin-org/plugin-sdk";
+import type {
 	RegisteredFileExplorerContextMenuAction,
 	RegisteredFileExplorerDecorationProvider,
 	RegisteredFileExplorerToolbarAction,
 } from "@shared/store/atoms";
-import type {
-	PluginFileExplorerDecoration,
-	PluginFileExplorerEntry,
-	PluginFileExplorerWhen,
-} from "@vetta-org/plugin-sdk";
 
 function extensionOf(name: string): string {
 	const index = name.lastIndexOf(".");

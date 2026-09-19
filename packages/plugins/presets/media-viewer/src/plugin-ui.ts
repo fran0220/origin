@@ -1,4 +1,4 @@
-import type { PluginRegisterShortcutScope } from "@vetta-org/plugin-sdk";
+import type { PluginRegisterShortcutScope } from "@origin-org/plugin-sdk";
 
 /**
  * Captured in activate for React components (same pattern as notify).

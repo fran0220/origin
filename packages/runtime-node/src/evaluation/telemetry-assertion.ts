@@ -1,5 +1,5 @@
-import type { RecordingTelemetryLine } from "@vetta/runtime-recording";
-import { parseRecordingJsonlText, parseRecordingTelemetryLine } from "@vetta/runtime-recording";
+import type { RecordingTelemetryLine } from "@origin/runtime-recording";
+import { parseRecordingJsonlText, parseRecordingTelemetryLine } from "@origin/runtime-recording";
 
 export type TelemetryAssertionState = "passed" | "failed" | "inconclusive" | "error";
 

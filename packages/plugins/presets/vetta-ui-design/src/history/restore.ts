@@ -4,7 +4,7 @@
  * 恢复不是回退：内容写回工作区之后再落一个新提交，历史只增不减。所以恢复错了可以
  * 再恢复回去，不存在不可逆的误操作。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { installDesignDependencies } from "../engine/engine-manager";
 import { PACKAGE_FILE } from "../vetd/design-package";
 import type { DesignSession } from "../vetd/design-session";

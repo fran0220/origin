@@ -3,9 +3,9 @@ import { existsSync, realpathSync } from "node:fs";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { delimiter, isAbsolute, join } from "node:path";
-import { getVettaConfigDirName } from "@vetta/action-rpc";
-import type { SandboxShellGrant } from "@vetta/runtime-core/sandbox";
-import type { ForegroundCommandOperations } from "@vetta/runtime-tools";
+import { getVettaConfigDirName } from "@origin/action-rpc";
+import type { SandboxShellGrant } from "@origin/runtime-core/sandbox";
+import type { ForegroundCommandOperations } from "@origin/runtime-tools";
 import { getSandboxShellGrant } from "../sandbox-permissions.js";
 import type { NodeSandboxEnvironment, NodeSandboxShell } from "./contracts.js";
 

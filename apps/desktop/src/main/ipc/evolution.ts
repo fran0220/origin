@@ -1,4 +1,4 @@
-import type { RefinementProposal } from "@vetta/runtime-evolution";
+import type { RefinementProposal } from "@origin/runtime-evolution";
 import { ipcMain } from "electron";
 import { DesktopEvolutionService, type EvolutionScopeInput } from "../evolution/evolution-service.js";
 

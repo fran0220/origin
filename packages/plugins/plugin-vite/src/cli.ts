@@ -2,7 +2,7 @@
 
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { parsePluginManifest } from "@vetta-org/plugin-sdk/manifest";
+import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import { startVettaPluginDevServer } from "./dev-server.js";
 import { createVettaPluginPackage } from "./pack.js";
 

@@ -101,7 +101,7 @@ Origin exposes several extension levels so a simple workflow does not need to be
 You do not need this repository, or an Origin source checkout, to build a plugin. Nor does an agent:
 
 ```bash
-npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
+npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
 npx vetta-plugin-cli docs        # where the manual is, and which SDK version it documents
 npm run install:vetta            # build, package, install into the running desktop app
@@ -110,13 +110,13 @@ npx vetta-plugin-cli watch       # hot reload: the host loads the plugin from th
 
 `init` also writes an `AGENTS.md`, so **any** coding agent — Claude Code, Cursor, or Origin's own —
 picks the project up without host-side setup. The plugin manual ships inside
-`@vetta-org/plugin-sdk`, so the contract an agent reads is the contract the project compiles
+`@origin-org/plugin-sdk`, so the contract an agent reads is the contract the project compiles
 against; `docs` locates it rather than anyone hard-coding a `node_modules` path.
 
 To publish several abilities from one repository, scaffold a marketplace:
 
 ```bash
-npx @vetta-org/plugin-cli init hub --name my-market \
+npx @origin-org/plugin-cli init hub --name my-market \
   --repository https://github.com/me/my-market --min-app-version 0.55.0
 ```
 

@@ -1,4 +1,4 @@
-import { type CardDescriptor, definePlugin, type PluginPendingToolCall } from "@vetta-org/plugin-sdk";
+import { type CardDescriptor, definePlugin, type PluginPendingToolCall } from "@origin-org/plugin-sdk";
 import { type ComponentType, lazy, Suspense } from "react";
 import "./style.css";
 import { SCREENSHOT_CARD_TYPE, SCREENSHOT_TOOL_NAME, screenshotCardDescriptor } from "./cards/screenshot-card";

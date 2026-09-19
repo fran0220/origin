@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { MessageSelectionContextMenuView } from "@vetta-org/theme-ui/chat";
+import { MessageSelectionContextMenuView } from "@origin-org/theme-ui/chat";
 import { useMessageSelectionContextMenu } from "../../hooks/useMessageSelectionContextMenu";
 
 /** Selection-to-composer is a session capability, not a feed capability. */

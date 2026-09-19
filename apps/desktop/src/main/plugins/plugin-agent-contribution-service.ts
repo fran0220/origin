@@ -1,5 +1,5 @@
-import type { AgentPluginRuntimeConfig } from "@vetta/coding-agent/plugin-runtime";
-import { validatePluginId } from "@vetta-org/plugin-sdk/manifest";
+import type { AgentPluginRuntimeConfig } from "@origin/coding-agent/plugin-runtime";
+import { validatePluginId } from "@origin-org/plugin-sdk/manifest";
 import type { InstalledPlugin, PluginPermission } from "../../preload/api-types/plugins.js";
 import type {
 	DesktopPluginAgentHandlerKind,

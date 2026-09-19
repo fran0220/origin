@@ -2,8 +2,8 @@ import type { FSWatcher } from "node:fs";
 import { watch } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { isSecretFieldName } from "@vetta/runtime-node/credentials";
-import { resolveNodeConfigurationValue } from "@vetta/runtime-node/host";
+import { isSecretFieldName } from "@origin/runtime-node/credentials";
+import { resolveNodeConfigurationValue } from "@origin/runtime-node/host";
 import { BrowserWindow, clipboard, ipcMain } from "electron";
 import type {
 	McpConfigData,

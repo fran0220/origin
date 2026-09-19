@@ -1,5 +1,5 @@
-import { type PluginMediaErrorCode, useTranslation } from "@vetta-org/plugin-sdk";
-import { Spin } from "@vetta-org/ui";
+import { type PluginMediaErrorCode, useTranslation } from "@origin-org/plugin-sdk";
+import { Spin } from "@origin-org/ui";
 import { memo } from "react";
 import type {
 	ContentAsset,

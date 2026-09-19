@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useMemo, useState } from "react";
 import { DesignSystemPreview } from "../canvas/DesignSystemPreview";
 import { designSystemCategoryLabel, designSystemTagline } from "../design-systems/labels";

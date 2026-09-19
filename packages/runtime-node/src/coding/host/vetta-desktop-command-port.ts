@@ -1,9 +1,9 @@
 import { constants } from "node:fs";
 import { access, readFile } from "node:fs/promises";
 import nodePath from "node:path";
+import { getVettaHomePath } from "@origin/action-rpc";
 import { Type } from "@sinclair/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { getVettaHomePath } from "@vetta/action-rpc";
 import {
 	type CommandProcessPort,
 	DesktopCommandAbortedError,

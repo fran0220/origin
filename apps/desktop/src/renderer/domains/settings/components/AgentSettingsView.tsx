@@ -1,9 +1,9 @@
-import { Button } from "@vetta-org/ui";
-import { Switch } from "@vetta-org/ui";
+import { Button } from "@origin-org/ui";
+import { Switch } from "@origin-org/ui";
 import { useMemo } from "react";
 import { SettingsAiAssist } from "../ai-assist";
 import { SETTINGS_SECTION } from "../registry";
-import { MotionSelect, SettingHeading, SettingRow, SettingSection } from "@vetta-org/theme-ui/settings";
+import { MotionSelect, SettingHeading, SettingRow, SettingSection } from "@origin-org/theme-ui/settings";
 import type { AgentSettingsModel } from "./useAgentSettingsModel";
 import { RuntimeConfigurationSections } from "./RuntimeConfigurationSections";
 import type { RuntimeConfigurationModel } from "./useRuntimeConfigurationModel";

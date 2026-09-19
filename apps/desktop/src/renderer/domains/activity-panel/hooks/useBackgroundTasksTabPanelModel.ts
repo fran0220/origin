@@ -1,3 +1,4 @@
+import type { BackgroundWorkViewItem } from "@origin-org/theme-ui/activity";
 import type { DesktopMcpTask } from "@preload/api";
 import { subagentErrorPresentation, subagentObjective, subagentUsageLabel } from "@shared/lib/subagent-presentation";
 import {
@@ -11,7 +12,6 @@ import {
 	type SubagentTask,
 	subagentsBySessionAtom,
 } from "@shared/store/atoms";
-import type { BackgroundWorkViewItem } from "@vetta-org/theme-ui/activity";
 import type { TFunction } from "i18next";
 import { useAtomValue } from "jotai";
 import { useCallback, useEffect, useMemo, useState } from "react";

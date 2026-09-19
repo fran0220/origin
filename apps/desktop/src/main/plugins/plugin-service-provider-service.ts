@@ -4,7 +4,7 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import type {
 	PluginServiceArtifactPayload,
 	PluginServiceConnection,
@@ -13,7 +13,7 @@ import type {
 	PluginServiceRequest,
 	PluginServiceResponse,
 	PluginServiceStatus,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { webContents } from "electron";
 import { PLUGIN_EXECUTION_CHANNELS } from "../../shared/plugin-ipc.js";
 import { getAppLogger } from "../logger.js";

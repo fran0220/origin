@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import type { JSX } from "react";
 
 export type LoadState = "loading" | "ready" | "error";

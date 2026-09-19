@@ -1,4 +1,4 @@
-import { KnowledgeProcessingBadgeView } from "@vetta-org/theme-ui/knowledge";
+import { KnowledgeProcessingBadgeView } from "@origin-org/theme-ui/knowledge";
 import { useKnowledgeProcessingBadgeModel } from "../hooks/useKnowledgeProcessingBadgeModel";
 
 /**

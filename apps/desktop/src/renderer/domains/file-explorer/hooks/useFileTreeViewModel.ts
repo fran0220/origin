@@ -1,10 +1,10 @@
-import { type FsEntry, pluginFileExplorerDecorationProvidersAtom, renamingPathAtom } from "@shared/store/atoms";
 import type {
 	FileExplorerCreatingEntry,
 	FileExplorerDragEntry,
 	FileExplorerSelectOptions,
 	FileTreeViewProps,
-} from "@vetta-org/theme-ui/file-explorer";
+} from "@origin-org/theme-ui/file-explorer";
+import { type FsEntry, pluginFileExplorerDecorationProvidersAtom, renamingPathAtom } from "@shared/store/atoms";
 import { useAtom, useAtomValue } from "jotai";
 import { createElement, type KeyboardEvent, useCallback } from "react";
 import { useTranslation } from "react-i18next";

@@ -1,13 +1,13 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { defineRuntimeObservation, RuntimeObservationHub } from "@vetta/runtime-core/observation";
-import type { RuntimeTracer } from "@vetta/runtime-telemetry";
+import { defineRuntimeObservation, RuntimeObservationHub } from "@origin/runtime-core/observation";
+import type { RuntimeTracer } from "@origin/runtime-telemetry";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createDesktopAgentObservability } from "./composition.js";
 
 const remoteFactory = vi.hoisted(() => vi.fn<() => RuntimeTracer | undefined>(() => undefined));
-vi.mock("@vetta/runtime-telemetry/langfuse", () => ({ createLangfuseRuntimeTracerFromEnv: remoteFactory }));
+vi.mock("@origin/runtime-telemetry/langfuse", () => ({ createLangfuseRuntimeTracerFromEnv: remoteFactory }));
 
 describe("Desktop Agent observability ownership", () => {
 	const directories: string[] = [];

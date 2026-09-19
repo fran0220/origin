@@ -1,8 +1,8 @@
 import { mkdirSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
-import { getAgentDir } from "@vetta/coding-agent/config";
+import { getVettaHomePath } from "@origin/action-rpc";
+import { getAgentDir } from "@origin/coding-agent/config";
 import {
 	ACCOUNT_ACCESS_TOKEN_REF,
 	ACCOUNT_REFRESH_TOKEN_REF,
@@ -11,7 +11,7 @@ import {
 	migrateLegacySecrets,
 	OwnerOnlyFileCryptography,
 	ownerOnlyKeyDirectory,
-} from "@vetta/runtime-node/credentials";
+} from "@origin/runtime-node/credentials";
 
 export function vettaHome(): string {
 	return process.env.VETTA_HOME?.trim() || join(homedir(), ".vetta");

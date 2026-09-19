@@ -1,5 +1,5 @@
-import { NineSliceImageFrame } from "@vetta-org/theme-ui";
-import { cn, Popover, PopoverContent, PopoverTrigger } from "@vetta-org/ui";
+import { NineSliceImageFrame } from "@origin-org/theme-ui";
+import { cn, Popover, PopoverContent, PopoverTrigger } from "@origin-org/ui";
 import { motion } from "motion/react";
 import { useMemo, useState, type JSX } from "react";
 import { sanctumPageAssets } from "./assets";

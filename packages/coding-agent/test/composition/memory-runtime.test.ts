@@ -1,9 +1,9 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@vetta/ai";
-import { FileConversationRepository } from "@vetta/runtime-node/conversation";
-import { NodeTextFileStorage } from "@vetta/runtime-node/host";
+import { type Api, type AssistantMessage, type AssistantMessageEvent, EventStream, type Model } from "@origin/ai";
+import { FileConversationRepository } from "@origin/runtime-node/conversation";
+import { NodeTextFileStorage } from "@origin/runtime-node/host";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type {
 	CodingAgentMemoryRuntimeFactoryOptions,

@@ -1,5 +1,5 @@
 import { stat } from "node:fs/promises";
-import { bindCapability, type CapabilityRegistry } from "@vetta/capability-runtime";
+import { bindCapability, type CapabilityRegistry } from "@origin/capability-runtime";
 import {
 	CAPABILITY_ERROR_CODES,
 	CapabilityError,
@@ -19,7 +19,7 @@ import {
 	DOMAIN_SKILL_CAPABILITIES,
 	DOMAIN_UPDATER_CAPABILITIES,
 	DOMAIN_WEBHOOK_CAPABILITIES,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import { getDesktopAgentSettingsService } from "../agent-settings/agent-settings-service.js";
 import type { ArtifactStore } from "../artifacts/artifact-store.js";
 import { getDesktopBatchTaskService } from "../batch-tasks/batch-task-service.js";

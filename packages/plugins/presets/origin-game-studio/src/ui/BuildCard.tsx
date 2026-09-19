@@ -1,4 +1,4 @@
-import { useTranslation, type PluginCardProps } from "@vetta-org/plugin-sdk";
+import { useTranslation, type PluginCardProps } from "@origin-org/plugin-sdk";
 
 export function BuildCard({ descriptor, pending }: PluginCardProps) {
 	const { t } = useTranslation();

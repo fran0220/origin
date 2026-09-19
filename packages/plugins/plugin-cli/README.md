@@ -1,11 +1,11 @@
-# @vetta-org/plugin-cli
+# @origin-org/plugin-cli
 
 Create, document and install Origin Desktop plugins from any directory.
 
 ## Start a plugin
 
 ```bash
-npx @vetta-org/plugin-cli init --id my-plugin --name "My Plugin"
+npx @origin-org/plugin-cli init --id my-plugin --name "My Plugin"
 cd my-plugin && npm install
 npm run install:vetta      # build → pack → install into the running Desktop
 ```
@@ -17,9 +17,9 @@ plugin is also listed in that manifest.
 ## Update an existing project
 
 ```bash
-npm i -D @vetta-org/plugin-sdk@latest    # refresh the bundled manual
-npx @vetta-org/plugin-cli init --refresh-guide   # refresh AGENTS.md
-npx @vetta-org/plugin-cli docs --check-latest    # confirm
+npm i -D @origin-org/plugin-sdk@latest    # refresh the bundled manual
+npx @origin-org/plugin-cli init --refresh-guide   # refresh AGENTS.md
+npx @origin-org/plugin-cli docs --check-latest    # confirm
 ```
 
 `init` refuses to overwrite an existing project, so a directory scaffolded months ago still carries
@@ -41,14 +41,14 @@ itself current from then on.
 ## Remove a plugin
 
 ```bash
-npx @vetta-org/plugin-cli uninstall            # the plugin in this directory
-npx @vetta-org/plugin-cli uninstall some-id    # by id, from anywhere
+npx @origin-org/plugin-cli uninstall            # the plugin in this directory
+npx @origin-org/plugin-cli uninstall some-id    # by id, from anywhere
 ```
 
 ## Start a marketplace
 
 ```bash
-npx @vetta-org/plugin-cli init hub \
+npx @origin-org/plugin-cli init hub \
   --name my-market \
   --repository https://github.com/me/my-market \
   --min-app-version 0.55.0
@@ -60,8 +60,8 @@ workflow running `sync --check`. Add abilities with `init` inside `abilities/plu
 ## Keep a marketplace repository honest
 
 ```bash
-npx @vetta-org/plugin-cli sync           # reconcile .vetta/marketplace.json with the ability directories
-npx @vetta-org/plugin-cli sync --check   # report only, non-zero exit — for CI
+npx @origin-org/plugin-cli sync           # reconcile .vetta/marketplace.json with the ability directories
+npx @origin-org/plugin-cli sync --check   # report only, non-zero exit — for CI
 ```
 
 The index carries data that is derived from each ability package, under constraints that bite
@@ -72,11 +72,11 @@ skip an update when `marketplaceVersion` did not change. `sync` reconciles all t
 ## Find the manual
 
 ```bash
-npx @vetta-org/plugin-cli docs
-npx @vetta-org/plugin-cli docs --check-latest
+npx @origin-org/plugin-cli docs
+npx @origin-org/plugin-cli docs --check-latest
 ```
 
-Prints where the manual bundled with the installed `@vetta-org/plugin-sdk` lives, which SDK version
+Prints where the manual bundled with the installed `@origin-org/plugin-sdk` lives, which SDK version
 it documents, and which plugin (and hub) the current directory belongs to. The manual is always the
 one this project compiles against, so it never describes contracts the user's host lacks.
 
@@ -91,7 +91,7 @@ the chain that cannot be out of date — when it disagrees with a checked-in bri
 Install an npm-distributed plugin into the running Origin Desktop app:
 
 ```bash
-npx @vetta-org/plugin-cli add @example/vetta-plugin-demo
+npx @origin-org/plugin-cli add @example/vetta-plugin-demo
 ```
 
 The npm package is fetched with lifecycle scripts disabled. The CLI extracts only the archive declared by
@@ -101,15 +101,15 @@ The npm package is fetched with lifecycle scripts disabled. The CLI extracts onl
 Local archives and HTTP(S) archives use the same command:
 
 ```bash
-npx @vetta-org/plugin-cli add ./release/demo-1.0.0.zip
-npx @vetta-org/plugin-cli add https://example.com/demo-1.0.0.zip
+npx @origin-org/plugin-cli add ./release/demo-1.0.0.zip
+npx @origin-org/plugin-cli add https://example.com/demo-1.0.0.zip
 ```
 
 When an update is installed as a pending version, apply it through the running Desktop host instead of
 restarting or editing the plugin store directly:
 
 ```bash
-npx @vetta-org/plugin-cli reload demo
+npx @origin-org/plugin-cli reload demo
 ```
 
 Reload follows the same Desktop approval flow as the UI and reports the active version after approval.
@@ -135,5 +135,5 @@ The published plugin package must include a standard Desktop plugin archive and 
 }
 ```
 
-`@vetta-org/plugin-vite` can create both the versioned archive and this stable npm archive with
+`@origin-org/plugin-vite` can create both the versioned archive and this stable npm archive with
 `package: { npmArchive: true }`.

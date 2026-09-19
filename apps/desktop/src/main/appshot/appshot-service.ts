@@ -6,7 +6,7 @@
 import { execFile, spawn } from "node:child_process";
 import { copyFile, mkdir, rename, unlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { getVettaHomePath } from "@vetta/action-rpc";
+import { getVettaHomePath } from "@origin/action-rpc";
 import {
 	APPSHOT_CHANNELS,
 	type AppshotCapturedPayload,

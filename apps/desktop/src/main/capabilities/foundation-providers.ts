@@ -1,4 +1,4 @@
-import { bindCapability, type CapabilityRegistry } from "@vetta/capability-runtime";
+import { bindCapability, type CapabilityRegistry } from "@origin/capability-runtime";
 import {
 	CAPABILITY_ERROR_CODES,
 	CapabilityError,
@@ -11,7 +11,7 @@ import {
 	FOUNDATION_NETWORK_CAPABILITIES,
 	FOUNDATION_STORAGE_CAPABILITIES,
 	parseCapabilityJsonValue,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import { persistArtifact } from "../artifacts/artifact-persistence.js";
 import type { ArtifactStore } from "../artifacts/artifact-store.js";
 import type { BrowserAutomationService } from "../browser-automation/index.js";

@@ -1,4 +1,4 @@
-import type { PluginMediaGenerationMode, PluginMediaProviderSubmitRequest } from "@vetta-org/plugin-sdk";
+import type { PluginMediaGenerationMode, PluginMediaProviderSubmitRequest } from "@origin-org/plugin-sdk";
 import {
 	calculateH3CanvasResolution,
 	H3_CANVAS_MULTIPLE,

@@ -1,5 +1,5 @@
-import type { Api, Model } from "@vetta/ai";
-import type { CodingAgentBootstrap } from "@vetta/coding-agent/bootstrap";
+import type { Api, Model } from "@origin/ai";
+import type { CodingAgentBootstrap } from "@origin/coding-agent/bootstrap";
 import { describe, expect, it, vi } from "vitest";
 import { listModels } from "../src/model-list-output.js";
 

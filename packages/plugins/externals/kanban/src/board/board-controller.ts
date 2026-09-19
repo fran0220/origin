@@ -1,4 +1,4 @@
-import { readJsonFile, writeJsonFile, type PluginContext } from "@vetta-org/plugin-sdk";
+import { readJsonFile, writeJsonFile, type PluginContext } from "@origin-org/plugin-sdk";
 import {
 	addCard,
 	applyRunningSessions,

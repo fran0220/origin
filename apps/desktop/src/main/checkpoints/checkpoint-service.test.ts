@@ -1,8 +1,8 @@
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { ExecutionReceipt, MainlineCheckpoint } from "@vetta/runtime-checkpoints";
-import { createExecutionReceiptCollector, FileCheckpointStore } from "@vetta/runtime-node/checkpoints";
+import type { ExecutionReceipt, MainlineCheckpoint } from "@origin/runtime-checkpoints";
+import { createExecutionReceiptCollector, FileCheckpointStore } from "@origin/runtime-node/checkpoints";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("../logger.js", () => ({

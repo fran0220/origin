@@ -1,8 +1,8 @@
-import { MessageFeed, MessageFeedLayout } from "@vetta-org/theme-ui/chat";
+import { MessageFeed, MessageFeedLayout } from "@origin-org/theme-ui/chat";
 import { useMessageFeedActiveItem } from "@shared/components/message-feed/useMessageFeedActiveItem";
 import { useCallback, useMemo, useRef } from "react";
 import type { ReactNode } from "react";
-import type { Usage } from "@vetta/ai/protocol";
+import type { Usage } from "@origin/ai/protocol";
 import { conversationItemRenderKey } from "@shared/conversation";
 import { MessageRow } from "./MessageRendering";
 import { MessageItem, ModelSwitchBoundary, ExportMessageList } from "./MessageItem";

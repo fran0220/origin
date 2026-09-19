@@ -1,5 +1,5 @@
-import type { AgentMessage } from "@vetta/agent-core";
-import type { AssistantMessage } from "@vetta/ai";
+import type { AgentMessage } from "@origin/agent-core";
+import type { AssistantMessage } from "@origin/ai";
 
 export interface SessionStats {
 	sessionFile: string | undefined;

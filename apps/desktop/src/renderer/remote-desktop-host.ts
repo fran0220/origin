@@ -1,5 +1,5 @@
-import type { RemoteDesktopSignal } from "@vetta/remote-desktop";
-import { RemoteDesktopHost, WebSocketRemoteDesktopSignaling } from "@vetta/remote-desktop";
+import type { RemoteDesktopSignal } from "@origin/remote-desktop";
+import { RemoteDesktopHost, WebSocketRemoteDesktopSignaling } from "@origin/remote-desktop";
 
 declare global {
 	interface Window {

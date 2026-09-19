@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/runtime-recording",
+	"name": "@origin/runtime-recording",
 	"version": "0.0.1",
 	"description": "Platform-neutral recording records, state machine, retention, and ports",
 	"type": "module",

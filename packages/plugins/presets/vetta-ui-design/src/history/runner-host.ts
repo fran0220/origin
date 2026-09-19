@@ -6,7 +6,7 @@
  * 同一个解（见 engine-manager），区别只有一个——引擎模板几十 KB，一个 env 变量塞得下，
  * runner 压缩后仍有上百 KB，而 Windows 单个环境变量上限 32767 字符。所以分块写。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 
 /*
  * runner 源码 ~380KB，改为首次执行历史命令时动态 import（?raw 独立成 chunk）。

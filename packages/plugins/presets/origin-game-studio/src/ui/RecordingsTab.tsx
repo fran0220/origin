@@ -1,5 +1,5 @@
-import type { PluginRecordingRecord } from "@vetta-org/plugin-sdk";
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import type { PluginRecordingRecord } from "@origin-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useEffect, useState } from "react";
 import { listHostRecordings, resolveProjectIdentity } from "../adapters/host-capabilities";
 import { getPluginCtx } from "../plugin-context";

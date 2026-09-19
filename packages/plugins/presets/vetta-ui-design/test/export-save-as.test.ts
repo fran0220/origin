@@ -4,7 +4,7 @@
  * 分享包是给人拿走的产物，不是设计源码：它必须走宿主的系统另存为对话框，绝不能
  * 被写回项目目录（会污染文件树，并被下一次构建/导入当成内容）。
  */
-import type { PluginContext } from "@vetta-org/plugin-sdk";
+import type { PluginContext } from "@origin-org/plugin-sdk";
 import { beforeEach, expect, it, vi } from "vitest";
 
 const buildDesign = vi.hoisted(() => vi.fn(async () => {}));

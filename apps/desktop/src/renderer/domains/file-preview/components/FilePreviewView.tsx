@@ -1,5 +1,5 @@
-import type { FilePreviewContext } from "@vetta-org/theme-ui/file-preview";
-import { FilePreviewView as ThemeFilePreviewView } from "@vetta-org/theme-ui/file-preview";
+import type { FilePreviewContext } from "@origin-org/theme-ui/file-preview";
+import { FilePreviewView as ThemeFilePreviewView } from "@origin-org/theme-ui/file-preview";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useFilePreviewKeyboardScope } from "../hooks/useFilePreviewKeyboardScope";

@@ -1,7 +1,7 @@
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { CheckpointReactor, MemoryCheckpointStore } from "@vetta/runtime-checkpoints";
+import { CheckpointReactor, MemoryCheckpointStore } from "@origin/runtime-checkpoints";
 import { afterEach, describe, expect, it } from "vitest";
 import { createNodeWorkTreeVcs } from "../../src/checkpoints/shadow-vcs.js";
 import { createNodeVerificationRunner } from "../../src/checkpoints/verification-runner.js";

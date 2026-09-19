@@ -1,1 +1,1 @@
-export { RunningPulseDot } from "@vetta-org/theme-ui/sidebar";
+export { RunningPulseDot } from "@origin-org/theme-ui/sidebar";

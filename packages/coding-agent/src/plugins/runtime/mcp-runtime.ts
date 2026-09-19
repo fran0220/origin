@@ -3,7 +3,7 @@ import type {
 	ModelCallFrameCompositionContext,
 	RuntimeSnapshotAcquireContext,
 	RuntimeToolDefinition,
-} from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core/kernel";
 import {
 	createMcpDynamicServerRuntimeToolSource,
 	createMcpRuntimeToolSynchronizer,
@@ -15,7 +15,7 @@ import {
 	type McpTaskExecutionCoordinator,
 	type McpToolResultPolicy,
 	PRESERVE_MCP_TOOL_RESULT_POLICY,
-} from "@vetta/runtime-mcp";
+} from "@origin/runtime-mcp";
 import { decorateCodingAgentMcpRuntimeTool } from "../../mcp/runtime/tool-source.js";
 import type { AgentPluginRuntimeConfig } from "../../model-context/index.js";
 import type {

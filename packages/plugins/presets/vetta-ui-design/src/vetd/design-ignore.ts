@@ -2,7 +2,7 @@
  * 设计包的 `.gitignore`：让设计放进用户自己的代码仓库时，改动仍然是一份可读的
  * 源码 diff，而不是掺着几千个二进制对象和截图。
  */
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { HISTORY_DIR } from "../history/history-paths";
 
 /**

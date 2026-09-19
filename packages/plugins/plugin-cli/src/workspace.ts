@@ -86,7 +86,7 @@ function isBoundary(dir: string): boolean {
 }
 
 /**
- * 解析随 `@vetta-org/plugin-sdk` 发布的手册目录。
+ * 解析随 `@origin-org/plugin-sdk` 发布的手册目录。
  *
  * 按 Node 的解析规则逐层找 node_modules，因此工作区把依赖提升到仓库根、或每个插件各装
  * 一份，都能命中正确的那一份——也就是这个工程实际编译所针对的那个 SDK 版本的手册。

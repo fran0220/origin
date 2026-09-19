@@ -1,5 +1,5 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
-import { GitGraphCanvas as SharedGitGraphCanvas } from "@vetta-org/ui/git-graph";
+import { useTranslation } from "@origin-org/plugin-sdk";
+import { GitGraphCanvas as SharedGitGraphCanvas } from "@origin-org/ui/git-graph";
 import type { CommitNode } from "../../git/types";
 import { CommitRow } from "./CommitRow";
 

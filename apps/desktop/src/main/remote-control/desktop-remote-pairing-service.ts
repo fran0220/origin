@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { hostname } from "node:os";
-import type { RemoteConnectionState } from "@vetta/remote-control";
+import type { RemoteConnectionState } from "@origin/remote-control";
 import { type DesktopConfig, readDesktopConfig, writeDesktopConfig } from "../config/desktop-config-store.js";
 import { getDesktopCredentialVault } from "../credentials/desktop-credential-vault.js";
 import { getAppLogger } from "../logger.js";

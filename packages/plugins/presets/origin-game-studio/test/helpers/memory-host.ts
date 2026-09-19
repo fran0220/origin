@@ -4,7 +4,7 @@ import type {
 	PluginFsApi,
 	PluginFsEntry,
 	PluginStorageApi,
-} from "@vetta-org/plugin-sdk";
+} from "@origin-org/plugin-sdk";
 import { joinPath } from "../../src/paths";
 
 export class MemoryFs implements PluginFsApi {

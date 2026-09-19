@@ -106,7 +106,7 @@ Host Port、组装 Runtime Registration 和提供 Session-local Feature，不再
 ### 2.7 Desktop 源码组合与跨宿主门禁收口
 
 首次验收发现 Desktop Vitest 虽然把 Coding Agent 和 Runtime Core 指向源码，却仍从 workspace `dist` 解析
-`@vetta/runtime-composition`。这会把新 Coding Agent 与旧 Composition Root 混合装配，差异测试因此不能代表
+`@origin/runtime-composition`。这会把新 Coding Agent 与旧 Composition Root 混合装配，差异测试因此不能代表
 当前源码。Desktop Vitest 现已显式把 Runtime Composition 指向 `src/index.ts`。
 
 修正解析边界后，完整 Provider Tool 数组差异暴露了两个问题：

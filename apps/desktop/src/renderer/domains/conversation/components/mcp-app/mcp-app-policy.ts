@@ -1,4 +1,4 @@
-import type { McpAppPermission, McpAppResourceCsp, McpAppResourceMeta } from "@vetta/runtime-mcp";
+import type { McpAppPermission, McpAppResourceCsp, McpAppResourceMeta } from "@origin/runtime-mcp";
 
 const CSP_SEPARATOR = /["'`\s;,]/;
 

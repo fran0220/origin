@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/remote-relay",
+	"name": "@origin/remote-relay",
 	"version": "0.0.1",
 	"private": true,
 	"type": "module",
@@ -11,8 +11,8 @@
 		"pair": "bun scripts/create-pairing.ts"
 	},
 	"dependencies": {
-		"@vetta/remote-control": "workspace:*",
-		"@vetta/remote-desktop": "workspace:*"
+		"@origin/remote-control": "workspace:*",
+		"@origin/remote-desktop": "workspace:*"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.12.21",

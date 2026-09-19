@@ -1,4 +1,4 @@
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 import { CanvasPanel } from "./CanvasPanel";
 import { setPluginContext } from "./pluginContext";
 import "./style.css";

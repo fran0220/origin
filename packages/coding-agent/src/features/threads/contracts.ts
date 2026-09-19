@@ -1,4 +1,4 @@
-import type { RuntimeThreadCoordinator } from "@vetta/runtime-core";
+import type { RuntimeThreadCoordinator } from "@origin/runtime-core";
 
 export interface CodingAgentThreadToolHost {
 	readonly getCoordinator: () => RuntimeThreadCoordinator | undefined;

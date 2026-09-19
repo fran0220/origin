@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@vetta/ecosystem-adapter` are documented in this file.
+All notable changes to `@origin/ecosystem-adapter` are documented in this file.
 
 ## [Unreleased]
 

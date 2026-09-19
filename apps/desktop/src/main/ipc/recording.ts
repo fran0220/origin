@@ -4,7 +4,7 @@ import type {
 	RecordingRecord,
 	RecordingSampleRequest,
 	RecordingStartRequest,
-} from "@vetta/runtime-recording";
+} from "@origin/runtime-recording";
 import { ipcMain } from "electron";
 import { getDesktopRecordingEngine, recordingsRoot } from "../recording/recording-engine.js";
 

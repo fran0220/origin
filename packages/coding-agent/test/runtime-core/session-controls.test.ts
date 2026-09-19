@@ -3,8 +3,8 @@ import {
 	InMemoryRuntimeSessionValueIndex,
 	type RuntimeMessageEnvelope,
 	type RuntimeResourceContext,
-} from "@vetta/runtime-core";
-import type { SessionContextRecord } from "@vetta/runtime-core/kernel";
+} from "@origin/runtime-core";
+import type { SessionContextRecord } from "@origin/runtime-core/kernel";
 import { describe, expect, it, vi } from "vitest";
 import type {
 	CodingAgentSessionHookController,

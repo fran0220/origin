@@ -1,6 +1,6 @@
-# @vetta/cli-host
+# @origin/cli-host
 
-CLI and process composition roots around `@vetta/coding-agent`.
+CLI and process composition roots around `@origin/coding-agent`.
 
 ## What It Owns
 

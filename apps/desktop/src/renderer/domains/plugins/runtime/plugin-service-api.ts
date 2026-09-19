@@ -1,5 +1,5 @@
+import type { Disposable, PluginServiceApi } from "@origin-org/plugin-sdk";
 import type { InstalledPlugin } from "@preload/api";
-import type { Disposable, PluginServiceApi } from "@vetta-org/plugin-sdk";
 
 export function createPluginServiceApi(
 	plugin: InstalledPlugin,

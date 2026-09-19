@@ -1,11 +1,11 @@
-import type { AgentMessage, ThinkingLevel } from "@vetta/agent-core";
-import type { Api, Model } from "@vetta/ai";
+import type { AgentMessage, ThinkingLevel } from "@origin/agent-core";
+import type { Api, Model } from "@origin/ai";
 import type {
 	PromptRequest,
 	RuntimeExecutionObservationEvent,
 	RuntimeSessionExecutionObservation,
 	RuntimeSessionState,
-} from "@vetta/runtime-core";
+} from "@origin/runtime-core";
 import { describe, expect, it, vi } from "vitest";
 import type {
 	CodingAgentSdkSessionCapabilityPort,

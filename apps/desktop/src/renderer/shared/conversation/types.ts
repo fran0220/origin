@@ -1,6 +1,6 @@
+import type { Usage } from "@origin/ai";
+import type { PromptAttachmentRef, PromptResourceRef } from "@origin/runtime-core";
 import type { InputSegment } from "@shared/lib/input-tokens";
-import type { Usage } from "@vetta/ai";
-import type { PromptAttachmentRef, PromptResourceRef } from "@vetta/runtime-core";
 import type { ContentBlock } from "./content-blocks";
 
 export interface ConversationMessageViewModelBase {

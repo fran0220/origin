@@ -1,4 +1,4 @@
-import { cn } from "@vetta-org/ui";
+import { cn } from "@origin-org/ui";
 import { Slot } from "radix-ui";
 import type { ComponentPropsWithoutRef } from "react";
 import { createContext, forwardRef, useContext } from "react";

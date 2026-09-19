@@ -26,10 +26,10 @@ interface PluginContext {
 
 ## 对话：读状态
 
-hook 直接从 `@vetta-org/plugin-sdk` import、在组件里调用，读当前活动对话并自动 rerender。需要 `agent.session.read`。
+hook 直接从 `@origin-org/plugin-sdk` import、在组件里调用，读当前活动对话并自动 rerender。需要 `agent.session.read`。
 
 ```tsx
-import { useActiveConversation, useConversationMessages } from "@vetta-org/plugin-sdk";
+import { useActiveConversation, useConversationMessages } from "@origin-org/plugin-sdk";
 
 function Sidebar() {
   const convo = useActiveConversation();
@@ -657,7 +657,7 @@ interface PluginI18nApi {
 ```
 
 ```tsx
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 
 function Panel() {
   const { t, locale } = useTranslation(); // 切语言自动 rerender

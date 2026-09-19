@@ -1,4 +1,4 @@
-import type { CodingAgentModelRuntime } from "@vetta/coding-agent/host-services";
+import type { CodingAgentModelRuntime } from "@origin/coding-agent/host-services";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createDesktopKnowledgeProcessingSessionFactory } from "./processing-session-factory.js";
 
@@ -27,31 +27,31 @@ const factoryMocks = vi.hoisted(() => ({
 
 factoryMocks.createNodeKnowledgeRuntime.mockReturnValue(factoryMocks.knowledgeRuntime);
 
-vi.mock("@vetta/coding-agent/composition", () => ({
+vi.mock("@origin/coding-agent/composition", () => ({
 	createKnowledgeProcessingSessionFactory: factoryMocks.create,
 }));
 
-vi.mock("@vetta/coding-agent/model-context", () => ({
+vi.mock("@origin/coding-agent/model-context", () => ({
 	detectWorkspaceFacts: factoryMocks.detectWorkspaceFacts,
 	probeWorkspaceSignals: factoryMocks.probeWorkspaceSignals,
 }));
 
-vi.mock("@vetta/runtime-node/coding", () => ({
+vi.mock("@origin/runtime-node/coding", () => ({
 	nodeModelInputImageProcessor: factoryMocks.nodeModelInputImageProcessor,
 	nodeWorkspaceFactsFileSource: factoryMocks.nodeWorkspaceFactsFileSource,
 }));
 
-vi.mock("@vetta/runtime-node/conversation", () => ({
+vi.mock("@origin/runtime-node/conversation", () => ({
 	createFileConversationPersistence: factoryMocks.createFileConversationPersistence,
 	resolveConversationFilePath: vi.fn(),
 	resolveSessionIdFromPath: vi.fn(),
 }));
 
-vi.mock("@vetta/runtime-node/host", () => ({
+vi.mock("@origin/runtime-node/host", () => ({
 	createNodeKnowledgeRuntime: factoryMocks.createNodeKnowledgeRuntime,
 }));
 
-vi.mock("@vetta/runtime-desktop", () => ({
+vi.mock("@origin/runtime-desktop", () => ({
 	createDesktopCodingAgentSessionExecutionEnvironment:
 		factoryMocks.createDesktopCodingAgentSessionExecutionEnvironment,
 	createDesktopCodingAgentToolEnvironment: factoryMocks.createDesktopCodingAgentToolEnvironment,

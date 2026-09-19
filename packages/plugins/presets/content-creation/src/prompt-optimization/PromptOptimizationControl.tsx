@@ -1,4 +1,4 @@
-import { type PluginAiModel, useTranslation } from "@vetta-org/plugin-sdk";
+import { type PluginAiModel, useTranslation } from "@origin-org/plugin-sdk";
 import {
 	Button,
 	Popover,
@@ -9,7 +9,7 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@vetta-org/ui";
+} from "@origin-org/ui";
 import { useState } from "react";
 
 export interface PromptOptimizationControlProps {

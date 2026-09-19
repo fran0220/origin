@@ -3,7 +3,7 @@ import type {
 	RuntimeConfigurationDescriptor,
 	RuntimeConfigurationDiagnostic,
 	RuntimeConfigurationJsonObject,
-} from "@vetta/runtime-core/configuration";
+} from "@origin/runtime-core/configuration";
 
 export interface DesktopRuntimeConfigurationConsumer {
 	readonly kind: "tool" | "runtime";

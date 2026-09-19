@@ -8,15 +8,19 @@ import {
 	EventStream,
 	type Message,
 	type Model,
-} from "@vetta/ai";
+} from "@origin/ai";
 import {
 	CodingAgentActiveSessionHost,
 	type CodingAgentRuntimeComposition,
 	type CodingAgentSessionTransitionLifecycle,
-} from "@vetta/coding-agent/composition";
-import { type EcosystemHookEvent, emptyHookDispatchOutcome, type HookDispatchOutcome } from "@vetta/coding-agent/hooks";
-import type { CodingAgentRuntimeModelSource } from "@vetta/coding-agent/host-services";
-import type { RuntimeHostSession, RuntimeSessionCatalog } from "@vetta/runtime-core";
+} from "@origin/coding-agent/composition";
+import {
+	type EcosystemHookEvent,
+	emptyHookDispatchOutcome,
+	type HookDispatchOutcome,
+} from "@origin/coding-agent/hooks";
+import type { CodingAgentRuntimeModelSource } from "@origin/coding-agent/host-services";
+import type { RuntimeHostSession, RuntimeSessionCatalog } from "@origin/runtime-core";
 import { afterEach, describe, expect, it } from "vitest";
 import {
 	createCodingAgentRuntimeComposition,

@@ -3,6 +3,8 @@
  * installed / localVersion / needsUpdate 一律以安装台账为准（ADR-0049），
  * enabled 才回各自运行时读（skills 清单 / mcp.json / 插件注册表）。
  */
+
+import { getSkillDisplayDescription, getSkillDisplayName, isSkillVisibleOnSurface } from "@origin-org/capability-sdk";
 import type {
 	AbilityLedger,
 	AbilityLedgerEntry,
@@ -15,7 +17,6 @@ import type {
 } from "@preload/api";
 import type { AbilityMember, MarketAbility } from "@shared/lib/api";
 import { builtinSkillIconUrl } from "@shared/lib/builtin-skill-icons";
-import { getSkillDisplayDescription, getSkillDisplayName, isSkillVisibleOnSurface } from "@vetta-org/capability-sdk";
 import type { TFunction } from "i18next";
 import {
 	type BuiltinMcpPreset,

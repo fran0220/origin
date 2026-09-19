@@ -1,5 +1,5 @@
+import type { ProjectRowViewProps } from "@origin-org/theme-ui/project";
 import type { Project, ProjectType } from "@shared/store/atoms";
-import type { ProjectRowViewProps } from "@vetta-org/theme-ui/project";
 
 interface Args {
 	badge?: string;

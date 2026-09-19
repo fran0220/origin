@@ -1,4 +1,4 @@
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 
 const ENTRY_POINT_CANDIDATES = [
 	"src/index.ts",

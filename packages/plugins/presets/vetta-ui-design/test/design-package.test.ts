@@ -6,7 +6,7 @@
  * 会让整份设计的机检挂掉）、补装判据要认「声明了但没装」这一个状态（否则每次打开
  * 都白跑一次 npm，或者导入的设计永远装不上）。
  */
-import type { PluginFsApi } from "@vetta-org/plugin-sdk";
+import type { PluginFsApi } from "@origin-org/plugin-sdk";
 import { expect, it } from "vitest";
 import enginePackageJson from "../engine/package.json";
 import { designPackageJson, needsDependencyInstall, readDesignDependencies } from "../src/vetd/design-package";

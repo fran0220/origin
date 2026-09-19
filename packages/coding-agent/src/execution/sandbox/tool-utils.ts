@@ -1,6 +1,6 @@
-import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
-import type { SandboxPermissionRequest } from "@vetta/runtime-core/sandbox";
-import type { CodingToolRegistration } from "@vetta/runtime-tools";
+import type { RuntimeToolDefinition } from "@origin/runtime-core/kernel";
+import type { SandboxPermissionRequest } from "@origin/runtime-core/sandbox";
+import type { CodingToolRegistration } from "@origin/runtime-tools";
 import type { CodingAgentSandboxToolSet } from "../../composition/contracts/session-execution-environment.js";
 import type { CodingAgentSandboxAuthorizationPort } from "./authorization-contract.js";
 import {

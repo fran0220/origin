@@ -1,5 +1,5 @@
 import type { DesktopHarnessEntry, DesktopRefinementEvent } from "@preload/api";
-import { SettingsPageShellView, SettingSection, type SettingSectionMeta } from "@vetta-org/theme-ui/settings";
+import { SettingsPageShellView, SettingSection, type SettingSectionMeta } from "@origin-org/theme-ui/settings";
 import { HARNESS_KINDS, type HarnessLedgerModel } from "./useHarnessLedgerModel";
 
 export interface HarnessLedgerViewProps {

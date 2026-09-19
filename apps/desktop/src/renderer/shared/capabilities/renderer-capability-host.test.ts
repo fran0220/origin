@@ -1,9 +1,9 @@
-import { bindCapability } from "@vetta/capability-runtime";
+import { bindCapability } from "@origin/capability-runtime";
 import {
 	CAPABILITY_ERROR_CODES,
 	createCapabilityGrant,
 	DOMAIN_NAVIGATION_CAPABILITIES,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import { describe, expect, it, vi } from "vitest";
 import { RendererCapabilityHost } from "./renderer-capability-host.js";
 

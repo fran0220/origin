@@ -1,4 +1,4 @@
-import type { ConnectionReadState, LiveQuota } from "@vetta/coding-agent/connections";
+import type { ConnectionReadState, LiveQuota } from "@origin/coding-agent/connections";
 
 export interface ConnectionUpsertDraft {
 	readonly id?: string;

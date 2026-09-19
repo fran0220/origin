@@ -2,7 +2,7 @@ import type { ScheduledTask } from "@shared/store/scheduler-atoms";
 import {
 	AutomationPageView as ThemeAutomationPageView,
 	type AutomationRecommendationItem,
-} from "@vetta-org/theme-ui/scheduler";
+} from "@origin-org/theme-ui/scheduler";
 import { useTranslation } from "react-i18next";
 import { SettingsAiAssist } from "../../settings/ai-assist";
 import type { SchedulerTaskDraft } from "./SchedulerTaskFields";

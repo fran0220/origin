@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
-import type { McpCacheableResult, McpJsonObject } from "@vetta/runtime-mcp/protocol";
-import { isMcpCacheableResult } from "@vetta/runtime-mcp/protocol";
+import type { McpCacheableResult, McpJsonObject } from "@origin/runtime-mcp/protocol";
+import { isMcpCacheableResult } from "@origin/runtime-mcp/protocol";
 
 interface CacheEntry {
 	readonly expiresAt: number;

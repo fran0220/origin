@@ -1,4 +1,4 @@
-import { definePlugin } from "@vetta-org/plugin-sdk";
+import { definePlugin } from "@origin-org/plugin-sdk";
 import type { ReactNode } from "react";
 import "./style.css";
 import { REINSTALL_CARD_TYPE, ReinstallCard } from "./ReinstallCard";

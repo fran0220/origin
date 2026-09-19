@@ -1,8 +1,8 @@
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { MainlineCheckpoint } from "@vetta/runtime-checkpoints";
-import { checkpointMainlinePath, FileCheckpointStore } from "@vetta/runtime-node/checkpoints";
+import type { MainlineCheckpoint } from "@origin/runtime-checkpoints";
+import { checkpointMainlinePath, FileCheckpointStore } from "@origin/runtime-node/checkpoints";
 import { afterEach, describe, expect, it } from "vitest";
 
 const dirs: string[] = [];

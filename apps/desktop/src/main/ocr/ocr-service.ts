@@ -4,7 +4,7 @@ import {
 	type OcrRemoteProviderPolicy,
 	VETTA_OCR_CONFIGURATION,
 	type VettaOcrConfiguration,
-} from "@vetta/runtime-tools";
+} from "@origin/runtime-tools";
 import {
 	CAPABILITY_ERROR_CODES,
 	CapabilityError,
@@ -13,7 +13,7 @@ import {
 	type OcrProviderInput,
 	type OcrRequest,
 	type OcrResult,
-} from "@vetta-org/capability-sdk";
+} from "@origin-org/capability-sdk";
 import type { OcrProviderContext, OcrProviderRegistry } from "./ocr-provider-registry.js";
 
 export interface OcrServiceInputResolver {

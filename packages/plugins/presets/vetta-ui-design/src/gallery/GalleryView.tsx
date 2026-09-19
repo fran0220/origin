@@ -1,4 +1,4 @@
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmDialog } from "../canvas/ConfirmDialog";
 import { SHARE_EXTENSION, SHARE_PREVIEW_EXTENSIONS, isSharePackageName } from "../export/share-format";

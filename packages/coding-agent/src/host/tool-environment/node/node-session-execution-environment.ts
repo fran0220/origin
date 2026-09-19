@@ -2,7 +2,7 @@ import {
 	createNodeFileToolRegistrations,
 	createNodeHostSessionCommandEnvironment,
 	createNodeSandboxCodingToolEnvironment,
-} from "@vetta/runtime-node/coding";
+} from "@origin/runtime-node/coding";
 import type {
 	CodingAgentSessionExecutionEnvironment,
 	CodingAgentSessionExecutionEnvironmentContext,

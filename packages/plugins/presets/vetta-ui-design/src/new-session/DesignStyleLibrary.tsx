@@ -17,8 +17,8 @@
  * - **静态只铺色板**，悬停到哪张才把那一张换成真 demo：一张 demo 是一个 iframe + 一份
  *   完整文档，几十张连排光解析就能把这一屏拖住。
  */
-import type { PluginNewSessionContext } from "@vetta-org/plugin-sdk";
-import { useTranslation } from "@vetta-org/plugin-sdk";
+import type { PluginNewSessionContext } from "@origin-org/plugin-sdk";
+import { useTranslation } from "@origin-org/plugin-sdk";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { DesignSystemTileContent } from "../cards/DesignSystemTileContent";
 import { useCatalogState } from "../design-systems/index";

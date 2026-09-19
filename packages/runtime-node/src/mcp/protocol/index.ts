@@ -1,1 +1,1 @@
-export * from "@vetta/runtime-mcp/protocol";
+export * from "@origin/runtime-mcp/protocol";

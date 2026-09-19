@@ -8,7 +8,7 @@ import type {
 	ExecutionReceiptSnapshot,
 	RecordingSnapshot,
 	TraceSnapshot,
-} from "@vetta/runtime-evaluation";
+} from "@origin/runtime-evaluation";
 import { sha256Json } from "./digest.js";
 
 export interface ExecutionReceiptLookup {
@@ -127,7 +127,7 @@ export function createArtifactDigestEvidenceProvider(lookup: ArtifactDigestLooku
 
 /**
  * Recording 适配器。`runtime-recording` 未落地时 lookup 返回空集；
- * ref 形状已在 `@vetta/runtime-evaluation` 固定。
+ * ref 形状已在 `@origin/runtime-evaluation` 固定。
  */
 export function createRecordingEvidenceProvider(lookup?: RecordingLookup): EvaluationEvidenceProvider {
 	return {

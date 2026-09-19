@@ -5,4 +5,4 @@ export {
 	type GraphLayout,
 	type GraphLine,
 	type GraphSegment,
-} from "@vetta-org/ui/git-graph";
+} from "@origin-org/ui/git-graph";

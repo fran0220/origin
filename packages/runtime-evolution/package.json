@@ -1,5 +1,5 @@
 {
-	"name": "@vetta/runtime-evolution",
+	"name": "@origin/runtime-evolution",
 	"version": "0.0.1",
 	"description": "Platform-neutral continual-harness evolution ledger for Vetta runtimes",
 	"type": "module",

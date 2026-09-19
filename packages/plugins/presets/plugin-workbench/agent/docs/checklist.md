@@ -1,6 +1,6 @@
 # 极简速查（细节以全文手册为准）
 
-**完整开发手册**：随工程的 `@vetta-org/plugin-sdk` 装在它自己的 `node_modules` 里。
+**完整开发手册**：随工程的 `@origin-org/plugin-sdk` 装在它自己的 `node_modules` 里。
 先拿路径：`node <workbenchRoot>/agent/cli/vetta-plugin-cli.js docs --json` → `manualDir`。
 
 创建/改插件前请按 skill 要求用 read 打开（相对 `manualDir`）：
@@ -19,4 +19,4 @@
 
 ## 用户工程依赖
 
-`@vetta-org/plugin-sdk` / `@vetta-org/plugin-vite` 使用 **registry semver**，禁止 `workspace:*`。
+`@origin-org/plugin-sdk` / `@origin-org/plugin-vite` 使用 **registry semver**，禁止 `workspace:*`。

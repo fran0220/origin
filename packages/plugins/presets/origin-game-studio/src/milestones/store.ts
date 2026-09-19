@@ -1,4 +1,4 @@
-import type { PluginStorageApi } from "@vetta-org/plugin-sdk";
+import type { PluginStorageApi } from "@origin-org/plugin-sdk";
 import { projectKey } from "../store/project-store";
 import type { EvaluationDefinition } from "./definitions";
 

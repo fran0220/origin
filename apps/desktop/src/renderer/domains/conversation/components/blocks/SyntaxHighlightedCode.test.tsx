@@ -9,7 +9,7 @@ vi.mock("shiki", () => ({
 	codeToHtml,
 }));
 
-const { SyntaxHighlightedCode } = await import("@vetta-org/theme-ui/shared");
+const { SyntaxHighlightedCode } = await import("@origin-org/theme-ui/shared");
 
 describe("SyntaxHighlightedCode", () => {
 	beforeEach(() => {

@@ -1,9 +1,9 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { parsePluginManifest } from "@vetta-org/plugin-sdk/manifest";
+import { parsePluginManifest } from "@origin-org/plugin-sdk/manifest";
 import type { Plugin, ResolvedConfig } from "vite";
 
-export const PLUGIN_LOGGER_MODULE_ID = "@vetta-org/plugin-sdk/logger";
+export const PLUGIN_LOGGER_MODULE_ID = "@origin-org/plugin-sdk/logger";
 export const VETTA_PLUGIN_LOGGER_MODULE_ID = "virtual:vetta-plugin-logger";
 const RESOLVED_PLUGIN_LOGGER_MODULE_ID = `\0${VETTA_PLUGIN_LOGGER_MODULE_ID}`;
 
@@ -30,7 +30,7 @@ export function createPluginLoggerBindingPlugin(): Plugin {
 		load(id) {
 			if (id !== RESOLVED_PLUGIN_LOGGER_MODULE_ID) return;
 			if (!identity) throw new Error("Plugin logger identity is unavailable before Vite config resolution");
-			return `import { __createPluginLogger } from "@vetta-org/plugin-sdk";
+			return `import { __createPluginLogger } from "@origin-org/plugin-sdk";
 export const logger = __createPluginLogger(${JSON.stringify(identity)});
 `;
 		},

@@ -1,6 +1,6 @@
 import { PatchDiff } from "@pierre/diffs/react";
-import { useTranslation } from "@vetta-org/plugin-sdk";
-import { Button } from "@vetta-org/ui";
+import { useTranslation } from "@origin-org/plugin-sdk";
+import { Button } from "@origin-org/ui";
 import { Component, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { fileDiff } from "../git/run";
