@@ -1,5 +1,5 @@
 import type { AgentMessage } from "@vetta/agent-core";
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 
 export interface CompactionHistoryEntryBase {
 	readonly type: string;
@@ -33,7 +33,7 @@ export interface CompactionBranchSummaryEntry<T = unknown> extends CompactionHis
 export interface CompactionCustomMessageEntry<T = unknown> extends CompactionHistoryEntryBase {
 	readonly type: "custom_message";
 	readonly customType: string;
-	readonly content: string | (TextContent | ImageContent)[];
+	readonly content: string | UserContentPart[];
 	readonly details?: T;
 	readonly display: boolean;
 }

@@ -1,6 +1,6 @@
 import type { TSchema } from "@sinclair/typebox";
 import type { ThinkingLevel } from "@vetta/agent-core";
-import type { Api, ImageContent, Model, TextContent } from "@vetta/ai";
+import type { Api, Model, UserContentPart } from "@vetta/ai";
 import type { CustomMessage } from "../model-context/index.js";
 import type { Theme } from "../theme/index.js";
 import type { ExtensionCommandContext, ExtensionContext } from "./context-contracts.js";
@@ -181,10 +181,7 @@ export interface ExtensionAPI {
 	 * Send a user message to the agent. Always triggers a turn.
 	 * When the agent is streaming, use deliverAs to specify how to queue the message.
 	 */
-	sendUserMessage(
-		content: string | (TextContent | ImageContent)[],
-		options?: { deliverAs?: "steer" | "followUp" },
-	): void;
+	sendUserMessage(content: string | UserContentPart[], options?: { deliverAs?: "steer" | "followUp" }): void;
 
 	/** Append a custom entry to the session for state persistence (not sent to LLM). */
 	appendEntry<T = unknown>(customType: string, data?: T): void;

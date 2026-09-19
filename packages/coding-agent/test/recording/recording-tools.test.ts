@@ -1,7 +1,7 @@
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import type { Api, AssistantMessage, Model } from "@vetta/ai";
+import type { Api, AssistantMessage, Model, TextContent, Usage } from "@vetta/ai";
 import type { RuntimeToolDefinition } from "@vetta/runtime-core/kernel";
 import type { RecordingEngine, RecordingRecord, RecordingSampleResult } from "@vetta/runtime-recording";
 import { applyRecordingRetention } from "@vetta/runtime-recording";
@@ -99,6 +99,17 @@ class FakeRecordingEngine implements RecordingEngine {
 	}
 }
 
+const emptyUsageCost = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 };
+
+function usage(partial: Omit<Usage, "cost">): Usage {
+	return { ...partial, cost: emptyUsageCost };
+}
+
+function textOf(content: readonly { readonly type: string; readonly text?: string }[]): string {
+	const part = content[0];
+	return part?.type === "text" ? (part as TextContent).text : "";
+}
+
 async function execute<TInput extends object>(tool: RuntimeToolDefinition<TInput>, input: TInput) {
 	return tool.execute({
 		sessionId: "session",
@@ -129,14 +140,13 @@ describe("recording agent tools", () => {
 			directoryFor: () => directory,
 			complete: async (_model, context) => {
 				reviews.push(context);
-				const usage = { input: 2_000, output: 40, cacheRead: 0, cacheWrite: 0, totalTokens: 2_040 };
 				const message: AssistantMessage = {
 					role: "assistant",
 					content: [{ type: "text", text: "The clip shows a solid red frame. recording:rec_flow" }],
 					api: "google-generative-ai",
 					provider: "google",
 					model: videoModel.id,
-					usage,
+					usage: usage({ input: 2_000, output: 40, cacheRead: 0, cacheWrite: 0, totalTokens: 2_040 }),
 					stopReason: "stop",
 					timestamp: Date.now(),
 				};
@@ -149,24 +159,24 @@ describe("recording agent tools", () => {
 			description: "record the page",
 			url: "https://example.com",
 		});
-		expect(started.content[0]?.text).toContain("recording_start ok");
+		expect(textOf(started.content)).toContain("recording_start ok");
 
 		const stopped = await execute(byName.recording_stop, { description: "stop", recordingId: "rec_flow" });
-		expect(stopped.content[0]?.text).toContain("ready");
+		expect(textOf(stopped.content)).toContain("ready");
 
 		const sampled = await execute(byName.recording_sample, {
 			description: "sample",
 			recordingId: "rec_flow",
 			atMs: [0, 1_000],
 		});
-		expect(sampled.content[0]?.text).toContain("2 frames");
+		expect(textOf(sampled.content)).toContain("2 frames");
 
 		const reviewed = await execute(byName.review_recording, {
 			description: "review",
 			recordingId: "rec_flow",
 			question: "What color is the frame?",
 		});
-		expect(reviewed.content[0]?.text).toContain("recording:rec_flow");
+		expect(textOf(reviewed.content)).toContain("recording:rec_flow");
 		expect(reviews).toHaveLength(1);
 	});
 
@@ -186,7 +196,7 @@ describe("recording agent tools", () => {
 				api: "google-generative-ai",
 				provider: "google",
 				model: videoModel.id,
-				usage: { input: 8, output: 2, cacheRead: 0, cacheWrite: 0, totalTokens: 10 },
+				usage: usage({ input: 8, output: 2, cacheRead: 0, cacheWrite: 0, totalTokens: 10 }),
 				stopReason: "stop",
 				timestamp: Date.now(),
 			}),
@@ -197,7 +207,7 @@ describe("recording agent tools", () => {
 			recordingId: "rec_flow",
 			question: "Describe the clip",
 		});
-		expect(result.content[0]?.text).toContain("token usage");
+		expect(textOf(result.content)).toContain("token usage");
 		expect(estimateVideoPromptTokens(5_000, "Describe the clip")).toBeGreaterThan(2_000);
 	});
 });

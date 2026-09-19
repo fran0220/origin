@@ -1,4 +1,4 @@
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 import type {
 	CodingAgentNewSessionOptions,
 	CodingAgentSession,
@@ -31,7 +31,7 @@ export class CodingAgentSdkActiveSessionAdapter extends CodingAgentSdkSessionAda
 	sendCustomMessage<T = unknown>(
 		message: {
 			readonly customType: string;
-			readonly content: string | readonly (TextContent | ImageContent)[];
+			readonly content: string | readonly UserContentPart[];
 			readonly display: boolean;
 			readonly details?: T;
 		},

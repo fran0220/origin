@@ -5,6 +5,7 @@ import type agentTeams from "@/shared/i18n/locales/zh/agent-teams.json";
 import type automation from "@/shared/i18n/locales/zh/automation.json";
 import type batchTasks from "@/shared/i18n/locales/zh/batch-tasks.json";
 import type evaluation from "@/shared/i18n/locales/zh/evaluation.json";
+import type recording from "@/shared/i18n/locales/zh/recording.json";
 import type timeline from "@/shared/i18n/locales/zh/timeline.json";
 import type chat from "@/shared/i18n/locales/zh/chat.json";
 import type common from "@/shared/i18n/locales/zh/common.json";
@@ -31,6 +32,7 @@ declare module "i18next" {
 			"batch-tasks": typeof batchTasks;
 			evaluation: typeof evaluation;
 			timeline: typeof timeline;
+			recording: typeof recording;
 			automation: typeof automation;
 			"agent-teams": typeof agentTeams;
 		};

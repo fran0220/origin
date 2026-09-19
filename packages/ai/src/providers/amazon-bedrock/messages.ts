@@ -6,6 +6,7 @@ import {
 	ImageFormat,
 	type Message,
 	type SystemContentBlock,
+	type ToolResultContentBlock,
 	ToolResultStatus,
 } from "@aws-sdk/client-bedrock-runtime";
 import type { CacheRetention, Context, JsonValue, Model, ToolResultMessage } from "../../types.js";
@@ -64,7 +65,7 @@ export function convertBedrockMessages(
 				content:
 					typeof message.content === "string"
 						? [{ text: sanitizeSurrogates(message.content) }]
-						: message.content.flatMap((content) => {
+						: message.content.flatMap((content): ContentBlock[] => {
 								if (content.type === "text") return [{ text: sanitizeSurrogates(content.text) }];
 								if (content.type !== "image") return [];
 								return [{ image: createImageBlock(content.mimeType, content.data) }];
@@ -127,7 +128,7 @@ function toToolResult(message: ToolResultMessage): ContentBlock.ToolResultMember
 	return {
 		toolResult: {
 			toolUseId: message.toolCallId,
-			content: message.content.flatMap((content) => {
+			content: message.content.flatMap((content): ToolResultContentBlock[] => {
 				if (content.type === "image") return [{ image: createImageBlock(content.mimeType, content.data) }];
 				if (content.type !== "text") return [];
 				return [{ text: sanitizeSurrogates(content.text) }];

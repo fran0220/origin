@@ -1,3 +1,4 @@
+import type { ModelCallRequest } from "../../runtime/language-model-adapter.js";
 import { createGoogleSdkAdapter, type GoogleGenerateContentSender } from "../google-stream/adapter.js";
 import { createGoogleClient } from "./client.js";
 import type { GoogleOptions } from "./options.js";
@@ -25,7 +26,7 @@ export function createGoogleAdapter(dependencies: GoogleAdapterDependencies = {}
 	if (dependencies.send) return inner;
 	return {
 		...inner,
-		async stream(request) {
+		async stream(request: ModelCallRequest<"google-generative-ai", GoogleOptions>) {
 			const client = createGoogleClient(request);
 			const context = await materializeGeminiVideoUploads(request.context, createGeminiFileUploader(client));
 			return inner.stream({ ...request, context });

@@ -31,7 +31,7 @@ export const ModelDefinitionSchema = Type.Object({
 	reasoning: Type.Optional(Type.Boolean()),
 	reasoningLevels: Type.Optional(Type.Array(Type.String({ minLength: 1 }))),
 	defaultReasoningLevel: Type.Optional(Type.String({ minLength: 1 })),
-	input: Type.Optional(Type.Array(Type.Union([Type.Literal("text"), Type.Literal("image")]))),
+	input: Type.Optional(Type.Array(Type.Union([Type.Literal("text"), Type.Literal("image"), Type.Literal("video")]))),
 	cost: Type.Optional(
 		Type.Object({
 			input: Type.Number(),
@@ -51,7 +51,7 @@ export const ModelOverrideSchema = Type.Object({
 	reasoning: Type.Optional(Type.Boolean()),
 	reasoningLevels: Type.Optional(Type.Array(Type.String({ minLength: 1 }))),
 	defaultReasoningLevel: Type.Optional(Type.String({ minLength: 1 })),
-	input: Type.Optional(Type.Array(Type.Union([Type.Literal("text"), Type.Literal("image")]))),
+	input: Type.Optional(Type.Array(Type.Union([Type.Literal("text"), Type.Literal("image"), Type.Literal("video")]))),
 	cost: Type.Optional(
 		Type.Object({
 			input: Type.Optional(Type.Number()),

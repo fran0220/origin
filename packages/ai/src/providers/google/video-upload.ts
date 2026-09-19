@@ -73,7 +73,7 @@ function shouldKeepInlineVideo(video: VideoContent): boolean {
 
 async function uploadInlineVideo(video: VideoContent, uploader: GeminiFileUploader): Promise<VideoContent> {
 	const bytes = decodeBase64(video.data ?? "");
-	const blob = new Blob([bytes], { type: video.mimeType });
+	const blob = new Blob([Buffer.from(bytes)], { type: video.mimeType });
 	const { uri } = await uploader.upload({
 		file: blob,
 		mimeType: video.mimeType,

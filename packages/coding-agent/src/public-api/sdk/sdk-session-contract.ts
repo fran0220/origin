@@ -1,5 +1,5 @@
 import type { AgentMessage, ThinkingLevel } from "@vetta/agent-core";
-import type { Api, ImageContent, Model, TextContent } from "@vetta/ai";
+import type { Api, Model, UserContentPart } from "@vetta/ai";
 import type { TodoItem } from "@vetta/coding-agent/session-extensions";
 import type {
 	RuntimeContextCompactionResult,
@@ -211,14 +211,14 @@ export interface CodingAgentActiveSessionCapabilities {
 	sendCustomMessage<T = unknown>(
 		message: {
 			readonly customType: string;
-			readonly content: string | readonly (TextContent | ImageContent)[];
+			readonly content: string | readonly UserContentPart[];
 			readonly display: boolean;
 			readonly details?: T;
 		},
 		options?: { readonly triggerTurn?: boolean; readonly deliverAs?: "steer" | "followUp" | "nextTurn" },
 	): Promise<void>;
 	sendUserMessage(
-		content: string | readonly (TextContent | ImageContent)[],
+		content: string | readonly UserContentPart[],
 		options?: { readonly deliverAs?: "steer" | "followUp" },
 	): Promise<void>;
 	newSession(options?: CodingAgentNewSessionOptions): Promise<boolean>;

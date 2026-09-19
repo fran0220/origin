@@ -66,6 +66,7 @@ export type {
 	ToolImagePreview,
 	ToolPhaseInfo,
 	ToolResultBlock,
+	ToolVideoPreview,
 } from "@shared/conversation";
 
 /**

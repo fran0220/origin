@@ -39,12 +39,12 @@ export function assertModelAcceptsVideo(
 		readonly id: string;
 		readonly provider: string;
 		readonly input: readonly ModelInputCapability[];
-		readonly capabilities?: ModelCapabilities;
+		readonly capabilities?: { readonly input?: readonly ModelInputCapability[] };
 	},
 	content: readonly unknown[],
 ): void {
 	if (!hasVideoInput(content)) return;
-	if (model.input.includes("video") || model.capabilities?.input.includes("video")) return;
+	if (model.input.includes("video") || model.capabilities?.input?.includes("video")) return;
 	throw new AIError(
 		AI_ERROR_CODES.UNSUPPORTED_CAPABILITY,
 		`Model ${model.provider}/${model.id} does not support video input`,

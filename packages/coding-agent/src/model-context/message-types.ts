@@ -1,6 +1,6 @@
 /** Coding Agent model-context message contracts and factories. */
 
-import type { ImageContent, TextContent, UserContentPart } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 
 /** Persisted prompt metadata marker. It is intentionally excluded from LLM context. */
 export const PROMPT_RESOURCE_REFERENCE_TYPE = "prompt_resource_reference";
@@ -104,7 +104,7 @@ export function createCompactionSummaryMessage(
 /** Convert CustomMessageEntry to AgentMessage format */
 export function createCustomMessage(
 	customType: string,
-	content: string | (TextContent | ImageContent)[],
+	content: string | UserContentPart[],
 	display: boolean,
 	details: unknown | undefined,
 	timestamp: string,

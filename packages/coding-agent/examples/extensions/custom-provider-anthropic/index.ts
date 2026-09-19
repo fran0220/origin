@@ -30,7 +30,6 @@ import {
 	type Context,
 	calculateCost,
 	createAssistantMessageEventStream,
-	type ImageContent,
 	type Message,
 	type Model,
 	type OAuthCredentials,
@@ -42,6 +41,7 @@ import {
 	type Tool,
 	type ToolCall,
 	type ToolResultMessage,
+	type UserContentPart,
 } from "@vetta/ai";
 import type { ExtensionAPI } from "@vetta/coding-agent";
 
@@ -186,26 +186,41 @@ function sanitizeSurrogates(text: string): string {
 }
 
 function convertContentBlocks(
-	content: (TextContent | ImageContent)[],
-): string | Array<{ type: "text"; text: string } | { type: "image"; source: any }> {
+	content: UserContentPart[],
+):
+	| string
+	| Array<
+			| { type: "text"; text: string }
+			| { type: "image"; source: { type: "base64"; media_type: string; data: string } }
+	  > {
 	const hasImages = content.some((c) => c.type === "image");
 	if (!hasImages) {
-		return sanitizeSurrogates(content.map((c) => (c as TextContent).text).join("\n"));
+		return sanitizeSurrogates(
+			content
+				.filter((c): c is TextContent => c.type === "text")
+				.map((c) => c.text)
+				.join("\n"),
+		);
 	}
 
-	const blocks = content.map((block) => {
+	const blocks: Array<
+		{ type: "text"; text: string } | { type: "image"; source: { type: "base64"; media_type: string; data: string } }
+	> = [];
+	for (const block of content) {
 		if (block.type === "text") {
-			return { type: "text" as const, text: sanitizeSurrogates(block.text) };
+			blocks.push({ type: "text", text: sanitizeSurrogates(block.text) });
+			continue;
 		}
-		return {
-			type: "image" as const,
+		if (block.type !== "image") continue;
+		blocks.push({
+			type: "image",
 			source: {
-				type: "base64" as const,
+				type: "base64",
 				media_type: block.mimeType,
 				data: block.data,
 			},
-		};
-	});
+		});
+	}
 
 	if (!blocks.some((b) => b.type === "text")) {
 		blocks.unshift({ type: "text" as const, text: "(see attached image)" });
@@ -226,14 +241,22 @@ function convertMessages(messages: Message[], isOAuth: boolean, _tools?: Tool[])
 					params.push({ role: "user", content: sanitizeSurrogates(msg.content) });
 				}
 			} else {
-				const blocks: ContentBlockParam[] = msg.content.map((item) =>
-					item.type === "text"
-						? { type: "text" as const, text: sanitizeSurrogates(item.text) }
-						: {
-								type: "image" as const,
-								source: { type: "base64" as const, media_type: item.mimeType as any, data: item.data },
-							},
-				);
+				const blocks: ContentBlockParam[] = [];
+				for (const item of msg.content) {
+					if (item.type === "text") {
+						blocks.push({ type: "text", text: sanitizeSurrogates(item.text) });
+						continue;
+					}
+					if (item.type !== "image") continue;
+					blocks.push({
+						type: "image",
+						source: {
+							type: "base64",
+							media_type: item.mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+							data: item.data,
+						},
+					});
+				}
 				if (blocks.length > 0) {
 					params.push({ role: "user", content: blocks });
 				}

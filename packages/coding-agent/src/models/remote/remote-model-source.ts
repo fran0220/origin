@@ -63,7 +63,7 @@ function parseRemoteModels(response: RemoteModelsResponse): RemoteModelLoadResul
 				...(definition.defaultReasoningLevel === undefined
 					? {}
 					: { defaultReasoningLevel: definition.defaultReasoningLevel }),
-				input: (definition.input ?? ["text"]) as ("text" | "image")[],
+				input: (definition.input ?? ["text"]) as ("text" | "image" | "video")[],
 				cost: definition.cost ?? { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
 				contextWindow: definition.contextWindow ?? 128_000,
 				...(definition.maxTokens === undefined ? {} : { maxTokens: definition.maxTokens }),

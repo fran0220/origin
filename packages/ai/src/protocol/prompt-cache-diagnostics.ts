@@ -1,5 +1,5 @@
 import type { Context, PromptCacheSystemPromptBlockSpan } from "./context.js";
-import type { ImageContent, Message, TextContent, ThinkingContent } from "./message.js";
+import type { ImageContent, Message, TextContent, ThinkingContent, VideoContent } from "./message.js";
 import type { Tool, ToolCall } from "./tool.js";
 import type {
 	PromptCacheChangedSegment,
@@ -231,19 +231,30 @@ function canonicalizeMessage(message: Message): unknown {
 }
 
 function canonicalizeContent(
-	content: string | readonly (TextContent | ThinkingContent | ImageContent | ToolCall)[],
+	content: string | readonly (TextContent | ThinkingContent | ImageContent | VideoContent | ToolCall)[],
 ): unknown {
 	if (typeof content === "string") return content;
-	return content.map((item) =>
-		item.type === "image"
-			? {
-					type: item.type,
-					mimeType: item.mimeType,
-					dataLength: item.data.length,
-					dataHash: fingerprint(item.data),
-				}
-			: item,
-	);
+	return content.map((item) => {
+		if (item.type === "image") {
+			return {
+				type: item.type,
+				mimeType: item.mimeType,
+				dataLength: item.data.length,
+				dataHash: fingerprint(item.data),
+			};
+		}
+		if (item.type === "video") {
+			return {
+				type: item.type,
+				mimeType: item.mimeType,
+				durationMs: item.durationMs,
+				dataLength: item.data?.length ?? 0,
+				dataHash: item.data ? fingerprint(item.data) : undefined,
+				uriHash: item.uri ? fingerprint(item.uri) : undefined,
+			};
+		}
+		return item;
+	});
 }
 
 function canonicalizeTool(tool: Tool): unknown {

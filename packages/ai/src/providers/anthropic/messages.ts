@@ -71,7 +71,7 @@ function appendUserMessage(params: MessageParam[], content: string | UserContent
 		return;
 	}
 
-	const blocks: ContentBlockParam[] = content.flatMap((item) => {
+	const blocks: ContentBlockParam[] = content.flatMap((item): ContentBlockParam[] => {
 		if (item.type === "text") return [{ type: "text" as const, text: sanitizeSurrogates(item.text) }];
 		if (item.type !== "image") return [];
 		return [
@@ -112,23 +112,52 @@ function convertContentBlocks(content: UserContentPart[]):
 			  }
 	  > {
 	if (!content.some((block) => block.type === "image")) {
-		return sanitizeSurrogates(content.map((block) => (block as TextContent).text).join("\n"));
+		return sanitizeSurrogates(
+			content
+				.filter((block): block is TextContent => block.type === "text")
+				.map((block) => block.text)
+				.join("\n"),
+		);
 	}
 
-	const blocks = content.flatMap((block) => {
-		if (block.type === "text") return [{ type: "text" as const, text: sanitizeSurrogates(block.text) }];
-		if (block.type !== "image") return [];
-		return [
-			{
-				type: "image" as const,
+	const blocks: Array<
+		| { type: "text"; text: string }
+		| {
+				type: "image";
 				source: {
-					type: "base64" as const,
-					media_type: block.mimeType as AnthropicImageMediaType,
-					data: block.data,
+					type: "base64";
+					media_type: AnthropicImageMediaType;
+					data: string;
+				};
+		  }
+	> = content.flatMap(
+		(
+			block,
+		): Array<
+			| { type: "text"; text: string }
+			| {
+					type: "image";
+					source: {
+						type: "base64";
+						media_type: AnthropicImageMediaType;
+						data: string;
+					};
+			  }
+		> => {
+			if (block.type === "text") return [{ type: "text" as const, text: sanitizeSurrogates(block.text) }];
+			if (block.type !== "image") return [];
+			return [
+				{
+					type: "image" as const,
+					source: {
+						type: "base64" as const,
+						media_type: block.mimeType as AnthropicImageMediaType,
+						data: block.data,
+					},
 				},
-			},
-		];
-	});
+			];
+		},
+	);
 	if (!blocks.some((block) => block.type === "text")) {
 		blocks.unshift({ type: "text", text: "(see attached image)" });
 	}

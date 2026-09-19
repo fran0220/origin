@@ -1,4 +1,4 @@
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 import type {
 	BashToolDetails,
 	BashToolInput,
@@ -93,7 +93,7 @@ interface ToolResultEventBase {
 	type: "tool_result";
 	toolCallId: string;
 	input: Record<string, unknown>;
-	content: (TextContent | ImageContent)[];
+	content: UserContentPart[];
 	isError: boolean;
 }
 
@@ -232,7 +232,7 @@ export interface ToolCallEventResult {
 }
 
 export interface ToolResultEventResult {
-	content?: (TextContent | ImageContent)[];
+	content?: UserContentPart[];
 	details?: unknown;
 	isError?: boolean;
 }

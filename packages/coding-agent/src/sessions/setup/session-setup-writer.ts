@@ -1,5 +1,5 @@
 import type { AgentMessage, ToolPhase } from "@vetta/agent-core";
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { UserContentPart } from "@vetta/ai";
 import type { ExtensionSessionWriter } from "../../extensions/index.js";
 import {
 	CODING_AGENT_SESSION_VIEW_VERSION,
@@ -160,7 +160,7 @@ export class CodingAgentSessionSetupWriter implements ExtensionSessionWriter {
 
 	appendCustomMessageEntry<T = unknown>(
 		customType: string,
-		content: string | (TextContent | ImageContent)[],
+		content: string | UserContentPart[],
 		display: boolean,
 		details?: T,
 	): string {

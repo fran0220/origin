@@ -50,7 +50,7 @@ export interface CodingAgentProviderModel {
 	readonly reasoning: boolean;
 	readonly reasoningLevels?: string[];
 	readonly defaultReasoningLevel?: string;
-	readonly input: readonly ("text" | "image")[];
+	readonly input: readonly ("text" | "image" | "video")[];
 	readonly cost: Model<Api>["cost"];
 	readonly contextWindow: number;
 	readonly maxTokens?: number;

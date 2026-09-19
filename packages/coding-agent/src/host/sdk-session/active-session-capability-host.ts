@@ -1,4 +1,4 @@
-import type { ImageContent, TextContent } from "@vetta/ai";
+import type { ImageContent, TextContent, UserContentPart } from "@vetta/ai";
 import type { RuntimeActiveSessionHost, RuntimeHostSession } from "@vetta/runtime-core";
 import type { SessionContextRecord } from "@vetta/runtime-core/kernel";
 import { createCodingAgentExtensionSessionViewFromSource } from "../../adapters/extensions/runtime-session-view-adapter.js";
@@ -67,7 +67,7 @@ export class CodingAgentSdkActiveSessionCapabilityHost implements CodingAgentSdk
 	sendCustomMessage<T = unknown>(
 		message: {
 			readonly customType: string;
-			readonly content: string | readonly (TextContent | ImageContent)[];
+			readonly content: string | readonly UserContentPart[];
 			readonly display: boolean;
 			readonly details?: T;
 		},
@@ -88,7 +88,7 @@ export class CodingAgentSdkActiveSessionCapabilityHost implements CodingAgentSdk
 	}
 
 	sendUserMessage(
-		content: string | readonly (TextContent | ImageContent)[],
+		content: string | readonly UserContentPart[],
 		options?: { readonly deliverAs?: "steer" | "followUp" },
 	): Promise<void> {
 		const normalized = normalizeUserContent(content);
@@ -235,11 +235,11 @@ function resolveCustomMessageDeliveryMode(
 	return options?.triggerTurn ? "triggerTurn" : "record";
 }
 
-function normalizeContent(content: string | readonly (TextContent | ImageContent)[]): (TextContent | ImageContent)[] {
+function normalizeContent(content: string | readonly UserContentPart[]): UserContentPart[] {
 	return typeof content === "string" ? [{ type: "text", text: content }] : [...content];
 }
 
-function normalizeUserContent(content: string | readonly (TextContent | ImageContent)[]): {
+function normalizeUserContent(content: string | readonly UserContentPart[]): {
 	readonly text: string;
 	readonly images: ImageContent[] | undefined;
 } {
