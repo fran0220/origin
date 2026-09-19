@@ -19,6 +19,7 @@ import type {
 } from "../../types.js";
 import { sanitizeSurrogates } from "../../utils/sanitize-unicode.js";
 import { transformMessages } from "../transform-messages.js";
+import { rejectVideoIfPresent } from "../video-content.js";
 import { sanitizeToolParameters } from "./tool-schema.js";
 
 export function convertMessages(
@@ -37,6 +38,7 @@ export function convertMessages(
 		return id;
 	};
 
+	rejectVideoIfPresent(model, context.messages);
 	const transformedMessages = transformMessages(context.messages, model, normalizeToolCallId);
 	if (context.systemPrompt) {
 		const role = model.reasoning && compat.supportsDeveloperRole ? "developer" : "system";
@@ -54,18 +56,25 @@ export function convertMessages(
 			if (typeof message.content === "string") {
 				params.push({ role: "user", content: sanitizeSurrogates(message.content) });
 			} else {
-				const content: ChatCompletionContentPart[] = message.content.map((item): ChatCompletionContentPart => {
-					if (item.type === "text") {
-						return {
-							type: "text",
-							text: sanitizeSurrogates(item.text),
-						} satisfies ChatCompletionContentPartText;
-					}
-					return {
-						type: "image_url",
-						image_url: { url: `data:${item.mimeType};base64,${item.data}` },
-					} satisfies ChatCompletionContentPartImage;
-				});
+				const content: ChatCompletionContentPart[] = message.content.flatMap(
+					(item): ChatCompletionContentPart[] => {
+						if (item.type === "text") {
+							return [
+								{
+									type: "text",
+									text: sanitizeSurrogates(item.text),
+								} satisfies ChatCompletionContentPartText,
+							];
+						}
+						if (item.type !== "image") return [];
+						return [
+							{
+								type: "image_url",
+								image_url: { url: `data:${item.mimeType};base64,${item.data}` },
+							} satisfies ChatCompletionContentPartImage,
+						];
+					},
+				);
 				if (content.length === 0) continue;
 				params.push({ role: "user", content });
 			}

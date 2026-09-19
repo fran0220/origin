@@ -22,9 +22,19 @@ export interface ImageContent {
 	mimeType: string;
 }
 
+export interface VideoContent {
+	type: "video";
+	mimeType: string;
+	data?: string;
+	uri?: string;
+	durationMs?: number;
+}
+
+export type UserContentPart = TextContent | ImageContent | VideoContent;
+
 export interface UserMessage {
 	role: "user";
-	content: string | (TextContent | ImageContent)[];
+	content: string | UserContentPart[];
 	timestamp: number;
 }
 
@@ -46,7 +56,7 @@ export interface ToolResultMessage<TDetails = unknown> {
 	role: "toolResult";
 	toolCallId: string;
 	toolName: string;
-	content: (TextContent | ImageContent)[];
+	content: UserContentPart[];
 	details?: TDetails;
 	isError: boolean;
 	timestamp: number;

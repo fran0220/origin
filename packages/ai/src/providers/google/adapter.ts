@@ -2,6 +2,7 @@ import { createGoogleSdkAdapter, type GoogleGenerateContentSender } from "../goo
 import { createGoogleClient } from "./client.js";
 import type { GoogleOptions } from "./options.js";
 import { buildGoogleParams } from "./request.js";
+import { createGeminiFileUploader, materializeGeminiVideoUploads } from "./video-upload.js";
 
 export type GoogleContentSender = GoogleGenerateContentSender<"google-generative-ai", GoogleOptions>;
 
@@ -16,9 +17,18 @@ const sendGoogleContent: GoogleContentSender = async (params, request) => {
 export const googleAdapter = createGoogleAdapter();
 
 export function createGoogleAdapter(dependencies: GoogleAdapterDependencies = {}) {
-	return createGoogleSdkAdapter({
+	const inner = createGoogleSdkAdapter({
 		api: "google-generative-ai",
 		buildParams: buildGoogleParams,
 		send: dependencies.send ?? sendGoogleContent,
 	});
+	if (dependencies.send) return inner;
+	return {
+		...inner,
+		async stream(request) {
+			const client = createGoogleClient(request);
+			const context = await materializeGeminiVideoUploads(request.context, createGeminiFileUploader(client));
+			return inner.stream({ ...request, context });
+		},
+	};
 }

@@ -1,13 +1,12 @@
 import type {
 	Api,
 	AssistantMessage,
-	ImageContent,
 	Message,
 	Model,
 	PromptCacheSystemPromptBlockSpan,
 	SimpleStreamOptions,
 	StopReason,
-	TextContent,
+	UserContentPart,
 	UserMessage,
 } from "@vetta/ai";
 import type {
@@ -153,7 +152,7 @@ export interface RuntimeToolExecutionRequest<TInput extends object = Readonly<Re
 }
 
 export interface RuntimeToolResult {
-	readonly content: readonly (TextContent | ImageContent)[];
+	readonly content: readonly UserContentPart[];
 	readonly details?: unknown;
 	/** A tool can complete normally while reporting a protocol-level error result. */
 	readonly isError?: boolean;

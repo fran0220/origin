@@ -3,9 +3,10 @@
  */
 
 import { type Content, FinishReason, FunctionCallingConfigMode, type Part } from "@google/genai";
-import type { Context, ImageContent, Model, StopReason, TextContent, Tool } from "../types.js";
+import type { Context, ImageContent, Model, StopReason, TextContent, Tool, VideoContent } from "../types.js";
 import { sanitizeSurrogates } from "../utils/sanitize-unicode.js";
 import { transformMessages } from "./transform-messages.js";
+import { assertNoUnsupportedVideo, geminiVideoPart, isVideoContent } from "./video-content.js";
 
 type GoogleApiType = "google-generative-ai" | "google-gemini-cli" | "google-vertex";
 
@@ -82,6 +83,7 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 		return id.replace(/[^a-zA-Z0-9_-]/g, "_").slice(0, 64);
 	};
 
+	assertNoUnsupportedVideo(model, context.messages);
 	const transformedMessages = transformMessages(context.messages, model, normalizeToolCallId);
 
 	for (const msg of transformedMessages) {
@@ -95,14 +97,16 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 				const parts: Part[] = msg.content.map((item) => {
 					if (item.type === "text") {
 						return { text: sanitizeSurrogates(item.text) };
-					} else {
-						return {
-							inlineData: {
-								mimeType: item.mimeType,
-								data: item.data,
-							},
-						};
 					}
+					if (item.type === "video") {
+						return geminiVideoPart(item);
+					}
+					return {
+						inlineData: {
+							mimeType: item.mimeType,
+							data: item.data,
+						},
+					};
 				});
 				if (parts.length === 0) continue;
 				contents.push({
@@ -180,9 +184,11 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 			const textContent = msg.content.filter((c): c is TextContent => c.type === "text");
 			const textResult = textContent.map((c) => c.text).join("\n");
 			const imageContent = msg.content.filter((c): c is ImageContent => c.type === "image");
+			const videoContent = msg.content.filter((c): c is VideoContent => isVideoContent(c));
 
 			const hasText = textResult.length > 0;
 			const hasImages = imageContent.length > 0;
+			const hasVideos = videoContent.length > 0;
 
 			// Gemini 3 supports multimodal function responses with images nested inside functionResponse.parts
 			// See: https://ai.google.dev/gemini-api/docs/function-calling#multimodal
@@ -190,14 +196,21 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 			const supportsMultimodalFunctionResponse = model.id.includes("gemini-3");
 
 			// Use "output" key for success, "error" key for errors as per SDK documentation
-			const responseValue = hasText ? sanitizeSurrogates(textResult) : hasImages ? "(see attached image)" : "";
+			const responseValue = hasText
+				? sanitizeSurrogates(textResult)
+				: hasImages || hasVideos
+					? "(see attached media)"
+					: "";
 
-			const imageParts: Part[] = imageContent.map((imageBlock) => ({
-				inlineData: {
-					mimeType: imageBlock.mimeType,
-					data: imageBlock.data,
-				},
-			}));
+			const imageParts: Part[] = [
+				...imageContent.map((imageBlock) => ({
+					inlineData: {
+						mimeType: imageBlock.mimeType,
+						data: imageBlock.data,
+					},
+				})),
+				...videoContent.map((videoBlock) => geminiVideoPart(videoBlock)),
+			];
 
 			const includeId = requiresToolCallId(model.id);
 			const functionResponsePart: Part = {
@@ -205,7 +218,7 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 					name: msg.toolName,
 					response: msg.isError ? { error: responseValue } : { output: responseValue },
 					// Nest images inside functionResponse.parts for Gemini 3
-					...(hasImages && supportsMultimodalFunctionResponse && { parts: imageParts }),
+					...((hasImages || hasVideos) && supportsMultimodalFunctionResponse && { parts: imageParts }),
 					...(includeId ? { id: msg.toolCallId } : {}),
 				},
 			};
@@ -223,10 +236,10 @@ export function convertMessages<T extends GoogleApiType>(model: Model<T>, contex
 			}
 
 			// For older models, add images in a separate user message
-			if (hasImages && !supportsMultimodalFunctionResponse) {
+			if ((hasImages || hasVideos) && !supportsMultimodalFunctionResponse) {
 				contents.push({
 					role: "user",
-					parts: [{ text: "Tool result image:" }, ...imageParts],
+					parts: [{ text: hasVideos ? "Tool result video:" : "Tool result image:" }, ...imageParts],
 				});
 			}
 		}

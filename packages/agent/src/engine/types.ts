@@ -2,13 +2,12 @@ import type { Static, TSchema } from "@sinclair/typebox";
 import type {
 	AIErrorDetails,
 	AssistantMessage,
-	ImageContent,
 	LanguageModelStreamEvent,
 	Message,
 	ModelStreamResponse,
-	TextContent,
 	ToolCall,
 	ToolResultMessage,
+	UserContentPart,
 } from "@vetta/ai";
 
 export interface AgentRunLimits {
@@ -89,7 +88,7 @@ export interface RuntimeToolExecutionContext<TDetails = unknown> {
 }
 
 export interface RuntimeToolResult<TDetails = unknown> {
-	readonly content: readonly (TextContent | ImageContent)[];
+	readonly content: readonly UserContentPart[];
 	readonly details: TDetails;
 	/** Protocol-level error result returned without throwing. */
 	readonly isError?: boolean;

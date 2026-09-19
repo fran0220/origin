@@ -1,7 +1,8 @@
 import type { ContentBlockParam, MessageParam } from "@anthropic-ai/sdk/resources/messages.js";
-import type { ImageContent, Message, Model, TextContent, ToolResultMessage } from "../../types.js";
+import type { Message, Model, TextContent, ToolResultMessage, UserContentPart } from "../../types.js";
 import { sanitizeSurrogates } from "../../utils/sanitize-unicode.js";
 import { transformMessages } from "../transform-messages.js";
+import { rejectVideoIfPresent } from "../video-content.js";
 import type { AnthropicCacheControl } from "./cache.js";
 import { normalizeAnthropicToolCallId, toClaudeCodeName } from "./tools.js";
 
@@ -15,6 +16,7 @@ export function convertMessages(
 	cacheControl?: AnthropicCacheControl,
 ): MessageParam[] {
 	const params: MessageParam[] = [];
+	rejectVideoIfPresent(model, messages);
 	const transformedMessages = transformMessages(messages, model, normalizeAnthropicToolCallId);
 
 	for (let index = 0; index < transformedMessages.length; index++) {
@@ -63,24 +65,26 @@ export function convertMessages(
 	return params;
 }
 
-function appendUserMessage(params: MessageParam[], content: string | (TextContent | ImageContent)[]): void {
+function appendUserMessage(params: MessageParam[], content: string | UserContentPart[]): void {
 	if (typeof content === "string") {
 		if (content.trim().length > 0) params.push({ role: "user", content: sanitizeSurrogates(content) });
 		return;
 	}
 
-	const blocks: ContentBlockParam[] = content.map((item) =>
-		item.type === "text"
-			? { type: "text", text: sanitizeSurrogates(item.text) }
-			: {
-					type: "image",
-					source: {
-						type: "base64",
-						media_type: item.mimeType as AnthropicImageMediaType,
-						data: item.data,
-					},
+	const blocks: ContentBlockParam[] = content.flatMap((item) => {
+		if (item.type === "text") return [{ type: "text" as const, text: sanitizeSurrogates(item.text) }];
+		if (item.type !== "image") return [];
+		return [
+			{
+				type: "image" as const,
+				source: {
+					type: "base64" as const,
+					media_type: item.mimeType as AnthropicImageMediaType,
+					data: item.data,
 				},
-	);
+			},
+		];
+	});
 	const nonEmptyBlocks = blocks.filter((block) => block.type !== "text" || block.text.trim().length > 0);
 	if (nonEmptyBlocks.length > 0) params.push({ role: "user", content: nonEmptyBlocks });
 }
@@ -94,7 +98,7 @@ function toToolResultBlock(message: ToolResultMessage): ContentBlockParam {
 	};
 }
 
-function convertContentBlocks(content: (TextContent | ImageContent)[]):
+function convertContentBlocks(content: UserContentPart[]):
 	| string
 	| Array<
 			| { type: "text"; text: string }
@@ -111,18 +115,20 @@ function convertContentBlocks(content: (TextContent | ImageContent)[]):
 		return sanitizeSurrogates(content.map((block) => (block as TextContent).text).join("\n"));
 	}
 
-	const blocks = content.map((block) =>
-		block.type === "text"
-			? { type: "text" as const, text: sanitizeSurrogates(block.text) }
-			: {
-					type: "image" as const,
-					source: {
-						type: "base64" as const,
-						media_type: block.mimeType as AnthropicImageMediaType,
-						data: block.data,
-					},
+	const blocks = content.flatMap((block) => {
+		if (block.type === "text") return [{ type: "text" as const, text: sanitizeSurrogates(block.text) }];
+		if (block.type !== "image") return [];
+		return [
+			{
+				type: "image" as const,
+				source: {
+					type: "base64" as const,
+					media_type: block.mimeType as AnthropicImageMediaType,
+					data: block.data,
 				},
-	);
+			},
+		];
+	});
 	if (!blocks.some((block) => block.type === "text")) {
 		blocks.unshift({ type: "text", text: "(see attached image)" });
 	}

@@ -11,6 +11,7 @@ import {
 import type { CacheRetention, Context, JsonValue, Model, ToolResultMessage } from "../../types.js";
 import { sanitizeSurrogates } from "../../utils/sanitize-unicode.js";
 import { transformMessages } from "../transform-messages.js";
+import { rejectVideoIfPresent } from "../video-content.js";
 
 export function resolveCacheRetention(cacheRetention?: CacheRetention): CacheRetention {
 	if (cacheRetention) return cacheRetention;
@@ -53,6 +54,7 @@ export function convertBedrockMessages(
 	cacheRetention: CacheRetention,
 ): Message[] {
 	const result: Message[] = [];
+	rejectVideoIfPresent(model, context.messages);
 	const messages = transformMessages(context.messages, model, normalizeToolCallId);
 	for (let index = 0; index < messages.length; index++) {
 		const message = messages[index];
@@ -62,11 +64,11 @@ export function convertBedrockMessages(
 				content:
 					typeof message.content === "string"
 						? [{ text: sanitizeSurrogates(message.content) }]
-						: message.content.map((content) =>
-								content.type === "text"
-									? { text: sanitizeSurrogates(content.text) }
-									: { image: createImageBlock(content.mimeType, content.data) },
-							),
+						: message.content.flatMap((content) => {
+								if (content.type === "text") return [{ text: sanitizeSurrogates(content.text) }];
+								if (content.type !== "image") return [];
+								return [{ image: createImageBlock(content.mimeType, content.data) }];
+							}),
 			});
 		} else if (message.role === "assistant") {
 			const contentBlocks: ContentBlock[] = [];
@@ -125,11 +127,11 @@ function toToolResult(message: ToolResultMessage): ContentBlock.ToolResultMember
 	return {
 		toolResult: {
 			toolUseId: message.toolCallId,
-			content: message.content.map((content) =>
-				content.type === "image"
-					? { image: createImageBlock(content.mimeType, content.data) }
-					: { text: sanitizeSurrogates(content.text) },
-			),
+			content: message.content.flatMap((content) => {
+				if (content.type === "image") return [{ image: createImageBlock(content.mimeType, content.data) }];
+				if (content.type !== "text") return [];
+				return [{ text: sanitizeSurrogates(content.text) }];
+			}),
 			status: message.isError ? ToolResultStatus.ERROR : ToolResultStatus.SUCCESS,
 		},
 	};

@@ -29,7 +29,9 @@ export type {
 	ToolResultMessage,
 	Usage,
 	UsageCost,
+	UserContentPart,
 	UserMessage,
+	VideoContent,
 } from "./protocol/index.js";
 // Base options all providers share
 export type FetchFunction = typeof globalThis.fetch;
@@ -197,7 +199,7 @@ export interface Model<TApi extends Api> {
 	/** Provider-native effort values; an empty list falls back to the API preset. */
 	reasoningLevels?: string[];
 	defaultReasoningLevel?: string;
-	input: ("text" | "image")[];
+	input: ("text" | "image" | "video")[];
 	cost: {
 		input: number; // $/million tokens
 		output: number; // $/million tokens

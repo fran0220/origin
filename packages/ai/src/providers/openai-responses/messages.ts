@@ -8,9 +8,19 @@ import type {
 	ResponseOutputMessage,
 	ResponseReasoningItem,
 } from "openai/resources/responses/responses.js";
-import type { Api, AssistantMessage, Context, ImageContent, Model, TextContent, Tool } from "../../types.js";
+import type {
+	Api,
+	AssistantMessage,
+	Context,
+	ImageContent,
+	Model,
+	TextContent,
+	Tool,
+	UserContentPart,
+} from "../../types.js";
 import { sanitizeSurrogates } from "../../utils/sanitize-unicode.js";
 import { transformMessages } from "../transform-messages.js";
+import { rejectVideoIfPresent } from "../video-content.js";
 
 export interface ConvertResponsesMessagesOptions {
 	includeSystemPrompt?: boolean;
@@ -27,6 +37,7 @@ export function convertResponsesMessages<TApi extends Api>(
 	options?: ConvertResponsesMessagesOptions,
 ): ResponseInput {
 	const messages: ResponseInput = [];
+	rejectVideoIfPresent(model, context.messages);
 	const transformedMessages = transformMessages(context.messages, model, (id) =>
 		normalizeToolCallId(id, model.provider, allowedToolCallProviders),
 	);
@@ -97,7 +108,7 @@ export function convertResponsesTools(tools: Tool[], options?: ConvertResponsesT
 	}));
 }
 
-function appendUserMessage(messages: ResponseInput, content: string | Array<TextContent | ImageContent>): boolean {
+function appendUserMessage(messages: ResponseInput, content: string | UserContentPart[]): boolean {
 	if (typeof content === "string") {
 		messages.push({
 			role: "user",
@@ -105,26 +116,25 @@ function appendUserMessage(messages: ResponseInput, content: string | Array<Text
 		});
 		return true;
 	}
-	const parts: ResponseInputContent[] = content.map(
-		(item): ResponseInputContent =>
-			item.type === "text"
-				? ({ type: "input_text", text: sanitizeSurrogates(item.text) } satisfies ResponseInputText)
-				: ({
-						type: "input_image",
-						detail: "auto",
-						image_url: `data:${item.mimeType};base64,${item.data}`,
-					} satisfies ResponseInputImage),
-	);
+	const parts: ResponseInputContent[] = content.flatMap((item): ResponseInputContent[] => {
+		if (item.type === "text") {
+			return [{ type: "input_text", text: sanitizeSurrogates(item.text) } satisfies ResponseInputText];
+		}
+		if (item.type !== "image") return [];
+		return [
+			{
+				type: "input_image",
+				detail: "auto",
+				image_url: `data:${item.mimeType};base64,${item.data}`,
+			} satisfies ResponseInputImage,
+		];
+	});
 	if (parts.length === 0) return false;
 	messages.push({ role: "user", content: parts });
 	return true;
 }
 
-function appendToolResult(
-	messages: ResponseInput,
-	toolCallId: string,
-	content: Array<TextContent | ImageContent>,
-): void {
+function appendToolResult(messages: ResponseInput, toolCallId: string, content: UserContentPart[]): void {
 	const text = content
 		.filter((block): block is TextContent => block.type === "text")
 		.map((block) => block.text)

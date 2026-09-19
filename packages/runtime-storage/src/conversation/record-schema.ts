@@ -23,6 +23,19 @@ const ImageContentSchema = Type.Object(
 	{ additionalProperties: false },
 );
 
+const VideoContentSchema = Type.Object(
+	{
+		type: Type.Literal("video"),
+		mimeType: Type.String(),
+		data: Type.Optional(Type.String()),
+		uri: Type.Optional(Type.String()),
+		durationMs: Type.Optional(Type.Number()),
+	},
+	{ additionalProperties: false },
+);
+
+const UserContentPartSchema = Type.Union([TextContentSchema, ImageContentSchema, VideoContentSchema]);
+
 const ThinkingContentSchema = Type.Object(
 	{
 		type: Type.Literal("thinking"),
@@ -240,7 +253,7 @@ const ReadRecordedRuntimeFailureSchema = Type.Object(
 export const UserMessageSchema = Type.Object(
 	{
 		role: Type.Literal("user"),
-		content: Type.Union([Type.String(), Type.Array(Type.Union([TextContentSchema, ImageContentSchema]))]),
+		content: Type.Union([Type.String(), Type.Array(UserContentPartSchema)]),
 		timestamp: Type.Number(),
 	},
 	{ additionalProperties: false },
@@ -315,7 +328,7 @@ const ToolResultMessageSchema = Type.Object(
 		role: Type.Literal("toolResult"),
 		toolCallId: Type.String(),
 		toolName: Type.String(),
-		content: Type.Array(Type.Union([TextContentSchema, ImageContentSchema])),
+		content: Type.Array(UserContentPartSchema),
 		details: Type.Optional(Type.Unknown()),
 		isError: Type.Boolean(),
 		timestamp: Type.Number(),
@@ -416,7 +429,7 @@ const ReadMessageAppendedEventSchema = Type.Object(
 const SessionContextRecordSchema = Type.Object(
 	{
 		type: Type.String(),
-		content: Type.Union([Type.String(), Type.Array(Type.Union([TextContentSchema, ImageContentSchema]))]),
+		content: Type.Union([Type.String(), Type.Array(UserContentPartSchema)]),
 		modelVisible: Type.Boolean(),
 		display: Type.Optional(Type.Boolean()),
 		metadata: Type.Optional(Type.Unknown()),

@@ -4,14 +4,13 @@ import type {
 	AssistantMessage,
 	AssistantMessageEvent,
 	Context,
-	ImageContent,
 	Message,
 	Model,
 	SimpleStreamOptions,
 	streamSimple,
-	TextContent,
 	Tool,
 	ToolResultMessage,
+	UserContentPart,
 } from "@vetta/ai";
 import type { AgentTracer } from "./telemetry.js";
 
@@ -263,7 +262,7 @@ export interface AgentState {
 
 export interface AgentToolResult<T> {
 	// Content blocks supporting text and images
-	content: (TextContent | ImageContent)[];
+	content: UserContentPart[];
 	// Details to be displayed in a UI or logged
 	details: T;
 	// Protocol-level tool error returned without throwing.
