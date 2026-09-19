@@ -33,6 +33,7 @@ describe("DesktopModelCredentialStore", () => {
 
 class UndecryptableCryptography implements CredentialCryptography {
 	readonly backend = "test";
+	readonly custody = "owner-only-file" as const;
 
 	isAvailable(): boolean {
 		return true;

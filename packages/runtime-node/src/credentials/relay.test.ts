@@ -9,7 +9,10 @@ const servers: Array<{ close(): void }> = [];
 afterEach(async () => {
 	while (hosts.length > 0) await hosts.pop()?.close();
 	while (servers.length > 0) {
-		await new Promise<void>((resolve) => servers.pop()?.close(() => resolve()));
+		await new Promise<void>((resolve) => {
+			servers.pop()?.close();
+			resolve();
+		});
 	}
 });
 

@@ -87,7 +87,7 @@ export function logoutUrlFromDiscovery(discoveryLogout?: string): string {
 	return discoveryLogout ?? `${DEFAULT_SERVER_URL.replace(/\/+$/, "")}/auth/logout`;
 }
 
-export { revokeRemoteSession };
+export { discoverDesktopAuth, revokeRemoteSession };
 
 function listenForPkceCallback(options: {
 	readonly authorizeUrl: string;

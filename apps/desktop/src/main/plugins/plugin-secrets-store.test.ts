@@ -8,6 +8,7 @@ import { PluginSecretsStore } from "./plugin-secrets-store.js";
 /** 可用的假加密后端：只验证存储行为，不测 safeStorage 本身。 */
 const cryptography = {
 	backend: "test",
+	custody: "owner-only-file" as const,
 	isAvailable: () => true,
 	encrypt: (plainText: string) => Buffer.from(plainText, "utf8").toString("base64"),
 	decrypt: (cipherText: string) => Buffer.from(cipherText, "base64").toString("utf8"),

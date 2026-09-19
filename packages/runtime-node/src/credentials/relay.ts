@@ -161,7 +161,10 @@ class LoopbackRelayHost implements ConnectionRelayHost {
 			const upstream = await this.fetchImpl(upstreamUrl, {
 				method: request.method,
 				headers,
-				body: body.length > 0 && request.method !== "GET" && request.method !== "HEAD" ? body : undefined,
+				body:
+					body.length > 0 && request.method !== "GET" && request.method !== "HEAD"
+						? new Uint8Array(body)
+						: undefined,
 			});
 			response.writeHead(upstream.status, sanitizeResponseHeaders(upstream.headers, live.secret));
 			const payload = Buffer.from(await upstream.arrayBuffer());

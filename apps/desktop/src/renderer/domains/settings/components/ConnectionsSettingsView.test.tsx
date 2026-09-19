@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 
+import { parseConnectionEndpoint } from "@vetta/coding-agent/connections";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -39,7 +40,7 @@ function model(overrides: Partial<ConnectionsSettingsModel> = {}): ConnectionsSe
 					id: "vetta",
 					displayName: "Vetta",
 					protocol: "openai",
-					endpoint: "https://api.example.com",
+					endpoint: parseConnectionEndpoint("https://api.example.com"),
 					credentialOrigin: "signed-in",
 					account: { subject: "1", username: "alice", displayName: "Alice" },
 				},
@@ -54,7 +55,7 @@ function model(overrides: Partial<ConnectionsSettingsModel> = {}): ConnectionsSe
 					id: "openai",
 					displayName: "OpenAI",
 					protocol: "openai",
-					endpoint: "https://api.openai.com",
+					endpoint: parseConnectionEndpoint("https://api.openai.com"),
 					credentialOrigin: "provided",
 				},
 				status: "ready",

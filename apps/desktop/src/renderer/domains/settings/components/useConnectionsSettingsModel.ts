@@ -82,7 +82,7 @@ export function useConnectionsSettingsModel(): ConnectionsSettingsModel {
 		} catch (error) {
 			showToast({
 				title: t("connections.saveFailed"),
-				description: error instanceof Error ? error.message : String(error),
+				message: error instanceof Error ? error.message : String(error),
 				variant: "error",
 			});
 		} finally {
