@@ -38,12 +38,17 @@ export interface DesktopWindowApi {
 	): Promise<string | null>;
 }
 
+export interface AuthSessionDescriptor {
+	readonly signedIn: true;
+}
+
 export interface DesktopSettingsApi {
 	getServerUrl(): Promise<string>;
 	getSiteUrl(): Promise<string>;
-	getServerToken(): Promise<string | undefined>;
+	/** Secret-free login descriptor. Never returns a token. */
+	getServerToken(): Promise<AuthSessionDescriptor | undefined>;
 	setServerToken(token: string | undefined): Promise<void>;
-	getServerRefreshToken(): Promise<string | undefined>;
+	getServerRefreshToken(): Promise<{ present: true } | undefined>;
 	setServerRefreshToken(token: string | undefined): Promise<void>;
 }
 

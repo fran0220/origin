@@ -11,9 +11,14 @@
 
 import { ipcMain } from "electron";
 import { setCloudBridge } from "../cloud-bridge.js";
+import { getAccountDirectoryService } from "../connections/account-directory.js";
+import { getConnectionCatalog } from "../connections/catalog.js";
+import { DEFAULT_SERVER_URL } from "../constants.js";
+import { writeAccountTokens } from "../credentials/account-token-store.js";
 import { getMainWindow } from "../window-manager.js";
 import { consumeOAuthCallback, reopenOAuthLogin, startOAuthLogin } from "./auth/oauth-login.js";
 import { setLoopbackCallbackHandler } from "./auth/oauth-loopback.js";
+import { startPkceOrLegacyLogin } from "./auth/pkce-login.js";
 import { fetchRemoteProviders, registerCloudAuthIpc, tryRefreshAccessToken } from "./auth-session.js";
 import { requestVettaGateway } from "./gateway.js";
 
@@ -41,12 +46,34 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 	// 授权登录由主进程发起：state 的生成与校验都在这里，渲染层碰不到，
 	// 未通过校验的 token 也就永远进不了渲染层。
 	ipcMain.handle("vetta:auth:start-oauth", async () => {
-		await startOAuthLogin();
+		const mode = await startPkceOrLegacyLogin();
+		if (mode === "legacy") {
+			await startOAuthLogin();
+			return;
+		}
 	});
 
 	ipcMain.handle("vetta:auth:reopen-oauth", async () => {
 		await reopenOAuthLogin();
 	});
+
+	ipcMain.handle(
+		"vetta:cloud:request",
+		async (
+			_event,
+			path: unknown,
+			options: { method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"; body?: unknown } | undefined,
+		) => {
+			if (typeof path !== "string" || path.length === 0) {
+				return { ok: false, status: 400, code: -1, message: "path required" };
+			}
+			return requestVettaGateway({
+				path: path.replace(/^\/+/, ""),
+				method: options?.method,
+				body: options?.body,
+			});
+		},
+	);
 
 	const teardownAuthIpc = registerCloudAuthIpc();
 
@@ -63,11 +90,14 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 			if (parsed.hostname !== "oauth" || !parsed.pathname.startsWith("/callback")) return false;
 			const mainWindow = getMainWindow();
 			if (!mainWindow) return true;
-			// state 不匹配时 tokens 为 null——绝不把未校验的 token 转给渲染层，
-			// 只通知它把「等待授权」切回可重试状态，否则用户会一直干等。
 			const tokens = consumeOAuthCallback(parsed);
 			if (tokens) {
-				mainWindow.webContents.send("vetta:auth:oauth-callback", tokens);
+				writeAccountTokens(tokens.token, tokens.refreshToken);
+				admitSignedInConnection(tokens.token);
+				void import("../connections/runtime-binding.js").then(({ bindModelRuntimeToConnectionRelays }) =>
+					bindModelRuntimeToConnectionRelays(),
+				);
+				mainWindow.webContents.send("vetta:auth:oauth-callback", { signedIn: true });
 			} else {
 				mainWindow.webContents.send("vetta:auth:oauth-rejected");
 			}
@@ -78,6 +108,22 @@ export function startCloudMain(options: StartCloudMainOptions): CloudMainHandle 
 			teardownAuthIpc();
 			ipcMain.removeHandler("vetta:auth:start-oauth");
 			ipcMain.removeHandler("vetta:auth:reopen-oauth");
+			ipcMain.removeHandler("vetta:cloud:request");
 		},
 	};
+}
+
+function admitSignedInConnection(accessToken: string): void {
+	try {
+		const origin = new URL(DEFAULT_SERVER_URL).origin;
+		getConnectionCatalog().upsertSignedIn({
+			displayName: "Vetta",
+			endpoint: origin,
+			secret: accessToken,
+			account: { subject: "signed-in", username: "signed-in", displayName: "Vetta" },
+		});
+		getAccountDirectoryService().admit(origin, "signed-in", origin);
+	} catch {
+		// Discovery / endpoint parse failure must not block login persistence.
+	}
 }

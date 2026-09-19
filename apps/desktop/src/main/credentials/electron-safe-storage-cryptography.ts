@@ -1,8 +1,9 @@
+import type { CredentialCryptography } from "@vetta/runtime-node/credentials";
 import { safeStorage } from "electron";
-import type { CredentialCryptography } from "./credential-vault.js";
 
 export class ElectronSafeStorageCryptography implements CredentialCryptography {
 	readonly backend = "electron-safe-storage";
+	readonly custody = "os-protected" as const;
 
 	isAvailable(): boolean {
 		if (!safeStorage.isEncryptionAvailable()) return false;

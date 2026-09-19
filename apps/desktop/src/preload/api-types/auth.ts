@@ -1,10 +1,7 @@
 /**
  * refresh 的三态结果。区分明确拒绝与暂时性失败，避免网络波动时误登出。
  */
-export type RefreshOutcome =
-	| { status: "ok"; accessToken: string }
-	| { status: "unauthorized" }
-	| { status: "transient" };
+export type RefreshOutcome = { status: "ok" } | { status: "unauthorized" } | { status: "transient" };
 
 export interface DesktopAuthApi {
 	openExternal(url: string): Promise<void>;
@@ -21,7 +18,7 @@ export interface DesktopAuthApi {
 	 * 视作 reuse 并 revoke，造成"老是掉登录"的体感问题。
 	 */
 	refreshToken(): Promise<RefreshOutcome>;
-	onOAuthCallback(handler: (data: { token: string; refreshToken?: string }) => void): () => void;
+	onOAuthCallback(handler: (data: { signedIn: true }) => void): () => void;
 	/**
 	 * 回调的 state 校验未通过（过期链接、旧标签页、客户端重启后 state 已丢失）。
 	 * 主进程已丢弃其中的 token，故本事件不带任何 payload。
@@ -32,6 +29,10 @@ export interface DesktopAuthApi {
 	 * 渲染层应在这里执行登出，但不要中断正在运行的本地模型会话。
 	 */
 	onUnauthorized(handler: () => void): () => void;
-	/** 主进程通过 refresh token 拿到新 access+refresh 后广播给渲染层。 */
-	onTokenRefreshed(handler: (data: { accessToken: string; refreshToken: string }) => void): () => void;
+	/** 主进程完成 refresh 后广播给渲染层（不含凭据）。 */
+	onTokenRefreshed(handler: (data: { signedIn: true }) => void): () => void;
+	/** 主进程代发登出：远端 revoke + 清 Vault。 */
+	signOut(): Promise<{ revoked: boolean }>;
+	/** 一次性 loopback SSE 地址，query 里不带 access token。 */
+	sseUrl(): Promise<{ url: string } | undefined>;
 }

@@ -412,6 +412,11 @@ if (!gotSingleLock) {
 		// 若晚于 createWindow 注册会与异步 page-load 抢跑、读到 undefined 回落错语言（首帧闪）。
 		// i18n IPC 与具体窗口无关（广播给全部窗口），故脱离 registerAllIpc 独立早注册、app 级常驻。
 		registerI18nIpc();
+		void import("./connections/bootstrap.js")
+			.then(({ bootstrapConnections }) => bootstrapConnections())
+			.catch((error) => {
+				mainLog.warn("connection bootstrap failed", error);
+			});
 		const appLifecycle = registerAppLifecycleIpc();
 
 		// 必须放在 whenReady 之后：早于 ready 调用时主进程 bundle identity

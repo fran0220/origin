@@ -1,6 +1,6 @@
 import type { VettaGatewayRequest, VettaGatewayResponse } from "../cloud-bridge.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
-import { readSettings } from "../ipc/settings.js";
+import { readAccountAccessToken } from "../credentials/account-token-store.js";
 import { getAppLogger } from "../logger.js";
 import { tryRefreshAccessToken } from "./auth-session.js";
 
@@ -33,7 +33,7 @@ function baseUrl(): string {
 }
 
 function currentToken(): string | undefined {
-	const token = readSettings().serverToken;
+	const token = readAccountAccessToken();
 	return typeof token === "string" && token !== "" ? token : undefined;
 }
 
@@ -118,7 +118,10 @@ export async function requestVettaGateway<T = unknown>(
 				log.warn(`网关鉴权失败 (${request.path}): token refresh ${outcome.status}`);
 				return { ok: false, status: 401, code: -1, message: "Unauthorized" };
 			}
-			token = outcome.accessToken;
+			token = currentToken();
+			if (!token) {
+				return { ok: false, status: 401, code: -1, message: "Unauthorized" };
+			}
 			response = await send(token);
 		}
 		const result = unwrap<T>(response.status, await readBody(response));

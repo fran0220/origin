@@ -1,6 +1,7 @@
-import { existsSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { stat } from "node:fs/promises";
 import { join } from "node:path";
+import { scrubSecrets } from "@vetta/runtime-node/credentials";
 import AdmZip from "adm-zip";
 import { app } from "electron";
 import { logRingBuffer } from "./logger/log-ring-buffer.js";
@@ -41,7 +42,11 @@ function addRecentLogs(zip: AdmZip): void {
 			// 单个超额文件只跳过自己，继续尝试该 type 下更小/更老的文件，而非整组放弃。
 			if (budget - file.size < 0) continue;
 			budget -= file.size;
-			zip.addLocalFile(file.path, `logs/${type}`);
+			const raw = existsSync(file.path) ? readFileSync(file.path, "utf8") : "";
+			zip.addFile(
+				`logs/${type}/${file.path.split(/[\\/]/).pop() ?? "log"}`,
+				Buffer.from(scrubSecrets(raw), "utf-8"),
+			);
 		}
 	}
 }
@@ -64,7 +69,7 @@ function recentFiles(dir: string, limit: number): Array<{ path: string; size: nu
 function addRingBuffer(zip: AdmZip): void {
 	const lines = logRingBuffer
 		.snapshot()
-		.map((entry) => JSON.stringify(entry))
+		.map((entry) => scrubSecrets(JSON.stringify(entry)))
 		.join("\n");
 	zip.addFile("ring-buffer.ndjson", Buffer.from(lines, "utf-8"));
 }

@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getVettaHomePath } from "@vetta/action-rpc";
+import { scrubUnknown } from "@vetta/runtime-node/credentials";
 import type { RequestFileInfo } from "../preload/api.js";
 
 const DEBUG_BASE = join(getVettaHomePath(), "debug");
@@ -40,7 +41,7 @@ export async function writeDebugRequest(
 	const ts = data.timestamp;
 	const filename = `${ts}_${String(seq).padStart(4, "0")}.json`;
 	const filePath = join(dir, filename);
-	await writeFile(filePath, JSON.stringify(data, null, 2), "utf8");
+	await writeFile(filePath, JSON.stringify(scrubUnknown(data), null, 2), "utf8");
 	return filePath;
 }
 

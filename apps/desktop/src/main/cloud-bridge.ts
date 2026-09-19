@@ -30,10 +30,7 @@ export interface VettaGatewayResponse<T = unknown> {
 }
 
 /** refresh 的三态结果，与 preload 合同保持一致（见 preload/api-types/auth.ts）。 */
-export type CloudRefreshOutcome =
-	| { status: "ok"; accessToken: string }
-	| { status: "unauthorized" }
-	| { status: "transient" };
+export type CloudRefreshOutcome = { status: "ok" } | { status: "unauthorized" } | { status: "transient" };
 
 export interface CloudBridge {
 	/** 云端 provider 目录（Vetta Go 等远程模型）。 */

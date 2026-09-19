@@ -28,6 +28,8 @@ const log = getAppLogger("auth");
 interface StoredCredentials {
 	baseUrl: string;
 	token: string;
+	/** Present when `token` is a loopback relay bearer, not a long-lived access token. */
+	relay?: true;
 }
 
 function credentialsPath(): string {
@@ -42,7 +44,7 @@ function credentialsPath(): string {
  * 任何失败都只记日志不抛：凭据下沉是给外部进程用的便利设施，
  * 它坏掉不该连累登录本身。
  */
-export function syncCredentialFile(token: string | undefined): void {
+export function syncCredentialFile(token: string | undefined, relayOrigin?: string): void {
 	const path = credentialsPath();
 	try {
 		if (!token) {
@@ -50,8 +52,9 @@ export function syncCredentialFile(token: string | undefined): void {
 			return;
 		}
 		const payload: StoredCredentials = {
-			baseUrl: DEFAULT_SERVER_URL.replace(/\/+$/, ""),
+			baseUrl: (relayOrigin ?? DEFAULT_SERVER_URL).replace(/\/+$/, ""),
 			token,
+			...(relayOrigin ? { relay: true } : {}),
 		};
 		mkdirSync(dirname(path), { recursive: true });
 		writeFileSync(path, `${JSON.stringify(payload, null, 2)}\n`, { mode: 0o600 });

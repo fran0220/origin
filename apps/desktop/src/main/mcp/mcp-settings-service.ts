@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getVettaHomePath } from "@vetta/action-rpc";
+import { isSecretFieldName } from "@vetta/runtime-node/credentials";
 import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
 import type { McpServerDetail, McpServerSummary, McpServerUpsertData } from "@vetta-org/capability-sdk";
 import type {
@@ -61,15 +62,43 @@ export async function stopUnusedManagedMcpRuntimes(
 	await Promise.all([...previousIds].filter((id) => !activeIds.has(id)).map(stop));
 }
 
-function redactRecordSecrets(
-	record: Record<string, string> | undefined,
-	secretKeys: readonly string[],
-): Record<string, string> | undefined {
+function restoreMaskedMcpSecrets(incoming: McpConfigData, current: McpConfigData): McpConfigData {
+	const mcpServers: Record<string, McpServerConfigData> = {};
+	for (const [name, server] of Object.entries(incoming.mcpServers)) {
+		const previous = current.mcpServers[name];
+		if (server.type === "http") {
+			const previousHeaders = previous?.type === "http" ? previous.headers : undefined;
+			mcpServers[name] = {
+				...server,
+				...(server.headers === undefined ? {} : { headers: restoreMaskedRecord(server.headers, previousHeaders) }),
+			};
+			continue;
+		}
+		const previousEnv = previous && previous.type !== "http" ? previous.env : undefined;
+		mcpServers[name] = {
+			...server,
+			...(server.env === undefined ? {} : { env: restoreMaskedRecord(server.env, previousEnv) }),
+		};
+	}
+	return { mcpServers };
+}
+
+function restoreMaskedRecord(
+	incoming: Record<string, string>,
+	previous: Record<string, string> | undefined,
+): Record<string, string> {
+	const next: Record<string, string> = {};
+	for (const [key, value] of Object.entries(incoming)) {
+		next[key] = value === "***" ? (previous?.[key] ?? value) : value;
+	}
+	return next;
+}
+
+function redactRecordSecrets(record: Record<string, string> | undefined): Record<string, string> | undefined {
 	if (!record) return undefined;
 	const next: Record<string, string> = {};
 	for (const [key, value] of Object.entries(record)) {
-		const lower = key.toLowerCase();
-		next[key] = secretKeys.some((secretKey) => lower.includes(secretKey)) ? "***" : value;
+		next[key] = isSecretFieldName(key) || value.startsWith("vault://") ? "***" : value;
 	}
 	return next;
 }
@@ -83,15 +112,7 @@ function redactServer(name: string, server: McpServerConfigData): McpServerDetai
 		...(server.debug === undefined ? {} : { debug: server.debug }),
 	};
 	if (server.type === "http") {
-		const headers = redactRecordSecrets(server.headers, [
-			"authorization",
-			"api-key",
-			"apikey",
-			"x-api-key",
-			"token",
-			"secret",
-			"password",
-		]);
+		const headers = redactRecordSecrets(server.headers);
 		return {
 			...common,
 			type: "http",
@@ -99,7 +120,7 @@ function redactServer(name: string, server: McpServerConfigData): McpServerDetai
 			...(headers === undefined ? {} : { headers }),
 		};
 	}
-	const env = redactRecordSecrets(server.env, ["token", "key", "secret", "password", "authorization"]);
+	const env = redactRecordSecrets(server.env);
 	return {
 		...common,
 		type: "stdio",
@@ -122,7 +143,9 @@ export class McpSettingsService {
 
 	async replaceConfig(config: unknown): Promise<void> {
 		await this.runMutation(async () => {
-			await this.options.writeConfig(validateMcpConfig(config));
+			const incoming = validateMcpConfig(config);
+			const current = await this.options.readConfig();
+			await this.options.writeConfig(restoreMaskedMcpSecrets(incoming, current));
 		});
 	}
 

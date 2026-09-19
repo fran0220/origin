@@ -2,7 +2,9 @@ import { existsSync, mkdirSync, readFileSync, renameSync, statSync, writeFileSyn
 import { join, parse } from "node:path";
 import { inspect } from "node:util";
 import { getVettaHomePath } from "@vetta/action-rpc";
+import { scrubSecrets } from "@vetta/runtime-node/credentials";
 import electronLog from "electron-log/main";
+import { getDesktopCredentialVault } from "./credentials/desktop-credential-vault.js";
 import { formatErrorChain, formatErrorChainJSON } from "./logger/format-error-chain.js";
 import { enforceRetention } from "./logger/log-retention.js";
 import { logRingBuffer, type RingEntry } from "./logger/log-ring-buffer.js";
@@ -129,9 +131,17 @@ function formatLogArgs(args: unknown[]): string[] {
 }
 
 function formatLogArg(arg: unknown): string {
-	if (typeof arg === "string") return arg;
-	if (arg instanceof Error) return formatErrorChain(arg);
-	return inspect(arg, { depth: 8, breakLength: 160 });
+	if (typeof arg === "string") return scrubSecrets(arg, knownLogSecrets());
+	if (arg instanceof Error) return scrubSecrets(formatErrorChain(arg), knownLogSecrets());
+	return scrubSecrets(inspect(arg, { depth: 8, breakLength: 160 }), knownLogSecrets());
+}
+
+function knownLogSecrets(): { knownSecrets: string[] } {
+	try {
+		return { knownSecrets: getDesktopCredentialVault().knownSecretValues() };
+	} catch {
+		return { knownSecrets: [] };
+	}
 }
 
 function configureLogger(logger: ElectronLogger, type: AppLogType): void {

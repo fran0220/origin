@@ -2,6 +2,7 @@ import type { FSWatcher } from "node:fs";
 import { watch } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
+import { isSecretFieldName } from "@vetta/runtime-node/credentials";
 import { resolveNodeConfigurationValue } from "@vetta/runtime-node/host";
 import { BrowserWindow, clipboard, ipcMain } from "electron";
 import type {
@@ -480,7 +481,8 @@ export function registerFsIpc(): () => void {
 	});
 
 	ipcMain.handle(CHANNELS.MCP_GET, async (): Promise<McpConfig> => {
-		return mcp.getConfig();
+		const config = await mcp.getConfig();
+		return maskMcpConfigSecrets(config);
 	});
 
 	ipcMain.handle(CHANNELS.MCP_SET, async (_event, config: unknown) => {
@@ -628,4 +630,30 @@ export function registerFsIpc(): () => void {
 		ipcMain.removeHandler(CHANNELS.MCP_CLEAR_SETUP_LOGIN);
 		disposeModelChanged();
 	};
+}
+
+function maskMcpConfigSecrets(config: McpConfigData): McpConfigData {
+	const mcpServers: Record<string, McpServerConfigData> = {};
+	for (const [name, server] of Object.entries(config.mcpServers)) {
+		if (server.type === "http") {
+			mcpServers[name] = {
+				...server,
+				...(server.headers === undefined ? {} : { headers: maskSecretRecord(server.headers) }),
+			};
+			continue;
+		}
+		mcpServers[name] = {
+			...server,
+			...(server.env === undefined ? {} : { env: maskSecretRecord(server.env) }),
+		};
+	}
+	return { mcpServers };
+}
+
+function maskSecretRecord(record: Record<string, string>): Record<string, string> {
+	const next: Record<string, string> = {};
+	for (const [key, value] of Object.entries(record)) {
+		next[key] = isSecretFieldName(key) || value.startsWith("vault://") ? "***" : value;
+	}
+	return next;
 }

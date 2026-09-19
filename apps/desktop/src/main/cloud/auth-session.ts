@@ -8,11 +8,18 @@
 
 import { app, BrowserWindow, ipcMain, powerMonitor } from "electron";
 import type { RefreshOutcome } from "../../preload/api.js";
+import { bindModelRuntimeToConnectionRelays } from "../connections/runtime-binding.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
-import { readSettings, updateSettings } from "../ipc/settings.js";
+import {
+	hasAccountSession,
+	readAccountAccessToken,
+	readAccountRefreshToken,
+	writeAccountTokens,
+} from "../credentials/account-token-store.js";
 import { getAppLogger } from "../logger.js";
 import { peekSharedRuntime } from "../runtime.js";
-import { syncCredentialFile } from "./auth/credential-store.js";
+import { signOutAccount } from "./auth/sign-out.js";
+import { issueAccountSseUrl } from "./auth/sse-proxy.js";
 
 const sessionLog = getAppLogger("cloud-auth");
 
@@ -34,10 +41,10 @@ function broadcastUnauthorized(reason: string): void {
 }
 
 // refresh token 流：通知渲染层有新的 access/refresh，由渲染层负责 set atom + localStorage。
-function broadcastTokenRefreshed(accessToken: string, refreshToken: string): void {
+function broadcastTokenRefreshed(): void {
 	for (const win of BrowserWindow.getAllWindows()) {
 		if (!win.isDestroyed()) {
-			win.webContents.send("vetta:auth:token-refreshed", { accessToken, refreshToken });
+			win.webContents.send("vetta:auth:token-refreshed", { signedIn: true });
 		}
 	}
 }
@@ -57,13 +64,10 @@ let refreshInFlight: Promise<RefreshOutcome> | null = null;
 const REFRESH_TIMEOUT_MS = 30_000;
 
 function persistTokens(access: string, refresh: string): void {
-	updateSettings((settings) => {
-		settings.serverToken = access;
-		settings.serverRefreshToken = refresh;
+	writeAccountTokens(access, refresh);
+	void bindModelRuntimeToConnectionRelays().catch((err) => {
+		sessionLog.warn("bind relays after refresh failed:", err);
 	});
-	// 同步下沉给独立进程（内置 MCP server 读它拿登录态）
-	syncCredentialFile(access);
-	// 同步给已运行的 coding-agent session，避免它继续用旧 access token
 	const runtime = peekSharedRuntime();
 	if (runtime) {
 		void runtime.reloadServerAuth(access).catch((err) => {
@@ -90,10 +94,9 @@ async function describeRefreshRejection(response: Response): Promise<string> {
 export async function tryRefreshAccessToken(): Promise<RefreshOutcome> {
 	if (refreshInFlight) return refreshInFlight;
 	refreshInFlight = (async (): Promise<RefreshOutcome> => {
-		const settings = readSettings();
-		const refreshToken = settings.serverRefreshToken as string | undefined;
+		const refreshToken = readAccountRefreshToken();
 		if (!refreshToken) {
-			sessionLog.warn("refresh 放弃：settings.json 里没有 serverRefreshToken，按未登录处理");
+			sessionLog.warn("refresh 放弃：凭证库里没有 refresh token，按未登录处理");
 			return { status: "unauthorized" };
 		}
 		const url = `${DEFAULT_SERVER_URL.replace(/\/$/, "")}/auth/refresh`;
@@ -135,8 +138,8 @@ export async function tryRefreshAccessToken(): Promise<RefreshOutcome> {
 				return { status: "transient" };
 			}
 			persistTokens(body.data.access_token, body.data.refresh_token);
-			broadcastTokenRefreshed(body.data.access_token, body.data.refresh_token);
-			return { status: "ok", accessToken: body.data.access_token };
+			broadcastTokenRefreshed();
+			return { status: "ok" };
 		} catch (error) {
 			// 网络失败 / abort / 超时 → 暂时性，绝不登出。
 			sessionLog.warn("refresh 请求失败(网络/超时)，保留会话:", error);
@@ -156,8 +159,7 @@ export async function tryRefreshAccessToken(): Promise<RefreshOutcome> {
  * - refresh 失败或重试仍 401 → 广播 unauthorized，由渲染层决定 logout
  */
 async function authedGet(path: string, timeoutMs = 5000): Promise<Response | null> {
-	const settings = readSettings();
-	let token = settings.serverToken as string | undefined;
+	let token = readAccountAccessToken();
 	if (!token) return null;
 	const url = `${DEFAULT_SERVER_URL.replace(/\/$/, "")}${path}`;
 	const doFetch = async (t: string): Promise<Response> => {
@@ -186,7 +188,8 @@ async function authedGet(path: string, timeoutMs = 5000): Promise<Response | nul
 			// 暂时性失败（网络/超时/5xx）：保留会话，返回原 401，调用方按"暂不可达"降级。
 			return res;
 		}
-		token = outcome.accessToken;
+		token = readAccountAccessToken();
+		if (!token) return res;
 		res = await doFetch(token);
 		if (res.status === 401) {
 			// 用刚换来的新 token 仍 401 → 确属鉴权失败，登出。
@@ -270,8 +273,7 @@ function decodeAccessTokenExpMs(token: string): number | null {
 }
 
 function maybeRefreshOnWake(reason: string): void {
-	const settings = readSettings();
-	const token = settings.serverToken as string | undefined;
+	const token = readAccountAccessToken();
 	if (!token) return;
 	const expMs = decodeAccessTokenExpMs(token);
 	if (expMs === null) return;
@@ -297,47 +299,27 @@ function registerWakeRefreshHooks(): () => void {
 /** 注册云会话相关 IPC（token 存取 / refresh / 远程模型 / 订阅）。lite 构建不调用。 */
 export function registerCloudAuthIpc(): () => void {
 	ipcMain.handle("vetta:settings:get-server-token", () => {
-		const settings = readSettings();
-		return (settings.serverToken as string | undefined) ?? undefined;
+		return hasAccountSession() ? { signedIn: true } : undefined;
 	});
 
 	ipcMain.handle("vetta:settings:set-server-token", async (_event, token: unknown) => {
-		const nextToken = typeof token === "string" ? token : undefined;
-		updateSettings((settings) => {
-			if (nextToken !== undefined) {
-				settings.serverToken = nextToken;
-			} else {
-				delete settings.serverToken;
-			}
-		});
-		// 同步下沉给独立进程（内置 MCP server 读它拿登录态）；登出时会删掉该文件
-		syncCredentialFile(nextToken);
-		// Push fresh auth to any active sessions so they pick up the new token
-		// without requiring an app restart (fixes 401-after-login bug).
-		const runtime = peekSharedRuntime();
-		if (runtime) {
-			try {
-				await runtime.reloadServerAuth(nextToken);
-			} catch (err) {
-				sessionLog.warn("reloadServerAuth failed:", err);
-			}
+		if (typeof token === "string" && token.length > 0) {
+			sessionLog.warn("renderer attempted to write an access token; ignored");
+			return;
 		}
+		await signOutAccount();
 	});
 
 	ipcMain.handle("vetta:settings:get-server-refresh-token", () => {
-		const settings = readSettings();
-		return (settings.serverRefreshToken as string | undefined) ?? undefined;
+		return hasAccountSession() ? { present: true } : undefined;
 	});
 
 	ipcMain.handle("vetta:settings:set-server-refresh-token", (_event, token: unknown) => {
-		const nextToken = typeof token === "string" ? token : undefined;
-		updateSettings((settings) => {
-			if (nextToken !== undefined) {
-				settings.serverRefreshToken = nextToken;
-			} else {
-				delete settings.serverRefreshToken;
-			}
-		});
+		if (typeof token === "string" && token.length > 0) {
+			sessionLog.warn("renderer attempted to write a refresh token; ignored");
+			return;
+		}
+		void signOutAccount();
 	});
 
 	ipcMain.handle("vetta:models:fetch-remote", async () => {
@@ -354,6 +336,14 @@ export function registerCloudAuthIpc(): () => void {
 		return tryRefreshAccessToken();
 	});
 
+	ipcMain.handle("vetta:auth:sign-out", async () => {
+		return signOutAccount();
+	});
+
+	ipcMain.handle("vetta:auth:sse-url", async () => {
+		return issueAccountSseUrl();
+	});
+
 	const teardownWakeHooks = registerWakeRefreshHooks();
 
 	return () => {
@@ -365,5 +355,7 @@ export function registerCloudAuthIpc(): () => void {
 		ipcMain.removeHandler("vetta:models:fetch-remote");
 		ipcMain.removeHandler("vetta:subscription:status");
 		ipcMain.removeHandler("vetta:auth:refresh-token");
+		ipcMain.removeHandler("vetta:auth:sign-out");
+		ipcMain.removeHandler("vetta:auth:sse-url");
 	};
 }

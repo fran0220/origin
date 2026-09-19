@@ -94,6 +94,10 @@ export default defineConfig({
 				replacement: resolve(__dirname, "../../packages/coding-agent/src/public-api/cli-guidance.ts"),
 			},
 			{
+				find: "@vetta/coding-agent/connections",
+				replacement: resolve(__dirname, "../../packages/coding-agent/src/public-api/connections.ts"),
+			},
+			{
 				find: "@vetta/coding-agent/resources",
 				replacement: resolve(__dirname, "../../packages/coding-agent/src/public-api/resources.ts"),
 			},
@@ -156,6 +160,10 @@ export default defineConfig({
 			{
 				find: "@vetta/runtime-node/conversation",
 				replacement: resolve(__dirname, "../../packages/runtime-node/src/conversation/index.ts"),
+			},
+			{
+				find: "@vetta/runtime-node/credentials",
+				replacement: resolve(__dirname, "../../packages/runtime-node/src/credentials/index.ts"),
 			},
 			{
 				find: "@vetta/runtime-node/host",

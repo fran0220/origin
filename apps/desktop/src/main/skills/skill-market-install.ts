@@ -10,7 +10,7 @@ import { getVettaHomePath } from "@vetta/action-rpc";
 import { recordAbilityInstall } from "../abilities/ability-ledger.js";
 import { getCloudBridge } from "../cloud-bridge.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
-import { readSettings } from "../ipc/settings.js";
+import { readAccountAccessToken } from "../credentials/account-token-store.js";
 import { getAppLogger } from "../logger.js";
 import { verifySha256 } from "../utils/integrity.js";
 import {
@@ -52,7 +52,7 @@ function baseUrl(): string {
 }
 
 function currentToken(): string | undefined {
-	const token = readSettings().serverToken;
+	const token = readAccountAccessToken();
 	return typeof token === "string" && token !== "" ? token : undefined;
 }
 
@@ -74,7 +74,7 @@ async function fetchWithOptionalAuth(path: string, accept: string): Promise<Resp
 	if (response.status === 401 && token) {
 		const outcome = await cloud.tryRefreshAccessToken();
 		if (outcome.status === "ok") {
-			token = outcome.accessToken;
+			token = readAccountAccessToken() ?? token;
 			response = await doFetch(token);
 		}
 	}

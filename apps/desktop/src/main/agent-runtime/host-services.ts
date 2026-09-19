@@ -1,7 +1,7 @@
 // Shared Desktop host services used by the production Agent Runtime composition.
-import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { CONFIG_DIR_NAME, getAgentDir } from "@vetta/coding-agent/config";
+import { SIGNED_IN_CONNECTION_ID } from "@vetta/coding-agent/connections";
 import {
 	AuthStorage,
 	type CodingAgentAuthRuntime,
@@ -15,6 +15,7 @@ import {
 	nodeConfigurationValueResolver,
 	nodeSyncTextFileSource,
 } from "@vetta/runtime-node/host";
+import { getConnectionRelayRoute } from "../connections/relay-host.js";
 import { DEFAULT_SERVER_URL } from "../constants.js";
 import { getDesktopModelCredentialStore, type ModelCredentialStore } from "../models/model-credential-store.js";
 import { readModelsConfigSync } from "../models/model-settings-service.js";
@@ -36,9 +37,10 @@ export function getOrCreateSharedModelRuntime(): CodingAgentModelRuntime {
 		configFileSource: nodeSyncTextFileSource,
 		configurationValueResolver: nodeConfigurationValueResolver,
 	});
-	runtime.setServerUrl(DEFAULT_SERVER_URL);
-	runtime.setServerToken(readServerTokenFromDisk());
-	runtime.setServerTokenGetter(readServerTokenFromDisk);
+	const signedIn = getConnectionRelayRoute(SIGNED_IN_CONNECTION_ID);
+	runtime.setServerUrl(signedIn ? `${signedIn.origin}${signedIn.prefixes[0] ?? ""}` : DEFAULT_SERVER_URL);
+	runtime.setServerToken(signedIn?.bearer);
+	runtime.setServerTokenGetter(() => getConnectionRelayRoute(SIGNED_IN_CONNECTION_ID)?.bearer);
 	void runtime.loadRemoteModels();
 	sharedModelRuntime = runtime;
 	return runtime;
@@ -71,15 +73,4 @@ export function readDesktopMcpDebug(cwd: string, agentDir: string): boolean {
 			project: join(cwd, CONFIG_DIR_NAME, "settings.json"),
 		}),
 	).getMcpDebug();
-}
-
-function readServerTokenFromDisk(): string | undefined {
-	const path = join(getAgentDir(), "settings.json");
-	if (!existsSync(path)) return undefined;
-	try {
-		const settings = JSON.parse(readFileSync(path, "utf8")) as { serverToken?: string };
-		return settings.serverToken;
-	} catch {
-		return undefined;
-	}
 }

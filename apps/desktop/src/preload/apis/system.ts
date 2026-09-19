@@ -22,6 +22,8 @@ export function createSystemApi(
 	| "media"
 	| "runtimes"
 	| "settings"
+	| "connections"
+	| "cloud"
 	| "subscription"
 	| "shell"
 	| "clipboard"
@@ -244,6 +246,15 @@ export function createSystemApi(
 			getServerRefreshToken: () => ipc.invoke("vetta:settings:get-server-refresh-token"),
 			setServerRefreshToken: (token) => ipc.invoke("vetta:settings:set-server-refresh-token", token),
 		},
+		connections: {
+			list: () => ipc.invoke("vetta:connections:list"),
+			upsert: (draft) => ipc.invoke("vetta:connections:upsert", draft),
+			remove: (id) => ipc.invoke("vetta:connections:remove", id),
+			quota: (id) => ipc.invoke("vetta:connections:quota", id),
+		},
+		cloud: {
+			request: (path, options) => ipc.invoke("vetta:cloud:request", path, options),
+		},
 		subscription: {
 			getStatus: () => ipc.invoke("vetta:subscription:status"),
 		},
@@ -272,6 +283,8 @@ export function createSystemApi(
 			startOAuth: () => ipc.invoke("vetta:auth:start-oauth"),
 			reopenOAuth: () => ipc.invoke("vetta:auth:reopen-oauth"),
 			refreshToken: () => ipc.invoke("vetta:auth:refresh-token"),
+			signOut: () => ipc.invoke("vetta:auth:sign-out"),
+			sseUrl: () => ipc.invoke("vetta:auth:sse-url"),
 			onOAuthCallback: (handler) => onIpcEvent(ipc, "vetta:auth:oauth-callback", handler),
 			onOAuthRejected: (handler) => onIpcVoidEvent(ipc, "vetta:auth:oauth-rejected", handler),
 			onUnauthorized: (handler) => onIpcVoidEvent(ipc, "vetta:auth:unauthorized", handler),

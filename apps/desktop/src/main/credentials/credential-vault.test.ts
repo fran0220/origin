@@ -49,6 +49,7 @@ describe("CredentialVault", () => {
 
 class TestCryptography implements CredentialCryptography {
 	readonly backend = "test";
+	readonly custody = "os-protected" as const;
 
 	constructor(private readonly available = true) {}
 
