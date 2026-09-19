@@ -113,6 +113,12 @@ export async function createCodingAgentSessionPeripheralAssembly(
 		...createCodingAgentSpecializedToolRegistrations({
 			platformRegistrations: platformSpecializedToolRegistrations,
 			knowledgePageWriter: sessionOptions.knowledgePageWriter ?? profile.knowledgeRuntime?.write,
+			evaluation: profile.evaluationRuntime
+				? {
+						operations: profile.evaluationRuntime,
+						resolveScope: () => profile.resolveEvaluationScope?.(options.sessionCwd) ?? { kind: "global" },
+					}
+				: undefined,
 		}),
 		...(sessionOptions.sessionRuntimeTools ?? []),
 	];

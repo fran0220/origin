@@ -5,6 +5,7 @@ export type {
 	CodingAgentConversationSessionPathAssessment,
 } from "./conversation-persistence.js";
 export type {
+	CodingAgentEvaluationOperations,
 	CodingAgentObservationHubOptions,
 	CodingAgentObservationRoute,
 	CodingAgentPromptRuntimeSourceContext,

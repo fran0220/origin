@@ -11,6 +11,7 @@ export {
 	CODING_AGENT_COMPACTION_PREFIRE_OBSERVATION,
 	type CodingAgentCompactionPrefireObservation,
 } from "./contracts/context-observability.js";
+export { evaluationOperationsFromService } from "./contracts/evaluation-operations.js";
 export {
 	CODING_AGENT_LIFECYCLE_ISSUE_OBSERVATION,
 	type CodingAgentLifecycleIssueObservation,

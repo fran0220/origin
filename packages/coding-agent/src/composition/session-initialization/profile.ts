@@ -25,7 +25,9 @@ export type CodingAgentSessionInitializationProfile = Pick<
 	| "hookConfigLayers"
 	| "initialModel"
 	| "initialThinkingLevel"
+	| "evaluationRuntime"
 	| "knowledgeRuntime"
+	| "resolveEvaluationScope"
 	| "maxStopHookContinuations"
 	| "modelInputImageProcessor"
 	| "ocrMaxConcurrent"
@@ -75,7 +77,9 @@ export function createCodingAgentSessionInitializationProfile(
 		hookConfigLayers: options.hookConfigLayers,
 		initialModel: options.initialModel,
 		initialThinkingLevel: options.initialThinkingLevel,
+		evaluationRuntime: options.evaluationRuntime,
 		knowledgeRuntime: options.knowledgeRuntime,
+		resolveEvaluationScope: options.resolveEvaluationScope,
 		maxStopHookContinuations: options.maxStopHookContinuations,
 		modelInputImageProcessor: options.modelInputImageProcessor,
 		ocrMaxConcurrent: options.ocrMaxConcurrent,

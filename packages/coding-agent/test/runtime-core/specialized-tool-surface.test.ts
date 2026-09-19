@@ -63,6 +63,31 @@ describe("Coding Agent specialized tool surface", () => {
 		expect(registrations.map(({ tool }) => tool.modelOrder)).toEqual([
 			1_000, 1_100, 1_200, 1_300, 1_400, 1_600, 1_700,
 		]);
+		expect(registrations.map(({ tool }) => tool.name)).not.toContain("evaluation_run");
+	});
+
+	it("registers Evaluation tools only when the host supplies operations", () => {
+		const registrations = createCodingAgentSpecializedToolRegistrations({
+			evaluation: {
+				operations: {
+					listDefinitions: async () => [],
+					listAttempts: async () => [],
+					get: async () => {
+						throw new Error("unused");
+					},
+					run: async () => {
+						throw new Error("unused");
+					},
+				},
+				resolveScope: () => ({ kind: "global" }),
+			},
+		});
+		expect(registrations.map(({ tool }) => tool.name)).toEqual([
+			"progress",
+			"evaluation_run",
+			"evaluation_list",
+			"evaluation_get",
+		]);
 	});
 
 	it("freezes skill visibility and content per Turn", async () => {

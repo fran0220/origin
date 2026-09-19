@@ -14,10 +14,12 @@ import type {
 	SessionExtensionDefinition,
 	SessionExtensionFunctionSource,
 } from "@vetta/runtime-core/session-extensions";
+import type { EvaluationScope } from "@vetta/runtime-evaluation";
 import type { McpRuntimeToolSource } from "@vetta/runtime-mcp";
 import type { ConversationOwnershipManager } from "@vetta/runtime-storage/conversation";
 import type { SubagentTypeRegistryLike } from "@vetta/runtime-subagents";
 import type { CodingToolResultPolicy } from "@vetta/runtime-tools";
+import type { CodingAgentEvaluationOperations } from "../../features/evaluation/contracts.js";
 import type { CodingAgentKnowledgeRuntime } from "../../features/knowledge/contracts.js";
 import type { CodingAgentTodoRuntime } from "../../features/todo/contracts.js";
 import type { CodingAgentMemoryRolloverRuntime } from "../../memory/index.js";
@@ -51,6 +53,7 @@ import type {
 } from "./subagent.js";
 import type { CodingAgentToolEnvironmentFactory } from "./tool-environment.js";
 
+export type { CodingAgentEvaluationOperations } from "../../features/evaluation/contracts.js";
 export type {
 	CodingAgentKnowledgePage,
 	CodingAgentKnowledgeQueryOperations,
@@ -93,6 +96,10 @@ export interface CodingAgentRuntimeToolOptions {
 	readonly activation?: CodingAgentToolActivation;
 	/** Knowledge 的查询与写入实现由最终宿主选择；缺省时不注册 Knowledge Tool。 */
 	readonly knowledgeRuntime?: CodingAgentKnowledgeRuntime;
+	/** Evaluation 由最终宿主选择；缺省时不注册 Evaluation Tool。 */
+	readonly evaluationRuntime?: CodingAgentEvaluationOperations;
+	/** 把 Session cwd 解析成 Evaluation scope；缺省为 global。 */
+	readonly resolveEvaluationScope?: (cwd: string) => EvaluationScope;
 	/** 仅用于保留宿主既有系统提示词合同；不会把名称对应的工具加入可执行 Tool Frame。 */
 	readonly systemPromptAdvertisedToolNames?: readonly string[];
 	readonly mcpSource?: McpRuntimeToolSource;

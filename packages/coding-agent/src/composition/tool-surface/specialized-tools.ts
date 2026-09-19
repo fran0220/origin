@@ -1,5 +1,6 @@
 import type { AgentFeatureDefinition, ModelCallContributionContext } from "@vetta/runtime-core/kernel";
 import type { CodingToolRegistration } from "@vetta/runtime-tools";
+import { createEvaluationToolRegistrations, type EvaluationToolOptions } from "../../features/evaluation/index.js";
 import {
 	type CodingAgentKnowledgeWriteOperations,
 	createCodingAgentKnowledgeWritePageToolRegistration,
@@ -16,6 +17,7 @@ import { declareCodingAgentPlatformTool } from "../../tool-policy/platform-tool-
 export interface CodingAgentSpecializedToolOptions {
 	readonly platformRegistrations?: readonly CodingToolRegistration[];
 	readonly knowledgePageWriter?: CodingAgentKnowledgeWriteOperations;
+	readonly evaluation?: EvaluationToolOptions;
 }
 
 export interface CodingAgentSpecializedToolFeatureOptions {
@@ -43,6 +45,12 @@ export function createCodingAgentSpecializedToolRegistrations(
 						modelOrder: CODING_AGENT_MODEL_TOOL_ORDER.knowledgeWrite,
 					}),
 				]
+			: []),
+		...(options.evaluation
+			? createEvaluationToolRegistrations({
+					...options.evaluation,
+					modelOrder: options.evaluation.modelOrder ?? CODING_AGENT_MODEL_TOOL_ORDER.evaluation,
+				})
 			: []),
 	];
 }
