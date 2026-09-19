@@ -11,6 +11,9 @@ import type {
 } from "@vetta/runtime-evaluation";
 import { EvaluationError } from "@vetta/runtime-evaluation";
 import { sha256Json, sha256Text } from "./digest.js";
+import { evaluateTelemetryAssertion, parseTelemetryAssertionExpression } from "./telemetry-assertion.js";
+
+export { evaluateTelemetryAssertion } from "./telemetry-assertion.js";
 
 export interface CommandVerifierExecutor {
 	run(
@@ -164,37 +167,66 @@ async function runAssertionVerifier(
 	criterionId: string,
 	context: VerifierRunContext,
 ): Promise<VerifierRunResult> {
-	const recording = context.evidence.find((item) => item.source.kind === "recording");
-	if (!recording || recording.source.kind !== "recording" || !recording.source.telemetryPath) {
+	const parsed = parseTelemetryAssertionExpression(verifier.expression);
+	if ("error" in parsed) {
+		return {
+			assessment: {
+				criterionId,
+				state: "error",
+				evidenceIds: [],
+				note: parsed.error,
+			},
+			evidence: [],
+		};
+	}
+	const selected = selectRecordingEvidence(context);
+	if (selected.kind !== "ok") {
 		return {
 			assessment: {
 				criterionId,
 				state: "inconclusive",
-				evidenceIds: recording ? [recording.id] : [],
+				evidenceIds: selected.evidenceIds,
+				note: selected.note,
+			},
+			evidence: [],
+		};
+	}
+	const recording = selected.recording;
+	const telemetryPath = recording.source.kind === "recording" ? recording.source.telemetryPath : undefined;
+	if (!telemetryPath) {
+		return {
+			assessment: {
+				criterionId,
+				state: "inconclusive",
+				evidenceIds: [recording.id],
 				note: "No recording telemetry is available for this assertion.",
 			},
 			evidence: [],
 		};
 	}
 	try {
-		const text = await readFile(recording.source.telemetryPath, "utf8");
-		const passed = evaluateTelemetryAssertion(text, verifier.expression);
+		const text = await readFile(telemetryPath, "utf8");
+		const digest = sha256Text(text);
+		if (recording.digest !== digest) {
+			return {
+				assessment: {
+					criterionId,
+					state: "error",
+					evidenceIds: [recording.id],
+					note: "Recording telemetry digest does not match the snapshot that was captured.",
+				},
+				evidence: [],
+			};
+		}
+		const result = evaluateTelemetryAssertion(text, verifier.expression);
 		return {
 			assessment: {
 				criterionId,
-				state: passed ? "passed" : "failed",
+				state: result.state,
 				evidenceIds: [recording.id],
-				note: passed ? undefined : `assertion failed: ${verifier.expression}`,
+				...(result.note ? { note: result.note } : {}),
 			},
-			evidence: [
-				{
-					id: recording.id,
-					source: recording.source,
-					capturedAt: recording.capturedAt,
-					digest: sha256Text(text),
-					summary: recording.summary,
-				},
-			],
+			evidence: [],
 		};
 	} catch (error) {
 		return {
@@ -209,25 +241,31 @@ async function runAssertionVerifier(
 	}
 }
 
-/**
- * 极小断言：`key == value` / `key != value` / `contains:text`。
- * 完整遥测查询等 Recording 线程落地后再扩展。
- */
-export function evaluateTelemetryAssertion(telemetryText: string, expression: string): boolean {
-	const trimmed = expression.trim();
-	if (trimmed.startsWith("contains:")) return telemetryText.includes(trimmed.slice("contains:".length));
-	const equals = trimmed.match(/^([^=!]+)\s*==\s*(.+)$/);
-	if (equals)
-		return (
-			telemetryText.includes(`"${equals[1]!.trim()}":${jsonish(equals[2]!.trim())}`) ||
-			telemetryText.includes(equals[2]!.trim())
-		);
-	const notEquals = trimmed.match(/^([^=!]+)\s*!=\s*(.+)$/);
-	if (notEquals) return !telemetryText.includes(notEquals[2]!.trim());
-	return telemetryText.includes(trimmed);
-}
-
-function jsonish(value: string): string {
-	if (value === "true" || value === "false" || /^-?\d+(\.\d+)?$/.test(value)) return value;
-	return JSON.stringify(value.replace(/^["']|["']$/g, ""));
+function selectRecordingEvidence(
+	context: VerifierRunContext,
+):
+	| { readonly kind: "ok"; readonly recording: EvaluationEvidence }
+	| { readonly kind: "inconclusive"; readonly evidenceIds: readonly string[]; readonly note: string } {
+	const candidates = context.evidence.filter(
+		(item) => item.source.kind === "recording" && Boolean(item.source.telemetryPath),
+	);
+	const requestedId = context.trigger.kind === "manual" ? context.trigger.ref?.trim() : undefined;
+	const exact =
+		requestedId === undefined || requestedId.length === 0
+			? undefined
+			: candidates.find((item) => item.source.kind === "recording" && item.source.recordingId === requestedId);
+	if (exact) return { kind: "ok", recording: exact };
+	if (candidates.length === 1) return { kind: "ok", recording: candidates[0]! };
+	if (candidates.length === 0) {
+		return {
+			kind: "inconclusive",
+			evidenceIds: [],
+			note: "No recording telemetry is available for this assertion.",
+		};
+	}
+	return {
+		kind: "inconclusive",
+		evidenceIds: candidates.map((item) => item.id),
+		note: "Multiple recording telemetry snapshots are in scope; the assertion needs an exact recording id.",
+	};
 }

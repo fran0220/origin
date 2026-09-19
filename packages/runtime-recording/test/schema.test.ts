@@ -58,11 +58,12 @@ describe("RecordingRecord schema", () => {
 describe("recording JSONL lines", () => {
 	it("parses telemetry and input lines that share the capture-start origin", () => {
 		const telemetry = parseRecordingJsonlText(
-			'{"atMs":16,"kind":"tick","payload":{"frame":1}}\n{"atMs":33,"kind":"state"}\n',
+			'{"atMs":16,"kind":"tick","payload":{"frame":1}}\n{"atMs":24,"kind":"input","payload":{"ok":true,"result":true}}\n{"atMs":33,"kind":"state"}\n',
 			parseRecordingTelemetryLine,
 		);
 		expect(telemetry).toEqual([
 			{ atMs: 16, kind: "tick", payload: { frame: 1 } },
+			{ atMs: 24, kind: "input", payload: { ok: true, result: true } },
 			{ atMs: 33, kind: "state" },
 		]);
 		const input = parseRecordingInputLine({ atMs: 48, kind: "keydown", payload: { key: "Space" } });

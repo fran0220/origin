@@ -9,6 +9,7 @@ export const RecordingTelemetryKindSchema = Type.Union([
 	Type.Literal("tick"),
 	Type.Literal("state"),
 	Type.Literal("advance"),
+	Type.Literal("input"),
 	Type.Literal("pick"),
 	Type.Literal("read_entity"),
 	Type.Literal("patch_entity"),

@@ -13,9 +13,14 @@ export {
 } from "./evidence-providers.js";
 export { FileEvaluationStore, type FileEvaluationStoreOptions, listEvaluationScopeKeys } from "./file-store.js";
 export {
+	evaluateTelemetryAssertion,
+	type RecordingTelemetryProjection,
+	type TelemetryAssertionResult,
+	type TelemetryAssertionState,
+} from "./telemetry-assertion.js";
+export {
 	type CommandVerifierExecutor,
 	createNodeCommandVerifierExecutor,
 	createNodeVerifierRunner,
-	evaluateTelemetryAssertion,
 	type NodeVerifierRunnerOptions,
 } from "./verifier-runner.js";

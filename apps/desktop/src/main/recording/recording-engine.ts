@@ -27,7 +27,7 @@ import { resolveAccountScopedDirForHost } from "../connections/account-directory
 import { getAppLogger } from "../logger.js";
 import { getRuntimeManager } from "../runtimes/manager.js";
 import { bgraToRgba } from "./bgra.js";
-import { appendJsonl, RECORDING_PROBE_SCRIPT } from "./probe.js";
+import { appendJsonl, executeAndPersistProbe, RECORDING_PROBE_SCRIPT } from "./probe.js";
 import { resolveRecordingTargetUrl } from "./url-policy.js";
 
 const log = getAppLogger("recording");
@@ -364,32 +364,7 @@ export class DesktopRecordingEngine implements RecordingEngine {
 	): Promise<unknown> {
 		const capture = captures.get(recordingId);
 		if (!capture) throw new Error(`Recording ${recordingId} is not active`);
-		const atMs = Date.now() - capture.originMs;
-		const result = await capture.window.webContents.executeJavaScript(
-			`window.__vettaRecordingProbe ? window.__vettaRecordingProbe.call(${JSON.stringify(kind)}, ${JSON.stringify(payload ?? null)}) : { ok: false, error: "probe missing" }`,
-			true,
-		);
-		if (kind === "input") {
-			await appendJsonl(capture.inputPath, { atMs, kind: "probe", payload: payload ?? result });
-		} else {
-			await appendJsonl(capture.telemetryPath, {
-				atMs,
-				kind:
-					kind === "tick"
-						? "tick"
-						: kind === "state"
-							? "state"
-							: kind === "advance"
-								? "advance"
-								: kind === "pick"
-									? "pick"
-									: kind === "read_entity"
-										? "read_entity"
-										: "patch_entity",
-				payload: result,
-			});
-		}
-		return result;
+		return executeAndPersistProbe(capture.window.webContents, capture, kind, payload);
 	}
 }
 
