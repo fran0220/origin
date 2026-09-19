@@ -1,6 +1,6 @@
 # 托管运行时与 bash 源重定向 — 实现策略
 
-> 面向普通用户的「下载下来就有 Node / Python / ffmpeg 环境」。本文是**实现/运维指南**;**为什么这么设计**见 [ADR-0011](./adr/0011-bundled-portable-runtimes-and-source-redirection.md) 与 [ADR-0119](./adr/0119-platform-webpage-recording.md),术语见 [CONTEXT.md](../CONTEXT.md)（托管运行时 / 运行时来源三层 / 源重定向 / 环境管理）。
+> 面向普通用户的「下载下来就有 Node / Python / ffmpeg 环境」。本文是**实现/运维指南**;**为什么这么设计**见 [ADR-0011](./adr/0011-bundled-portable-runtimes-and-source-redirection.md) 与 [ADR-0124](./adr/0124-platform-webpage-recording.md),术语见 [CONTEXT.md](../CONTEXT.md)（托管运行时 / 运行时来源三层 / 源重定向 / 环境管理）。
 
 ## 1. 解决的问题
 
