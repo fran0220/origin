@@ -50,6 +50,8 @@ export interface ToolResultMessage<TDetails = unknown> {
 	details?: TDetails;
 	isError: boolean;
 	timestamp: number;
+	/** Optional Execution Receipt id produced by the host command runtime. */
+	executionId?: string;
 }
 
 export type Message = UserMessage | AssistantMessage | ToolResultMessage;

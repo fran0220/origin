@@ -111,6 +111,7 @@ async function executeValidatedTool(
 				request.emit({ type: "tool_execution_phase", call, phase });
 			},
 		});
+		const executionId = readExecutionId(executed.details);
 		return {
 			role: "toolResult",
 			toolCallId: call.id,
@@ -119,6 +120,7 @@ async function executeValidatedTool(
 			details: executed.details,
 			isError: executed.isError === true,
 			timestamp: Date.now(),
+			...(executionId ? { executionId } : {}),
 		};
 	} catch (error) {
 		request.signal.throwIfAborted();
@@ -156,6 +158,12 @@ function skipToolCall(call: ToolCall, emit: (event: AgentExecutionEvent) => void
 	emit({ type: "tool_execution_start", call, startedAt });
 	emit({ type: "tool_execution_finish", call, result, startedAt, durationMs: 0, phases: [] });
 	return result;
+}
+
+function readExecutionId(details: unknown): string | undefined {
+	if (!details || typeof details !== "object") return undefined;
+	const executionId = (details as { executionId?: unknown }).executionId;
+	return typeof executionId === "string" && executionId.length > 0 ? executionId : undefined;
 }
 
 function toolError(call: ToolCall, message: string, code: string, details?: unknown): ToolResultMessage {

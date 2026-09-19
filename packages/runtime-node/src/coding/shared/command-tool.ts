@@ -31,6 +31,8 @@ export type CommandToolName = "bash" | "shell";
 export interface CommandToolExecutorRequest {
 	readonly toolName: CommandToolName;
 	readonly cwd: string;
+	readonly sessionId?: string;
+	readonly turnId?: string;
 	readonly toolCallId: string;
 	readonly input: Readonly<CommandToolInput>;
 	readonly signal: AbortSignal;
@@ -59,6 +61,8 @@ export function createCommandTool(options: CreateCommandToolOptions): RuntimeToo
 			return options.executor.execute({
 				toolName: options.name,
 				cwd: options.cwd,
+				sessionId: request.sessionId,
+				turnId: request.turnId,
 				toolCallId: request.toolCallId,
 				input: request.input,
 				signal: request.signal,

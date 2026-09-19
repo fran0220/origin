@@ -319,6 +319,7 @@ const ToolResultMessageSchema = Type.Object(
 		details: Type.Optional(Type.Unknown()),
 		isError: Type.Boolean(),
 		timestamp: Type.Number(),
+		executionId: Type.Optional(Type.String({ minLength: 1 })),
 	},
 	{ additionalProperties: false },
 );

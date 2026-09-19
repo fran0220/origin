@@ -5,6 +5,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setImmediate } from "node:timers";
 import stripAnsi from "strip-ansi";
+import {
+	type ExecutionReceiptSession,
+	getExecutionReceiptCollector,
+	outcomeFromCommandResult,
+} from "../../checkpoints/receipt-emitter.js";
 import { sanitizeBinaryOutput } from "../shared/text-decoding.js";
 import { truncateTail } from "../shared/truncation.js";
 import { killNodeProcessTree } from "./process-tree.js";
@@ -12,6 +17,9 @@ import { killNodeProcessTree } from "./process-tree.js";
 export interface NodeHostBashExecutionOptions {
 	readonly onChunk?: (chunk: string) => void;
 	readonly signal?: AbortSignal;
+	readonly sessionId?: string;
+	readonly turnId?: string;
+	readonly toolCallId?: string;
 }
 
 export interface NodeHostBashOperationOptions {
@@ -35,6 +43,7 @@ export interface NodeHostBashResult {
 	readonly cancelled: boolean;
 	readonly truncated: boolean;
 	readonly fullOutputPath?: string;
+	readonly executionId?: string;
 }
 
 export interface NodeHostBashShell {
@@ -80,6 +89,7 @@ function executeLocal(
 	const resolvedCommand = prependCommandPrefix(command, shell.commandPrefix);
 	const cwd = options.workingDirectory?.() ?? process.cwd();
 	const environment = options.environment?.() ?? process.env;
+	const receiptSession = beginReceipt(command, cwd, executionOptions);
 
 	return new Promise((resolve, reject) => {
 		const child = spawn(shell.executable, [...shell.args, resolvedCommand], {
@@ -99,14 +109,18 @@ function executeLocal(
 			if (settled) return;
 			settled = true;
 			cleanup();
-			resolve(output.finish(exitCode, cancelled));
+			const result = output.finish(exitCode, cancelled);
+			void settleReceipt(receiptSession, {
+				exitCode,
+				cancelled,
+			}).then((executionId) => resolve(withReceipt(result, executionId)));
 		};
 		const rejectOnce = (error: Error) => {
 			if (settled) return;
 			settled = true;
 			cleanup();
 			output.close();
-			reject(error);
+			void settleReceipt(receiptSession, { failedToStart: true }).finally(() => reject(error));
 		};
 		const stop = () => {
 			if (child.pid) killNodeProcessTree(child.pid);
@@ -146,17 +160,56 @@ async function executeWithOperations(
 	options: NodeHostBashExecutorOptions,
 ): Promise<NodeHostBashResult> {
 	const output = new NodeBashOutputCollector(executionOptions, options.temporaryDirectory);
+	const receiptSession = beginReceipt(command, cwd, executionOptions);
 	try {
 		const result = await operations.exec(command, cwd, {
 			onData: (data) => output.accept(data),
 			signal: executionOptions?.signal,
 		});
-		return output.finish(result.exitCode ?? undefined, executionOptions?.signal?.aborted === true);
+		const finished = output.finish(result.exitCode ?? undefined, executionOptions?.signal?.aborted === true);
+		const executionId = await settleReceipt(receiptSession, {
+			exitCode: result.exitCode ?? undefined,
+			cancelled: executionOptions?.signal?.aborted === true,
+		});
+		return withReceipt(finished, executionId);
 	} catch (error) {
-		if (executionOptions?.signal?.aborted) return output.finish(undefined, true);
+		if (executionOptions?.signal?.aborted) {
+			const finished = output.finish(undefined, true);
+			const executionId = await settleReceipt(receiptSession, { cancelled: true });
+			return withReceipt(finished, executionId);
+		}
 		output.close();
+		await settleReceipt(receiptSession, { failedToStart: true });
 		throw error;
 	}
+}
+
+function beginReceipt(command: string, cwd: string, options: NodeHostBashExecutionOptions | undefined) {
+	if (!options?.sessionId || !options.turnId) return undefined;
+	return getExecutionReceiptCollector().begin({
+		sessionId: options.sessionId,
+		turnId: options.turnId,
+		toolCallId: options.toolCallId,
+		command,
+		cwd,
+	});
+}
+
+async function settleReceipt(
+	session: ExecutionReceiptSession | undefined,
+	outcome: Parameters<typeof outcomeFromCommandResult>[0],
+): Promise<string | undefined> {
+	if (!session) return undefined;
+	try {
+		const receipt = await session.settle(outcomeFromCommandResult(outcome));
+		return receipt.executionId;
+	} catch {
+		return undefined;
+	}
+}
+
+function withReceipt(result: NodeHostBashResult, executionId: string | undefined): NodeHostBashResult {
+	return executionId ? { ...result, executionId } : result;
 }
 
 function prependCommandPrefix(command: string, prefix: string | undefined): string {

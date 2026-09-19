@@ -107,6 +107,7 @@ export async function executeToolCalls(
 			metadata: { isError, durationMs, phaseCount: phases.length, phases },
 		});
 
+		const executionId = readExecutionId(result.details);
 		const toolResultMessage: ToolResultMessage = {
 			role: "toolResult",
 			toolCallId: toolCall.id,
@@ -115,6 +116,7 @@ export async function executeToolCalls(
 			details: result.details,
 			isError,
 			timestamp: Date.now(),
+			...(executionId ? { executionId } : {}),
 		};
 		results.push(toolResultMessage);
 		stream.push({ type: "message_start", message: toolResultMessage });
@@ -191,4 +193,10 @@ function skipToolCall(
 	stream.push({ type: "message_start", message: toolResultMessage });
 	stream.push({ type: "message_end", message: toolResultMessage });
 	return toolResultMessage;
+}
+
+function readExecutionId(details: unknown): string | undefined {
+	if (!details || typeof details !== "object") return undefined;
+	const executionId = (details as { executionId?: unknown }).executionId;
+	return typeof executionId === "string" && executionId.length > 0 ? executionId : undefined;
 }

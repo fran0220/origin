@@ -1,3 +1,4 @@
+export * from "./checkpoints/index.js";
 export * from "./coding/index.js";
 export * from "./conversation/index.js";
 export * from "./credentials/index.js";

@@ -61,6 +61,7 @@ export default defineConfig({
 				new URL("../runtime-core/src/sandbox/index.ts", import.meta.url),
 			),
 			"@vetta/runtime-core": fileURLToPath(new URL("../runtime-core/src/index.ts", import.meta.url)),
+			"@vetta/runtime-checkpoints": fileURLToPath(new URL("../runtime-checkpoints/src/index.ts", import.meta.url)),
 		},
 	},
 	test: {

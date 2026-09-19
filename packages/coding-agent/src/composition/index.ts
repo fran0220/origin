@@ -8,6 +8,13 @@ export {
 	DEFAULT_CODING_AGENT_MAX_INLINE_TOOL_RESULT_BYTES,
 } from "../tool-results/result-policy.js";
 export {
+	type CheckpointTurnFeatureOptions,
+	type CheckpointTurnHost,
+	CODING_AGENT_CHECKPOINT_EXTENSION_ID,
+	createCheckpointTurnObserver,
+	createCodingAgentCheckpointSessionExtension,
+} from "./checkpoint-session-extension.js";
+export {
 	CODING_AGENT_COMPACTION_PREFIRE_OBSERVATION,
 	type CodingAgentCompactionPrefireObservation,
 } from "./contracts/context-observability.js";

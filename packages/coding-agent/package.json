@@ -135,6 +135,7 @@
 		"@vetta/runtime-node": "workspace:*",
 		"@vetta/runtime-knowledge": "workspace:*",
 		"@vetta/runtime-storage": "workspace:*",
+		"@vetta/runtime-checkpoints": "workspace:*",
 		"@vetta/runtime-subagents": "workspace:*",
 		"@vetta/runtime-telemetry": "workspace:*",
 		"@vetta/runtime-tools": "workspace:*",

@@ -7,6 +7,7 @@ import type { ForegroundCommandOperations } from "@vetta/runtime-tools";
 
 export type { ForegroundCommandOperations } from "@vetta/runtime-tools";
 
+import { getExecutionReceiptCollector, outcomeFromCommandResult } from "../../checkpoints/receipt-emitter.js";
 import {
 	type CommandExecutionContextOptions,
 	type CommandSpawnContext,
@@ -35,6 +36,7 @@ export interface ForegroundCommandToolDetails {
 	readonly truncation?: TruncationResult;
 	readonly fullOutputPath?: string;
 	readonly pathCorrections?: readonly PathLiteralCorrection[];
+	readonly executionId?: string;
 }
 
 export function createForegroundCommandToolExecutor(options: ForegroundCommandExecutorOptions): CommandToolExecutor {
@@ -65,6 +67,9 @@ export function createForegroundCommandToolExecutor(options: ForegroundCommandEx
 				pathCorrections,
 				signal: request.signal,
 				onUpdate: request.onUpdate,
+				sessionId: request.sessionId,
+				turnId: request.turnId,
+				toolCallId: request.toolCallId,
 			});
 		},
 	};
@@ -81,6 +86,9 @@ interface ExecuteForegroundCommandOptions {
 	readonly pathCorrections: readonly PathLiteralCorrection[];
 	readonly signal: AbortSignal;
 	readonly onUpdate?: (result: RuntimeToolResult) => void;
+	readonly sessionId?: string;
+	readonly turnId?: string;
+	readonly toolCallId?: string;
 }
 
 function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Promise<RuntimeToolResult> {
@@ -91,6 +99,21 @@ function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Pro
 		const chunks: Buffer[] = [];
 		let chunksBytes = 0;
 		const maxChunksBytes = DEFAULT_MAX_BYTES * 2;
+		const receiptSession =
+			options.sessionId && options.turnId
+				? getExecutionReceiptCollector().begin({
+						sessionId: options.sessionId,
+						turnId: options.turnId,
+						toolCallId: options.toolCallId,
+						command: options.spawnContext.command,
+						cwd: options.spawnContext.cwd,
+					})
+				: undefined;
+
+		const settleReceipt = (outcome: Parameters<typeof outcomeFromCommandResult>[0]) => {
+			if (!receiptSession) return Promise.resolve(undefined);
+			return receiptSession.settle(outcomeFromCommandResult(outcome)).catch(() => undefined);
+		};
 
 		const handleData = (data: Uint8Array) => {
 			const buffer = Buffer.from(data);
@@ -129,8 +152,9 @@ function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Pro
 				timeout: options.timeout,
 				env: options.spawnContext.env,
 			})
-			.then(({ exitCode }) => {
+			.then(async ({ exitCode }) => {
 				tempFileStream?.end();
+				const receipt = await settleReceipt({ exitCode });
 				const protectedChanges = detectDirectoryChanges(
 					options.protectedSnapshot,
 					snapshotDirectories(options.protectedDirectories),
@@ -139,7 +163,10 @@ function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Pro
 				const fullOutput = decodeTextBuffer(Buffer.concat(chunks));
 				const truncation = truncateTail(fullOutput);
 				let outputText = appendProtectedDirectoryWarning(truncation.content || "(no output)", protectedChanges);
-				const details = createCommandDetails(truncation, tempFilePath, options.pathCorrections);
+				const details = withExecutionId(
+					createCommandDetails(truncation, tempFilePath, options.pathCorrections),
+					receipt?.executionId,
+				);
 				outputText = appendTruncationNotice(outputText, truncation, fullOutput, tempFilePath);
 				outputText = prependPathCorrectionNotes(outputText, options.pathCorrections);
 
@@ -149,15 +176,17 @@ function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Pro
 				}
 				resolve({ content: [{ type: "text", text: outputText }], details });
 			})
-			.catch((error: Error) => {
+			.catch(async (error: Error) => {
 				tempFileStream?.end();
 				let output = prependPathCorrectionNotes(decodeTextBuffer(Buffer.concat(chunks)), options.pathCorrections);
 				if (error.message === "aborted") {
+					await settleReceipt({ cancelled: true });
 					if (output) output += "\n\n";
 					reject(new Error(`${output}Command aborted`));
 					return;
 				}
 				if (error.message.startsWith("timeout:")) {
+					await settleReceipt({ timedOut: true });
 					if (output) output += "\n\n";
 					const seconds = error.message.split(":")[1];
 					output += `Command timed out after ${seconds} seconds`;
@@ -170,6 +199,7 @@ function executeForegroundCommand(options: ExecuteForegroundCommandOptions): Pro
 					reject(new Error(output));
 					return;
 				}
+				await settleReceipt({ failedToStart: true });
 				reject(error);
 			});
 	});
@@ -188,6 +218,14 @@ function createCommandDetails(
 		};
 	}
 	return pathCorrections.length > 0 ? { pathCorrections } : undefined;
+}
+
+function withExecutionId(
+	details: ForegroundCommandToolDetails | undefined,
+	executionId: string | undefined,
+): ForegroundCommandToolDetails | undefined {
+	if (!executionId) return details;
+	return { ...(details ?? {}), executionId };
 }
 
 function appendTruncationNotice(
