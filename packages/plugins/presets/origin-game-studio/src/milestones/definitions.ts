@@ -1,17 +1,15 @@
+import type { PluginEvaluationVerifier } from "@vetta-org/plugin-sdk";
 import type { DesignGraph, ProductionMilestone } from "../design/types";
 
-export interface EvaluationVerifierRef {
-	kind: "command" | "telemetry";
-	command?: string;
-	cwd?: string;
-	assertion?: string;
-}
+export const GREYBOX_PLAYBACK_EXPRESSION =
+	'{"all":[{"path":"playback.refused","op":"eq","value":0},{"path":"playback.dispatched","op":"gt","value":0}]}';
+export const GREYBOX_TICK_EXPRESSION = '{"path":"afterTick","op":"gt","other":"beforeTick"}';
 
 export interface EvaluationCriterion {
 	id: string;
 	title: string;
 	required: boolean;
-	verifier?: EvaluationVerifierRef;
+	verifier?: PluginEvaluationVerifier;
 }
 
 export interface EvaluationDefinition {
@@ -21,14 +19,22 @@ export interface EvaluationDefinition {
 	criteria: EvaluationCriterion[];
 }
 
-export const SCAFFOLD_VERIFICATION_COMMANDS: Record<"canvas2d" | "three", readonly string[]> = {
-	canvas2d: ["bun run typecheck", "bun run build", "bun run check:arch", "bun run check:smoke"],
+export const SCAFFOLD_VERIFICATION_COMMANDS: Record<
+	"canvas2d" | "three",
+	readonly { command: string; args: readonly string[] }[]
+> = {
+	canvas2d: [
+		{ command: "bun", args: ["run", "typecheck"] },
+		{ command: "bun", args: ["run", "build"] },
+		{ command: "bun", args: ["run", "check:arch"] },
+		{ command: "bun", args: ["run", "check:smoke"] },
+	],
 	three: [
-		"bun run typecheck",
-		"bun run build",
-		"bun run check:arch",
-		"bun run check:smoke",
-		"bun run check:wgsl",
+		{ command: "bun", args: ["run", "typecheck"] },
+		{ command: "bun", args: ["run", "build"] },
+		{ command: "bun", args: ["run", "check:arch"] },
+		{ command: "bun", args: ["run", "check:smoke"] },
+		{ command: "bun", args: ["run", "check:wgsl"] },
 	],
 };
 
@@ -36,31 +42,40 @@ export function milestoneDefinitionId(milestoneId: string): string {
 	return `game-milestone:${milestoneId}`;
 }
 
+function commandVerifier(command: string, args: readonly string[], cwd: string): PluginEvaluationVerifier {
+	return { kind: "command", command, args: [...args], cwd };
+}
+
+function telemetryVerifier(expression: string): PluginEvaluationVerifier {
+	return { kind: "assertion", source: "recording-telemetry", expression };
+}
+
 export function definitionFromMilestone(
 	milestone: ProductionMilestone,
 	graph: DesignGraph,
 	index: number,
+	cwd: string,
 ): EvaluationDefinition {
 	const substrate = graph.substrate ?? "canvas2d";
 	const commands = SCAFFOLD_VERIFICATION_COMMANDS[substrate];
-	const criteria: EvaluationCriterion[] = commands.map((command, commandIndex) => ({
+	const criteria: EvaluationCriterion[] = commands.map((item, commandIndex) => ({
 		id: `${milestone.id}:build:${commandIndex}`,
-		title: command,
+		title: `${item.command} ${item.args.join(" ")}`,
 		required: true,
-		verifier: { kind: "command", command },
+		verifier: commandVerifier(item.command, item.args, cwd),
 	}));
 	if (milestone.kind === "greybox") {
 		criteria.push({
 			id: `${milestone.id}:probe-input`,
 			title: "Probe-accepted player input without refusals",
 			required: true,
-			verifier: { kind: "telemetry", assertion: "playback.refused === 0 && playback.dispatched > 0" },
+			verifier: telemetryVerifier(GREYBOX_PLAYBACK_EXPRESSION),
 		});
 		criteria.push({
 			id: `${milestone.id}:probe-advance`,
 			title: "Observed advancing probe frames",
 			required: true,
-			verifier: { kind: "telemetry", assertion: "afterTick > beforeTick" },
+			verifier: telemetryVerifier(GREYBOX_TICK_EXPRESSION),
 		});
 	}
 	if (milestone.kind === "delivery") {
@@ -68,7 +83,7 @@ export function definitionFromMilestone(
 			id: `${milestone.id}:archive`,
 			title: "Prepared immutable production archive",
 			required: true,
-			verifier: { kind: "command", command: "bun run build" },
+			verifier: commandVerifier("bun", ["run", "build"], cwd),
 		});
 	}
 	for (const nodeId of milestone.nodeIds) {
@@ -76,7 +91,6 @@ export function definitionFromMilestone(
 			id: `${milestone.id}:node:${nodeId}`,
 			title: `Active node ${nodeId} is specified`,
 			required: false,
-			verifier: { kind: "telemetry", assertion: `graph.node.${nodeId}.active` },
 		});
 	}
 	return {
@@ -87,6 +101,6 @@ export function definitionFromMilestone(
 	};
 }
 
-export function definitionsFromGraph(graph: DesignGraph): EvaluationDefinition[] {
-	return graph.milestones.map((milestone, index) => definitionFromMilestone(milestone, graph, index));
+export function definitionsFromGraph(graph: DesignGraph, cwd: string): EvaluationDefinition[] {
+	return graph.milestones.map((milestone, index) => definitionFromMilestone(milestone, graph, index, cwd));
 }

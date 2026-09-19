@@ -1,5 +1,4 @@
-import type { PluginCaptureApi, PluginContext } from "@vetta-org/plugin-sdk";
-import { readHostCapabilities } from "../adapters/host-capabilities";
+import type { PluginCaptureApi, PluginContext, PluginRecordingApi } from "@vetta-org/plugin-sdk";
 import type { ProbeMethod } from "./protocol";
 import { prepareScriptForReady, probeScriptFor } from "./protocol";
 
@@ -9,6 +8,70 @@ export interface ProbeCallResult {
 	error?: string;
 	dataUrl?: string;
 	via: "capture.offscreen" | "recording";
+	recordingId?: string;
+}
+
+const ACTIVE_RECORDING_BY_URL = new Map<string, string>();
+
+export function rememberActiveRecording(url: string, recordingId: string): void {
+	ACTIVE_RECORDING_BY_URL.set(url, recordingId);
+}
+
+export function forgetActiveRecording(url: string, recordingId?: string): void {
+	const current = ACTIVE_RECORDING_BY_URL.get(url);
+	if (recordingId && current !== recordingId) return;
+	ACTIVE_RECORDING_BY_URL.delete(url);
+}
+
+export function activeRecordingIdFor(url: string): string | undefined {
+	return ACTIVE_RECORDING_BY_URL.get(url);
+}
+
+function probePayload(method: ProbeMethod, args: readonly unknown[]): unknown {
+	if (method === "advance") return args[0] ?? 1;
+	if (method === "input") return args[0];
+	if (method === "pick") return { x: args[0], y: args[1] };
+	if (method === "read_entity") return args[0];
+	if (method === "patch_entity") return { id: args[0], parameter: args[1], value: args[2] };
+	return args[0] ?? null;
+}
+
+function recordingProbeKind(
+	method: ProbeMethod,
+): "tick" | "state" | "advance" | "input" | "pick" | "read_entity" | "patch_entity" | null {
+	if (
+		method === "tick" ||
+		method === "state" ||
+		method === "advance" ||
+		method === "input" ||
+		method === "pick" ||
+		method === "read_entity" ||
+		method === "patch_entity"
+	) {
+		return method;
+	}
+	return null;
+}
+
+async function callRecordingProbe(
+	recording: PluginRecordingApi,
+	recordingId: string,
+	method: ProbeMethod,
+	args: readonly unknown[],
+): Promise<ProbeCallResult> {
+	const kind = recordingProbeKind(method);
+	if (!kind) {
+		return { ok: false, via: "recording", recordingId, error: `recording probe does not support ${method}` };
+	}
+	const raw = await recording.probe(recordingId, kind, probePayload(method, args));
+	const probe = parseProbePayload(raw);
+	return {
+		ok: probe.ok,
+		result: probe.result,
+		error: probe.error,
+		via: "recording",
+		recordingId,
+	};
 }
 
 export async function callProbe(
@@ -17,16 +80,21 @@ export async function callProbe(
 	method: ProbeMethod,
 	args: readonly unknown[] = [],
 ): Promise<ProbeCallResult> {
-	const recording = readHostCapabilities(ctx).recording;
-	if (recording) {
-		return {
-			ok: false,
-			via: "recording",
-			error: "recording probe channel is present but Game Studio still talks through capture.offscreen until the Recording thread publishes its RPC contract",
-		};
+	const recording = ctx.recording;
+	const recordingId = activeRecordingIdFor(url);
+	if (recording && recordingId) {
+		return callRecordingProbe(recording, recordingId, method, args);
 	}
+
 	const capture: PluginCaptureApi | undefined = ctx.capture;
 	if (!capture) {
+		if (recording) {
+			return {
+				ok: false,
+				via: "recording",
+				error: "no active recording; start a recording or use capture.offscreen",
+			};
+		}
 		return { ok: false, via: "capture.offscreen", error: "capture.offscreen is unavailable on this host" };
 	}
 	const result = await capture.offscreen({

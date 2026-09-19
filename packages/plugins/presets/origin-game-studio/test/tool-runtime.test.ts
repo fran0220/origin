@@ -6,7 +6,7 @@ import {
 	executeCreateProject,
 	executeDelivery,
 	executePlayInputScript,
-	executeRecordingStub,
+	executeRecording,
 	executeUpdateAnnotation,
 } from "../src/tools/runtime";
 import { createToolContext } from "./helpers/memory-host";
@@ -82,18 +82,16 @@ describe("game studio tool error paths", () => {
 		expect(prepared.status).toBe("prepared");
 	});
 
-	it("lists recordings as a real empty waiting state instead of inventing clips", async () => {
+	it("lists host recordings and refuses missing recording ids instead of inventing clips", async () => {
 		const { ctx } = createToolContext({ cwd: "/tmp/game" });
 		await executeCreateProject(ctx, { cwd: "/tmp/game", id: "s" }, { idea: "a maze I can walk" });
-		const listed = (await executeRecordingStub(ctx, { cwd: "/tmp/game", id: "s" }, "list_recordings", {})) as {
+		const listed = (await executeRecording(ctx, { cwd: "/tmp/game", id: "s" }, "list_recordings", {})) as {
 			recordings: unknown[];
-			waiting: string;
 		};
 		expect(listed.recordings).toEqual([]);
-		expect(listed.waiting).toBe("recording capability");
 		await expect(
-			executeRecordingStub(ctx, { cwd: "/tmp/game", id: "s" }, "read_recording_video", { recording_id: "r1" }),
-		).rejects.toThrow(/recording capability/);
+			executeRecording(ctx, { cwd: "/tmp/game", id: "s" }, "read_recording_video", { recording_id: "r1" }),
+		).rejects.toThrow(/missing r1/);
 	});
 });
 

@@ -30,10 +30,51 @@ describe("game studio UI", () => {
 		expect(insertText).toHaveBeenCalledWith("newSession.prompt.genre", { position: "end" });
 	});
 
-	it("shows a real empty recordings dock while recording capability is missing", () => {
-		setPluginCtx({} as never);
+	it("shows a real empty recordings list when the host has no recordings", () => {
+		setPluginCtx({ recording: undefined } as never);
 		render(<RecordingsTab />);
-		expect(screen.getByRole("status").textContent).toBe("recordings.waiting");
+		expect(screen.getByRole("status").textContent).toBe("recordings.empty");
+	});
+
+	it("lists host recordings after the conversation binds a project cwd", async () => {
+		const listeners: Array<(event: { type: string; conversation: { cwd: string } }) => void> = [];
+		const list = vi.fn(async () => [
+			{
+				id: "rec-1",
+				status: "ready",
+				projectKey: "recording-key",
+				sessionId: "s1",
+				startedAt: 1,
+				telemetryPath: "",
+				inputPath: "",
+				retention: "2h",
+				audio: "none",
+				frames: [],
+			},
+		]);
+		setPluginCtx({
+			recording: { list },
+			conversation: {
+				on(listener: (event: { type: string; conversation: { cwd: string } }) => void) {
+					listeners.push(listener);
+					return { dispose() {} };
+				},
+			},
+			project: {
+				async resolve() {
+					return {
+						cwd: "/tmp/game",
+						evaluationScope: { kind: "project", projectKey: "eval-key" },
+						checkpointProjectKey: "checkpoint-key",
+						recordingProjectKey: "recording-key",
+					};
+				},
+			},
+		} as never);
+		render(<RecordingsTab />);
+		listeners[0]?.({ type: "conversation-changed", conversation: { cwd: "/tmp/game" } });
+		expect(await screen.findByText("rec-1")).toBeTruthy();
+		expect(screen.getByText("recordings.status")).toBeTruthy();
 	});
 
 	it("renders a stage card from the tool descriptor payload", () => {

@@ -51,6 +51,9 @@ export interface MilestoneDecision {
 	supersedes: string | null;
 	current: boolean;
 	recordedAt: number;
+	attemptId?: string | null;
+	outcome?: string | null;
+	checkpointId?: string | null;
 }
 
 export interface ComparisonRecord {
@@ -78,7 +81,7 @@ export interface GoldenRecord {
 
 export interface RecordingIndexEntry {
 	id: string;
-	status: "pending-recording-capability" | "ready" | "expired";
+	status: "recording" | "finalizing" | "ready" | "failed" | "expired";
 	createdAt: number;
 	note: string;
 }
@@ -155,9 +158,19 @@ export async function loadProject(storage: PluginStorageApi, cwd: string): Promi
 	return JSON.parse(data) as ProjectRecord;
 }
 
+const projectListeners = new Set<(cwd: string) => void>();
+
+export function subscribeProjectChanges(listener: (cwd: string) => void): () => void {
+	projectListeners.add(listener);
+	return () => {
+		projectListeners.delete(listener);
+	};
+}
+
 export async function saveProject(storage: PluginStorageApi, record: ProjectRecord): Promise<void> {
 	record.updatedAt = Date.now();
 	await storage.writeFile(projectPath(record.cwd), JSON.stringify(record, null, 2), "utf8");
+	for (const listener of projectListeners) listener(record.cwd);
 }
 
 export async function updateProject(

@@ -20,7 +20,7 @@ import {
 	executeReadProductionBrief,
 	executeReadStageContent,
 	executeReadStageStatus,
-	executeRecordingStub,
+	executeRecording,
 	executeStartDevServer,
 	executeStopDevServer,
 	executeUpdateAnnotation,
@@ -125,7 +125,7 @@ async function dispatch(ctx: PluginContext, session: ToolSession, name: ToolName
 		case "read_recording_video":
 		case "sample_recording":
 		case "read_telemetry":
-			return executeRecordingStub(ctx, session, name, input);
+			return executeRecording(ctx, session, name, input);
 		case "list_comparisons":
 		case "submit_comparison":
 			return executeComparisons(ctx, session, name, input);

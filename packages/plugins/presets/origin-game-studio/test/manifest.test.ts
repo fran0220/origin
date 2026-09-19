@@ -12,6 +12,7 @@ interface Manifest {
 	id: string;
 	pluginApiVersion: string;
 	commands?: string[];
+	permissions?: string[];
 	agent?: ManifestAgent;
 }
 
@@ -19,7 +20,7 @@ describe("origin-game-studio manifest", () => {
 	it("declares game-director, skill paths and remote Origin MCP servers", () => {
 		const manifest = JSON.parse(readFileSync(join(import.meta.dirname, "../plugin.json"), "utf8")) as Manifest;
 		expect(manifest.id).toBe("origin-game-studio");
-		expect(manifest.pluginApiVersion).toBe("^2.0.0");
+		expect(manifest.pluginApiVersion).toBe("^2.8.0");
 		expect(manifest.agent?.agents?.map((agent) => agent.id)).toEqual(["game-director"]);
 		expect(manifest.agent?.skillPaths?.length).toBeGreaterThanOrEqual(10);
 		expect(manifest.agent?.mcpServers).toMatchObject({
@@ -28,5 +29,16 @@ describe("origin-game-studio manifest", () => {
 			"origin-game-knowledge": { type: "http", url: "https://knowledge.origingame.dev/mcp" },
 		});
 		expect(manifest.commands).toEqual(expect.arrayContaining(["bun", "node"]));
+		expect(manifest.permissions).toEqual(
+			expect.arrayContaining([
+				"evaluation:run",
+				"evaluation:read",
+				"evaluation:write",
+				"checkpoints:read",
+				"checkpoints:revert",
+				"recording:capture",
+				"workspace.read",
+			]),
+		);
 	});
 });

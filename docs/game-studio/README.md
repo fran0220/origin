@@ -1,6 +1,6 @@
 # Game Studio 与平台底层能力设计
 
-> 状态：**设计草案（待用户确认后分阶段实施）**。本文是把 Sophon（Rust/GPUI）中的 Game Studio 及其依赖的三项平台能力迁入 open-vetta 的完整方案。每个阶段落地时以 ADR 记录决策，本文随实现同步修正，不作为当前实现的事实源。
+> 状态：**已进入实施与跨能力整合**。Game Studio、Checkpoint、Evaluation、Evolution 与 Recording 已有实现，不能再把本文的迁移前缺口当作当前状态。本文保留设计背景与验收范围；当前合同以源码、测试及 ADR-0121～0128 为准，代码存在不代表所有真实宿主流程已经验收。
 
 ## 1. 目标与边界
 
@@ -11,7 +11,9 @@
   3. **Recording**：带时间戳的网页录制 → MP4 + 抽帧 + 遥测/输入脚本 + 保留期 + 多模态模型审阅。
 - 不迁移 Sophon 的原生 wgpu 目标；Web 目标（`canvas2d` / `three`）通过 Vite dev server + 离屏页面运行。
 
-## 2. 现状核查结论（截至 2026-09，只读核查）
+## 2. 迁移前核查基线（历史背景，不是当前缺口列表）
+
+对应实现现已分别位于 `runtime-checkpoints`、`runtime-evaluation`、`runtime-evolution`、`runtime-recording`，Node 适配位于 `runtime-node`。插件已通过 SDK 写入评估定义、录制页面及查询检查点；宿主统一解析项目身份，评估读取真实收据、检查点与录制遥测。遥测断言使用受限 JSON，缺数据不会判为通过；验收项见第 9 节。
 
 | 能力 | 已有可复用 | 缺口 |
 | --- | --- | --- |
@@ -61,13 +63,14 @@
 
 ```text
 <agentDir>/
-  checkpoints/<projectKey>/  mainline.jsonl  receipts.jsonl  shadow.git/
-  evaluation/<scopeKey>/     definitions.jsonl attempts.jsonl evidence/<id>.json
-  evolution/                 global.jsonl  subjects/<subjectId>.jsonl
-  recordings/<projectKey>/   <recordingId>/ video.mp4 frames/ telemetry.jsonl input.jsonl record.json
+  accounts/<accountHash>/    # 已登录；未登录使用 logged-out/
+    checkpoints/<projectStorageKey>/  mainline.jsonl receipts.jsonl shadow.git/
+    evaluation/<scopeKey>/            definitions.jsonl attempts.jsonl evidence/<id>.json
+    evolution/                       global.jsonl subjects/<subjectId>.jsonl
+    recordings/<projectKey>/         <recordingId>/video.mp4 telemetry.jsonl input.jsonl record.json
 ```
 
-`projectKey` 来自 `project-service` 的 Project id（不是 cwd 字符串），非 Project 会话（Home 助手）使用 `home`。
+现有 Project 以路径标识，没有独立 Project id。宿主 `projects/capability-project.ts` 统一解析项目描述符：Evaluation 使用历史 SHA-256 前 16 位，Recording 新写键与其一致，Checkpoint 保留可反解路径的 base64url 合同。查询兼容旧 Game Studio 的 24 位哈希；存量账本不靠全盘重命名统一。Home 的 Evaluation scope 为 `global`，Checkpoint / Recording 键为 `home`，未知项目不能回退到 Home。插件应使用宿主提供的描述符，不自行计算这些键。
 
 ## 4. Checkpoint（`packages/runtime-checkpoints`）
 
@@ -90,8 +93,8 @@ ExecutionReceipt { executionId; sessionId; turnId; toolCallId?; command; cwd; st
 
 ### 4.2 快照策略：shadow repo（默认）与 project mainline（可选）
 
-- **默认 shadow repo**：`GIT_DIR=<agentDir>/checkpoints/<projectKey>/shadow.git`、`GIT_WORK_TREE=<cwd>`，遵守用户 `.gitignore`，另加 `.vetta/` 与 `node_modules/` 排除。用户仓库历史零改动；非 git 目录同样可用。
-- **project mainline 模式**：由 Project 策略开启，直接提交到项目当前分支（Sophon 语义）。Game Studio 创建并拥有的项目默认开启；用户自带仓库默认关闭。
+- **默认 shadow repo**：`GIT_DIR=<accountPartition>/checkpoints/<projectStorageKey>/shadow.git`、`GIT_WORK_TREE=<cwd>`，遵守用户 `.gitignore`，另加 `.vetta/` 与 `node_modules/` 排除。用户仓库历史零改动；非 git 目录同样可用。
+- **project mainline 模式**：由 Project 策略显式开启，直接提交到项目当前分支。当前平台默认均为 shadow，包括 Game Studio 项目，不因插件创建了目录就自动改用户仓库历史。
 - **回退 = 新提交**（restore 文件后再 commit），永不改写历史。Timeline 用 `feedback` 边连接 revert → 被回退的 checkpoint。
 - 对话回退与文件回退是两个动作，UI 先预览再执行，不声称原子。
 
@@ -126,6 +129,8 @@ Outcome    { kind:"passed"|"failed"|"inconclusive"|"error"|"cancelled"|"budget-l
 - Attempt 写入后不可变；重跑产生新 Attempt。`inputFingerprint` 相同可去重。
 - 证据只能来自四类真实来源：Execution Receipt、Checkpoint landed/verification、Recording（帧/遥测/视频摘要）、Artifact digest。**模型自述不是证据**；模型审阅（如 Gemini review_video）的输出只能作为 Finding 的 `note`，其引用的证据仍是录像本身。
 - `EvaluationEvidenceProvider.capture(scopeKey, trigger)` 由各 surface 实现（Checkpoint、Recording、Game Studio milestone）。
+- Desktop 按项目与触发上下文读取收据和检查点。手动或里程碑评估默认选择同项目最新的已完成、未过期录像；`manual.ref` 可精确指定录像 ID。Turn / Checkpoint 评估仅在收据能证明同会话、同时间区间时附加录像，不用其他轮次的视频补足证据。
+- 检查点证据 ID 包含记录摘要，录像证据 ID 包含遥测内容 SHA-256，防止状态改变后复用旧评估。录像 verifier 校验实际文件 digest；缺失数据为 `inconclusive`，条件不满足为 `failed`，格式非法或内容发生变化为 `error`。
 
 ### 5.2 宿主接口
 
@@ -199,7 +204,7 @@ RecordingRecord { id; projectKey; sessionId; startedAt; endedAt; durationMs; vid
 - 脚手架 `canvas2d` / `three` 从 Sophon `assets/game-scaffold/` 迁移；dev server 用 `ctx.command.spawn({allocatePort:true})` 并以 `--strictPort` 重试。
 - Studio 里的里程碑用 Evaluation Definition 表达（每个里程碑一份 Definition，criteria 的 verifier 指向 Recording 遥测断言或构建命令），Checkpoint 由平台自动产生，Harness 通过 `harness_refine` 沉淀游戏项目规则。
 
-## 9. 分阶段交付（每阶段可运行、可测、独立 ADR + 发布说明）
+## 9. 分阶段验收范围（不代表下列所有环境测试均已执行）
 
 | 阶段 | 内容 | 关键验证 |
 | --- | --- | --- |
@@ -210,11 +215,12 @@ RecordingRecord { id; projectKey; sessionId; startedAt; endedAt; durationMs; vid
 | P4 Recording | OSR 帧流 + ffmpeg 编码 + 音频 mux；保留期清理；sample/contact sheet；`review_recording` | 编码链路集成测试（短录制→ffprobe 校验）；保留期清理测试（可控时钟）；用户流程：启动页面 → 录 5s → 抽帧 → 审阅 |
 | P5 Game Studio | 预置插件全部工具/视图/skill/脚手架 | 插件合同测试；用户流程：一行想法 → 脚手架 → dev server → 录制 → 里程碑评估 → checkpoint |
 
-## 10. 待用户确认的决策
+## 10. 已采用的约束与验收边界
 
-1. Checkpoint 默认使用 **shadow repo**，Game Studio 自有项目使用 project mainline；是否接受"默认不改用户仓库历史"。
+1. Checkpoint 默认使用 **shadow repo**，不改用户仓库历史；project mainline 必须显式选择。
 2. ffmpeg 作为**新增 managed runtime**（下载固定版本，非 npm 依赖）；视频默认 **H.264/AAC**，AV1 可选（Sophon 强制 AV1/Opus）。
 3. 持久化统一放 **`getAgentDir()`**，不写 `<cwd>/.vetta/`。
 4. Harness 与现有 Memory **并存**，不合并；`kind: skill/subagent` 条目在 MVP 里为提示词级引导。
 5. Evaluation 的模型审阅结论只能作为 Finding `note`，不能单独作为证据。
 6. 新增四个 `runtime-*` 包 + `packages/ai` 公共类型扩展 + plugin-sdk 三个新能力（需要 Plugin API minor 版本升级）。
+7. 真实 Electron OSR、音频、打包运行与真实 Provider 视频审阅需要各自的环境验证；Node 假帧源编码、组件测试或插件 zip 构建不能代替这些结论。服务端 PKCE 仍依赖独立私有服务端实现与部署。

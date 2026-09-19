@@ -72,11 +72,9 @@ export const TOOL_SCHEMAS = {
 	),
 	record: Type.Object(
 		{
-			id: Type.Optional(NonBlank),
 			frames: Type.Optional(Type.Integer({ minimum: 1, maximum: 600 })),
 			ticks_per_frame: Type.Optional(Type.Integer({ minimum: 1, maximum: 100_000 })),
 			settle_ms: Type.Optional(Type.Integer({ minimum: 0, maximum: 10_000 })),
-			path: Type.Optional(NonBlank),
 		},
 		{ additionalProperties: false },
 	),
@@ -302,11 +300,11 @@ export const TOOL_DESCRIPTIONS: Record<ToolName, string> = {
 	capture_frame:
 		"Capture one frame now. Answers with the artifact the frame was stored as, what it was captured at, never with the image bytes.",
 	record:
-		"Record one playtest as MP4 video, PNG evidence frames and telemetry in the same recording. Waiting on the Recording capability until that thread lands.",
-	list_recordings: "Every recording this Project holds. Empty until the Recording capability is available.",
-	read_recording_video: "Path and metadata for one recording's MP4. Refused until Recording lands.",
+		"Record one playtest as MP4 and telemetry. Probe tick and input, then advance frames times (default 1), ticks_per_frame ticks each (default 1), waiting settle_ms after each advance (default 50). The host assigns the recording ID and path. Use sample_recording for PNG evidence frames.",
+	list_recordings: "Every host recording for this Project, keyed by the host recordingProjectKey.",
+	read_recording_video: "Path and metadata for one recording's MP4.",
 	sample_recording:
-		"Decode an existing MP4. Supply at_ms or every_ms. Waiting on the Recording capability until that thread lands.",
+		"Decode an existing MP4. Supply at_ms or every_ms. contact_sheet true requests a 3-column contact sheet.",
 	read_telemetry: "One recording's stored telemetry. A recording whose retention window has passed answers expired.",
 	list_comparisons: "The before/after comparisons already submitted for this Project.",
 	submit_comparison: "Submit a before/after comparison over two captured frames with measured facts.",
@@ -321,7 +319,7 @@ export const TOOL_DESCRIPTIONS: Record<ToolName, string> = {
 	update_annotation:
 		"Move one annotation along its lifecycle: acknowledge it, resolve it with before/after frames, or dismiss it with the reason stated.",
 	verify_milestone:
-		"Close one implemented milestone after all of its playtest evidence and verification gates have settled. operation_id makes retries idempotent.",
+		"Run the host Evaluation definition for this milestone, record the attempt id and the latest checkpoint id, and close the milestone. operation_id makes retries idempotent.",
 	prepare_prototype_image:
 		"Prepare one design-reference image from its production route and revisioned inputs. This is a design reference, never a runtime screenshot.",
 	read_production_brief:

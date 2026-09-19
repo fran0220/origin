@@ -31,7 +31,7 @@ Origin Game Studio 是随桌面端发布的系统预置插件（`origin-game-stu
 | `pick` / `read_entity` / `patch_entity` | 点选、读实体、改本页参数 |
 | `list_annotations` / `update_annotation` | 批注生命周期 |
 
-探针走 iframe `postMessage` RPC（`tick/state/advance/input/pick/read_entity/patch_entity`）。Recording 线程尚未把 `ctx.recording` 接到主进程时，工具通过 `capture.offscreen` 的 `probeScript` 与页面通信。
+探针走 iframe `postMessage` RPC（`tick/state/advance/input/pick/read_entity/patch_entity`）。有活跃录像时走 `ctx.recording.probe`，把 tick / input / advance 写进 `telemetry.jsonl`；没有活跃录像时回落到 `capture.offscreen` 的 `probeScript`。存在 `ctx.recording` 但尚未 `start` 时不再失败。
 
 ### 设计
 
@@ -52,12 +52,16 @@ Origin Game Studio 是随桌面端发布的系统预置插件（`origin-game-stu
 | `list_comparisons` / `submit_comparison` | 前后帧对比 |
 | `list_goldens` / `record_golden` / `check_golden` | 黄金帧 |
 
+`submit_comparison` 的可选检查点引用必须存在于当前项目的宿主检查点列表，否则拒绝保存。`record_golden` 将当前离屏 PNG 保存到插件的项目私有存储；`check_golden` 解码实际 RGBA 像素，以不同像素数占总像素数的比例与 `max_diff_ratio` 比较（默认 0.001，等于阈值算通过）。这不是感知相似度：动画、抗锯齿和字体渲染变化也可能产生差异，捕获前应固定场景。缺图片、解码失败或尺寸不同会报错；旧的占位黄金帧需要重新录制。
+
 ### 交付
 
 | 工具 | 作用 |
 | --- | --- |
-| `record` / `list_recordings` / `sample_recording` / `read_telemetry` / `read_recording_video` | 录像。Recording 落地前返回真实空态，不造假数据 |
+| `record` / `list_recordings` / `sample_recording` / `read_telemetry` / `read_recording_video` | 宿主网页录制。`record` 会 start → probe(tick) → probe(input) → probe(advance) → stop，供里程碑遥测断言取样 |
 | `game_delivery` | 准备/检查不可变产物；发布需账户，未接通时拒绝 |
+
+`record` 的 `frames` 指推进次数（默认 1），每次推进 `ticks_per_frame` 个 tick（默认 1），然后等待 `settle_ms` 毫秒让页面绘制（默认 50）。录像 ID 和路径由宿主分配，不接受旧的 `id` / `path` 参数；PNG 证据帧通过 `sample_recording` 提取。完成后同会话的录像页自动刷新；停止失败也会释放插件侧活动录像引用，探针错误不会被停止错误覆盖。
 
 远程 MCP 默认 URL（可在插件私有存储 `settings.json` 的 `mcpServers` 字段覆盖）：
 
@@ -67,10 +71,10 @@ Origin Game Studio 是随桌面端发布的系统预置插件（`origin-game-stu
 
 ## 里程碑
 
-每个里程碑是一份 Evaluation `Definition`：
+每个里程碑是一份宿主 Evaluation `Definition`。项目键经 `ctx.project.resolve(cwd)` 取得，插件不自己 hash。
 
-- greybox：`bun run typecheck/build/check:arch/check:smoke`，外加「探针接受输入且无拒绝」「tick 前进」两条遥测断言
-- content：同样的构建命令 + 节点是否仍在有效范围
-- delivery：构建命令 + 不可变产物
+- greybox：`bun` + `["run", "typecheck"|"build"|"check:arch"|"check:smoke"]`，cwd 为游戏项目根；外加两条 `recording-telemetry` 断言（playback 无拒绝且有派发、afterTick > beforeTick）
+- content：同样的构建命令；节点是否指定只作为无 verifier 的准则
+- delivery：构建命令 + 不可变产物命令
 
-定义由插件私有存储持久化（`storage.write`，路径 `milestones/<projectKey>.json`）。`ctx.evaluation.run` 由并行 Evaluation 线程落地后接入；当前适配层在 `src/adapters/host-capabilities.ts`。
+`create_project` / `accept_design` 会 `upsertDefinition` 到宿主账本。`verify_milestone` 调用 `ctx.evaluation.run` 并记下 attempt 与最新 checkpoint id。录像列表来自 `ctx.recording.list`。文件回退走宿主检查点入口，不另造插件工具。

@@ -1,13 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { executeCreateProject, executeProbe, executeStartDevServer } from "../src/tools/runtime";
+import { GREYBOX_PLAYBACK_EXPRESSION, GREYBOX_TICK_EXPRESSION } from "../src/milestones/definitions";
 import { loadMilestoneLedger } from "../src/milestones/store";
+import {
+	executeCreateProject,
+	executeProbe,
+	executeRecording,
+	executeStartDevServer,
+	executeVerifyMilestone,
+} from "../src/tools/runtime";
 import { createFakeSpawnHandle, createToolContext, MemoryFs } from "./helpers/memory-host";
 
 describe("new session to playable greybox flow", () => {
-	it("selects a type card idea, lands canvas2d, starts the dev server, reads probe state and persists milestones", async () => {
+	it("creates a project, scaffolds, records, evaluates a milestone, lists recordings and can revert a checkpoint", async () => {
 		const cwd = "/tmp/harbour-run";
 		const fs = new MemoryFs(cwd);
-		const { ctx, storage } = createToolContext({
+		const { ctx, storage, calls } = createToolContext({
 			cwd,
 			fs,
 			spawn: async (_file: string, args?: string[], options?: { allocatePort?: boolean }) => {
@@ -56,7 +63,64 @@ describe("new session to playable greybox flow", () => {
 			"game-milestone:greybox",
 			"game-milestone:delivery",
 		]);
-		expect(ledger.definitions[0]?.criteria.some((criterion) => criterion.verifier?.kind === "command")).toBe(true);
-		expect(ledger.definitions[0]?.criteria.some((criterion) => criterion.verifier?.kind === "telemetry")).toBe(true);
+		expect(calls.resolvedCwds).toContain(cwd);
+		expect(calls.upserted[0]?.scope).toEqual({ kind: "project", projectKey: "eval-key" });
+		const greybox = calls.upserted.find((item) => item.definition.id === "game-milestone:greybox");
+		expect(greybox?.definition).toEqual(
+			expect.objectContaining({
+				id: "game-milestone:greybox",
+				criteria: expect.arrayContaining([
+					expect.objectContaining({
+						verifier: expect.objectContaining({ kind: "command", command: "bun", args: ["run", "typecheck"], cwd }),
+					}),
+					expect.objectContaining({
+						verifier: {
+							kind: "assertion",
+							source: "recording-telemetry",
+							expression: GREYBOX_PLAYBACK_EXPRESSION,
+						},
+					}),
+					expect.objectContaining({
+						verifier: {
+							kind: "assertion",
+							source: "recording-telemetry",
+							expression: GREYBOX_TICK_EXPRESSION,
+						},
+					}),
+				]),
+			}),
+		);
+
+		const recorded = (await executeRecording(ctx, { cwd, id: "s1" }, "record", {})) as { id: string; status: string };
+		expect(recorded.id).toBe("rec-1");
+		expect(recorded.status).toBe("ready");
+		expect(calls.recordingStarts).toEqual([
+			expect.objectContaining({ projectKey: "recording-key", sessionId: "s1", url: "http://127.0.0.1:5179/" }),
+		]);
+		expect(calls.recordingProbes.map((item) => item.kind)).toEqual(["tick", "input", "advance"]);
+		expect(calls.recordingStops).toEqual(["rec-1"]);
+
+		const verified = (await executeVerifyMilestone(ctx, { cwd, id: "s1" }, {
+			operation_id: "op-greybox",
+			milestone_id: "greybox",
+			refuted: 0,
+			confirmed: 1,
+		})) as { attemptId: string; checkpointId: string; outcome: { kind: string } };
+		expect(calls.runs).toEqual([
+			{
+				definitionId: "game-milestone:greybox",
+				scope: { kind: "project", projectKey: "eval-key" },
+				trigger: { kind: "milestone", ref: "op-greybox" },
+			},
+		]);
+		expect(verified.attemptId).toBe("attempt-1");
+		expect(verified.checkpointId).toBe("cp-1");
+		expect(verified.outcome.kind).toBe("passed");
+		expect(calls.checkpointLists).toEqual(["checkpoint-key"]);
+
+		const listed = (await executeRecording(ctx, { cwd, id: "s1" }, "list_recordings", {})) as {
+			recordings: Array<{ id: string; status: string }>;
+		};
+		expect(listed.recordings).toEqual([expect.objectContaining({ id: "rec-1", status: "ready" })]);
 	});
 });

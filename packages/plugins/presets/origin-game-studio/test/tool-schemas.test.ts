@@ -67,6 +67,12 @@ describe("game studio tool contracts", () => {
 		expect(validateToolInput("advance_stage", { ticks: 0 })?.ok).toBe(false);
 	});
 
+	it("accepts recording timing controls but rejects caller-assigned storage paths and ids", () => {
+		expect(validateToolInput("record", { frames: 3, ticks_per_frame: 7, settle_ms: 0 })).toBeNull();
+		expect(validateToolInput("record", { id: "custom" })?.ok).toBe(false);
+		expect(validateToolInput("record", { path: "custom.mp4" })?.ok).toBe(false);
+	});
+
 	it("requires a reason-shaped dismissed annotation through the schema's optional reason plus runtime", () => {
 		expect(validateToolInput("update_annotation", { annotation_id: "a1", state: "acknowledged" })).toBeNull();
 		expect(validateToolInput("update_annotation", { annotation_id: "a1", state: "open" })?.ok).toBe(false);
