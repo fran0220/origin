@@ -4,6 +4,7 @@ export {
 	isSecretFieldName,
 	type LegacySecretMigrationResult,
 	migrateLegacySecrets,
+	storeMcpConfigSecrets,
 	VAULT_REF_PREFIX,
 } from "./legacy-migration.js";
 export {

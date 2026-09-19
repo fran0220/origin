@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { getVettaHomePath } from "@vetta/action-rpc";
-import { isSecretFieldName } from "@vetta/runtime-node/credentials";
+import { isSecretFieldName, storeMcpConfigSecrets } from "@vetta/runtime-node/credentials";
 import { atomicWriteJSON } from "@vetta/toolkit/atomic-write";
 import type { McpServerDetail, McpServerSummary, McpServerUpsertData } from "@vetta-org/capability-sdk";
 import type {
@@ -12,6 +12,7 @@ import type {
 } from "../../preload/api-types/mcp.js";
 import { recordAbilityInstall, removeAbilityLedgerEntry } from "../abilities/ability-ledger.js";
 import { stopOpenMarketplaceManagedMcpRuntime } from "../abilities/open-marketplace/open-marketplace-mcp-runtime-host.js";
+import { getDesktopCredentialVault } from "../credentials/desktop-credential-vault.js";
 import { validateMcpConfig } from "../mcp-config-validation.js";
 import { ensureMcpFileMigrations } from "./migrations/index.js";
 
@@ -39,7 +40,8 @@ export async function readMcpConfig(): Promise<McpConfigData> {
 
 export async function writeMcpConfig(config: McpConfigData): Promise<void> {
 	const previous = await readMcpConfig();
-	const next = validateMcpConfig(config);
+	const next = structuredClone(validateMcpConfig(config));
+	storeMcpConfigSecrets(getDesktopCredentialVault(), next);
 	atomicWriteJSON(MCP_CONFIG_PATH, next);
 	await stopUnusedManagedMcpRuntimes(previous, next, stopOpenMarketplaceManagedMcpRuntime);
 }

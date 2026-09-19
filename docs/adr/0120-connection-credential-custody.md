@@ -14,7 +14,7 @@ Sophon 把 Provider 建模为不可携带 secret 的 Connection，用 loopback r
 
 1. 平台中立 Connection 模型放在 `@vetta/coding-agent/connections`。类型上不可表示 secret。托管 Vetta 网关与 BYOK Provider 都是 Connection。模型身份为 `<connectionId>:<upstreamModelId>`，并与遗留 `<provider>/<model>` 双向映射。
 2. `DialRouteTable` 只有 `fast`/`deep` 与用途路由。Project 级只保存路由，不保存 Key。同名模型跨 Connection 拒绝而非乱选。
-3. 统一 Vault 在 `@vetta/runtime-node/credentials`。Desktop 优先 Electron safeStorage；Linux `basic_text` 与 CLI 降级为 owner-only 文件（0600 + 用户可见警告，Windows 设 owner-only ACL）。启动时把 settings/mcp/models/auth.json 中的 secret 迁进 Vault 并从原文件删除。
+3. 统一 Vault 在 `@vetta/runtime-node/credentials`。Desktop 优先 Electron safeStorage；Linux `basic_text` 与 CLI 降级为 owner-only 文件（0600 + 用户可见警告，Windows 设 owner-only ACL）。启动时把 settings/mcp/models/auth.json 中的 secret 迁进 Vault 并从原文件删除。Desktop MCP 保存复用同一 env/header 转换，在首次配置写盘前入 Vault；Vault 写入失败则拒绝保存，不等待重启后迁移。
 4. 主进程起 127.0.0.1 loopback relay。模型引擎、插件 `ctx.ai`、子代理、MCP 外部进程拿到的是 relay origin + 短作用域 bearer。`~/.vetta/auth.json` 改为按需写入该 bearer，不再写长期 access token。
 5. 登录优先 Authorization Code + PKCE S256 + RFC 8252 loopback（打包态也走 loopback）。能力发现失败时保留 legacy deep-link。登出必须远端 revoke，再清 Vault 与 signed-in Connection。renderer 只持有 signed-in 标志，鉴权请求由 main 代发。
 6. `getAgentDir()` 下按 `accounts/<sha256(accountScope)>/` 与 `logged-out/` 分区，提供 `resolveAccountScopedDir(kind)`。既有 checkpoints/evolution/recordings 目录迁入当前分区，不丢数据。

@@ -115,6 +115,16 @@ function migrateModelApiKeys(vault: CredentialVault, path: string, files: string
 function migrateMcpSecrets(vault: CredentialVault, path: string, files: string[]): number {
 	const document = readJsonRecord(path);
 	if (!document) return 0;
+	const count = storeMcpConfigSecrets(vault, document);
+	if (count > 0) {
+		writeJson(path, document);
+		files.push(path);
+	}
+	return count;
+}
+
+/** Replace plaintext env/header secrets in a validated document before the caller persists it. */
+export function storeMcpConfigSecrets(vault: CredentialVault, document: { readonly mcpServers?: unknown }): number {
 	const servers = asRecord(document.mcpServers);
 	if (!servers) return 0;
 	let count = 0;
@@ -123,10 +133,6 @@ function migrateMcpSecrets(vault: CredentialVault, path: string, files: string[]
 		if (!server) continue;
 		count += migrateSecretRecord(vault, server, "env", serverName, "env");
 		count += migrateSecretRecord(vault, server, "headers", serverName, "headers");
-	}
-	if (count > 0) {
-		writeJson(path, document);
-		files.push(path);
 	}
 	return count;
 }
