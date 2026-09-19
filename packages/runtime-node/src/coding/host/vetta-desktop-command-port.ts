@@ -78,7 +78,7 @@ async function findVettaExecutable(
 	}
 	const staleNote = configuredPath ? ` Configured vettaAppPath is stale: ${configuredPath}` : "";
 	throw new Error(
-		`Vetta Desktop executable not found. Set VETTA_DESKTOP_EXE or start Vetta Desktop once to write vettaAppPath.${staleNote}`,
+		`Origin Desktop executable not found. Set VETTA_DESKTOP_EXE or start Origin Desktop once to write vettaAppPath.${staleNote}`,
 	);
 }
 
